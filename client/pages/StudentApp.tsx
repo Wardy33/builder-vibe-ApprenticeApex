@@ -571,19 +571,19 @@ function JobsPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Header with search and filters */}
-      <div className="p-4 border-b border-gray-800">
+      <div className="p-4 border-b border-gray-200 bg-white">
         <div className="flex items-center gap-3">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
               placeholder="Search apprenticeships..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:border-orange"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 bg-gray-800 border border-gray-700 rounded-lg text-white hover:bg-gray-700"
+            className="p-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
           >
             <Filter className="h-5 w-5" />
           </button>
