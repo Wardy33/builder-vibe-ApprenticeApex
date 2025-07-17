@@ -350,7 +350,7 @@ function SignInForm() {
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Navigate to main student app
-      navigate("/student/main");
+      navigate("/student/home");
     } catch (error) {
       console.error("Sign in failed:", error);
     } finally {
