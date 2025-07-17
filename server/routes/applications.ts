@@ -7,15 +7,15 @@ import { mockApprenticeships, mockStudents } from "../index";
 const router = express.Router();
 
 // Mock applications data
-const mockApplications = [
+const mockApplications: any[] = [
   {
     _id: "app_1",
     studentId: "student1",
     apprenticeshipId: "app1",
     companyId: "company1",
-    status: "applied" as const,
+    status: "applied",
     aiMatchScore: 92,
-    swipeDirection: "right" as const,
+    swipeDirection: "right",
     appliedAt: new Date("2024-01-15"),
     coverLetter:
       "I am excited to apply for this position and believe my skills in JavaScript and React make me a strong candidate.",
@@ -25,14 +25,34 @@ const mockApplications = [
     studentId: "student2",
     apprenticeshipId: "app2",
     companyId: "company1",
-    status: "interview_scheduled" as const,
+    status: "interview_scheduled",
     aiMatchScore: 88,
-    swipeDirection: "right" as const,
+    swipeDirection: "right",
     appliedAt: new Date("2024-01-14"),
     interviewDetails: {
       scheduledDate: new Date("2024-01-20T14:00:00Z"),
       meetingUrl: "https://zoom.us/j/123456789",
     },
+  },
+  {
+    _id: "app_3",
+    studentId: "student1",
+    apprenticeshipId: "app2",
+    companyId: "company1",
+    status: "viewed",
+    aiMatchScore: 76,
+    swipeDirection: "right",
+    appliedAt: new Date("2024-01-13"),
+  },
+  {
+    _id: "app_4",
+    studentId: "student2",
+    apprenticeshipId: "app1",
+    companyId: "company1",
+    status: "shortlisted",
+    aiMatchScore: 94,
+    swipeDirection: "right",
+    appliedAt: new Date("2024-01-12"),
   },
 ];
 
