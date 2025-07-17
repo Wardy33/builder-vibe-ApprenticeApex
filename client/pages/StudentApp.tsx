@@ -34,7 +34,7 @@ import {
   Bus,
   Train,
   Car,
-  Route,
+  Route as RouteIcon,
 } from "lucide-react";
 
 interface Apprenticeship {
