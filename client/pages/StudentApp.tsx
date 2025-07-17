@@ -1566,15 +1566,27 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
 
 export default function StudentApp() {
   return (
-    <StudentAppLayout>
-      <Routes>
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/jobs" element={<JobsPage />} />
-        <Route path="/matches" element={<MatchesPage />} />
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </StudentAppLayout>
+    <Routes>
+      <Route
+        path="/apprenticeship-info/:id"
+        element={<ApprenticeshipInfoPage />}
+      />
+      <Route path="/chat/:id" element={<ChatPage />} />
+      <Route
+        path="/*"
+        element={
+          <StudentAppLayout>
+            <Routes>
+              <Route path="/home" element={<HomePage />} />
+              <Route path="/jobs" element={<JobsPage />} />
+              <Route path="/matches" element={<MatchesPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/" element={<HomePage />} />
+            </Routes>
+          </StudentAppLayout>
+        }
+      />
+    </Routes>
   );
 }
