@@ -12,8 +12,16 @@ export default {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ['Roboto', 'system-ui', 'sans-serif'],
+    },
     extend: {
       colors: {
+        black: "#020202",
+        orange: "#da6927",
+        white: "#ffffff",
+        "company-bg": "#121212",
+        "company-accent": "#4CAF50",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -81,10 +89,31 @@ export default {
           },
         },
       },
-      animation: {
+            animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-in": "slide-in 0.3s ease-out",
+        "fade-in": "fade-in 0.2s ease-out",
+        "swipe-left": "swipe-left 0.3s ease-out",
+        "swipe-right": "swipe-right 0.3s ease-out",
       },
+      keyframes: {
+        "slide-in": {
+          "0%": { transform: "translateY(20px)", opacity: "0" },
+          "100%": { transform: "translateY(0)", opacity: "1" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "swipe-left": {
+          "0%": { transform: "translateX(0) rotate(0deg)" },
+          "100%": { transform: "translateX(-100%) rotate(-30deg)" },
+        },
+        "swipe-right": {
+          "0%": { transform: "translateX(0) rotate(0deg)" },
+          "100%": { transform: "translateX(100%) rotate(30deg)" },
+        },
     },
   },
   plugins: [require("tailwindcss-animate")],
