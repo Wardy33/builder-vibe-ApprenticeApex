@@ -86,7 +86,7 @@ const mockApprenticeship: Apprenticeship[] = [
       "Social media savvy",
       "Communication skills",
     ],
-    salary: "��16,000 - £22,000",
+    salary: "£16,000 - £22,000",
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
   },
@@ -182,15 +182,35 @@ function SwipeCard({
             </span>
           </div>
 
-          {/* Location and Industry */}
-          <div className="flex items-center justify-between mb-3 text-sm">
-            <div className="flex items-center">
-              <MapPin className="h-3 w-3 mr-1 text-gray-300" />
-              <span className="text-gray-300">{apprenticeship.location}</span>
+          {/* Location, Distance and Industry */}
+          <div className="space-y-2 mb-3 text-sm">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <MapPin className="h-3 w-3 mr-1 text-gray-300" />
+                <span className="text-gray-300">{apprenticeship.location}</span>
+              </div>
+              <div className="flex items-center">
+                <Briefcase className="h-3 w-3 mr-1 text-gray-300" />
+                <span className="text-gray-300">{apprenticeship.industry}</span>
+              </div>
             </div>
-            <div className="flex items-center">
-              <Briefcase className="h-3 w-3 mr-1 text-gray-300" />
-              <span className="text-gray-300">{apprenticeship.industry}</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center">
+                <Navigation className="h-3 w-3 mr-1 text-orange" />
+                <span className="text-orange font-medium">
+                  {apprenticeship.distance} from home
+                </span>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTransportRoutes(apprenticeship);
+                }}
+                className="flex items-center bg-gray-700/80 hover:bg-gray-600/80 px-2 py-1 rounded text-xs transition-colors"
+              >
+                <Route className="h-3 w-3 mr-1" />
+                Routes
+              </button>
             </div>
           </div>
 
