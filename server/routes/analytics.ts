@@ -264,7 +264,7 @@ router.get(
     } else {
       // For CSV/PDF, in real app would generate actual files
       res.json({
-        message: `${format.toUpperCase()} export ready`,
+        message: `${String(format).toUpperCase()} export ready`,
         downloadUrl: `https://mock-exports.com/${companyId}_analytics_${Date.now()}.${format}`,
         data: exportData,
       });
