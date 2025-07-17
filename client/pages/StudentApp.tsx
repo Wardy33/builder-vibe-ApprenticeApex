@@ -747,21 +747,21 @@ function MessagesPage() {
   return (
     <div className="p-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Messages</h2>
-        <p className="text-gray-400">Chat with companies</p>
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Messages</h2>
+        <p className="text-gray-600">Chat with companies</p>
       </div>
 
       {mockConversations.length === 0 ? (
         <div className="text-center py-12">
-          <MessageCircle className="h-16 w-16 text-gray-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <MessageCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
             No messages yet
           </h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-600 mb-6">
             Start matching with companies to begin conversations!
           </p>
           <Link
-            to="/student/main"
+            to="/student/jobs"
             className="bg-orange text-white px-6 py-3 rounded-lg font-medium"
           >
             Find Matches
@@ -772,7 +772,7 @@ function MessagesPage() {
           {mockConversations.map((conversation) => (
             <div
               key={conversation.id}
-              className="bg-gray-800 hover:bg-gray-700 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors"
+              className="bg-white border border-gray-200 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
             >
               <img
                 src={conversation.avatar}
@@ -781,7 +781,7 @@ function MessagesPage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-white font-semibold truncate">
+                  <h3 className="text-gray-900 font-semibold truncate">
                     {conversation.company}
                   </h3>
                   <span className="text-xs text-gray-500">
@@ -789,7 +789,7 @@ function MessagesPage() {
                   </span>
                 </div>
                 <p
-                  className={`text-sm truncate ${conversation.unread ? "text-white" : "text-gray-400"}`}
+                  className={`text-sm truncate ${conversation.unread ? "text-gray-900" : "text-gray-600"}`}
                 >
                   {conversation.lastMessage}
                 </p>
