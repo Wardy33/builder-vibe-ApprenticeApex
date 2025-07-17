@@ -213,7 +213,7 @@ function SwipeCard({
                 }}
                 className="flex items-center bg-gray-700/80 hover:bg-gray-600/80 px-2 py-1 rounded text-xs transition-colors"
               >
-                <Route className="h-3 w-3 mr-1" />
+                <RouteIcon className="h-3 w-3 mr-1" />
                 Routes
               </button>
             </div>
