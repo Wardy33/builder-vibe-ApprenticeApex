@@ -5,6 +5,7 @@ import {
   Link,
   useNavigate,
   useLocation,
+  useParams,
 } from "react-router-dom";
 import {
   Heart,
