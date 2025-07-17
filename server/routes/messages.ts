@@ -296,10 +296,14 @@ router.post(
       participants: [userId, participantId].sort(),
       applicationId,
       lastMessage: undefined,
-      unreadCount: { [userId]: 0, [participantId]: 0 },
+      unreadCount: {} as Record<string, number>,
       isActive: true,
       createdAt: new Date(),
     };
+
+    // Initialize unread counts
+    (newConversation.unreadCount as any)[userId] = 0;
+    (newConversation.unreadCount as any)[participantId] = 0;
 
     mockConversations.push(newConversation);
 
