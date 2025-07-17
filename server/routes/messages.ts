@@ -367,7 +367,7 @@ router.patch(
       )
       .forEach((msg) => {
         msg.isRead = true;
-        msg.readAt = new Date();
+        (msg as any).readAt = new Date();
       });
 
     res.json({
