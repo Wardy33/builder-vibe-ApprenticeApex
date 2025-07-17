@@ -26,6 +26,10 @@ import {
   Mail,
   Edit,
   Camera,
+  Home,
+  FileText,
+  CheckCircle,
+  AlertCircle,
 } from "lucide-react";
 
 interface Apprenticeship {
