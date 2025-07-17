@@ -978,6 +978,366 @@ function MessagesPage() {
   );
 }
 
+function ApprenticeshipInfoPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  // Mock data - in real app, this would be fetched based on ID
+  const apprenticeshipInfo = {
+    id: id,
+    jobTitle: "Software Developer",
+    company: "TechCorp Ltd",
+    industry: "Technology",
+    location: "London, UK",
+    distance: "1.4 miles",
+    duration: "3 years",
+    description:
+      "Join our dynamic team and learn cutting-edge web development technologies. You'll work on real projects from day one and receive mentorship from senior developers.",
+    requirements: [
+      "Basic coding knowledge (HTML, CSS, JavaScript)",
+      "Problem-solving skills and logical thinking",
+      "Passion for technology and continuous learning",
+      "Good communication and teamwork abilities",
+      "GCSE Maths and English (Grade 4 or above)",
+    ],
+    responsibilities: [
+      "Develop and maintain web applications",
+      "Work with senior developers on real client projects",
+      "Participate in code reviews and team meetings",
+      "Learn new technologies and frameworks",
+      "Contribute to technical documentation",
+    ],
+    benefits: [
+      "Competitive salary with annual reviews",
+      "25 days holiday plus bank holidays",
+      "Professional development budget (£1,500/year)",
+      "Flexible working arrangements",
+      "Health insurance and pension scheme",
+      "Modern office with free snacks and drinks",
+    ],
+    salary: "£18,000 - £25,000",
+    startDate: "September 2024",
+    applicationDeadline: "15th July 2024",
+    companyImage:
+      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop",
+    companyLogo:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop",
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Header */}
+      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-gray-600"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-lg font-semibold text-gray-900">
+          Apprenticeship Details
+        </h1>
+        <div className="w-10" />
+      </header>
+
+      <div className="p-4 space-y-6">
+        {/* Company Header */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <div className="flex items-start space-x-4">
+            <img
+              src={apprenticeshipInfo.companyLogo}
+              alt={apprenticeshipInfo.company}
+              className="w-16 h-16 rounded-lg object-cover"
+            />
+            <div className="flex-1">
+              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+                {apprenticeshipInfo.jobTitle}
+              </h2>
+              <p className="text-orange font-semibold text-lg mb-2">
+                {apprenticeshipInfo.company}
+              </p>
+              <div className="flex items-center space-x-4 text-sm text-gray-600">
+                <div className="flex items-center">
+                  <MapPin className="h-4 w-4 mr-1" />
+                  {apprenticeshipInfo.location}
+                </div>
+                <div className="flex items-center">
+                  <Navigation className="h-4 w-4 mr-1" />
+                  {apprenticeshipInfo.distance}
+                </div>
+                <div className="flex items-center">
+                  <Clock className="h-4 w-4 mr-1" />
+                  {apprenticeshipInfo.duration}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 flex items-center justify-between">
+            <div className="text-2xl font-bold text-orange">
+              {apprenticeshipInfo.salary}
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={() => navigate(`/student/chat/${id}`)}
+                className="bg-orange text-white px-6 py-2 rounded-lg font-medium hover:bg-orange/90 transition-colors flex items-center gap-2"
+              >
+                <MessageCircle className="h-4 w-4" />
+                Message Company
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Company Image */}
+        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+          <img
+            src={apprenticeshipInfo.companyImage}
+            alt="Company office"
+            className="w-full h-48 object-cover"
+          />
+        </div>
+
+        {/* Description */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            About this role
+          </h3>
+          <p className="text-gray-700 leading-relaxed">
+            {apprenticeshipInfo.description}
+          </p>
+        </div>
+
+        {/* Requirements */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Requirements
+          </h3>
+          <ul className="space-y-2">
+            {apprenticeshipInfo.requirements.map((req, index) => (
+              <li key={index} className="flex items-start">
+                <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-700">{req}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Responsibilities */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Your responsibilities
+          </h3>
+          <ul className="space-y-2">
+            {apprenticeshipInfo.responsibilities.map((resp, index) => (
+              <li key={index} className="flex items-start">
+                <Briefcase className="h-5 w-5 text-orange mr-2 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-700">{resp}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Benefits */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Benefits & Perks
+          </h3>
+          <ul className="space-y-2">
+            {apprenticeshipInfo.benefits.map((benefit, index) => (
+              <li key={index} className="flex items-start">
+                <Star className="h-5 w-5 text-yellow-500 mr-2 mt-0.5 flex-shrink-0" />
+                <span className="text-gray-700">{benefit}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Key Details */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Key Details
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="flex items-center">
+              <Calendar className="h-5 w-5 text-gray-500 mr-2" />
+              <div>
+                <p className="text-sm text-gray-600">Start Date</p>
+                <p className="font-medium text-gray-900">
+                  {apprenticeshipInfo.startDate}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <Clock className="h-5 w-5 text-gray-500 mr-2" />
+              <div>
+                <p className="text-sm text-gray-600">Application Deadline</p>
+                <p className="font-medium text-gray-900">
+                  {apprenticeshipInfo.applicationDeadline}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <Building2 className="h-5 w-5 text-gray-500 mr-2" />
+              <div>
+                <p className="text-sm text-gray-600">Industry</p>
+                <p className="font-medium text-gray-900">
+                  {apprenticeshipInfo.industry}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center">
+              <User className="h-5 w-5 text-gray-500 mr-2" />
+              <div>
+                <p className="text-sm text-gray-600">Duration</p>
+                <p className="font-medium text-gray-900">
+                  {apprenticeshipInfo.duration}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Apply Button */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <div className="text-center">
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Ready to apply?
+            </h3>
+            <p className="text-gray-600 mb-4">
+              Join {apprenticeshipInfo.company} and start your career journey!
+            </p>
+            <button className="w-full bg-orange text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange/90 transition-colors">
+              Apply Now
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChatPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [message, setMessage] = useState("");
+
+  // Mock chat data
+  const chatInfo = {
+    company: "TechCorp Ltd",
+    jobTitle: "Software Developer",
+    companyLogo:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=50&h=50&fit=crop",
+  };
+
+  const mockMessages = [
+    {
+      id: "1",
+      senderId: "company",
+      content:
+        "Hi Sarah! Thank you for your interest in our Software Developer apprenticeship. We're impressed with your profile!",
+      timestamp: "10:30 AM",
+      isOwn: false,
+    },
+    {
+      id: "2",
+      senderId: "student",
+      content:
+        "Thank you! I'm really excited about this opportunity. I'd love to learn more about the role.",
+      timestamp: "10:32 AM",
+      isOwn: true,
+    },
+    {
+      id: "3",
+      senderId: "company",
+      content:
+        "Great! We'd like to schedule a video interview with you. Are you available this Friday at 2 PM?",
+      timestamp: "10:35 AM",
+      isOwn: false,
+    },
+  ];
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      // In real app, send message via API
+      console.log("Sending message:", message);
+      setMessage("");
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Header */}
+      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+        <div className="flex items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 hover:bg-gray-100 rounded-full text-gray-600 mr-2"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </button>
+          <img
+            src={chatInfo.companyLogo}
+            alt={chatInfo.company}
+            className="w-10 h-10 rounded-full object-cover mr-3"
+          />
+          <div>
+            <h1 className="font-semibold text-gray-900">{chatInfo.company}</h1>
+            <p className="text-sm text-gray-600">{chatInfo.jobTitle}</p>
+          </div>
+        </div>
+        <button className="p-2 hover:bg-gray-100 rounded-full text-gray-600">
+          <Video className="h-6 w-6" />
+        </button>
+      </header>
+
+      {/* Messages */}
+      <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+        {mockMessages.map((msg) => (
+          <div
+            key={msg.id}
+            className={`flex ${msg.isOwn ? "justify-end" : "justify-start"}`}
+          >
+            <div
+              className={`max-w-xs px-4 py-2 rounded-lg ${
+                msg.isOwn ? "bg-orange text-white" : "bg-gray-100 text-gray-900"
+              }`}
+            >
+              <p className="text-sm">{msg.content}</p>
+              <p
+                className={`text-xs mt-1 ${msg.isOwn ? "text-orange-100" : "text-gray-500"}`}
+              >
+                {msg.timestamp}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Message Input */}
+      <div className="p-4 border-t border-gray-200 bg-white">
+        <div className="flex items-center space-x-2">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            placeholder="Type a message..."
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange"
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={!message.trim()}
+            className="bg-orange text-white p-2 rounded-lg hover:bg-orange/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <MessageCircle className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function ProfilePage() {
   const mockProfile = {
     firstName: "Sarah",
