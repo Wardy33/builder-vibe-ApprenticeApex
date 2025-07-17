@@ -15,7 +15,7 @@ export default function Index() {
         {/* Header */}
         <header className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            <span className="text-orange">Apprentice</span>Match
+            <span className="text-orange">Apprentice</span>Apex
           </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
             The revolutionary platform connecting students with apprenticeship
