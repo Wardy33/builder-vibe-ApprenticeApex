@@ -663,8 +663,8 @@ function MatchesPage() {
   return (
     <div className="p-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Your Matches</h2>
-        <p className="text-gray-400">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Matches</h2>
+        <p className="text-gray-600">
           Companies that are interested in your profile
         </p>
       </div>
