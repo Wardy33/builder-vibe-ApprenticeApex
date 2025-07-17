@@ -58,7 +58,7 @@ const mockApprenticeship: Apprenticeship[] = [
     company: "TechCorp Ltd",
     industry: "Technology",
     location: "London, UK",
-    distance: "2.3 km",
+    distance: "1.4 miles",
     duration: "3 years",
     description:
       "Join our dynamic team and learn cutting-edge web development technologies. You'll work on real projects from day one.",
@@ -77,7 +77,7 @@ const mockApprenticeship: Apprenticeship[] = [
     company: "Creative Agency",
     industry: "Marketing",
     location: "Manchester, UK",
-    distance: "1.8 km",
+    distance: "1.1 miles",
     duration: "2 years",
     description:
       "Learn the fundamentals of digital marketing including SEO, social media, and content creation.",
@@ -86,7 +86,7 @@ const mockApprenticeship: Apprenticeship[] = [
       "Social media savvy",
       "Communication skills",
     ],
-    salary: "£16,000 - £22,000",
+    salary: "��16,000 - £22,000",
     image:
       "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
   },
@@ -96,7 +96,7 @@ const mockApprenticeship: Apprenticeship[] = [
     company: "PowerTech Solutions",
     industry: "Engineering",
     location: "Birmingham, UK",
-    distance: "3.1 km",
+    distance: "1.9 miles",
     duration: "4 years",
     description:
       "Hands-on experience in electrical systems design and installation. Work with experienced engineers.",
