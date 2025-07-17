@@ -118,7 +118,12 @@ function SwipeCard({
 }) {
   const [isDragging, setIsDragging] = useState(false);
   const [dragDistance, setDragDistance] = useState(0);
+  const [showTransportModal, setShowTransportModal] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleTransportRoutes = (apprenticeship: Apprenticeship) => {
+    setShowTransportModal(true);
+  };
 
   const handleDragStart = () => setIsDragging(true);
 
