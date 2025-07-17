@@ -946,6 +946,7 @@ function MessagesPage() {
           {mockConversations.map((conversation) => (
             <div
               key={conversation.id}
+              onClick={() => navigate(`/student/chat/${conversation.id}`)}
               className="bg-white border border-gray-200 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
             >
               <img
