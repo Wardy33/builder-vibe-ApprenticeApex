@@ -1325,7 +1325,7 @@ function ChatPage() {
 
       {/* Messages */}
       <div className="flex-1 p-4 space-y-4 overflow-y-auto">
-        {mockMessages.map((msg) => (
+        {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex ${msg.isOwn ? "justify-end" : "justify-start"}`}
@@ -1344,6 +1344,18 @@ function ChatPage() {
             </div>
           </div>
         ))}
+
+        {/* Waiting for response indicator */}
+        {!canSendMessage() && (
+          <div className="flex justify-center">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-2 flex items-center space-x-2">
+              <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+              <p className="text-sm text-yellow-700">
+                Waiting for {chatInfo.company} to respond...
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Message Input */}
