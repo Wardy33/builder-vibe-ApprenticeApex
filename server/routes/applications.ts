@@ -13,9 +13,9 @@ const mockApplications = [
     studentId: "student1",
     apprenticeshipId: "app1",
     companyId: "company1",
-    status: "applied",
+    status: "applied" as const,
     aiMatchScore: 92,
-    swipeDirection: "right",
+    swipeDirection: "right" as const,
     appliedAt: new Date("2024-01-15"),
     coverLetter:
       "I am excited to apply for this position and believe my skills in JavaScript and React make me a strong candidate.",
