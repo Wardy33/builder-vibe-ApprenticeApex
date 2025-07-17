@@ -870,7 +870,20 @@ function MatchesPage() {
                     New
                   </span>
                 )}
-                <button className="bg-orange text-white px-4 py-2 rounded-lg text-sm">
+                <button
+                  onClick={() =>
+                    navigate(`/student/apprenticeship-info/${match.id}`)
+                  }
+                  className="bg-gray-200 text-gray-900 px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors flex items-center justify-center gap-1"
+                >
+                  <Info className="h-4 w-4" />
+                  Info
+                </button>
+                <button
+                  onClick={() => navigate(`/student/chat/${match.id}`)}
+                  className="bg-orange text-white px-4 py-2 rounded-lg text-sm hover:bg-orange/90 transition-colors flex items-center justify-center gap-1"
+                >
+                  <MessageCircle className="h-4 w-4" />
                   Message
                 </button>
               </div>
