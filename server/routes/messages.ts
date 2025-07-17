@@ -305,7 +305,7 @@ router.post(
     (newConversation.unreadCount as any)[userId] = 0;
     (newConversation.unreadCount as any)[participantId] = 0;
 
-    mockConversations.push(newConversation);
+    (mockConversations as any[]).push(newConversation);
 
     // Send initial message if provided
     if (initialMessage) {
