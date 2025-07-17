@@ -592,7 +592,7 @@ function ProfileSetupStep4({
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Navigate to main student app
-      navigate("/student/main");
+      navigate("/student/home");
     } catch (error) {
       console.error("Failed to save profile:", error);
     } finally {
