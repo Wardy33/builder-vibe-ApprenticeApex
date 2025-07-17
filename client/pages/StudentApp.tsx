@@ -137,7 +137,7 @@ function SwipeCard({
   return (
     <div
       ref={cardRef}
-      className={`swipe-card w-full max-w-sm mx-auto h-[600px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
+      className={`swipe-card w-full max-w-sm mx-auto h-[500px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
       style={{
         transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.1}deg)`,
         ...style,
@@ -156,36 +156,65 @@ function SwipeCard({
         <div className="absolute inset-0 gradient-overlay" />
 
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-2xl font-bold">{apprenticeship.jobTitle}</h3>
-            <span className="bg-orange px-3 py-1 rounded-full text-sm font-medium">
+        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+          {/* Header with company logo and duration */}
+          <div className="flex items-start justify-between mb-3">
+            <div className="flex items-center space-x-3 flex-1">
+              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+                <Building2 className="h-6 w-6 text-gray-700" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-xl font-bold text-white leading-tight">
+                  {apprenticeship.jobTitle}
+                </h3>
+                <p className="text-orange font-medium text-sm">
+                  {apprenticeship.company}
+                </p>
+              </div>
+            </div>
+            <span className="bg-orange px-2 py-1 rounded-full text-xs font-medium ml-2 flex-shrink-0">
               {apprenticeship.duration}
             </span>
           </div>
 
-          <div className="flex items-center mb-2">
-            <Building2 className="h-4 w-4 mr-2" />
-            <span className="text-lg">{apprenticeship.company}</span>
+          {/* Location and Industry */}
+          <div className="flex items-center justify-between mb-3 text-sm">
+            <div className="flex items-center">
+              <MapPin className="h-3 w-3 mr-1 text-gray-300" />
+              <span className="text-gray-300">{apprenticeship.location}</span>
+            </div>
+            <div className="flex items-center">
+              <Briefcase className="h-3 w-3 mr-1 text-gray-300" />
+              <span className="text-gray-300">{apprenticeship.industry}</span>
+            </div>
           </div>
 
-          <div className="flex items-center mb-2">
-            <MapPin className="h-4 w-4 mr-2" />
-            <span>
-              {apprenticeship.location} • {apprenticeship.distance}
-            </span>
-          </div>
-
-          <div className="flex items-center mb-4">
-            <Briefcase className="h-4 w-4 mr-2" />
-            <span>{apprenticeship.industry}</span>
-          </div>
-
-          <p className="text-sm text-gray-200 mb-4 line-clamp-3">
+          {/* Description */}
+          <p className="text-sm text-gray-200 mb-3 line-clamp-2 leading-relaxed">
             {apprenticeship.description}
           </p>
 
-          <div className="text-lg font-semibold text-orange">
+          {/* Requirements Preview */}
+          <div className="mb-3">
+            <div className="flex flex-wrap gap-1">
+              {apprenticeship.requirements.slice(0, 2).map((req, index) => (
+                <span
+                  key={index}
+                  className="bg-gray-700/80 text-white px-2 py-1 rounded text-xs"
+                >
+                  {req}
+                </span>
+              ))}
+              {apprenticeship.requirements.length > 2 && (
+                <span className="bg-gray-700/80 text-white px-2 py-1 rounded text-xs">
+                  +{apprenticeship.requirements.length - 2} more
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Salary */}
+          <div className="text-base font-semibold text-orange">
             {apprenticeship.salary}
           </div>
         </div>
