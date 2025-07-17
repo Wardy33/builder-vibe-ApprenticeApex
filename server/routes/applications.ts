@@ -25,9 +25,9 @@ const mockApplications = [
     studentId: "student2",
     apprenticeshipId: "app2",
     companyId: "company1",
-    status: "interview_scheduled",
+    status: "interview_scheduled" as const,
     aiMatchScore: 88,
-    swipeDirection: "right",
+    swipeDirection: "right" as const,
     appliedAt: new Date("2024-01-14"),
     interviewDetails: {
       scheduledDate: new Date("2024-01-20T14:00:00Z"),
