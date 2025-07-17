@@ -210,6 +210,7 @@ export const mockApprenticeships = [
     duration: { years: 2, months: 0 },
     salary: { min: 16000, max: 22000, currency: "GBP" },
     applicationCount: 32,
+    viewCount: 125,
     swipeStats: { totalSwipes: 85, rightSwipes: 32, leftSwipes: 53 },
   },
 ];
