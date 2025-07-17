@@ -897,6 +897,8 @@ function MatchesPage() {
 }
 
 function MessagesPage() {
+  const navigate = useNavigate();
+
   const mockConversations = [
     {
       id: "1",
