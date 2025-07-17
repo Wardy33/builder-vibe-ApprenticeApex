@@ -934,25 +934,25 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-800">
+    <div className="min-h-screen bg-white">
+      {/* Header - Keep black background */}
+      <header className="flex items-center justify-between p-4 border-b border-gray-800 bg-black">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-800 rounded-full"
+          className="p-2 hover:bg-gray-800 rounded-full text-white"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-xl font-bold">
+        <h1 className="text-xl font-bold text-white">
           <span className="text-orange">Apprentice</span>Apex
         </h1>
-        <button className="p-2 hover:bg-gray-800 rounded-full">
+        <button className="p-2 hover:bg-gray-800 rounded-full text-white">
           <Settings className="h-6 w-6" />
         </button>
       </header>
 
-      {/* Content */}
-      <main className="flex-1 pb-20">{children}</main>
+      {/* Content - White background */}
+      <main className="flex-1 pb-20 bg-white text-gray-900">{children}</main>
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
