@@ -773,6 +773,8 @@ function JobsPage() {
 }
 
 function MatchesPage() {
+  const navigate = useNavigate();
+
   const mockMatches = [
     {
       id: "1",
@@ -782,6 +784,18 @@ function MatchesPage() {
       status: "new",
       image:
         "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
+      industry: "Technology",
+      location: "London, UK",
+      distance: "1.4 miles",
+      duration: "3 years",
+      description:
+        "Join our dynamic team and learn cutting-edge web development technologies. You'll work on real projects from day one.",
+      requirements: [
+        "Basic coding knowledge",
+        "Problem-solving skills",
+        "Passion for technology",
+      ],
+      salary: "£18,000 - £25,000",
     },
     {
       id: "2",
@@ -791,6 +805,18 @@ function MatchesPage() {
       status: "viewed",
       image:
         "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop",
+      industry: "Marketing",
+      location: "Manchester, UK",
+      distance: "1.1 miles",
+      duration: "2 years",
+      description:
+        "Learn the fundamentals of digital marketing including SEO, social media, and content creation.",
+      requirements: [
+        "Creative mindset",
+        "Social media savvy",
+        "Communication skills",
+      ],
+      salary: "£16,000 - £22,000",
     },
   ];
 
