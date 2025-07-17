@@ -346,7 +346,7 @@ router.post(
       interviewDetails: {
         scheduledDate: new Date(scheduledDate),
         meetingUrl: finalMeetingUrl,
-        interviewerNotes: notes,
+        ...(notes && { interviewerNotes: notes }),
       },
     };
 
