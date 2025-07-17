@@ -1277,10 +1277,23 @@ function ChatPage() {
   };
 
   const handleSendMessage = () => {
-    if (message.trim()) {
-      // In real app, send message via API
-      console.log("Sending message:", message);
+    if (message.trim() && canSendMessage()) {
+      const newMessage = {
+        id: `msg_${Date.now()}`,
+        senderId: "student",
+        content: message.trim(),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        isOwn: true,
+      };
+
+      setMessages((prev) => [...prev, newMessage]);
       setMessage("");
+
+      // In real app, send message via API
+      console.log("Sending message:", newMessage.content);
     }
   };
 
