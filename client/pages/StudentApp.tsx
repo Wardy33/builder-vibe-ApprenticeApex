@@ -371,7 +371,9 @@ function HomePage() {
       {/* Current Applications */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Current Applications</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Current Applications
+          </h2>
           <Link
             to="/student/applications"
             className="text-orange text-sm hover:underline"
@@ -381,12 +383,12 @@ function HomePage() {
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-6 text-center">
-            <FileText className="h-12 w-12 text-gray-500 mx-auto mb-3" />
-            <h3 className="text-white font-semibold mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+            <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+            <h3 className="text-gray-900 font-semibold mb-2">
               No Applications Yet
             </h3>
-            <p className="text-gray-400 text-sm mb-4">
+            <p className="text-gray-600 text-sm mb-4">
               Start swiping to apply for apprenticeships!
             </p>
             <Link
@@ -399,7 +401,10 @@ function HomePage() {
         ) : (
           <div className="space-y-3">
             {mockApplications.map((application) => (
-              <div key={application.id} className="bg-gray-800 rounded-lg p-4">
+              <div
+                key={application.id}
+                className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+              >
                 <div className="flex items-center space-x-4">
                   <img
                     src={application.image}
@@ -407,10 +412,10 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold truncate">
+                    <h3 className="text-gray-900 font-semibold truncate">
                       {application.jobTitle}
                     </h3>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-gray-600 text-sm">
                       {application.company}
                     </p>
                     <p className="text-gray-500 text-xs">
