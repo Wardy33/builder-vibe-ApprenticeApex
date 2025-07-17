@@ -318,7 +318,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           <span className="text-xs text-orange">Discover</span>
         </Link>
         <Link to="/student/matches" className="flex flex-col items-center p-2">
-          <Users className="h-6 w-6 mb-1 text-gray-400" />
+          <User className="h-6 w-6 mb-1 text-gray-400" />
           <span className="text-xs text-gray-400">Matches</span>
         </Link>
         <Link to="/student/messages" className="flex flex-col items-center p-2">
