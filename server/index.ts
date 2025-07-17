@@ -30,7 +30,7 @@ export function createServer() {
   // Health check
   app.get("/api/ping", (_req, res) => {
     res.json({
-      message: "ApprenticeMatch API v1.0",
+      message: "ApprenticeApex API v1.0",
       timestamp: new Date().toISOString(),
       status: "healthy",
     });
