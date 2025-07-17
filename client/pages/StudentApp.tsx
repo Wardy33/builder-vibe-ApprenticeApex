@@ -264,6 +264,109 @@ function SwipeCard({
             </div>
           </div>
         )}
+
+        {/* Transport Routes Modal */}
+        {showTransportModal && (
+          <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
+            <div className="bg-white rounded-lg p-6 w-full max-w-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-gray-900">
+                  Transport Routes
+                </h3>
+                <button
+                  onClick={() => setShowTransportModal(false)}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-sm text-gray-600 mb-4">
+                  Routes from your home to{" "}
+                  <strong>{apprenticeship.company}</strong>
+                </div>
+
+                {/* Bus Route */}
+                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <div className="flex items-center">
+                    <Bus className="h-5 w-5 text-blue-600 mr-3" />
+                    <div>
+                      <p className="font-medium text-gray-900">Bus Route</p>
+                      <p className="text-sm text-gray-600">25 min • £2.50</p>
+                    </div>
+                  </div>
+                  <button className="text-blue-600 text-sm font-medium hover:underline">
+                    View
+                  </button>
+                </div>
+
+                {/* Train Route */}
+                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                  <div className="flex items-center">
+                    <Train className="h-5 w-5 text-green-600 mr-3" />
+                    <div>
+                      <p className="font-medium text-gray-900">Train Route</p>
+                      <p className="text-sm text-gray-600">18 min • £4.20</p>
+                    </div>
+                  </div>
+                  <button className="text-green-600 text-sm font-medium hover:underline">
+                    View
+                  </button>
+                </div>
+
+                {/* Car Route */}
+                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg border border-orange-200">
+                  <div className="flex items-center">
+                    <Car className="h-5 w-5 text-orange-600 mr-3" />
+                    <div>
+                      <p className="font-medium text-gray-900">Driving</p>
+                      <p className="text-sm text-gray-600">
+                        12 min • Parking £8/day
+                      </p>
+                    </div>
+                  </div>
+                  <button className="text-orange-600 text-sm font-medium hover:underline">
+                    View
+                  </button>
+                </div>
+
+                {/* Walking */}
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                  <div className="flex items-center">
+                    <User className="h-5 w-5 text-gray-600 mr-3" />
+                    <div>
+                      <p className="font-medium text-gray-900">Walking</p>
+                      <p className="text-sm text-gray-600">28 min • Free</p>
+                    </div>
+                  </div>
+                  <button className="text-gray-600 text-sm font-medium hover:underline">
+                    View
+                  </button>
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={() => setShowTransportModal(false)}
+                  className="flex-1 bg-gray-200 text-gray-900 py-2 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={() => {
+                    // Open external maps app
+                    const mapsUrl = `https://maps.google.com/maps/dir/Your+Home/${encodeURIComponent(apprenticeship.location)}`;
+                    window.open(mapsUrl, "_blank");
+                  }}
+                  className="flex-1 bg-orange text-white py-2 px-4 rounded-lg font-medium hover:bg-orange/90 transition-colors"
+                >
+                  Open Maps
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
