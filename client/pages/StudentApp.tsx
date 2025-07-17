@@ -30,6 +30,11 @@ import {
   FileText,
   CheckCircle,
   AlertCircle,
+  Navigation,
+  Bus,
+  Train,
+  Car,
+  Route,
 } from "lucide-react";
 
 interface Apprenticeship {
