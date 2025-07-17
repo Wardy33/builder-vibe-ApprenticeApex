@@ -5,6 +5,8 @@ import "./global.css";
 import Index from "./pages/Index";
 import StudentApp from "./pages/StudentApp";
 import CompanyPortal from "./pages/CompanyPortal";
+import { SignUpForm, SignInForm } from "./pages/StudentAuth";
+import StudentProfileSetup from "./pages/StudentProfileSetup";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -12,6 +14,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/student/signup" element={<SignUpForm />} />
+        <Route path="/student/signin" element={<SignInForm />} />
+        <Route
+          path="/student/setup-profile"
+          element={<StudentProfileSetup />}
+        />
         <Route path="/student/*" element={<StudentApp />} />
         <Route path="/company/*" element={<CompanyPortal />} />
         <Route path="*" element={<NotFound />} />
