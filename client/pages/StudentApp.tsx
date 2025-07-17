@@ -671,15 +671,15 @@ function MatchesPage() {
 
       {mockMatches.length === 0 ? (
         <div className="text-center py-12">
-          <Star className="h-16 w-16 text-gray-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <Star className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
             No matches yet
           </h3>
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-600 mb-6">
             Keep swiping to find your perfect apprenticeship!
           </p>
           <Link
-            to="/student/main"
+            to="/student/jobs"
             className="bg-orange text-white px-6 py-3 rounded-lg font-medium"
           >
             Start Swiping
@@ -690,7 +690,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-gray-800 rounded-lg p-4 flex items-center space-x-4"
+              className="bg-white border border-gray-200 rounded-lg p-4 flex items-center space-x-4 shadow-sm"
             >
               <img
                 src={match.image}
@@ -698,8 +698,10 @@ function MatchesPage() {
                 className="w-16 h-16 rounded-lg object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-white font-semibold">{match.jobTitle}</h3>
-                <p className="text-gray-400">{match.company}</p>
+                <h3 className="text-gray-900 font-semibold">
+                  {match.jobTitle}
+                </h3>
+                <p className="text-gray-600">{match.company}</p>
                 <p className="text-sm text-gray-500">{match.matchDate}</p>
               </div>
               <div className="flex flex-col gap-2">
