@@ -974,7 +974,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
               isActive("/student/home")
                 ? "text-orange bg-orange/10"
-                : "text-gray-400 hover:text-white"
+                : "text-white hover:text-orange"
             }`}
           >
             <Home className="h-6 w-6 mb-1" />
@@ -985,7 +985,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
               isActive("/student/jobs")
                 ? "text-orange bg-orange/10"
-                : "text-gray-400 hover:text-white"
+                : "text-white hover:text-orange"
             }`}
           >
             <Briefcase className="h-6 w-6 mb-1" />
@@ -996,7 +996,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
               isActive("/student/matches")
                 ? "text-orange bg-orange/10"
-                : "text-gray-400 hover:text-white"
+                : "text-white hover:text-orange"
             }`}
           >
             <Heart className="h-6 w-6 mb-1" />
@@ -1007,7 +1007,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
               isActive("/student/messages")
                 ? "text-orange bg-orange/10"
-                : "text-gray-400 hover:text-white"
+                : "text-white hover:text-orange"
             }`}
           >
             <MessageCircle className="h-6 w-6 mb-1" />
@@ -1018,7 +1018,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
               isActive("/student/profile")
                 ? "text-orange bg-orange/10"
-                : "text-gray-400 hover:text-white"
+                : "text-white hover:text-orange"
             }`}
           >
             <User className="h-6 w-6 mb-1" />
