@@ -929,9 +929,20 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       <nav className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
         <div className="flex justify-around items-center py-2">
           <Link
-            to="/student/main"
+            to="/student/home"
             className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
-              isActive("/student/main")
+              isActive("/student/home")
+                ? "text-orange bg-orange/10"
+                : "text-gray-400 hover:text-white"
+            }`}
+          >
+            <Home className="h-6 w-6 mb-1" />
+            <span className="text-xs">Home</span>
+          </Link>
+          <Link
+            to="/student/jobs"
+            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+              isActive("/student/jobs")
                 ? "text-orange bg-orange/10"
                 : "text-gray-400 hover:text-white"
             }`}
