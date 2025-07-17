@@ -756,7 +756,7 @@ export default function StudentProfileSetup() {
           <ProfileSetupStep4
             data={profileData}
             onUpdate={updateProfileData}
-            onComplete={() => navigate("/student/main")}
+            onComplete={() => navigate("/student/home")}
             onBack={prevStep}
           />
         )}
