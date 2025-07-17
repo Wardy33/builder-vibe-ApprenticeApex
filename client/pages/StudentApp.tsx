@@ -301,7 +301,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-xl font-bold">
-          <span className="text-orange">Apprentice</span>Match
+          <span className="text-orange">Apprentice</span>Apex
         </h1>
         <button className="p-2 hover:bg-gray-800 rounded-full">
           <Settings className="h-6 w-6" />
