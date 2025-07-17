@@ -210,6 +210,280 @@ function SwipeCard({
   );
 }
 
+function HomePage() {
+  const mockApplications = [
+    {
+      id: "1",
+      jobTitle: "Software Developer",
+      company: "TechCorp Ltd",
+      status: "applied",
+      appliedDate: "2 days ago",
+      matchScore: 92,
+      image:
+        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
+    },
+    {
+      id: "2",
+      jobTitle: "Digital Marketing Assistant",
+      company: "Creative Agency",
+      status: "viewed",
+      appliedDate: "1 week ago",
+      matchScore: 88,
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
+    },
+    {
+      id: "3",
+      jobTitle: "Electrical Engineer",
+      company: "PowerTech Solutions",
+      status: "shortlisted",
+      appliedDate: "3 days ago",
+      matchScore: 95,
+      image:
+        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=60&h=60&fit=crop",
+    },
+  ];
+
+  const mockInterviews = [
+    {
+      id: "1",
+      jobTitle: "Software Developer",
+      company: "TechCorp Ltd",
+      date: "Tomorrow",
+      time: "2:00 PM",
+      type: "Video Interview",
+      status: "confirmed",
+      image:
+        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
+    },
+    {
+      id: "2",
+      jobTitle: "Digital Marketing Assistant",
+      company: "Creative Agency",
+      date: "Friday",
+      time: "10:00 AM",
+      type: "In-person Interview",
+      status: "pending",
+      image:
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
+    },
+  ];
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "applied":
+        return "bg-blue-500";
+      case "viewed":
+        return "bg-yellow-500";
+      case "shortlisted":
+        return "bg-green-500";
+      case "interview_scheduled":
+        return "bg-purple-500";
+      case "rejected":
+        return "bg-red-500";
+      case "accepted":
+        return "bg-emerald-500";
+      default:
+        return "bg-gray-500";
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "applied":
+        return "Applied";
+      case "viewed":
+        return "Viewed";
+      case "shortlisted":
+        return "Shortlisted";
+      case "interview_scheduled":
+        return "Interview";
+      case "rejected":
+        return "Rejected";
+      case "accepted":
+        return "Accepted";
+      default:
+        return status;
+    }
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      {/* Welcome Header */}
+      <div className="text-center mb-6">
+        <h1 className="text-2xl font-bold text-white mb-2">
+          Welcome back, Sarah!
+        </h1>
+        <p className="text-gray-400">
+          Here's your apprenticeship journey overview
+        </p>
+      </div>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-gray-800 rounded-lg p-4 text-center">
+          <h3 className="text-2xl font-bold text-orange">
+            {mockApplications.length}
+          </h3>
+          <p className="text-sm text-gray-400">Active Applications</p>
+        </div>
+        <div className="bg-gray-800 rounded-lg p-4 text-center">
+          <h3 className="text-2xl font-bold text-orange">
+            {mockInterviews.length}
+          </h3>
+          <p className="text-sm text-gray-400">Upcoming Interviews</p>
+        </div>
+        <div className="bg-gray-800 rounded-lg p-4 text-center">
+          <h3 className="text-2xl font-bold text-orange">92%</h3>
+          <p className="text-sm text-gray-400">Profile Score</p>
+        </div>
+      </div>
+
+      {/* Current Applications */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-white">Current Applications</h2>
+          <Link
+            to="/student/applications"
+            className="text-orange text-sm hover:underline"
+          >
+            View All
+          </Link>
+        </div>
+
+        {mockApplications.length === 0 ? (
+          <div className="bg-gray-800 rounded-lg p-6 text-center">
+            <FileText className="h-12 w-12 text-gray-500 mx-auto mb-3" />
+            <h3 className="text-white font-semibold mb-2">
+              No Applications Yet
+            </h3>
+            <p className="text-gray-400 text-sm mb-4">
+              Start swiping to apply for apprenticeships!
+            </p>
+            <Link
+              to="/student/jobs"
+              className="bg-orange text-white px-4 py-2 rounded-lg text-sm"
+            >
+              Find Jobs
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {mockApplications.map((application) => (
+              <div key={application.id} className="bg-gray-800 rounded-lg p-4">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={application.image}
+                    alt={application.company}
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold truncate">
+                      {application.jobTitle}
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      {application.company}
+                    </p>
+                    <p className="text-gray-500 text-xs">
+                      Applied {application.appliedDate}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end space-y-2">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(application.status)}`}
+                    >
+                      {getStatusText(application.status)}
+                    </span>
+                    <div className="text-orange text-sm font-medium">
+                      {application.matchScore}% match
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Upcoming Interviews */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-white">Upcoming Interviews</h2>
+          <Link
+            to="/student/interviews"
+            className="text-orange text-sm hover:underline"
+          >
+            View All
+          </Link>
+        </div>
+
+        {mockInterviews.length === 0 ? (
+          <div className="bg-gray-800 rounded-lg p-6 text-center">
+            <Calendar className="h-12 w-12 text-gray-500 mx-auto mb-3" />
+            <h3 className="text-white font-semibold mb-2">
+              No Interviews Scheduled
+            </h3>
+            <p className="text-gray-400 text-sm">
+              Your interview invitations will appear here.
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {mockInterviews.map((interview) => (
+              <div key={interview.id} className="bg-gray-800 rounded-lg p-4">
+                <div className="flex items-center space-x-4">
+                  <img
+                    src={interview.image}
+                    alt={interview.company}
+                    className="w-12 h-12 rounded-lg object-cover"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-white font-semibold truncate">
+                      {interview.jobTitle}
+                    </h3>
+                    <p className="text-gray-400 text-sm">{interview.company}</p>
+                    <div className="flex items-center space-x-3 mt-1">
+                      <div className="flex items-center text-gray-300 text-xs">
+                        <Calendar className="h-3 w-3 mr-1" />
+                        {interview.date} at {interview.time}
+                      </div>
+                      <div className="flex items-center text-gray-300 text-xs">
+                        <Video className="h-3 w-3 mr-1" />
+                        {interview.type}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end space-y-2">
+                    <span
+                      className={`flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                        interview.status === "confirmed"
+                          ? "bg-green-500/20 text-green-400"
+                          : "bg-yellow-500/20 text-yellow-400"
+                      }`}
+                    >
+                      {interview.status === "confirmed" ? (
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                      ) : (
+                        <AlertCircle className="h-3 w-3 mr-1" />
+                      )}
+                      {interview.status === "confirmed"
+                        ? "Confirmed"
+                        : "Pending"}
+                    </span>
+                    <button className="bg-orange text-white px-3 py-1 rounded text-xs hover:bg-orange/90">
+                      Join Call
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 function JobsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [apprenticeships, setApprenticeships] = useState(mockApprenticeship);
