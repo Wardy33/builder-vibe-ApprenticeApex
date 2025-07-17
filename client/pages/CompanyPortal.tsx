@@ -234,7 +234,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
             <ArrowLeft className="h-6 w-6" />
           </button>
           <h1 className="text-xl font-bold">
-            <span className="company-accent">Company</span> Portal
+            <span className="company-accent">ApprenticeApex</span> Portal
           </h1>
         </div>
         <div className="flex items-center space-x-4">
