@@ -1225,16 +1225,7 @@ function ChatPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [message, setMessage] = useState("");
-
-  // Mock chat data
-  const chatInfo = {
-    company: "TechCorp Ltd",
-    jobTitle: "Software Developer",
-    companyLogo:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=50&h=50&fit=crop",
-  };
-
-  const mockMessages = [
+  const [messages, setMessages] = useState([
     {
       id: "1",
       senderId: "company",
@@ -1259,7 +1250,31 @@ function ChatPage() {
       timestamp: "10:35 AM",
       isOwn: false,
     },
-  ];
+  ]);
+
+  // Mock chat data
+  const chatInfo = {
+    company: "TechCorp Ltd",
+    jobTitle: "Software Developer",
+    companyLogo:
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=50&h=50&fit=crop",
+  };
+
+  // Check if student can send message (last message must be from company)
+  const canSendMessage = () => {
+    if (messages.length === 0) return true;
+    const lastMessage = messages[messages.length - 1];
+    return !lastMessage.isOwn; // Can send if last message is not from student
+  };
+
+  const getLastStudentMessage = () => {
+    for (let i = messages.length - 1; i >= 0; i--) {
+      if (messages[i].isOwn) {
+        return messages[i];
+      }
+    }
+    return null;
+  };
 
   const handleSendMessage = () => {
     if (message.trim()) {
