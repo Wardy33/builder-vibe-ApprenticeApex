@@ -442,7 +442,9 @@ function HomePage() {
       {/* Upcoming Interviews */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">Upcoming Interviews</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Upcoming Interviews
+          </h2>
           <Link
             to="/student/interviews"
             className="text-orange text-sm hover:underline"
@@ -452,19 +454,22 @@ function HomePage() {
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-gray-800 rounded-lg p-6 text-center">
-            <Calendar className="h-12 w-12 text-gray-500 mx-auto mb-3" />
-            <h3 className="text-white font-semibold mb-2">
+          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+            <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+            <h3 className="text-gray-900 font-semibold mb-2">
               No Interviews Scheduled
             </h3>
-            <p className="text-gray-400 text-sm">
+            <p className="text-gray-600 text-sm">
               Your interview invitations will appear here.
             </p>
           </div>
         ) : (
           <div className="space-y-3">
             {mockInterviews.map((interview) => (
-              <div key={interview.id} className="bg-gray-800 rounded-lg p-4">
+              <div
+                key={interview.id}
+                className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+              >
                 <div className="flex items-center space-x-4">
                   <img
                     src={interview.image}
@@ -472,16 +477,16 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold truncate">
+                    <h3 className="text-gray-900 font-semibold truncate">
                       {interview.jobTitle}
                     </h3>
-                    <p className="text-gray-400 text-sm">{interview.company}</p>
+                    <p className="text-gray-600 text-sm">{interview.company}</p>
                     <div className="flex items-center space-x-3 mt-1">
-                      <div className="flex items-center text-gray-300 text-xs">
+                      <div className="flex items-center text-gray-600 text-xs">
                         <Calendar className="h-3 w-3 mr-1" />
                         {interview.date} at {interview.time}
                       </div>
-                      <div className="flex items-center text-gray-300 text-xs">
+                      <div className="flex items-center text-gray-600 text-xs">
                         <Video className="h-3 w-3 mr-1" />
                         {interview.type}
                       </div>
