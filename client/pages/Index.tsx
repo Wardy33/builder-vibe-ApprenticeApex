@@ -26,7 +26,7 @@ export default function Index() {
         {/* Main Navigation Cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
           {/* Student App Card */}
-          <Link to="/student" className="group">
+          <div className="group">
             <div className="bg-gradient-to-br from-orange to-orange/80 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
               <div className="flex items-center mb-6">
                 <Smartphone className="h-8 w-8 text-white mr-3" />
@@ -36,7 +36,7 @@ export default function Index() {
                 Swipe through apprenticeship opportunities, create AI-powered
                 CVs, and connect with companies
               </p>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 text-sm mb-6">
                 <div className="flex items-center text-white/80">
                   <Zap className="h-4 w-4 mr-2" />
                   Tinder-like Swiping
@@ -54,8 +54,22 @@ export default function Index() {
                   AI-Generated CVs
                 </div>
               </div>
+              <div className="flex gap-3">
+                <Link
+                  to="/student/signup"
+                  className="flex-1 bg-white text-orange font-semibold py-3 px-4 rounded-lg text-center hover:bg-gray-100 transition-colors"
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  to="/student/signin"
+                  className="flex-1 border-2 border-white text-white font-semibold py-3 px-4 rounded-lg text-center hover:bg-white/10 transition-colors"
+                >
+                  Sign In
+                </Link>
+              </div>
             </div>
-          </Link>
+          </div>
 
           {/* Company Portal Card */}
           <Link to="/company" className="group">
