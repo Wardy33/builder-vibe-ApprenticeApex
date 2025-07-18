@@ -305,8 +305,8 @@ function PlaceholderPage({ title }: { title: string }) {
   return (
     <div className="flex items-center justify-center h-[calc(100vh-200px)]">
       <div className="text-center">
-        <h2 className="text-2xl font-bold company-accent mb-4">{title}</h2>
-        <p className="text-gray-400">This feature is coming soon!</p>
+        <h2 className="text-2xl font-bold text-orange mb-4">{title}</h2>
+        <p className="text-gray-600">This feature is coming soon!</p>
       </div>
     </div>
   );
