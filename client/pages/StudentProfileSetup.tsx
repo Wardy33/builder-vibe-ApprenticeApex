@@ -486,20 +486,28 @@ function ProfileSetupStep2({
         Add Work Experience
       </button>
 
-      <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          Back
-        </button>
+      <div className="space-y-3">
+        <div className="flex gap-4">
+          <button
+            onClick={onBack}
+            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Back
+          </button>
+          <button
+            onClick={onNext}
+            className="flex-1 bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            Next: GCSE Grades
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
         <button
           onClick={onNext}
-          className="flex-1 bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
         >
-          Next: GCSE Grades
-          <ArrowRight className="h-5 w-5" />
+          Skip for now (you can add this later)
         </button>
       </div>
     </div>
@@ -637,20 +645,28 @@ function ProfileSetupStep3({
         Add GCSE Grade
       </button>
 
-      <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          Back
-        </button>
+      <div className="space-y-3">
+        <div className="flex gap-4">
+          <button
+            onClick={onBack}
+            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Back
+          </button>
+          <button
+            onClick={onNext}
+            className="flex-1 bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            Next: Preferences
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
         <button
           onClick={onNext}
-          className="flex-1 bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
         >
-          Next: Preferences
-          <ArrowRight className="h-5 w-5" />
+          Skip for now (you can add this later)
         </button>
       </div>
     </div>
