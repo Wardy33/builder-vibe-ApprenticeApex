@@ -36,7 +36,10 @@ interface ProfileData {
   dateOfBirth: string;
   phone: string;
   location: string;
+  postcode: string;
   skills: string[];
+  hasDriversLicense: boolean;
+  assistedNeeds: string;
 
   // Work Experience
   experiences: Experience[];
@@ -47,6 +50,13 @@ interface ProfileData {
   // Preferences
   interestedIndustries: string[];
   availabilityDate: string;
+  workType: "full-time" | "part-time" | "both";
+  salaryExpectation: {
+    min: number;
+    max: number;
+  };
+  maxCommuteDistance: number;
+  transportModes: string[];
 }
 
 const INDUSTRIES = [
@@ -60,6 +70,20 @@ const INDUSTRIES = [
   "Retail",
   "Construction",
   "Hospitality",
+];
+
+const TRANSPORT_MODES = [
+  "Walking",
+  "Cycling",
+  "Public Transport",
+  "Car/Driving",
+  "Motorcycle",
+];
+
+const WORK_TYPE_OPTIONS = [
+  { value: "full-time", label: "Full-time only" },
+  { value: "part-time", label: "Part-time only" },
+  { value: "both", label: "Both full-time and part-time" },
 ];
 
 const GCSE_GRADES = ["9", "8", "7", "6", "5", "4", "3", "2", "1", "U"];
