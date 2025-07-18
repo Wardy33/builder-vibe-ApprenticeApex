@@ -1298,22 +1298,10 @@ export default function CompanyPortal() {
     <CompanyPortalLayout>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route
-          path="/listings"
-          element={<PlaceholderPage title="Job Listings" />}
-        />
-        <Route
-          path="/applications"
-          element={<PlaceholderPage title="Applications" />}
-        />
-        <Route
-          path="/interviews"
-          element={<PlaceholderPage title="Interviews" />}
-        />
-        <Route
-          path="/messages"
-          element={<PlaceholderPage title="Messages" />}
-        />
+        <Route path="/listings" element={<JobListingsPage />} />
+        <Route path="/applications" element={<ApplicationsPage />} />
+        <Route path="/interviews" element={<InterviewsPage />} />
+        <Route path="/messages" element={<MessagesPage />} />
       </Routes>
     </CompanyPortalLayout>
   );
