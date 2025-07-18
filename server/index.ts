@@ -4,6 +4,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
+import { createServer } from "http";
+import dotenv from "dotenv";
 
 // Import routes
 import { handleDemo } from "./routes/demo";
@@ -14,18 +16,41 @@ import applicationRoutes from "./routes/applications";
 import messageRoutes from "./routes/messages";
 import analyticsRoutes from "./routes/analytics";
 import uploadRoutes from "./routes/upload";
+import paymentRoutes from "./routes/payments";
+import interviewRoutes from "./routes/interviews";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
 import { errorHandler } from "./middleware/errorHandler";
 
-export function createServer() {
+// Import Socket.IO setup
+import { initializeSocket } from "./socket/chat";
+
+// Load environment variables
+dotenv.config();
+
+export function createApp() {
   const app = express();
+  const httpServer = createServer(app);
+
+  // Initialize Socket.IO
+  const io = initializeSocket(httpServer);
+
+  // Make io available in request context
+  app.set("io", io);
 
   // Middleware
-  app.use(cors());
+  app.use(
+    cors({
+      origin: process.env.FRONTEND_URL || "http://localhost:5173",
+      credentials: true,
+    }),
+  );
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+  // Trust proxy for production
+  app.set("trust proxy", 1);
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -46,6 +71,8 @@ export function createServer() {
   app.use("/api/messages", authenticateToken, messageRoutes);
   app.use("/api/analytics", authenticateToken, analyticsRoutes);
   app.use("/api/upload", authenticateToken, uploadRoutes);
+  app.use("/api/payments", authenticateToken, paymentRoutes);
+  app.use("/api/interviews", authenticateToken, interviewRoutes);
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
@@ -58,17 +85,25 @@ export function createServer() {
     res.status(404).json({ error: "API endpoint not found" });
   });
 
-  return app;
+  return { app, httpServer, io };
 }
 
-// Database connection (mock for development)
+// Database connection
 export async function connectDatabase() {
   try {
-    // In production, this would be:
-    // await mongoose.connect(process.env.MONGODB_URI!);
+    const mongoUri =
+      process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex";
 
-    // For development, we'll use a mock connection
-    console.log("🗄️  Database connection established (mock)");
+    if (process.env.NODE_ENV === "production" && process.env.MONGODB_URI) {
+      await mongoose.connect(mongoUri, {
+        retryWrites: true,
+        w: "majority",
+      });
+      console.log("🗄️  Database connection established (MongoDB)");
+    } else {
+      // For development, we'll use a mock connection
+      console.log("🗄️  Database connection established (mock)");
+    }
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);
@@ -79,6 +114,39 @@ export async function connectDatabase() {
 // JWT utilities
 export const JWT_SECRET =
   process.env.JWT_SECRET || "your-secret-key-change-in-production";
+
+// Environment configuration
+export const config = {
+  port: process.env.PORT || 3001,
+  nodeEnv: process.env.NODE_ENV || "development",
+  mongoUri:
+    process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex",
+  jwtSecret: JWT_SECRET,
+  stripe: {
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  },
+  twilio: {
+    accountSid: process.env.TWILIO_ACCOUNT_SID,
+    authToken: process.env.TWILIO_AUTH_TOKEN,
+    apiKey: process.env.TWILIO_API_KEY,
+    apiSecret: process.env.TWILIO_API_SECRET,
+  },
+  daily: {
+    apiKey: process.env.DAILY_API_KEY,
+    domainName: process.env.DAILY_DOMAIN_NAME,
+  },
+  email: {
+    service: process.env.EMAIL_SERVICE || "gmail",
+    user: process.env.EMAIL_USER,
+    password: process.env.EMAIL_PASSWORD,
+    from: process.env.EMAIL_FROM || "noreply@apprenticeapex.com",
+  },
+  frontend: {
+    url: process.env.FRONTEND_URL || "http://localhost:5173",
+  },
+};
 
 export function generateToken(userId: string, role: string): string {
   return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: "7d" });
