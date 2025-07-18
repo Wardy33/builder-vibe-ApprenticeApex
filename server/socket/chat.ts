@@ -1,19 +1,13 @@
-import { Server as SocketIOServer } from "socket.io";
+import { Server as SocketIOServer, Socket } from "socket.io";
 import { Server as HTTPServer } from "http";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../index";
 import { Message, Conversation } from "../models/Message";
 import { v4 as uuidv4 } from "uuid";
 
-export interface AuthenticatedSocket {
-  id: string;
+export interface AuthenticatedSocket extends Socket {
   userId: string;
   role: "student" | "company";
-  join: (room: string) => void;
-  leave: (room: string) => void;
-  emit: (event: string, data: any) => void;
-  to: (room: string) => any;
-  broadcast: any;
 }
 
 // Mock data for development
