@@ -618,9 +618,31 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       <div className="flex">
+        {/* Mobile Sidebar Overlay */}
+        {showMobileSidebar && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"
+            onClick={() => setShowMobileSidebar(false)}
+          />
+        )}
+
         {/* Sidebar - Light theme like student app */}
-        <aside className="w-64 border-r border-gray-200 min-h-[calc(100vh-73px)] bg-gray-50">
+        <aside
+          className={`${
+            showMobileSidebar ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 fixed lg:static w-64 border-r border-gray-200 min-h-[calc(100vh-73px)] bg-gray-50 z-50 transition-transform duration-300 ease-in-out`}
+        >
           <nav className="p-4 space-y-2">
+            {/* Mobile close button */}
+            <div className="lg:hidden flex justify-between items-center mb-4">
+              <span className="font-semibold text-gray-900">Menu</span>
+              <button
+                onClick={() => setShowMobileSidebar(false)}
+                className="p-2 hover:bg-gray-200 rounded-lg touch-manipulation"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
             <Link
               to="/company"
               className={`flex items-center space-x-3 p-3 rounded-lg ${
@@ -681,7 +703,17 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main Content - White background */}
-        <main className="flex-1 bg-white text-gray-900">{children}</main>
+        <main className="flex-1 bg-white text-gray-900 lg:ml-0">
+          {/* Mobile Menu Button */}
+          <button
+            onClick={() => setShowMobileSidebar(true)}
+            className="fixed bottom-4 left-4 lg:hidden bg-orange text-white p-3 rounded-full shadow-lg z-30 touch-manipulation"
+          >
+            <Building2 className="h-6 w-6" />
+          </button>
+
+          {children}
+        </main>
       </div>
     </div>
   );
