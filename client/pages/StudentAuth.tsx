@@ -57,7 +57,7 @@ function SignUpForm() {
       newErrors.confirmPassword = "Passwords don't match";
     }
     if (!formData.agreeToTerms) {
-      newErrors.agreeToTerms = "You must agree to the terms and conditions";
+      newErrors.agreeToTerms = true;
     }
 
     setErrors(newErrors);
