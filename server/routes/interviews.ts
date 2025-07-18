@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 const router = express.Router();
 
 // Mock data for development
-const mockInterviews = [
+const mockInterviews: any[] = [
   {
     _id: "int_1",
     applicationId: "app_1",
