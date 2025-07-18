@@ -223,68 +223,68 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen company-portal">
-      {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-700">
+    <div className="min-h-screen bg-white">
+      {/* Header - Match student app black header */}
+      <header className="flex items-center justify-between p-4 border-b border-gray-800 bg-black">
         <div className="flex items-center space-x-4">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-gray-700 rounded-full"
+            className="p-2 hover:bg-gray-800 rounded-full text-white"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
-          <h1 className="text-xl font-bold">
-            <span className="company-accent">ApprenticeApex</span> Portal
+          <h1 className="text-xl font-bold text-white">
+            <span className="text-orange">ApprenticeApex</span> Portal
           </h1>
         </div>
         <div className="flex items-center space-x-4">
-          <button className="p-2 hover:bg-gray-700 rounded-full relative">
+          <button className="p-2 hover:bg-gray-800 rounded-full relative text-white">
             <Bell className="h-6 w-6" />
-            <span className="absolute -top-1 -right-1 bg-company-accent text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
               3
             </span>
           </button>
-          <button className="p-2 hover:bg-gray-700 rounded-full">
+          <button className="p-2 hover:bg-gray-800 rounded-full text-white">
             <Settings className="h-6 w-6" />
           </button>
         </div>
       </header>
 
       <div className="flex">
-        {/* Sidebar */}
-        <aside className="w-64 border-r border-gray-700 min-h-[calc(100vh-73px)]">
+        {/* Sidebar - Light theme like student app */}
+        <aside className="w-64 border-r border-gray-200 min-h-[calc(100vh-73px)] bg-gray-50">
           <nav className="p-4 space-y-2">
             <Link
               to="/company"
-              className="flex items-center space-x-3 p-3 rounded-lg bg-company-accent/20 text-company-accent"
+              className="flex items-center space-x-3 p-3 rounded-lg bg-orange/10 text-orange"
             >
               <BarChart3 className="h-5 w-5" />
               <span>Dashboard</span>
             </Link>
             <Link
               to="/company/listings"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 text-gray-300"
+              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
             >
               <Building2 className="h-5 w-5" />
               <span>Job Listings</span>
             </Link>
             <Link
               to="/company/applications"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 text-gray-300"
+              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
             >
               <Users className="h-5 w-5" />
               <span>Applications</span>
             </Link>
             <Link
               to="/company/interviews"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 text-gray-300"
+              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
             >
               <Video className="h-5 w-5" />
               <span>Interviews</span>
             </Link>
             <Link
               to="/company/messages"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-700 text-gray-300"
+              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
             >
               <MessageCircle className="h-5 w-5" />
               <span>Messages</span>
@@ -292,8 +292,8 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
           </nav>
         </aside>
 
-        {/* Main Content */}
-        <main className="flex-1">{children}</main>
+        {/* Main Content - White background */}
+        <main className="flex-1 bg-white text-gray-900">{children}</main>
       </div>
     </div>
   );
