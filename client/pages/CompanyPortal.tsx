@@ -518,16 +518,16 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                 </button>
               </div>
             </div>
-            <div className="max-h-96 overflow-y-auto">
+            <div className="max-h-80 sm:max-h-96 overflow-y-auto">
               {notifications.length === 0 ? (
-                <div className="p-4 text-center text-gray-500">
+                <div className="p-3 sm:p-4 text-center text-gray-500 text-sm">
                   No notifications
                 </div>
               ) : (
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                    className={`p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer touch-manipulation ${
                       !notification.read ? "bg-orange/5" : ""
                     }`}
                     onClick={() => markAsRead(notification.id)}
