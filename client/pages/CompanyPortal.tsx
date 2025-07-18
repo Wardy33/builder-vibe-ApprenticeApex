@@ -686,12 +686,608 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
-function PlaceholderPage({ title }: { title: string }) {
+function JobListingsPage() {
+  const [listings, setListings] = useState<JobListing[]>(mockJobListings);
+  const [isCreating, setIsCreating] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredListings = listings.filter(
+    (listing) =>
+      listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      listing.location.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
+
+  const toggleStatus = (id: string) => {
+    setListings((prev) =>
+      prev.map((listing) =>
+        listing.id === id
+          ? {
+              ...listing,
+              status: listing.status === "active" ? "paused" : "active",
+            }
+          : listing,
+      ),
+    );
+  };
+
+  const deleteListing = (id: string) => {
+    setListings((prev) => prev.filter((listing) => listing.id !== id));
+  };
+
   return (
-    <div className="flex items-center justify-center h-[calc(100vh-200px)]">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-orange mb-4">{title}</h2>
-        <p className="text-gray-600">This feature is coming soon!</p>
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Job Listings</h2>
+        <button
+          onClick={() => setIsCreating(true)}
+          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2"
+        >
+          <Plus className="h-5 w-5" />
+          <span>Create Listing</span>
+        </button>
+      </div>
+
+      <div className="flex items-center space-x-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <input
+            type="text"
+            placeholder="Search job listings..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
+          />
+        </div>
+        <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+          <Filter className="h-5 w-5 text-gray-600" />
+        </button>
+      </div>
+
+      <div className="grid gap-6">
+        {filteredListings.map((listing) => (
+          <div
+            key={listing.id}
+            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {listing.title}
+                  </h3>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                      listing.status === "active"
+                        ? "bg-green-100 text-green-700"
+                        : listing.status === "paused"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {listing.status}
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>{listing.location}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{listing.type}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Users className="h-4 w-4" />
+                    <span>{listing.applications} applications</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="h-4 w-4" />
+                    <span>
+                      {new Date(listing.postedDate).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+                <p className="text-gray-700 mb-3">{listing.description}</p>
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold text-orange">
+                    {listing.salary}
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => toggleStatus(listing.id)}
+                      className={`px-3 py-1 rounded text-sm font-medium ${
+                        listing.status === "active"
+                          ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
+                          : "bg-green-100 text-green-700 hover:bg-green-200"
+                      }`}
+                    >
+                      {listing.status === "active" ? "Pause" : "Activate"}
+                    </button>
+                    <button
+                      onClick={() => setEditingId(listing.id)}
+                      className="p-2 text-gray-600 hover:text-orange"
+                    >
+                      <Edit className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => deleteListing(listing.id)}
+                      className="p-2 text-gray-600 hover:text-red-600"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ApplicationsPage() {
+  const [applications, setApplications] =
+    useState<Application[]>(mockApplications);
+  const [selectedApplication, setSelectedApplication] =
+    useState<Application | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredApplications = applications.filter((application) => {
+    const matchesSearch =
+      application.candidateName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      application.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || application.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
+
+  const updateApplicationStatus = (
+    id: string,
+    newStatus: Application["status"],
+  ) => {
+    setApplications((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app)),
+    );
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Applications</h2>
+        <div className="flex items-center space-x-4">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="reviewed">Reviewed</option>
+            <option value="interview">Interview</option>
+            <option value="accepted">Accepted</option>
+            <option value="rejected">Rejected</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="relative max-w-md">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+        <input
+          type="text"
+          placeholder="Search applications..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
+        />
+      </div>
+
+      <div className="grid gap-4">
+        {filteredApplications.map((application) => (
+          <div
+            key={application.id}
+            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {application.candidateName}
+                  </h3>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      application.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : application.status === "interview"
+                          ? "bg-blue-100 text-blue-700"
+                          : application.status === "reviewed"
+                            ? "bg-purple-100 text-purple-700"
+                            : application.status === "accepted"
+                              ? "bg-green-100 text-green-700"
+                              : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {application.status}
+                  </span>
+                </div>
+                <p className="text-gray-600 mb-2">{application.jobTitle}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+                  <div className="flex items-center space-x-2">
+                    <Mail className="h-4 w-4" />
+                    <span>{application.email}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Phone className="h-4 w-4" />
+                    <span>{application.phone}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="h-4 w-4" />
+                    <span>{application.location}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="h-4 w-4" />
+                    <span>
+                      {new Date(
+                        application.applicationDate,
+                      ).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <div className="text-center">
+                    <div className="text-orange font-bold text-lg">
+                      {application.score}%
+                    </div>
+                    <div className="text-gray-600 text-xs">Match Score</div>
+                  </div>
+                  <div>
+                    <div className="text-gray-700 text-sm font-medium">
+                      Skills:
+                    </div>
+                    <div className="flex flex-wrap gap-1 mt-1">
+                      {application.skills?.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col space-y-2 ml-4">
+                <button
+                  onClick={() => setSelectedApplication(application)}
+                  className="text-orange hover:text-orange/80 p-2"
+                >
+                  <Eye className="h-5 w-5" />
+                </button>
+                <select
+                  value={application.status}
+                  onChange={(e) =>
+                    updateApplicationStatus(
+                      application.id,
+                      e.target.value as Application["status"],
+                    )
+                  }
+                  className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-orange focus:border-transparent"
+                >
+                  <option value="pending">Pending</option>
+                  <option value="reviewed">Reviewed</option>
+                  <option value="interview">Interview</option>
+                  <option value="accepted">Accepted</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Application Detail Modal */}
+      {selectedApplication && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {selectedApplication.candidateName} -{" "}
+                {selectedApplication.jobTitle}
+              </h3>
+              <button
+                onClick={() => setSelectedApplication(null)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Contact Information
+                  </h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4 text-gray-600" />
+                      <span>{selectedApplication.email}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4 text-gray-600" />
+                      <span>{selectedApplication.phone}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="h-4 w-4 text-gray-600" />
+                      <span>{selectedApplication.location}</span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Application Details
+                  </h4>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      Applied:{" "}
+                      {new Date(
+                        selectedApplication.applicationDate,
+                      ).toLocaleDateString()}
+                    </div>
+                    <div>Experience: {selectedApplication.experience}</div>
+                    <div className="flex items-center space-x-2">
+                      <span>Match Score:</span>
+                      <span className="font-bold text-orange">
+                        {selectedApplication.score}%
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <h4 className="font-semibold text-gray-900 mb-2">Skills</h4>
+                <div className="flex flex-wrap gap-2">
+                  {selectedApplication.skills?.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="bg-orange/10 text-orange px-3 py-1 rounded-full text-sm"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+                <button
+                  onClick={() => {
+                    updateApplicationStatus(selectedApplication.id, "rejected");
+                    setSelectedApplication(null);
+                  }}
+                  className="px-4 py-2 border border-red-300 text-red-700 rounded-lg hover:bg-red-50"
+                >
+                  Reject
+                </button>
+                <button
+                  onClick={() => {
+                    updateApplicationStatus(
+                      selectedApplication.id,
+                      "interview",
+                    );
+                    setSelectedApplication(null);
+                  }}
+                  className="px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
+                >
+                  Schedule Interview
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function InterviewsPage() {
+  const [interviews, setInterviews] = useState<Interview[]>(mockInterviews);
+  const [filterStatus, setFilterStatus] = useState<string>("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredInterviews = interviews.filter((interview) => {
+    const matchesSearch =
+      interview.candidateName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
+      interview.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      filterStatus === "all" || interview.status === filterStatus;
+    return matchesSearch && matchesStatus;
+  });
+
+  const updateInterviewStatus = (
+    id: string,
+    newStatus: Interview["status"],
+  ) => {
+    setInterviews((prev) =>
+      prev.map((interview) =>
+        interview.id === id ? { ...interview, status: newStatus } : interview,
+      ),
+    );
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Interviews</h2>
+        <button className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2">
+          <Plus className="h-5 w-5" />
+          <span>Schedule Interview</span>
+        </button>
+      </div>
+
+      <div className="flex items-center space-x-4">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <input
+            type="text"
+            placeholder="Search interviews..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
+          />
+        </div>
+        <select
+          value={filterStatus}
+          onChange={(e) => setFilterStatus(e.target.value)}
+          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+        >
+          <option value="all">All Status</option>
+          <option value="scheduled">Scheduled</option>
+          <option value="completed">Completed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+
+      <div className="grid gap-4">
+        {filteredInterviews.map((interview) => (
+          <div
+            key={interview.id}
+            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {interview.candidateName}
+                  </h3>
+                  <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      interview.status === "scheduled"
+                        ? "bg-blue-100 text-blue-700"
+                        : interview.status === "completed"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {interview.status}
+                  </span>
+                </div>
+                <p className="text-gray-600 mb-3">{interview.jobTitle}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2">
+                    <Calendar className="h-4 w-4" />
+                    <span>{new Date(interview.date).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{interview.time}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Video className="h-4 w-4" />
+                    <span>{interview.type}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{interview.duration}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center space-x-2 ml-4">
+                <select
+                  value={interview.status}
+                  onChange={(e) =>
+                    updateInterviewStatus(
+                      interview.id,
+                      e.target.value as Interview["status"],
+                    )
+                  }
+                  className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-orange focus:border-transparent"
+                >
+                  <option value="scheduled">Scheduled</option>
+                  <option value="completed">Completed</option>
+                  <option value="cancelled">Cancelled</option>
+                </select>
+                <button className="text-orange hover:text-orange/80 p-2">
+                  <Video className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MessagesPage() {
+  const [conversations] = useState([
+    {
+      id: "1",
+      candidateName: "Sarah Johnson",
+      lastMessage:
+        "Thank you for considering my application. I'm very excited about this opportunity.",
+      timestamp: "2024-01-15T14:30:00Z",
+      unread: true,
+      jobTitle: "Software Developer",
+    },
+    {
+      id: "2",
+      candidateName: "Mike Chen",
+      lastMessage:
+        "I'm available for the interview on Tuesday at 2 PM. Looking forward to speaking with you.",
+      timestamp: "2024-01-15T11:20:00Z",
+      unread: false,
+      jobTitle: "Digital Marketing Assistant",
+    },
+    {
+      id: "3",
+      candidateName: "Emma Davis",
+      lastMessage:
+        "Could we reschedule the interview? I have a conflict with the current time.",
+      timestamp: "2024-01-14T16:45:00Z",
+      unread: true,
+      jobTitle: "Electrical Engineer",
+    },
+  ]);
+
+  return (
+    <div className="p-6 space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Messages</h2>
+
+      <div className="grid gap-4">
+        {conversations.map((conversation) => (
+          <div
+            key={conversation.id}
+            className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md cursor-pointer transition-shadow ${
+              conversation.unread ? "border-l-4 border-l-orange" : ""
+            }`}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center space-x-3 mb-2">
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    {conversation.candidateName}
+                  </h3>
+                  {conversation.unread && (
+                    <span className="w-2 h-2 bg-orange rounded-full"></span>
+                  )}
+                </div>
+                <p className="text-gray-600 text-sm mb-2">
+                  {conversation.jobTitle}
+                </p>
+                <p className="text-gray-700">{conversation.lastMessage}</p>
+                <p className="text-gray-400 text-sm mt-2">
+                  {new Date(conversation.timestamp).toLocaleString()}
+                </p>
+              </div>
+              <MessageCircle className="h-6 w-6 text-orange" />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
