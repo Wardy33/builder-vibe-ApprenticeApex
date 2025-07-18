@@ -270,19 +270,21 @@ const mockNotifications: Notification[] = [
 
 function Dashboard() {
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Active Listings</p>
-              <p className="text-3xl font-bold text-gray-900">12</p>
+              <p className="text-gray-600 text-xs sm:text-sm">
+                Active Listings
+              </p>
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900">12</p>
             </div>
-            <Building2 className="h-8 w-8 text-orange" />
+            <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-orange" />
           </div>
-          <div className="mt-4">
-            <span className="text-orange text-sm">+2 this week</span>
+          <div className="mt-2 sm:mt-4">
+            <span className="text-orange text-xs sm:text-sm">+2 this week</span>
           </div>
         </div>
 
@@ -327,13 +329,13 @@ function Dashboard() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Applications Chart */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+        <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
             Applications This Month
           </h3>
-          <div className="h-64 flex items-end justify-between space-x-2">
+          <div className="h-48 sm:h-64 flex items-end justify-between space-x-1 sm:space-x-2">
             {[65, 85, 72, 90, 78, 95, 88].map((height, index) => (
               <div key={index} className="flex flex-col items-center flex-1">
                 <div
@@ -380,14 +382,14 @@ function Dashboard() {
       </div>
 
       {/* Recent Applications */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-gray-900">
+      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
+        <div className="flex items-center justify-between mb-4 sm:mb-6">
+          <h3 className="text-lg sm:text-xl font-bold text-gray-900">
             Recent Applications
           </h3>
           <Link
             to="/company/applications"
-            className="text-orange hover:text-orange/80"
+            className="text-orange hover:text-orange/80 text-sm sm:text-base"
           >
             View All
           </Link>
