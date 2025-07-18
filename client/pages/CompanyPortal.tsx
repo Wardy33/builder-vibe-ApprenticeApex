@@ -55,55 +55,55 @@ function Dashboard() {
     <div className="p-6 space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Active Listings</p>
-              <p className="text-3xl font-bold text-white">12</p>
+              <p className="text-gray-600 text-sm">Active Listings</p>
+              <p className="text-3xl font-bold text-gray-900">12</p>
             </div>
-            <Building2 className="h-8 w-8 text-company-accent" />
+            <Building2 className="h-8 w-8 text-orange" />
           </div>
           <div className="mt-4">
-            <span className="text-company-accent text-sm">+2 this week</span>
+            <span className="text-orange text-sm">+2 this week</span>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Total Applications</p>
-              <p className="text-3xl font-bold text-white">247</p>
+              <p className="text-gray-600 text-sm">Total Applications</p>
+              <p className="text-3xl font-bold text-gray-900">247</p>
             </div>
-            <Users className="h-8 w-8 text-company-accent" />
+            <Users className="h-8 w-8 text-orange" />
           </div>
           <div className="mt-4">
-            <span className="text-company-accent text-sm">+18 this week</span>
+            <span className="text-orange text-sm">+18 this week</span>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Interviews Scheduled</p>
-              <p className="text-3xl font-bold text-white">8</p>
+              <p className="text-gray-600 text-sm">Interviews Scheduled</p>
+              <p className="text-3xl font-bold text-gray-900">8</p>
             </div>
-            <Video className="h-8 w-8 text-company-accent" />
+            <Video className="h-8 w-8 text-orange" />
           </div>
           <div className="mt-4">
-            <span className="text-company-accent text-sm">3 today</span>
+            <span className="text-orange text-sm">3 today</span>
           </div>
         </div>
 
-        <div className="bg-gray-800 rounded-lg p-6">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-400 text-sm">Match Rate</p>
-              <p className="text-3xl font-bold text-white">78%</p>
+              <p className="text-gray-600 text-sm">Match Rate</p>
+              <p className="text-3xl font-bold text-gray-900">78%</p>
             </div>
-            <BarChart3 className="h-8 w-8 text-company-accent" />
+            <BarChart3 className="h-8 w-8 text-orange" />
           </div>
           <div className="mt-4">
-            <span className="text-company-accent text-sm">+5% this month</span>
+            <span className="text-orange text-sm">+5% this month</span>
           </div>
         </div>
       </div>
