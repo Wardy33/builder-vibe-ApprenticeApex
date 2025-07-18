@@ -111,18 +111,18 @@ function Dashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Applications Chart */}
-        <div className="bg-gray-800 rounded-lg p-6">
-          <h3 className="text-xl font-bold text-white mb-4">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
             Applications This Month
           </h3>
           <div className="h-64 flex items-end justify-between space-x-2">
             {[65, 85, 72, 90, 78, 95, 88].map((height, index) => (
               <div key={index} className="flex flex-col items-center flex-1">
                 <div
-                  className="bg-company-accent rounded-t w-full"
+                  className="bg-orange rounded-t w-full"
                   style={{ height: `${height}%` }}
                 />
-                <span className="text-gray-400 text-xs mt-2">
+                <span className="text-gray-600 text-xs mt-2">
                   Week {index + 1}
                 </span>
               </div>
@@ -131,8 +131,8 @@ function Dashboard() {
         </div>
 
         {/* Industry Breakdown */}
-        <div className="bg-gray-800 rounded-lg p-6">
-          <h3 className="text-xl font-bold text-white mb-4">
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-xl font-bold text-gray-900 mb-4">
             Applications by Industry
           </h3>
           <div className="space-y-4">
@@ -144,14 +144,14 @@ function Dashboard() {
             ].map((industry) => (
               <div key={industry.name}>
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-300">{industry.name}</span>
-                  <span className="text-company-accent font-semibold">
+                  <span className="text-gray-700">{industry.name}</span>
+                  <span className="text-orange font-semibold">
                     {industry.count}
                   </span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
-                    className="bg-company-accent h-2 rounded-full"
+                    className="bg-orange h-2 rounded-full"
                     style={{ width: `${industry.percentage}%` }}
                   />
                 </div>
