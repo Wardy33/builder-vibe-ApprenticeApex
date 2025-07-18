@@ -18,6 +18,8 @@ export interface IStudentProfile {
   phone?: string;
   bio?: string;
   skills: string[];
+  hasDriversLicense: boolean;
+  assistedNeeds?: string;
   education: IEducation[];
   experience: IExperience[];
   videoProfile?: {
@@ -27,6 +29,7 @@ export interface IStudentProfile {
   };
   location: {
     city: string;
+    postcode: string;
     coordinates: [number, number]; // [longitude, latitude]
   };
   preferences: {
@@ -37,6 +40,8 @@ export interface IStudentProfile {
       max: number;
     };
   };
+  workType: "full-time" | "part-time" | "both";
+  transportModes: string[];
   cvUrl?: string;
   isActive: boolean;
 }
@@ -106,6 +111,8 @@ const studentProfileSchema = new Schema<IStudentProfile>({
   phone: { type: String },
   bio: { type: String, maxlength: 500 },
   skills: [{ type: String }],
+  hasDriversLicense: { type: Boolean, default: false },
+  assistedNeeds: { type: String, maxlength: 500 },
   education: [educationSchema],
   experience: [experienceSchema],
   videoProfile: {
@@ -115,6 +122,7 @@ const studentProfileSchema = new Schema<IStudentProfile>({
   },
   location: {
     city: { type: String, required: true },
+    postcode: { type: String },
     coordinates: {
       type: [Number],
       index: "2dsphere",
@@ -128,6 +136,12 @@ const studentProfileSchema = new Schema<IStudentProfile>({
       max: { type: Number, default: 100000 },
     },
   },
+  workType: {
+    type: String,
+    enum: ["full-time", "part-time", "both"],
+    default: "both",
+  },
+  transportModes: [{ type: String }],
   cvUrl: { type: String },
   isActive: { type: Boolean, default: true },
 });
