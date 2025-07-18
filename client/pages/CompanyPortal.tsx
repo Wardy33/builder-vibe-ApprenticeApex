@@ -446,6 +446,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
     useState<Notification[]>(mockNotifications);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
 
