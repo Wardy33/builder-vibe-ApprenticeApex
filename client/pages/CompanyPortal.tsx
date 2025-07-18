@@ -162,12 +162,14 @@ function Dashboard() {
       </div>
 
       {/* Recent Applications */}
-      <div className="bg-gray-800 rounded-lg p-6">
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-white">Recent Applications</h3>
+          <h3 className="text-xl font-bold text-gray-900">
+            Recent Applications
+          </h3>
           <Link
             to="/company/applications"
-            className="text-company-accent hover:text-company-accent/80"
+            className="text-orange hover:text-orange/80"
           >
             View All
           </Link>
@@ -176,38 +178,38 @@ function Dashboard() {
           {mockApplications.slice(0, 3).map((application) => (
             <div
               key={application.id}
-              className="flex items-center justify-between p-4 bg-gray-700 rounded-lg"
+              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
             >
               <div>
-                <h4 className="font-semibold text-white">
+                <h4 className="font-semibold text-gray-900">
                   {application.candidateName}
                 </h4>
-                <p className="text-gray-400 text-sm">{application.jobTitle}</p>
+                <p className="text-gray-600 text-sm">{application.jobTitle}</p>
                 <p className="text-gray-500 text-xs">
                   {application.applicationDate}
                 </p>
               </div>
               <div className="flex items-center space-x-4">
                 <div className="text-center">
-                  <div className="text-company-accent font-bold">
+                  <div className="text-orange font-bold">
                     {application.score}%
                   </div>
-                  <div className="text-gray-400 text-xs">Match</div>
+                  <div className="text-gray-600 text-xs">Match</div>
                 </div>
                 <div
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
                     application.status === "pending"
-                      ? "bg-yellow-900 text-yellow-300"
+                      ? "bg-yellow-100 text-yellow-700"
                       : application.status === "interview"
-                        ? "bg-blue-900 text-blue-300"
+                        ? "bg-blue-100 text-blue-700"
                         : application.status === "reviewed"
-                          ? "bg-purple-900 text-purple-300"
-                          : "bg-gray-900 text-gray-300"
+                          ? "bg-purple-100 text-purple-700"
+                          : "bg-gray-100 text-gray-700"
                   }`}
                 >
                   {application.status}
                 </div>
-                <button className="text-company-accent hover:text-company-accent/80">
+                <button className="text-orange hover:text-orange/80">
                   <Eye className="h-5 w-5" />
                 </button>
               </div>
