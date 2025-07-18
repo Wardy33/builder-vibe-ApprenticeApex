@@ -831,7 +831,7 @@ function JobListingsPage() {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => toggleStatus(listing.id)}
-                      className={`px-3 py-1 rounded text-sm font-medium ${
+                      className={`px-3 py-2 rounded text-sm font-medium touch-manipulation ${
                         listing.status === "active"
                           ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
                           : "bg-green-100 text-green-700 hover:bg-green-200"
@@ -841,13 +841,13 @@ function JobListingsPage() {
                     </button>
                     <button
                       onClick={() => setEditingId(listing.id)}
-                      className="p-2 text-gray-600 hover:text-orange"
+                      className="p-3 text-gray-600 hover:text-orange touch-manipulation"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => deleteListing(listing.id)}
-                      className="p-2 text-gray-600 hover:text-red-600"
+                      className="p-3 text-gray-600 hover:text-red-600 touch-manipulation"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
