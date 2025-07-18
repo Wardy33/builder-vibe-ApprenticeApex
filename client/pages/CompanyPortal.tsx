@@ -622,35 +622,56 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
           <nav className="p-4 space-y-2">
             <Link
               to="/company"
-              className="flex items-center space-x-3 p-3 rounded-lg bg-orange/10 text-orange"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company" ||
+                location.pathname === "/company/"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
             >
               <BarChart3 className="h-5 w-5" />
               <span>Dashboard</span>
             </Link>
             <Link
               to="/company/listings"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company/listings"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
             >
               <Building2 className="h-5 w-5" />
               <span>Job Listings</span>
             </Link>
             <Link
               to="/company/applications"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company/applications"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
             >
               <Users className="h-5 w-5" />
               <span>Applications</span>
             </Link>
             <Link
               to="/company/interviews"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company/interviews"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
             >
               <Video className="h-5 w-5" />
               <span>Interviews</span>
             </Link>
             <Link
               to="/company/messages"
-              className="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company/messages"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
             >
               <MessageCircle className="h-5 w-5" />
               <span>Messages</span>
