@@ -779,11 +779,11 @@ function JobListingsPage() {
         </button>
       </div>
 
-      <div className="grid gap-6">
+      <div className="grid gap-4 sm:gap-6">
         {filteredListings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+            className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
