@@ -1,6 +1,14 @@
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
   ArrowLeft,
+  Home,
   Building2,
   Users,
   BarChart3,
@@ -12,6 +20,17 @@ import {
   Video,
   Settings,
   Bell,
+  X,
+  CheckCircle,
+  Clock,
+  Calendar,
+  Mail,
+  Phone,
+  MapPin,
+  Edit,
+  Trash2,
+  Save,
+  Cancel,
 } from "lucide-react";
 
 interface Application {
@@ -21,6 +40,45 @@ interface Application {
   applicationDate: string;
   status: "pending" | "reviewed" | "interview" | "rejected" | "accepted";
   score: number;
+  email?: string;
+  phone?: string;
+  location?: string;
+  experience?: string;
+  skills?: string[];
+}
+
+interface JobListing {
+  id: string;
+  title: string;
+  company: string;
+  location: string;
+  type: "full-time" | "part-time" | "contract";
+  salary: string;
+  description: string;
+  requirements: string[];
+  postedDate: string;
+  applications: number;
+  status: "active" | "paused" | "closed";
+}
+
+interface Interview {
+  id: string;
+  candidateName: string;
+  jobTitle: string;
+  date: string;
+  time: string;
+  type: "video" | "phone" | "in-person";
+  status: "scheduled" | "completed" | "cancelled";
+  duration: string;
+}
+
+interface Notification {
+  id: string;
+  type: "application" | "interview" | "message" | "system";
+  title: string;
+  message: string;
+  timestamp: string;
+  read: boolean;
 }
 
 const mockApplications: Application[] = [
@@ -31,6 +89,11 @@ const mockApplications: Application[] = [
     applicationDate: "2024-01-15",
     status: "pending",
     score: 92,
+    email: "sarah.johnson@email.com",
+    phone: "+44 7123 456789",
+    location: "London, UK",
+    experience: "2 years",
+    skills: ["React", "TypeScript", "Node.js", "Python"],
   },
   {
     id: "2",
@@ -39,6 +102,11 @@ const mockApplications: Application[] = [
     applicationDate: "2024-01-14",
     status: "interview",
     score: 88,
+    email: "mike.chen@email.com",
+    phone: "+44 7234 567890",
+    location: "Manchester, UK",
+    experience: "1 year",
+    skills: ["SEO", "Social Media", "Analytics", "Content Creation"],
   },
   {
     id: "3",
@@ -47,6 +115,157 @@ const mockApplications: Application[] = [
     applicationDate: "2024-01-13",
     status: "reviewed",
     score: 95,
+    email: "emma.davis@email.com",
+    phone: "+44 7345 678901",
+    location: "Birmingham, UK",
+    experience: "3 years",
+    skills: ["Circuit Design", "CAD", "Project Management", "Testing"],
+  },
+  {
+    id: "4",
+    candidateName: "James Wilson",
+    jobTitle: "Data Analyst",
+    applicationDate: "2024-01-12",
+    status: "accepted",
+    score: 89,
+    email: "james.wilson@email.com",
+    phone: "+44 7456 789012",
+    location: "Edinburgh, UK",
+    experience: "2 years",
+    skills: ["Python", "SQL", "Tableau", "Statistics"],
+  },
+  {
+    id: "5",
+    candidateName: "Lisa Smith",
+    jobTitle: "Graphic Designer",
+    applicationDate: "2024-01-11",
+    status: "rejected",
+    score: 76,
+    email: "lisa.smith@email.com",
+    phone: "+44 7567 890123",
+    location: "Bristol, UK",
+    experience: "1 year",
+    skills: ["Photoshop", "Illustrator", "InDesign", "Figma"],
+  },
+];
+
+const mockJobListings: JobListing[] = [
+  {
+    id: "1",
+    title: "Software Developer Apprentice",
+    company: "TechCorp Ltd",
+    location: "London, UK",
+    type: "full-time",
+    salary: "£18,000 - £22,000",
+    description:
+      "Join our development team as an apprentice software developer. You'll work on real projects while studying for your qualification.",
+    requirements: [
+      "A-Levels or equivalent",
+      "Interest in programming",
+      "Problem-solving skills",
+      "Team player",
+    ],
+    postedDate: "2024-01-10",
+    applications: 24,
+    status: "active",
+  },
+  {
+    id: "2",
+    title: "Digital Marketing Apprentice",
+    company: "MarketingPlus",
+    location: "Manchester, UK",
+    type: "full-time",
+    salary: "£16,000 - £20,000",
+    description:
+      "Learn digital marketing while working with our experienced team on client campaigns.",
+    requirements: [
+      "GCSEs including English and Maths",
+      "Social media savvy",
+      "Creative thinking",
+      "Communication skills",
+    ],
+    postedDate: "2024-01-08",
+    applications: 18,
+    status: "active",
+  },
+  {
+    id: "3",
+    title: "Electrical Engineering Apprentice",
+    company: "PowerSystems UK",
+    location: "Birmingham, UK",
+    type: "full-time",
+    salary: "£20,000 - £24,000",
+    description:
+      "Hands-on electrical engineering apprenticeship with opportunities to work on major infrastructure projects.",
+    requirements: [
+      "A-Levels in Maths/Science",
+      "Interest in engineering",
+      "Attention to detail",
+      "Safety-conscious",
+    ],
+    postedDate: "2024-01-05",
+    applications: 31,
+    status: "paused",
+  },
+];
+
+const mockInterviews: Interview[] = [
+  {
+    id: "1",
+    candidateName: "Sarah Johnson",
+    jobTitle: "Software Developer",
+    date: "2024-01-20",
+    time: "14:00",
+    type: "video",
+    status: "scheduled",
+    duration: "45 minutes",
+  },
+  {
+    id: "2",
+    candidateName: "Mike Chen",
+    jobTitle: "Digital Marketing Assistant",
+    date: "2024-01-22",
+    time: "10:30",
+    type: "video",
+    status: "scheduled",
+    duration: "30 minutes",
+  },
+  {
+    id: "3",
+    candidateName: "Emma Davis",
+    jobTitle: "Electrical Engineer",
+    date: "2024-01-18",
+    time: "15:30",
+    type: "in-person",
+    status: "completed",
+    duration: "60 minutes",
+  },
+];
+
+const mockNotifications: Notification[] = [
+  {
+    id: "1",
+    type: "application",
+    title: "New Application",
+    message: "Sarah Johnson applied for Software Developer position",
+    timestamp: "2024-01-15T10:30:00Z",
+    read: false,
+  },
+  {
+    id: "2",
+    type: "interview",
+    title: "Interview Reminder",
+    message: "Video interview with Mike Chen in 1 hour",
+    timestamp: "2024-01-15T13:00:00Z",
+    read: false,
+  },
+  {
+    id: "3",
+    type: "message",
+    title: "New Message",
+    message: "Emma Davis sent you a message",
+    timestamp: "2024-01-15T09:15:00Z",
+    read: true,
   },
 ];
 
