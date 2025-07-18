@@ -462,36 +462,37 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-white">
       {/* Header - Match student app black header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-800 bg-black relative">
-        <div className="flex items-center space-x-4">
+      <header className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-800 bg-black relative">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <button
             onClick={() => navigate("/")}
-            className="p-2 hover:bg-gray-800 rounded-full text-white"
+            className="p-2 hover:bg-gray-800 rounded-full text-white touch-manipulation"
             title="Home"
           >
-            <Home className="h-6 w-6" />
+            <Home className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
-          <h1 className="text-xl font-bold text-white">
-            <span className="text-orange">ApprenticeApex</span> Portal
+          <h1 className="text-lg sm:text-xl font-bold text-white">
+            <span className="text-orange">ApprenticeApex</span>
+            <span className="hidden sm:inline"> Portal</span>
           </h1>
         </div>
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-2 sm:space-x-4">
           <button
             onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2 hover:bg-gray-800 rounded-full relative text-white"
+            className="p-2 hover:bg-gray-800 rounded-full relative text-white touch-manipulation"
           >
-            <Bell className="h-6 w-6" />
+            <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
             {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
           </button>
           <button
             onClick={() => setShowSettings(!showSettings)}
-            className="p-2 hover:bg-gray-800 rounded-full text-white"
+            className="p-2 hover:bg-gray-800 rounded-full text-white touch-manipulation"
           >
-            <Settings className="h-6 w-6" />
+            <Settings className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
         </div>
 
