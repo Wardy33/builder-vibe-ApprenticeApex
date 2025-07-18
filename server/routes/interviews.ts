@@ -84,7 +84,10 @@ router.get(
     }
 
     const total = filteredInterviews.length;
-    const interviews = filteredInterviews.slice(\n      (page - 1) * limit,\n      page * limit,\n    );
+    const interviews = filteredInterviews.slice(
+      (page - 1) * limit,
+      page * limit,
+    );
 
     res.json({
       interviews,
@@ -145,7 +148,16 @@ router.post(
     }
 
     const { userId: companyId } = req.user!;
-    const {\n      applicationId,\n      studentId,\n      jobTitle,\n      scheduledDateTime,\n      duration,\n      type,\n      location,\n      notes,\n    } = req.body;
+    const {
+      applicationId,
+      studentId,
+      jobTitle,
+      scheduledDateTime,
+      duration,
+      type,
+      location,
+      notes,
+    } = req.body;
 
     const interviewId = "int_" + uuidv4();
     let videoCall = undefined;
@@ -200,7 +212,9 @@ router.put(
   [
     body("scheduledDateTime").optional().isISO8601(),
     body("duration").optional().isInt({ min: 15, max: 180 }),
-    body("status").optional().isIn([\n      "scheduled",\n      "completed",\n      "cancelled",\n      "rescheduled",\n      "no-show",\n    ]),
+    body("status")
+      .optional()
+      .isIn(["scheduled", "completed", "cancelled", "rescheduled", "no-show"]),
     body("notes").optional().isObject(),
   ],
   asyncHandler(async (req: AuthenticatedRequest, res) => {
@@ -213,7 +227,9 @@ router.put(
     const { userId, role } = req.user!;
     const updateData = req.body;
 
-    const interviewIndex = mockInterviews.findIndex(\n      (int) => int._id === interviewId,\n    );
+    const interviewIndex = mockInterviews.findIndex(
+      (int) => int._id === interviewId,
+    );
 
     if (interviewIndex === -1) {
       throw new CustomError("Interview not found", 404);
@@ -231,14 +247,17 @@ router.put(
     }
 
     // Handle rescheduling
-    if (updateData.scheduledDateTime && updateData.scheduledDateTime !== interview.scheduledDateTime.toISOString()) {
+    if (
+      updateData.scheduledDateTime &&
+      updateData.scheduledDateTime !== interview.scheduledDateTime.toISOString()
+    ) {
       const rescheduleEntry = {
         previousDateTime: interview.scheduledDateTime,
         reason: updateData.rescheduleReason || "Time change requested",
         requestedBy: role as "student" | "company",
         requestedAt: new Date(),
       };
-      
+
       interview.rescheduleHistory.push(rescheduleEntry);
       interview.status = "rescheduled";
     }
@@ -263,7 +282,9 @@ router.delete(
     const { interviewId } = req.params;
     const { userId: companyId } = req.user!;
 
-    const interviewIndex = mockInterviews.findIndex(\n      (int) => int._id === interviewId,\n    );
+    const interviewIndex = mockInterviews.findIndex(
+      (int) => int._id === interviewId,
+    );
 
     if (interviewIndex === -1) {
       throw new CustomError("Interview not found", 404);
@@ -373,7 +394,10 @@ router.post(
     }
 
     if (interview.status !== "completed") {
-      throw new CustomError("Can only provide feedback for completed interviews", 400);
+      throw new CustomError(
+        "Can only provide feedback for completed interviews",
+        400,
+      );
     }
 
     // Update feedback
@@ -406,17 +430,31 @@ router.get(
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const { userId: companyId } = req.user!;
 
-    const companyInterviews = mockInterviews.filter(\n      (interview) => interview.companyId === companyId,\n    );
+    const companyInterviews = mockInterviews.filter(
+      (interview) => interview.companyId === companyId,
+    );
 
     const stats = {
       total: companyInterviews.length,
-      scheduled: companyInterviews.filter((int) => int.status === "scheduled").length,
-      completed: companyInterviews.filter((int) => int.status === "completed").length,
-      cancelled: companyInterviews.filter((int) => int.status === "cancelled").length,
-      noShow: companyInterviews.filter((int) => int.status === "no-show").length,
+      scheduled: companyInterviews.filter((int) => int.status === "scheduled")
+        .length,
+      completed: companyInterviews.filter((int) => int.status === "completed")
+        .length,
+      cancelled: companyInterviews.filter((int) => int.status === "cancelled")
+        .length,
+      noShow: companyInterviews.filter((int) => int.status === "no-show")
+        .length,
       averageRating: 4.2, // Mock average
-      thisWeek: companyInterviews.filter(\n        (int) =>\n          new Date(int.scheduledDateTime) >\n          new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),\n      ).length,
-      thisMonth: companyInterviews.filter(\n        (int) =>\n          new Date(int.scheduledDateTime) >\n          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),\n      ).length,
+      thisWeek: companyInterviews.filter(
+        (int) =>
+          new Date(int.scheduledDateTime) >
+          new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      ).length,
+      thisMonth: companyInterviews.filter(
+        (int) =>
+          new Date(int.scheduledDateTime) >
+          new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
+      ).length,
     };
 
     res.json({ stats });
@@ -462,7 +500,9 @@ router.post(
     interview.reminders.push(reminder);
 
     // In production, send actual notifications
-    console.log(`Sending ${type} reminder for interview ${interviewId} to ${recipient}`);
+    console.log(
+      `Sending ${type} reminder for interview ${interviewId} to ${recipient}`,
+    );
 
     res.json({
       message: "Reminder sent successfully",
