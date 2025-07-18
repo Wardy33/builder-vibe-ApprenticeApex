@@ -694,6 +694,13 @@ function ProfileSetupStep4({
     onUpdate({ interestedIndustries: newIndustries });
   };
 
+  const toggleTransportMode = (mode: string) => {
+    const newModes = data.transportModes.includes(mode)
+      ? data.transportModes.filter((m) => m !== mode)
+      : [...data.transportModes, mode];
+    onUpdate({ transportModes: newModes });
+  };
+
   const handleComplete = async () => {
     setIsLoading(true);
     try {
@@ -743,6 +750,157 @@ function ProfileSetupStep4({
         </p>
       </div>
 
+      {/* Work Type Preference */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-4">
+          What type of work are you looking for?{" "}
+          <span className="text-red-400">*</span>
+        </label>
+        <div className="space-y-3">
+          {WORK_TYPE_OPTIONS.map((option) => (
+            <label
+              key={option.value}
+              className="flex items-center space-x-3 cursor-pointer"
+            >
+              <input
+                type="radio"
+                name="workType"
+                value={option.value}
+                checked={data.workType === option.value}
+                onChange={(e) =>
+                  onUpdate({
+                    workType: e.target.value as
+                      | "full-time"
+                      | "part-time"
+                      | "both",
+                  })
+                }
+                className="w-4 h-4 text-orange border-gray-600 focus:ring-orange bg-gray-800"
+              />
+              <span className="text-gray-300">{option.label}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      {/* Salary Expectations */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Salary Expectations (per year) <span className="text-red-400">*</span>
+        </label>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs text-gray-400 mb-1">Minimum</label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                £
+              </span>
+              <input
+                type="number"
+                value={data.salaryExpectation.min || ""}
+                onChange={(e) =>
+                  onUpdate({
+                    salaryExpectation: {
+                      ...data.salaryExpectation,
+                      min: parseInt(e.target.value) || 0,
+                    },
+                  })
+                }
+                placeholder="15000"
+                className="w-full pl-8 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                min="0"
+                max="100000"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs text-gray-400 mb-1">Maximum</label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+                £
+              </span>
+              <input
+                type="number"
+                value={data.salaryExpectation.max || ""}
+                onChange={(e) =>
+                  onUpdate({
+                    salaryExpectation: {
+                      ...data.salaryExpectation,
+                      max: parseInt(e.target.value) || 0,
+                    },
+                  })
+                }
+                placeholder="25000"
+                className="w-full pl-8 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                min="0"
+                max="100000"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Maximum Commute Distance */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Maximum commute distance <span className="text-red-400">*</span>
+        </label>
+        <div className="relative">
+          <input
+            type="range"
+            min="1"
+            max="50"
+            value={data.maxCommuteDistance || 10}
+            onChange={(e) =>
+              onUpdate({ maxCommuteDistance: parseInt(e.target.value) })
+            }
+            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+          />
+          <div className="flex justify-between text-sm text-gray-400 mt-2">
+            <span>1 mile</span>
+            <span className="text-orange font-medium">
+              {data.maxCommuteDistance || 10} miles
+            </span>
+            <span>50+ miles</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Transport Modes */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-4">
+          How can you travel to work? <span className="text-red-400">*</span>
+        </label>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {TRANSPORT_MODES.map((mode) => (
+            <button
+              key={mode}
+              type="button"
+              onClick={() => toggleTransportMode(mode)}
+              disabled={mode === "Car/Driving" && !data.hasDriversLicense}
+              className={`p-3 rounded-lg border-2 transition-colors text-sm font-medium ${
+                data.transportModes.includes(mode)
+                  ? "border-orange bg-orange/10 text-orange"
+                  : mode === "Car/Driving" && !data.hasDriversLicense
+                    ? "border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed"
+                    : "border-gray-600 text-gray-300 hover:border-gray-500"
+              }`}
+            >
+              {mode}
+              {mode === "Car/Driving" && !data.hasDriversLicense && (
+                <div className="text-xs text-gray-500 mt-1">
+                  (Requires license)
+                </div>
+              )}
+            </button>
+          ))}
+        </div>
+        <p className="text-xs text-gray-500 mt-2">
+          Select all that apply. This helps us show relevant jobs and travel
+          information.
+        </p>
+      </div>
+
       {/* Availability Date */}
       <div>
         <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -773,7 +931,12 @@ function ProfileSetupStep4({
           disabled={
             isLoading ||
             data.interestedIndustries.length === 0 ||
-            !data.availabilityDate
+            !data.availabilityDate ||
+            !data.workType ||
+            !data.salaryExpectation.min ||
+            !data.salaryExpectation.max ||
+            !data.maxCommuteDistance ||
+            data.transportModes.length === 0
           }
           className="flex-1 bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
         >
