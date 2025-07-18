@@ -122,4 +122,309 @@ export default function EnhancedSwipeCard({
       return `${job.duration.years} year${job.duration.years > 1 ? "s" : ""}`;
     } else {
       return `${job.duration.months} month${job.duration.months > 1 ? "s" : ""}`;
-    }\n  };\n\n  return (\n    <>\n      <div\n        ref={cardRef}\n        className={`relative w-full h-[600px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-grab ${\n          isDragging ? \"cursor-grabbing\" : \"\"\n        }`}\n        style={{\n          ...style,\n          transform: `translateX(${dragDistance}px) rotate(${dragDistance / 10}deg)`,\n          transition: isDragging ? \"none\" : \"transform 0.3s ease-out\",\n        }}\n        onMouseDown={handleDragStart}\n        onMouseMove={handleDrag}\n        onMouseUp={handleDragEnd}\n        onMouseLeave={handleDragEnd}\n      >\n        {/* Match Percentage Badge */}\n        <div className=\"absolute top-4 right-4 z-10\">\n          <div\n            className={`px-3 py-2 rounded-full font-bold text-sm ${getMatchColor(\n              matchPercentage,\n            )}`}\n          >\n            <div className=\"flex items-center space-x-1\">\n              <Star className=\"h-4 w-4\" />\n              <span>{matchPercentage}% Match</span>\n            </div>\n          </div>\n        </div>\n\n        {/* Header Image/Gradient */}\n        <div className=\"h-48 bg-gradient-to-br from-orange to-orange/80 relative\">\n          <div className=\"absolute inset-0 bg-black/20\" />\n          <div className=\"absolute bottom-4 left-4 text-white\">\n            <h2 className=\"text-2xl font-bold mb-1\">{job.jobTitle}</h2>\n            <div className=\"flex items-center space-x-2 text-white/90\">\n              <Building2 className=\"h-4 w-4\" />\n              <span>Company Name</span> {/* Would come from company data */}\n            </div>\n          </div>\n        </div>\n\n        {/* Content */}\n        <div className=\"p-6 space-y-4\">\n          {/* Location and Travel Info */}\n          <div className=\"bg-gray-50 rounded-lg p-4\">\n            <div className=\"flex items-center justify-between mb-2\">\n              <div className=\"flex items-center space-x-2\">\n                <MapPin className=\"h-5 w-5 text-gray-600\" />\n                <span className=\"font-medium text-gray-900\">\n                  {job.location.city}\n                </span>\n              </div>\n              <span className=\"text-sm text-gray-600\">\n                {travelInfo.distance} miles away\n              </span>\n            </div>\n            <div className=\"flex items-center justify-between\">\n              <div className=\"flex items-center space-x-2\">\n                <Clock className=\"h-4 w-4 text-gray-600\" />\n                <span className=\"text-sm text-gray-600\">\n                  {travelInfo.estimatedTravelTime}\n                </span>\n              </div>\n              <div className=\"flex items-center space-x-1\">\n                {travelInfo.recommendedTransport.slice(0, 2).map((mode, index) => (\n                  <div\n                    key={index}\n                    className=\"flex items-center space-x-1 bg-white px-2 py-1 rounded text-xs text-gray-600\"\n                  >\n                    {TRANSPORT_ICONS[mode] || <Navigation className=\"h-3 w-3\" />}\n                    <span className=\"hidden sm:inline\">{mode}</span>\n                  </div>\n                ))}\n              </div>\n            </div>\n          </div>\n\n          {/* Key Details */}\n          <div className=\"grid grid-cols-2 gap-4\">\n            <div className=\"flex items-center space-x-2\">\n              <DollarSign className=\"h-5 w-5 text-green-600\" />\n              <div>\n                <div className=\"text-sm text-gray-600\">Salary</div>\n                <div className=\"font-semibold text-gray-900\">{formatSalary()}</div>\n              </div>\n            </div>\n            <div className=\"flex items-center space-x-2\">\n              <Calendar className=\"h-5 w-5 text-blue-600\" />\n              <div>\n                <div className=\"text-sm text-gray-600\">Duration</div>\n                <div className=\"font-semibold text-gray-900\">{formatDuration()}</div>\n              </div>\n            </div>\n          </div>\n\n          {/* Job Requirements */}\n          <div>\n            <div className=\"text-sm text-gray-600 mb-2\">Key Requirements:</div>\n            <div className=\"flex flex-wrap gap-2\">\n              {job.skills.slice(0, 3).map((skill, index) => (\n                <span\n                  key={index}\n                  className=\"bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs\"\n                >\n                  {skill}\n                </span>\n              ))}\n              {job.skills.length > 3 && (\n                <span className=\"bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs\">\n                  +{job.skills.length - 3} more\n                </span>\n              )}\n            </div>\n          </div>\n\n          {/* Special Requirements */}\n          <div className=\"flex items-center justify-between text-sm\">\n            <div className=\"flex items-center space-x-4\">\n              {job.drivingLicenseRequired && (\n                <div className=\"flex items-center space-x-1 text-orange\">\n                  <Car className=\"h-4 w-4\" />\n                  <span>License Required</span>\n                </div>\n              )}\n              {job.accessibilitySupport && (\n                <div className=\"flex items-center space-x-1 text-green-600\">\n                  <CheckCircle className=\"h-4 w-4\" />\n                  <span>Accessible</span>\n                </div>\n              )}\n            </div>\n            <div className=\"text-gray-600 capitalize\">{job.workType}</div>\n          </div>\n\n          {/* Description Preview */}\n          <div>\n            <p className=\"text-gray-700 text-sm line-clamp-2\">\n              {job.description}\n            </p>\n          </div>\n        </div>\n\n        {/* Action Buttons */}\n        <div className=\"absolute bottom-6 left-6 right-6\">\n          <div className=\"flex items-center justify-between\">\n            <button\n              onClick={() => onSwipe(\"left\", job._id)}\n              className=\"w-14 h-14 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors\"\n            >\n              <X className=\"h-6 w-6\" />\n            </button>\n            \n            <button\n              onClick={() => setShowDetails(true)}\n              className=\"px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full font-medium transition-colors\"\n            >\n              More Details\n            </button>\n\n            <button\n              onClick={() => onSwipe(\"right\", job._id)}\n              className=\"w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors\"\n            >\n              <Heart className=\"h-6 w-6\" />\n            </button>\n          </div>\n        </div>\n\n        {/* Swipe Indicators */}\n        {isDragging && (\n          <>\n            <div\n              className={`absolute inset-0 flex items-center justify-center transition-opacity ${\n                dragDistance > 50 ? \"opacity-100\" : \"opacity-0\"\n              }`}\n            >\n              <div className=\"bg-green-500 text-white px-8 py-4 rounded-2xl font-bold text-xl transform rotate-12\">\n                LIKE\n              </div>\n            </div>\n            <div\n              className={`absolute inset-0 flex items-center justify-center transition-opacity ${\n                dragDistance < -50 ? \"opacity-100\" : \"opacity-0\"\n              }`}\n            >\n              <div className=\"bg-red-500 text-white px-8 py-4 rounded-2xl font-bold text-xl transform -rotate-12\">\n                PASS\n              </div>\n            </div>\n          </>\n        )}\n      </div>\n\n      {/* Details Modal */}\n      {showDetails && (\n        <div className=\"fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4\">\n          <div className=\"bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto\">\n            <div className=\"p-6\">\n              <div className=\"flex items-center justify-between mb-4\">\n                <h3 className=\"text-xl font-bold text-gray-900\">Match Details</h3>\n                <button\n                  onClick={() => setShowDetails(false)}\n                  className=\"p-2 hover:bg-gray-100 rounded-lg\"\n                >\n                  <X className=\"h-5 w-5\" />\n                </button>\n              </div>\n\n              {/* Match Breakdown */}\n              <div className=\"space-y-4\">\n                <div className=\"text-center\">\n                  <div className={`text-3xl font-bold ${getMatchColor(matchPercentage).split(' ')[0]}`}>\n                    {matchPercentage}%\n                  </div>\n                  <div className=\"text-gray-600\">Overall Match</div>\n                </div>\n\n                <div className=\"space-y-3\">\n                  {Object.entries(matchFactors)\n                    .filter(([key]) => key !== \"overall\")\n                    .map(([category, score]) => (\n                      <div key={category} className=\"flex items-center justify-between\">\n                        <span className=\"text-sm text-gray-600 capitalize\">\n                          {category === \"drivingLicense\" ? \"Driving License\" : category}\n                        </span>\n                        <div className=\"flex items-center space-x-2\">\n                          <div className=\"w-20 bg-gray-200 rounded-full h-2\">\n                            <div\n                              className=\"bg-orange h-2 rounded-full\"\n                              style={{ width: `${score}%` }}\n                            />\n                          </div>\n                          <span className=\"text-sm font-medium w-8\">{score}%</span>\n                        </div>\n                      </div>\n                    ))}\n                </div>\n\n                {/* Travel Details */}\n                <div className=\"bg-gray-50 rounded-lg p-4\">\n                  <h4 className=\"font-semibold text-gray-900 mb-2\">Travel Information</h4>\n                  <div className=\"space-y-2 text-sm\">\n                    <div>Distance: {travelInfo.distance} miles</div>\n                    <div>Travel time: {travelInfo.estimatedTravelTime}</div>\n                    <div>\n                      Recommended transport: {travelInfo.recommendedTransport.join(\", \")}\n                    </div>\n                  </div>\n                </div>\n\n                {/* Action Buttons */}\n                <div className=\"flex gap-3 pt-4\">\n                  <button\n                    onClick={() => {\n                      onSwipe(\"left\", job._id);\n                      setShowDetails(false);\n                    }}\n                    className=\"flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium\"\n                  >\n                    Pass\n                  </button>\n                  <button\n                    onClick={() => {\n                      onSwipe(\"right\", job._id);\n                      setShowDetails(false);\n                    }}\n                    className=\"flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium\"\n                  >\n                    Apply\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div>\n        </div>\n      )}\n    </>\n  );\n}"}
+    }
+  };
+
+  return (
+    <>
+      <div
+        ref={cardRef}
+        className={`relative w-full h-[600px] bg-white rounded-2xl shadow-lg overflow-hidden cursor-grab ${
+          isDragging ? "cursor-grabbing" : ""
+        }`}
+        style={{
+          ...style,
+          transform: `translateX(${dragDistance}px) rotate(${dragDistance / 10}deg)`,
+          transition: isDragging ? "none" : "transform 0.3s ease-out",
+        }}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDrag}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+      >
+        {/* Match Percentage Badge */}
+        <div className="absolute top-4 right-4 z-10">
+          <div
+            className={`px-3 py-2 rounded-full font-bold text-sm ${getMatchColor(
+              matchPercentage,
+            )}`}
+          >
+            <div className="flex items-center space-x-1">
+              <Star className="h-4 w-4" />
+              <span>{matchPercentage}% Match</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Header Image/Gradient */}
+        <div className="h-48 bg-gradient-to-br from-orange to-orange/80 relative">
+          <div className="absolute inset-0 bg-black/20" />
+          <div className="absolute bottom-4 left-4 text-white">
+            <h2 className="text-2xl font-bold mb-1">{job.jobTitle}</h2>
+            <div className="flex items-center space-x-2 text-white/90">
+              <Building2 className="h-4 w-4" />
+              <span>Company Name</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="p-6 space-y-4">
+          {/* Location and Travel Info */}
+          <div className="bg-gray-50 rounded-lg p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center space-x-2">
+                <MapPin className="h-5 w-5 text-gray-600" />
+                <span className="font-medium text-gray-900">
+                  {job.location.city}
+                </span>
+              </div>
+              <span className="text-sm text-gray-600">
+                {travelInfo.distance} miles away
+              </span>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Clock className="h-4 w-4 text-gray-600" />
+                <span className="text-sm text-gray-600">
+                  {travelInfo.estimatedTravelTime}
+                </span>
+              </div>
+              <div className="flex items-center space-x-1">
+                {travelInfo.recommendedTransport
+                  .slice(0, 2)
+                  .map((mode, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center space-x-1 bg-white px-2 py-1 rounded text-xs text-gray-600"
+                    >
+                      {TRANSPORT_ICONS[mode] || (
+                        <Navigation className="h-3 w-3" />
+                      )}
+                      <span className="hidden sm:inline">{mode}</span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Key Details */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="flex items-center space-x-2">
+              <DollarSign className="h-5 w-5 text-green-600" />
+              <div>
+                <div className="text-sm text-gray-600">Salary</div>
+                <div className="font-semibold text-gray-900">
+                  {formatSalary()}
+                </div>
+              </div>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Calendar className="h-5 w-5 text-blue-600" />
+              <div>
+                <div className="text-sm text-gray-600">Duration</div>
+                <div className="font-semibold text-gray-900">
+                  {formatDuration()}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Job Requirements */}
+          <div>
+            <div className="text-sm text-gray-600 mb-2">Key Requirements:</div>
+            <div className="flex flex-wrap gap-2">
+              {job.skills.slice(0, 3).map((skill, index) => (
+                <span
+                  key={index}
+                  className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs"
+                >
+                  {skill}
+                </span>
+              ))}
+              {job.skills.length > 3 && (
+                <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">
+                  +{job.skills.length - 3} more
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Special Requirements */}
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center space-x-4">
+              {job.drivingLicenseRequired && (
+                <div className="flex items-center space-x-1 text-orange">
+                  <Car className="h-4 w-4" />
+                  <span>License Required</span>
+                </div>
+              )}
+              {job.accessibilitySupport && (
+                <div className="flex items-center space-x-1 text-green-600">
+                  <CheckCircle className="h-4 w-4" />
+                  <span>Accessible</span>
+                </div>
+              )}
+            </div>
+            <div className="text-gray-600 capitalize">{job.workType}</div>
+          </div>
+
+          {/* Description Preview */}
+          <div>
+            <p className="text-gray-700 text-sm line-clamp-2">
+              {job.description}
+            </p>
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="absolute bottom-6 left-6 right-6">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => onSwipe("left", job._id)}
+              className="w-14 h-14 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+            >
+              <X className="h-6 w-6" />
+            </button>
+
+            <button
+              onClick={() => setShowDetails(true)}
+              className="px-6 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-full font-medium transition-colors"
+            >
+              More Details
+            </button>
+
+            <button
+              onClick={() => onSwipe("right", job._id)}
+              className="w-14 h-14 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center shadow-lg transition-colors"
+            >
+              <Heart className="h-6 w-6" />
+            </button>
+          </div>
+        </div>
+
+        {/* Swipe Indicators */}
+        {isDragging && (
+          <>
+            <div
+              className={`absolute inset-0 flex items-center justify-center transition-opacity ${
+                dragDistance > 50 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <div className="bg-green-500 text-white px-8 py-4 rounded-2xl font-bold text-xl transform rotate-12">
+                LIKE
+              </div>
+            </div>
+            <div
+              className={`absolute inset-0 flex items-center justify-center transition-opacity ${
+                dragDistance < -50 ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <div className="bg-red-500 text-white px-8 py-4 rounded-2xl font-bold text-xl transform -rotate-12">
+                PASS
+              </div>
+            </div>
+          </>
+        )}
+      </div>
+
+      {/* Details Modal */}
+      {showDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900">
+                  Match Details
+                </h3>
+                <button
+                  onClick={() => setShowDetails(false)}
+                  className="p-2 hover:bg-gray-100 rounded-lg"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Match Breakdown */}
+              <div className="space-y-4">
+                <div className="text-center">
+                  <div
+                    className={`text-3xl font-bold ${getMatchColor(matchPercentage).split(" ")[0]}`}
+                  >
+                    {matchPercentage}%
+                  </div>
+                  <div className="text-gray-600">Overall Match</div>
+                </div>
+
+                <div className="space-y-3">
+                  {Object.entries(matchFactors)
+                    .filter(([key]) => key !== "overall")
+                    .map(([category, score]) => (
+                      <div
+                        key={category}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="text-sm text-gray-600 capitalize">
+                          {category === "drivingLicense"
+                            ? "Driving License"
+                            : category}
+                        </span>
+                        <div className="flex items-center space-x-2">
+                          <div className="w-20 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-orange h-2 rounded-full"
+                              style={{ width: `${score}%` }}
+                            />
+                          </div>
+                          <span className="text-sm font-medium w-8">
+                            {score}%
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Travel Details */}
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">
+                    Travel Information
+                  </h4>
+                  <div className="space-y-2 text-sm">
+                    <div>Distance: {travelInfo.distance} miles</div>
+                    <div>Travel time: {travelInfo.estimatedTravelTime}</div>
+                    <div>
+                      Recommended transport:{" "}
+                      {travelInfo.recommendedTransport.join(", ")}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={() => {
+                      onSwipe("left", job._id);
+                      setShowDetails(false);
+                    }}
+                    className="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium"
+                  >
+                    Pass
+                  </button>
+                  <button
+                    onClick={() => {
+                      onSwipe("right", job._id);
+                      setShowDetails(false);
+                    }}
+                    className="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-medium"
+                  >
+                    Apply
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
