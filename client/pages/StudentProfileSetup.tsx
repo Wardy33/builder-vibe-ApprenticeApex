@@ -112,7 +112,7 @@ function ProfileSetupStep1({
   };
 
   const handleNext = () => {
-    if (data.bio && data.dateOfBirth && data.location) {
+    if (data.bio && data.dateOfBirth && data.location && data.postcode) {
       onNext();
     }
   };
@@ -175,20 +175,83 @@ function ProfileSetupStep1({
       </div>
 
       {/* Location */}
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
-          Location <span className="text-red-400">*</span>
-        </label>
-        <div className="relative">
-          <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            City/Town <span className="text-red-400">*</span>
+          </label>
+          <div className="relative">
+            <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+            <input
+              type="text"
+              value={data.location}
+              onChange={(e) => onUpdate({ location: e.target.value })}
+              placeholder="London"
+              className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+            />
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Postcode <span className="text-red-400">*</span>
+          </label>
           <input
             type="text"
-            value={data.location}
-            onChange={(e) => onUpdate({ location: e.target.value })}
-            placeholder="London, UK"
-            className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+            value={data.postcode}
+            onChange={(e) =>
+              onUpdate({ postcode: e.target.value.toUpperCase() })
+            }
+            placeholder="SW1A 1AA"
+            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+            maxLength={8}
           />
         </div>
+      </div>
+
+      {/* Driving License */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Do you have a driving license? <span className="text-red-400">*</span>
+        </label>
+        <div className="flex space-x-4">
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              name="drivingLicense"
+              checked={data.hasDriversLicense === true}
+              onChange={() => onUpdate({ hasDriversLicense: true })}
+              className="w-4 h-4 text-orange border-gray-600 focus:ring-orange bg-gray-800"
+            />
+            <span className="text-gray-300">Yes</span>
+          </label>
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              name="drivingLicense"
+              checked={data.hasDriversLicense === false}
+              onChange={() => onUpdate({ hasDriversLicense: false })}
+              className="w-4 h-4 text-orange border-gray-600 focus:ring-orange bg-gray-800"
+            />
+            <span className="text-gray-300">No</span>
+          </label>
+        </div>
+      </div>
+
+      {/* Assisted Needs */}
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Do you require any workplace adjustments or support?
+        </label>
+        <textarea
+          value={data.assistedNeeds}
+          onChange={(e) => onUpdate({ assistedNeeds: e.target.value })}
+          placeholder="Please describe any adjustments you may need (e.g., wheelchair access, hearing support, flexible hours). Leave blank if none required."
+          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange resize-none h-20"
+          maxLength={500}
+        />
+        <p className="text-xs text-gray-500 mt-1">
+          {data.assistedNeeds.length}/500 characters
+        </p>
       </div>
 
       {/* Skills */}
@@ -238,7 +301,13 @@ function ProfileSetupStep1({
 
       <button
         onClick={handleNext}
-        disabled={!data.bio || !data.dateOfBirth || !data.location}
+        disabled={
+          !data.bio ||
+          !data.dateOfBirth ||
+          !data.location ||
+          !data.postcode ||
+          data.hasDriversLicense === undefined
+        }
         className="w-full bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
       >
         Next: Work Experience
