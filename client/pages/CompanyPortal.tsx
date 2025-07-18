@@ -30,7 +30,6 @@ import {
   Edit,
   Trash2,
   Save,
-  Cancel,
 } from "lucide-react";
 
 interface Application {
