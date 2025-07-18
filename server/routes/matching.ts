@@ -31,7 +31,7 @@ router.get(
     }
 
     // Check if profile is complete enough for matching
-    const profileCheck = isProfileCompleteForMatching(student);
+    const profileCheck = isProfileCompleteForMatching(student as any);
     if (!profileCheck.isComplete) {
       return res.json({
         profileIncomplete: true,
@@ -44,7 +44,7 @@ router.get(
     }
 
     // Get matched jobs
-    const matches = getMatchedJobs(student, mockApprenticeships);
+    const matches = getMatchedJobs(student as any, mockApprenticeships as any);
 
     // Paginate results
     const startIndex = (page - 1) * limit;
@@ -104,7 +104,7 @@ router.get(
     }
 
     // Check if profile is complete
-    const profileCheck = isProfileCompleteForMatching(student);
+    const profileCheck = isProfileCompleteForMatching(student as any);
     if (!profileCheck.isComplete) {
       return res.json({
         profileIncomplete: true,
@@ -116,7 +116,7 @@ router.get(
     }
 
     // Calculate detailed match
-    const match = calculateJobMatch(student, job);
+    const match = calculateJobMatch(student as any, job as any);
 
     res.json({
       profileIncomplete: false,
@@ -142,7 +142,7 @@ router.get(
       throw new CustomError("Student not found", 404);
     }
 
-    const profileCheck = isProfileCompleteForMatching(student);
+    const profileCheck = isProfileCompleteForMatching(student as any);
 
     res.json({
       isComplete: profileCheck.isComplete,
@@ -169,7 +169,7 @@ router.get(
     }
 
     // Check if profile is complete
-    const profileCheck = isProfileCompleteForMatching(student);
+    const profileCheck = isProfileCompleteForMatching(student as any);
     if (!profileCheck.isComplete) {
       return res.json({
         profileIncomplete: true,
@@ -178,7 +178,7 @@ router.get(
     }
 
     // Get all matches
-    const matches = getMatchedJobs(student, mockApprenticeships);
+    const matches = getMatchedJobs(student as any, mockApprenticeships as any);
 
     // Calculate statistics
     const stats = {
