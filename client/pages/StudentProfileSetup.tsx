@@ -918,29 +918,37 @@ function ProfileSetupStep4({
         </div>
       </div>
 
-      <div className="flex gap-4">
-        <button
-          onClick={onBack}
-          className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
-        >
-          <ArrowLeft className="h-5 w-5" />
-          Back
-        </button>
+      <div className="space-y-3">
+        <div className="flex gap-4">
+          <button
+            onClick={onBack}
+            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+          >
+            <ArrowLeft className="h-5 w-5" />
+            Back
+          </button>
+          <button
+            onClick={handleComplete}
+            disabled={
+              isLoading ||
+              data.interestedIndustries.length === 0 ||
+              !data.availabilityDate ||
+              !data.workType ||
+              !data.salaryExpectation.min ||
+              !data.salaryExpectation.max ||
+              !data.maxCommuteDistance ||
+              data.transportModes.length === 0
+            }
+            className="flex-1 bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+          >
+            {isLoading ? "Creating Profile..." : "Complete Setup"}
+          </button>
+        </div>
         <button
           onClick={handleComplete}
-          disabled={
-            isLoading ||
-            data.interestedIndustries.length === 0 ||
-            !data.availabilityDate ||
-            !data.workType ||
-            !data.salaryExpectation.min ||
-            !data.salaryExpectation.max ||
-            !data.maxCommuteDistance ||
-            data.transportModes.length === 0
-          }
-          className="flex-1 bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+          className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
         >
-          {isLoading ? "Creating Profile..." : "Complete Setup"}
+          Skip for now and explore jobs (you can complete this later)
         </button>
       </div>
     </div>
@@ -955,11 +963,21 @@ export default function StudentProfileSetup() {
     dateOfBirth: "",
     phone: "",
     location: "",
+    postcode: "",
     skills: [],
+    hasDriversLicense: false,
+    assistedNeeds: "",
     experiences: [],
     gcseGrades: [],
     interestedIndustries: [],
     availabilityDate: "",
+    workType: "both",
+    salaryExpectation: {
+      min: 0,
+      max: 0,
+    },
+    maxCommuteDistance: 10,
+    transportModes: [],
   });
 
   const updateProfileData = (updates: Partial<ProfileData>) => {
