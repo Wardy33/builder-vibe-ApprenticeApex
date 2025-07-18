@@ -18,6 +18,7 @@ import analyticsRoutes from "./routes/analytics";
 import uploadRoutes from "./routes/upload";
 import paymentRoutes from "./routes/payments";
 import interviewRoutes from "./routes/interviews";
+import matchingRoutes from "./routes/matching";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
@@ -73,6 +74,7 @@ export function createApp() {
   app.use("/api/upload", authenticateToken, uploadRoutes);
   app.use("/api/payments", authenticateToken, paymentRoutes);
   app.use("/api/interviews", authenticateToken, interviewRoutes);
+  app.use("/api/matching", authenticateToken, matchingRoutes);
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
