@@ -9,6 +9,7 @@ export interface IApprenticeship extends Document {
   location: {
     city: string;
     address: string;
+    postcode: string;
     coordinates: [number, number];
   };
   requirements: string[];
@@ -22,6 +23,10 @@ export interface IApprenticeship extends Document {
     max: number;
     currency: string;
   };
+  workType: "full-time" | "part-time" | "both";
+  drivingLicenseRequired: boolean;
+  accessibilitySupport: boolean;
+  skills: string[];
   benefits: string[];
   applicationDeadline?: Date;
   startDate?: Date;
@@ -76,6 +81,7 @@ const apprenticeshipSchema = new Schema<IApprenticeship>(
     location: {
       city: { type: String, required: true },
       address: { type: String, required: true },
+      postcode: { type: String, required: true },
       coordinates: {
         type: [Number],
         index: "2dsphere",
@@ -93,6 +99,20 @@ const apprenticeshipSchema = new Schema<IApprenticeship>(
       max: { type: Number, required: true, min: 0 },
       currency: { type: String, default: "GBP" },
     },
+    workType: {
+      type: String,
+      enum: ["full-time", "part-time", "both"],
+      required: true,
+    },
+    drivingLicenseRequired: {
+      type: Boolean,
+      default: false,
+    },
+    accessibilitySupport: {
+      type: Boolean,
+      default: false,
+    },
+    skills: [{ type: String }],
     benefits: [{ type: String }],
     applicationDeadline: { type: Date },
     startDate: { type: Date },
