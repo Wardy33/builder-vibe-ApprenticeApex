@@ -8,6 +8,11 @@ import {
   mockCompanies,
 } from "../index";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
+import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
+import { v4 as uuidv4 } from "uuid";
+import nodemailer from "nodemailer";
+import { User } from "../models/User";
+import { Subscription } from "../models/Payment";
 
 const router = express.Router();
 
@@ -213,6 +218,148 @@ router.post(
     // In a real app, verify email token
     res.json({
       message: "Email verified successfully",
+    });
+  }),
+);
+
+// Get current user profile
+router.get(
+  "/me",
+  authenticateToken,
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const { userId } = req.user!;
+
+    // In a real app, fetch from database
+    const user = [...mockStudents, ...mockCompanies].find(
+      (user) => user._id === userId,
+    );
+
+    if (!user) {
+      throw new CustomError("User not found", 404);
+    }
+
+    res.json({
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+      },
+    });
+  }),
+);
+
+// Update user profile
+router.put(
+  "/profile",
+  authenticateToken,
+  [
+    body("firstName").optional().trim().isLength({ min: 1 }),
+    body("lastName").optional().trim().isLength({ min: 1 }),
+    body("bio").optional().isLength({ max: 500 }),
+    body("skills").optional().isArray(),
+    body("location.city").optional().trim().isLength({ min: 1 }),
+  ],
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError("Validation failed", 400);
+    }
+
+    const { userId } = req.user!;
+    const updateData = req.body;
+
+    // In a real app, update user in database
+    res.json({
+      message: "Profile updated successfully",
+      profile: updateData,
+    });
+  }),
+);
+
+// Change password
+router.put(
+  "/change-password",
+  authenticateToken,
+  [
+    body("currentPassword").notEmpty(),
+    body("newPassword").isLength({ min: 8 }),
+  ],
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError("Validation failed", 400);
+    }
+
+    const { userId } = req.user!;
+    const { currentPassword, newPassword } = req.body;
+
+    // In a real app, verify current password and update
+    const hashedNewPassword = await hashPassword(newPassword);
+
+    res.json({
+      message: "Password changed successfully",
+    });
+  }),
+);
+
+// Delete account
+router.delete(
+  "/account",
+  authenticateToken,
+  [body("password").notEmpty(), body("confirmation").equals("DELETE")],
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError("Validation failed", 400);
+    }
+
+    const { userId } = req.user!;
+    const { password } = req.body;
+
+    // In a real app, verify password and delete account
+    res.json({
+      message: "Account deleted successfully",
+    });
+  }),
+);
+
+// Two-factor authentication setup
+router.post(
+  "/2fa/setup",
+  authenticateToken,
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const { userId } = req.user!;
+
+    // In a real app, generate 2FA secret and QR code
+    const secret = uuidv4();
+    const qrCodeUrl = `data:image/png;base64,mock_qr_code`;
+
+    res.json({
+      secret,
+      qrCodeUrl,
+      backupCodes: ["12345678", "87654321", "11111111", "22222222", "33333333"],
+    });
+  }),
+);
+
+// Verify 2FA setup
+router.post(
+  "/2fa/verify",
+  authenticateToken,
+  [body("token").isLength({ min: 6, max: 6 })],
+  asyncHandler(async (req: AuthenticatedRequest, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError("Validation failed", 400);
+    }
+
+    const { userId } = req.user!;
+    const { token } = req.body;
+
+    // In a real app, verify 2FA token
+    res.json({
+      message: "2FA enabled successfully",
     });
   }),
 );
