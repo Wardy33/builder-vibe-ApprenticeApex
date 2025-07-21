@@ -9,6 +9,11 @@ import { SignUpForm, SignInForm } from "./pages/StudentAuth";
 import StudentProfileSetup from "./pages/StudentProfileSetup";
 import NotFound from "./pages/NotFound";
 import Debug from "./pages/Debug";
+import About from "./pages/About";
+import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
+import TermsOfService from "./pages/legal/TermsOfService";
+import CookiePolicy from "./pages/legal/CookiePolicy";
+import AcceptableUse from "./pages/legal/AcceptableUse";
 
 function App() {
   return (
