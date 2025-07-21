@@ -106,6 +106,16 @@ export default function Index() {
           </Link>
         </div>
 
+        {/* Debug Link for Development */}
+        <div className="text-center mb-16">
+          <Link
+            to="/debug"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-sm rounded-lg transition-colors"
+          >
+            🔧 View System Status & Debug Info
+          </Link>
+        </div>
+
         {/* Features Section */}
         <div className="text-center">
           <h3 className="text-3xl font-bold mb-8 text-orange">
