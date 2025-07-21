@@ -1,5 +1,6 @@
 // Enhanced API client with proper error handling, loading states, and retry logic
-import { AuthResponse, ApiError } from "../shared/api";
+import { useState, useEffect, useCallback, Component, ReactNode } from 'react';
+import { AuthResponse, ApiError } from '../../shared/api';
 
 interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
@@ -9,13 +10,13 @@ interface ApiRequestOptions {
   retries?: number;
 }
 
-interface ApiResponse<T = any> {
+type ApiResponse<T = any> = {
   data: T;
   error: null;
 } | {
   data: null;
   error: ApiError;
-}
+};
 
 class ApiClient {
   private baseURL: string;
@@ -283,8 +284,6 @@ export function useApiCall<T>(
 }
 
 // Error boundary component
-import { Component, ReactNode, useState, useEffect, useCallback } from 'react';
-
 interface ErrorBoundaryState {
   hasError: boolean;
   error?: Error;
@@ -364,7 +363,7 @@ export function useNetworkStatus() {
     window.addEventListener('offline', handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('online', handleOffline);
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
