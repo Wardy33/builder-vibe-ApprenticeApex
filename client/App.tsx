@@ -8,6 +8,7 @@ import CompanyPortal from "./pages/CompanyPortal";
 import { SignUpForm, SignInForm } from "./pages/StudentAuth";
 import StudentProfileSetup from "./pages/StudentProfileSetup";
 import NotFound from "./pages/NotFound";
+import Debug from "./pages/Debug";
 
 function App() {
   return (
