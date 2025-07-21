@@ -333,8 +333,8 @@ function SignUpForm() {
 
 function SignInForm() {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -342,6 +342,17 @@ function SignInForm() {
   });
   const [errors, setErrors] = useState<{ email?: string; password?: string }>(
     {},
+  );
+
+  const { submit, loading, error, clearError } = useFormSubmission(
+    async (data: typeof formData) => {
+      return await login(data.email, data.password);
+    },
+    {
+      onSuccess: () => {
+        navigate("/student/home");
+      }
+    }
   );
 
   const validateForm = () => {
