@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Users, Target, Award, Heart, ArrowRight } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
+import { SEOHead, seoConfigs } from "../components/SEOHead";
 
 export default function About() {
   return (
