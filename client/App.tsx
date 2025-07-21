@@ -21,6 +21,11 @@ function App() {
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/debug" element={<Debug />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/cookie-policy" element={<CookiePolicy />} />
+        <Route path="/acceptable-use" element={<AcceptableUse />} />
         <Route path="/student/signup" element={<SignUpForm />} />
         <Route path="/student/signin" element={<SignInForm />} />
         <Route
