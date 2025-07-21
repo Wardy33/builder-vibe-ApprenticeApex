@@ -24,9 +24,9 @@ interface FormData {
 
 function SignUpForm() {
   const navigate = useNavigate();
+  const { register } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     firstName: "",
     lastName: "",
@@ -36,6 +36,23 @@ function SignUpForm() {
     agreeToTerms: false,
   });
   const [errors, setErrors] = useState<Partial<FormData>>({});
+
+  const { submit, loading, error, clearError } = useFormSubmission(
+    async (data: FormData) => {
+      return await register({
+        email: data.email,
+        password: data.password,
+        role: 'student',
+        firstName: data.firstName,
+        lastName: data.lastName,
+      });
+    },
+    {
+      onSuccess: () => {
+        navigate("/student/setup-profile");
+      }
+    }
+  );
 
   const validateForm = () => {
     const newErrors: Partial<FormData> = {};
