@@ -1,5 +1,5 @@
 // Enhanced API client with proper error handling, loading states, and retry logic
-import { useState, useEffect, useCallback, Component, ReactNode } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { AuthResponse, ApiError } from '../../shared/api';
 
 interface ApiRequestOptions {
@@ -283,65 +283,6 @@ export function useApiCall<T>(
   return { data, loading, error, refetch: executeCall };
 }
 
-// Error boundary component
-interface ErrorBoundaryState {
-  hasError: boolean;
-  error?: Error;
-}
-
-interface ErrorBoundaryProps {
-  children: ReactNode;
-  fallback?: (error: Error, reset: () => void) => ReactNode;
-}
-
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
-  constructor(props: ErrorBoundaryProps) {
-    super(props);
-    this.state = { hasError: false };
-  }
-
-  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
-    return { hasError: true, error };
-  }
-
-  componentDidCatch(error: Error, errorInfo: any) {
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      const reset = () => {
-        this.setState({ hasError: false, error: undefined });
-      };
-
-      if (this.props.fallback && this.state.error) {
-        return this.props.fallback(this.state.error, reset);
-      }
-
-      return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-          <div className="max-w-md mx-auto text-center">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-              <h2 className="text-lg font-semibold text-red-800 mb-2">Something went wrong</h2>
-              <p className="text-red-600 mb-4">
-                {this.state.error?.message || 'An unexpected error occurred'}
-              </p>
-              <button
-                onClick={reset}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-colors"
-              >
-                Try again
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    return this.props.children;
-  }
-}
-
 // Loading component
 export function LoadingSpinner({ className = "" }: { className?: string }) {
   return (
@@ -363,10 +304,29 @@ export function useNetworkStatus() {
     window.addEventListener('offline', handleOffline);
 
     return () => {
-      window.removeEventListener('online', handleOffline);
+      window.removeEventListener('online', handleOnline);
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
 
   return isOnline;
+}
+
+// Simple error alert component
+export function ErrorAlert({ error, onDismiss }: { error: string; onDismiss?: () => void }) {
+  return (
+    <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+      <div className="flex items-center justify-between">
+        <p className="text-red-800 text-sm">{error}</p>
+        {onDismiss && (
+          <button
+            onClick={onDismiss}
+            className="text-red-500 hover:text-red-700 ml-4"
+          >
+            ×
+          </button>
+        )}
+      </div>
+    </div>
+  );
 }
