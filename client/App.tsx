@@ -46,12 +46,16 @@ function App() {
 
 const container = document.getElementById("root");
 if (container) {
-  const root = createRoot(container);
-  root.render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  );
+  // Check if root already exists to prevent double mounting in development
+  if (!(container as any)._reactRootContainer) {
+    const root = createRoot(container);
+    (container as any)._reactRootContainer = root;
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>,
+    );
+  }
 }
 
 export default App;
