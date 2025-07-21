@@ -10,6 +10,7 @@ import StudentProfileSetup from "./pages/StudentProfileSetup";
 import NotFound from "./pages/NotFound";
 import Debug from "./pages/Debug";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
