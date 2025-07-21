@@ -12,6 +12,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
+import { SEOHead, seoConfigs } from "../components/SEOHead";
 
 export default function Index() {
   return (
