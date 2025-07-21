@@ -227,18 +227,18 @@ export function StatusDashboard() {
         <h3 className="font-semibold text-gray-900 mb-3">Feature Implementation Status</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {[
-            { feature: 'Student Registration/Login', status: 'healthy', note: 'Enhanced with error handling' },
-            { feature: 'Company Portal', status: 'healthy', note: 'Mobile optimized' },
-            { feature: 'Job Matching Algorithm', status: 'healthy', note: 'Weighted scoring system' },
-            { feature: 'Profile Setup (Skip Options)', status: 'healthy', note: 'Steps 2-4 can be skipped' },
-            { feature: 'Driving License Questions', status: 'healthy', note: 'Simple yes/no (no validation)' },
-            { feature: 'Enhanced Matching Fields', status: 'healthy', note: 'Postcode, salary, commute, etc.' },
-            { feature: 'Profile Completion Modal', status: 'healthy', note: 'Shows before job applications' },
-            { feature: 'Travel Information', status: 'healthy', note: 'Distance & transport recommendations' },
-            { feature: 'Video Calls (Daily.co)', status: 'degraded', note: 'Ready for API keys' },
-            { feature: 'Payments (Stripe)', status: 'degraded', note: 'Ready for API keys' },
-            { feature: 'Email Notifications', status: 'degraded', note: 'Ready for email config' },
-            { feature: 'Real Database (MongoDB)', status: 'degraded', note: 'Using mock data until connected' }
+            { feature: 'Student Registration/Login', status: 'healthy' as const, note: 'Enhanced with error handling' },
+            { feature: 'Company Portal', status: 'healthy' as const, note: 'Mobile optimized' },
+            { feature: 'Job Matching Algorithm', status: 'healthy' as const, note: 'Weighted scoring system' },
+            { feature: 'Profile Setup (Skip Options)', status: 'healthy' as const, note: 'Steps 2-4 can be skipped' },
+            { feature: 'Driving License Questions', status: 'healthy' as const, note: 'Simple yes/no (no validation)' },
+            { feature: 'Enhanced Matching Fields', status: 'healthy' as const, note: 'Postcode, salary, commute, etc.' },
+            { feature: 'Profile Completion Modal', status: 'healthy' as const, note: 'Shows before job applications' },
+            { feature: 'Travel Information', status: 'healthy' as const, note: 'Distance & transport recommendations' },
+            { feature: 'Video Calls (Daily.co)', status: 'degraded' as const, note: 'Ready for API keys' },
+            { feature: 'Payments (Stripe)', status: 'degraded' as const, note: 'Ready for API keys' },
+            { feature: 'Email Notifications', status: 'degraded' as const, note: 'Ready for email config' },
+            { feature: 'Real Database (MongoDB)', status: 'degraded' as const, note: 'Using mock data until connected' }
           ].map((item, index) => (
             <div key={index} className="flex items-center gap-2 text-sm">
               {getStatusIcon(item.status)}
