@@ -143,7 +143,7 @@ export function StatusDashboard() {
     }
   };
 
-  const getOverallStatus = () => {
+  const getOverallStatus = (): 'healthy' | 'degraded' | 'down' => {
     if (statuses.every(s => s.status === 'healthy')) return 'healthy';
     if (statuses.some(s => s.status === 'down')) return 'down';
     return 'degraded';
