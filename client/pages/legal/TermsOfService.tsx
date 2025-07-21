@@ -1,8 +1,10 @@
 import { WebLayout } from "../../components/WebLayout";
+import { SEOHead, seoConfigs } from "../../components/SEOHead";
 
 export default function TermsOfService() {
   return (
     <WebLayout>
+      <SEOHead {...seoConfigs.termsOfService} />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-4xl font-bold mb-8 text-center">
