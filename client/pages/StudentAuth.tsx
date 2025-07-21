@@ -9,6 +9,9 @@ import {
   ArrowLeft,
   CheckCircle,
 } from "lucide-react";
+import { useAuth, useFormSubmission } from "../hooks/useApi";
+import { LoadingButton } from "../components/ui/loading";
+import { ErrorAlert } from "../components/ui/error-alert";
 
 interface FormData {
   firstName: string;
