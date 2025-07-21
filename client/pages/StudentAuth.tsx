@@ -486,14 +486,24 @@ function SignInForm() {
               </Link>
             </div>
 
+            {/* Error Alert */}
+            {error && (
+              <ErrorAlert
+                error={error}
+                onDismiss={clearError}
+                variant="error"
+              />
+            )}
+
             {/* Submit Button */}
-            <button
+            <LoadingButton
               type="submit"
-              disabled={isLoading}
+              isLoading={loading}
+              loadingText="Signing In..."
               className="w-full bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isLoading ? "Signing In..." : "Sign In"}
-            </button>
+              Sign In
+            </LoadingButton>
           </form>
 
           <div className="mt-8 text-center">
