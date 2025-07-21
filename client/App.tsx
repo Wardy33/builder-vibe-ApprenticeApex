@@ -46,16 +46,19 @@ function App() {
 
 const container = document.getElementById("root");
 if (container) {
-  // Check if root already exists to prevent double mounting in development
-  if (!(container as any)._reactRootContainer) {
-    const root = createRoot(container);
-    (container as any)._reactRootContainer = root;
-    root.render(
-      <StrictMode>
-        <App />
-      </StrictMode>,
-    );
+  // Store root instance globally to prevent recreation during HMR
+  let root = (globalThis as any).__reactRoot;
+
+  if (!root) {
+    root = createRoot(container);
+    (globalThis as any).__reactRoot = root;
   }
+
+  root.render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  );
 }
 
 export default App;
