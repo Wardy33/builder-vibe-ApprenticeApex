@@ -6,6 +6,7 @@ import { SEOHead, seoConfigs } from "../components/SEOHead";
 export default function About() {
   return (
     <WebLayout>
+      <SEOHead {...seoConfigs.about} />
       <div className="container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
