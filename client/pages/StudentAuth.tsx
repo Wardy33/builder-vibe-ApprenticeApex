@@ -375,18 +375,8 @@ function SignInForm() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    setIsLoading(true);
-    try {
-      // Mock API call - in real app, this would call your auth API
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Navigate to main student app
-      navigate("/student/home");
-    } catch (error) {
-      console.error("Sign in failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    clearError();
+    await submit(formData);
   };
 
   const handleInputChange = (field: string, value: string | boolean) => {
