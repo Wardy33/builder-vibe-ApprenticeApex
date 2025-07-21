@@ -17,6 +17,7 @@ import { SEOHead, seoConfigs } from "../components/SEOHead";
 export default function Index() {
   return (
     <WebLayout>
+      <SEOHead {...seoConfigs.home} />
       <div className="container mx-auto px-4 py-12 lg:py-16">
         {/* Header */}
         <header className="text-center mb-16">
