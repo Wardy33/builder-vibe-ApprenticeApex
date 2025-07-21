@@ -1,3 +1,4 @@
+import React from "react";
 import { AlertTriangle, X, Wifi, RefreshCw } from "lucide-react";
 import { cn } from "../../lib/utils";
 
