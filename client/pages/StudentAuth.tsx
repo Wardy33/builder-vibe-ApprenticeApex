@@ -88,18 +88,8 @@ function SignUpForm() {
     e.preventDefault();
     if (!validateForm()) return;
 
-    setIsLoading(true);
-    try {
-      // Mock API call - in real app, this would call your auth API
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Navigate to profile setup
-      navigate("/student/setup-profile");
-    } catch (error) {
-      console.error("Sign up failed:", error);
-    } finally {
-      setIsLoading(false);
-    }
+    clearError();
+    await submit(formData);
   };
 
   const handleInputChange = (
