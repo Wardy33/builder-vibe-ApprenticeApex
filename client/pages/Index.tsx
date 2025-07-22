@@ -118,7 +118,7 @@ export default function Index() {
         <div className="text-center mb-16">
           <Link
             to="/debug"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white text-sm rounded-lg transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-black text-sm rounded-lg transition-colors"
           >
             🔧 View System Status & Debug Info
           </Link>
