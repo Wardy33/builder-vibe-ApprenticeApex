@@ -395,17 +395,17 @@ function SignInForm() {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between p-4">
+      <header className="flex items-center justify-between p-4" style={{backgroundColor: '#020202'}}>
         <button
           onClick={() => navigate("/student")}
-          className="p-2 hover:bg-gray-800 rounded-full text-white"
+          className="p-2 hover:bg-gray-700 rounded-full text-white"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-xl font-bold text-white">
-          <span className="text-orange">Apprentice</span>Apex
+          <span style={{color: '#da6927'}}>Apprentice</span>Apex
         </h1>
         <div className="w-10" />
       </header>
