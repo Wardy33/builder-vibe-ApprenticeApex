@@ -875,7 +875,7 @@ function ProfileSetupStep4({
 
       {/* Maximum Commute Distance */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Maximum commute distance <span className="text-red-400">*</span>
         </label>
         <div className="relative">
@@ -887,11 +887,11 @@ function ProfileSetupStep4({
             onChange={(e) =>
               onUpdate({ maxCommuteDistance: parseInt(e.target.value) })
             }
-            className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
           />
-          <div className="flex justify-between text-sm text-gray-400 mt-2">
+          <div className="flex justify-between text-sm text-gray-600 mt-2">
             <span>1 mile</span>
-            <span className="text-orange font-medium">
+            <span className="font-medium" style={{color: '#da6927'}}>
               {data.maxCommuteDistance || 10} miles
             </span>
             <span>50+ miles</span>
@@ -901,7 +901,7 @@ function ProfileSetupStep4({
 
       {/* Transport Modes */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-4">
+        <label className="block text-sm font-medium text-black mb-4">
           How can you travel to work? <span className="text-red-400">*</span>
         </label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -913,11 +913,16 @@ function ProfileSetupStep4({
               disabled={mode === "Car/Driving" && !data.hasDriversLicense}
               className={`p-3 rounded-lg border-2 transition-colors text-sm font-medium ${
                 data.transportModes.includes(mode)
-                  ? "border-orange bg-orange/10 text-orange"
+                  ? "bg-orange-50 text-black"
                   : mode === "Car/Driving" && !data.hasDriversLicense
-                    ? "border-gray-700 bg-gray-800 text-gray-500 cursor-not-allowed"
-                    : "border-gray-600 text-gray-300 hover:border-gray-500"
+                    ? "border-gray-300 bg-gray-100 text-gray-400 cursor-not-allowed"
+                    : "border-gray-300 text-gray-700 hover:border-gray-400"
               }`}
+              style={{
+                ...(data.transportModes.includes(mode)
+                  ? {borderColor: '#da6927', backgroundColor: '#fef3e2'}
+                  : {})
+              }}
             >
               {mode}
               {mode === "Car/Driving" && !data.hasDriversLicense && (
@@ -936,7 +941,7 @@ function ProfileSetupStep4({
 
       {/* Availability Date */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           When are you available to start?{" "}
           <span className="text-red-400">*</span>
         </label>
@@ -946,7 +951,8 @@ function ProfileSetupStep4({
             type="date"
             value={data.availabilityDate}
             onChange={(e) => onUpdate({ availabilityDate: e.target.value })}
-            className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-orange"
+            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+            style={{focusBorderColor: '#da6927', fontSize: '16px', minHeight: '48px'}}
           />
         </div>
       </div>
