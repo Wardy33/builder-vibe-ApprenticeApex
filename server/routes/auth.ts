@@ -410,7 +410,8 @@ router.post("/company/signup", [
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    throw new CustomError("Validation failed", 400, errors.array());
+    console.log("Company signup validation errors:", errors.array());
+    throw new CustomError("Validation failed", 400);
   }
 
   const {
