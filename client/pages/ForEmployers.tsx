@@ -40,7 +40,7 @@ export default function ForEmployers() {
       monthlyFee: 0,
       successFee: 399,
       features: [
-        'Unlimited job postings',
+        'Up to 15 job postings',
         'AI-powered Gen Z matching',
         'Multi-platform candidate sourcing',
         'Mobile-optimized candidate profiles',
@@ -49,7 +49,7 @@ export default function ForEmployers() {
         'Platform messaging system'
       ],
       limits: {
-        jobPostings: 'Unlimited',
+        jobPostings: 15,
         users: 1,
         duration: '60 days'
       }
