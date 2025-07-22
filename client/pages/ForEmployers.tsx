@@ -242,19 +242,8 @@ export default function ForEmployers() {
               {plans.map((plan) => (
                 <div 
                   key={plan.id}
-                  className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-sm ${
-                    plan.popular
-                      ? 'ring-2'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                  style={{
-                    backgroundColor: '#f8f9fa',
-                    ...(plan.popular ? {
-                      borderColor: '#da6927',
-                      ringColor: '#da6927',
-                      opacity: 0.2
-                    } : {})
-                  }}
+                  className="relative p-6 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-105 shadow-sm"
+                  style={{backgroundColor: '#f8f9fa'}}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
