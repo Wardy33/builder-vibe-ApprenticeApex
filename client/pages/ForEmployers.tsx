@@ -493,18 +493,7 @@ export default function ForEmployers() {
           </div>
         </section>
       </div>
-      <LiveChatWithRef ref={liveChatRef} />
+      <LiveChat />
     </WebLayout>
   );
 }
-
-// Wrapper component to expose chat opening functionality
-const LiveChatWithRef = React.forwardRef<{ openChat: () => void }>((props, ref) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-
-  React.useImperativeHandle(ref, () => ({
-    openChat: () => setIsOpen(true)
-  }));
-
-  return <LiveChat isOpen={isOpen} onClose={() => setIsOpen(false)} />;
-});
