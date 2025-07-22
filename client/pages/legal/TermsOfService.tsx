@@ -257,7 +257,7 @@ export default function TermsOfService() {
 
               {/* Intellectual Property */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">7. Intellectual Property Rights</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">8. Intellectual Property Rights</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">7.1 Platform Ownership</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">
