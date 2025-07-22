@@ -375,6 +375,43 @@ function SwipeCard({
 }
 
 function HomePage() {
+  const [applications, setApplications] = useState([]);
+  const [interviews, setInterviews] = useState([]);
+  const [profileScore, setProfileScore] = useState(92);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        // Load applications
+        const appsResponse = await fetch('/api/applications/my-applications');
+        if (appsResponse.ok) {
+          const appsData = await appsResponse.json();
+          setApplications(appsData.applications || []);
+        }
+
+        // Load profile status
+        const profileResponse = await fetch('/api/matching/profile-status');
+        if (profileResponse.ok) {
+          const profileData = await profileResponse.json();
+          setProfileScore(profileData.profileScore || 92);
+        }
+
+        // Mock interviews for now - TODO: Implement real interview API
+        setInterviews(mockInterviews);
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+        // Fallback to mock data
+        setApplications(mockApplications);
+        setInterviews(mockInterviews);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
+
   const mockApplications = [
     {
       id: "1",
