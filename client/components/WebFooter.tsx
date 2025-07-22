@@ -75,7 +75,7 @@ export function WebFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/pricing" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Pricing
                 </Link>
               </li>
