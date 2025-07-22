@@ -132,20 +132,12 @@ export function WebFooter() {
 
         {/* Contact Information */}
         <div className="border-t border-gray-200 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="flex justify-center">
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5" style={{color: '#da6927'}} />
               <div>
                 <p className="text-black text-sm font-medium">Email</p>
                 <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <MapPin className="h-5 w-5" style={{color: '#da6927'}} />
-              <div>
-                <p className="text-black text-sm font-medium">Address</p>
-                <p className="text-gray-400 text-sm">London, United Kingdom</p>
               </div>
             </div>
           </div>
