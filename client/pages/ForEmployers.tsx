@@ -242,10 +242,10 @@ export default function ForEmployers() {
               {plans.map((plan) => (
                 <div 
                   key={plan.id}
-                  className={`relative bg-gray-900 p-6 rounded-xl border transition-all duration-300 hover:scale-105 ${
+                  className={`relative bg-white p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-sm ${
                     plan.popular 
-                      ? 'border-orange-500 ring-2 ring-orange-500/20' 
-                      : 'border-gray-700 hover:border-gray-600'
+                      ? 'border-orange-500 ring-2 ring-orange-500/20'
+                      : 'border-gray-200 hover:border-gray-300'
                   }`}
                 >
                   {plan.popular && (
@@ -258,21 +258,21 @@ export default function ForEmployers() {
                   )}
                   
                   <div className="text-center mb-6">
-                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                    <p className="text-gray-400 text-sm mb-4">{plan.description}</p>
+                    <h3 className="text-xl font-bold text-black mb-2">{plan.name}</h3>
+                    <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
                     
                     <div className="mb-4">
-                      <div className="text-3xl font-bold text-white">
+                      <div className="text-3xl font-bold text-black">
                         {typeof plan.monthlyFee === 'number' 
                           ? formatCurrency(plan.monthlyFee)
                           : plan.monthlyFee
                         }
                       </div>
-                      <div className="text-gray-400 text-sm">per month</div>
+                      <div className="text-gray-600 text-sm">per month</div>
                     </div>
                     
                     <div className="text-center">
-                      <div className="text-orange-400 font-semibold">
+                      <div className="text-orange-500 font-semibold">
                         {plan.successFee 
                           ? `+ ${formatCurrency(plan.successFee)} per hire`
                           : `+ ${plan.successFeeRate}% of first year salary`
