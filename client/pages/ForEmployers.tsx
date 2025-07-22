@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   Check,
   Star,
@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { WebLayout } from '../components/WebLayout';
+import LiveChat from '../components/LiveChat';
 
 interface PricingPlan {
   id: string;
