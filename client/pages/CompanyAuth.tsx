@@ -525,7 +525,7 @@ export function CompanySignUpForm() {
                 <button
                   type="button"
                   onClick={prevStep}
-                  className="px-6 py-3 border border-gray-600 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                  className="px-6 py-3 border border-gray-300 text-black rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   Previous
                 </button>
