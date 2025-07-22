@@ -437,7 +437,7 @@ export default function ForEmployers() {
 
               <Link
                 to="/contact"
-                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-orange-500 transition-colors flex items-center justify-center"
+                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white transition-colors flex items-center justify-center" style={{borderColor: '#ffffff', color: '#ffffff'}} onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#da6927';}} onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#ffffff';}}
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Contact Sales
