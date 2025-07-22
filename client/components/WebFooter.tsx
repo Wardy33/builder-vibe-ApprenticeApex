@@ -56,11 +56,7 @@ export function WebFooter() {
                   How It Works
                 </Link>
               </li>
-              <li>
-                <Link to="/browse-apprenticeships" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
-                  Resources
-                </Link>
-              </li>
+
             </ul>
           </div>
 
