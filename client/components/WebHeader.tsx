@@ -44,7 +44,7 @@ export function WebHeader() {
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
                   <Link
                     to="/student/signup"
-                    className="block px-4 py-2 text-sm text-gray-300 hover:text-orange hover:bg-gray-800 transition-colors"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign Up
