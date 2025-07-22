@@ -78,11 +78,11 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 text-orange mt-1" />
+                  <Mail className="h-6 w-6 text-orange-500 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-white mb-1">Email</h3>
-                    <p className="text-gray-300 text-sm mb-1">General inquiries</p>
-                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">
+                    <h3 className="font-semibold text-black mb-1">Email</h3>
+                    <p className="text-gray-600 text-sm mb-1">General inquiries</p>
+                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-500 hover:underline">
                       hello@apprenticeapex.co.uk
                     </a>
                   </div>
@@ -91,10 +91,10 @@ export default function Contact() {
 
 
                 <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-orange mt-1" />
+                  <Clock className="h-6 w-6 text-orange-500 mt-1" />
                   <div>
-                    <h3 className="font-semibold text-white mb-1">Support Hours</h3>
-                    <p className="text-gray-300 text-sm">
+                    <h3 className="font-semibold text-black mb-1">Support Hours</h3>
+                    <p className="text-gray-600 text-sm">
                       Monday - Friday: 9:00 AM - 6:00 PM GMT<br />
                       Saturday: 10:00 AM - 4:00 PM GMT<br />
                       Sunday: Closed
