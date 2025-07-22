@@ -24,8 +24,8 @@ export function WebHeader() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors hover:text-orange ${
-                isActive("/") ? "text-orange" : "text-gray-300"
+              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
+                isActive("/") ? "text-orange-500" : "text-gray-700"
               }`}
             >
               Home
