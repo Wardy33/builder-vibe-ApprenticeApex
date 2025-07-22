@@ -476,7 +476,7 @@ export function CompanySignUpForm() {
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
                     <div className="text-gray-700">
-                      <strong>I agree to the No-Poaching Policy:</strong> I will not contact candidates found through ApprenticeApex directly outside the platform for hiring purposes. All hiring must go through ApprenticeApex services. *
+                      <strong>I agree to the <Link to="/acceptable-use" className="text-orange-500 hover:underline" target="_blank">No-Poaching Policy</Link>:</strong> I will not contact candidates found through ApprenticeApex directly outside the platform for hiring purposes. All hiring must go through ApprenticeApex services. *
                     </div>
                   </label>
 
