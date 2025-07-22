@@ -3,32 +3,34 @@ import { Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-rea
 
 export function WebFooter() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="bg-gradient-to-br from-gray-900 via-black to-gray-900 border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           {/* Company Info */}
           <div className="space-y-4">
             <div>
-              <span className="text-2xl font-bold text-black">
-                <span style={{color: '#da6927'}}>Apprentice</span>Apex
+              <span className="text-2xl font-bold">
+                <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>
+                <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
+                <span className="text-lg animate-pulse">✨</span>
               </span>
             </div>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-300 text-sm">
               Connecting students with apprenticeship opportunities through AI-powered matching.
-              Building the future workforce, one apprentice at a time.
+              Building the future workforce, one apprentice at a time 🚀
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-orange-400 transition-all duration-200 hover:scale-110">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:scale-110">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-110">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-pink-400 transition-all duration-200 hover:scale-110">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -36,85 +38,79 @@ export function WebFooter() {
 
           {/* For Students */}
           <div className="space-y-4">
-            <h3 className="text-black font-semibold">For Students</h3>
+            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Students 🎓</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/student/signup" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
-                  Sign Up
+                <Link to="/student/signup" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                  Sign Up 🚀
                 </Link>
               </li>
               <li>
-                <Link to="/student/signin" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/student/signin" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Sign In
                 </Link>
               </li>
               <li>
-
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/about" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   How It Works
                 </Link>
               </li>
-
             </ul>
           </div>
 
           {/* For Employers */}
           <div className="space-y-4">
-            <h3 className="text-black font-semibold">For Employers</h3>
+            <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-bold">For Employers 💼</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/company" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/company" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Company Portal
                 </Link>
               </li>
               <li>
-                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
-                  Post Opportunities
+                <Link to="/for-employers" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                  Post Opportunities 📝
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/pricing" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Pricing
                 </Link>
               </li>
-
-
             </ul>
           </div>
 
           {/* Contact & Legal */}
           <div className="space-y-4">
-            <h3 className="text-black font-semibold">Contact & Legal</h3>
+            <h3 className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Contact & Legal 📞</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/contact" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/about" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
-                  Support
+                <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                  Support ⚡
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/privacy-policy" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/terms-of-service" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/cookie-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/cookie-policy" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Cookie Policy
                 </Link>
               </li>
@@ -123,32 +119,32 @@ export function WebFooter() {
         </div>
 
         {/* Contact Information */}
-        <div className="border-t border-gray-200 py-8">
+        <div className="border-t border-white/10 py-8">
           <div className="flex justify-center">
             <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5" style={{color: '#da6927'}} />
+              <Mail className="h-6 w-6 text-orange-400 animate-pulse" />
               <div>
-                <p className="text-black text-sm font-medium">Email</p>
-                <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
+                <p className="text-white text-sm font-medium">Email 📧</p>
+                <p className="text-gray-300 text-sm">hello@apprenticeapex.co.uk</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 py-6">
+        <div className="border-t border-white/10 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2025 ApprenticeApex. All rights reserved.
+              © 2025 ApprenticeApex. All rights reserved. ✨
             </p>
             <div className="flex space-x-6">
-              <Link to="/acceptable-use" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+              <Link to="/acceptable-use" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
                 Accessibility
               </Link>
-              <Link to="/privacy-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+              <Link to="/privacy-policy" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
                 Data Protection
               </Link>
-              <Link to="/acceptable-use" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+              <Link to="/acceptable-use" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
                 Acceptable Use
               </Link>
             </div>
