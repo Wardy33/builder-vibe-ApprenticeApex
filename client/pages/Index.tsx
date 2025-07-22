@@ -25,10 +25,10 @@ export default function Index() {
           <header className="text-center mb-16 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 opacity-20 blur-3xl rounded-full"></div>
             <h1 className="text-5xl md:text-7xl font-bold mb-4 relative z-10">
-              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">
+              <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent animate-pulse">
                 Apprentice
               </span>
-              <span className="text-white drop-shadow-lg">Apex</span>
+              <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
               <span className="text-4xl animate-bounce">✨</span>
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto relative z-10 font-medium">
