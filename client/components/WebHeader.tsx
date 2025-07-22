@@ -68,9 +68,9 @@ export function WebHeader() {
             </div>
 
             <Link
-              to="/company"
+              to="/for-employers"
               className={`text-sm font-medium transition-colors hover:text-orange ${
-                isActive("/company") ? "text-orange" : "text-gray-300"
+                isActive("/for-employers") ? "text-orange" : "text-gray-300"
               }`}
             >
               For Employers
