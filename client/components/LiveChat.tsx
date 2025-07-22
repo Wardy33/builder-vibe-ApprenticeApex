@@ -251,7 +251,7 @@ export default function LiveChat() {
         </div>
         <button
           onClick={handleContactSupport}
-          className="w-full mt-2 text-purple-500 hover:text-purple-600 text-sm transition-colors"
+          className="w-full mt-2 text-orange-500 hover:text-orange-600 text-sm transition-colors"
         >
           💌 Email our support team
         </button>
