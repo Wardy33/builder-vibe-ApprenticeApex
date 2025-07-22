@@ -169,7 +169,7 @@ export default function ForEmployers() {
               Pay Only When You <span className="text-orange-500">Hire</span>
             </h1>
             
-            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
               Start with our 60-day risk-free trial. No monthly fees, no setup costs. 
               Only pay £399 when you successfully hire an apprentice.
             </p>
