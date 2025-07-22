@@ -79,11 +79,7 @@ export function WebFooter() {
                   Pricing
                 </Link>
               </li>
-              <li>
-                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
-                  Resources
-                </Link>
-              </li>
+
 
             </ul>
           </div>
