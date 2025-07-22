@@ -18,12 +18,32 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+
+    try {
+      // Send form data to backend API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          recipient: 'hello@apprenticeapex.co.uk'
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+      } else {
+        console.error('Failed to send message');
+        alert('Failed to send message. Please try again or email us directly at hello@apprenticeapex.co.uk');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      alert('Failed to send message. Please try again or email us directly at hello@apprenticeapex.co.uk');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
