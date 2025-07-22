@@ -68,28 +68,7 @@ export default function Contact() {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <Phone className="h-6 w-6 text-orange mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-white mb-1">Phone</h3>
-                    <p className="text-gray-300 text-sm mb-1">UK Support Line</p>
-                    <a href="tel:+442012345678" className="text-orange hover:underline">
-                      +44 20 1234 5678
-                    </a>
-                  </div>
-                </div>
 
-                <div className="flex items-start space-x-4">
-                  <MapPin className="h-6 w-6 text-orange mt-1" />
-                  <div>
-                    <h3 className="font-semibold text-white mb-1">Office</h3>
-                    <p className="text-gray-300 text-sm">
-                      ApprenticeApex Ltd<br />
-                      [Office Address]<br />
-                      London, United Kingdom
-                    </p>
-                  </div>
-                </div>
 
                 <div className="flex items-start space-x-4">
                   <Clock className="h-6 w-6 text-orange mt-1" />
