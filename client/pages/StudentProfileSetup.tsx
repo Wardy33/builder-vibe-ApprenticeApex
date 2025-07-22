@@ -498,7 +498,8 @@ function ProfileSetupStep2({
       <button
         type="button"
         onClick={addExperience}
-        className="w-full border-2 border-dashed border-gray-600 hover:border-orange text-gray-400 hover:text-orange py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        className="w-full border-2 border-dashed border-gray-300 hover:border-orange-500 text-gray-600 py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        style={{'&:hover': {borderColor: '#da6927', color: '#da6927'}}}
       >
         <Plus className="h-5 w-5" />
         Add Work Experience
