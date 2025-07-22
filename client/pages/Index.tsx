@@ -75,11 +75,11 @@ export default function Index() {
 
               {/* Step 3 */}
               <div className="text-center">
-                <div className="w-20 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto mb-4 p-4 transform rotate-6 hover:rotate-0 transition-all duration-300 shadow-2xl border border-white/20">
+                <div className="w-20 h-32 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl mx-auto mb-4 p-3 transform rotate-6 hover:rotate-0 transition-all duration-300 shadow-2xl border border-white/20">
                   <div className="bg-white/90 rounded-xl h-full flex flex-col justify-center items-center text-xs">
-                    <div className="w-8 h-8 bg-gradient-to-br from-green-400 to-cyan-400 rounded-full mb-2"></div>
-                    <div className="text-gray-800 font-bold">Interview</div>
-                    <div className="text-blue-600">Tomorrow 2PM</div>
+                    <div className="w-6 h-6 bg-gradient-to-br from-green-400 to-cyan-400 rounded-full mb-1"></div>
+                    <div className="text-gray-800 font-bold text-xs leading-tight">Interview</div>
+                    <div className="text-blue-600 text-xs leading-tight">Tomorrow 2PM</div>
                   </div>
                 </div>
                 <h3 className="text-white font-bold mb-2">3. Start Career 🚀</h3>
