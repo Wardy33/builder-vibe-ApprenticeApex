@@ -80,7 +80,7 @@ export default function Index() {
           </div>
 
           {/* Company Portal Card */}
-          <Link to="/company" className="group">
+          <div className="group">
             <div className="border border-gray-300 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl" style={{backgroundColor: '#f8f9fa'}}>
               <div className="flex items-center mb-6">
                 <Building2 className="h-8 w-8 mr-3" style={{color: '#da6927'}} />
@@ -92,7 +92,7 @@ export default function Index() {
                 Manage apprenticeship listings, review applications, and track
                 analytics in your dashboard
               </p>
-              <div className="grid grid-cols-2 gap-4 text-sm">
+              <div className="grid grid-cols-2 gap-4 text-sm mb-6">
                 <div className="flex items-center text-gray-600">
                   <Building2 className="h-4 w-4 mr-2" />
                   Listing Management
@@ -110,8 +110,24 @@ export default function Index() {
                   Video Interviews
                 </div>
               </div>
+              <div className="flex gap-3">
+                <Link
+                  to="/company/signup"
+                  className="flex-1 font-semibold py-3 px-4 rounded-lg text-center text-white transition-colors"
+                  style={{backgroundColor: '#da6927', '&:hover': {backgroundColor: '#c55c1f'}}}
+                >
+                  Sign Up
+                </Link>
+                <Link
+                  to="/company/signin"
+                  className="flex-1 border-2 font-semibold py-3 px-4 rounded-lg text-center transition-colors"
+                  style={{borderColor: '#da6927', color: '#da6927', '&:hover': {backgroundColor: '#fef3e2'}}}
+                >
+                  Sign In
+                </Link>
+              </div>
             </div>
-          </Link>
+          </div>
         </div>
 
         {/* Debug Link for Development */}
