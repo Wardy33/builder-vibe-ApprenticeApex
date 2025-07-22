@@ -691,6 +691,17 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               <span>Interviews</span>
             </Link>
             <Link
+              to="/company/subscription"
+              className={`flex items-center space-x-3 p-3 rounded-lg ${
+                location.pathname === "/company/subscription"
+                  ? "bg-orange/10 text-orange"
+                  : "hover:bg-gray-200 text-gray-700"
+              }`}
+            >
+              <CreditCard className="h-5 w-5" />
+              <span>Subscription</span>
+            </Link>
+            <Link
               to="/company/messages"
               className={`flex items-center space-x-3 p-3 rounded-lg ${
                 location.pathname === "/company/messages"
