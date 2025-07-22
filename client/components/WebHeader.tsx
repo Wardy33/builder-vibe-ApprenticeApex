@@ -15,8 +15,8 @@ export function WebHeader() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-black">
-              <span className="text-orange-500">Apprentice</span>Apex
+            <span className="text-2xl font-bold text-white">
+              <span style={{color: '#da6927'}}>Apprentice</span>Apex
             </span>
           </Link>
 
