@@ -370,16 +370,16 @@ function ProfileSetupStep2({
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <Briefcase className="h-16 w-16 text-orange mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">Work Experience</h2>
-        <p className="text-gray-400">
+        <Briefcase className="h-16 w-16 mx-auto mb-4" style={{color: '#da6927'}} />
+        <h2 className="text-2xl font-bold mb-2" style={{color: '#020202'}}>Work Experience</h2>
+        <p className="text-gray-600">
           Add your work experience and internships
         </p>
       </div>
 
       {data.experiences.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-400 mb-4">No work experience added yet</p>
+          <p className="text-gray-600 mb-4">No work experience added yet</p>
           <p className="text-sm text-gray-500 mb-6">
             Include part-time jobs, internships, volunteering, or work
             experience placements
@@ -388,12 +388,12 @@ function ProfileSetupStep2({
       ) : (
         <div className="space-y-4">
           {data.experiences.map((experience) => (
-            <div key={experience.id} className="bg-gray-800 rounded-lg p-4">
+            <div key={experience.id} className="rounded-lg p-4 border border-gray-200" style={{backgroundColor: '#f8f9fa'}}>
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-white font-medium">Work Experience</h3>
+                <h3 className="font-medium" style={{color: '#020202'}}>Work Experience</h3>
                 <button
                   onClick={() => removeExperience(experience.id)}
-                  className="text-gray-400 hover:text-red-400"
+                  className="text-gray-500 hover:text-red-500"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -407,7 +407,8 @@ function ProfileSetupStep2({
                   onChange={(e) =>
                     updateExperience(experience.id, { company: e.target.value })
                   }
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                  style={{focusBorderColor: '#da6927'}}
                 />
                 <input
                   type="text"
@@ -418,13 +419,14 @@ function ProfileSetupStep2({
                       position: e.target.value,
                     })
                   }
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                  style={{focusBorderColor: '#da6927'}}
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">
+                  <label className="block text-sm text-black mb-1">
                     Start Date
                   </label>
                   <input
@@ -435,11 +437,12 @@ function ProfileSetupStep2({
                         startDate: e.target.value,
                       })
                     }
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-orange"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+                    style={{focusBorderColor: '#da6927'}}
                   />
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">
+                  <label className="block text-sm text-black mb-1">
                     End Date
                   </label>
                   <input
@@ -451,7 +454,8 @@ function ProfileSetupStep2({
                         endDate: e.target.value,
                       })
                     }
-                    className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-orange disabled:opacity-50"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none disabled:opacity-50"
+                    style={{focusBorderColor: '#da6927'}}
                   />
                 </div>
               </div>
@@ -466,9 +470,10 @@ function ProfileSetupStep2({
                       endDate: e.target.checked ? "" : experience.endDate,
                     })
                   }
-                  className="w-4 h-4 text-orange border-gray-600 rounded focus:ring-orange bg-gray-700"
+                  className="w-4 h-4 border-gray-300 rounded focus:ring-orange-500"
+                  style={{color: '#da6927', backgroundColor: 'white'}}
                 />
-                <span className="text-sm text-gray-300">
+                <span className="text-sm text-black">
                   I currently work here
                 </span>
               </label>
@@ -481,7 +486,8 @@ function ProfileSetupStep2({
                     description: e.target.value,
                   })
                 }
-                className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange resize-none h-20"
+                className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-20"
+                style={{focusBorderColor: '#da6927'}}
                 maxLength={200}
               />
             </div>
@@ -600,7 +606,8 @@ function ProfileSetupStep3({
                   onChange={(e) =>
                     updateGCSEGrade(grade.id, { subject: e.target.value })
                   }
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                  style={{focusBorderColor: '#da6927'}}
                 />
                 <select
                   value={grade.grade}
@@ -640,7 +647,8 @@ function ProfileSetupStep3({
                   onChange={(e) =>
                     updateGCSEGrade(grade.id, { year: e.target.value })
                   }
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                  style={{focusBorderColor: '#da6927'}}
                 />
               </div>
             </div>
