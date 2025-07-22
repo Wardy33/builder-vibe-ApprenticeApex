@@ -767,6 +767,36 @@ function JobListingsPage() {
     setListings((prev) => prev.filter((listing) => listing.id !== id));
   };
 
+  const handleCreateListing = async () => {
+    if (!subscriptionLimits.hasSubscription) {
+      setShowSubscriptionPrompt(true);
+      return;
+    }
+
+    if (subscriptionLimits.isTrialExpired) {
+      setShowSubscriptionPrompt(true);
+      return;
+    }
+
+    const limitCheck = await subscriptionLimits.checkLimit('create_job_posting');
+    if (!limitCheck.allowed) {
+      alert(limitCheck.reason);
+      return;
+    }
+
+    setIsCreating(true);
+  };
+
+  const handleStartTrial = async () => {
+    const result = await subscriptionLimits.startTrial();
+    if (result.success) {
+      setShowSubscriptionPrompt(false);
+      subscriptionLimits.refresh();
+    } else {
+      alert(result.error || 'Failed to start trial');
+    }
+  };
+
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
