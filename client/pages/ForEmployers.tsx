@@ -313,7 +313,7 @@ export default function ForEmployers() {
                   </div>
                   
                   <Link
-                    to={plan.id === 'enterprise' ? '/contact' : '/company'}
+                    to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
                     className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block ${
                       plan.popular
                         ? 'bg-orange-500 text-white hover:bg-orange-600'
