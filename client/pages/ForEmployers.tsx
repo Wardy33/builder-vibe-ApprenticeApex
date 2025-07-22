@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Check, 
-  Star, 
-  Calculator, 
-  TrendingUp, 
-  Shield, 
+import React from 'react';
+import {
+  Check,
+  Star,
+  TrendingUp,
+  Shield,
   Clock,
   Users,
   Zap,
   ArrowRight,
-  Phone,
   Mail,
   MessageCircle
 } from 'lucide-react';
