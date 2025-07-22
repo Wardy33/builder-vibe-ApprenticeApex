@@ -134,7 +134,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Zap className="h-8 w-8 text-orange-500" />
               </div>
-              <h4 className="text-xl font-semibold mb-2">
+              <h4 className="text-xl font-semibold mb-2 text-black">
                 AI-Powered Matching
               </h4>
               <p className="text-gray-600">
