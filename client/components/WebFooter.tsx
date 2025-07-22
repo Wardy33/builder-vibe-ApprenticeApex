@@ -143,7 +143,7 @@ export function WebFooter() {
               <Mail className="h-5 w-5 text-orange" />
               <div>
                 <p className="text-white text-sm font-medium">Email</p>
-                <p className="text-gray-400 text-sm">hello@apprenticeapex.com</p>
+                <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
