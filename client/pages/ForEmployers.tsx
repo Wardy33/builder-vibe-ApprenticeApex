@@ -198,7 +198,7 @@ export default function ForEmployers() {
         <section className="py-16 px-4 bg-gradient-to-r from-orange-50 to-red-50 border-y border-orange-200">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
                 🚀 Launch Offer - First 60 Days
               </h2>
               <p className="text-xl text-gray-300">Perfect for testing ApprenticeApex risk-free</p>
