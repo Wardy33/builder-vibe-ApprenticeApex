@@ -177,6 +177,13 @@ class ApiClient {
     });
   }
 
+  async companySignup(companyData: any): Promise<ApiResponse<AuthResponse>> {
+    return this.makeRequest<AuthResponse>('/api/auth/company/signup', {
+      method: 'POST',
+      body: companyData,
+    });
+  }
+
   // User methods
   async getProfile(): Promise<ApiResponse<any>> {
     return this.makeRequest('/api/users/profile');
