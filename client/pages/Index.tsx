@@ -166,25 +166,25 @@ export default function Index() {
         </div>
 
         {/* Statistics Section */}
-        <div className="py-16 bg-gray-900/50 rounded-2xl mt-16">
+        <div className="py-16 bg-gray-100 rounded-2xl mt-16">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-8 text-orange">Our Platform Impact</h3>
+            <h3 className="text-2xl font-bold mb-8 text-orange-500">Our Platform Impact</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
-                <div className="text-3xl font-bold text-white mb-2">10,000+</div>
-                <div className="text-gray-400 text-sm">Active Students</div>
+                <div className="text-3xl font-bold text-black mb-2">10,000+</div>
+                <div className="text-gray-600 text-sm">Active Students</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white mb-2">2,500+</div>
-                <div className="text-gray-400 text-sm">Partner Companies</div>
+                <div className="text-3xl font-bold text-black mb-2">2,500+</div>
+                <div className="text-gray-600 text-sm">Partner Companies</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white mb-2">85%</div>
-                <div className="text-gray-400 text-sm">Match Success Rate</div>
+                <div className="text-3xl font-bold text-black mb-2">85%</div>
+                <div className="text-gray-600 text-sm">Match Success Rate</div>
               </div>
               <div>
-                <div className="text-3xl font-bold text-white mb-2">24hrs</div>
-                <div className="text-gray-400 text-sm">Average Response Time</div>
+                <div className="text-3xl font-bold text-black mb-2">24hrs</div>
+                <div className="text-gray-600 text-sm">Average Response Time</div>
               </div>
             </div>
           </div>
