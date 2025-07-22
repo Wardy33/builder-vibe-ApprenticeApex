@@ -243,10 +243,18 @@ export default function ForEmployers() {
                 <div 
                   key={plan.id}
                   className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-sm ${
-                    plan.popular 
-                      ? 'border-orange-500 ring-2 ring-orange-500/20'
+                    plan.popular
+                      ? 'ring-2'
                       : 'border-gray-200 hover:border-gray-300'
                   }`}
+                  style={{
+                    backgroundColor: '#f8f9fa',
+                    ...(plan.popular ? {
+                      borderColor: '#da6927',
+                      ringColor: '#da6927',
+                      opacity: 0.2
+                    } : {})
+                  }}
                 >
                   {plan.popular && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
