@@ -51,8 +51,7 @@ export default function PrivacyPolicy() {
                     <strong>ApprenticeApex Ltd</strong><br />
                     Registered in England and Wales<br />
                     Address: [Company Address], London, United Kingdom<br />
-                    Email: privacy@apprenticeapex.com<br />
-                    Data Protection Officer: dpo@apprenticeapex.com
+                    Email: hello@apprenticeapex.co.uk<br />
                   </p>
                 </div>
               </section>
@@ -242,7 +241,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Right to Withdraw Consent:</strong> Withdraw consent for consent-based processing</li>
                 </ul>
                 <p className="text-gray-300 leading-relaxed">
-                  To exercise these rights, contact us at <a href="mailto:privacy@apprenticeapex.com" className="text-orange hover:underline">privacy@apprenticeapex.com</a>. 
+                  To exercise these rights, contact us at <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a>. 
                   We will respond within one month of your request.
                 </p>
               </section>
@@ -308,8 +307,7 @@ export default function PrivacyPolicy() {
                     If you have questions about this Privacy Policy or our data practices, please contact us:
                   </p>
                   <p className="text-gray-300 leading-relaxed">
-                    <strong>Email:</strong> <a href="mailto:privacy@apprenticeapex.com" className="text-orange hover:underline">privacy@apprenticeapex.com</a><br />
-                    <strong>Data Protection Officer:</strong> <a href="mailto:dpo@apprenticeapex.com" className="text-orange hover:underline">dpo@apprenticeapex.com</a><br />
+                    <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a><br />
                     <strong>Address:</strong> ApprenticeApex Ltd, [Company Address], London, United Kingdom<br />
                     <strong>Phone:</strong> +44 20 1234 5678
                   </p>
