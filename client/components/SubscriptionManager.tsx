@@ -10,7 +10,7 @@ import {
   Users,
   Briefcase,
   Settings,
-  Upgrade,
+  ArrowUp,
   Download
 } from 'lucide-react';
 
