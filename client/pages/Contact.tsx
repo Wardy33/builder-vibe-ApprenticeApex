@@ -161,7 +161,7 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* User Type */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-black mb-2">
                       I am a...
                     </label>
                     <div className="grid grid-cols-2 gap-4">
@@ -193,7 +193,7 @@ export default function Contact() {
                   {/* Name and Email */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Full Name *
                       </label>
                       <input
@@ -206,7 +206,7 @@ export default function Contact() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">
+                      <label className="block text-sm font-medium text-black mb-2">
                         Email Address *
                       </label>
                       <input
@@ -222,7 +222,7 @@ export default function Contact() {
 
                   {/* Subject */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-black mb-2">
                       Subject *
                     </label>
                     <input
@@ -237,7 +237,7 @@ export default function Contact() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                    <label className="block text-sm font-medium text-black mb-2">
                       Message *
                     </label>
                     <textarea
