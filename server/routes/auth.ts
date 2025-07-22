@@ -408,11 +408,13 @@ router.post("/company/signup", [
     return true;
   }),
 ], asyncHandler(async (req, res) => {
+  console.log("Company signup attempt started...");
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log("Company signup validation errors:", errors.array());
     throw new CustomError("Validation failed", 400);
   }
+  console.log("Validation passed, processing registration...");
 
   const {
     companyName, industry, companySize, website, description,
