@@ -933,6 +933,17 @@ function JobListingsPage() {
         ))}
       </div>
 
+      {/* Job Creation Modal */}
+      {isCreating && (
+        <JobCreationModal
+          onClose={() => setIsCreating(false)}
+          onSave={(newListing) => {
+            setListings(prev => [{ ...newListing, id: Date.now().toString() }, ...prev]);
+            setIsCreating(false);
+          }}
+        />
+      )}
+
       {/* Subscription Prompt Modal */}
       {showSubscriptionPrompt && (
         <SubscriptionPrompt
