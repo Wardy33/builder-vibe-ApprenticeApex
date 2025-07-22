@@ -32,7 +32,14 @@ interface PricingPlan {
 }
 
 export default function ForEmployers() {
-  const liveChatRef = useRef<{ openChat: () => void }>(null);
+
+  const handleStartChat = () => {
+    // Simulate clicking the LiveChat button
+    const liveChatButton = document.querySelector('[title="Open live chat"]') as HTMLButtonElement;
+    if (liveChatButton) {
+      liveChatButton.click();
+    }
+  };
   
   const plans: PricingPlan[] = [
     {
