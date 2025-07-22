@@ -205,22 +205,22 @@ export default function ForEmployers() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
-                <div className="text-orange-400 text-2xl font-bold mb-2">£0</div>
-                <div className="text-white font-semibold mb-2">Setup Costs</div>
-                <div className="text-gray-400 text-sm">No upfront fees or monthly charges</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-orange-500 text-2xl font-bold mb-2">£0</div>
+                <div className="text-black font-semibold mb-2">Setup Costs</div>
+                <div className="text-gray-600 text-sm">No upfront fees or monthly charges</div>
               </div>
               
-              <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
-                <div className="text-orange-400 text-2xl font-bold mb-2">£399</div>
-                <div className="text-white font-semibold mb-2">Per Successful Hire</div>
-                <div className="text-gray-400 text-sm">Only pay when candidate starts</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-orange-500 text-2xl font-bold mb-2">£399</div>
+                <div className="text-black font-semibold mb-2">Per Successful Hire</div>
+                <div className="text-gray-600 text-sm">Only pay when candidate starts</div>
               </div>
               
-              <div className="bg-gray-900/50 p-6 rounded-xl border border-gray-700">
-                <div className="text-orange-400 text-2xl font-bold mb-2">777%</div>
-                <div className="text-white font-semibold mb-2">Average ROI</div>
-                <div className="text-gray-400 text-sm">vs traditional recruitment</div>
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <div className="text-orange-500 text-2xl font-bold mb-2">777%</div>
+                <div className="text-black font-semibold mb-2">Average ROI</div>
+                <div className="text-gray-600 text-sm">vs traditional recruitment</div>
               </div>
             </div>
           </div>
