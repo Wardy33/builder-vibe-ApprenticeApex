@@ -126,7 +126,7 @@ export default function Index() {
 
         {/* Features Section */}
         <div className="text-center">
-          <h3 className="text-3xl font-bold mb-8 text-orange">
+          <h3 className="text-3xl font-bold mb-8 text-orange-500">
             Platform Features
           </h3>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
