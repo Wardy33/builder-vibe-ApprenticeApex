@@ -802,8 +802,9 @@ function JobListingsPage() {
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-900">Job Listings</h2>
         <button
-          onClick={() => setIsCreating(true)}
-          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2"
+          onClick={handleCreateListing}
+          disabled={subscriptionLimits.loading}
+          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="h-5 w-5" />
           <span>Create Listing</span>
