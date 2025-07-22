@@ -988,12 +988,12 @@ export default function StudentProfileSetup() {
   const prevStep = () => setCurrentStep((prev) => prev - 1);
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-800">
+      <header className="flex items-center justify-between p-4 border-b border-gray-200" style={{backgroundColor: '#020202'}}>
         <button
           onClick={() => navigate("/student")}
-          className="p-2 hover:bg-gray-800 rounded-full text-white"
+          className="p-2 hover:bg-gray-700 rounded-full text-white"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
