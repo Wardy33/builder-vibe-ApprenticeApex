@@ -312,15 +312,18 @@ export default function ForEmployers() {
                     </div>
                   </div>
                   
-                  <button className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors ${
-                    plan.popular
-                      ? 'bg-orange-500 text-white hover:bg-orange-600'
-                      : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
-                  }`}>
-                    {plan.id === 'trial' ? 'Start Free Trial' : 
-                     plan.id === 'enterprise' ? 'Contact Sales' : 
+                  <Link
+                    to={plan.id === 'enterprise' ? '/contact' : '/company'}
+                    className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block ${
+                      plan.popular
+                        ? 'bg-orange-500 text-white hover:bg-orange-600'
+                        : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
+                    }`}
+                  >
+                    {plan.id === 'trial' ? 'Start Free Trial' :
+                     plan.id === 'enterprise' ? 'Contact Sales' :
                      'Get Started'}
-                  </button>
+                  </Link>
                 </div>
               ))}
             </div>
