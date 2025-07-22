@@ -566,8 +566,8 @@ export default function ForEmployers() {
                 <Mail className="w-8 h-8 text-orange-400 mx-auto mb-4" />
                 <h3 className="text-white font-semibold mb-2">Email Support</h3>
                 <p className="text-gray-400 text-sm mb-4">Get help within 2 hours</p>
-                <a href="mailto:support@apprenticeapex.com" className="text-orange-400 hover:text-orange-300">
-                  support@apprenticeapex.com
+                <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-400 hover:text-orange-300">
+                  hello@apprenticeapex.co.uk
                 </a>
               </div>
               
