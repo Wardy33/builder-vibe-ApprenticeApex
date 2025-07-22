@@ -73,30 +73,30 @@ export default function About() {
 
         {/* Our Values */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Values</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-black">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <Users className="h-16 w-16 text-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">People First</h3>
-              <p className="text-gray-300">
+              <Users className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <h3 className="text-xl font-bold mb-4 text-black">People First</h3>
+              <p className="text-gray-700">
                 Every decision we make is guided by what's best for our users – 
                 both students and employers. We're building relationships, not just transactions.
               </p>
             </div>
             
             <div className="text-center">
-              <Target className="h-16 w-16 text-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">Quality Matches</h3>
-              <p className="text-gray-300">
+              <Target className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <h3 className="text-xl font-bold mb-4 text-black">Quality Matches</h3>
+              <p className="text-gray-700">
                 We're obsessed with creating perfect matches. Our AI continuously learns 
                 and improves to ensure every connection has the potential for success.
               </p>
             </div>
             
             <div className="text-center">
-              <Heart className="h-16 w-16 text-orange mx-auto mb-6" />
-              <h3 className="text-xl font-bold mb-4">Genuine Care</h3>
-              <p className="text-gray-300">
+              <Heart className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <h3 className="text-xl font-bold mb-4 text-black">Genuine Care</h3>
+              <p className="text-gray-700">
                 We genuinely care about the success of every apprentice and employer 
                 on our platform. Your success is our success.
               </p>
@@ -107,24 +107,24 @@ export default function About() {
 
 
         {/* Stats */}
-        <div className="bg-gray-900/50 rounded-xl p-8 mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Our Impact</h2>
+        <div className="bg-white rounded-xl p-8 mb-16 border border-gray-200 shadow-sm">
+          <h2 className="text-3xl font-bold text-center mb-12 text-black">Our Impact</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-orange mb-2">10,000+</div>
-              <div className="text-gray-400">Students Registered</div>
+              <div className="text-4xl font-bold text-orange-500 mb-2">10,000+</div>
+              <div className="text-gray-600">Students Registered</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange mb-2">2,500+</div>
-              <div className="text-gray-400">Employer Partners</div>
+              <div className="text-4xl font-bold text-orange-500 mb-2">2,500+</div>
+              <div className="text-gray-600">Employer Partners</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange mb-2">7,500+</div>
-              <div className="text-gray-400">Successful Matches</div>
+              <div className="text-4xl font-bold text-orange-500 mb-2">7,500+</div>
+              <div className="text-gray-600">Successful Matches</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange mb-2">95%</div>
-              <div className="text-gray-400">Completion Rate</div>
+              <div className="text-4xl font-bold text-orange-500 mb-2">95%</div>
+              <div className="text-gray-600">Completion Rate</div>
             </div>
           </div>
         </div>
