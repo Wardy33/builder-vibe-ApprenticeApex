@@ -150,7 +150,7 @@ export function WebHeader() {
                 Student Sign In
               </Link>
               <Link
-                to="/company"
+                to="/for-employers"
                 className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-orange hover:bg-gray-800 rounded-lg transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
