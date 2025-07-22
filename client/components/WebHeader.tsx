@@ -34,7 +34,7 @@ export function WebHeader() {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center text-sm font-medium text-gray-300 hover:text-orange transition-colors"
+                className="flex items-center text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
               >
                 For Students
                 <ChevronDown className="ml-1 h-4 w-4" />
