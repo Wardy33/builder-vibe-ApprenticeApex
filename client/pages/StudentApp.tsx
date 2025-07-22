@@ -1716,6 +1716,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           </Link>
         </div>
       </nav>
+      <LiveChat />
     </div>
   );
 }
