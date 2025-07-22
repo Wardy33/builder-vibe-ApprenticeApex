@@ -21,6 +21,7 @@ import interviewRoutes from "./routes/interviews";
 import matchingRoutes from "./routes/matching";
 import accessControlRoutes from "./routes/accessControl";
 import alertRoutes from "./routes/alerts";
+import subscriptionRoutes from "./routes/subscriptions";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
