@@ -154,42 +154,60 @@ export function WebHeader() {
             <div className="space-y-2">
               <Link
                 to="/"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 to="/student/signup"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Student Sign Up
               </Link>
               <Link
                 to="/student/signin"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Student Sign In
               </Link>
               <Link
                 to="/for-employers"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 For Employers
               </Link>
               <Link
                 to="/about"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-orange-500 hover:bg-gray-100 rounded-lg transition-colors"
+                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
