@@ -32,9 +32,9 @@ export default function About() {
             </p>
           </div>
           
-          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
-            <Award className="h-12 w-12 text-orange-500 mb-6" />
-            <h2 className="text-2xl font-bold mb-4 text-black">Our Vision</h2>
+          <div className="rounded-xl p-8 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
+            <Award className="h-12 w-12" style={{color: '#da6927'}} />
+            <h2 className="text-2xl font-bold mb-4" style={{color: '#020202'}}>Our Vision</h2>
             <p className="text-gray-700 leading-relaxed">
               To become the UK's leading apprenticeship platform, where every match leads 
               to mutual success. We envision a future where apprenticeships are the 
