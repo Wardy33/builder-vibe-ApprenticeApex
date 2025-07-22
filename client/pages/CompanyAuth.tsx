@@ -104,19 +104,14 @@ export function CompanySignUpForm() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch('/api/auth/company/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
+      const response = await apiClient.companySignup(formData);
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        navigate('/company');
+      if (response.error) {
+        alert(response.error.error || 'Registration failed');
       } else {
-        const error = await response.json();
-        alert(error.error || 'Registration failed');
+        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+        navigate('/company');
       }
     } catch (error) {
       alert('Registration failed. Please try again.');
