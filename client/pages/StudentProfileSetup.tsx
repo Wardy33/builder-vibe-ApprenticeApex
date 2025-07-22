@@ -589,12 +589,12 @@ function ProfileSetupStep3({
       ) : (
         <div className="space-y-4">
           {data.gcseGrades.map((grade) => (
-            <div key={grade.id} className="bg-gray-800 rounded-lg p-4">
+            <div key={grade.id} className="rounded-lg p-4 border border-gray-200" style={{backgroundColor: '#f8f9fa'}}>
               <div className="flex justify-between items-start mb-4">
-                <h3 className="text-white font-medium">GCSE Subject</h3>
+                <h3 className="font-medium" style={{color: '#020202'}}>GCSE Subject</h3>
                 <button
                   onClick={() => removeGCSEGrade(grade.id)}
-                  className="text-gray-400 hover:text-red-400"
+                  className="text-gray-500 hover:text-red-500"
                 >
                   <X className="h-5 w-5" />
                 </button>
