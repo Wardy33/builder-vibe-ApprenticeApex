@@ -32,6 +32,7 @@ interface PricingPlan {
 }
 
 export default function ForEmployers() {
+  const liveChatRef = useRef<{ openChat: () => void }>(null);
   
   const plans: PricingPlan[] = [
     {
