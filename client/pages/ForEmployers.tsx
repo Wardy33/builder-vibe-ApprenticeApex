@@ -474,7 +474,11 @@ export default function ForEmployers() {
                 <MessageCircle className="w-8 h-8 mx-auto mb-4" style={{color: '#da6927'}} />
                 <h3 className="font-semibold mb-2" style={{color: '#020202'}}>Live Chat</h3>
                 <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
-                <button className="hover:opacity-80" style={{color: '#da6927'}}>
+                <button
+                  onClick={() => liveChatRef.current?.openChat()}
+                  className="hover:opacity-80"
+                  style={{color: '#da6927'}}
+                >
                   Start Chat
                 </button>
               </div>
