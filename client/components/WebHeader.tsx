@@ -135,7 +135,10 @@ export function WebHeader() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
+            className="md:hidden p-2 rounded-lg text-white transition-colors"
+            style={{color: '#ffffff'}}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
