@@ -906,6 +906,17 @@ function JobListingsPage() {
           </div>
         ))}
       </div>
+
+      {/* Subscription Prompt Modal */}
+      {showSubscriptionPrompt && (
+        <SubscriptionPrompt
+          type={!subscriptionLimits.hasSubscription ? 'trial_needed' : 'trial_expired'}
+          showModal={true}
+          onStartTrial={handleStartTrial}
+          onUpgrade={() => window.location.href = '/for-employers'}
+          onClose={() => setShowSubscriptionPrompt(false)}
+        />
+      )}
     </div>
   );
 }
