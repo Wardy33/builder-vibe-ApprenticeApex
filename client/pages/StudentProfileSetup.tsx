@@ -745,14 +745,14 @@ function ProfileSetupStep4({
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <User className="h-16 w-16 text-orange mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">Preferences</h2>
-        <p className="text-gray-400">Tell us what you're looking for</p>
+        <User className="h-16 w-16 mx-auto mb-4" style={{color: '#da6927'}} />
+        <h2 className="text-2xl font-bold mb-2" style={{color: '#020202'}}>Preferences</h2>
+        <p className="text-gray-600">Tell us what you're looking for</p>
       </div>
 
       {/* Industries */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-4">
+        <label className="block text-sm font-medium text-black mb-4">
           Which industries interest you? <span className="text-red-400">*</span>
         </label>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -763,9 +763,14 @@ function ProfileSetupStep4({
               onClick={() => toggleIndustry(industry)}
               className={`p-3 rounded-lg border-2 transition-colors text-sm font-medium ${
                 data.interestedIndustries.includes(industry)
-                  ? "border-orange bg-orange/10 text-orange"
-                  : "border-gray-600 text-gray-300 hover:border-gray-500"
+                  ? "bg-orange-50 text-black"
+                  : "border-gray-300 text-gray-700 hover:border-gray-400"
               }`}
+              style={{
+                ...(data.interestedIndustries.includes(industry)
+                  ? {borderColor: '#da6927', backgroundColor: '#fef3e2'}
+                  : {})
+              }}
             >
               {industry}
             </button>
