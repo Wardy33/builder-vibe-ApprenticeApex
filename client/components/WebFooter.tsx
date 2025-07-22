@@ -165,7 +165,7 @@ export function WebFooter() {
         <div className="border-t border-gray-800 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 ApprenticeApex. All rights reserved.
+              © 2025 ApprenticeApex. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link to="/accessibility" className="text-gray-400 hover:text-orange transition-colors text-sm">
