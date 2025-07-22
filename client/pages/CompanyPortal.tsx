@@ -30,6 +30,7 @@ import {
   Edit,
   Trash2,
   Save,
+  CreditCard,
 } from "lucide-react";
 
 interface Application {
