@@ -183,9 +183,9 @@ export default function Contact() {
                           value="employer"
                           checked={formData.userType === "employer"}
                           onChange={(e) => handleInputChange("userType", e.target.value)}
-                          className="text-orange border-gray-600 focus:ring-orange bg-gray-800"
+                          className="text-orange-500 border-gray-300 focus:ring-orange-500 bg-white"
                         />
-                        <span className="text-gray-300">Employer</span>
+                        <span className="text-gray-700">Employer</span>
                       </label>
                     </div>
                   </div>
