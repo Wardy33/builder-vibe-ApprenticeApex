@@ -147,26 +147,34 @@ export function CompanySignUpForm() {
 
           {/* Progress indicator */}
           <div className="mb-8">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center relative">
+              {/* Progress line background */}
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
+              <div
+                className="absolute top-1/2 left-0 h-0.5 bg-orange-500 -translate-y-1/2 z-0 transition-all duration-500"
+                style={{ width: `${((currentStep - 1) / 4) * 100}%` }}
+              ></div>
+
               {[1, 2, 3, 4, 5].map((step) => (
-                <div key={step} className="flex items-center">
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${
-                    step <= currentStep
-                      ? 'bg-orange-500 text-white'
-                      : 'bg-gray-700 text-gray-400'
+                <div key={step} className="relative z-10">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 border-2 ${
+                    step < currentStep
+                      ? 'bg-orange-500 border-orange-500 text-white shadow-lg'
+                      : step === currentStep
+                      ? 'bg-white border-orange-500 text-orange-500 shadow-md'
+                      : 'bg-white border-gray-300 text-gray-400'
                   }`}>
-                    {step < currentStep ? <CheckCircle className="w-4 h-4" /> : step}
+                    {step < currentStep ? (
+                      <CheckCircle className="w-5 h-5" />
+                    ) : (
+                      <span className="font-semibold">{step}</span>
+                    )}
                   </div>
-                  {step < 5 && (
-                    <div className={`w-full h-1 mx-2 ${
-                      step < currentStep ? 'bg-orange-500' : 'bg-gray-700'
-                    }`} />
-                  )}
                 </div>
               ))}
             </div>
-            <div className="mt-2 text-center">
-              <span className="text-gray-400 text-sm">
+            <div className="mt-4 text-center">
+              <span className="text-gray-600 text-sm font-medium">
                 Step {currentStep} of 5: {
                   ['Company Details', 'Contact Information', 'Address', 'Account Setup', 'Agreements'][currentStep - 1]
                 }
