@@ -215,7 +215,7 @@ function ProfileSetupStep1({
 
       {/* Driving License */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Do you have a driving license? <span className="text-red-400">*</span>
         </label>
         <div className="flex space-x-4">
@@ -225,9 +225,10 @@ function ProfileSetupStep1({
               name="drivingLicense"
               checked={data.hasDriversLicense === true}
               onChange={() => onUpdate({ hasDriversLicense: true })}
-              className="w-4 h-4 text-orange border-gray-600 focus:ring-orange bg-gray-800"
+              className="w-4 h-4 border-gray-300 focus:ring-orange-500"
+              style={{color: '#da6927', backgroundColor: 'white'}}
             />
-            <span className="text-gray-300">Yes</span>
+            <span className="text-black">Yes</span>
           </label>
           <label className="flex items-center space-x-2 cursor-pointer">
             <input
@@ -235,23 +236,25 @@ function ProfileSetupStep1({
               name="drivingLicense"
               checked={data.hasDriversLicense === false}
               onChange={() => onUpdate({ hasDriversLicense: false })}
-              className="w-4 h-4 text-orange border-gray-600 focus:ring-orange bg-gray-800"
+              className="w-4 h-4 border-gray-300 focus:ring-orange-500"
+              style={{color: '#da6927', backgroundColor: 'white'}}
             />
-            <span className="text-gray-300">No</span>
+            <span className="text-black">No</span>
           </label>
         </div>
       </div>
 
       {/* Assisted Needs */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Do you require any workplace adjustments or support?
         </label>
         <textarea
           value={data.assistedNeeds}
           onChange={(e) => onUpdate({ assistedNeeds: e.target.value })}
           placeholder="Please describe any adjustments you may need (e.g., wheelchair access, hearing support, flexible hours). Leave blank if none required."
-          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange resize-none h-20"
+          className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-20"
+          style={{focusBorderColor: '#da6927'}}
           maxLength={500}
         />
         <p className="text-xs text-gray-500 mt-1">
@@ -261,7 +264,7 @@ function ProfileSetupStep1({
 
       {/* Skills */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Skills
         </label>
         <div className="space-y-3">
@@ -272,12 +275,14 @@ function ProfileSetupStep1({
               onChange={(e) => setSkillInput(e.target.value)}
               onKeyPress={(e) => e.key === "Enter" && addSkill()}
               placeholder="Add a skill (e.g., JavaScript, Communication)"
-              className="flex-1 p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+              className="flex-1 p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+              style={{focusBorderColor: '#da6927'}}
             />
             <button
               type="button"
               onClick={addSkill}
-              className="px-4 py-3 bg-orange text-white rounded-lg hover:bg-orange/90"
+              className="px-4 py-3 text-white rounded-lg hover:opacity-90"
+              style={{backgroundColor: '#da6927'}}
             >
               <Plus className="h-5 w-5" />
             </button>
@@ -288,12 +293,13 @@ function ProfileSetupStep1({
               {data.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-gray-700 text-white rounded-full text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 text-white rounded-full text-sm"
+                  style={{backgroundColor: '#f8f9fa', color: '#020202', border: '1px solid #dee2e6'}}
                 >
                   {skill}
                   <button
                     onClick={() => removeSkill(skill)}
-                    className="text-gray-400 hover:text-white ml-1"
+                    className="text-gray-500 hover:text-black ml-1"
                   >
                     <X className="h-3 w-3" />
                   </button>
@@ -313,7 +319,8 @@ function ProfileSetupStep1({
           !data.postcode ||
           data.hasDriversLicense === undefined
         }
-        className="w-full bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        className="w-full disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+        style={{backgroundColor: '#da6927'}}
       >
         Next: Work Experience
         <ArrowRight className="h-5 w-5" />
