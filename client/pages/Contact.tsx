@@ -62,9 +62,9 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Get in <span className="text-orange">Touch</span>
+            Get in <span className="text-orange-500">Touch</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             We're here to help you succeed. Whether you're a student looking for guidance 
             or an employer seeking the perfect apprentices, we'd love to hear from you.
           </p>
@@ -74,7 +74,7 @@ export default function Contact() {
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-8">
             <div>
-              <h2 className="text-2xl font-bold mb-6">Contact Information</h2>
+              <h2 className="text-2xl font-bold mb-6 text-black">Contact Information</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
