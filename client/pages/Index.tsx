@@ -146,7 +146,7 @@ export default function Index() {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Video className="h-8 w-8 text-orange-500" />
               </div>
-              <h4 className="text-xl font-semibold mb-2">Video Integration</h4>
+              <h4 className="text-xl font-semibold mb-2 text-black">Video Integration</h4>
               <p className="text-gray-600">
                 30-second profiles and seamless video interviews via Twilio
               </p>
