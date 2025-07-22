@@ -63,8 +63,8 @@ export function WebHeader() {
 
             <Link
               to="/for-employers"
-              className={`text-sm font-medium transition-colors hover:text-orange ${
-                isActive("/for-employers") ? "text-orange" : "text-gray-300"
+              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
+                isActive("/for-employers") ? "text-orange-500" : "text-gray-700"
               }`}
             >
               For Employers
@@ -72,8 +72,8 @@ export function WebHeader() {
             
             <Link
               to="/about"
-              className={`text-sm font-medium transition-colors hover:text-orange ${
-                isActive("/about") ? "text-orange" : "text-gray-300"
+              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
+                isActive("/about") ? "text-orange-500" : "text-gray-700"
               }`}
             >
               About
@@ -81,8 +81,8 @@ export function WebHeader() {
 
             <Link
               to="/contact"
-              className={`text-sm font-medium transition-colors hover:text-orange ${
-                isActive("/contact") ? "text-orange" : "text-gray-300"
+              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
+                isActive("/contact") ? "text-orange-500" : "text-gray-700"
               }`}
             >
               Contact
@@ -93,13 +93,13 @@ export function WebHeader() {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/student/signin"
-              className="text-sm font-medium text-gray-300 hover:text-orange transition-colors"
+              className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
             >
               Sign In
             </Link>
             <Link
               to="/student/signup"
-              className="bg-orange hover:bg-orange/90 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               Get Started
             </Link>
@@ -108,7 +108,7 @@ export function WebHeader() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-gray-300 hover:text-orange hover:bg-gray-800 transition-colors"
+            className="md:hidden p-2 rounded-lg text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
