@@ -182,7 +182,7 @@ export function CompanySignUpForm() {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-gray-900 rounded-xl border border-gray-700 p-8">
+          <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-8">
             {/* Step 1: Company Details */}
             {currentStep === 1 && (
               <div className="space-y-6">
