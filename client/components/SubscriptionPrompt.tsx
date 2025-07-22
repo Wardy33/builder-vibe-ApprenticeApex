@@ -55,7 +55,7 @@ export default function SubscriptionPrompt({
       
       case 'upgrade_needed':
         return {
-          icon: <Upgrade className="w-8 h-8 text-blue-400" />,
+          icon: <ArrowUp className="w-8 h-8 text-blue-400" />,
           title: title || 'Upgrade Required',
           message: message || 'This feature requires a higher plan. Upgrade to unlock advanced capabilities.',
           primaryAction: 'Upgrade Now',
