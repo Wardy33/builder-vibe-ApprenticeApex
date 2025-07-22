@@ -152,7 +152,8 @@ export default function Contact() {
                       setIsSubmitted(false);
                       setFormData({ name: "", email: "", subject: "", message: "", userType: "student" });
                     }}
-                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg transition-colors"
+                    className="text-white px-6 py-2 rounded-lg transition-colors hover:opacity-90"
+                    style={{backgroundColor: '#da6927'}}
                   >
                     Send Another Message
                   </button>
