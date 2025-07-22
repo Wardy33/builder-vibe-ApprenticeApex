@@ -279,7 +279,8 @@ function SignUpForm() {
                   onChange={(e) =>
                     handleInputChange("agreeToTerms", e.target.checked)
                   }
-                  className="mt-1 w-4 h-4 text-orange border-gray-600 rounded focus:ring-orange bg-gray-800"
+                  className="mt-1 w-4 h-4 border-gray-300 rounded focus:ring-orange-500"
+                  style={{color: '#da6927', backgroundColor: 'white'}}
                 />
                 <span className="text-sm text-gray-700">
                   I agree to the{" "}
