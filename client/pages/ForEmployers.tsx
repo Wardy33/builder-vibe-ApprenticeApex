@@ -205,19 +205,19 @@ export default function ForEmployers() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <div className="text-orange-500 text-2xl font-bold mb-2">£0</div>
                 <div className="text-black font-semibold mb-2">Setup Costs</div>
                 <div className="text-gray-600 text-sm">No upfront fees or monthly charges</div>
               </div>
               
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <div className="text-orange-500 text-2xl font-bold mb-2">£399</div>
                 <div className="text-black font-semibold mb-2">Per Successful Hire</div>
                 <div className="text-gray-600 text-sm">Only pay when candidate starts</div>
               </div>
               
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <div className="text-orange-500 text-2xl font-bold mb-2">777%</div>
                 <div className="text-black font-semibold mb-2">Average ROI</div>
                 <div className="text-gray-600 text-sm">vs traditional recruitment</div>
@@ -242,7 +242,7 @@ export default function ForEmployers() {
               {plans.map((plan) => (
                 <div 
                   key={plan.id}
-                  className={`relative bg-white p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-sm ${
+                  className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-sm ${
                     plan.popular 
                       ? 'border-orange-500 ring-2 ring-orange-500/20'
                       : 'border-gray-200 hover:border-gray-300'
@@ -393,21 +393,21 @@ export default function ForEmployers() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
                 <TrendingUp className="w-12 h-12 text-orange-500 mx-auto mb-4" />
                 <div className="text-3xl font-bold text-black mb-2">777%</div>
                 <div className="text-black font-semibold mb-2">Average ROI</div>
                 <div className="text-gray-600">during 60-day trial vs traditional recruitment</div>
               </div>
               
-              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
                 <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
                 <div className="text-3xl font-bold text-black mb-2">14 days</div>
                 <div className="text-black font-semibold mb-2">Average Time to Hire</div>
                 <div className="text-gray-600">vs 45+ days for traditional methods</div>
               </div>
               
-              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
                 <Users className="w-12 h-12 text-orange-500 mx-auto mb-4" />
                 <div className="text-3xl font-bold text-black mb-2">92%</div>
                 <div className="text-black font-semibold mb-2">Hire Success Rate</div>
@@ -470,7 +470,7 @@ export default function ForEmployers() {
             </h2>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <Mail className="w-8 h-8 text-orange-500 mx-auto mb-4" />
                 <h3 className="text-black font-semibold mb-2">Email Support</h3>
                 <p className="text-gray-600 text-sm mb-4">Get help within 2 hours</p>
@@ -481,7 +481,7 @@ export default function ForEmployers() {
               
 
               
-              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <MessageCircle className="w-8 h-8 text-orange-500 mx-auto mb-4" />
                 <h3 className="text-black font-semibold mb-2">Live Chat</h3>
                 <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
