@@ -284,7 +284,7 @@ export default function TermsOfService() {
 
               {/* Privacy and Data */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">8. Privacy and Data Protection</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">9. Privacy and Data Protection</h2>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   Your privacy is important to us. Our collection and use of personal information is governed 
                   by our <a href="/privacy-policy" className="text-orange hover:underline">Privacy Policy</a>, 
@@ -298,7 +298,7 @@ export default function TermsOfService() {
 
               {/* Service Availability */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">9. Service Availability and Modifications</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">10. Service Availability and Modifications</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">9.1 Service Availability</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -317,7 +317,7 @@ export default function TermsOfService() {
 
               {/* Disclaimers */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">10. Disclaimers and Limitations</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">11. Disclaimers and Limitations</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">10.1 Service Disclaimers</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -339,7 +339,7 @@ export default function TermsOfService() {
 
               {/* Termination */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">11. Account Termination</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">12. Account Termination</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">11.1 Termination by You</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -368,7 +368,7 @@ export default function TermsOfService() {
 
               {/* Dispute Resolution */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">12. Dispute Resolution and Governing Law</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">13. Dispute Resolution and Governing Law</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">12.1 Governing Law</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">
@@ -386,7 +386,7 @@ export default function TermsOfService() {
 
               {/* Changes to Terms */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">13. Changes to Terms</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">14. Changes to Terms</h2>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   We may modify these Terms from time to time. When we make significant changes:
                 </p>
@@ -400,7 +400,7 @@ export default function TermsOfService() {
 
               {/* Contact Information */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">14. Contact Information</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">15. Contact Information</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
                   <p className="text-gray-300 leading-relaxed mb-4">
                     For questions about these Terms or our Service, please contact us:
@@ -417,7 +417,7 @@ export default function TermsOfService() {
 
               {/* Acknowledgment */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">15. Acknowledgment</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">16. Acknowledgment</h2>
                 <p className="text-gray-300 leading-relaxed">
                   By using our Service, you acknowledge that you have read, understood, and agree to be 
                   bound by these Terms of Service. These Terms constitute the entire agreement between 
