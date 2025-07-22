@@ -48,7 +48,7 @@ export default function About() {
         <div className="mb-16">
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-8 text-black">Our Story</h2>
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+            <div className="rounded-xl p-8 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
               <p className="text-gray-700 leading-relaxed mb-6">
                 ApprenticeApex was founded in 2025 with a simple observation: the traditional 
                 job search process wasn't working for apprenticeships. Students were spending 
