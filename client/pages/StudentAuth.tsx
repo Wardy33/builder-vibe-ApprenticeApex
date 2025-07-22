@@ -511,7 +511,8 @@ function SignInForm() {
               type="submit"
               isLoading={loading}
               loadingText="Signing In..."
-              className="w-full bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{backgroundColor: '#da6927'}}
             >
               Sign In
             </LoadingButton>
