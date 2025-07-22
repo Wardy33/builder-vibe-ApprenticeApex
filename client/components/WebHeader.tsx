@@ -10,13 +10,15 @@ export function WebHeader() {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <header className="backdrop-blur-sm border-b sticky top-0 z-50" style={{backgroundColor: '#020202', borderBottomColor: '#020202'}}>
+    <header className="backdrop-blur-md border-b sticky top-0 z-50 bg-gradient-to-r from-black via-gray-900 to-black border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <span className="text-2xl font-bold text-white">
-              <span style={{color: '#da6927'}}>Apprentice</span>Apex
+          <Link to="/" className="flex items-center group">
+            <span className="text-2xl font-bold text-white transform group-hover:scale-105 transition-all duration-200">
+              <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Apprentice</span>
+              <span className="text-white">Apex</span>
+              <span className="text-lg animate-pulse">✨</span>
             </span>
           </Link>
 
@@ -24,14 +26,9 @@ export function WebHeader() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors ${
-                isActive("/") ? "" : "text-white"
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+                isActive("/") ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white" : "text-white hover:bg-white/10"
               }`}
-              style={{
-                color: isActive("/") ? '#da6927' : '#ffffff'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/") ? '#da6927' : '#ffffff'}
             >
               Home
             </Link>
@@ -39,33 +36,24 @@ export function WebHeader() {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center text-sm font-medium text-white transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10"
               >
-                For Students
+                For Students 🎓
                 <ChevronDown className="ml-1 h-4 w-4" />
               </button>
               
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                <div className="absolute top-full left-0 mt-2 w-48 bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-xl shadow-2xl py-2 backdrop-blur-sm">
                   <Link
                     to="/student/signup"
-                    className="block px-4 py-2 text-sm transition-colors"
-                    style={{color: '#020202'}}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#020202'}
+                    className="block px-4 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
                     onClick={() => setIsDropdownOpen(false)}
                   >
-                    Sign Up
+                    Sign Up 🚀
                   </Link>
                   <Link
                     to="/student/signin"
-                    className="block px-4 py-2 text-sm transition-colors"
-                    style={{color: '#020202'}}
-                    onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                    onMouseLeave={(e) => e.currentTarget.style.color = '#020202'}
+                    className="block px-4 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign In
@@ -77,36 +65,27 @@ export function WebHeader() {
 
             <Link
               to="/for-employers"
-              className="text-sm font-medium transition-colors"
-              style={{
-                color: isActive("/for-employers") ? '#da6927' : '#ffffff'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/for-employers") ? '#da6927' : '#ffffff'}
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+                isActive("/for-employers") ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white" : "text-white hover:bg-white/10"
+              }`}
             >
-              For Employers
+              For Employers 💼
             </Link>
             
             <Link
               to="/about"
-              className="text-sm font-medium transition-colors"
-              style={{
-                color: isActive("/about") ? '#da6927' : '#ffffff'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/about") ? '#da6927' : '#ffffff'}
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+                isActive("/about") ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white" : "text-white hover:bg-white/10"
+              }`}
             >
               About
             </Link>
 
             <Link
               to="/contact"
-              className="text-sm font-medium transition-colors"
-              style={{
-                color: isActive("/contact") ? '#da6927' : '#ffffff'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/contact") ? '#da6927' : '#ffffff'}
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+                isActive("/contact") ? "bg-gradient-to-r from-green-400 to-cyan-400 text-white" : "text-white hover:bg-white/10"
+              }`}
             >
               Contact
             </Link>
@@ -116,29 +95,22 @@ export function WebHeader() {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/student/signin"
-              className="text-sm font-medium text-white transition-colors"
-              style={{color: '#ffffff'}}
-              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-              onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+              className="text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10"
             >
               Sign In
             </Link>
             <Link
               to="/student/signup"
-              className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
-              style={{backgroundColor: '#da6927'}}
+              className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 shadow-lg"
             >
-              Get Started
+              Get Started ✨
             </Link>
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg text-white transition-colors"
-            style={{color: '#ffffff'}}
-            onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-            onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+            className="md:hidden p-2 rounded-xl text-white transition-all duration-200 hover:scale-105 hover:bg-white/10"
           >
             {isMobileMenuOpen ? (
               <X className="h-6 w-6" />
@@ -150,76 +122,58 @@ export function WebHeader() {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4" style={{borderTop: '1px solid #333333'}}>
+          <div className="md:hidden py-4 bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm border-t border-white/10 rounded-b-xl mx-4">
             <div className="space-y-2">
               <Link
                 to="/"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 to="/student/signup"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Student Sign Up
+                Student Sign Up 🚀
               </Link>
               <Link
                 to="/student/signin"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Student Sign In
               </Link>
               <Link
                 to="/for-employers"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                For Employers
+                For Employers 💼
               </Link>
               <Link
                 to="/about"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="block px-3 py-2 text-base font-medium text-white rounded-lg transition-colors"
-                style={{color: '#ffffff'}}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-green-400 hover:to-cyan-400 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
               </Link>
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-800">
+            <div className="mt-4 pt-4 border-t border-white/10 mx-2">
               <Link
                 to="/student/signup"
-                className="block w-full bg-orange hover:bg-orange/90 text-white px-4 py-2 rounded-lg text-center font-medium transition-colors"
+                className="block w-full bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Get Started
+                Get Started ✨
               </Link>
             </div>
           </div>
