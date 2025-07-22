@@ -7,12 +7,12 @@ export default function PrivacyPolicy() {
       <SEOHead {...seoConfigs.privacyPolicy} />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center">
+          <h1 className="text-4xl font-bold mb-8 text-center" style={{color: '#020202'}}>
             Privacy Policy
           </h1>
           
-          <div className="bg-gray-900/50 rounded-xl p-2 mb-8">
-            <p className="text-gray-300 text-center">
+          <div className="rounded-xl p-2 mb-8" style={{backgroundColor: '#f8f9fa'}}>
+            <p className="text-gray-700 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
                 month: 'long', 
@@ -21,23 +21,23 @@ export default function PrivacyPolicy() {
             </p>
           </div>
 
-          <div className="prose prose-invert max-w-none">
+          <div className="prose max-w-none">
             <div className="space-y-8">
               
               {/* Introduction */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">1. Introduction</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>1. Introduction</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   ApprenticeApex ("we," "our," or "us") is committed to protecting your privacy and personal data. 
                   This Privacy Policy explains how we collect, use, process, and protect your information when you 
                   use our apprenticeship matching platform and related services (the "Service").
                 </p>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   This policy applies to all users of our platform, including students seeking apprenticeships 
                   and employers posting opportunities. By using our Service, you agree to the collection and 
                   use of information in accordance with this policy.
                 </p>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   We operate under UK data protection laws, including the UK General Data Protection Regulation 
                   (UK GDPR) and the Data Protection Act 2018.
                 </p>
@@ -45,7 +45,7 @@ export default function PrivacyPolicy() {
 
               {/* Data Controller */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">2. Data Controller</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>2. Data Controller</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
                   <p className="text-gray-300 leading-relaxed mb-2">
                     <strong>ApprenticeApex Ltd</strong><br />
@@ -57,10 +57,10 @@ export default function PrivacyPolicy() {
 
               {/* Information We Collect */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">3. Information We Collect</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>3. Information We Collect</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">3.1 Personal Information</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   When you register and use our Service, we collect:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -90,7 +90,7 @@ export default function PrivacyPolicy() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">3.4 Sensitive Personal Data</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We may collect limited sensitive personal data only where necessary and with your explicit consent:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -101,7 +101,7 @@ export default function PrivacyPolicy() {
 
               {/* How We Use Your Information */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">4. How We Use Your Information</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>4. How We Use Your Information</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">4.1 Primary Purposes</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -131,8 +131,8 @@ export default function PrivacyPolicy() {
 
               {/* Legal Basis */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">5. Legal Basis for Processing</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>5. Legal Basis for Processing</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Under UK GDPR, we process your personal data on the following legal bases:
                 </p>
                 <ul className="text-gray-300 space-y-3 mb-6 list-disc list-inside">
@@ -146,10 +146,10 @@ export default function PrivacyPolicy() {
 
               {/* Data Sharing */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">6. How We Share Your Information</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>6. How We Share Your Information</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.1 With Employers (Students)</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   When you apply for apprenticeships or match with employers, we share relevant profile information including:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -161,7 +161,7 @@ export default function PrivacyPolicy() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.2 With Students (Employers)</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   When students match with your opportunities, we share:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -171,7 +171,7 @@ export default function PrivacyPolicy() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.3 Service Providers</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We work with trusted third-party service providers who help us operate our platform:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -192,8 +192,8 @@ export default function PrivacyPolicy() {
 
               {/* Data Security */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">7. Data Security</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>7. Data Security</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We implement robust security measures to protect your personal data:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -208,8 +208,8 @@ export default function PrivacyPolicy() {
 
               {/* Data Retention */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">8. Data Retention</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>8. Data Retention</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We retain your personal data only for as long as necessary:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -219,15 +219,15 @@ export default function PrivacyPolicy() {
                   <li><strong>Financial Records:</strong> 7 years as required by UK tax law</li>
                   <li><strong>Legal Requirements:</strong> Longer periods may apply if required by law</li>
                 </ul>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   You may request deletion of your data at any time, subject to our legal obligations.
                 </p>
               </section>
 
               {/* Your Rights */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">9. Your Rights</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>9. Your Rights</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Under UK data protection law, you have the following rights:
                 </p>
                 <ul className="text-gray-300 space-y-3 mb-6 list-disc list-inside">
@@ -239,7 +239,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Right to Object:</strong> Object to processing based on legitimate interests</li>
                   <li><strong>Right to Withdraw Consent:</strong> Withdraw consent for consent-based processing</li>
                 </ul>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-gray-700 leading-relaxed">
                   To exercise these rights, contact us at <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a>. 
                   We will respond within one month of your request.
                 </p>
@@ -247,8 +247,8 @@ export default function PrivacyPolicy() {
 
               {/* Cookies */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">10. Cookies and Tracking</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>10. Cookies and Tracking</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We use cookies and similar technologies to enhance your experience. For detailed information 
                   about our cookie practices, please see our <a href="/cookie-policy" className="text-orange hover:underline">Cookie Policy</a>.
                 </p>
@@ -256,8 +256,8 @@ export default function PrivacyPolicy() {
 
               {/* International Transfers */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">11. International Transfers</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>11. International Transfers</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Some of our service providers may be located outside the UK. When we transfer your data 
                   internationally, we ensure appropriate safeguards are in place, including:
                 </p>
@@ -271,8 +271,8 @@ export default function PrivacyPolicy() {
 
               {/* Children's Privacy */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">12. Children's Privacy</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>12. Children's Privacy</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Our service is intended for users aged 16 and over. We may collect data from users aged 16-18 
                   for legitimate apprenticeship purposes. For users under 18, we:
                 </p>
@@ -286,8 +286,8 @@ export default function PrivacyPolicy() {
 
               {/* Updates */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">13. Changes to This Policy</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>13. Changes to This Policy</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We may update this Privacy Policy from time to time. When we make significant changes, we will:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -300,12 +300,12 @@ export default function PrivacyPolicy() {
 
               {/* Contact */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">14. Contact Us</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>14. Contact Us</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
-                  <p className="text-gray-300 leading-relaxed mb-4">
+                  <p className="text-gray-700 leading-relaxed mb-4">
                     If you have questions about this Privacy Policy or our data practices, please contact us:
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed">
                     <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a>
                   </p>
                   <p className="text-gray-300 leading-relaxed mt-4">
