@@ -105,28 +105,28 @@ export default function Contact() {
             </div>
 
             {/* Quick Contact Options */}
-            <div className="bg-gray-900/50 rounded-xl p-6">
-              <h3 className="text-xl font-bold mb-4">Quick Help</h3>
+            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+              <h3 className="text-xl font-bold mb-4 text-black">Quick Help</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
-                  <Users className="h-5 w-5 text-orange" />
+                  <Users className="h-5 w-5 text-orange-500" />
                   <div>
-                    <p className="font-medium text-white text-sm">For Students</p>
-                    <p className="text-gray-400 text-xs">Account help, profile setup, applications</p>
+                    <p className="font-medium text-black text-sm">For Students</p>
+                    <p className="text-gray-600 text-xs">Account help, profile setup, applications</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Building2 className="h-5 w-5 text-orange" />
+                  <Building2 className="h-5 w-5 text-orange-500" />
                   <div>
-                    <p className="font-medium text-white text-sm">For Employers</p>
-                    <p className="text-gray-400 text-xs">Posting jobs, candidate management, billing</p>
+                    <p className="font-medium text-black text-sm">For Employers</p>
+                    <p className="text-gray-600 text-xs">Posting jobs, candidate management, billing</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <MessageCircle className="h-5 w-5 text-orange" />
+                  <MessageCircle className="h-5 w-5 text-orange-500" />
                   <div>
-                    <p className="font-medium text-white text-sm">Live Chat</p>
-                    <p className="text-gray-400 text-xs">Instant support during business hours</p>
+                    <p className="font-medium text-black text-sm">Live Chat</p>
+                    <p className="text-gray-600 text-xs">Instant support during business hours</p>
                   </div>
                 </div>
               </div>
