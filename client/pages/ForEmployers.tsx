@@ -341,7 +341,7 @@ export default function ForEmployers() {
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full bg-gray-900 rounded-xl border border-gray-700">
+              <table className="w-full bg-white rounded-xl border border-gray-200 shadow-sm">
                 <thead>
                   <tr className="border-b border-gray-700">
                     <th className="text-left p-4 text-white font-semibold">Method</th>
