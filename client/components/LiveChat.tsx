@@ -186,22 +186,22 @@ export default function LiveChat() {
           >
             <div className={`flex items-start space-x-2 max-w-[80%] ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
               <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                message.sender === 'user' ? 'bg-orange-500' : 'bg-gray-200'
+                message.sender === 'user' ? 'bg-gradient-to-r from-purple-500 to-pink-500' : 'bg-gradient-to-r from-blue-400 to-cyan-400'
               }`}>
                 {message.sender === 'user' ? (
                   <User className="w-4 h-4 text-white" />
                 ) : (
-                  <Bot className="w-4 h-4 text-gray-600" />
+                  <Sparkles className="w-4 h-4 text-white" />
                 )}
               </div>
-              <div className={`rounded-lg p-3 ${
+              <div className={`rounded-lg p-3 shadow-sm ${
                 message.sender === 'user'
-                  ? 'bg-orange-500 text-white'
-                  : 'bg-gray-100 text-gray-800'
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'bg-white text-gray-900 border border-gray-200'
               }`}>
                 <p className="text-sm">{message.text}</p>
                 <p className={`text-xs mt-1 ${
-                  message.sender === 'user' ? 'text-orange-100' : 'text-gray-500'
+                  message.sender === 'user' ? 'text-white/80' : 'text-gray-400'
                 }`}>
                   {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                 </p>
