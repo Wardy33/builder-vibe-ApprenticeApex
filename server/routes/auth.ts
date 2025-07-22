@@ -422,8 +422,8 @@ router.post("/company/signup", [
     exclusivityAccepted, dataProcessingAccepted
   } = req.body;
 
-  // Check if MongoDB is available
-  const hasMongoDb = process.env.MONGODB_URI && require('mongoose').connection.readyState === 1;
+  // For now, default to mock data to avoid dynamic require issues
+  const hasMongoDb = false;
 
   if (hasMongoDb) {
     // Real database operations
