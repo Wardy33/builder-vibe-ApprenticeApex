@@ -561,7 +561,7 @@ export default function ForEmployers() {
               Have Questions? We're Here to Help
             </h2>
             
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
                 <Mail className="w-8 h-8 text-orange-400 mx-auto mb-4" />
                 <h3 className="text-white font-semibold mb-2">Email Support</h3>
