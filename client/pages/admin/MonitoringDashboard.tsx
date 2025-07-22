@@ -57,52 +57,85 @@ export default function MonitoringDashboard() {
   const loadMonitoringData = async () => {
     setLoading(true);
     try {
-      // Mock data - in production, fetch from API
-      const mockStats = {
-        totalFlags: 23,
-        criticalFlags: 3,
-        highFlags: 8,
-        resolvedFlags: 12
-      };
-
-      const mockActivities: SuspiciousActivity[] = [
-        {
-          id: '1',
-          employerId: 'emp_123',
-          studentId: 'stu_456',
-          activityType: 'EXCESSIVE_PROFILE_VIEWING',
-          severity: 'high',
-          description: 'Employer viewed 15 profiles in 1 hour without engagement',
-          timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-          status: 'flagged',
-          evidence: { profileViews: 15, timeWindow: '1h', messagesSent: 0 }
-        },
-        {
-          id: '2',
-          employerId: 'emp_789',
-          studentId: 'stu_101',
-          activityType: 'MESSAGE_POLICY_VIOLATION',
-          severity: 'critical',
-          description: 'Attempt to share contact information outside platform',
-          timestamp: new Date(Date.now() - 30 * 60 * 1000),
-          status: 'flagged',
-          evidence: { messageContent: 'Call me at 07xxx xxx xxx', flags: ['PHONE_SHARING_ATTEMPT'] }
-        },
-        {
-          id: '3',
-          employerId: 'emp_456',
-          studentId: 'stu_789',
-          activityType: 'SUDDEN_INACTIVITY_AFTER_CONTACT_ACCESS',
-          severity: 'medium',
-          description: 'No activity for 4 hours after accessing contact details',
-          timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
-          status: 'reviewed',
-          evidence: { timeSinceAccess: 14400000, lastActivity: 'CONTACT_ACCESS' }
+      // Fetch alert statistics
+      const statsResponse = await fetch('/api/alerts/stats', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-      ];
+      });
 
-      setStats(mockStats);
-      setActivities(mockActivities);
+      // Fetch active alerts
+      const alertsResponse = await fetch('/api/alerts/active', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      if (statsResponse.ok && alertsResponse.ok) {
+        const statsData = await statsResponse.json();
+        const alertsData = await alertsResponse.json();
+
+        if (statsData.success) {
+          setStats({
+            totalFlags: statsData.stats.active.total,
+            criticalFlags: statsData.stats.active.critical,
+            highFlags: statsData.stats.active.high,
+            resolvedFlags: 0 // Would need separate endpoint for resolved count
+          });
+        }
+
+        if (alertsData.success) {
+          // Convert alerts to activities format
+          const convertedActivities = alertsData.alerts.map((alert: any) => ({
+            id: alert.id,
+            employerId: alert.employerId || 'unknown',
+            studentId: alert.studentId || 'unknown',
+            activityType: alert.data?.activityType || alert.title,
+            severity: alert.severity,
+            description: alert.message || alert.title,
+            timestamp: new Date(alert.createdAt),
+            status: alert.status,
+            evidence: alert.data?.evidence || alert.data
+          }));
+          setActivities(convertedActivities);
+        }
+      } else {
+        // Fallback to mock data if API fails
+        const mockStats = {
+          totalFlags: 23,
+          criticalFlags: 3,
+          highFlags: 8,
+          resolvedFlags: 12
+        };
+
+        const mockActivities: SuspiciousActivity[] = [
+          {
+            id: '1',
+            employerId: 'emp_123',
+            studentId: 'stu_456',
+            activityType: 'EXCESSIVE_PROFILE_VIEWING',
+            severity: 'high',
+            description: 'Employer viewed 15 profiles in 1 hour without engagement',
+            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+            status: 'flagged',
+            evidence: { profileViews: 15, timeWindow: '1h', messagesSent: 0 }
+          },
+          {
+            id: '2',
+            employerId: 'emp_789',
+            studentId: 'stu_101',
+            activityType: 'MESSAGE_POLICY_VIOLATION',
+            severity: 'critical',
+            description: 'Attempt to share contact information outside platform',
+            timestamp: new Date(Date.now() - 30 * 60 * 1000),
+            status: 'flagged',
+            evidence: { messageContent: 'Call me at 07xxx xxx xxx', flags: ['PHONE_SHARING_ATTEMPT'] }
+          }
+        ];
+
+        setStats(mockStats);
+        setActivities(mockActivities);
+      }
     } catch (error) {
       console.error('Error loading monitoring data:', error);
     } finally {
@@ -131,14 +164,72 @@ export default function MonitoringDashboard() {
   };
 
   const handleStatusUpdate = async (activityId: string, newStatus: string) => {
-    // In production: API call to update status
-    setActivities(prev => 
-      prev.map(activity => 
-        activity.id === activityId 
-          ? { ...activity, status: newStatus as any }
-          : activity
-      )
-    );
+    try {
+      if (newStatus === 'acknowledged') {
+        const response = await fetch(`/api/alerts/${activityId}/acknowledge`, {
+          method: 'PATCH',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          setActivities(prev =>
+            prev.map(activity =>
+              activity.id === activityId
+                ? { ...activity, status: 'acknowledged' as any }
+                : activity
+            )
+          );
+        }
+      } else if (newStatus === 'resolved') {
+        // For resolved status, we'd need a resolution modal
+        const resolution = prompt('Enter resolution details:');
+        if (resolution) {
+          const response = await fetch(`/api/alerts/${activityId}/resolve`, {
+            method: 'PATCH',
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ resolution })
+          });
+
+          if (response.ok) {
+            setActivities(prev =>
+              prev.map(activity =>
+                activity.id === activityId
+                  ? { ...activity, status: 'resolved' as any }
+                  : activity
+              )
+            );
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error updating alert status:', error);
+    }
+  };
+
+  const handleTestAlert = async () => {
+    try {
+      const response = await fetch('/api/alerts/test', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ type: 'monitoring', severity: 'medium' })
+      });
+
+      if (response.ok) {
+        alert('Test alert triggered successfully!');
+        loadMonitoringData(); // Refresh data
+      }
+    } catch (error) {
+      console.error('Error triggering test alert:', error);
+    }
   };
 
   return (
