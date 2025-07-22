@@ -165,8 +165,8 @@ export default function ForEmployers() {
               Risk-Free Apprentice Recruitment
             </div>
             
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-              Pay Only When You <span className="text-orange-400">Hire</span>
+            <h1 className="text-5xl md:text-6xl font-bold text-black mb-6">
+              Pay Only When You <span className="text-orange-500">Hire</span>
             </h1>
             
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
