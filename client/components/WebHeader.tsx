@@ -39,7 +39,10 @@ export function WebHeader() {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+                className="flex items-center text-sm font-medium text-white transition-colors"
+                style={{color: '#ffffff'}}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
               >
                 For Students
                 <ChevronDown className="ml-1 h-4 w-4" />
