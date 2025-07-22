@@ -185,7 +185,7 @@ export default function ForEmployers() {
 
               <Link
                 to="/contact"
-                className="px-8 py-4 border border-gray-600 text-white font-semibold rounded-lg hover:border-gray-500 transition-colors flex items-center justify-center"
+                className="px-8 py-4 border border-gray-300 text-black font-semibold rounded-lg hover:border-gray-400 transition-colors flex items-center justify-center"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
                 Contact Sales
