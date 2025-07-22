@@ -120,7 +120,7 @@ export function WebHeader() {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-800 py-4">
+          <div className="md:hidden border-t border-gray-200 py-4">
             <div className="space-y-2">
               <Link
                 to="/"
