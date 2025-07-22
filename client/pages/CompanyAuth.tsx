@@ -137,12 +137,12 @@ export function CompanySignUpForm() {
 
   return (
     <WebLayout>
-      <div className="min-h-screen bg-gray-950 py-12">
+      <div className="min-h-screen bg-white py-12">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-white mb-2">Join ApprenticeApex</h1>
-            <p className="text-gray-300">Start your 60-day risk-free trial today</p>
+            <h1 className="text-3xl font-bold text-black mb-2">Join ApprenticeApex</h1>
+            <p className="text-gray-600">Start your 60-day risk-free trial today</p>
           </div>
 
           {/* Progress indicator */}
