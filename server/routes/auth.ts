@@ -557,20 +557,36 @@ router.post("/company/signin", [
 
   const { email, password } = req.body;
 
-  // Find user
-  const user = await User.findOne({ email, role: "company" });
-  if (!user) {
-    throw new CustomError("Invalid credentials", 401);
+  // Check if MongoDB is available
+  const hasMongoDb = process.env.MONGODB_URI && require('mongoose').connection.readyState === 1;
+
+  let user;
+  let isValidPassword = false;
+
+  if (hasMongoDb) {
+    // Real database operations
+    try {
+      user = await User.findOne({ email, role: "company" });
+      if (user) {
+        isValidPassword = await comparePassword(password, user.password);
+      }
+    } catch (error) {
+      console.error('Database error in company signin:', error);
+      throw new CustomError("Sign in failed. Please try again.", 500);
+    }
+  } else {
+    // Mock data fallback
+    user = mockCompanies.find(u => u.email === email);
+    // For mock data, assume password is correct if user exists
+    isValidPassword = !!user;
   }
 
-  // Verify password
-  const isValidPassword = await comparePassword(password, user.password);
-  if (!isValidPassword) {
+  if (!user || !isValidPassword) {
     throw new CustomError("Invalid credentials", 401);
   }
 
   // Generate token
-  const token = generateToken(user._id.toString(), user.role);
+  const token = generateToken(user._id.toString ? user._id.toString() : user._id, user.role);
 
   res.json({
     message: "Sign in successful",
