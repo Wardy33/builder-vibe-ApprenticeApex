@@ -10,8 +10,8 @@ export function WebFooter() {
           {/* Company Info */}
           <div className="space-y-4">
             <div>
-              <span className="text-2xl font-bold text-white">
-                <span className="text-orange">Apprentice</span>Apex
+              <span className="text-2xl font-bold text-black">
+                <span className="text-orange-500">Apprentice</span>Apex
               </span>
             </div>
             <p className="text-gray-400 text-sm">
