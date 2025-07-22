@@ -7,12 +7,12 @@ export default function CookiePolicy() {
       <SEOHead {...seoConfigs.cookiePolicy} />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center">
+          <h1 className="text-4xl font-bold mb-8 text-center" style={{color: '#020202'}}>
             Cookie Policy
           </h1>
           
-          <div className="bg-gray-900/50 rounded-xl p-2 mb-8">
-            <p className="text-gray-300 text-center">
+          <div className="rounded-xl p-2 mb-8" style={{backgroundColor: '#f8f9fa'}}>
+            <p className="text-gray-700 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
                 month: 'long', 
@@ -21,18 +21,18 @@ export default function CookiePolicy() {
             </p>
           </div>
 
-          <div className="prose prose-invert max-w-none">
+          <div className="prose max-w-none">
             <div className="space-y-8">
               
               {/* Introduction */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">1. What Are Cookies?</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>1. What Are Cookies?</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Cookies are small text files that are stored on your device when you visit our website. 
                   They help us provide you with a better experience by remembering your preferences, 
                   keeping you logged in, and helping us understand how you use our platform.
                 </p>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   This Cookie Policy explains what cookies we use, why we use them, and how you can 
                   control them. This policy should be read alongside our 
                   <a href="/privacy-policy" className="text-orange hover:underline"> Privacy Policy</a> and 
@@ -42,10 +42,10 @@ export default function CookiePolicy() {
 
               {/* Types of Cookies */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">2. Types of Cookies We Use</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>2. Types of Cookies We Use</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">2.1 Essential Cookies</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   These cookies are necessary for our website to function properly and cannot be turned off. 
                   They are usually only set in response to actions you take, such as logging in or filling out forms.
                 </p>
@@ -60,7 +60,7 @@ export default function CookiePolicy() {
                 </div>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">2.2 Functional Cookies</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   These cookies enable enhanced functionality and personalization, such as remembering 
                   your preferences and providing personalized content.
                 </p>
@@ -75,7 +75,7 @@ export default function CookiePolicy() {
                 </div>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">2.3 Analytics Cookies</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   These cookies help us understand how visitors interact with our website by collecting 
                   and reporting information anonymously. This helps us improve our platform.
                 </p>
@@ -90,7 +90,7 @@ export default function CookiePolicy() {
                 </div>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">2.4 Marketing Cookies</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   These cookies track your activity across websites to help advertisers deliver more 
                   relevant advertisements. We only use these with your explicit consent.
                 </p>
@@ -107,7 +107,7 @@ export default function CookiePolicy() {
 
               {/* Specific Cookies */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">3. Specific Cookies We Use</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>3. Specific Cookies We Use</h2>
                 
                 <div className="overflow-x-auto mb-6">
                   <table className="w-full border border-gray-700 rounded-lg">
@@ -157,8 +157,8 @@ export default function CookiePolicy() {
 
               {/* Third Party Cookies */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">4. Third-Party Cookies</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>4. Third-Party Cookies</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We work with trusted third-party services that may set their own cookies. 
                   These services help us provide better functionality and understand our users.
                 </p>
@@ -208,10 +208,10 @@ export default function CookiePolicy() {
 
               {/* Cookie Consent */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">5. Your Cookie Choices</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>5. Your Cookie Choices</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">5.1 Cookie Consent</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   When you first visit our website, we'll ask for your consent to use non-essential cookies. 
                   You can choose which types of cookies to accept:
                 </p>
@@ -222,7 +222,7 @@ export default function CookiePolicy() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">5.2 Managing Your Preferences</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   You can change your cookie preferences at any time:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -232,7 +232,7 @@ export default function CookiePolicy() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">5.3 Browser Settings</h3>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <p className="text-gray-700 leading-relaxed mb-4">
                   You can also control cookies through your browser settings:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -248,8 +248,8 @@ export default function CookiePolicy() {
 
               {/* Mobile Apps */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">6. Mobile App Data</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>6. Mobile App Data</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Our mobile app uses similar tracking technologies to cookies, including:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -265,8 +265,8 @@ export default function CookiePolicy() {
 
               {/* Data Subject Rights */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">7. Your Rights</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>7. Your Rights</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   Under UK data protection law, you have rights regarding cookies and tracking:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -285,8 +285,8 @@ export default function CookiePolicy() {
 
               {/* International Users */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">8. International Users</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>8. International Users</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   If you're accessing our service from outside the UK:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -299,8 +299,8 @@ export default function CookiePolicy() {
 
               {/* Updates */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">9. Updates to This Policy</h2>
-                <p className="text-gray-300 leading-relaxed mb-4">
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>9. Updates to This Policy</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
                   We may update this Cookie Policy to reflect:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -316,12 +316,12 @@ export default function CookiePolicy() {
 
               {/* Contact */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">10. Contact Us</h2>
+                <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>10. Contact Us</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
-                  <p className="text-gray-300 leading-relaxed mb-4">
+                  <p className="text-gray-700 leading-relaxed mb-4">
                     If you have questions about our use of cookies or this policy:
                   </p>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-gray-700 leading-relaxed">
                     <strong>Email:</strong>
                     <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
                       hello@apprenticeapex.co.uk
