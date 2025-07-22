@@ -193,7 +193,7 @@ export default function Index() {
 
 
         {/* Call to Action */}
-        <div className="bg-gradient-to-r from-orange to-orange/80 rounded-2xl p-8 md:p-12 text-center mt-16">
+        <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl p-8 md:p-12 text-center mt-16">
           <h3 className="text-3xl font-bold text-white mb-4">
             Ready to Start Your Apprenticeship Journey?
           </h3>
