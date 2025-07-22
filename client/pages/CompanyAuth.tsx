@@ -500,7 +500,7 @@ export function CompanySignUpForm() {
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
                     <span className="text-gray-700">
-                      I consent to the processing of my business data as described in the Privacy Policy *
+                      I consent to the processing of my business data as described in the <Link to="/privacy-policy" className="text-orange-500 hover:underline" target="_blank">Privacy Policy</Link> *
                     </span>
                   </label>
                 </div>
