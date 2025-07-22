@@ -445,8 +445,12 @@ function ProfileSetupStep2({
                         startDate: e.target.value,
                       })
                     }
-                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
-                    style={{focusBorderColor: '#da6927'}}
+                    className="w-full p-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+                    style={{
+                      focusBorderColor: '#da6927',
+                      fontSize: '16px',
+                      minHeight: '48px'
+                    }}
                   />
                 </div>
                 <div>
