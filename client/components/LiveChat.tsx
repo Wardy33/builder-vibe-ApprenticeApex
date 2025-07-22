@@ -148,10 +148,10 @@ export default function LiveChat() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 z-50"
+        className="fixed bottom-6 right-6 bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 hover:from-orange-500 hover:to-red-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-110 hover:rotate-12 z-50"
         title="Open live chat"
       >
-        <Sparkles className="w-6 h-6" />
+        <Sparkles className="w-6 h-6 animate-pulse" />
       </button>
     );
   }
