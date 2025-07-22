@@ -197,7 +197,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.companyName}
                     onChange={(e) => handleInputChange('companyName', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="Acme Training Ltd"
                   />
                 </div>
@@ -210,7 +210,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.industry}
                     onChange={(e) => handleInputChange('industry', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-orange-500"
                   >
                     <option value="">Select industry</option>
                     {industries.map(industry => (
@@ -227,7 +227,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.companySize}
                     onChange={(e) => handleInputChange('companySize', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-orange-500"
                   >
                     <option value="">Select company size</option>
                     {companySizes.map(size => (
@@ -244,7 +244,7 @@ export function CompanySignUpForm() {
                     type="url"
                     value={formData.website}
                     onChange={(e) => handleInputChange('website', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="https://www.company.com"
                   />
                 </div>
@@ -257,7 +257,7 @@ export function CompanySignUpForm() {
                     rows={3}
                     value={formData.description}
                     onChange={(e) => handleInputChange('description', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="Brief description of your company and what you do..."
                   />
                 </div>
@@ -279,7 +279,7 @@ export function CompanySignUpForm() {
                       required
                       value={formData.firstName}
                       onChange={(e) => handleInputChange('firstName', e.target.value)}
-                      className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                      className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                       placeholder="John"
                     />
                   </div>
@@ -293,7 +293,7 @@ export function CompanySignUpForm() {
                       required
                       value={formData.lastName}
                       onChange={(e) => handleInputChange('lastName', e.target.value)}
-                      className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                      className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                       placeholder="Smith"
                     />
                   </div>
@@ -308,7 +308,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.position}
                     onChange={(e) => handleInputChange('position', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="HR Manager / CEO / Training Director"
                   />
                 </div>
@@ -322,7 +322,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="john.smith@company.com"
                   />
                   <p className="text-gray-400 text-sm mt-1">
@@ -346,7 +346,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.address}
                     onChange={(e) => handleInputChange('address', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="123 Business Street"
                   />
                 </div>
@@ -361,7 +361,7 @@ export function CompanySignUpForm() {
                       required
                       value={formData.city}
                       onChange={(e) => handleInputChange('city', e.target.value)}
-                      className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                      className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                       placeholder="London"
                     />
                   </div>
@@ -375,7 +375,7 @@ export function CompanySignUpForm() {
                       required
                       value={formData.postcode}
                       onChange={(e) => handleInputChange('postcode', e.target.value)}
-                      className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                      className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                       placeholder="SW1A 1AA"
                     />
                   </div>
@@ -398,7 +398,7 @@ export function CompanySignUpForm() {
                       required
                       value={formData.password}
                       onChange={(e) => handleInputChange('password', e.target.value)}
-                      className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500 pr-12"
+                      className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500 pr-12"
                       placeholder="Enter a strong password"
                       minLength={8}
                     />
@@ -424,7 +424,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.confirmPassword}
                     onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                    className="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                     placeholder="Confirm your password"
                   />
                   {formData.confirmPassword && formData.password !== formData.confirmPassword && (
@@ -624,7 +624,7 @@ export function CompanySignInForm() {
                   required
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                   placeholder="john@company.com"
                 />
               </div>
@@ -641,7 +641,7 @@ export function CompanySignInForm() {
                   required
                   value={formData.password}
                   onChange={(e) => handleInputChange('password', e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                  className="w-full pl-10 pr-12 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
                   placeholder="Enter your password"
                 />
                 <button
