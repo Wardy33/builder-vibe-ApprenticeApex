@@ -255,7 +255,7 @@ export default function Contact() {
                     type="submit"
                     isLoading={isSubmitting}
                     loadingText="Sending Message..."
-                    className="w-full bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
                   >
                     Send Message
                   </LoadingButton>
