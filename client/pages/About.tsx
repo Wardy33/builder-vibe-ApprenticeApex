@@ -11,9 +11,9 @@ export default function About() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            About <span className="text-orange">ApprenticeApex</span>
+            About <span className="text-orange-500">ApprenticeApex</span>
           </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             We're revolutionizing the apprenticeship landscape by connecting ambitious students 
             with forward-thinking employers through AI-powered matching technology.
           </p>
@@ -21,10 +21,10 @@ export default function About() {
 
         {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
-          <div className="bg-gray-900/50 rounded-xl p-8">
-            <Target className="h-12 w-12 text-orange mb-6" />
-            <h2 className="text-2xl font-bold mb-4">Our Mission</h2>
-            <p className="text-gray-300 leading-relaxed">
+          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+            <Target className="h-12 w-12 text-orange-500 mb-6" />
+            <h2 className="text-2xl font-bold mb-4 text-black">Our Mission</h2>
+            <p className="text-gray-700 leading-relaxed">
               To bridge the skills gap in the UK by creating meaningful connections between 
               talented students and employers who value growth, learning, and innovation. 
               We believe every young person deserves the opportunity to build a successful career 
@@ -32,10 +32,10 @@ export default function About() {
             </p>
           </div>
           
-          <div className="bg-gray-900/50 rounded-xl p-8">
-            <Award className="h-12 w-12 text-orange mb-6" />
-            <h2 className="text-2xl font-bold mb-4">Our Vision</h2>
-            <p className="text-gray-300 leading-relaxed">
+          <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+            <Award className="h-12 w-12 text-orange-500 mb-6" />
+            <h2 className="text-2xl font-bold mb-4 text-black">Our Vision</h2>
+            <p className="text-gray-700 leading-relaxed">
               To become the UK's leading apprenticeship platform, where every match leads 
               to mutual success. We envision a future where apprenticeships are the 
               preferred pathway to career success, creating a skilled workforce that 
@@ -47,15 +47,15 @@ export default function About() {
         {/* Our Story */}
         <div className="mb-16">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8">Our Story</h2>
-            <div className="bg-gray-900/50 rounded-xl p-8">
-              <p className="text-gray-300 leading-relaxed mb-6">
+            <h2 className="text-3xl font-bold text-center mb-8 text-black">Our Story</h2>
+            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+              <p className="text-gray-700 leading-relaxed mb-6">
                 ApprenticeApex was founded in 2025 with a simple observation: the traditional 
                 job search process wasn't working for apprenticeships. Students were spending 
                 countless hours applying to opportunities that weren't the right fit, while 
                 employers struggled to find candidates with the right potential and attitude.
               </p>
-              <p className="text-gray-300 leading-relaxed mb-6">
+              <p className="text-gray-700 leading-relaxed mb-6">
                 Drawing inspiration from modern dating apps, we realized that the swipe 
                 mechanism could revolutionize how people discover career opportunities. 
                 But we didn't stop there – we enhanced it with AI-powered matching that 
