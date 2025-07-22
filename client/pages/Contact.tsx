@@ -62,12 +62,8 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold text-white mb-1">Email</h3>
                     <p className="text-gray-300 text-sm mb-1">General inquiries</p>
-                    <a href="mailto:hello@apprenticeapex.com" className="text-orange hover:underline">
-                      hello@apprenticeapex.com
-                    </a>
-                    <p className="text-gray-300 text-sm mt-2 mb-1">Support</p>
-                    <a href="mailto:support@apprenticeapex.com" className="text-orange hover:underline">
-                      support@apprenticeapex.com
+                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">
+                      hello@apprenticeapex.co.uk
                     </a>
                   </div>
                 </div>
