@@ -1004,15 +1004,15 @@ export default function StudentProfileSetup() {
       {/* Progress Bar */}
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm text-gray-400">Step {currentStep} of 4</span>
-          <span className="text-sm text-gray-400">
+          <span className="text-sm text-gray-600">Step {currentStep} of 4</span>
+          <span className="text-sm text-gray-600">
             {Math.round((currentStep / 4) * 100)}%
           </span>
         </div>
-        <div className="w-full bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="bg-orange h-2 rounded-full transition-all duration-300"
-            style={{ width: `${(currentStep / 4) * 100}%` }}
+            className="h-2 rounded-full transition-all duration-300"
+            style={{ backgroundColor: '#da6927', width: `${(currentStep / 4) * 100}%` }}
           />
         </div>
       </div>
