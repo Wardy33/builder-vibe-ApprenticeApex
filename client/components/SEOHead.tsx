@@ -94,7 +94,7 @@ export function SEOHead({
         ],
         "contactPoint": {
           "@type": "ContactPoint",
-          "telephone": "+44-20-1234-5678",
+          "email": "hello@apprenticeapex.co.uk",
           "contactType": "customer service",
           "areaServed": "GB",
           "availableLanguage": "English"
