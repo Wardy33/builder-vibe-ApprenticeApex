@@ -126,6 +126,12 @@ export async function connectDatabase() {
       // For development without MongoDB, we'll use a mock connection
       console.log("🗄️  Database connection established (mock)");
     }
+
+    // Initialize alert system after database connection
+    AlertService.initialize();
+    AlertService.integrateWithMonitoring();
+    console.log("🚨 Anti-poaching alert system initialized");
+
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);
