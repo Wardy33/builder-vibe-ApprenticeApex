@@ -100,6 +100,7 @@ export function createApp() {
   app.use("/api/access-control", authenticateToken, accessControlRoutes);
   app.use("/api/alerts", authenticateToken, alertRoutes);
   app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
+  app.use("/api/contact", contactRoutes); // Public route, no auth required
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
