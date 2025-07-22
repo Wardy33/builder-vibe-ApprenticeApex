@@ -462,7 +462,7 @@ export default function ForEmployers() {
         </section>
         
         {/* Contact Section */}
-        <section className="py-16 px-4 bg-gray-950">
+        <section className="py-16 px-4 bg-gray-50">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8">
               Have Questions? We're Here to Help
