@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
 import { SEOHead, seoConfigs } from "../components/SEOHead";
+import LiveChat from "../components/LiveChat";
 
 export default function Index() {
   return (
