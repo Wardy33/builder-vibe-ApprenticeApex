@@ -413,8 +413,8 @@ function SignInForm() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-2">Welcome Back</h2>
-            <p className="text-gray-400">
+            <h2 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>Welcome Back</h2>
+            <p className="text-gray-600">
               Sign in to continue your apprenticeship journey
             </p>
           </div>
