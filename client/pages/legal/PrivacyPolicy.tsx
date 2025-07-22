@@ -50,7 +50,6 @@ export default function PrivacyPolicy() {
                   <p className="text-gray-300 leading-relaxed mb-2">
                     <strong>ApprenticeApex Ltd</strong><br />
                     Registered in England and Wales<br />
-                    Address: [Company Address], London, United Kingdom<br />
                     Email: hello@apprenticeapex.co.uk<br />
                   </p>
                 </div>
