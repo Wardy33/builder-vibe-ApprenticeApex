@@ -483,13 +483,15 @@ function SignInForm() {
                   onChange={(e) =>
                     handleInputChange("rememberMe", e.target.checked)
                   }
-                  className="w-4 h-4 text-orange border-gray-600 rounded focus:ring-orange bg-gray-800"
+                  className="w-4 h-4 border-gray-300 rounded focus:ring-orange-500"
+                  style={{color: '#da6927', backgroundColor: 'white'}}
                 />
-                <span className="text-sm text-gray-300">Remember me</span>
+                <span className="text-sm text-black">Remember me</span>
               </label>
               <Link
                 to="/student/forgot-password"
-                className="text-sm text-orange hover:underline"
+                className="text-sm hover:underline"
+                style={{color: '#da6927'}}
               >
                 Forgot password?
               </Link>
