@@ -97,15 +97,15 @@ export default function Index() {
                   <Building2 className="h-4 w-4 mr-2" />
                   Listing Management
                 </div>
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-gray-600">
                   <Users className="h-4 w-4 mr-2" />
                   Candidate Review
                 </div>
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-gray-600">
                   <Zap className="h-4 w-4 mr-2" />
                   Analytics Dashboard
                 </div>
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-gray-600">
                   <Video className="h-4 w-4 mr-2" />
                   Video Interviews
                 </div>
