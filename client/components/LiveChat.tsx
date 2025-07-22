@@ -244,7 +244,7 @@ export default function LiveChat() {
           <button
             onClick={handleSendMessage}
             disabled={!inputText.trim()}
-            className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 disabled:bg-gray-300 text-white p-2 rounded-lg transition-all duration-200"
+            className="bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 hover:from-orange-500 hover:to-red-600 disabled:bg-gray-300 text-white p-2 rounded-lg transition-all duration-200 hover:scale-105"
           >
             <Send className="w-4 h-4" />
           </button>
