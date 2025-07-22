@@ -285,27 +285,27 @@ export default function ForEmployers() {
                     {plan.features.slice(0, 6).map((feature, index) => (
                       <div key={index} className="flex items-start">
                         <Check className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-300 text-sm">{feature}</span>
+                        <span className="text-gray-700 text-sm">{feature}</span>
                       </div>
                     ))}
                     {plan.features.length > 6 && (
-                      <div className="text-gray-400 text-sm">
+                      <div className="text-gray-600 text-sm">
                         +{plan.features.length - 6} more features
                       </div>
                     )}
                   </div>
                   
-                  <div className="border-t border-gray-700 pt-4 mb-6">
-                    <div className="text-gray-400 text-sm mb-2">Limits:</div>
+                  <div className="border-t border-gray-200 pt-4 mb-6">
+                    <div className="text-gray-600 text-sm mb-2">Limits:</div>
                     <div className="space-y-1">
-                      <div className="text-white text-sm">
+                      <div className="text-black text-sm">
                         📝 {plan.limits.jobPostings} job postings
                       </div>
-                      <div className="text-white text-sm">
+                      <div className="text-black text-sm">
                         👤 {plan.limits.users} user{plan.limits.users !== 1 ? 's' : ''}
                       </div>
                       {plan.limits.duration && (
-                        <div className="text-white text-sm">
+                        <div className="text-black text-sm">
                           ⏱️ {plan.limits.duration}
                         </div>
                       )}
@@ -317,7 +317,7 @@ export default function ForEmployers() {
                     className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block ${
                       plan.popular
                         ? 'bg-orange-500 text-white hover:bg-orange-600'
-                        : 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
+                        : 'bg-gray-100 text-black hover:bg-gray-200 border border-gray-300'
                     }`}
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
