@@ -168,9 +168,68 @@ export default function TermsOfService() {
                 </ul>
               </section>
 
+              {/* Anti-Poaching and Platform Protection */}
+              <section>
+                <h2 className="text-2xl font-bold mb-4 text-orange">6. Anti-Poaching and Revenue Protection</h2>
+
+                <h3 className="text-xl font-semibold mb-3 text-white">6.1 No-Poaching Clause</h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  <strong>Employers are strictly prohibited from:</strong>
+                </p>
+                <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
+                  <li>Contacting candidates directly outside the ApprenticeApex platform</li>
+                  <li>Soliciting candidates through email, phone, social media, or any other external channel</li>
+                  <li>Attempting to hire candidates met through ApprenticeApex without using platform services</li>
+                  <li>Sharing candidate information with third parties without platform consent</li>
+                  <li>Encouraging candidates to communicate outside the platform</li>
+                </ul>
+
+                <h3 className="text-xl font-semibold mb-3 text-white">6.2 Platform Fee Obligation</h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  <strong>Success Fee Requirements:</strong>
+                </p>
+                <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
+                  <li>Any apprentice hired from a candidate sourced through ApprenticeApex owes a success fee of 15% of the first-year apprentice salary</li>
+                  <li>This obligation applies regardless of whether the hire occurs on or off the platform</li>
+                  <li>Fee is due within 30 days of the apprentice's start date</li>
+                  <li>Employers must notify ApprenticeApex of any hire within 7 days</li>
+                  <li>Platform has audit rights to verify compliance with hiring records</li>
+                </ul>
+
+                <h3 className="text-xl font-semibold mb-3 text-white">6.3 Liquidated Damages</h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  <strong>Bypass penalties include:</strong>
+                </p>
+                <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
+                  <li><strong>Contact Bypass:</strong> £500 penalty per unauthorized contact attempt</li>
+                  <li><strong>Hire Bypass:</strong> £2,000 penalty plus full success fee per unauthorized hire</li>
+                  <li><strong>Information Sharing:</strong> £1,000 penalty per candidate information breach</li>
+                  <li><strong>Repeat Violations:</strong> Account suspension and legal action</li>
+                </ul>
+
+                <h3 className="text-xl font-semibold mb-3 text-white">6.4 Exclusive Period</h3>
+                <p className="text-gray-300 leading-relaxed mb-6">
+                  Employers have a 12-month restriction period during which any hire of candidates
+                  initially contacted through ApprenticeApex must be processed through the platform
+                  and incur the applicable success fees, regardless of when or how the final contact occurred.
+                </p>
+
+                <h3 className="text-xl font-semibold mb-3 text-white">6.5 Monitoring and Enforcement</h3>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  ApprenticeApex reserves the right to:
+                </p>
+                <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
+                  <li>Monitor all platform communications for compliance</li>
+                  <li>Track candidate interactions and employment outcomes</li>
+                  <li>Investigate suspected bypass activities</li>
+                  <li>Request hiring records and employment verification</li>
+                  <li>Pursue legal action for contract violations</li>
+                </ul>
+              </section>
+
               {/* Payment Terms */}
               <section>
-                <h2 className="text-2xl font-bold mb-4 text-orange">6. Payment Terms and Subscriptions</h2>
+                <h2 className="text-2xl font-bold mb-4 text-orange">7. Payment Terms and Subscriptions</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.1 Student Services</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">
