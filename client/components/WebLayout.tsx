@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { WebHeader } from "./WebHeader";
 import { WebFooter } from "./WebFooter";
+import LiveChat from "./LiveChat";
 
 interface WebLayoutProps {
   children: ReactNode;
@@ -16,12 +17,13 @@ export function WebLayout({
   showFooter = true 
 }: WebLayoutProps) {
   return (
-    <div className="min-h-screen bg-white text-black flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white flex flex-col">
       {showHeader && <WebHeader />}
       <main className={`flex-1 ${className}`}>
         {children}
       </main>
       {showFooter && <WebFooter />}
+      <LiveChat />
     </div>
   );
 }
