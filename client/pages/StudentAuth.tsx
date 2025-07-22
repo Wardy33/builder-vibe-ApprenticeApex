@@ -124,7 +124,7 @@ function SignUpForm() {
             <h2 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>
               Join ApprenticeApex
             </h2>
-            <p className="text-gray-400">
+            <p className="text-gray-600">
               Create your student account to find amazing apprenticeships
             </p>
           </div>
@@ -244,7 +244,7 @@ function SignUpForm() {
                     handleInputChange("confirmPassword", e.target.value)
                   }
                   className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
-                  placeholder="••••••••"
+                  placeholder="•••••���••"
                 />
                 <button
                   type="button"
