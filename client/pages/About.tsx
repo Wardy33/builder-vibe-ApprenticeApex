@@ -104,41 +104,7 @@ export default function About() {
           </div>
         </div>
 
-        {/* Team */}
-        <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12">Meet Our Team</h2>
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-700 rounded-full mx-auto mb-4"></div>
-              <h3 className="text-xl font-bold mb-2">Sarah Williams</h3>
-              <p className="text-orange mb-2">CEO & Founder</p>
-              <p className="text-gray-400 text-sm">
-                Former HR Director with 15 years experience in talent acquisition 
-                and apprenticeship program development.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-700 rounded-full mx-auto mb-4"></div>
-              <h3 className="text-xl font-bold mb-2">James Chen</h3>
-              <p className="text-orange mb-2">CTO & Co-Founder</p>
-              <p className="text-gray-400 text-sm">
-                AI researcher and former tech lead at leading UK fintech companies. 
-                Expert in machine learning and user experience.
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-32 h-32 bg-gray-700 rounded-full mx-auto mb-4"></div>
-              <h3 className="text-xl font-bold mb-2">Emma Rodriguez</h3>
-              <p className="text-orange mb-2">Head of Partnerships</p>
-              <p className="text-gray-400 text-sm">
-                Former apprentice herself, now leads our employer partnerships 
-                and ensures every opportunity meets our quality standards.
-              </p>
-            </div>
-          </div>
-        </div>
+
 
         {/* Stats */}
         <div className="bg-gray-900/50 rounded-xl p-8 mb-16">
