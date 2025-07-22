@@ -139,7 +139,8 @@ export default function About() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/student/signup"
-              className="inline-flex items-center justify-center px-8 py-3 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 text-white font-semibold rounded-lg transition-colors hover:opacity-90"
+              style={{backgroundColor: '#da6927'}}
             >
               Start as Student
               <ArrowRight className="ml-2 h-4 w-4" />
