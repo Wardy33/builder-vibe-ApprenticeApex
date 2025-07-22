@@ -176,7 +176,7 @@ export default function ForEmployers() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
-                to="/company"
+                to="/company/signup"
                 className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center"
               >
                 Start Free Trial
