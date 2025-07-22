@@ -125,7 +125,8 @@ export function WebHeader() {
             </Link>
             <Link
               to="/student/signup"
-              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors hover:opacity-90"
+              style={{backgroundColor: '#da6927'}}
             >
               Get Started
             </Link>
