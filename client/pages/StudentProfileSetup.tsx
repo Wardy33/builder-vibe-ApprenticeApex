@@ -616,7 +616,8 @@ function ProfileSetupStep3({
                   onChange={(e) =>
                     updateGCSEGrade(grade.id, { grade: e.target.value })
                   }
-                  className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:border-orange"
+                  className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+                  style={{focusBorderColor: '#da6927'}}
                 >
                   <option value="">Select Grade</option>
                   {GCSE_GRADES.map((gradeOption) => (
