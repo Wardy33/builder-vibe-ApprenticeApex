@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Building2, Mail, Lock, User, MapPin, CheckCircle } from 'lucide-react';
 import { WebLayout } from '../components/WebLayout';
 import { LoadingButton } from '../components/ui/loading';
+import { apiClient } from '../lib/apiUtils';
 
 interface CompanySignUpData {
   // Company Information
