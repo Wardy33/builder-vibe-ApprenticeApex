@@ -40,6 +40,8 @@ function App() {
           element={<StudentProfileSetup />}
         />
         <Route path="/student/*" element={<StudentApp />} />
+        <Route path="/company/signup" element={<CompanySignUpForm />} />
+        <Route path="/company/signin" element={<CompanySignInForm />} />
         <Route path="/company/*" element={<CompanyPortal />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
