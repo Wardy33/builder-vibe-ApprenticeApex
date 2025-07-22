@@ -133,7 +133,7 @@ function SignUpForm() {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-black mb-2">
                   First Name
                 </label>
                 <div className="relative">
@@ -144,7 +144,8 @@ function SignUpForm() {
                     onChange={(e) =>
                       handleInputChange("firstName", e.target.value)
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                    style={{focusBorderColor: '#da6927'}}
                     placeholder="John"
                   />
                 </div>
@@ -244,7 +245,7 @@ function SignUpForm() {
                     handleInputChange("confirmPassword", e.target.value)
                   }
                   className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
-                  placeholder="•••••���••"
+                  placeholder="•••••���•���"
                 />
                 <button
                   type="button"
