@@ -607,7 +607,7 @@ export function CompanySignInForm() {
 
   return (
     <WebLayout>
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center py-12">
+      <div className="min-h-screen bg-white flex items-center justify-center py-12">
         <div className="max-w-md w-full mx-4">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
@@ -617,7 +617,7 @@ export function CompanySignInForm() {
 
           <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 shadow-sm p-8 space-y-6" style={{backgroundColor: '#f8f9fa'}}>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-black mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -634,7 +634,7 @@ export function CompanySignInForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-black mb-2">
                 Password
               </label>
               <div className="relative">
@@ -661,20 +661,21 @@ export function CompanySignInForm() {
               type="submit"
               isLoading={isSubmitting}
               loadingText="Signing In..."
-              className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
+              className="w-full text-white py-3 px-4 rounded-lg font-semibold transition-colors"
+              style={{backgroundColor: '#da6927'}}
             >
               Sign In
             </LoadingButton>
 
             <div className="text-center space-y-4">
-              <Link to="/company/forgot-password" className="text-orange-400 hover:underline text-sm">
+              <Link to="/company/forgot-password" className="hover:underline text-sm" style={{color: '#da6927'}}>
                 Forgot your password?
               </Link>
-              
-              <div className="border-t border-gray-700 pt-4">
-                <p className="text-gray-400 text-sm">
+
+              <div className="border-t border-gray-300 pt-4">
+                <p className="text-gray-600 text-sm">
                   Don't have an account?{' '}
-                  <Link to="/company/signup" className="text-orange-500 hover:underline">
+                  <Link to="/company/signup" className="hover:underline" style={{color: '#da6927'}}>
                     Start your free trial
                   </Link>
                 </p>
