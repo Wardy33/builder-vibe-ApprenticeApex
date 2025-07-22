@@ -186,7 +186,7 @@ export function CompanySignUpForm() {
             {/* Step 1: Company Details */}
             {currentStep === 1 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-white mb-6">Company Information</h2>
+                <h2 className="text-2xl font-bold text-black mb-6">Company Information</h2>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
