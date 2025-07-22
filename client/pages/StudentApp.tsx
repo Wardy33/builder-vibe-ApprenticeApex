@@ -38,6 +38,7 @@ import {
   Route as RouteIcon,
   Info,
 } from "lucide-react";
+import LiveChat from "../components/LiveChat";
 
 interface Apprenticeship {
   id: string;
