@@ -573,9 +573,9 @@ function ProfileSetupStep3({
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <GraduationCap className="h-16 w-16 text-orange mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">GCSE Grades</h2>
-        <p className="text-gray-400">Add your GCSE results</p>
+        <GraduationCap className="h-16 w-16 mx-auto mb-4" style={{color: '#da6927'}} />
+        <h2 className="text-2xl font-bold mb-2" style={{color: '#020202'}}>GCSE Grades</h2>
+        <p className="text-gray-600">Add your GCSE results</p>
       </div>
 
       {data.gcseGrades.length === 0 ? (
