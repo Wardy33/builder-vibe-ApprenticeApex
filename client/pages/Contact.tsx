@@ -245,7 +245,7 @@ export default function Contact() {
                       rows={6}
                       value={formData.message}
                       onChange={(e) => handleInputChange("message", e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange resize-vertical"
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500 resize-vertical"
                       placeholder="Please provide as much detail as possible..."
                     />
                   </div>
