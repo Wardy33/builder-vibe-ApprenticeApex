@@ -62,7 +62,7 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            Get in <span className="text-orange-500">Touch</span>
+            Get in <span style={{color: '#da6927'}}>Touch</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             We're here to help you succeed. Whether you're a student looking for guidance 
@@ -78,7 +78,7 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 text-orange-500 mt-1" />
+                  <Mail className="h-6 w-6 mt-1" style={{color: '#da6927'}} />
                   <div>
                     <h3 className="font-semibold text-black mb-1">Email</h3>
                     <p className="text-gray-600 text-sm mb-1">General inquiries</p>
@@ -91,7 +91,7 @@ export default function Contact() {
 
 
                 <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 text-orange-500 mt-1" />
+                  <Clock className="h-6 w-6 mt-1" style={{color: '#da6927'}} />
                   <div>
                     <h3 className="font-semibold text-black mb-1">Support Hours</h3>
                     <p className="text-gray-600 text-sm">
@@ -105,25 +105,25 @@ export default function Contact() {
             </div>
 
             {/* Quick Contact Options */}
-            <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm">
+            <div className="rounded-xl p-6 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
               <h3 className="text-xl font-bold mb-4 text-black">Quick Help</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
-                  <Users className="h-5 w-5 text-orange-500" />
+                  <Users className="h-5 w-5" style={{color: '#da6927'}} />
                   <div>
                     <p className="font-medium text-black text-sm">For Students</p>
                     <p className="text-gray-600 text-xs">Account help, profile setup, applications</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Building2 className="h-5 w-5 text-orange-500" />
+                  <Building2 className="h-5 w-5" style={{color: '#da6927'}} />
                   <div>
                     <p className="font-medium text-black text-sm">For Employers</p>
                     <p className="text-gray-600 text-xs">Posting jobs, candidate management, billing</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <MessageCircle className="h-5 w-5 text-orange-500" />
+                  <MessageCircle className="h-5 w-5" style={{color: '#da6927'}} />
                   <div>
                     <p className="font-medium text-black text-sm">Live Chat</p>
                     <p className="text-gray-600 text-xs">Instant support during business hours</p>
@@ -135,7 +135,7 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+            <div className="rounded-xl p-8 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
               <h2 className="text-2xl font-bold mb-6 text-black">Send us a Message</h2>
               
               {isSubmitted ? (
