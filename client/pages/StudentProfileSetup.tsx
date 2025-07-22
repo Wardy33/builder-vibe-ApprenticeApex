@@ -525,7 +525,7 @@ function ProfileSetupStep2({
         </div>
         <button
           onClick={onNext}
-          className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+          className="w-full bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
         >
           Skip for now (you can add this later)
         </button>
