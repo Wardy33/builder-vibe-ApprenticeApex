@@ -131,34 +131,34 @@ export default function Index() {
           </h3>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="w-16 h-16 bg-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-8 w-8 text-orange" />
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="h-8 w-8 text-orange-500" />
               </div>
               <h4 className="text-xl font-semibold mb-2">
                 AI-Powered Matching
               </h4>
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 Smart algorithms match students with perfect apprenticeship
                 opportunities
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Video className="h-8 w-8 text-orange" />
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Video className="h-8 w-8 text-orange-500" />
               </div>
               <h4 className="text-xl font-semibold mb-2">Video Integration</h4>
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 30-second profiles and seamless video interviews via Twilio
               </p>
             </div>
             <div className="text-center">
-              <div className="w-16 h-16 bg-orange/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-8 w-8 text-orange" />
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageCircle className="h-8 w-8 text-orange-500" />
               </div>
               <h4 className="text-xl font-semibold mb-2">
                 Real-time Communication
               </h4>
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 Instant messaging powered by Sendbird for seamless connections
               </p>
             </div>
