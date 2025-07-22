@@ -267,7 +267,7 @@ export default function Contact() {
 
         {/* FAQ Section */}
         <div className="mt-16 max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 text-black">Frequently Asked Questions</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div>
