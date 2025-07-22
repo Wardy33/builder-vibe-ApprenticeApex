@@ -482,7 +482,7 @@ export default function ForEmployers() {
                 <h3 className="font-semibold mb-2" style={{color: '#020202'}}>Live Chat</h3>
                 <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
                 <button
-                  onClick={() => liveChatRef.current?.openChat()}
+                  onClick={handleStartChat}
                   className="hover:opacity-80"
                   style={{color: '#da6927'}}
                 >
