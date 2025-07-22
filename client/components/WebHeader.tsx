@@ -52,14 +52,20 @@ export function WebHeader() {
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
                   <Link
                     to="/student/signup"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
+                    className="block px-4 py-2 text-sm transition-colors"
+                    style={{color: '#020202'}}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#020202'}
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
-                    className="block px-4 py-2 text-sm text-gray-700 hover:text-orange-500 hover:bg-gray-100 transition-colors"
+                    className="block px-4 py-2 text-sm transition-colors"
+                    style={{color: '#020202'}}
+                    onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+                    onMouseLeave={(e) => e.currentTarget.style.color = '#020202'}
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign In
@@ -71,27 +77,36 @@ export function WebHeader() {
 
             <Link
               to="/for-employers"
-              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
-                isActive("/for-employers") ? "text-orange-500" : "text-gray-700"
-              }`}
+              className="text-sm font-medium transition-colors"
+              style={{
+                color: isActive("/for-employers") ? '#da6927' : '#ffffff'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/for-employers") ? '#da6927' : '#ffffff'}
             >
               For Employers
             </Link>
             
             <Link
               to="/about"
-              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
-                isActive("/about") ? "text-orange-500" : "text-gray-700"
-              }`}
+              className="text-sm font-medium transition-colors"
+              style={{
+                color: isActive("/about") ? '#da6927' : '#ffffff'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/about") ? '#da6927' : '#ffffff'}
             >
               About
             </Link>
 
             <Link
               to="/contact"
-              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
-                isActive("/contact") ? "text-orange-500" : "text-gray-700"
-              }`}
+              className="text-sm font-medium transition-colors"
+              style={{
+                color: isActive("/contact") ? '#da6927' : '#ffffff'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/contact") ? '#da6927' : '#ffffff'}
             >
               Contact
             </Link>
