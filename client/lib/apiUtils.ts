@@ -23,7 +23,17 @@ class ApiClient {
   private retries: number;
 
   constructor() {
-    this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    // Determine the correct API URL based on environment
+    const isProduction = window.location.hostname.includes('fly.dev');
+
+    if (isProduction) {
+      // Use the same domain for API calls in production
+      this.baseURL = window.location.origin;
+    } else {
+      // Use localhost for development
+      this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    }
+
     this.timeout = 10000; // 10 seconds
     this.retries = 3;
   }
