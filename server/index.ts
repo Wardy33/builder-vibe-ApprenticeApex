@@ -96,14 +96,14 @@ export async function connectDatabase() {
     const mongoUri =
       process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex";
 
-    if (process.env.NODE_ENV === "production" && process.env.MONGODB_URI) {
+    if (process.env.MONGODB_URI) {
       await mongoose.connect(mongoUri, {
         retryWrites: true,
         w: "majority",
       });
       console.log("🗄️  Database connection established (MongoDB)");
     } else {
-      // For development, we'll use a mock connection
+      // For development without MongoDB, we'll use a mock connection
       console.log("🗄️  Database connection established (mock)");
     }
     return true;
