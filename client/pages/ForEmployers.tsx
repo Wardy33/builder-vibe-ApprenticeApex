@@ -195,7 +195,7 @@ export default function ForEmployers() {
         </section>
         
         {/* Trial Offer Highlight */}
-        <section className="py-16 px-4 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-y border-orange-500/20">
+        <section className="py-16 px-4 bg-gradient-to-r from-orange-50 to-red-50 border-y border-orange-200">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
