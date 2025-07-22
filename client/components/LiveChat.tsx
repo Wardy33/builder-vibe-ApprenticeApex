@@ -159,7 +159,7 @@ export default function LiveChat() {
   return (
     <div className="fixed bottom-6 right-6 bg-white rounded-lg shadow-2xl border border-gray-200 w-96 h-[500px] flex flex-col z-50">
       {/* Header */}
-      <div className="bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-t-lg flex items-center justify-between">
+      <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white p-4 rounded-t-lg flex items-center justify-between">
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
             <Sparkles className="w-5 h-5 text-white" />
