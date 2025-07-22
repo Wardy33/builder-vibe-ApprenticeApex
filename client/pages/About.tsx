@@ -11,7 +11,7 @@ export default function About() {
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            About <span className="text-orange-500">ApprenticeApex</span>
+            About <span style={{color: '#da6927'}}>ApprenticeApex</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
             We're revolutionizing the apprenticeship landscape by connecting ambitious students 
@@ -76,7 +76,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-center mb-12 text-black">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
-              <Users className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <Users className="h-16 w-16 mx-auto mb-6" style={{color: '#da6927'}} />
               <h3 className="text-xl font-bold mb-4 text-black">People First</h3>
               <p className="text-gray-700">
                 Every decision we make is guided by what's best for our users – 
@@ -85,7 +85,7 @@ export default function About() {
             </div>
             
             <div className="text-center">
-              <Target className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <Target className="h-16 w-16 mx-auto mb-6" style={{color: '#da6927'}} />
               <h3 className="text-xl font-bold mb-4 text-black">Quality Matches</h3>
               <p className="text-gray-700">
                 We're obsessed with creating perfect matches. Our AI continuously learns 
@@ -94,7 +94,7 @@ export default function About() {
             </div>
             
             <div className="text-center">
-              <Heart className="h-16 w-16 text-orange-500 mx-auto mb-6" />
+              <Heart className="h-16 w-16 mx-auto mb-6" style={{color: '#da6927'}} />
               <h3 className="text-xl font-bold mb-4 text-black">Genuine Care</h3>
               <p className="text-gray-700">
                 We genuinely care about the success of every apprentice and employer 
@@ -107,23 +107,23 @@ export default function About() {
 
 
         {/* Stats */}
-        <div className="bg-white rounded-xl p-8 mb-16 border border-gray-200 shadow-sm">
+        <div className="rounded-xl p-8 mb-16 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
           <h2 className="text-3xl font-bold text-center mb-12 text-black">Our Impact</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-4xl font-bold text-orange-500 mb-2">10,000+</div>
+              <div className="text-4xl font-bold mb-2" style={{color: '#da6927'}}>10,000+</div>
               <div className="text-gray-600">Students Registered</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange-500 mb-2">2,500+</div>
+              <div className="text-4xl font-bold mb-2" style={{color: '#da6927'}}>2,500+</div>
               <div className="text-gray-600">Employer Partners</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange-500 mb-2">7,500+</div>
+              <div className="text-4xl font-bold mb-2" style={{color: '#da6927'}}>7,500+</div>
               <div className="text-gray-600">Successful Matches</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-orange-500 mb-2">95%</div>
+              <div className="text-4xl font-bold mb-2" style={{color: '#da6927'}}>95%</div>
               <div className="text-gray-600">Completion Rate</div>
             </div>
           </div>
