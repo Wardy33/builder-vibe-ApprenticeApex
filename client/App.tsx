@@ -17,6 +17,7 @@ import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
 import AcceptableUse from "./pages/legal/AcceptableUse";
 import ForEmployers from "./pages/ForEmployers";
+import { CompanySignUpForm, CompanySignInForm } from "./pages/CompanyAuth";
 
 function App() {
   return (
