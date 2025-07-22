@@ -16,7 +16,7 @@ export function WebLayout({
   showFooter = true 
 }: WebLayoutProps) {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
+    <div className="min-h-screen bg-white text-black flex flex-col">
       {showHeader && <WebHeader />}
       <main className={`flex-1 ${className}`}>
         {children}
