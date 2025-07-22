@@ -165,8 +165,8 @@ export default function LiveChat() {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-black">ApprenticeApex Support</h3>
-            <p className="text-white/80 text-sm">Online • Usually replies instantly ✨</p>
+            <h3 className="font-semibold text-black">ApprenticeApex Support 🚀</h3>
+            <p className="text-white/90 text-sm">Online • Usually replies instantly ⚡</p>
           </div>
         </div>
         <button
