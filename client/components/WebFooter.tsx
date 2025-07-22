@@ -88,11 +88,7 @@ export function WebFooter() {
                   Resources
                 </Link>
               </li>
-              <li>
-                <Link to="/success-stories" className="text-gray-400 hover:text-orange transition-colors text-sm">
-                  Success Stories
-                </Link>
-              </li>
+
             </ul>
           </div>
 
