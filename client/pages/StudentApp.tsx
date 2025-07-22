@@ -1635,9 +1635,9 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header - Keep black background */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-800 bg-black">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+      {/* Header - Gen-Z styling */}
+      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
           className="p-2 hover:bg-gray-800 rounded-full text-white"
@@ -1652,18 +1652,18 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
         </button>
       </header>
 
-      {/* Content - White background */}
-      <main className="flex-1 pb-20 bg-white text-gray-900">{children}</main>
+      {/* Content - Gen-Z background */}
+      <main className="flex-1 pb-20 bg-gradient-to-br from-gray-900/50 to-black/50 text-white backdrop-blur-sm">{children}</main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800">
+      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/10 backdrop-blur-md">
         <div className="flex justify-around items-center py-2">
           <Link
             to="/student/home"
-            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/home")
-                ? "text-orange bg-orange/10"
-                : "text-white hover:text-orange"
+                ? "text-white bg-gradient-to-r from-orange-400 to-pink-500 scale-105"
+                : "text-gray-300 hover:text-orange-400 hover:scale-105"
             }`}
           >
             <Home className="h-6 w-6 mb-1" />
@@ -1671,10 +1671,10 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <Link
             to="/student/jobs"
-            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/jobs")
-                ? "text-orange bg-orange/10"
-                : "text-white hover:text-orange"
+                ? "text-white bg-gradient-to-r from-cyan-400 to-blue-500 scale-105"
+                : "text-gray-300 hover:text-cyan-400 hover:scale-105"
             }`}
           >
             <Briefcase className="h-6 w-6 mb-1" />
@@ -1682,10 +1682,10 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <Link
             to="/student/matches"
-            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/matches")
-                ? "text-orange bg-orange/10"
-                : "text-white hover:text-orange"
+                ? "text-white bg-gradient-to-r from-pink-500 to-red-500 scale-105"
+                : "text-gray-300 hover:text-pink-400 hover:scale-105"
             }`}
           >
             <Heart className="h-6 w-6 mb-1" />
@@ -1693,10 +1693,10 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <Link
             to="/student/messages"
-            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/messages")
-                ? "text-orange bg-orange/10"
-                : "text-white hover:text-orange"
+                ? "text-white bg-gradient-to-r from-purple-500 to-pink-500 scale-105"
+                : "text-gray-300 hover:text-purple-400 hover:scale-105"
             }`}
           >
             <MessageCircle className="h-6 w-6 mb-1" />
@@ -1704,10 +1704,10 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
           </Link>
           <Link
             to="/student/profile"
-            className={`flex flex-col items-center p-3 rounded-lg transition-colors ${
+            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/profile")
-                ? "text-orange bg-orange/10"
-                : "text-white hover:text-orange"
+                ? "text-white bg-gradient-to-r from-green-400 to-cyan-400 scale-105"
+                : "text-gray-300 hover:text-green-400 hover:scale-105"
             }`}
           >
             <User className="h-6 w-6 mb-1" />
