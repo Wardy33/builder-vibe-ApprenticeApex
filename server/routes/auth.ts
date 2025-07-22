@@ -364,4 +364,124 @@ router.post(
   }),
 );
 
+// Company signup
+router.post("/company/signup", [
+  body("companyName").trim().isLength({ min: 1 }).withMessage("Company name is required"),
+  body("industry").trim().isLength({ min: 1 }).withMessage("Industry is required"),
+  body("firstName").trim().isLength({ min: 1 }).withMessage("First name is required"),
+  body("lastName").trim().isLength({ min: 1 }).withMessage("Last name is required"),
+  body("email").isEmail().withMessage("Valid email is required"),
+  body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
+  body("termsAccepted").equals(true).withMessage("Terms of service must be accepted"),
+  body("noPoacingAccepted").equals(true).withMessage("No-poaching agreement must be accepted"),
+  body("exclusivityAccepted").equals(true).withMessage("Exclusivity agreement must be accepted"),
+], asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new CustomError("Validation failed", 400, errors.array());
+  }
+
+  const {
+    companyName, industry, companySize, website, description,
+    firstName, lastName, position, email,
+    address, city, postcode, password,
+    termsAccepted, privacyAccepted, noPoacingAccepted,
+    exclusivityAccepted, dataProcessingAccepted
+  } = req.body;
+
+  // Check if user already exists
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    throw new CustomError("User with this email already exists", 400);
+  }
+
+  // Hash password
+  const hashedPassword = await hashPassword(password);
+
+  // Create user with company profile
+  const user = new User({
+    email,
+    password: hashedPassword,
+    role: "company",
+    profile: {
+      companyName,
+      industry,
+      description,
+      location: {
+        city,
+        address,
+        coordinates: [0, 0] // Would geocode in production
+      },
+      contactPerson: {
+        firstName,
+        lastName,
+        position
+      }
+    }
+  });
+
+  await user.save();
+
+  // Create trial subscription
+  try {
+    const { SubscriptionService } = await import('../services/subscriptionService');
+    await SubscriptionService.createTrialSubscription(user._id.toString());
+  } catch (error) {
+    console.log('Trial subscription creation failed (non-critical):', error);
+  }
+
+  // Generate token
+  const token = generateToken(user._id.toString(), user.role);
+
+  res.status(201).json({
+    message: "Company account created successfully",
+    token,
+    user: {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      companyName: user.profile?.companyName
+    }
+  });
+}));
+
+// Company signin
+router.post("/company/signin", [
+  body("email").isEmail().withMessage("Valid email is required"),
+  body("password").isLength({ min: 1 }).withMessage("Password is required"),
+], asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new CustomError("Validation failed", 400, errors.array());
+  }
+
+  const { email, password } = req.body;
+
+  // Find user
+  const user = await User.findOne({ email, role: "company" });
+  if (!user) {
+    throw new CustomError("Invalid credentials", 401);
+  }
+
+  // Verify password
+  const isValidPassword = await comparePassword(password, user.password);
+  if (!isValidPassword) {
+    throw new CustomError("Invalid credentials", 401);
+  }
+
+  // Generate token
+  const token = generateToken(user._id.toString(), user.role);
+
+  res.json({
+    message: "Sign in successful",
+    token,
+    user: {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+      companyName: user.profile?.companyName
+    }
+  });
+}));
+
 export default router;
