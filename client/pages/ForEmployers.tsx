@@ -571,14 +571,7 @@ export default function ForEmployers() {
                 </a>
               </div>
               
-              <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
-                <Phone className="w-8 h-8 text-orange-400 mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">Phone Support</h3>
-                <p className="text-gray-400 text-sm mb-4">Speak to our team directly</p>
-                <a href="tel:+442080000000" className="text-orange-400 hover:text-orange-300">
-                  +44 20 8000 0000
-                </a>
-              </div>
+
               
               <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
                 <MessageCircle className="w-8 h-8 text-orange-400 mx-auto mb-4" />
