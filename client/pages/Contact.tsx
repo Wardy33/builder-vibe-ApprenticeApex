@@ -82,7 +82,7 @@ export default function Contact() {
                   <div>
                     <h3 className="font-semibold text-black mb-1">Email</h3>
                     <p className="text-gray-600 text-sm mb-1">General inquiries</p>
-                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-500 hover:underline">
+                    <a href="mailto:hello@apprenticeapex.co.uk" className="hover:underline" style={{color: '#da6927'}}>
                       hello@apprenticeapex.co.uk
                     </a>
                   </div>
