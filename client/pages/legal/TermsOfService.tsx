@@ -407,8 +407,7 @@ export default function TermsOfService() {
                   </p>
                   <p className="text-gray-300 leading-relaxed">
                     <strong>ApprenticeApex Ltd</strong><br />
-                    <strong>Email:</strong> <a href="mailto:legal@apprenticeapex.com" className="text-orange hover:underline">legal@apprenticeapex.com</a><br />
-                    <strong>Support:</strong> <a href="mailto:support@apprenticeapex.com" className="text-orange hover:underline">support@apprenticeapex.com</a><br />
+                    <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a><br />
                     <strong>Address:</strong> [Company Address], London, United Kingdom<br />
                     <strong>Phone:</strong> +44 20 1234 5678
                   </p>
