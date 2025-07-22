@@ -151,7 +151,8 @@ export function CompanySignUpForm() {
               {/* Progress line background */}
               <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
               <div
-                className="absolute top-1/2 left-0 h-0.5 bg-orange-500 -translate-y-1/2 z-0 transition-all duration-500"
+                className="absolute top-1/2 left-0 h-0.5 -translate-y-1/2 z-0 transition-all duration-500"
+                style={{backgroundColor: '#da6927'}}
                 style={{ width: `${((currentStep - 1) / 4) * 100}%` }}
               ></div>
 
