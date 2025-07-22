@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import { useState, useEffect } from "react";
 import SubscriptionManager from "../components/SubscriptionManager";
+import SubscriptionPrompt from "../components/SubscriptionPrompt";
+import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
 import {
   ArrowLeft,
   Home,
