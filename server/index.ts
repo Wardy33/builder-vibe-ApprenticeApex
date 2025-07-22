@@ -19,6 +19,7 @@ import uploadRoutes from "./routes/upload";
 import paymentRoutes from "./routes/payments";
 import interviewRoutes from "./routes/interviews";
 import matchingRoutes from "./routes/matching";
+import accessControlRoutes from "./routes/accessControl";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
