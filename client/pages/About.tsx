@@ -50,7 +50,7 @@ export default function About() {
             <h2 className="text-3xl font-bold text-center mb-8">Our Story</h2>
             <div className="bg-gray-900/50 rounded-xl p-8">
               <p className="text-gray-300 leading-relaxed mb-6">
-                ApprenticeApex was founded in 2024 with a simple observation: the traditional 
+                ApprenticeApex was founded in 2025 with a simple observation: the traditional 
                 job search process wasn't working for apprenticeships. Students were spending 
                 countless hours applying to opportunities that weren't the right fit, while 
                 employers struggled to find candidates with the right potential and attitude.
