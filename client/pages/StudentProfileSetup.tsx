@@ -120,23 +120,24 @@ function ProfileSetupStep1({
   return (
     <div className="space-y-6">
       <div className="text-center mb-8">
-        <GraduationCap className="h-16 w-16 text-orange mx-auto mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">
+        <GraduationCap className="h-16 w-16 mx-auto mb-4" style={{color: '#da6927'}} />
+        <h2 className="text-2xl font-bold mb-2" style={{color: '#020202'}}>
           Personal Information
         </h2>
-        <p className="text-gray-400">Tell us about yourself</p>
+        <p className="text-gray-600">Tell us about yourself</p>
       </div>
 
       {/* Bio */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Bio <span className="text-red-400">*</span>
         </label>
         <textarea
           value={data.bio}
           onChange={(e) => onUpdate({ bio: e.target.value })}
           placeholder="Write a brief description about yourself, your interests, and career goals..."
-          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange resize-none h-24"
+          className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-24"
+          style={{focusBorderColor: '#da6927'}}
           maxLength={300}
         />
         <p className="text-xs text-gray-500 mt-1">
@@ -146,7 +147,7 @@ function ProfileSetupStep1({
 
       {/* Date of Birth */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Date of Birth <span className="text-red-400">*</span>
         </label>
         <div className="relative">
@@ -155,14 +156,15 @@ function ProfileSetupStep1({
             type="date"
             value={data.dateOfBirth}
             onChange={(e) => onUpdate({ dateOfBirth: e.target.value })}
-            className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-orange"
+            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+            style={{focusBorderColor: '#da6927', fontSize: '16px', minHeight: '48px'}}
           />
         </div>
       </div>
 
       {/* Phone */}
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">
+        <label className="block text-sm font-medium text-black mb-2">
           Phone Number
         </label>
         <input
@@ -170,14 +172,15 @@ function ProfileSetupStep1({
           value={data.phone}
           onChange={(e) => onUpdate({ phone: e.target.value })}
           placeholder="07123 456789"
-          className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+          className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+          style={{focusBorderColor: '#da6927'}}
         />
       </div>
 
       {/* Location */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-black mb-2">
             City/Town <span className="text-red-400">*</span>
           </label>
           <div className="relative">
@@ -187,12 +190,13 @@ function ProfileSetupStep1({
               value={data.location}
               onChange={(e) => onUpdate({ location: e.target.value })}
               placeholder="London"
-              className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+              className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+              style={{focusBorderColor: '#da6927'}}
             />
           </div>
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
+          <label className="block text-sm font-medium text-black mb-2">
             Postcode <span className="text-red-400">*</span>
           </label>
           <input
@@ -202,7 +206,8 @@ function ProfileSetupStep1({
               onUpdate({ postcode: e.target.value.toUpperCase() })
             }
             placeholder="SW1A 1AA"
-            className="w-full p-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+            className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+            style={{focusBorderColor: '#da6927'}}
             maxLength={8}
           />
         </div>
