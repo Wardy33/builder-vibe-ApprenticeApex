@@ -166,7 +166,7 @@ export default function Index() {
         </div>
 
         {/* Statistics Section */}
-        <div className="py-16 bg-gray-100 rounded-2xl mt-16">
+        <div className="py-16 rounded-2xl mt-16" style={{backgroundColor: '#f8f9fa'}}>
           <div className="max-w-4xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-8 text-orange-500">Our Platform Impact</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
