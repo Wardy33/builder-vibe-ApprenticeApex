@@ -377,11 +377,36 @@ router.post("/company/signup", [
   body("city").trim().isLength({ min: 1 }).withMessage("City is required"),
   body("postcode").trim().isLength({ min: 1 }).withMessage("Postcode is required"),
   body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
-  body("termsAccepted").isBoolean().equals(true).withMessage("Terms of service must be accepted"),
-  body("privacyAccepted").isBoolean().equals(true).withMessage("Privacy policy must be accepted"),
-  body("noPoacingAccepted").isBoolean().equals(true).withMessage("No-poaching agreement must be accepted"),
-  body("exclusivityAccepted").isBoolean().equals(true).withMessage("Exclusivity agreement must be accepted"),
-  body("dataProcessingAccepted").isBoolean().equals(true).withMessage("Data processing consent must be accepted"),
+  body("termsAccepted").custom((value) => {
+    if (!value || value !== true) {
+      throw new Error("Terms of service must be accepted");
+    }
+    return true;
+  }),
+  body("privacyAccepted").custom((value) => {
+    if (!value || value !== true) {
+      throw new Error("Privacy policy must be accepted");
+    }
+    return true;
+  }),
+  body("noPoacingAccepted").custom((value) => {
+    if (!value || value !== true) {
+      throw new Error("No-poaching agreement must be accepted");
+    }
+    return true;
+  }),
+  body("exclusivityAccepted").custom((value) => {
+    if (!value || value !== true) {
+      throw new Error("Exclusivity agreement must be accepted");
+    }
+    return true;
+  }),
+  body("dataProcessingAccepted").custom((value) => {
+    if (!value || value !== true) {
+      throw new Error("Data processing consent must be accepted");
+    }
+    return true;
+  }),
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
