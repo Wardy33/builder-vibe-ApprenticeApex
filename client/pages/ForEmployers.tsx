@@ -469,22 +469,22 @@ export default function ForEmployers() {
             </h2>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
-                <Mail className="w-8 h-8 text-orange-400 mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">Email Support</h3>
-                <p className="text-gray-400 text-sm mb-4">Get help within 2 hours</p>
-                <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-400 hover:text-orange-300">
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <Mail className="w-8 h-8 text-orange-500 mx-auto mb-4" />
+                <h3 className="text-black font-semibold mb-2">Email Support</h3>
+                <p className="text-gray-600 text-sm mb-4">Get help within 2 hours</p>
+                <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-500 hover:text-orange-600">
                   hello@apprenticeapex.co.uk
                 </a>
               </div>
               
 
               
-              <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
-                <MessageCircle className="w-8 h-8 text-orange-400 mx-auto mb-4" />
-                <h3 className="text-white font-semibold mb-2">Live Chat</h3>
-                <p className="text-gray-400 text-sm mb-4">Instant help when you need it</p>
-                <button className="text-orange-400 hover:text-orange-300">
+              <div className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <MessageCircle className="w-8 h-8 text-orange-500 mx-auto mb-4" />
+                <h3 className="text-black font-semibold mb-2">Live Chat</h3>
+                <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
+                <button className="text-orange-500 hover:text-orange-600">
                   Start Chat
                 </button>
               </div>
