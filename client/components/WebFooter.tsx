@@ -140,13 +140,7 @@ export function WebFooter() {
                 <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
               </div>
             </div>
-            <div className="flex items-center space-x-3">
-              <Phone className="h-5 w-5 text-orange" />
-              <div>
-                <p className="text-white text-sm font-medium">Phone</p>
-                <p className="text-gray-400 text-sm">+44 20 1234 5678</p>
-              </div>
-            </div>
+
             <div className="flex items-center space-x-3">
               <MapPin className="h-5 w-5 text-orange" />
               <div>
