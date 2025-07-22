@@ -372,9 +372,11 @@ router.post("/company/signup", [
   body("lastName").trim().isLength({ min: 1 }).withMessage("Last name is required"),
   body("email").isEmail().withMessage("Valid email is required"),
   body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
-  body("termsAccepted").equals(true).withMessage("Terms of service must be accepted"),
-  body("noPoacingAccepted").equals(true).withMessage("No-poaching agreement must be accepted"),
-  body("exclusivityAccepted").equals(true).withMessage("Exclusivity agreement must be accepted"),
+  body("termsAccepted").equals('true').withMessage("Terms of service must be accepted"),
+  body("privacyAccepted").equals('true').withMessage("Privacy policy must be accepted"),
+  body("noPoacingAccepted").equals('true').withMessage("No-poaching agreement must be accepted"),
+  body("exclusivityAccepted").equals('true').withMessage("Exclusivity agreement must be accepted"),
+  body("dataProcessingAccepted").equals('true').withMessage("Data processing consent must be accepted"),
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
