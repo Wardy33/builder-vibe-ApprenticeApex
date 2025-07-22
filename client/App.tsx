@@ -16,6 +16,7 @@ import PrivacyPolicy from "./pages/legal/PrivacyPolicy";
 import TermsOfService from "./pages/legal/TermsOfService";
 import CookiePolicy from "./pages/legal/CookiePolicy";
 import AcceptableUse from "./pages/legal/AcceptableUse";
+import ForEmployers from "./pages/ForEmployers";
 
 function App() {
   return (
