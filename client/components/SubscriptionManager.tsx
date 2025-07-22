@@ -213,7 +213,7 @@ export default function SubscriptionManager() {
             onClick={() => setShowUpgradeModal(true)}
             className="px-4 py-2 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors flex items-center"
           >
-            <Upgrade className="w-4 h-4 mr-2" />
+            <ArrowUp className="w-4 h-4 mr-2" />
             Upgrade Plan
           </button>
         </div>
