@@ -116,7 +116,10 @@ export function WebHeader() {
           <div className="hidden md:flex items-center space-x-4">
             <Link
               to="/student/signin"
-              className="text-sm font-medium text-gray-700 hover:text-orange-500 transition-colors"
+              className="text-sm font-medium text-white transition-colors"
+              style={{color: '#ffffff'}}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+              onMouseLeave={(e) => e.currentTarget.style.color = '#ffffff'}
             >
               Sign In
             </Link>
