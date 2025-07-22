@@ -232,10 +232,10 @@ export default function ForEmployers() {
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
                 Choose Your Plan
               </h2>
-              <p className="text-xl text-gray-300">Flexible pricing that grows with your business</p>
+              <p className="text-xl text-gray-600">Flexible pricing that grows with your business</p>
             </div>
             
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6">
