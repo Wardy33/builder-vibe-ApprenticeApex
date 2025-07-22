@@ -19,16 +19,16 @@ export function WebFooter() {
               Building the future workforce, one apprentice at a time.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-orange transition-colors">
+              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange transition-colors">
+              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange transition-colors">
+              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-orange transition-colors">
+              <a href="#" className="text-gray-600 hover:text-orange-500 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -36,15 +36,15 @@ export function WebFooter() {
 
           {/* For Students */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold">For Students</h3>
+            <h3 className="text-black font-semibold">For Students</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/student/signup" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/student/signup" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Sign Up
                 </Link>
               </li>
               <li>
-                <Link to="/student/signin" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/student/signin" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Sign In
                 </Link>
               </li>
@@ -52,12 +52,12 @@ export function WebFooter() {
 
               </li>
               <li>
-                <Link to="/how-it-works" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/how-it-works" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   How It Works
                 </Link>
               </li>
               <li>
-                <Link to="/student-resources" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/student-resources" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Resources
                 </Link>
               </li>
@@ -66,25 +66,25 @@ export function WebFooter() {
 
           {/* For Employers */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold">For Employers</h3>
+            <h3 className="text-black font-semibold">For Employers</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/company" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/company" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Company Portal
                 </Link>
               </li>
               <li>
-                <Link to="/post-apprenticeship" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/post-apprenticeship" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Post Opportunities
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/pricing" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/employer-resources" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/employer-resources" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Resources
                 </Link>
               </li>
@@ -94,35 +94,35 @@ export function WebFooter() {
 
           {/* Contact & Legal */}
           <div className="space-y-4">
-            <h3 className="text-white font-semibold">Contact & Legal</h3>
+            <h3 className="text-black font-semibold">Contact & Legal</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/contact" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/contact" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/about" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/support" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Support
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/privacy-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/terms-of-service" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/cookie-policy" className="text-gray-400 hover:text-orange transition-colors text-sm">
+                <Link to="/cookie-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Cookie Policy
                 </Link>
               </li>
@@ -131,12 +131,12 @@ export function WebFooter() {
         </div>
 
         {/* Contact Information */}
-        <div className="border-t border-gray-800 py-8">
+        <div className="border-t border-gray-200 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5 text-orange" />
               <div>
-                <p className="text-white text-sm font-medium">Email</p>
+                <p className="text-black text-sm font-medium">Email</p>
                 <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
               </div>
             </div>
@@ -144,7 +144,7 @@ export function WebFooter() {
             <div className="flex items-center space-x-3">
               <MapPin className="h-5 w-5 text-orange" />
               <div>
-                <p className="text-white text-sm font-medium">Address</p>
+                <p className="text-black text-sm font-medium">Address</p>
                 <p className="text-gray-400 text-sm">London, United Kingdom</p>
               </div>
             </div>
@@ -152,19 +152,19 @@ export function WebFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 py-6">
+        <div className="border-t border-gray-200 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
               © 2025 ApprenticeApex. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link to="/accessibility" className="text-gray-400 hover:text-orange transition-colors text-sm">
+              <Link to="/accessibility" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                 Accessibility
               </Link>
-              <Link to="/data-protection" className="text-gray-400 hover:text-orange transition-colors text-sm">
+              <Link to="/data-protection" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                 Data Protection
               </Link>
-              <Link to="/acceptable-use" className="text-gray-400 hover:text-orange transition-colors text-sm">
+              <Link to="/acceptable-use" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                 Acceptable Use
               </Link>
             </div>
