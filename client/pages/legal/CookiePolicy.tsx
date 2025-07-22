@@ -322,13 +322,9 @@ export default function CookiePolicy() {
                     If you have questions about our use of cookies or this policy:
                   </p>
                   <p className="text-gray-300 leading-relaxed">
-                    <strong>Email:</strong> 
-                    <a href="mailto:privacy@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      privacy@apprenticeapex.com
-                    </a><br />
-                    <strong>Data Protection Officer:</strong> 
-                    <a href="mailto:dpo@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      dpo@apprenticeapex.com
+                    <strong>Email:</strong>
+                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
+                      hello@apprenticeapex.co.uk
                     </a><br />
                     <strong>Address:</strong> ApprenticeApex Ltd, [Company Address], London, UK<br />
                     <strong>Phone:</strong> +44 20 1234 5678
