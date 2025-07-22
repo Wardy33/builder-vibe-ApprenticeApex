@@ -135,16 +135,16 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900/50 rounded-xl p-8">
-              <h2 className="text-2xl font-bold mb-6">Send us a Message</h2>
+            <div className="bg-white rounded-xl p-8 border border-gray-200 shadow-sm">
+              <h2 className="text-2xl font-bold mb-6 text-black">Send us a Message</h2>
               
               {isSubmitted ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Send className="h-8 w-8 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
-                  <p className="text-gray-300 mb-6">
+                  <h3 className="text-xl font-bold text-black mb-2">Message Sent!</h3>
+                  <p className="text-gray-600 mb-6">
                     Thank you for contacting us. We'll get back to you within 24 hours.
                   </p>
                   <button
@@ -152,7 +152,7 @@ export default function Contact() {
                       setIsSubmitted(false);
                       setFormData({ name: "", email: "", subject: "", message: "", userType: "student" });
                     }}
-                    className="bg-orange hover:bg-orange/90 text-white px-6 py-2 rounded-lg transition-colors"
+                    className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-lg transition-colors"
                   >
                     Send Another Message
                   </button>
