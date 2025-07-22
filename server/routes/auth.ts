@@ -490,14 +490,19 @@ router.post("/company/signup", [
     }
   } else {
     // Mock data operations (for development)
+    console.log("Using mock data for company registration");
+
     // Check if user already exists (mock check)
     const existingUser = [...mockStudents, ...mockCompanies].find(
       (user) => user.email === email
     );
 
     if (existingUser) {
+      console.log("Email already exists:", email);
       throw new CustomError("Email already registered", 409);
     }
+
+    console.log("Email is available, creating new company...");
 
     // Hash password
     const hashedPassword = await hashPassword(password);
