@@ -1120,24 +1120,24 @@ function ApprenticeshipInfoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-100 rounded-full text-gray-600"
+          className="p-2 hover:bg-white/10 rounded-full text-white transition-all duration-200 hover:scale-105"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-semibold text-gray-900">
-          Apprenticeship Details
+        <h1 className="text-lg font-semibold text-white">
+          Apprenticeship Details ✨
         </h1>
         <div className="w-10" />
       </header>
 
       <div className="p-4 space-y-6">
         {/* Company Header */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
           <div className="flex items-start space-x-4">
             <img
               src={apprenticeshipInfo.companyLogo}
@@ -1145,7 +1145,7 @@ function ApprenticeshipInfoPage() {
               className="w-16 h-16 rounded-lg object-cover"
             />
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-bold text-white mb-1">
                 {apprenticeshipInfo.jobTitle}
               </h2>
               <p className="text-orange font-semibold text-lg mb-2">
