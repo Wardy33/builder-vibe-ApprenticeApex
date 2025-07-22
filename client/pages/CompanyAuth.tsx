@@ -508,8 +508,8 @@ export function CompanySignUpForm() {
                 <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4 mt-6">
                   <h3 className="text-orange-500 font-semibold mb-2">Important:</h3>
                   <p className="text-gray-700 text-sm">
-                    By accepting these agreements, you acknowledge that you have the authority to bind your company to these terms. 
-                    Violation of the no-poaching or exclusivity clauses may result in penalties as outlined in our Terms of Service.
+                    By accepting these agreements, you acknowledge that you have the authority to bind your company to these terms.
+                    Violation of the no-poaching or exclusivity clauses may result in penalties as outlined in our <Link to="/terms-of-service" className="text-orange-500 hover:underline" target="_blank">Terms of Service</Link>.
                   </p>
                 </div>
               </div>
