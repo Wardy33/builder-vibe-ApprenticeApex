@@ -343,11 +343,11 @@ export default function ForEmployers() {
             <div className="overflow-x-auto">
               <table className="w-full bg-white rounded-xl border border-gray-200 shadow-sm">
                 <thead>
-                  <tr className="border-b border-gray-700">
-                    <th className="text-left p-4 text-white font-semibold">Method</th>
-                    <th className="text-center p-4 text-white font-semibold">Cost per Hire</th>
-                    <th className="text-center p-4 text-white font-semibold">Setup Costs</th>
-                    <th className="text-center p-4 text-white font-semibold">Risk Level</th>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left p-4 text-black font-semibold">Method</th>
+                    <th className="text-center p-4 text-black font-semibold">Cost per Hire</th>
+                    <th className="text-center p-4 text-black font-semibold">Setup Costs</th>
+                    <th className="text-center p-4 text-black font-semibold">Risk Level</th>
                   </tr>
                 </thead>
                 <tbody>
