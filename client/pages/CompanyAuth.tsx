@@ -612,7 +612,7 @@ export function CompanySignInForm() {
             <p className="text-gray-600">Sign in to your company portal</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="bg-gray-900 rounded-xl border border-gray-700 p-8 space-y-6">
+          <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 shadow-sm p-8 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Email Address
