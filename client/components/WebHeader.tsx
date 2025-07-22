@@ -56,13 +56,7 @@ export function WebHeader() {
                   >
                     Sign In
                   </Link>
-                  <Link
-                    to="/browse-apprenticeships"
-                    className="block px-4 py-2 text-sm text-gray-300 hover:text-orange hover:bg-gray-800 transition-colors"
-                    onClick={() => setIsDropdownOpen(false)}
-                  >
-                    Browse Opportunities
-                  </Link>
+
                 </div>
               )}
             </div>
