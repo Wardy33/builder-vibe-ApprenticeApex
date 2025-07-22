@@ -186,17 +186,17 @@ export default function LiveChat() {
           >
             <div className={`flex items-start space-x-2 max-w-[80%] ${message.sender === 'user' ? 'flex-row-reverse space-x-reverse' : ''}`}>
               <div className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                message.sender === 'user' ? 'bg-gradient-to-r from-orange-500 to-orange-600' : 'bg-gradient-to-r from-blue-400 to-cyan-400'
+                message.sender === 'user' ? 'bg-gradient-to-br from-orange-400 to-red-500' : 'bg-gradient-to-br from-orange-300 to-orange-500'
               }`}>
                 {message.sender === 'user' ? (
                   <User className="w-4 h-4 text-white" />
                 ) : (
-                  <Sparkles className="w-4 h-4 text-white" />
+                  <Sparkles className="w-4 h-4 text-white animate-pulse" />
                 )}
               </div>
               <div className={`rounded-lg p-3 shadow-sm ${
                 message.sender === 'user'
-                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
+                  ? 'bg-gradient-to-br from-orange-400 via-orange-500 to-red-500 text-white'
                   : 'bg-white text-gray-900 border border-gray-200'
               }`}>
                 <p className="text-sm">{message.text}</p>
