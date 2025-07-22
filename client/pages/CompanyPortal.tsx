@@ -2009,6 +2009,226 @@ function NotificationPreferencesPage() {
   );
 }
 
+// Job Creation Modal Component
+function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (listing: Omit<JobListing, 'id'>) => void }) {
+  const [formData, setFormData] = useState({
+    title: '',
+    company: 'TechCorp Ltd', // This would come from company profile
+    location: '',
+    type: 'full-time' as 'full-time' | 'part-time' | 'contract',
+    salary: '',
+    description: '',
+    requirements: [''],
+    postedDate: new Date().toISOString().split('T')[0],
+    applications: 0,
+    status: 'active' as 'active' | 'paused' | 'closed'
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleRequirementChange = (index: number, value: string) => {
+    const newRequirements = [...formData.requirements];
+    newRequirements[index] = value;
+    setFormData({ ...formData, requirements: newRequirements });
+  };
+
+  const addRequirement = () => {
+    setFormData({ ...formData, requirements: [...formData.requirements, ''] });
+  };
+
+  const removeRequirement = (index: number) => {
+    if (formData.requirements.length > 1) {
+      const newRequirements = formData.requirements.filter((_, i) => i !== index);
+      setFormData({ ...formData, requirements: newRequirements });
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.title || !formData.location || !formData.salary || !formData.description) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // TODO: Submit to API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      const filteredRequirements = formData.requirements.filter(req => req.trim() !== '');
+      onSave({
+        ...formData,
+        requirements: filteredRequirements
+      });
+    } catch (error) {
+      console.error('Error creating job listing:', error);
+      alert('Failed to create job listing. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+          <h3 className="text-xl font-semibold text-gray-900">Create New Job Listing</h3>
+          <button
+            onClick={onClose}
+            className="text-gray-400 hover:text-gray-600"
+          >
+            <X className="h-6 w-6" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Title *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.title}
+                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                placeholder="e.g., Software Developer Apprentice"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Location *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.location}
+                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                placeholder="e.g., London, UK"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Employment Type *
+              </label>
+              <select
+                required
+                value={formData.type}
+                onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              >
+                <option value="full-time">Full-time</option>
+                <option value="part-time">Part-time</option>
+                <option value="contract">Contract</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Salary Range *
+              </label>
+              <input
+                type="text"
+                required
+                value={formData.salary}
+                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
+                placeholder="e.g., £18,000 - £22,000"
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Status
+              </label>
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              >
+                <option value="active">Active</option>
+                <option value="paused">Paused</option>
+                <option value="closed">Closed</option>
+              </select>
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Job Description *
+              </label>
+              <textarea
+                required
+                rows={6}
+                value={formData.description}
+                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                placeholder="Describe the role, responsibilities, and what the apprentice will learn..."
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Requirements
+              </label>
+              <div className="space-y-3">
+                {formData.requirements.map((requirement, index) => (
+                  <div key={index} className="flex items-center space-x-2">
+                    <input
+                      type="text"
+                      value={requirement}
+                      onChange={(e) => handleRequirementChange(index, e.target.value)}
+                      placeholder={`Requirement ${index + 1}`}
+                      className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+                    />
+                    {formData.requirements.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeRequirement(index)}
+                        className="text-red-600 hover:text-red-800 p-2"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addRequirement}
+                  className="text-orange hover:text-orange/80 flex items-center space-x-2 text-sm"
+                >
+                  <Plus className="h-4 w-4" />
+                  <span>Add Requirement</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-orange text-white rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
+            >
+              <Save className="h-4 w-4" />
+              <span>{loading ? 'Creating...' : 'Create Job Listing'}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 // Account & Billing Settings Page
 function AccountBillingPage() {
   return (
