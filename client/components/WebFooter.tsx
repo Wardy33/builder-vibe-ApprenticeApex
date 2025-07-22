@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
 
 export function WebFooter() {
   return (
