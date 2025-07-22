@@ -175,15 +175,21 @@ export default function ForEmployers() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center">
+              <Link
+                to="/company"
+                className="px-8 py-4 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center"
+              >
                 Start Free Trial
                 <ArrowRight className="w-5 h-5 ml-2" />
-              </button>
-              
-              <button className="px-8 py-4 border border-gray-600 text-white font-semibold rounded-lg hover:border-gray-500 transition-colors flex items-center justify-center">
-                <Calculator className="w-5 h-5 mr-2" />
-                Calculate ROI
-              </button>
+              </Link>
+
+              <Link
+                to="/contact"
+                className="px-8 py-4 border border-gray-600 text-white font-semibold rounded-lg hover:border-gray-500 transition-colors flex items-center justify-center"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                Contact Sales
+              </Link>
             </div>
           </div>
         </section>
