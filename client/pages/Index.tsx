@@ -23,7 +23,7 @@ export default function Index() {
         {/* Header */}
         <header className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            <span className="text-orange-500">Apprentice</span>Apex
+            <span style={{color: '#da6927'}}>Apprentice</span>Apex
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             The revolutionary platform connecting students with apprenticeship
@@ -126,13 +126,13 @@ export default function Index() {
 
         {/* Features Section */}
         <div className="text-center">
-          <h3 className="text-3xl font-bold mb-8 text-orange-500">
+          <h3 className="text-3xl font-bold mb-8" style={{color: '#da6927'}}>
             Platform Features
           </h3>
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Zap className="h-8 w-8 text-orange-500" />
+                <Zap className="h-8 w-8" style={{color: '#da6927'}} />
               </div>
               <h4 className="text-xl font-semibold mb-2 text-black">
                 AI-Powered Matching
@@ -144,7 +144,7 @@ export default function Index() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Video className="h-8 w-8 text-orange-500" />
+                <Video className="h-8 w-8" style={{color: '#da6927'}} />
               </div>
               <h4 className="text-xl font-semibold mb-2 text-black">Video Integration</h4>
               <p className="text-gray-600">
@@ -153,7 +153,7 @@ export default function Index() {
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <MessageCircle className="h-8 w-8 text-orange-500" />
+                <MessageCircle className="h-8 w-8" style={{color: '#da6927'}} />
               </div>
               <h4 className="text-xl font-semibold mb-2 text-black">
                 Real-time Communication
@@ -168,7 +168,7 @@ export default function Index() {
         {/* Statistics Section */}
         <div className="py-16 rounded-2xl mt-16" style={{backgroundColor: '#f8f9fa'}}>
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-8 text-orange-500">Our Platform Impact</h3>
+            <h3 className="text-2xl font-bold mb-8" style={{color: '#da6927'}}>Our Platform Impact</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <div className="text-3xl font-bold text-black mb-2">10,000+</div>
