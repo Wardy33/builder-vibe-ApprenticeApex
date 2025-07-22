@@ -32,10 +32,6 @@ interface PricingPlan {
 }
 
 export default function ForEmployers() {
-  const [selectedPlan, setSelectedPlan] = useState<string>('trial');
-  const [estimatedHires, setEstimatedHires] = useState<number>(5);
-  const [averageSalary, setAverageSalary] = useState<number>(20000);
-  const [calculatedCost, setCalculatedCost] = useState<any>(null);
   
   const plans: PricingPlan[] = [
     {
