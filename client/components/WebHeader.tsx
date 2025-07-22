@@ -24,9 +24,14 @@ export function WebHeader() {
           <nav className="hidden md:flex items-center space-x-8">
             <Link
               to="/"
-              className={`text-sm font-medium transition-colors hover:text-orange-500 ${
-                isActive("/") ? "text-orange-500" : "text-gray-700"
+              className={`text-sm font-medium transition-colors ${
+                isActive("/") ? "" : "text-white"
               }`}
+              style={{
+                color: isActive("/") ? '#da6927' : '#ffffff'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.color = '#da6927'}
+              onMouseLeave={(e) => e.currentTarget.style.color = isActive("/") ? '#da6927' : '#ffffff'}
             >
               Home
             </Link>
