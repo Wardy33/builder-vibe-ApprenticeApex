@@ -325,9 +325,7 @@ export default function CookiePolicy() {
                     <strong>Email:</strong>
                     <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
                       hello@apprenticeapex.co.uk
-                    </a><br />
-                    <strong>Address:</strong> ApprenticeApex Ltd, [Company Address], London, UK<br />
-                    <strong>Phone:</strong> +44 20 1234 5678
+                    </a>
                   </p>
                 </div>
               </section>
