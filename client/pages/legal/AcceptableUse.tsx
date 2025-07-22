@@ -164,7 +164,7 @@ export default function AcceptableUse() {
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li>Use the "Report" button on profiles or messages</li>
-                  <li>Email us at <a href="mailto:abuse@apprenticeapex.com" className="text-orange hover:underline">abuse@apprenticeapex.com</a></li>
+                  <li>Email us at <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a></li>
                   <li>Contact our support team through the platform</li>
                   <li>For urgent safety concerns, contact local authorities first</li>
                 </ul>
@@ -201,7 +201,7 @@ export default function AcceptableUse() {
                 <h3 className="text-xl font-semibold mb-3 text-white">7.3 Appeals Process</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">
                   If you believe your account was incorrectly restricted, you may appeal by contacting 
-                  <a href="mailto:appeals@apprenticeapex.com" className="text-orange hover:underline ml-1">appeals@apprenticeapex.com</a> 
+                  <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">hello@apprenticeapex.co.uk</a> 
                   within 30 days of the action.
                 </p>
               </section>
@@ -253,21 +253,9 @@ export default function AcceptableUse() {
                     For questions about this Policy or to report violations:
                   </p>
                   <p className="text-gray-300 leading-relaxed">
-                    <strong>General Inquiries:</strong> 
-                    <a href="mailto:support@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      support@apprenticeapex.com
-                    </a><br />
-                    <strong>Report Abuse:</strong> 
-                    <a href="mailto:abuse@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      abuse@apprenticeapex.com
-                    </a><br />
-                    <strong>Appeals:</strong> 
-                    <a href="mailto:appeals@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      appeals@apprenticeapex.com
-                    </a><br />
-                    <strong>Legal Issues:</strong> 
-                    <a href="mailto:legal@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                      legal@apprenticeapex.com
+                    <strong>General Inquiries:</strong>
+                    <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
+                      hello@apprenticeapex.co.uk
                     </a>
                   </p>
                 </div>
