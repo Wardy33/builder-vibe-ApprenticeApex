@@ -306,9 +306,7 @@ export default function PrivacyPolicy() {
                     If you have questions about this Privacy Policy or our data practices, please contact us:
                   </p>
                   <p className="text-gray-300 leading-relaxed">
-                    <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a><br />
-                    <strong>Address:</strong> ApprenticeApex Ltd, [Company Address], London, United Kingdom<br />
-                    <strong>Phone:</strong> +44 20 1234 5678
+                    <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a>
                   </p>
                   <p className="text-gray-300 leading-relaxed mt-4">
                     You also have the right to lodge a complaint with the Information Commissioner's Office (ICO) 
