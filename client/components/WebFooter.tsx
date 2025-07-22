@@ -74,17 +74,17 @@ export function WebFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/post-apprenticeship" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Post Opportunities
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link to="/employer-resources" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/for-employers" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Resources
                 </Link>
               </li>
@@ -107,7 +107,7 @@ export function WebFooter() {
                 </Link>
               </li>
               <li>
-                <Link to="/support" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+                <Link to="/contact" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                   Support
                 </Link>
               </li>
@@ -158,10 +158,10 @@ export function WebFooter() {
               © 2025 ApprenticeApex. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link to="/accessibility" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+              <Link to="/acceptable-use" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                 Accessibility
               </Link>
-              <Link to="/data-protection" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
+              <Link to="/privacy-policy" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
                 Data Protection
               </Link>
               <Link to="/acceptable-use" className="text-gray-600 hover:text-orange-500 transition-colors text-sm">
