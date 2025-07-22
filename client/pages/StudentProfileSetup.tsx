@@ -674,14 +674,15 @@ function ProfileSetupStep3({
         <div className="flex gap-4">
           <button
             onClick={onBack}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             <ArrowLeft className="h-5 w-5" />
             Back
           </button>
           <button
             onClick={onNext}
-            className="flex-1 bg-orange hover:bg-orange/90 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="flex-1 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            style={{backgroundColor: '#da6927'}}
           >
             Next: Preferences
             <ArrowRight className="h-5 w-5" />
