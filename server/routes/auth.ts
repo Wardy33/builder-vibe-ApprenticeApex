@@ -505,7 +505,9 @@ router.post("/company/signup", [
     console.log("Email is available, creating new company...");
 
     // Hash password
+    console.log("Hashing password...");
     const hashedPassword = await hashPassword(password);
+    console.log("Password hashed successfully");
 
     // Create mock user
     const userId = `company_${Date.now()}`;
