@@ -201,7 +201,7 @@ export default function ForEmployers() {
               <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
                 🚀 Launch Offer - First 60 Days
               </h2>
-              <p className="text-xl text-gray-300">Perfect for testing ApprenticeApex risk-free</p>
+              <p className="text-xl text-gray-600">Perfect for testing ApprenticeApex risk-free</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
