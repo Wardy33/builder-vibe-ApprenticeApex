@@ -245,14 +245,7 @@ export default function ForEmployers() {
                   className="relative p-6 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-105 shadow-sm"
                   style={{backgroundColor: '#f8f9fa'}}
                 >
-                  {plan.popular && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <div className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold flex items-center">
-                        <Star className="w-4 h-4 mr-1" />
-                        Most Popular
-                      </div>
-                    </div>
-                  )}
+
                   
                   <div className="text-center mb-6">
                     <h3 className="text-xl font-bold text-black mb-2">{plan.name}</h3>
