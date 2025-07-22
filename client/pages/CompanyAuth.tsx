@@ -547,7 +547,8 @@ export function CompanySignUpForm() {
                   isLoading={isSubmitting}
                   disabled={!validateStep(5)}
                   loadingText="Creating Account..."
-                  className="ml-auto px-6 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600 disabled:bg-gray-700 disabled:cursor-not-allowed transition-colors"
+                  className="ml-auto px-6 py-3 text-white rounded-lg hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+                  style={{backgroundColor: '#da6927'}}
                 >
                   Complete Registration
                 </LoadingButton>
