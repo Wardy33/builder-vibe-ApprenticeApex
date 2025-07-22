@@ -22,6 +22,7 @@ import matchingRoutes from "./routes/matching";
 import accessControlRoutes from "./routes/accessControl";
 import alertRoutes from "./routes/alerts";
 import subscriptionRoutes from "./routes/subscriptions";
+import contactRoutes from "./routes/contact";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
