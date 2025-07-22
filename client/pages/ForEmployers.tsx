@@ -304,12 +304,7 @@ export default function ForEmployers() {
                   
                   <Link
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
-                    className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block ${
-                      plan.popular
-                        ? 'text-white hover:opacity-90'
-                        : 'bg-gray-100 text-black hover:bg-gray-200 border border-gray-300'
-                    }`}
-                    style={plan.popular ? {backgroundColor: '#da6927'} : {}}
+                    className="w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block bg-gray-100 text-black hover:bg-gray-200 border border-gray-300"
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
                      plan.id === 'enterprise' ? 'Contact Sales' :
