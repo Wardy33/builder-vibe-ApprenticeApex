@@ -35,7 +35,7 @@ export default function Index() {
         <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
           {/* Student App Card */}
           <div className="group">
-            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
+            <div className="rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl" style={{background: `linear-gradient(135deg, #da6927 0%, #c55c1f 100%)`}}>
               <div className="flex items-center mb-6">
                 <Smartphone className="h-8 w-8 text-white mr-3" />
                 <h2 className="text-2xl font-bold text-white">Student App</h2>
