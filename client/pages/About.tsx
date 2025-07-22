@@ -147,7 +147,19 @@ export default function About() {
             </Link>
             <Link
               to="/company"
-              className="inline-flex items-center justify-center px-8 py-3 border border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white font-semibold rounded-lg transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 border font-semibold rounded-lg transition-colors"
+              style={{
+                borderColor: '#da6927',
+                color: '#da6927'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#da6927';
+                e.currentTarget.style.color = 'white';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+                e.currentTarget.style.color = '#da6927';
+              }}
             >
               Join as Employer
             </Link>
