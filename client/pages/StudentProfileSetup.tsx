@@ -961,7 +961,7 @@ function ProfileSetupStep4({
         <div className="flex gap-4">
           <button
             onClick={onBack}
-            className="flex-1 bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
+            className="flex-1 bg-gray-500 hover:bg-gray-600 text-white font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center gap-2"
           >
             <ArrowLeft className="h-5 w-5" />
             Back
@@ -978,14 +978,15 @@ function ProfileSetupStep4({
               !data.maxCommuteDistance ||
               data.transportModes.length === 0
             }
-            className="flex-1 bg-orange hover:bg-orange/90 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+            className="flex-1 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 px-4 rounded-lg transition-colors"
+            style={{backgroundColor: '#da6927'}}
           >
             {isLoading ? "Creating Profile..." : "Complete Setup"}
           </button>
         </div>
         <button
           onClick={handleComplete}
-          className="w-full bg-gray-600 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
+          className="w-full bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded-lg transition-colors text-sm"
         >
           Skip for now and explore jobs (you can complete this later)
         </button>
