@@ -168,7 +168,7 @@ export default function Index() {
         {/* Statistics Section */}
         <div className="py-16 bg-gray-900/50 rounded-2xl mt-16">
           <div className="max-w-4xl mx-auto text-center">
-            <h3 className="text-2xl font-bold mb-8 text-orange">Join Thousands of Success Stories</h3>
+            <h3 className="text-2xl font-bold mb-8 text-orange">Our Platform Impact</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               <div>
                 <div className="text-3xl font-bold text-white mb-2">10,000+</div>
