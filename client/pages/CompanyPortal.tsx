@@ -1341,6 +1341,23 @@ function MessagesPage() {
   );
 }
 
+// Subscription Page Component
+function SubscriptionPage() {
+  return (
+    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+      <div className="mb-6">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+          Subscription & Billing
+        </h1>
+        <p className="text-gray-600">
+          Manage your subscription plan, view billing history, and track usage
+        </p>
+      </div>
+      <SubscriptionManager />
+    </div>
+  );
+}
+
 export default function CompanyPortal() {
   return (
     <CompanyPortalLayout>
@@ -1349,6 +1366,7 @@ export default function CompanyPortal() {
         <Route path="/listings" element={<JobListingsPage />} />
         <Route path="/applications" element={<ApplicationsPage />} />
         <Route path="/interviews" element={<InterviewsPage />} />
+        <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/messages" element={<MessagesPage />} />
       </Routes>
     </CompanyPortalLayout>
