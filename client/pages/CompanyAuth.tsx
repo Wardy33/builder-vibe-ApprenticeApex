@@ -140,8 +140,8 @@ export function CompanySignUpForm() {
       <div className="min-h-screen bg-white py-12">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
-            <Building2 className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-black mb-2">Join ApprenticeApex</h1>
+            <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
+            <h1 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>Join ApprenticeApex</h1>
             <p className="text-gray-600">Start your 60-day risk-free trial today</p>
           </div>
 
