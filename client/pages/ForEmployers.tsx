@@ -206,19 +206,19 @@ export default function ForEmployers() {
             
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-orange-500 text-2xl font-bold mb-2">£0</div>
+                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>£0</div>
                 <div className="text-black font-semibold mb-2">Setup Costs</div>
                 <div className="text-gray-600 text-sm">No upfront fees or monthly charges</div>
               </div>
               
               <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-orange-500 text-2xl font-bold mb-2">£399</div>
+                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>£399</div>
                 <div className="text-black font-semibold mb-2">Per Successful Hire</div>
                 <div className="text-gray-600 text-sm">Only pay when candidate starts</div>
               </div>
               
               <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-orange-500 text-2xl font-bold mb-2">777%</div>
+                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>777%</div>
                 <div className="text-black font-semibold mb-2">Average ROI</div>
                 <div className="text-gray-600 text-sm">vs traditional recruitment</div>
               </div>
@@ -280,7 +280,7 @@ export default function ForEmployers() {
                     </div>
                     
                     <div className="text-center">
-                      <div className="text-orange-500 font-semibold">
+                      <div className="font-semibold" style={{color: '#da6927'}}>
                         {plan.successFee 
                           ? `+ ${formatCurrency(plan.successFee)} per hire`
                           : `+ ${plan.successFeeRate}% of first year salary`
@@ -350,7 +350,7 @@ export default function ForEmployers() {
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full bg-white rounded-xl border border-gray-200 shadow-sm">
+              <table className="w-full rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
                 <thead>
                   <tr className="border-b border-gray-200">
                     <th className="text-left p-4 text-black font-semibold">Method</th>
@@ -402,21 +402,21 @@ export default function ForEmployers() {
             
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <TrendingUp className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <TrendingUp className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
                 <div className="text-3xl font-bold text-black mb-2">777%</div>
                 <div className="text-black font-semibold mb-2">Average ROI</div>
                 <div className="text-gray-600">during 60-day trial vs traditional recruitment</div>
               </div>
               
               <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <Clock className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
                 <div className="text-3xl font-bold text-black mb-2">14 days</div>
                 <div className="text-black font-semibold mb-2">Average Time to Hire</div>
                 <div className="text-gray-600">vs 45+ days for traditional methods</div>
               </div>
               
               <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <Users className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <Users className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
                 <div className="text-3xl font-bold text-black mb-2">92%</div>
                 <div className="text-black font-semibold mb-2">Hire Success Rate</div>
                 <div className="text-gray-600">apprentices who complete their programs</div>
