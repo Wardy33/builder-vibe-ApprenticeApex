@@ -83,7 +83,7 @@ export default function Index() {
           <Link to="/company" className="group">
             <div className="border border-gray-300 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl" style={{backgroundColor: '#f8f9fa'}}>
               <div className="flex items-center mb-6">
-                <Building2 className="h-8 w-8 text-orange-500 mr-3" />
+                <Building2 className="h-8 w-8 mr-3" style={{color: '#da6927'}} />
                 <h2 className="text-2xl font-bold text-black">
                   Company Portal
                 </h2>
