@@ -580,7 +580,7 @@ function ProfileSetupStep3({
 
       {data.gcseGrades.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-gray-400 mb-4">No GCSE grades added yet</p>
+          <p className="text-gray-600 mb-4">No GCSE grades added yet</p>
           <p className="text-sm text-gray-500 mb-6">
             Add your GCSE grades to help employers understand your academic
             background
