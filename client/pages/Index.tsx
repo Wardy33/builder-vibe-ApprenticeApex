@@ -204,7 +204,7 @@ export default function Index() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/student/signup"
-              className="inline-flex items-center justify-center px-8 py-3 bg-white text-orange font-semibold rounded-lg hover:bg-gray-100 transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 bg-white text-orange-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors"
             >
               Sign Up as Student
               <ArrowRight className="ml-2 h-4 w-4" />
