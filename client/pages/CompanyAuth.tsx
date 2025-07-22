@@ -488,7 +488,7 @@ export function CompanySignUpForm() {
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
                     <div className="text-gray-700">
-                      <strong>I agree to the 12-Month Exclusivity Period:</strong> For any candidate I contact through ApprenticeApex, I agree to use only ApprenticeApex services for hiring that candidate for a period of 12 months from first contact. *
+                      <strong>I agree to the <Link to="/terms-of-service" className="text-orange-500 hover:underline" target="_blank">12-Month Exclusivity Period</Link>:</strong> For any candidate I contact through ApprenticeApex, I agree to use only ApprenticeApex services for hiring that candidate for a period of 12 months from first contact. *
                     </div>
                   </label>
 
