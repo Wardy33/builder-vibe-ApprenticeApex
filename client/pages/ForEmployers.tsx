@@ -165,72 +165,71 @@ export default function ForEmployers() {
   
   return (
     <WebLayout>
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen">
         {/* Hero Section */}
         <section className="pt-20 pb-16 px-4">
           <div className="container mx-auto max-w-6xl text-center">
-            <div className="inline-flex items-center px-4 py-2 bg-orange-500/10 border border-orange-500/30 rounded-full text-orange-400 text-sm font-medium mb-6">
-              <Zap className="w-4 h-4 mr-2" />
-              Risk-Free Apprentice Recruitment
+            <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-400/20 via-pink-500/20 to-blue-500/20 border border-white/20 rounded-full text-orange-300 text-sm font-bold mb-6 backdrop-blur-sm">
+              <Zap className="w-4 h-4 mr-2 animate-pulse" />
+              Risk-Free Apprentice Recruitment ✨
             </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold text-black mb-6">
-              Pay Only When You <span className="text-orange-500">Hire</span>
+
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
+              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Hire</span> 🚀
             </h1>
-            
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-              Start with our 60-day risk-free trial. No monthly fees, no setup costs. 
-              Only pay £399 when you successfully hire an apprentice.
+
+            <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto font-medium">
+              Start with our 60-day risk-free trial. No monthly fees, no setup costs.
+              Only pay £399 when you successfully hire an apprentice ✨
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/company/signup"
-                className="px-8 py-4 border-2 border-black text-black font-semibold rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center"
-                style={{backgroundColor: 'white'}}
+                className="px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 flex items-center justify-center shadow-xl border border-white/20"
               >
-                Start Free Trial
+                Start Free Trial 🚀
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
 
               <Link
                 to="/contact"
-                className="px-8 py-4 border border-gray-300 text-black font-semibold rounded-lg hover:border-gray-400 transition-colors flex items-center justify-center"
+                className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105 flex items-center justify-center"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Contact Sales
+                Contact Sales 💬
               </Link>
             </div>
           </div>
         </section>
         
         {/* Trial Offer Highlight */}
-        <section className="py-16 px-4 bg-gradient-to-r from-orange-50 to-red-50 border-y border-orange-200">
+        <section className="py-16 px-4 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border-y border-white/10">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-                🚀 Launch Offer - First 60 Days
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                🚀 Launch Offer - First 60 Days ✨
               </h2>
-              <p className="text-xl text-gray-600">Perfect for testing ApprenticeApex risk-free</p>
+              <p className="text-xl text-gray-300 font-medium">Perfect for testing ApprenticeApex risk-free</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>£0</div>
-                <div className="text-black font-semibold mb-2">Setup Costs</div>
-                <div className="text-gray-600 text-sm">No upfront fees or monthly charges</div>
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
+                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£0</div>
+                <div className="text-white font-bold mb-2">Setup Costs 🎆</div>
+                <div className="text-gray-300 text-sm">No upfront fees or monthly charges</div>
               </div>
-              
-              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>£399</div>
-                <div className="text-black font-semibold mb-2">Per Successful Hire</div>
-                <div className="text-gray-600 text-sm">Only pay when candidate starts</div>
+
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-orange-400/20 to-pink-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
+                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£399</div>
+                <div className="text-white font-bold mb-2">Per Successful Hire 🎯</div>
+                <div className="text-gray-300 text-sm">Only pay when candidate starts</div>
               </div>
-              
-              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <div className="text-2xl font-bold mb-2" style={{color: '#da6927'}}>777%</div>
-                <div className="text-black font-semibold mb-2">Average ROI</div>
-                <div className="text-gray-600 text-sm">vs traditional recruitment</div>
+
+              <div className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
+                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">777%</div>
+                <div className="text-white font-bold mb-2">Average ROI 📈</div>
+                <div className="text-gray-300 text-sm">vs traditional recruitment</div>
               </div>
             </div>
           </div>
