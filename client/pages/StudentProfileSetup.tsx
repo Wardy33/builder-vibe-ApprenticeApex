@@ -959,8 +959,15 @@ function ProfileSetupStep4({
             type="date"
             value={data.availabilityDate}
             onChange={(e) => onUpdate({ availabilityDate: e.target.value })}
-            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
-            style={{focusBorderColor: '#da6927', fontSize: '16px', minHeight: '48px'}}
+            className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
+            style={{
+              focusBorderColor: '#da6927',
+              fontSize: '18px',
+              minHeight: '56px',
+              WebkitAppearance: 'none',
+              MozAppearance: 'textfield'
+            }}
+            min={new Date().toISOString().split('T')[0]}
           />
         </div>
       </div>
