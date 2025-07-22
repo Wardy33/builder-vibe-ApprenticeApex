@@ -14,8 +14,8 @@ export function WebFooter() {
                 <span className="text-orange-500">Apprentice</span>Apex
               </span>
             </div>
-            <p className="text-gray-400 text-sm">
-              Connecting students with apprenticeship opportunities through AI-powered matching. 
+            <p className="text-gray-600 text-sm">
+              Connecting students with apprenticeship opportunities through AI-powered matching.
               Building the future workforce, one apprentice at a time.
             </p>
             <div className="flex space-x-4">
