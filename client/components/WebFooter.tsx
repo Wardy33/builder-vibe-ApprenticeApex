@@ -11,7 +11,7 @@ export function WebFooter() {
           <div className="space-y-4">
             <div>
               <span className="text-2xl font-bold text-black">
-                <span className="text-orange-500">Apprentice</span>Apex
+                <span style={{color: '#da6927'}}>Apprentice</span>Apex
               </span>
             </div>
             <p className="text-gray-600 text-sm">
@@ -134,7 +134,7 @@ export function WebFooter() {
         <div className="border-t border-gray-200 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
-              <Mail className="h-5 w-5 text-orange" />
+              <Mail className="h-5 w-5" style={{color: '#da6927'}} />
               <div>
                 <p className="text-black text-sm font-medium">Email</p>
                 <p className="text-gray-400 text-sm">hello@apprenticeapex.co.uk</p>
@@ -142,7 +142,7 @@ export function WebFooter() {
             </div>
 
             <div className="flex items-center space-x-3">
-              <MapPin className="h-5 w-5 text-orange" />
+              <MapPin className="h-5 w-5" style={{color: '#da6927'}} />
               <div>
                 <p className="text-black text-sm font-medium">Address</p>
                 <p className="text-gray-400 text-sm">London, United Kingdom</p>
