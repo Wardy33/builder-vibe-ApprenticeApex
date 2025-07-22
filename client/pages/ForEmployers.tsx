@@ -490,10 +490,10 @@ export default function ForEmployers() {
 
               
               <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <MessageCircle className="w-8 h-8 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-black font-semibold mb-2">Live Chat</h3>
+                <MessageCircle className="w-8 h-8 mx-auto mb-4" style={{color: '#da6927'}} />
+                <h3 className="font-semibold mb-2" style={{color: '#020202'}}>Live Chat</h3>
                 <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
-                <button className="text-orange-500 hover:text-orange-600">
+                <button className="hover:opacity-80" style={{color: '#da6927'}}>
                   Start Chat
                 </button>
               </div>
