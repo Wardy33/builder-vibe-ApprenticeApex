@@ -599,23 +599,49 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               </button>
             </div>
             <div className="p-2">
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700">
+              <Link
+                to="/company/settings/profile"
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
+                onClick={() => setShowSettings(false)}
+              >
                 Profile Settings
-              </button>
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700">
+              </Link>
+              <Link
+                to="/company/settings/company"
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
+                onClick={() => setShowSettings(false)}
+              >
                 Company Information
-              </button>
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700">
+              </Link>
+              <Link
+                to="/company/settings/notifications"
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
+                onClick={() => setShowSettings(false)}
+              >
                 Notification Preferences
-              </button>
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700">
+              </Link>
+              <Link
+                to="/company/settings/billing"
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
+                onClick={() => setShowSettings(false)}
+              >
                 Account & Billing
-              </button>
+              </Link>
               <hr className="my-2" />
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700">
+              <Link
+                to="/company/settings/help"
+                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
+                onClick={() => setShowSettings(false)}
+              >
                 Help & Support
-              </button>
-              <button className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-red-600">
+              </Link>
+              <button
+                onClick={() => {
+                  setShowSettings(false);
+                  navigate('/');
+                }}
+                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-red-600"
+              >
                 Sign Out
               </button>
             </div>
@@ -1404,6 +1430,685 @@ function SubscriptionPage() {
   );
 }
 
+// Profile Settings Page
+function ProfileSettingsPage() {
+  const [profile, setProfile] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    jobTitle: '',
+    department: ''
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // TODO: Load actual profile data from API
+    setProfile({
+      firstName: 'John',
+      lastName: 'Smith',
+      email: 'john.smith@company.com',
+      phone: '+44 7123 456789',
+      jobTitle: 'HR Manager',
+      department: 'Human Resources'
+    });
+  }, []);
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // TODO: Save to API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error saving profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Profile Settings</h2>
+        {success && (
+          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
+            <CheckCircle className="h-4 w-4" />
+            <span>Profile updated successfully</span>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              First Name
+            </label>
+            <input
+              type="text"
+              value={profile.firstName}
+              onChange={(e) => setProfile({...profile, firstName: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Last Name
+            </label>
+            <input
+              type="text"
+              value={profile.lastName}
+              onChange={(e) => setProfile({...profile, lastName: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
+            <input
+              type="email"
+              value={profile.email}
+              onChange={(e) => setProfile({...profile, email: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone
+            </label>
+            <input
+              type="tel"
+              value={profile.phone}
+              onChange={(e) => setProfile({...profile, phone: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Job Title
+            </label>
+            <input
+              type="text"
+              value={profile.jobTitle}
+              onChange={(e) => setProfile({...profile, jobTitle: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Department
+            </label>
+            <input
+              type="text"
+              value={profile.department}
+              onChange={(e) => setProfile({...profile, department: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+        </div>
+        <div className="flex justify-end mt-6">
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
+          >
+            <Save className="h-4 w-4" />
+            <span>{loading ? 'Saving...' : 'Save Changes'}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Company Information Page
+function CompanyInformationPage() {
+  const [company, setCompany] = useState({
+    name: '',
+    description: '',
+    website: '',
+    industry: '',
+    size: '',
+    address: '',
+    city: '',
+    postcode: '',
+    country: '',
+    logo: null as File | null
+  });
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // TODO: Load actual company data from API
+    setCompany({
+      name: 'TechCorp Ltd',
+      description: 'Leading technology training provider specializing in apprenticeships',
+      website: 'https://techcorp.co.uk',
+      industry: 'Technology',
+      size: '50-100',
+      address: '123 Business Street',
+      city: 'London',
+      postcode: 'SW1A 1AA',
+      country: 'United Kingdom',
+      logo: null
+    });
+  }, []);
+
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setCompany({...company, logo: file});
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setLogoPreview(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // TODO: Save to API with logo upload
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error saving company:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
+        {success && (
+          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
+            <CheckCircle className="h-4 w-4" />
+            <span>Company information updated successfully</span>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Company Details</h3>
+
+        {/* Logo Upload */}
+        <div className="mb-6">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Company Logo
+          </label>
+          <div className="flex items-center space-x-4">
+            <div className="w-24 h-24 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+              {logoPreview ? (
+                <img src={logoPreview} alt="Logo preview" className="w-full h-full object-contain rounded-lg" />
+              ) : (
+                <Building2 className="h-12 w-12 text-gray-400" />
+              )}
+            </div>
+            <div>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleLogoChange}
+                className="hidden"
+                id="logo-upload"
+              />
+              <label
+                htmlFor="logo-upload"
+                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 cursor-pointer inline-block"
+              >
+                Upload Logo
+              </label>
+              <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 2MB</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Name
+            </label>
+            <input
+              type="text"
+              value={company.name}
+              onChange={(e) => setCompany({...company, name: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea
+              rows={4}
+              value={company.description}
+              onChange={(e) => setCompany({...company, description: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Website
+            </label>
+            <input
+              type="url"
+              value={company.website}
+              onChange={(e) => setCompany({...company, website: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Industry
+            </label>
+            <select
+              value={company.industry}
+              onChange={(e) => setCompany({...company, industry: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            >
+              <option value="">Select Industry</option>
+              <option value="Technology">Technology</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Finance">Finance</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Retail">Retail</option>
+              <option value="Construction">Construction</option>
+              <option value="Education">Education</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Size
+            </label>
+            <select
+              value={company.size}
+              onChange={(e) => setCompany({...company, size: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            >
+              <option value="">Select Size</option>
+              <option value="1-10">1-10 employees</option>
+              <option value="11-50">11-50 employees</option>
+              <option value="51-100">51-100 employees</option>
+              <option value="101-500">101-500 employees</option>
+              <option value="500+">500+ employees</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Address
+            </label>
+            <input
+              type="text"
+              value={company.address}
+              onChange={(e) => setCompany({...company, address: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              City
+            </label>
+            <input
+              type="text"
+              value={company.city}
+              onChange={(e) => setCompany({...company, city: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Postcode
+            </label>
+            <input
+              type="text"
+              value={company.postcode}
+              onChange={(e) => setCompany({...company, postcode: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Country
+            </label>
+            <select
+              value={company.country}
+              onChange={(e) => setCompany({...company, country: e.target.value})}
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            >
+              <option value="">Select Country</option>
+              <option value="United Kingdom">United Kingdom</option>
+              <option value="Ireland">Ireland</option>
+              <option value="United States">United States</option>
+              <option value="Canada">Canada</option>
+              <option value="Australia">Australia</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex justify-end mt-6">
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
+          >
+            <Save className="h-4 w-4" />
+            <span>{loading ? 'Saving...' : 'Save Changes'}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Notification Preferences Page
+function NotificationPreferencesPage() {
+  const [preferences, setPreferences] = useState({
+    emailNotifications: {
+      newApplications: true,
+      interviewReminders: true,
+      messageReceived: true,
+      subscriptionUpdates: false,
+      marketingEmails: false
+    },
+    pushNotifications: {
+      newApplications: true,
+      interviewReminders: true,
+      messageReceived: false,
+      systemUpdates: true
+    }
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleEmailChange = (key: string, value: boolean) => {
+    setPreferences({
+      ...preferences,
+      emailNotifications: {
+        ...preferences.emailNotifications,
+        [key]: value
+      }
+    });
+  };
+
+  const handlePushChange = (key: string, value: boolean) => {
+    setPreferences({
+      ...preferences,
+      pushNotifications: {
+        ...preferences.pushNotifications,
+        [key]: value
+      }
+    });
+  };
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // TODO: Save to API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error saving preferences:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-2xl font-bold text-gray-900">Notification Preferences</h2>
+        {success && (
+          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
+            <CheckCircle className="h-4 w-4" />
+            <span>Preferences updated successfully</span>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-6">
+        {/* Email Notifications */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+            <Mail className="h-5 w-5" />
+            <span>Email Notifications</span>
+          </h3>
+          <div className="space-y-4">
+            {Object.entries(preferences.emailNotifications).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {key === 'newApplications' ? 'New Applications' :
+                     key === 'interviewReminders' ? 'Interview Reminders' :
+                     key === 'messageReceived' ? 'Message Received' :
+                     key === 'subscriptionUpdates' ? 'Subscription Updates' :
+                     'Marketing Emails'}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {key === 'newApplications' ? 'Get notified when candidates apply to your jobs' :
+                     key === 'interviewReminders' ? 'Reminders about upcoming interviews' :
+                     key === 'messageReceived' ? 'When candidates send you messages' :
+                     key === 'subscriptionUpdates' ? 'Billing and subscription notifications' :
+                     'Product updates and promotional content'}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={value}
+                    onChange={(e) => handleEmailChange(key, e.target.checked)}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Push Notifications */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+            <Bell className="h-5 w-5" />
+            <span>Push Notifications</span>
+          </h3>
+          <div className="space-y-4">
+            {Object.entries(preferences.pushNotifications).map(([key, value]) => (
+              <div key={key} className="flex items-center justify-between">
+                <div>
+                  <h4 className="font-medium text-gray-900">
+                    {key === 'newApplications' ? 'New Applications' :
+                     key === 'interviewReminders' ? 'Interview Reminders' :
+                     key === 'messageReceived' ? 'Message Received' :
+                     'System Updates'}
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    {key === 'newApplications' ? 'Browser notifications for new applications' :
+                     key === 'interviewReminders' ? 'Browser reminders for interviews' :
+                     key === 'messageReceived' ? 'Instant notifications for new messages' :
+                     'Important system notifications'}
+                  </p>
+                </div>
+                <label className="relative inline-flex items-center cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="sr-only peer"
+                    checked={value}
+                    onChange={(e) => handlePushChange(key, e.target.checked)}
+                  />
+                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-end">
+        <button
+          onClick={handleSave}
+          disabled={loading}
+          className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
+        >
+          <Save className="h-4 w-4" />
+          <span>{loading ? 'Saving...' : 'Save Preferences'}</span>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Account & Billing Settings Page
+function AccountBillingPage() {
+  return (
+    <div className="p-6 space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Account & Billing</h2>
+      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <p className="text-gray-600 mb-4">
+          Manage your subscription, billing information, and payment methods.
+        </p>
+        <Link
+          to="/company/subscription"
+          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 inline-flex items-center space-x-2"
+        >
+          <CreditCard className="h-4 w-4" />
+          <span>Go to Subscription & Billing</span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// Help & Support Page
+function HelpSupportPage() {
+  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [category, setCategory] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      // TODO: Submit to API
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setMessage('');
+      setCategory('');
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      console.error('Error submitting support request:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="p-6 space-y-6">
+      <h2 className="text-2xl font-bold text-gray-900">Help & Support</h2>
+
+      {success && (
+        <div className="bg-green-100 text-green-700 p-4 rounded-lg flex items-center space-x-2">
+          <CheckCircle className="h-5 w-5" />
+          <span>Support request submitted successfully. We'll get back to you within 24 hours.</span>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Quick Help */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Help</h3>
+          <div className="space-y-4">
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h4 className="font-medium text-gray-900 mb-2">Getting Started</h4>
+              <p className="text-sm text-gray-600 mb-2">Learn how to post your first job and manage applications.</p>
+              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h4 className="font-medium text-gray-900 mb-2">Billing & Subscriptions</h4>
+              <p className="text-sm text-gray-600 mb-2">Understand our pricing and manage your subscription.</p>
+              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
+            </div>
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h4 className="font-medium text-gray-900 mb-2">Managing Candidates</h4>
+              <p className="text-sm text-gray-600 mb-2">Best practices for reviewing and interviewing candidates.</p>
+              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Support */}
+        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Category
+              </label>
+              <select
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              >
+                <option value="">Select a category</option>
+                <option value="technical">Technical Issue</option>
+                <option value="billing">Billing Question</option>
+                <option value="account">Account Management</option>
+                <option value="feature">Feature Request</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Message
+              </label>
+              <textarea
+                rows={6}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                required
+                placeholder="Describe your issue or question..."
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-orange text-white py-2 rounded-lg hover:bg-orange/90 disabled:opacity-50"
+            >
+              {loading ? 'Submitting...' : 'Submit Support Request'}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function CompanyPortal() {
   return (
     <CompanyPortalLayout>
@@ -1414,6 +2119,11 @@ export default function CompanyPortal() {
         <Route path="/interviews" element={<InterviewsPage />} />
         <Route path="/subscription" element={<SubscriptionPage />} />
         <Route path="/messages" element={<MessagesPage />} />
+        <Route path="/settings/profile" element={<ProfileSettingsPage />} />
+        <Route path="/settings/company" element={<CompanyInformationPage />} />
+        <Route path="/settings/notifications" element={<NotificationPreferencesPage />} />
+        <Route path="/settings/billing" element={<AccountBillingPage />} />
+        <Route path="/settings/help" element={<HelpSupportPage />} />
       </Routes>
     </CompanyPortalLayout>
   );
