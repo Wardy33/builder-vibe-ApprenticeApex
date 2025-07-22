@@ -1389,13 +1389,13 @@ function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white">
+      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-gray-100 rounded-full text-gray-600 mr-2"
+            className="p-2 hover:bg-white/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
@@ -1405,11 +1405,11 @@ function ChatPage() {
             className="w-10 h-10 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-gray-900">{chatInfo.company}</h1>
-            <p className="text-sm text-gray-600">{chatInfo.jobTitle}</p>
+            <h1 className="font-semibold text-white">{chatInfo.company}</h1>
+            <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-gray-100 rounded-full text-gray-600">
+        <button className="p-2 hover:bg-white/10 rounded-full text-white transition-all duration-200 hover:scale-105">
           <Video className="h-6 w-6" />
         </button>
       </header>
