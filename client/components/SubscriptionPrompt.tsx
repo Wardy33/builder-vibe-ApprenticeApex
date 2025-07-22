@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertTriangle, Upgrade, CreditCard, Clock } from 'lucide-react';
+import { AlertTriangle, ArrowUp, CreditCard, Clock } from 'lucide-react';
 
 interface SubscriptionPromptProps {
   type: 'trial_needed' | 'limit_reached' | 'trial_expired' | 'upgrade_needed';
