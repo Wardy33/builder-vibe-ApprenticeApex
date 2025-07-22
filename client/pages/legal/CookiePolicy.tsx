@@ -276,9 +276,9 @@ export default function CookiePolicy() {
                   <li><strong>Right to Erasure:</strong> Request deletion of cookie-collected data</li>
                 </ul>
                 <p className="text-gray-300 leading-relaxed mb-6">
-                  To exercise these rights, contact us at 
-                  <a href="mailto:privacy@apprenticeapex.com" className="text-orange hover:underline ml-1">
-                    privacy@apprenticeapex.com
+                  To exercise these rights, contact us at
+                  <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
+                    hello@apprenticeapex.co.uk
                   </a>.
                 </p>
               </section>
