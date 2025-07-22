@@ -608,8 +608,8 @@ export function CompanySignInForm() {
         <div className="max-w-md w-full mx-4">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 text-orange-500 mx-auto mb-4" />
-            <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-            <p className="text-gray-300">Sign in to your company portal</p>
+            <h1 className="text-3xl font-bold text-black mb-2">Welcome Back</h1>
+            <p className="text-gray-600">Sign in to your company portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="bg-gray-900 rounded-xl border border-gray-700 p-8 space-y-6">
