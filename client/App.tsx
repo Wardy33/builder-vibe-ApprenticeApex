@@ -26,6 +26,7 @@ function App() {
         <Route path="/debug" element={<Debug />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/for-employers" element={<ForEmployers />} />
         <Route path="/browse-apprenticeships" element={<BrowseApprenticeships />} />
         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         <Route path="/terms-of-service" element={<TermsOfService />} />
