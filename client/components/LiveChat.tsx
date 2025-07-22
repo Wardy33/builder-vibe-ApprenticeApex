@@ -213,14 +213,14 @@ export default function LiveChat() {
         {isTyping && (
           <div className="flex justify-start">
             <div className="flex items-start space-x-2">
-              <div className="w-6 h-6 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
+              <div className="w-6 h-6 bg-gradient-to-br from-orange-300 to-orange-500 rounded-full flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-white animate-pulse" />
               </div>
               <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-sm">
                 <div className="flex space-x-1">
-                  <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                  <div className="w-2 h-2 bg-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                  <div className="w-2 h-2 bg-orange-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-orange-300 to-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-orange-400 to-orange-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                  <div className="w-2 h-2 bg-gradient-to-r from-orange-500 to-red-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
