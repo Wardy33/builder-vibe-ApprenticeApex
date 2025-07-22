@@ -392,25 +392,25 @@ export default function ForEmployers() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-                <TrendingUp className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                <div className="text-3xl font-bold text-white mb-2">777%</div>
-                <div className="text-white font-semibold mb-2">Average ROI</div>
-                <div className="text-gray-400">during 60-day trial vs traditional recruitment</div>
+              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+                <TrendingUp className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <div className="text-3xl font-bold text-black mb-2">777%</div>
+                <div className="text-black font-semibold mb-2">Average ROI</div>
+                <div className="text-gray-600">during 60-day trial vs traditional recruitment</div>
               </div>
               
-              <div className="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-                <Clock className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                <div className="text-3xl font-bold text-white mb-2">14 days</div>
-                <div className="text-white font-semibold mb-2">Average Time to Hire</div>
-                <div className="text-gray-400">vs 45+ days for traditional methods</div>
+              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+                <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <div className="text-3xl font-bold text-black mb-2">14 days</div>
+                <div className="text-black font-semibold mb-2">Average Time to Hire</div>
+                <div className="text-gray-600">vs 45+ days for traditional methods</div>
               </div>
               
-              <div className="bg-gray-900 p-8 rounded-xl border border-gray-700 text-center">
-                <Users className="w-12 h-12 text-orange-400 mx-auto mb-4" />
-                <div className="text-3xl font-bold text-white mb-2">92%</div>
-                <div className="text-white font-semibold mb-2">Hire Success Rate</div>
-                <div className="text-gray-400">apprentices who complete their programs</div>
+              <div className="bg-white p-8 rounded-xl border border-gray-200 shadow-sm text-center">
+                <Users className="w-12 h-12 text-orange-500 mx-auto mb-4" />
+                <div className="text-3xl font-bold text-black mb-2">92%</div>
+                <div className="text-black font-semibold mb-2">Hire Success Rate</div>
+                <div className="text-gray-600">apprentices who complete their programs</div>
               </div>
             </div>
           </div>
