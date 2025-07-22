@@ -277,13 +277,13 @@ function SignUpForm() {
                   }
                   className="mt-1 w-4 h-4 text-orange border-gray-600 rounded focus:ring-orange bg-gray-800"
                 />
-                <span className="text-sm text-gray-300">
+                <span className="text-sm text-gray-700">
                   I agree to the{" "}
-                  <Link to="/terms" className="text-orange hover:underline">
+                  <Link to="/terms-of-service" className="hover:underline" style={{color: '#da6927'}} target="_blank">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy" className="text-orange hover:underline">
+                  <Link to="/privacy-policy" className="hover:underline" style={{color: '#da6927'}} target="_blank">
                     Privacy Policy
                   </Link>
                 </span>
