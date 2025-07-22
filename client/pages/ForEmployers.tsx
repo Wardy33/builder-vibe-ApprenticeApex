@@ -429,7 +429,7 @@ export default function ForEmployers() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/company/signup"
-                className="px-8 py-4 bg-orange-500 text-black font-bold rounded-lg hover:bg-orange-600 transition-colors flex items-center justify-center"
+                className="px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center"
               >
                 Start Free Trial Now
                 <ArrowRight className="w-5 h-5 ml-2" />
