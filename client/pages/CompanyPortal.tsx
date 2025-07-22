@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import SubscriptionManager from "../components/SubscriptionManager";
 import SubscriptionPrompt from "../components/SubscriptionPrompt";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
+import LiveChat from "../components/LiveChat";
 import {
   ArrowLeft,
   Home,
