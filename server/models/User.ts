@@ -205,8 +205,7 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-// Indexes for performance
-userSchema.index({ email: 1 });
+// Indexes for performance (email index is already created by unique: true)
 userSchema.index({ role: 1 });
 userSchema.index({ "profile.location.coordinates": "2dsphere" });
 
