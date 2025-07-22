@@ -368,15 +368,20 @@ router.post(
 router.post("/company/signup", [
   body("companyName").trim().isLength({ min: 1 }).withMessage("Company name is required"),
   body("industry").trim().isLength({ min: 1 }).withMessage("Industry is required"),
+  body("companySize").trim().isLength({ min: 1 }).withMessage("Company size is required"),
   body("firstName").trim().isLength({ min: 1 }).withMessage("First name is required"),
   body("lastName").trim().isLength({ min: 1 }).withMessage("Last name is required"),
+  body("position").trim().isLength({ min: 1 }).withMessage("Position is required"),
   body("email").isEmail().withMessage("Valid email is required"),
+  body("address").trim().isLength({ min: 1 }).withMessage("Address is required"),
+  body("city").trim().isLength({ min: 1 }).withMessage("City is required"),
+  body("postcode").trim().isLength({ min: 1 }).withMessage("Postcode is required"),
   body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
-  body("termsAccepted").equals('true').withMessage("Terms of service must be accepted"),
-  body("privacyAccepted").equals('true').withMessage("Privacy policy must be accepted"),
-  body("noPoacingAccepted").equals('true').withMessage("No-poaching agreement must be accepted"),
-  body("exclusivityAccepted").equals('true').withMessage("Exclusivity agreement must be accepted"),
-  body("dataProcessingAccepted").equals('true').withMessage("Data processing consent must be accepted"),
+  body("termsAccepted").isBoolean().equals(true).withMessage("Terms of service must be accepted"),
+  body("privacyAccepted").isBoolean().equals(true).withMessage("Privacy policy must be accepted"),
+  body("noPoacingAccepted").isBoolean().equals(true).withMessage("No-poaching agreement must be accepted"),
+  body("exclusivityAccepted").isBoolean().equals(true).withMessage("Exclusivity agreement must be accepted"),
+  body("dataProcessingAccepted").isBoolean().equals(true).withMessage("Data processing consent must be accepted"),
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
