@@ -759,6 +759,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
           {children}
         </main>
       </div>
+      <LiveChat />
     </div>
   );
 }
