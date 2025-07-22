@@ -316,9 +316,10 @@ export default function ForEmployers() {
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
                     className={`w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block ${
                       plan.popular
-                        ? 'bg-orange-500 text-white hover:bg-orange-600'
+                        ? 'text-white hover:opacity-90'
                         : 'bg-gray-100 text-black hover:bg-gray-200 border border-gray-300'
                     }`}
+                    style={plan.popular ? {backgroundColor: '#da6927'} : {}}
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
                      plan.id === 'enterprise' ? 'Contact Sales' :
