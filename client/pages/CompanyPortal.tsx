@@ -1615,12 +1615,42 @@ function CompanyInformationPage() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      // TODO: Save to API with logo upload
+      // Upload logo if a new one was selected
+      if (company.logo) {
+        const formData = new FormData();
+        formData.append('logo', company.logo);
+
+        const logoResponse = await fetch('/api/upload/company-logo', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (logoResponse.ok) {
+          const logoData = await logoResponse.json();
+          console.log('Logo uploaded:', logoData.logo.url);
+        }
+      }
+
+      // TODO: Save company information to API
+      const companyData = {
+        name: company.name,
+        description: company.description,
+        website: company.website,
+        industry: company.industry,
+        size: company.size,
+        address: company.address,
+        city: company.city,
+        postcode: company.postcode,
+        country: company.country
+      };
+
+      // Simulate API call for now
       await new Promise(resolve => setTimeout(resolve, 1000));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
       console.error('Error saving company:', error);
+      alert('Failed to save company information. Please try again.');
     } finally {
       setLoading(false);
     }
