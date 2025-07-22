@@ -98,6 +98,7 @@ export function createApp() {
   app.use("/api/matching", authenticateToken, matchingRoutes);
   app.use("/api/access-control", authenticateToken, accessControlRoutes);
   app.use("/api/alerts", authenticateToken, alertRoutes);
+  app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
