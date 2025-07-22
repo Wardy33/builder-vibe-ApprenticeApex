@@ -454,7 +454,7 @@ function SignInForm() {
                   onChange={(e) =>
                     handleInputChange("password", e.target.value)
                   }
-                  className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                  className="w-full pl-10 pr-12 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
                   placeholder="•••••••��"
                 />
                 <button
