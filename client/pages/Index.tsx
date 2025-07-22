@@ -65,7 +65,7 @@ export default function Index() {
               <div className="flex gap-3">
                 <Link
                   to="/student/signup"
-                  className="flex-1 bg-white text-orange font-semibold py-3 px-4 rounded-lg text-center hover:bg-gray-100 transition-colors"
+                  className="flex-1 bg-white text-orange-600 font-semibold py-3 px-4 rounded-lg text-center hover:bg-gray-100 transition-colors"
                 >
                   Sign Up
                 </Link>
