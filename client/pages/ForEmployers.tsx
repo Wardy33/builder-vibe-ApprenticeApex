@@ -143,32 +143,7 @@ export default function ForEmployers() {
     }
   ];
   
-  const calculatePricing = async () => {
-    try {
-      const response = await fetch('/api/subscriptions/calculate-pricing', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          planType: selectedPlan,
-          estimatedHires,
-          averageSalary
-        })
-      });
-      
-      const data = await response.json();
-      if (data.success) {
-        setCalculatedCost(data.estimate);
-      }
-    } catch (error) {
-      console.error('Error calculating pricing:', error);
-    }
-  };
-  
-  useEffect(() => {
-    calculatePricing();
-  }, [selectedPlan, estimatedHires, averageSalary]);
+
   
   const formatCurrency = (amount: number | string) => {
     if (typeof amount === 'string') return amount;
