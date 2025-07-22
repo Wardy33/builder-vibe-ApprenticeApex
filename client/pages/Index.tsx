@@ -81,19 +81,19 @@ export default function Index() {
 
           {/* Company Portal Card */}
           <Link to="/company" className="group">
-            <div className="bg-gradient-to-br from-company-bg to-gray-800 border border-company-accent/30 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
+            <div className="bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
               <div className="flex items-center mb-6">
-                <Building2 className="h-8 w-8 text-company-accent mr-3" />
-                <h2 className="text-2xl font-bold text-white">
+                <Building2 className="h-8 w-8 text-orange-500 mr-3" />
+                <h2 className="text-2xl font-bold text-black">
                   Company Portal
                 </h2>
               </div>
-              <p className="text-gray-300 mb-6">
+              <p className="text-gray-700 mb-6">
                 Manage apprenticeship listings, review applications, and track
                 analytics in your dashboard
               </p>
               <div className="grid grid-cols-2 gap-4 text-sm">
-                <div className="flex items-center text-gray-400">
+                <div className="flex items-center text-gray-600">
                   <Building2 className="h-4 w-4 mr-2" />
                   Listing Management
                 </div>
