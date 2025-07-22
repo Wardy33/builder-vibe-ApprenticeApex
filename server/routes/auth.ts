@@ -389,60 +389,126 @@ router.post("/company/signup", [
     exclusivityAccepted, dataProcessingAccepted
   } = req.body;
 
-  // Check if user already exists
-  const existingUser = await User.findOne({ email });
-  if (existingUser) {
-    throw new CustomError("User with this email already exists", 400);
-  }
+  // Check if MongoDB is available
+  const hasMongoDb = process.env.MONGODB_URI && require('mongoose').connection.readyState === 1;
 
-  // Hash password
-  const hashedPassword = await hashPassword(password);
-
-  // Create user with company profile
-  const user = new User({
-    email,
-    password: hashedPassword,
-    role: "company",
-    profile: {
-      companyName,
-      industry,
-      description,
-      location: {
-        city,
-        address,
-        coordinates: [0, 0] // Would geocode in production
-      },
-      contactPerson: {
-        firstName,
-        lastName,
-        position
+  if (hasMongoDb) {
+    // Real database operations
+    try {
+      // Check if user already exists
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        throw new CustomError("User with this email already exists", 400);
       }
+
+      // Hash password
+      const hashedPassword = await hashPassword(password);
+
+      // Create user with company profile
+      const user = new User({
+        email,
+        password: hashedPassword,
+        role: "company",
+        profile: {
+          companyName,
+          industry,
+          description,
+          location: {
+            city,
+            address,
+            coordinates: [0, 0] // Would geocode in production
+          },
+          contactPerson: {
+            firstName,
+            lastName,
+            position
+          }
+        }
+      });
+
+      await user.save();
+
+      // Create trial subscription
+      try {
+        const { SubscriptionService } = await import('../services/subscriptionService');
+        await SubscriptionService.createTrialSubscription(user._id.toString());
+      } catch (error) {
+        console.log('Trial subscription creation failed (non-critical):', error);
+      }
+
+      // Generate token
+      const token = generateToken(user._id.toString(), user.role);
+
+      res.status(201).json({
+        message: "Company account created successfully",
+        token,
+        user: {
+          id: user._id,
+          email: user.email,
+          role: user.role,
+          companyName: user.profile?.companyName
+        }
+      });
+    } catch (error) {
+      console.error('Database error in company signup:', error);
+      throw new CustomError("Registration failed. Please try again.", 500);
     }
-  });
+  } else {
+    // Mock data operations (for development)
+    // Check if user already exists (mock check)
+    const existingUser = [...mockStudents, ...mockCompanies].find(
+      (user) => user.email === email
+    );
 
-  await user.save();
+    if (existingUser) {
+      throw new CustomError("Email already registered", 409);
+    }
 
-  // Create trial subscription
-  try {
-    const { SubscriptionService } = await import('../services/subscriptionService');
-    await SubscriptionService.createTrialSubscription(user._id.toString());
-  } catch (error) {
-    console.log('Trial subscription creation failed (non-critical):', error);
+    // Hash password
+    const hashedPassword = await hashPassword(password);
+
+    // Create mock user
+    const userId = `company_${Date.now()}`;
+    const token = generateToken(userId, "company");
+
+    const newCompany = {
+      _id: userId,
+      email,
+      password: hashedPassword,
+      role: "company" as const,
+      profile: {
+        companyName,
+        industry,
+        description: description || "",
+        location: {
+          city: city || "",
+          address: address || "",
+          coordinates: [0, 0] as [number, number]
+        },
+        contactPerson: {
+          firstName,
+          lastName,
+          position: position || "",
+        },
+        isVerified: false,
+      },
+      isEmailVerified: false,
+    };
+
+    // Add to mock companies array
+    mockCompanies.push(newCompany);
+
+    res.status(201).json({
+      message: "Company account created successfully",
+      token,
+      user: {
+        id: userId,
+        email,
+        role: "company",
+        companyName
+      }
+    });
   }
-
-  // Generate token
-  const token = generateToken(user._id.toString(), user.role);
-
-  res.status(201).json({
-    message: "Company account created successfully",
-    token,
-    user: {
-      id: user._id,
-      email: user.email,
-      role: user.role,
-      companyName: user.profile?.companyName
-    }
-  });
 }));
 
 // Company signin
