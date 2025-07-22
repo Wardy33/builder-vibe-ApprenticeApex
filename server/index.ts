@@ -28,6 +28,9 @@ import { errorHandler } from "./middleware/errorHandler";
 // Import Socket.IO setup
 import { initializeSocket } from "./socket/chat";
 
+// Import alert system
+import { AlertService } from "./services/alertService";
+
 // Load environment variables
 dotenv.config();
 
