@@ -863,7 +863,8 @@ function ProfileSetupStep4({
                   })
                 }
                 placeholder="25000"
-                className="w-full pl-8 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange"
+                className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
+                style={{focusBorderColor: '#da6927'}}
                 min="0"
                 max="100000"
               />
