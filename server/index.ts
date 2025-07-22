@@ -43,7 +43,22 @@ export function createApp() {
   // Middleware
   app.use(
     cors({
-      origin: process.env.FRONTEND_URL || "http://localhost:8080",
+      origin: function (origin, callback) {
+        const allowedOrigins = [
+          process.env.FRONTEND_URL || "http://localhost:8080",
+          "http://localhost:8080",
+          "https://437d478412674681b0783b89ee86bcb3-5f907b79497c47c599f14e3a4.fly.dev"
+        ];
+
+        // Allow requests with no origin (mobile apps, Postman, etc.)
+        if (!origin) return callback(null, true);
+
+        if (allowedOrigins.indexOf(origin) !== -1) {
+          callback(null, true);
+        } else {
+          callback(new Error('Not allowed by CORS'));
+        }
+      },
       credentials: true,
     }),
   );
