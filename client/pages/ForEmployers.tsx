@@ -156,7 +156,7 @@ export default function ForEmployers() {
   
   return (
     <WebLayout>
-      <div className="min-h-screen bg-gray-950">
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="pt-20 pb-16 px-4">
           <div className="container mx-auto max-w-6xl text-center">
