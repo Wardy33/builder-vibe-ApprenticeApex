@@ -49,22 +49,22 @@ export default function About() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-8 text-black">Our Story</h2>
             <div className="rounded-xl p-8 border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                ApprenticeApex was founded in 2025 with a simple observation: the traditional 
-                job search process wasn't working for apprenticeships. Students were spending 
-                countless hours applying to opportunities that weren't the right fit, while 
+              <p className="text-black leading-relaxed mb-6">
+                ApprenticeApex was founded in 2025 with a simple observation: the traditional
+                job search process wasn't working for apprenticeships. Students were spending
+                countless hours applying to opportunities that weren't the right fit, while
                 employers struggled to find candidates with the right potential and attitude.
               </p>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Drawing inspiration from modern dating apps, we realized that the swipe 
-                mechanism could revolutionize how people discover career opportunities. 
-                But we didn't stop there – we enhanced it with AI-powered matching that 
-                considers not just skills and location, but personality fit, career 
+              <p className="text-black leading-relaxed mb-6">
+                Drawing inspiration from modern dating apps, we realized that the swipe
+                mechanism could revolutionize how people discover career opportunities.
+                But we didn't stop there – we enhanced it with AI-powered matching that
+                considers not just skills and location, but personality fit, career
                 aspirations, and growth potential.
               </p>
-              <p className="text-gray-300 leading-relaxed">
-                Today, we're proud to serve thousands of students and hundreds of employers 
-                across the UK, creating meaningful connections that lead to successful careers 
+              <p className="text-black leading-relaxed">
+                Today, we're proud to serve thousands of students and hundreds of employers
+                across the UK, creating meaningful connections that lead to successful careers
                 and thriving businesses.
               </p>
             </div>
