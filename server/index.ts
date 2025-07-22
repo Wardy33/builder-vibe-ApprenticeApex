@@ -96,6 +96,7 @@ export function createApp() {
   app.use("/api/interviews", authenticateToken, interviewRoutes);
   app.use("/api/matching", authenticateToken, matchingRoutes);
   app.use("/api/access-control", authenticateToken, accessControlRoutes);
+  app.use("/api/alerts", authenticateToken, alertRoutes);
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
