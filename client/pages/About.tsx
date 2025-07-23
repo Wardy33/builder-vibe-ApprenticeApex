@@ -47,7 +47,7 @@ export default function About() {
         {/* Our Story */}
         <div className="mb-16">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent">Our Story 📖</h2>
+            <h2 className="text-3xl font-bold text-center mb-8 bg-gradient-to-r from-purple-400 via-pink-500 to-orange-400 bg-clip-text text-transparent">Our Story</h2>
             <div className="rounded-2xl p-8 bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 shadow-xl backdrop-blur-sm">
               <p className="text-gray-300 leading-relaxed mb-6">
                 ApprenticeApex was founded in 2025 with a simple observation: the traditional
