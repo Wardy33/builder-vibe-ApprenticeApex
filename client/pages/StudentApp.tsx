@@ -1246,7 +1246,7 @@ function ApprenticeshipInfoPage() {
             {apprenticeshipInfo.responsibilities.map((resp, index) => (
               <li key={index} className="flex items-start">
                 <Briefcase className="h-5 w-5 text-orange mr-2 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-300">{resp}</span>
+                <span className="text-black">{resp}</span>
               </li>
             ))}
           </ul>
@@ -1261,7 +1261,7 @@ function ApprenticeshipInfoPage() {
             {apprenticeshipInfo.benefits.map((benefit, index) => (
               <li key={index} className="flex items-start">
                 <Star className="h-5 w-5 text-yellow-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-300">{benefit}</span>
+                <span className="text-black">{benefit}</span>
               </li>
             ))}
           </ul>
@@ -1276,7 +1276,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Calendar className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-300">Start Date</p>
+                <p className="text-sm text-black/70">Start Date</p>
                 <p className="font-medium text-black">
                   {apprenticeshipInfo.startDate}
                 </p>
@@ -1285,7 +1285,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Clock className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-300">Application Deadline</p>
+                <p className="text-sm text-black/70">Application Deadline</p>
                 <p className={`font-medium ${isApplicationClosed(apprenticeshipInfo.applicationDeadline)
                   ? 'text-red-400 font-bold'
                   : 'text-black'}`}>
