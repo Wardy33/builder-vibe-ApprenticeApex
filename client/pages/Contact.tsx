@@ -66,7 +66,7 @@ export default function Contact() {
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
             We're here to help you succeed. Whether you're a student looking for guidance
-            or an employer seeking the perfect apprentices, we'd love to hear from you 🚀
+            or an employer seeking the perfect apprentices, we'd love to hear from you
           </p>
         </div>
 
