@@ -1482,7 +1482,7 @@ function ChatPage() {
       <div className="p-4 border-t border-white/20 bg-gradient-to-r from-gray-800/60 to-gray-700/60 backdrop-blur-sm">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
-            <p className="text-sm text-gray-300">
+            <p className="text-sm text-white">
               Please wait for {chatInfo.company} to respond before sending
               another message
             </p>
