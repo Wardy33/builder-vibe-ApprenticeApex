@@ -16,7 +16,7 @@ export default function Debug() {
             <ArrowLeft className="h-4 w-4" />
             Back to Homepage
           </Link>
-          <h1 className="text-3xl font-bold text-white drop-shadow-lg">
+          <h1 className="text-3xl font-bold text-cyan-400 drop-shadow-lg">
             ApprenticeApex Debug Dashboard
           </h1>
           <p className="text-gray-300 mt-2">
