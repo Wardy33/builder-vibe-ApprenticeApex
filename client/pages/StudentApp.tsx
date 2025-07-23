@@ -958,7 +958,7 @@ function MatchesPage() {
               </div>
               <div className="flex flex-col gap-2">
                 {match.status === "new" && (
-                  <span className="bg-orange text-white text-xs px-2 py-1 rounded-full">
+                  <span className="bg-yellow-400 text-gray-900 text-xs px-2 py-1 rounded-full font-bold">
                     New
                   </span>
                 )}
