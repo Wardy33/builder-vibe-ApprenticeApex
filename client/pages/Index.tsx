@@ -124,7 +124,7 @@ export default function Index() {
                 <div className="flex gap-3">
                   <Link
                     to="/student/signup"
-                    className="flex-1 bg-gradient-to-r from-orange-400 to-pink-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-orange-500 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg"
                   >
                     Sign Up
                   </Link>
@@ -175,7 +175,7 @@ export default function Index() {
                 <div className="flex gap-3">
                   <Link
                     to="/company/signup"
-                    className="flex-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-cyan-500 hover:to-blue-600 transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg"
                   >
                     Sign Up
                   </Link>
