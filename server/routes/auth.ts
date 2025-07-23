@@ -19,7 +19,14 @@ try {
   // Model might not be available in mock mode
   User = null;
 }
-import { Subscription } from "../models/Payment";
+// Conditional import to prevent model overwrite
+let Subscription: any;
+try {
+  Subscription = require("../models/Payment").Subscription;
+} catch (error) {
+  // Model might not be available in mock mode
+  Subscription = null;
+}
 
 const router = express.Router();
 
