@@ -173,7 +173,7 @@ function SwipeCard({
           {/* Header with company logo and duration */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-3 flex-1">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gray-800/40 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
                 <Building2 className="h-6 w-6 text-gray-700" />
               </div>
               <div className="min-w-0 flex-1">
@@ -271,7 +271,7 @@ function SwipeCard({
         {/* Transport Routes Modal */}
         {showTransportModal && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
-            <div className="bg-white rounded-lg p-6 w-full max-w-sm">
+            <div className="bg-gray-800/40 backdrop-blur-sm rounded-lg p-6 w-full max-w-sm">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-gray-900">
                   Transport Routes
@@ -797,7 +797,7 @@ function JobsPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Header with search and filters */}
-      <div className="p-4 border-b border-gray-200 bg-white">
+      <div className="p-4 border-b border-gray-200 bg-gray-800/40 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -1040,7 +1040,7 @@ function MessagesPage() {
             <div
               key={conversation.id}
               onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-white border border-gray-200 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
+              className="bg-gray-800/40 backdrop-blur-sm border border-gray-200 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
             >
               <img
                 src={conversation.avatar}
@@ -1125,7 +1125,7 @@ function ApprenticeshipInfoPage() {
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-white/10 rounded-full text-white transition-all duration-200 hover:scale-105"
+          className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
@@ -1395,7 +1395,7 @@ function ChatPage() {
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-white/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
+            className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
@@ -1409,7 +1409,7 @@ function ChatPage() {
             <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-white/10 rounded-full text-white transition-all duration-200 hover:scale-105">
+        <button className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105">
           <Video className="h-6 w-6" />
         </button>
       </header>
@@ -1450,7 +1450,7 @@ function ChatPage() {
       </div>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200 bg-white">
+      <div className="p-4 border-t border-gray-200 bg-gray-800/40 backdrop-blur-sm">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
             <p className="text-sm text-gray-600">
