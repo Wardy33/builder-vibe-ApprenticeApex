@@ -232,9 +232,9 @@ paymentSchema.index({ userId: 1, createdAt: -1 });
 paymentSchema.index({ status: 1, createdAt: -1 });
 invoiceSchema.index({ userId: 1, status: 1 });
 
-export const Subscription = mongoose.model<ISubscription>(
+export const Subscription = mongoose.models.Subscription || mongoose.model<ISubscription>(
   "Subscription",
   subscriptionSchema,
 );
-export const Payment = mongoose.model<IPayment>("Payment", paymentSchema);
-export const Invoice = mongoose.model<IInvoice>("Invoice", invoiceSchema);
+export const Payment = mongoose.models.Payment || mongoose.model<IPayment>("Payment", paymentSchema);
+export const Invoice = mongoose.models.Invoice || mongoose.model<IInvoice>("Invoice", invoiceSchema);
