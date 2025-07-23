@@ -524,20 +524,20 @@ function HomePage() {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-orange">
+          <h3 className="text-2xl font-bold text-white drop-shadow-lg">
             {applications.length}
           </h3>
-          <p className="text-sm text-gray-300">Active Applications</p>
+          <p className="text-sm text-black font-semibold">Active Applications</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-orange">
+          <h3 className="text-2xl font-bold text-white drop-shadow-lg">
             {interviews.length}
           </h3>
-          <p className="text-sm text-gray-300">Upcoming Interviews</p>
+          <p className="text-sm text-black font-semibold">Upcoming Interviews</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
-          <p className="text-sm text-gray-300">Profile Score</p>
+          <h3 className="text-2xl font-bold text-white drop-shadow-lg">{profileScore}%</h3>
+          <p className="text-sm text-black font-semibold">Profile Score</p>
         </div>
       </div>
 
@@ -1645,8 +1645,8 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-xl font-bold">
-          <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Apprentice</span><span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
+        <h1 className="text-2xl font-bold text-white drop-shadow-lg">
+          ApprenticeApex
         </h1>
         <button className="p-2 hover:bg-gradient-to-r hover:from-cyan-400/20 hover:to-blue-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
           <Settings className="h-6 w-6" />
