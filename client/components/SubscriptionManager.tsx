@@ -74,18 +74,27 @@ export default function SubscriptionManager() {
 
   const loadBillingHistory = async () => {
     try {
-      const response = await fetch('/api/subscriptions/billing-history?limit=10', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+      // For demo purposes, use mock billing data
+      const mockBillingHistory = [
+        {
+          _id: '1',
+          description: 'Monthly subscription - Professional Plan',
+          amount: 99,
+          status: 'paid',
+          createdAt: '2024-01-01T00:00:00Z',
+          dueDate: '2024-01-31T00:00:00Z'
+        },
+        {
+          _id: '2',
+          description: 'Success fee - Software Developer hire',
+          amount: 399,
+          status: 'paid',
+          createdAt: '2023-12-15T00:00:00Z',
+          dueDate: '2023-12-30T00:00:00Z'
         }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setBillingHistory(data.billingHistory);
-        }
-      }
+      ];
+
+      setBillingHistory(mockBillingHistory);
     } catch (error) {
       console.error('Error loading billing history:', error);
     }
