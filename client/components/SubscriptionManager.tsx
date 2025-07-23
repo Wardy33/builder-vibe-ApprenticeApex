@@ -314,21 +314,25 @@ export default function SubscriptionManager() {
   const subscriptionPlans = [
     {
       id: 'trial',
-      name: 'Free Trial',
-      price: '£0',
-      period: '60 days',
-      description: 'Risk-free trial with full access',
+      name: '60-Day Risk-Free Trial',
+      price: 'FREE',
+      period: '',
+      description: 'No monthly fees, no setup costs',
       features: [
-        'Post unlimited jobs',
-        'Access to all candidates',
-        'Basic analytics',
+        'Unlimited job postings during trial',
+        'Full platform access including AI matching',
+        'Access to all Gen Z candidates',
+        'Basic analytics & reporting',
         'Email support',
-        'Pay only £399 per successful hire'
+        'Cancel anytime after 60-day period',
+        'Pay only £399 per successful apprentice placement'
       ],
       buttonText: 'Start Free Trial',
       buttonColor: 'bg-green-600 hover:bg-green-700',
       popular: false,
-      action: startTrial
+      action: startTrial,
+      monthlyFee: 0,
+      successFee: '£399 per placement'
     },
     {
       id: 'starter',
@@ -338,15 +342,19 @@ export default function SubscriptionManager() {
       description: 'Perfect for small businesses',
       features: [
         'Up to 5 job postings per month',
+        'Basic Gen Z matching algorithm',
         'Access to verified candidates',
-        'Basic analytics & reporting',
         'Email support',
-        '12% success fee per hire'
+        '1 admin user',
+        'Social media integration (LinkedIn, Instagram)',
+        '12% of first year salary per hire'
       ],
       buttonText: 'Choose Starter',
       buttonColor: 'bg-blue-600 hover:bg-blue-700',
       popular: false,
-      stripeLink: 'https://stripe.com/docs/testing'
+      stripeLink: 'https://buy.stripe.com/test_starter_49_gbp',
+      monthlyFee: 49,
+      successFee: '12% of first year salary'
     },
     {
       id: 'professional',
@@ -356,36 +364,44 @@ export default function SubscriptionManager() {
       description: 'Most popular for growing teams',
       features: [
         'Up to 15 job postings per month',
+        'Advanced AI-powered matching',
         'Priority candidate matching',
-        'Advanced analytics & insights',
-        'Phone & email support',
-        '10% success fee per hire',
-        'Custom branding'
+        'Priority email + chat support',
+        'Custom branding',
+        '3 admin users',
+        'Multi-platform social posting (TikTok, Instagram, Snapchat)',
+        '12% of first year salary per hire'
       ],
       buttonText: 'Choose Professional',
       buttonColor: 'bg-orange-600 hover:bg-orange-700',
       popular: true,
-      stripeLink: 'https://stripe.com/docs/testing'
+      stripeLink: 'https://buy.stripe.com/test_professional_99_gbp',
+      monthlyFee: 99,
+      successFee: '12% of first year salary'
     },
     {
       id: 'business',
       name: 'Business',
-      price: '£199',
+      price: '£149',
       period: 'month',
       description: 'For established enterprises',
       features: [
-        'Unlimited job postings',
-        'Dedicated account manager',
-        'Custom integrations',
-        'Priority support',
-        '8% success fee per hire',
-        'Advanced reporting',
-        'Multi-user access'
+        'Up to 30 job postings per month',
+        'Premium Gen Z targeting',
+        'Advanced AI-powered matching',
+        'Phone + priority support',
+        '5 admin users',
+        'API access',
+        'Integration with major ATS systems',
+        'Custom branding & reporting',
+        '12% of first year salary per hire'
       ],
       buttonText: 'Choose Business',
       buttonColor: 'bg-purple-600 hover:bg-purple-700',
       popular: false,
-      stripeLink: 'https://stripe.com/docs/testing'
+      stripeLink: 'https://buy.stripe.com/test_business_149_gbp',
+      monthlyFee: 149,
+      successFee: '12% of first year salary'
     },
     {
       id: 'enterprise',
@@ -394,18 +410,21 @@ export default function SubscriptionManager() {
       period: '',
       description: 'Tailored for large organizations',
       features: [
-        'Everything in Business',
-        'Custom pricing',
-        'API access',
+        'Unlimited job postings',
+        'Dedicated account manager',
+        'Custom integrations',
         'White-label solution',
-        'Negotiable success fees',
-        'Dedicated support team',
-        'SLA guarantees'
+        'Unlimited users',
+        'Priority phone support',
+        'SLA guarantees',
+        '12% of first year salary per hire'
       ],
       buttonText: 'Contact Sales',
       buttonColor: 'bg-gray-600 hover:bg-gray-700',
       popular: false,
-      action: () => window.open('mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry', '_blank')
+      action: () => window.open('mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry', '_blank'),
+      monthlyFee: 0,
+      successFee: '12% of first year salary'
     }
   ];
 
