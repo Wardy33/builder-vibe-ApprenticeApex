@@ -403,7 +403,7 @@ function Dashboard() {
           {mockApplications.slice(0, 3).map((application) => (
             <div
               key={application.id}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
+              className="flex items-center justify-between p-4 bg-gray-800/40 backdrop-blur-sm rounded-lg border border-gray-100"
             >
               <div>
                 <h4 className="font-semibold text-white">
@@ -1690,7 +1690,7 @@ function CompanyInformationPage() {
             Company Logo
           </label>
           <div className="flex items-center space-x-4">
-            <div className="w-24 h-24 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-50">
+            <div className="w-24 h-24 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-800/40 backdrop-blur-sm">
               {logoPreview ? (
                 <img src={logoPreview} alt="Logo preview" className="w-full h-full object-contain rounded-lg" />
               ) : (
