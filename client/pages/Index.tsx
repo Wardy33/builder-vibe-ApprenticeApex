@@ -41,7 +41,7 @@ export default function Index() {
           <div className="max-w-6xl mx-auto mb-20">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                See How It Works <span className="text-2xl">📱</span>
+                See How It Works
               </h2>
               <p className="text-gray-300 text-lg">Watch students swipe through opportunities in real-time</p>
             </div>
