@@ -2554,8 +2554,8 @@ function EditProfileInfoPage() {
         <h1 className="text-2xl font-bold text-black">Edit Profile Information</h1>
       </div>
 
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <h3 className="text-lg font-semibold text-black mb-4">Personal Information</h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-black mb-2">First Name</label>
