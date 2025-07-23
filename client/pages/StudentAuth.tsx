@@ -509,12 +509,11 @@ function SignInForm() {
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Don't have an account?{" "}
               <Link
                 to="/student/signup"
-                className="hover:underline font-medium"
-                style={{color: '#da6927'}}
+                className="hover:underline font-medium text-orange-400"
               >
                 Sign Up
               </Link>
