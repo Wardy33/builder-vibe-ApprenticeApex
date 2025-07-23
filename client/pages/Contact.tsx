@@ -267,25 +267,25 @@ export default function Contact() {
 
         {/* FAQ Section */}
         <div className="mt-16 max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Frequently Asked Questions ❓</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Frequently Asked Questions</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">How do I create a student account? 🎓</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">How do I create a student account?</h3>
                 <p className="text-gray-300 text-sm">
                   Simply click "Sign Up" and choose "Student Account". You'll need to provide basic information
                   and can complete your profile at your own pace.
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Is ApprenticeApex free for students? 🎆</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Is ApprenticeApex free for students?</h3>
                 <p className="text-gray-300 text-sm">
                   Yes! Our core matching and application services are completely free for students.
                   We believe in removing barriers to career opportunities.
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">How does the matching algorithm work? 🤖</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">How does the matching algorithm work?</h3>
                 <p className="text-gray-300 text-sm">
                   Our AI considers your location, skills, preferences, and career goals to suggest
                   the most suitable apprenticeship opportunities with match percentages.
@@ -294,14 +294,14 @@ export default function Contact() {
             </div>
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">How much does it cost for employers? 💰</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">How much does it cost for employers?</h3>
                 <p className="text-gray-300 text-sm">
                   We offer flexible pricing plans for employers, including free options for small businesses.
                   Contact us for detailed pricing information.
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Can I edit my application after submitting? ✏️</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Can I edit my application after submitting?</h3>
                 <p className="text-gray-300 text-sm">
                   Once submitted, applications cannot be edited, but you can update your profile anytime.
                   This ensures all applications are timestamped and authentic.
