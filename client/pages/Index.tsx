@@ -212,7 +212,7 @@ export default function Index() {
                   <Zap className="h-10 w-10 text-white animate-pulse" />
                 </div>
                 <h4 className="text-xl font-semibold mb-2 text-white">
-                  AI-Powered Matching 🤖
+                  AI-Powered Matching
                 </h4>
                 <p className="text-gray-300">
                   Smart algorithms match students with perfect apprenticeship
