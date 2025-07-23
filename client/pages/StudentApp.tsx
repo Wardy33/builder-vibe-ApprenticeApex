@@ -305,7 +305,7 @@ function SwipeCard({
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
                       <p className="font-medium text-black">Bus Route</p>
-                      <p className="text-sm text-gray-300">25 min • £2.50</p>
+                      <p className="text-sm text-gray-300">25 min �� £2.50</p>
                     </div>
                   </div>
                   <button className="text-blue-600 text-sm font-medium hover:underline">
@@ -816,25 +816,7 @@ function JobsPage() {
 
   return (
     <div className="flex flex-col h-full">
-      {/* Header with search and filters */}
-      <div className="p-4 border-b border-white/20 bg-gray-800/40 backdrop-blur-sm">
-        <div className="flex items-center gap-3">
-          <div className="flex-1 relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search apprenticeships..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange backdrop-blur-sm transition-all duration-200"
-            />
-          </div>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="p-2 bg-gray-800/40 border border-white/20 rounded-lg text-black hover:bg-gray-700/40 backdrop-blur-sm transition-all duration-200"
-          >
-            <Filter className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
+
 
       {/* Stack of cards */}
       <div className="flex-1 flex items-center justify-center p-4 relative">
