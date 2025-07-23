@@ -25,15 +25,20 @@ class ApiClient {
   constructor() {
     // Determine the correct API URL based on environment
     const isProduction = window.location.hostname.includes('fly.dev');
+    const isDevelopment = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
 
     if (isProduction) {
       // Use the same domain for API calls in production
       this.baseURL = window.location.origin;
+    } else if (isDevelopment) {
+      // Use the current origin for development
+      this.baseURL = window.location.origin;
     } else {
-      // Use localhost for development
-      this.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+      // Fallback
+      this.baseURL = import.meta.env.VITE_API_URL || window.location.origin;
     }
 
+    console.log('API Client initialized with base URL:', this.baseURL);
     this.timeout = 10000; // 10 seconds
     this.retries = 3;
   }
