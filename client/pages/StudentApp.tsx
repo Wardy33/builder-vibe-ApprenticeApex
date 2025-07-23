@@ -70,7 +70,7 @@ const mockApprenticeship: Apprenticeship[] = [
       "Problem-solving skills",
       "Passion for technology",
     ],
-    salary: "£18,000 - £25,000",
+    salary: "£18,000 - ��25,000",
     image:
       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop",
   },
@@ -271,7 +271,7 @@ function SwipeCard({
         {/* Transport Routes Modal */}
         {showTransportModal && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
-            <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm border border-cyan-400/30 shadow-2xl">
+            <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm border border-blue-400/60 shadow-2xl">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-white">
                   Transport Routes
