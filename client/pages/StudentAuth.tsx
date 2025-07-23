@@ -387,17 +387,17 @@ function SignInForm() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
       {/* Header */}
-      <header className="flex items-center justify-between p-4" style={{backgroundColor: '#020202'}}>
+      <header className="flex items-center justify-between p-4 bg-gradient-to-r from-gray-900/90 to-black/90 backdrop-blur-sm border-b border-white/10">
         <button
           onClick={() => navigate("/student")}
-          className="p-2 hover:bg-gray-700 rounded-full text-white"
+          className="p-2 hover:bg-white/10 rounded-full text-white transition-all duration-200"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-xl font-bold text-white">
-          <span style={{color: '#da6927'}}>Apprentice</span>Apex
+          <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>Apex
         </h1>
         <div className="w-10" />
       </header>
@@ -405,9 +405,11 @@ function SignInForm() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>Welcome Back</h2>
-            <p className="text-gray-600">
-              Sign in to continue your apprenticeship journey
+            <h2 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">
+              👋 Welcome Back ✨
+            </h2>
+            <p className="text-gray-300">
+              Sign in to continue your apprenticeship journey 🚀
             </p>
           </div>
 
