@@ -702,7 +702,7 @@ function HomePage() {
                         ? "Confirmed"
                         : "Pending"}
                     </span>
-                    <button className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                    <button className="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                       Join Call
                     </button>
                   </div>
