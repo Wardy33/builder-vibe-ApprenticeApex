@@ -405,7 +405,7 @@ export default function ForEmployers() {
               
               <div className="p-8 rounded-xl border border-white/20 shadow-xl text-center bg-gradient-to-br from-orange-400/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
                 <Clock className="w-12 h-12 mx-auto mb-4 text-orange-400" />
-                <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent [&:not(:has(.bg-clip-text))]:text-orange-400">14 days</div>
+                <div className="text-3xl font-bold mb-2 text-orange-400 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] [background-clip:text]">14 days</div>
                 <div className="text-white font-semibold mb-2">Average Time to Hire</div>
                 <div className="text-gray-300">vs 45+ days for traditional methods</div>
               </div>
