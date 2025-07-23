@@ -148,10 +148,10 @@ export default function LiveChat() {
     return (
       <button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 hover:scale-125 hover:rotate-12 z-50 border-2 border-white/30 animate-pulse"
+        className="fixed bottom-6 right-6 bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 z-50 border-2 border-white/30"
         title="Open live chat ✨"
       >
-        <Sparkles className="w-7 h-7 animate-spin" />
+        <Sparkles className="w-7 h-7" />
       </button>
     );
   }
@@ -162,8 +162,8 @@ export default function LiveChat() {
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 p-4 rounded-t-2xl flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg animate-pulse">
-              <Sparkles className="w-6 h-6 text-white animate-spin" />
+            <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
+              <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-bold text-white text-lg drop-shadow-lg">AI Assistant 🤖✨</h3>
@@ -192,7 +192,7 @@ export default function LiveChat() {
                 {message.sender === 'user' ? (
                   <User className="w-5 h-5 text-white" />
                 ) : (
-                  <Sparkles className="w-5 h-5 text-white animate-pulse" />
+                  <Sparkles className="w-5 h-5 text-white" />
                 )}
               </div>
               <div className={`rounded-xl p-3 shadow-xl border ${
@@ -215,7 +215,7 @@ export default function LiveChat() {
           <div className="flex justify-start">
             <div className="flex items-start space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center border-2 border-cyan-300 shadow-lg">
-                <Sparkles className="w-5 h-5 text-white animate-pulse" />
+                <Sparkles className="w-5 h-5 text-white" />
               </div>
               <div className="bg-gradient-to-br from-cyan-50 to-blue-100 border border-cyan-300/50 rounded-xl p-3 shadow-xl">
                 <div className="flex space-x-1">
