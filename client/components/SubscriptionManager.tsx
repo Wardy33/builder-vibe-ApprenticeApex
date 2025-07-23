@@ -12,7 +12,9 @@ import {
   Settings,
   ArrowUp,
   Download,
-  X
+  X,
+  PoundSterling,
+  XCircle
 } from 'lucide-react';
 import NotificationModal from './NotificationModal';
 
@@ -55,6 +57,7 @@ export default function SubscriptionManager() {
     message: string;
     action?: { label: string; onClick: () => void };
   }>({ isOpen: false, type: 'info', title: '', message: '' });
+  const [showCancelModal, setShowCancelModal] = useState(false);
 
   useEffect(() => {
     loadSubscriptionData();
@@ -164,13 +167,27 @@ export default function SubscriptionManager() {
     try {
       // For demo purposes, simulate plan upgrade
       if (confirm(`Upgrade to ${getPlanDisplayName(planType)} plan?`)) {
+        const successFeeRates = {
+          starter: 12,
+          professional: 10,
+          business: 8,
+          enterprise: 0
+        };
+
+        const monthlyFees = {
+          starter: 49,
+          professional: 99,
+          business: 199,
+          enterprise: 0
+        };
+
         const updatedData = {
           ...subscriptionData,
           subscription: {
             ...subscriptionData!.subscription,
             planType: planType,
-            monthlyFee: planType === 'starter' ? 49 : planType === 'professional' ? 99 : 199,
-            successFeeRate: planType === 'starter' ? 12 : planType === 'professional' ? 10 : 8
+            monthlyFee: monthlyFees[planType as keyof typeof monthlyFees] || 0,
+            successFeeRate: successFeeRates[planType as keyof typeof successFeeRates] || 0
           }
         };
 
@@ -179,10 +196,68 @@ export default function SubscriptionManager() {
         // Trigger event to refresh subscription limits across the app
         window.dispatchEvent(new Event('subscriptionUpdated'));
         setShowUpgradeModal(false);
-        alert(`Successfully upgraded to ${getPlanDisplayName(planType)} plan!`);
+
+        setNotification({
+          isOpen: true,
+          type: 'success',
+          title: 'Plan Updated Successfully!',
+          message: `You've been upgraded to the ${getPlanDisplayName(planType)} plan. Your new features are now active.`
+        });
       }
     } catch (error) {
       console.error('Error upgrading plan:', error);
+    }
+  };
+
+  const cancelSubscription = async () => {
+    try {
+      if (confirm('Are you sure you want to cancel your subscription? It will remain active until the end of your current billing period.')) {
+        const updatedData = {
+          ...subscriptionData,
+          subscription: {
+            ...subscriptionData!.subscription,
+            status: 'cancelled'
+          }
+        };
+
+        setSubscriptionData(updatedData);
+        localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedData));
+        setShowCancelModal(false);
+
+        setNotification({
+          isOpen: true,
+          type: 'info',
+          title: 'Subscription Cancelled',
+          message: 'Your subscription has been cancelled and will remain active until the end of your current billing period (30 days from last payment).'
+        });
+      }
+    } catch (error) {
+      console.error('Error cancelling subscription:', error);
+    }
+  };
+
+  const downloadInvoices = () => {
+    try {
+      // For demo purposes, simulate PDF download
+      setNotification({
+        isOpen: true,
+        type: 'info',
+        title: 'Downloading Invoices',
+        message: 'Your billing history is being prepared as a PDF. In a real application, this would download all your invoices.'
+      });
+
+      // Simulate file download
+      setTimeout(() => {
+        const element = document.createElement('a');
+        const file = new Blob(['Demo Invoice PDF Content'], { type: 'application/pdf' });
+        element.href = URL.createObjectURL(file);
+        element.download = 'apprentice-apex-invoices.pdf';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+      }, 1000);
+    } catch (error) {
+      console.error('Error downloading invoices:', error);
     }
   };
 
@@ -501,13 +576,22 @@ export default function SubscriptionManager() {
       <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">Subscription Overview</h2>
-          <button
-            onClick={() => setShowUpgradeModal(true)}
-            className="px-4 py-2 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors flex items-center"
-          >
-            <ArrowUp className="w-4 h-4 mr-2" />
-            Upgrade Plan
-          </button>
+          <div className="flex space-x-3">
+            <button
+              onClick={() => setShowUpgradeModal(true)}
+              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors flex items-center"
+            >
+              <ArrowUp className="w-4 h-4 mr-2" />
+              Upgrade Plan
+            </button>
+            <button
+              onClick={() => setShowCancelModal(true)}
+              className="px-4 py-2 bg-red-100 text-red-700 font-medium rounded-xl hover:bg-red-200 transition-colors flex items-center"
+            >
+              <XCircle className="w-4 h-4 mr-2" />
+              Cancel Subscription
+            </button>
+          </div>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6">
@@ -559,7 +643,7 @@ export default function SubscriptionManager() {
           <div className="bg-orange-50 p-6 rounded-xl border border-orange-200">
             <div className="flex items-center mb-4">
               <div className="p-2 bg-orange-100 rounded-lg">
-                <DollarSign className="w-5 h-5 text-orange-600" />
+                <PoundSterling className="w-5 h-5 text-orange-600" />
               </div>
               <h3 className="font-semibold text-gray-900 ml-3">Outstanding</h3>
             </div>
@@ -619,7 +703,10 @@ export default function SubscriptionManager() {
       <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-xl font-bold text-gray-900">Recent Billing</h3>
-          <button className="text-blue-600 hover:text-blue-700 flex items-center font-medium">
+          <button
+            onClick={downloadInvoices}
+            className="text-blue-600 hover:text-blue-700 flex items-center font-medium transition-colors"
+          >
             <Download className="w-4 h-4 mr-2" />
             Download All
           </button>
@@ -660,7 +747,7 @@ export default function SubscriptionManager() {
       {/* Upgrade Modal */}
       {showUpgradeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div className="bg-white rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xl font-bold text-gray-900">Upgrade Your Plan</h3>
               <button
@@ -671,38 +758,33 @@ export default function SubscriptionManager() {
               </button>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-1 lg:grid-cols-2 gap-6">
               {subscriptionPlans.filter(p => p.id !== 'trial').map((plan) => (
                 <div
                   key={plan.id}
-                  className={`border-2 rounded-xl p-4 ${
+                  className={`border-2 rounded-xl p-6 ${
                     plan.popular ? 'border-orange-500 bg-orange-50' : 'border-gray-200'
                   }`}
                 >
                   {plan.popular && (
-                    <span className="inline-block bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold mb-2">
+                    <span className="inline-block bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold mb-4">
                       Recommended
                     </span>
                   )}
-                  <h4 className="font-bold text-gray-900 text-lg mb-1">{plan.name}</h4>
-                  <div className="mb-3">
-                    <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
-                    {plan.period && <span className="text-gray-600">/{plan.period}</span>}
+                  <h4 className="font-bold text-gray-900 text-xl mb-2">{plan.name}</h4>
+                  <div className="mb-4">
+                    <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
+                    {plan.period && <span className="text-gray-600 text-lg">/{plan.period}</span>}
                   </div>
-                  <p className="text-gray-600 text-sm mb-3">{plan.description}</p>
+                  <p className="text-gray-600 mb-4">{plan.description}</p>
 
-                  <ul className="space-y-1 mb-4">
-                    {plan.features.slice(0, 3).map((feature, index) => (
-                      <li key={index} className="flex items-center space-x-2">
-                        <CheckCircle className="h-3 w-3 text-green-500" />
-                        <span className="text-gray-700 text-xs">{feature}</span>
+                  <ul className="space-y-2 mb-6">
+                    {plan.features.map((feature, index) => (
+                      <li key={index} className="flex items-start space-x-3">
+                        <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                        <span className="text-gray-700 text-sm">{feature}</span>
                       </li>
                     ))}
-                    {plan.features.length > 3 && (
-                      <li className="text-gray-500 text-xs">
-                        +{plan.features.length - 3} more features...
-                      </li>
-                    )}
                   </ul>
 
                   <button
@@ -710,7 +792,7 @@ export default function SubscriptionManager() {
                       setShowUpgradeModal(false);
                       handlePlanSelection(plan);
                     }}
-                    className={`w-full py-2 px-4 rounded-lg font-semibold text-white transition-colors ${plan.buttonColor}`}
+                    className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-colors ${plan.buttonColor}`}
                   >
                     {plan.buttonText}
                   </button>
