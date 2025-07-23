@@ -147,18 +147,22 @@ export default function SubscriptionManager() {
 
   const upgradePlan = async (planType: string) => {
     try {
-      const response = await fetch('/api/subscriptions/upgrade', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ planType })
-      });
-      
-      if (response.ok) {
+      // For demo purposes, simulate plan upgrade
+      if (confirm(`Upgrade to ${getPlanDisplayName(planType)} plan?`)) {
+        const updatedData = {
+          ...subscriptionData,
+          subscription: {
+            ...subscriptionData!.subscription,
+            planType: planType,
+            monthlyFee: planType === 'starter' ? 49 : planType === 'professional' ? 99 : 199,
+            successFeeRate: planType === 'starter' ? 12 : planType === 'professional' ? 10 : 8
+          }
+        };
+
+        setSubscriptionData(updatedData);
+        localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedData));
         setShowUpgradeModal(false);
-        await loadSubscriptionData();
+        alert(`Successfully upgraded to ${getPlanDisplayName(planType)} plan!`);
       }
     } catch (error) {
       console.error('Error upgrading plan:', error);
