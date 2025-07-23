@@ -251,7 +251,7 @@ export default function ForEmployers() {
               {plans.map((plan) => (
                 <div
                   key={plan.id}
-                  className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-xl backdrop-blur-sm ${
+                  className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-xl backdrop-blur-sm flex flex-col h-full ${
                     plan.id === 'trial'
                       ? 'bg-gradient-to-br from-orange-400/20 via-pink-500/20 to-red-500/20 border-orange-400/30'
                       : plan.popular
@@ -285,7 +285,7 @@ export default function ForEmployers() {
                     </div>
                   </div>
                   
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-3 mb-6 flex-grow">
                     {plan.features.slice(0, 6).map((feature, index) => (
                       <div key={index} className="flex items-start">
                         <Check className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
@@ -299,7 +299,7 @@ export default function ForEmployers() {
                     )}
                   </div>
                   
-                  <div className="border-t border-white/20 pt-4 mb-6">
+                  <div className="border-t border-white/20 pt-4 mb-6 mt-auto">
                     <div className="text-gray-400 text-sm mb-2">Limits:</div>
                     <div className="space-y-1">
                       <div className="text-white text-sm">
