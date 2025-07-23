@@ -1537,7 +1537,7 @@ function ProfilePage() {
           </div>
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-purple-500/10">
             <h3 className="text-2xl font-bold text-orange">5</h3>
-            <p className="text-sm text-cyan-200">Matches</p>
+            <p className="text-sm text-purple-200">Matches</p>
           </div>
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-purple-500/10">
             <h3 className="text-2xl font-bold text-orange">92%</h3>
