@@ -1347,7 +1347,7 @@ function ApprenticeshipInfoPage() {
                 <p className="text-black/70 text-sm mb-4">
                   Applications close on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
                 </p>
-                <button className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
+                <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
                   Apply Now
                 </button>
               </>
