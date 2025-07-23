@@ -155,15 +155,11 @@ export function CompanySignUpForm() {
                 <div key={step} className="relative z-10">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 border-2 ${
                     step < currentStep
-                      ? 'text-white shadow-lg'
+                      ? 'bg-gradient-to-r from-orange-400 to-pink-500 text-white border-orange-400 shadow-lg'
                       : step === currentStep
-                      ? 'bg-white shadow-md'
-                      : 'bg-white border-gray-300 text-gray-400'
-                  }`}
-                  style={{
-                    ...(step < currentStep ? {backgroundColor: '#da6927', borderColor: '#da6927'} : {}),
-                    ...(step === currentStep ? {borderColor: '#da6927', color: '#da6927'} : {})
-                  }}>
+                      ? 'bg-gray-800/40 border-orange-400 text-orange-400 shadow-md backdrop-blur-sm'
+                      : 'bg-gray-800/20 border-white/20 text-gray-400 backdrop-blur-sm'
+                  }`}>
                     {step < currentStep ? (
                       <CheckCircle className="w-5 h-5" />
                     ) : (
