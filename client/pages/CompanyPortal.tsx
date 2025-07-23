@@ -290,6 +290,12 @@ const mockNotifications: Notification[] = [
 ];
 
 function Dashboard() {
+  const navigate = useNavigate();
+
+  const handlePostNewJob = () => {
+    navigate('/company/listings?create=true');
+  };
+
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
@@ -304,7 +310,10 @@ function Dashboard() {
             </p>
           </div>
           <div className="flex items-center space-x-3">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2">
+            <button
+              onClick={handlePostNewJob}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2"
+            >
               <Plus className="h-4 w-4" />
               <span>Post New Job</span>
             </button>
@@ -863,8 +872,20 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
 
 // Update remaining page components to match the modern design...
 function JobListingsPage() {
+  const location = useLocation();
   const [listings, setListings] = useState<JobListing[]>(mockJobListings);
   const [isCreating, setIsCreating] = useState(false);
+
+  // Check if we should open create modal from URL parameter
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.get('create') === 'true') {
+      // Clear the URL parameter
+      window.history.replaceState({}, '', '/company/listings');
+      // Trigger create listing
+      handleCreateListing();
+    }
+  }, [location]);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
