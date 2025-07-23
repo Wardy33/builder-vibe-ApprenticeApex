@@ -1523,6 +1523,8 @@ function ChatPage() {
 }
 
 function ProfilePage() {
+  const navigate = useNavigate();
+
   const mockProfile = {
     firstName: "Sarah",
     lastName: "Johnson",
