@@ -1040,7 +1040,7 @@ function MessagesPage() {
             <div
               key={conversation.id}
               onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 backdrop-blur-sm border border-cyan-400/30 hover:from-blue-700/50 hover:via-cyan-600/50 hover:to-blue-800/40 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-all duration-300 shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-cyan-400/40 hover:scale-105 hover:border-cyan-300/50 group"
+              className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 backdrop-blur-sm border border-purple-400/20 hover:from-purple-700/40 hover:via-pink-600/30 hover:to-purple-800/50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-all duration-300 shadow-lg shadow-purple-500/10 hover:shadow-xl hover:shadow-pink-400/30 hover:scale-102 hover:border-purple-300/40 group"
             >
               <img
                 src={conversation.avatar}
