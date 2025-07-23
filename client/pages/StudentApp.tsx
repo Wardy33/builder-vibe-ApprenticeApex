@@ -966,7 +966,7 @@ function MatchesPage() {
                   onClick={() =>
                     navigate(`/student/apprenticeship-info/${match.id}`)
                   }
-                  className="bg-white text-purple-600 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg border border-purple-200"
+                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
                 >
                   <Info className="h-4 w-4" />
                   Info
