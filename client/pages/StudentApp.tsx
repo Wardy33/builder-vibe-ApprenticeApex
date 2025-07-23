@@ -1479,7 +1479,7 @@ function ChatPage() {
       </div>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-white/20 bg-gray-800/40 backdrop-blur-sm">
+      <div className="p-4 border-t border-white/20 bg-gradient-to-r from-gray-800/60 to-gray-700/60 backdrop-blur-sm">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
             <p className="text-sm text-gray-300">
