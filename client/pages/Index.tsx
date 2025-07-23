@@ -33,7 +33,7 @@ export default function Index() {
             </h1>
             <p className="text-xl text-gray-300 max-w-2xl mx-auto relative z-10 font-medium">
               The revolutionary platform connecting students with apprenticeship
-              opportunities through AI-powered matching 🚀
+              opportunities through AI-powered matching
             </p>
           </header>
 
