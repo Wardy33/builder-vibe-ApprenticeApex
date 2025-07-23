@@ -1434,7 +1434,7 @@ function ChatPage() {
             className="w-10 h-10 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-black">{chatInfo.company}</h1>
+            <h1 className="font-semibold text-white">{chatInfo.company}</h1>
             <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
           </div>
         </div>
