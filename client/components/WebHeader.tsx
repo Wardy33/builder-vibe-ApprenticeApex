@@ -18,7 +18,7 @@ export function WebHeader() {
             <span className="text-2xl font-bold text-white transform group-hover:scale-105 transition-all duration-200">
               <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>
               <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
-              <span className="text-lg animate-pulse">✨</span>
+
             </span>
           </Link>
 
