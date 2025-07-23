@@ -601,7 +601,7 @@ function HomePage() {
                     >
                       {getStatusText(application.status)}
                     </span>
-                    <div className="text-orange text-sm font-medium">
+                    <div className="text-yellow-200 text-sm font-bold drop-shadow-lg">
                       {application.matchScore}% match
                     </div>
                   </div>
