@@ -126,7 +126,7 @@ export default function Index() {
                     to="/student/signup"
                     className="flex-1 bg-white text-orange-600 font-bold py-3 px-4 rounded-xl text-center hover:bg-gray-100 transition-all duration-200 hover:scale-105 shadow-lg"
                   >
-                    Sign Up 🚀
+                    Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
