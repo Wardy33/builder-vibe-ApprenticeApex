@@ -1825,7 +1825,7 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-black mb-4">Privacy & Security</h3>
           <div className="space-y-3">
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Change Password clicked');}}
+              onClick={() => navigate('/student/change-password')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Change Password</span>
