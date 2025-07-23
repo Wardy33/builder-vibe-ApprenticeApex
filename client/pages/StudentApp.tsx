@@ -1654,7 +1654,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Content - Gen-Z background */}
-      <main className="flex-1 pb-20 bg-gradient-to-br from-gray-900/50 to-black/50 text-white backdrop-blur-sm">{children}</main>
+      <main className="flex-1 pb-20 bg-white text-gray-900">{children}</main>
 
       {/* Bottom Navigation */}
       <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/20 backdrop-blur-xl shadow-2xl">
