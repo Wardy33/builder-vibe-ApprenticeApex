@@ -245,7 +245,7 @@ export default function Index() {
           {/* Statistics Section */}
           <div className="py-16 rounded-3xl mt-16 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-white/10">
             <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Impact 📊</h3>
+              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Impact</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 <div className="group">
                   <div className="text-4xl font-bold bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">10,000+</div>
