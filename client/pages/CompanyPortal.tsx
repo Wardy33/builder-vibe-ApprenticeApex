@@ -281,7 +281,7 @@ function Dashboard() {
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-xs sm:text-sm">
+              <p className="text-gray-300 text-xs sm:text-sm">
                 Active Listings
               </p>
               <p className="text-2xl sm:text-3xl font-bold text-white">12</p>
@@ -296,7 +296,7 @@ function Dashboard() {
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Total Applications</p>
+              <p className="text-gray-300 text-sm">Total Applications</p>
               <p className="text-3xl font-bold text-white">247</p>
             </div>
             <Users className="h-8 w-8 text-orange" />
@@ -309,7 +309,7 @@ function Dashboard() {
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Interviews Scheduled</p>
+              <p className="text-gray-300 text-sm">Interviews Scheduled</p>
               <p className="text-3xl font-bold text-white">8</p>
             </div>
             <Video className="h-8 w-8 text-orange" />
@@ -322,7 +322,7 @@ function Dashboard() {
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-sm">Match Rate</p>
+              <p className="text-gray-300 text-sm">Match Rate</p>
               <p className="text-3xl font-bold text-white">78%</p>
             </div>
             <BarChart3 className="h-8 w-8 text-orange" />
@@ -347,7 +347,7 @@ function Dashboard() {
                   className="bg-orange rounded-t w-full"
                   style={{ height: `${height}%` }}
                 />
-                <span className="text-gray-600 text-xs mt-2">
+                <span className="text-gray-300 text-xs mt-2">
                   Week {index + 1}
                 </span>
               </div>
@@ -409,7 +409,7 @@ function Dashboard() {
                 <h4 className="font-semibold text-white">
                   {application.candidateName}
                 </h4>
-                <p className="text-gray-600 text-sm">{application.jobTitle}</p>
+                <p className="text-gray-300 text-sm">{application.jobTitle}</p>
                 <p className="text-gray-500 text-xs">
                   {application.applicationDate}
                 </p>
@@ -419,7 +419,7 @@ function Dashboard() {
                   <div className="text-orange font-bold">
                     {application.score}%
                   </div>
-                  <div className="text-gray-600 text-xs">Match</div>
+                  <div className="text-gray-300 text-xs">Match</div>
                 </div>
                 <div
                   className={`px-3 py-1 rounded-full text-xs font-medium ${
@@ -520,7 +520,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                 )}
                 <button
                   onClick={() => setShowNotifications(false)}
-                  className="text-gray-400 hover:text-gray-600"
+                  className="text-gray-400 hover:text-gray-300"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -562,14 +562,14 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                           <MessageCircle className="h-4 w-4 text-purple-600" />
                         )}
                         {notification.type === "system" && (
-                          <Bell className="h-4 w-4 text-gray-600" />
+                          <Bell className="h-4 w-4 text-gray-300" />
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-medium text-white">
                           {notification.title}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-sm text-gray-300">
                           {notification.message}
                         </p>
                         <p className="text-xs text-gray-400 mt-1">
@@ -594,7 +594,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               <h3 className="font-semibold text-white">Settings</h3>
               <button
                 onClick={() => setShowSettings(false)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -851,7 +851,7 @@ function JobListingsPage() {
           />
         </div>
         <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
-          <Filter className="h-5 w-5 text-gray-600" />
+          <Filter className="h-5 w-5 text-gray-300" />
         </button>
       </div>
 
@@ -879,7 +879,7 @@ function JobListingsPage() {
                     {listing.status}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300 mb-4">
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4" />
                     <span>{listing.location}</span>
@@ -917,13 +917,13 @@ function JobListingsPage() {
                     </button>
                     <button
                       onClick={() => setEditingId(listing.id)}
-                      className="p-3 text-gray-600 hover:text-orange touch-manipulation"
+                      className="p-3 text-gray-300 hover:text-orange touch-manipulation"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => deleteListing(listing.id)}
-                      className="p-3 text-gray-600 hover:text-red-600 touch-manipulation"
+                      className="p-3 text-gray-300 hover:text-red-600 touch-manipulation"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -1047,8 +1047,8 @@ function ApplicationsPage() {
                     {application.status}
                   </span>
                 </div>
-                <p className="text-gray-600 mb-2">{application.jobTitle}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+                <p className="text-gray-300 mb-2">{application.jobTitle}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300 mb-4">
                   <div className="flex items-center space-x-2">
                     <Mail className="h-4 w-4" />
                     <span>{application.email}</span>
@@ -1075,7 +1075,7 @@ function ApplicationsPage() {
                     <div className="text-orange font-bold text-lg">
                       {application.score}%
                     </div>
-                    <div className="text-gray-600 text-xs">Match Score</div>
+                    <div className="text-gray-300 text-xs">Match Score</div>
                   </div>
                   <div>
                     <div className="text-gray-700 text-sm font-medium">
@@ -1134,7 +1134,7 @@ function ApplicationsPage() {
               </h3>
               <button
                 onClick={() => setSelectedApplication(null)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-gray-400 hover:text-gray-300"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -1147,15 +1147,15 @@ function ApplicationsPage() {
                   </h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-gray-600" />
+                      <Mail className="h-4 w-4 text-gray-300" />
                       <span>{selectedApplication.email}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-gray-600" />
+                      <Phone className="h-4 w-4 text-gray-300" />
                       <span>{selectedApplication.phone}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <MapPin className="h-4 w-4 text-gray-600" />
+                      <MapPin className="h-4 w-4 text-gray-300" />
                       <span>{selectedApplication.location}</span>
                     </div>
                   </div>
@@ -1309,8 +1309,8 @@ function InterviewsPage() {
                     {interview.status}
                   </span>
                 </div>
-                <p className="text-gray-600 mb-3">{interview.jobTitle}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                <p className="text-gray-300 mb-3">{interview.jobTitle}</p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300">
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4" />
                     <span>{new Date(interview.date).toLocaleDateString()}</span>
@@ -1409,7 +1409,7 @@ function MessagesPage() {
                     <span className="w-2 h-2 bg-orange rounded-full"></span>
                   )}
                 </div>
-                <p className="text-gray-600 text-sm mb-2">
+                <p className="text-gray-300 text-sm mb-2">
                   {conversation.jobTitle}
                 </p>
                 <p className="text-gray-700">{conversation.lastMessage}</p>
@@ -1434,7 +1434,7 @@ function SubscriptionPage() {
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
           Subscription & Billing
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Manage your subscription plan, view billing history, and track usage
         </p>
       </div>
@@ -1937,7 +1937,7 @@ function NotificationPreferencesPage() {
                      key === 'subscriptionUpdates' ? 'Subscription Updates' :
                      'Marketing Emails'}
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     {key === 'newApplications' ? 'Get notified when candidates apply to your jobs' :
                      key === 'interviewReminders' ? 'Reminders about upcoming interviews' :
                      key === 'messageReceived' ? 'When candidates send you messages' :
@@ -1975,7 +1975,7 @@ function NotificationPreferencesPage() {
                      key === 'messageReceived' ? 'Message Received' :
                      'System Updates'}
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-gray-300">
                     {key === 'newApplications' ? 'Browser notifications for new applications' :
                      key === 'interviewReminders' ? 'Browser reminders for interviews' :
                      key === 'messageReceived' ? 'Instant notifications for new messages' :
@@ -2076,7 +2076,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
           <h3 className="text-xl font-semibold text-white">Create New Job Listing</h3>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 hover:text-gray-300"
           >
             <X className="h-6 w-6" />
           </button>
@@ -2237,7 +2237,7 @@ function AccountBillingPage() {
     <div className="p-6 space-y-6">
       <h2 className="text-2xl font-bold text-white">Account & Billing</h2>
       <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <p className="text-gray-600 mb-4">
+        <p className="text-gray-300 mb-4">
           Manage your subscription, billing information, and payment methods.
         </p>
         <Link
@@ -2295,17 +2295,17 @@ function HelpSupportPage() {
           <div className="space-y-4">
             <div className="border border-gray-200 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Getting Started</h4>
-              <p className="text-sm text-gray-600 mb-2">Learn how to post your first job and manage applications.</p>
+              <p className="text-sm text-gray-300 mb-2">Learn how to post your first job and manage applications.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
             <div className="border border-gray-200 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Billing & Subscriptions</h4>
-              <p className="text-sm text-gray-600 mb-2">Understand our pricing and manage your subscription.</p>
+              <p className="text-sm text-gray-300 mb-2">Understand our pricing and manage your subscription.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
             <div className="border border-gray-200 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Managing Candidates</h4>
-              <p className="text-sm text-gray-600 mb-2">Best practices for reviewing and interviewing candidates.</p>
+              <p className="text-sm text-gray-300 mb-2">Best practices for reviewing and interviewing candidates.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
           </div>
