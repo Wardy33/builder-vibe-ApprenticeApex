@@ -270,7 +270,7 @@ export default function Index() {
 
 
           {/* Call to Action */}
-          <div className="rounded-3xl p-8 md:p-12 text-center mt-16 bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 relative overflow-hidden border border-white/20">
+          <div className="rounded-3xl p-8 md:p-12 text-center mt-16 bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
             <div className="relative z-10">
               <h3 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
