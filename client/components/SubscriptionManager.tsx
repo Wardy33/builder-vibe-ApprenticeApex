@@ -14,6 +14,7 @@ import {
   Download,
   X
 } from 'lucide-react';
+import NotificationModal from './NotificationModal';
 
 interface SubscriptionData {
   subscription: {
@@ -47,6 +48,13 @@ export default function SubscriptionManager() {
   const [billingHistory, setBillingHistory] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [notification, setNotification] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error' | 'info' | 'payment';
+    title: string;
+    message: string;
+    action?: { label: string; onClick: () => void };
+  }>({ isOpen: false, type: 'info', title: '', message: '' });
 
   useEffect(() => {
     loadSubscriptionData();
@@ -104,8 +112,13 @@ export default function SubscriptionManager() {
     try {
       // For demo purposes, simulate starting a trial
       if (confirm('Start your 60-day free trial? You will have full access to all features.')) {
-        // Simulate successful trial start
-        alert('Trial started successfully! You now have 60 days of full access.');
+        // Show success notification
+        setNotification({
+          isOpen: true,
+          type: 'success',
+          title: 'Trial Started Successfully!',
+          message: 'You now have 60 days of full access to all features. Start posting jobs and finding the perfect apprentices for your company.'
+        });
 
         // For demo, set mock subscription data
         const mockTrialData = {
@@ -331,14 +344,29 @@ export default function SubscriptionManager() {
 
       if (confirm(confirmMessage)) {
         try {
-          // For demo, simulate payment process
-          alert(`Demo Mode: Redirecting to Stripe payment for ${plan.name} plan (${plan.price}${periodText})`);
+          // Show payment processing notification
+          setNotification({
+            isOpen: true,
+            type: 'payment',
+            title: 'Processing Payment',
+            message: `Redirecting to secure Stripe checkout for ${plan.name} plan (${plan.price}${periodText}). This is a demo - no actual charges will be made.`
+          });
 
-          // For demo, show immediate success
-          const successMessage = `Demo: Payment completed successfully! ${plan.name} plan has been activated. You now have access to all ${plan.name} features.`;
-
+          // For demo, show success after delay
           setTimeout(() => {
-            alert(successMessage);
+            setNotification({
+              isOpen: true,
+              type: 'success',
+              title: 'Payment Successful!',
+              message: `${plan.name} plan has been activated successfully! You now have access to all ${plan.name} features and can start posting unlimited jobs.`,
+              action: {
+                label: 'View Dashboard',
+                onClick: () => {
+                  setNotification({ ...notification, isOpen: false });
+                  window.location.href = '/company';
+                }
+              }
+            });
 
             // For demo, simulate plan activation
             const updatedSubscriptionData = {
