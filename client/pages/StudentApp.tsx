@@ -1057,7 +1057,7 @@ function MessagesPage() {
                   </span>
                 </div>
                 <p
-                  className={`text-sm truncate ${conversation.unread ? "text-white" : "text-gray-300"}`}
+                  className={`text-sm truncate ${conversation.unread ? "text-gray-800" : "text-gray-600"}`}
                 >
                   {conversation.lastMessage}
                 </p>
