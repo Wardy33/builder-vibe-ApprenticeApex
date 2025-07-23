@@ -161,7 +161,7 @@ export function WebHeader() {
               </Link>
               <Link
                 to="/contact"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-green-400 hover:to-cyan-400 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-green-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Contact
