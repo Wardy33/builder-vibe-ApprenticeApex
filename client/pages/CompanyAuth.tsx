@@ -110,6 +110,7 @@ export function CompanySignUpForm() {
       if (response.error) {
         alert(response.error.error || 'Registration failed');
       } else {
+        // Use consistent token storage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userProfile', JSON.stringify(response.data.user));
         navigate('/company');
