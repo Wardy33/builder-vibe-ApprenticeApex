@@ -278,7 +278,7 @@ export default function Index() {
               </h3>
               <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto font-medium">
                 Join thousands of students who have found their perfect apprenticeship match.
-                Get started today and take the first step towards your career ✨
+                Get started today and take the first step towards your career
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
