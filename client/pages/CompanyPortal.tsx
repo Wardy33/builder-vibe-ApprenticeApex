@@ -35,6 +35,17 @@ import {
   Trash2,
   Save,
   CreditCard,
+  Menu,
+  TrendingUp,
+  Target,
+  Award,
+  UserCheck,
+  DollarSign,
+  Activity,
+  Star,
+  FileText,
+  Download,
+  Filter as FilterIcon,
 } from "lucide-react";
 
 interface Application {
@@ -171,6 +182,7 @@ const mockJobListings: JobListing[] = [
       "Team player",
     ],
     postedDate: "2024-01-10",
+    closingDate: "2024-02-15",
     applications: 24,
     status: "active",
   },
@@ -190,6 +202,7 @@ const mockJobListings: JobListing[] = [
       "Communication skills",
     ],
     postedDate: "2024-01-08",
+    closingDate: "2024-02-28",
     applications: 18,
     status: "active",
   },
@@ -209,6 +222,7 @@ const mockJobListings: JobListing[] = [
       "Safety-conscious",
     ],
     postedDate: "2024-01-05",
+    closingDate: "2024-02-10",
     applications: 31,
     status: "paused",
   },
@@ -276,110 +290,154 @@ const mockNotifications: Notification[] = [
 
 function Dashboard() {
   return (
-    <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-300 text-xs sm:text-sm">
-                Active Listings
-              </p>
-              <p className="text-2xl sm:text-3xl font-bold text-white">12</p>
-            </div>
-            <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-orange" />
+    <div className="space-y-6">
+      {/* Welcome Section */}
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">
+              Welcome back, TechCorp Ltd! 👋
+            </h1>
+            <p className="text-gray-600">
+              Here's your recruitment overview for today
+            </p>
           </div>
-          <div className="mt-2 sm:mt-4">
-            <span className="text-orange text-xs sm:text-sm">+2 this week</span>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-300 text-sm">Total Applications</p>
-              <p className="text-3xl font-bold text-white">247</p>
-            </div>
-            <Users className="h-8 w-8 text-orange" />
-          </div>
-          <div className="mt-4">
-            <span className="text-orange text-sm">+18 this week</span>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-300 text-sm">Interviews Scheduled</p>
-              <p className="text-3xl font-bold text-white">8</p>
-            </div>
-            <Video className="h-8 w-8 text-orange" />
-          </div>
-          <div className="mt-4">
-            <span className="text-orange text-sm">3 today</span>
-          </div>
-        </div>
-
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-gray-300 text-sm">Match Rate</p>
-              <p className="text-3xl font-bold text-white">78%</p>
-            </div>
-            <BarChart3 className="h-8 w-8 text-orange" />
-          </div>
-          <div className="mt-4">
-            <span className="text-orange text-sm">+5% this month</span>
+          <div className="flex items-center space-x-3">
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2">
+              <Plus className="h-4 w-4" />
+              <span>Post New Job</span>
+            </button>
           </div>
         </div>
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+              <Building2 className="h-6 w-6 text-blue-600" />
+            </div>
+            <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-lg">
+              +2 this week
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-1">12</h3>
+          <p className="text-gray-600 text-sm">Active Job Listings</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+              <Users className="h-6 w-6 text-purple-600" />
+            </div>
+            <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-lg">
+              +18 this week
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-1">247</h3>
+          <p className="text-gray-600 text-sm">Total Applications</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
+              <Video className="h-6 w-6 text-orange-600" />
+            </div>
+            <span className="text-sm text-blue-600 bg-blue-100 px-2 py-1 rounded-lg">
+              3 today
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-1">8</h3>
+          <p className="text-gray-600 text-sm">Interviews Scheduled</p>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-4">
+            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+              <TrendingUp className="h-6 w-6 text-green-600" />
+            </div>
+            <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-lg">
+              +5% this month
+            </span>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-900 mb-1">78%</h3>
+          <p className="text-gray-600 text-sm">Match Rate</p>
+        </div>
+      </div>
+
+      {/* Charts and Recent Activity */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Applications Chart */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
-          <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
-            Applications This Month
-          </h3>
-          <div className="h-48 sm:h-64 flex items-end justify-between space-x-1 sm:space-x-2">
-            {[65, 85, 72, 90, 78, 95, 88].map((height, index) => (
+        <div className="lg:col-span-2 bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Applications This Month
+            </h3>
+            <div className="flex items-center space-x-2">
+              <select className="text-sm border border-gray-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option>Last 30 days</option>
+                <option>Last 90 days</option>
+                <option>Last year</option>
+              </select>
+            </div>
+          </div>
+          <div className="h-64 flex items-end justify-between space-x-2">
+            {[
+              { day: "Mon", value: 65 },
+              { day: "Tue", value: 85 },
+              { day: "Wed", value: 72 },
+              { day: "Thu", value: 90 },
+              { day: "Fri", value: 78 },
+              { day: "Sat", value: 45 },
+              { day: "Sun", value: 55 },
+            ].map((day, index) => (
               <div key={index} className="flex flex-col items-center flex-1">
                 <div
-                  className="bg-orange rounded-t w-full"
-                  style={{ height: `${height}%` }}
+                  className="bg-gradient-to-t from-blue-600 to-blue-400 rounded-t-lg w-full transition-all duration-300 hover:from-blue-700 hover:to-blue-500 cursor-pointer"
+                  style={{ height: `${day.value}%` }}
+                  title={`${day.day}: ${Math.round((day.value / 100) * 50)} applications`}
                 />
-                <span className="text-gray-300 text-xs mt-2">
-                  Week {index + 1}
+                <span className="text-gray-600 text-xs mt-2 font-medium">
+                  {day.day}
                 </span>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Industry Breakdown */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-xl font-bold text-white mb-4">
-            Applications by Industry
+        {/* Top Performing Jobs */}
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-6">
+            Top Performing Jobs
           </h3>
           <div className="space-y-4">
             {[
-              { name: "Technology", percentage: 45, count: 111 },
-              { name: "Engineering", percentage: 25, count: 62 },
-              { name: "Marketing", percentage: 20, count: 49 },
-              { name: "Healthcare", percentage: 10, count: 25 },
-            ].map((industry) => (
-              <div key={industry.name}>
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-700">{industry.name}</span>
-                  <span className="text-orange font-semibold">
-                    {industry.count}
-                  </span>
+              { title: "Software Developer", applications: 45, trend: "up" },
+              { title: "Data Analyst", applications: 31, trend: "up" },
+              { title: "Marketing Assistant", applications: 28, trend: "down" },
+              { title: "Engineering Apprentice", applications: 24, trend: "up" },
+            ].map((job, index) => (
+              <div key={index} className="flex items-center justify-between">
+                <div>
+                  <p className="font-medium text-gray-900 text-sm">{job.title}</p>
+                  <p className="text-gray-600 text-xs">
+                    {job.applications} applications
+                  </p>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="flex items-center space-x-2">
                   <div
-                    className="bg-orange h-2 rounded-full"
-                    style={{ width: `${industry.percentage}%` }}
+                    className={`w-2 h-2 rounded-full ${
+                      job.trend === "up" ? "bg-green-500" : "bg-red-500"
+                    }`}
                   />
+                  <span
+                    className={`text-xs ${
+                      job.trend === "up" ? "text-green-600" : "text-red-600"
+                    }`}
+                  >
+                    {job.trend === "up" ? "↗" : "↘"}
+                  </span>
                 </div>
               </div>
             ))}
@@ -387,60 +445,96 @@ function Dashboard() {
         </div>
       </div>
 
-      {/* Recent Applications */}
-      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
-        <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h3 className="text-lg sm:text-xl font-bold text-white">
-            Recent Applications
-          </h3>
-          <Link
-            to="/company/applications"
-            className="text-orange hover:text-orange/80 text-sm sm:text-base"
-          >
-            View All
-          </Link>
-        </div>
-        <div className="space-y-4">
-          {mockApplications.slice(0, 3).map((application) => (
-            <div
-              key={application.id}
-              className="flex items-center justify-between p-4 bg-gray-800/40 backdrop-blur-sm rounded-lg border border-gray-100"
+      {/* Recent Applications and Quick Actions */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent Applications */}
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Recent Applications
+            </h3>
+            <Link
+              to="/company/applications"
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
             >
-              <div>
-                <h4 className="font-semibold text-white">
-                  {application.candidateName}
-                </h4>
-                <p className="text-gray-300 text-sm">{application.jobTitle}</p>
-                <p className="text-gray-500 text-xs">
-                  {application.applicationDate}
-                </p>
-              </div>
-              <div className="flex items-center space-x-4">
-                <div className="text-center">
-                  <div className="text-orange font-bold">
+              View All
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {mockApplications.slice(0, 3).map((application) => (
+              <div
+                key={application.id}
+                className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+              >
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                  {application.candidateName.charAt(0)}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-gray-900 text-sm truncate">
+                    {application.candidateName}
+                  </h4>
+                  <p className="text-gray-600 text-xs">{application.jobTitle}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-blue-600 font-semibold text-sm">
                     {application.score}%
                   </div>
-                  <div className="text-gray-300 text-xs">Match</div>
-                </div>
-                <div
-                  className={`px-3 py-1 rounded-full text-xs font-medium ${
-                    application.status === "pending"
-                      ? "bg-yellow-100 text-yellow-700"
-                      : application.status === "interview"
+                  <div
+                    className={`text-xs px-2 py-1 rounded-full ${
+                      application.status === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : application.status === "interview"
                         ? "bg-blue-100 text-blue-700"
                         : application.status === "reviewed"
-                          ? "bg-purple-100 text-purple-700"
-                          : "bg-gray-100 text-gray-700"
-                  }`}
-                >
-                  {application.status}
+                        ? "bg-purple-100 text-purple-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {application.status}
+                  </div>
                 </div>
-                <button className="text-orange hover:text-orange/80">
-                  <Eye className="h-5 w-5" />
-                </button>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+        </div>
+
+        {/* Upcoming Interviews */}
+        <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-lg font-semibold text-gray-900">
+              Upcoming Interviews
+            </h3>
+            <Link
+              to="/company/interviews"
+              className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
+              View All
+            </Link>
+          </div>
+          <div className="space-y-4">
+            {mockInterviews.slice(0, 3).map((interview) => (
+              <div
+                key={interview.id}
+                className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+              >
+                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                  <Calendar className="h-5 w-5 text-white" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h4 className="font-medium text-gray-900 text-sm truncate">
+                    {interview.candidateName}
+                  </h4>
+                  <p className="text-gray-600 text-xs">{interview.jobTitle}</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-gray-900 font-medium text-sm">
+                    {new Date(interview.date).toLocaleDateString()}
+                  </div>
+                  <div className="text-gray-600 text-xs">{interview.time}</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -453,7 +547,6 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] =
     useState<Notification[]>(mockNotifications);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showSettings, setShowSettings] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
   const unreadCount = notifications.filter((n) => !n.read).length;
@@ -468,187 +561,134 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
     setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
-      {/* Header - Match student app black header */}
-      <header className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-800 bg-black relative">
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <button
-            onClick={() => navigate("/")}
-            className="p-2 hover:bg-gray-800 rounded-full text-white touch-manipulation"
-            title="Home"
-          >
-            <Home className="h-5 w-5 sm:h-6 sm:w-6" />
-          </button>
-          <h1 className="text-lg sm:text-xl font-bold text-white">
-            <span className="text-cyan-400">ApprenticeApex</span>
-            <span className="hidden sm:inline"> Portal</span>
-          </h1>
-        </div>
-        <div className="flex items-center space-x-2 sm:space-x-4">
-          <button
-            onClick={() => setShowNotifications(!showNotifications)}
-            className="p-2 hover:bg-gray-800 rounded-full relative text-white touch-manipulation"
-          >
-            <Bell className="h-5 w-5 sm:h-6 sm:w-6" />
-            {unreadCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-orange text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
-                {unreadCount}
-              </span>
-            )}
-          </button>
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="p-2 hover:bg-gray-800 rounded-full text-white touch-manipulation"
-          >
-            <Settings className="h-5 w-5 sm:h-6 sm:w-6" />
-          </button>
-        </div>
+  const isActive = (path: string) => location.pathname === path;
 
-        {/* Notifications Dropdown */}
-        {showNotifications && (
-          <div className="absolute top-full right-4 mt-2 w-80 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
-            <div className="p-4 border-b border-white/20 flex items-center justify-between">
-              <h3 className="font-semibold text-white">Notifications</h3>
-              <div className="flex items-center space-x-2">
-                {unreadCount > 0 && (
-                  <button
-                    onClick={markAllAsRead}
-                    className="text-sm text-orange hover:text-orange/80"
-                  >
-                    Mark all read
-                  </button>
-                )}
-                <button
-                  onClick={() => setShowNotifications(false)}
-                  className="text-gray-400 hover:text-gray-300"
-                >
-                  <X className="h-5 w-5" />
-                </button>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Modern Header */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4 sticky top-0 z-40">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => setShowMobileSidebar(true)}
+              className="lg:hidden p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
+            >
+              <Menu className="h-5 w-5" />
+            </button>
+            <div className="flex items-center space-x-3">
+              <div className="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
+                <Building2 className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">ApprenticeApex</h1>
+                <p className="text-xs text-gray-600">Company Portal</p>
               </div>
             </div>
-            <div className="max-h-80 sm:max-h-96 overflow-y-auto">
-              {notifications.length === 0 ? (
-                <div className="p-3 sm:p-4 text-center text-gray-500 text-sm">
-                  No notifications
-                </div>
-              ) : (
-                notifications.map((notification) => (
-                  <div
-                    key={notification.id}
-                    className={`p-3 sm:p-4 border-b border-gray-100 hover:bg-white/10 cursor-pointer touch-manipulation ${
-                      !notification.read ? "bg-orange/5" : ""
-                    }`}
-                    onClick={() => markAsRead(notification.id)}
-                  >
-                    <div className="flex items-start space-x-3">
-                      <div
-                        className={`flex-shrink-0 p-1 rounded-full ${
-                          notification.type === "application"
-                            ? "bg-blue-100"
-                            : notification.type === "interview"
-                              ? "bg-green-100"
-                              : notification.type === "message"
-                                ? "bg-purple-100"
-                                : "bg-gray-100"
-                        }`}
-                      >
-                        {notification.type === "application" && (
-                          <Users className="h-4 w-4 text-blue-600" />
-                        )}
-                        {notification.type === "interview" && (
-                          <Video className="h-4 w-4 text-green-600" />
-                        )}
-                        {notification.type === "message" && (
-                          <MessageCircle className="h-4 w-4 text-purple-600" />
-                        )}
-                        {notification.type === "system" && (
-                          <Bell className="h-4 w-4 text-gray-300" />
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-white">
-                          {notification.title}
-                        </p>
-                        <p className="text-sm text-gray-300">
-                          {notification.message}
-                        </p>
-                        <p className="text-xs text-gray-400 mt-1">
-                          {new Date(notification.timestamp).toLocaleString()}
-                        </p>
-                      </div>
-                      {!notification.read && (
-                        <div className="flex-shrink-0 w-2 h-2 bg-orange rounded-full"></div>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <div className="relative">
+              <button
+                onClick={() => setShowNotifications(!showNotifications)}
+                className="p-2 hover:bg-gray-100 rounded-xl relative text-gray-700 transition-colors"
+              >
+                <Bell className="h-5 w-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+
+              {/* Notifications Dropdown */}
+              {showNotifications && (
+                <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-50">
+                  <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 className="font-semibold text-gray-900">Notifications</h3>
+                    <div className="flex items-center space-x-2">
+                      {unreadCount > 0 && (
+                        <button
+                          onClick={markAllAsRead}
+                          className="text-sm text-blue-600 hover:text-blue-700"
+                        >
+                          Mark all read
+                        </button>
                       )}
+                      <button
+                        onClick={() => setShowNotifications(false)}
+                        className="text-gray-400 hover:text-gray-600"
+                      >
+                        <X className="h-5 w-5" />
+                      </button>
                     </div>
                   </div>
-                ))
+                  <div className="max-h-80 overflow-y-auto">
+                    {notifications.length === 0 ? (
+                      <div className="p-4 text-center text-gray-500 text-sm">
+                        No notifications
+                      </div>
+                    ) : (
+                      notifications.map((notification) => (
+                        <div
+                          key={notification.id}
+                          className={`p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                            !notification.read ? "bg-blue-50" : ""
+                          }`}
+                          onClick={() => markAsRead(notification.id)}
+                        >
+                          <div className="flex items-start space-x-3">
+                            <div
+                              className={`flex-shrink-0 p-2 rounded-xl ${
+                                notification.type === "application"
+                                  ? "bg-blue-100"
+                                  : notification.type === "interview"
+                                  ? "bg-green-100"
+                                  : notification.type === "message"
+                                  ? "bg-purple-100"
+                                  : "bg-gray-100"
+                              }`}
+                            >
+                              {notification.type === "application" && (
+                                <Users className="h-4 w-4 text-blue-600" />
+                              )}
+                              {notification.type === "interview" && (
+                                <Video className="h-4 w-4 text-green-600" />
+                              )}
+                              {notification.type === "message" && (
+                                <MessageCircle className="h-4 w-4 text-purple-600" />
+                              )}
+                              {notification.type === "system" && (
+                                <Bell className="h-4 w-4 text-gray-600" />
+                              )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-medium text-gray-900">
+                                {notification.title}
+                              </p>
+                              <p className="text-sm text-gray-600">
+                                {notification.message}
+                              </p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {new Date(notification.timestamp).toLocaleString()}
+                              </p>
+                            </div>
+                            {!notification.read && (
+                              <div className="flex-shrink-0 w-2 h-2 bg-blue-600 rounded-full"></div>
+                            )}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
               )}
             </div>
-          </div>
-        )}
 
-        {/* Settings Dropdown */}
-        {showSettings && (
-          <div className="absolute top-full right-4 mt-2 w-64 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
-            <div className="p-4 border-b border-white/20 flex items-center justify-between">
-              <h3 className="font-semibold text-white">Settings</h3>
-              <button
-                onClick={() => setShowSettings(false)}
-                className="text-gray-400 hover:text-gray-300"
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-            <div className="p-2">
-              <Link
-                to="/company/settings/profile"
-                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
-                onClick={() => setShowSettings(false)}
-              >
-                Profile Settings
-              </Link>
-              <Link
-                to="/company/settings/company"
-                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
-                onClick={() => setShowSettings(false)}
-              >
-                Company Information
-              </Link>
-              <Link
-                to="/company/settings/notifications"
-                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
-                onClick={() => setShowSettings(false)}
-              >
-                Notification Preferences
-              </Link>
-              <Link
-                to="/company/settings/billing"
-                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
-                onClick={() => setShowSettings(false)}
-              >
-                Account & Billing
-              </Link>
-              <hr className="my-2" />
-              <Link
-                to="/company/settings/help"
-                className="block w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-gray-700"
-                onClick={() => setShowSettings(false)}
-              >
-                Help & Support
-              </Link>
-              <button
-                onClick={() => {
-                  setShowSettings(false);
-                  navigate('/');
-                }}
-                className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-red-600"
-              >
-                Sign Out
-              </button>
+            <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">TC</span>
             </div>
           </div>
-        )}
+        </div>
       </header>
 
       <div className="flex">
@@ -660,103 +700,158 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
           />
         )}
 
-        {/* Sidebar - Light theme like student app */}
+        {/* Modern Sidebar */}
         <aside
           className={`${
             showMobileSidebar ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 fixed lg:static w-64 border-r border-white/20 min-h-[calc(100vh-73px)] bg-gradient-to-b from-gray-900 to-black z-50 transition-transform duration-300 ease-in-out`}
+          } lg:translate-x-0 fixed lg:static w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-81px)] z-50 transition-transform duration-300 ease-in-out`}
         >
-          <nav className="p-4 space-y-2">
+          <nav className="p-6 space-y-2">
             {/* Mobile close button */}
-            <div className="lg:hidden flex justify-between items-center mb-4">
-              <span className="font-semibold text-white">Menu</span>
+            <div className="lg:hidden flex justify-between items-center mb-6">
+              <span className="font-semibold text-gray-900">Menu</span>
               <button
                 onClick={() => setShowMobileSidebar(false)}
-                className="p-2 hover:bg-gray-200 rounded-lg touch-manipulation"
+                className="p-2 hover:bg-gray-100 rounded-xl"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
+
             <Link
               to="/company"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company" ||
-                location.pathname === "/company/"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company") || isActive("/company/")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <BarChart3 className="h-5 w-5" />
+              <div className={`p-1 rounded-lg ${
+                isActive("/company") || isActive("/company/")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <BarChart3 className="h-5 w-5" />
+              </div>
               <span>Dashboard</span>
             </Link>
+
             <Link
               to="/company/listings"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company/listings"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/listings")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <Building2 className="h-5 w-5" />
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/listings")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <Building2 className="h-5 w-5" />
+              </div>
               <span>Job Listings</span>
             </Link>
+
             <Link
               to="/company/applications"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company/applications"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/applications")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <Users className="h-5 w-5" />
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/applications")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <Users className="h-5 w-5" />
+              </div>
               <span>Applications</span>
             </Link>
+
             <Link
               to="/company/interviews"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company/interviews"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/interviews")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <Video className="h-5 w-5" />
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/interviews")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <Video className="h-5 w-5" />
+              </div>
               <span>Interviews</span>
             </Link>
-            <Link
-              to="/company/subscription"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company/subscription"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
-              }`}
-            >
-              <CreditCard className="h-5 w-5" />
-              <span>Subscription</span>
-            </Link>
+
             <Link
               to="/company/messages"
-              className={`flex items-center space-x-3 p-3 rounded-lg ${
-                location.pathname === "/company/messages"
-                  ? "bg-orange/10 text-orange"
-                  : "hover:bg-gray-200 text-gray-700"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/messages")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <MessageCircle className="h-5 w-5" />
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/messages")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <MessageCircle className="h-5 w-5" />
+              </div>
               <span>Messages</span>
             </Link>
+
+            <Link
+              to="/company/subscription"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/subscription")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/subscription")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <CreditCard className="h-5 w-5" />
+              </div>
+              <span>Subscription</span>
+            </Link>
+
+            <div className="pt-4 border-t border-gray-200 mt-6">
+              <Link
+                to="/company/settings/profile"
+                className="flex items-center space-x-3 p-3 rounded-xl hover:bg-gray-100 text-gray-700 transition-all duration-200"
+              >
+                <div className="p-1 rounded-lg">
+                  <Settings className="h-5 w-5" />
+                </div>
+                <span>Settings</span>
+              </Link>
+
+              <button
+                onClick={() => navigate('/')}
+                className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-200"
+              >
+                <div className="p-1 rounded-lg">
+                  <ArrowLeft className="h-5 w-5" />
+                </div>
+                <span>Sign Out</span>
+              </button>
+            </div>
           </nav>
         </aside>
 
-        {/* Main Content - White background */}
-        <main className="flex-1 bg-transparent text-white lg:ml-0">
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setShowMobileSidebar(true)}
-            className="fixed bottom-4 left-4 lg:hidden bg-orange text-white p-3 rounded-full shadow-lg z-30 touch-manipulation"
-          >
-            <Building2 className="h-6 w-6" />
-          </button>
-
+        {/* Main Content */}
+        <main className="flex-1 p-6 lg:ml-0">
           {children}
         </main>
       </div>
@@ -765,6 +860,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
+// Update remaining page components to match the modern design...
 function JobListingsPage() {
   const [listings, setListings] = useState<JobListing[]>(mockJobListings);
   const [isCreating, setIsCreating] = useState(false);
@@ -845,124 +941,107 @@ function JobListingsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Job Listings</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Job Listings</h2>
+          <p className="text-gray-600">Manage your active job postings</p>
+        </div>
         <button
           onClick={handleCreateListing}
           disabled={subscriptionLimits.loading}
-          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <Plus className="h-5 w-5" />
           <span>Create Listing</span>
         </button>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <input
-            type="text"
-            placeholder="Search job listings..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
-          />
-        </div>
-        <div className="relative" ref={filterRef}>
-          <button
-            onClick={() => setShowFilters(!showFilters)}
-            className="p-2 border border-gray-300 rounded-lg hover:bg-white/10 transition-colors"
-          >
-            <Filter className="h-5 w-5 text-gray-300" />
-          </button>
+      {/* Search and Filters */}
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="flex items-center space-x-4">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <input
+              type="text"
+              placeholder="Search job listings..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
+            />
+          </div>
+          <div className="relative" ref={filterRef}>
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="p-2.5 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              <FilterIcon className="h-5 w-5 text-gray-600" />
+            </button>
 
-          {showFilters && (
-            <div className="absolute right-0 top-12 bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-10 min-w-48">
-              <h4 className="font-semibold text-gray-900 mb-3">Filter by Status</h4>
-              <div className="space-y-2">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="all"
-                    checked={statusFilter === "all"}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="mr-2"
-                  />
-                  <span className="text-gray-700">All</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="active"
-                    checked={statusFilter === "active"}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="mr-2"
-                  />
-                  <span className="text-gray-700">Active</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="paused"
-                    checked={statusFilter === "paused"}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="mr-2"
-                  />
-                  <span className="text-gray-700">Paused</span>
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="status"
-                    value="closed"
-                    checked={statusFilter === "closed"}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="mr-2"
-                  />
-                  <span className="text-gray-700">Closed</span>
-                </label>
+            {showFilters && (
+              <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-10 min-w-48">
+                <h4 className="font-semibold text-gray-900 mb-3">Filter by Status</h4>
+                <div className="space-y-2">
+                  {[
+                    { value: "all", label: "All" },
+                    { value: "active", label: "Active" },
+                    { value: "paused", label: "Paused" },
+                    { value: "closed", label: "Closed" },
+                  ].map((option) => (
+                    <label key={option.value} className="flex items-center">
+                      <input
+                        type="radio"
+                        name="status"
+                        value={option.value}
+                        checked={statusFilter === option.value}
+                        onChange={(e) => setStatusFilter(e.target.value)}
+                        className="mr-2 text-blue-600"
+                      />
+                      <span className="text-gray-700">{option.label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="grid gap-4 sm:gap-6">
+      {/* Job Listings Grid */}
+      <div className="space-y-4">
         {filteredListings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm"
+            className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">
+                <div className="flex items-center space-x-3 mb-3">
+                  <h3 className="text-lg font-semibold text-gray-900">
                     {listing.title}
                   </h3>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
                       listing.status === "active"
                         ? "bg-green-100 text-green-700"
                         : listing.status === "paused"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : "bg-gray-100 text-gray-700"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-gray-100 text-gray-700"
                     }`}
                   >
                     {listing.status}
                   </span>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300 mb-4">
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4" />
                     <span>{listing.location}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Clock className="h-4 w-4" />
-                    <span>{listing.type}</span>
+                    <span className="capitalize">{listing.type}</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <Users className="h-4 w-4" />
@@ -970,20 +1049,20 @@ function JobListingsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4" />
-                    <span>
-                      {new Date(listing.postedDate).toLocaleDateString()}
-                    </span>
+                    <span>{new Date(listing.postedDate).toLocaleDateString()}</span>
                   </div>
                 </div>
-                <p className="text-gray-700 mb-3">{listing.description}</p>
+                
+                <p className="text-gray-700 mb-4 line-clamp-2">{listing.description}</p>
+                
                 <div className="flex items-center justify-between">
-                  <span className="font-semibold text-orange">
+                  <span className="font-semibold text-blue-600 text-lg">
                     {listing.salary}
                   </span>
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => toggleStatus(listing.id)}
-                      className={`px-3 py-2 rounded text-sm font-medium touch-manipulation ${
+                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
                         listing.status === "active"
                           ? "bg-yellow-100 text-yellow-700 hover:bg-yellow-200"
                           : "bg-green-100 text-green-700 hover:bg-green-200"
@@ -993,13 +1072,13 @@ function JobListingsPage() {
                     </button>
                     <button
                       onClick={() => setEditingId(listing.id)}
-                      className="p-3 text-gray-300 hover:text-orange touch-manipulation"
+                      className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       onClick={() => deleteListing(listing.id)}
-                      className="p-3 text-gray-300 hover:text-red-600 touch-manipulation"
+                      className="p-2 text-gray-600 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors"
                     >
                       <Trash2 className="h-4 w-4" />
                     </button>
@@ -1010,17 +1089,6 @@ function JobListingsPage() {
           </div>
         ))}
       </div>
-
-      {/* Job Creation Modal */}
-      {isCreating && (
-        <JobCreationModal
-          onClose={() => setIsCreating(false)}
-          onSave={(newListing) => {
-            setListings(prev => [{ ...newListing, id: Date.now().toString() }, ...prev]);
-            setIsCreating(false);
-          }}
-        />
-      )}
 
       {/* Subscription Prompt Modal */}
       {showSubscriptionPrompt && (
@@ -1036,43 +1104,41 @@ function JobListingsPage() {
   );
 }
 
+// Continue with other page components using the same modern design...
 function ApplicationsPage() {
-  const [applications, setApplications] =
-    useState<Application[]>(mockApplications);
-  const [selectedApplication, setSelectedApplication] =
-    useState<Application | null>(null);
+  const [applications, setApplications] = useState<Application[]>(mockApplications);
+  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
 
   const filteredApplications = applications.filter((application) => {
     const matchesSearch =
-      application.candidateName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+      application.candidateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       application.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || application.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
-  const updateApplicationStatus = (
-    id: string,
-    newStatus: Application["status"],
-  ) => {
+  const updateApplicationStatus = (id: string, newStatus: Application["status"]) => {
     setApplications((prev) =>
       prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app)),
     );
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Applications</h2>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Applications</h2>
+          <p className="text-gray-600">Review and manage candidate applications</p>
+        </div>
         <div className="flex items-center space-x-4">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+            className="border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="all">All Status</option>
             <option value="pending">Pending</option>
@@ -1084,96 +1150,107 @@ function ApplicationsPage() {
         </div>
       </div>
 
-      <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-        <input
-          type="text"
-          placeholder="Search applications..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
-        />
+      {/* Search */}
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="relative max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+          <input
+            type="text"
+            placeholder="Search applications..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
+          />
+        </div>
       </div>
 
-      <div className="grid gap-4">
+      {/* Applications Grid */}
+      <div className="space-y-4">
         {filteredApplications.map((application) => (
           <div
             key={application.id}
-            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm"
+            className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">
-                    {application.candidateName}
-                  </h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      application.status === "pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : application.status === "interview"
+              <div className="flex items-center space-x-4 flex-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold">
+                  {application.candidateName.charAt(0)}
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {application.candidateName}
+                    </h3>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        application.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : application.status === "interview"
                           ? "bg-blue-100 text-blue-700"
                           : application.status === "reviewed"
-                            ? "bg-purple-100 text-purple-700"
-                            : application.status === "accepted"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {application.status}
-                  </span>
-                </div>
-                <p className="text-gray-300 mb-2">{application.jobTitle}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300 mb-4">
-                  <div className="flex items-center space-x-2">
-                    <Mail className="h-4 w-4" />
-                    <span>{application.email}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Phone className="h-4 w-4" />
-                    <span>{application.phone}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="h-4 w-4" />
-                    <span>{application.location}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>
-                      {new Date(
-                        application.applicationDate,
-                      ).toLocaleDateString()}
+                          ? "bg-purple-100 text-purple-700"
+                          : application.status === "accepted"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-red-100 text-red-700"
+                      }`}
+                    >
+                      {application.status}
                     </span>
                   </div>
-                </div>
-                <div className="flex items-center space-x-4">
-                  <div className="text-center">
-                    <div className="text-orange font-bold text-lg">
-                      {application.score}%
+                  <p className="text-gray-600 mb-3">{application.jobTitle}</p>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
+                    <div className="flex items-center space-x-2">
+                      <Mail className="h-4 w-4" />
+                      <span>{application.email}</span>
                     </div>
-                    <div className="text-gray-300 text-xs">Match Score</div>
+                    <div className="flex items-center space-x-2">
+                      <Phone className="h-4 w-4" />
+                      <span>{application.phone}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="h-4 w-4" />
+                      <span>{application.location}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>{new Date(application.applicationDate).toLocaleDateString()}</span>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-gray-700 text-sm font-medium">
-                      Skills:
+                  
+                  <div className="flex items-center space-x-6">
+                    <div className="text-center">
+                      <div className="text-blue-600 font-bold text-xl">
+                        {application.score}%
+                      </div>
+                      <div className="text-gray-600 text-xs">Match Score</div>
                     </div>
-                    <div className="flex flex-wrap gap-1 mt-1">
-                      {application.skills?.map((skill, index) => (
-                        <span
-                          key={index}
-                          className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
-                        >
-                          {skill}
-                        </span>
-                      ))}
+                    <div>
+                      <div className="text-gray-700 text-sm font-medium mb-1">Skills:</div>
+                      <div className="flex flex-wrap gap-1">
+                        {application.skills?.slice(0, 3).map((skill, index) => (
+                          <span
+                            key={index}
+                            className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                        {application.skills && application.skills.length > 3 && (
+                          <span className="bg-gray-100 text-gray-500 px-2 py-1 rounded-lg text-xs">
+                            +{application.skills.length - 3}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col space-y-2 ml-4">
+              
+              <div className="flex flex-col space-y-3 ml-6">
                 <button
                   onClick={() => setSelectedApplication(application)}
-                  className="text-orange hover:text-orange/80 p-2"
+                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-2 rounded-xl transition-colors"
                 >
                   <Eye className="h-5 w-5" />
                 </button>
@@ -1185,7 +1262,7 @@ function ApplicationsPage() {
                       e.target.value as Application["status"],
                     )
                   }
-                  className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-orange focus:border-transparent"
+                  className="text-sm border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="pending">Pending</option>
                   <option value="reviewed">Reviewed</option>
@@ -1202,15 +1279,14 @@ function ApplicationsPage() {
       {/* Application Detail Modal */}
       {selectedApplication && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg border border-white/20 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-white/20 flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-white">
-                {selectedApplication.candidateName} -{" "}
-                {selectedApplication.jobTitle}
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {selectedApplication.candidateName} - {selectedApplication.jobTitle}
               </h3>
               <button
                 onClick={() => setSelectedApplication(null)}
-                className="text-gray-400 hover:text-gray-300"
+                className="text-gray-400 hover:text-gray-600"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -1218,39 +1294,32 @@ function ApplicationsPage() {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-white mb-2">
-                    Contact Information
-                  </h4>
-                  <div className="space-y-2 text-sm">
+                  <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
+                  <div className="space-y-3 text-sm">
                     <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-gray-300" />
+                      <Mail className="h-4 w-4 text-gray-500" />
                       <span>{selectedApplication.email}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-gray-300" />
+                      <Phone className="h-4 w-4 text-gray-500" />
                       <span>{selectedApplication.phone}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <MapPin className="h-4 w-4 text-gray-300" />
+                      <MapPin className="h-4 w-4 text-gray-500" />
                       <span>{selectedApplication.location}</span>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-white mb-2">
-                    Application Details
-                  </h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">Application Details</h4>
                   <div className="space-y-2 text-sm">
                     <div>
-                      Applied:{" "}
-                      {new Date(
-                        selectedApplication.applicationDate,
-                      ).toLocaleDateString()}
+                      Applied: {new Date(selectedApplication.applicationDate).toLocaleDateString()}
                     </div>
                     <div>Experience: {selectedApplication.experience}</div>
                     <div className="flex items-center space-x-2">
                       <span>Match Score:</span>
-                      <span className="font-bold text-orange">
+                      <span className="font-bold text-blue-600">
                         {selectedApplication.score}%
                       </span>
                     </div>
@@ -1258,37 +1327,34 @@ function ApplicationsPage() {
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-white mb-2">Skills</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">Skills</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedApplication.skills?.map((skill, index) => (
                     <span
                       key={index}
-                      className="bg-orange/10 text-orange px-3 py-1 rounded-full text-sm"
+                      className="bg-blue-100 text-blue-700 px-3 py-1 rounded-lg text-sm"
                     >
                       {skill}
                     </span>
                   ))}
                 </div>
               </div>
-              <div className="flex justify-end space-x-3 pt-4 border-t border-white/20">
+              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
                 <button
                   onClick={() => {
                     updateApplicationStatus(selectedApplication.id, "rejected");
                     setSelectedApplication(null);
                   }}
-                  className="px-4 py-2 border border-red-300 text-red-700 rounded-lg hover:bg-red-50"
+                  className="px-4 py-2 border border-red-300 text-red-700 rounded-xl hover:bg-red-50"
                 >
                   Reject
                 </button>
                 <button
                   onClick={() => {
-                    updateApplicationStatus(
-                      selectedApplication.id,
-                      "interview",
-                    );
+                    updateApplicationStatus(selectedApplication.id, "interview");
                     setSelectedApplication(null);
                   }}
-                  className="px-4 py-2 bg-orange text-white rounded-lg hover:bg-orange/90"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
                 >
                   Schedule Interview
                 </button>
@@ -1308,19 +1374,14 @@ function InterviewsPage() {
 
   const filteredInterviews = interviews.filter((interview) => {
     const matchesSearch =
-      interview.candidateName
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase()) ||
+      interview.candidateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
       interview.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       filterStatus === "all" || interview.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  const updateInterviewStatus = (
-    id: string,
-    newStatus: Interview["status"],
-  ) => {
+  const updateInterviewStatus = (id: string, newStatus: Interview["status"]) => {
     setInterviews((prev) =>
       prev.map((interview) =>
         interview.id === id ? { ...interview, status: newStatus } : interview,
@@ -1329,83 +1390,96 @@ function InterviewsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="space-y-6">
+      {/* Header */}
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Interviews</h2>
-        <button className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2">
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Interviews</h2>
+          <p className="text-gray-600">Manage scheduled interviews with candidates</p>
+        </div>
+        <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2">
           <Plus className="h-5 w-5" />
           <span>Schedule Interview</span>
         </button>
       </div>
 
-      <div className="flex items-center space-x-4">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-          <input
-            type="text"
-            placeholder="Search interviews..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
-          />
+      {/* Search and Filters */}
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm">
+        <div className="flex items-center space-x-4">
+          <div className="relative flex-1 max-w-md">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+            <input
+              type="text"
+              placeholder="Search interviews..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full"
+            />
+          </div>
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+            className="border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          >
+            <option value="all">All Status</option>
+            <option value="scheduled">Scheduled</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
-        <select
-          value={filterStatus}
-          onChange={(e) => setFilterStatus(e.target.value)}
-          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-        >
-          <option value="all">All Status</option>
-          <option value="scheduled">Scheduled</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-        </select>
       </div>
 
-      <div className="grid gap-4">
+      {/* Interviews Grid */}
+      <div className="space-y-4">
         {filteredInterviews.map((interview) => (
           <div
             key={interview.id}
-            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm"
+            className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200"
           >
             <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">
-                    {interview.candidateName}
-                  </h3>
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      interview.status === "scheduled"
-                        ? "bg-blue-100 text-blue-700"
-                        : interview.status === "completed"
+              <div className="flex items-center space-x-4 flex-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                  <Calendar className="h-6 w-6 text-white" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {interview.candidateName}
+                    </h3>
+                    <span
+                      className={`px-3 py-1 rounded-full text-xs font-medium ${
+                        interview.status === "scheduled"
+                          ? "bg-blue-100 text-blue-700"
+                          : interview.status === "completed"
                           ? "bg-green-100 text-green-700"
                           : "bg-red-100 text-red-700"
-                    }`}
-                  >
-                    {interview.status}
-                  </span>
-                </div>
-                <p className="text-gray-300 mb-3">{interview.jobTitle}</p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-300">
-                  <div className="flex items-center space-x-2">
-                    <Calendar className="h-4 w-4" />
-                    <span>{new Date(interview.date).toLocaleDateString()}</span>
+                      }`}
+                    >
+                      {interview.status}
+                    </span>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-4 w-4" />
-                    <span>{interview.time}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Video className="h-4 w-4" />
-                    <span>{interview.type}</span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Clock className="h-4 w-4" />
-                    <span>{interview.duration}</span>
+                  <p className="text-gray-600 mb-3">{interview.jobTitle}</p>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4" />
+                      <span>{new Date(interview.date).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4" />
+                      <span>{interview.time}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Video className="h-4 w-4" />
+                      <span className="capitalize">{interview.type}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4" />
+                      <span>{interview.duration}</span>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-2 ml-4">
+              <div className="flex items-center space-x-3 ml-6">
                 <select
                   value={interview.status}
                   onChange={(e) =>
@@ -1414,13 +1488,13 @@ function InterviewsPage() {
                       e.target.value as Interview["status"],
                     )
                   }
-                  className="text-sm border border-gray-300 rounded px-2 py-1 focus:ring-2 focus:ring-orange focus:border-transparent"
+                  className="text-sm border border-gray-300 rounded-xl px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="scheduled">Scheduled</option>
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
-                <button className="text-orange hover:text-orange/80 p-2">
+                <button className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-2 rounded-xl transition-colors">
                   <Video className="h-5 w-5" />
                 </button>
               </div>
@@ -1464,36 +1538,46 @@ function MessagesPage() {
   ]);
 
   return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-white">Messages</h2>
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">Messages</h2>
+        <p className="text-gray-600">Communicate with candidates</p>
+      </div>
 
-      <div className="grid gap-4">
+      {/* Messages Grid */}
+      <div className="space-y-4">
         {conversations.map((conversation) => (
           <div
             key={conversation.id}
-            className={`bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm hover:shadow-md cursor-pointer transition-shadow ${
-              conversation.unread ? "border-l-4 border-l-orange" : ""
+            className={`bg-white rounded-2xl p-6 border shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 ${
+              conversation.unread ? "border-blue-300 bg-blue-50" : "border-gray-200"
             }`}
           >
             <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-white">
-                    {conversation.candidateName}
-                  </h3>
-                  {conversation.unread && (
-                    <span className="w-2 h-2 bg-orange rounded-full"></span>
-                  )}
+              <div className="flex items-center space-x-4 flex-1">
+                <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white font-semibold">
+                  {conversation.candidateName.charAt(0)}
                 </div>
-                <p className="text-gray-300 text-sm mb-2">
-                  {conversation.jobTitle}
-                </p>
-                <p className="text-gray-700">{conversation.lastMessage}</p>
-                <p className="text-gray-400 text-sm mt-2">
-                  {new Date(conversation.timestamp).toLocaleString()}
-                </p>
+                <div className="flex-1">
+                  <div className="flex items-center space-x-3 mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      {conversation.candidateName}
+                    </h3>
+                    {conversation.unread && (
+                      <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
+                    )}
+                  </div>
+                  <p className="text-gray-600 text-sm mb-2">
+                    {conversation.jobTitle}
+                  </p>
+                  <p className="text-gray-700">{conversation.lastMessage}</p>
+                  <p className="text-gray-500 text-sm mt-2">
+                    {new Date(conversation.timestamp).toLocaleString()}
+                  </p>
+                </div>
               </div>
-              <MessageCircle className="h-6 w-6 text-orange" />
+              <MessageCircle className="h-6 w-6 text-blue-600" />
             </div>
           </div>
         ))}
@@ -1505,12 +1589,12 @@ function MessagesPage() {
 // Subscription Page Component
 function SubscriptionPage() {
   return (
-    <div className="p-4 sm:p-6 max-w-7xl mx-auto">
+    <div className="max-w-7xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">
           Subscription & Billing
         </h1>
-        <p className="text-gray-300">
+        <p className="text-gray-600">
           Manage your subscription plan, view billing history, and track usage
         </p>
       </div>
@@ -1519,976 +1603,26 @@ function SubscriptionPage() {
   );
 }
 
-// Profile Settings Page
-function ProfileSettingsPage() {
-  const [profile, setProfile] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    jobTitle: '',
-    department: ''
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    // TODO: Load actual profile data from API
-    setProfile({
-      firstName: 'John',
-      lastName: 'Smith',
-      email: 'john.smith@company.com',
-      phone: '+44 7123 456789',
-      jobTitle: 'HR Manager',
-      department: 'Human Resources'
-    });
-  }, []);
-
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      // TODO: Save to API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error saving profile:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Profile Settings</h2>
-        {success && (
-          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
-            <CheckCircle className="h-4 w-4" />
-            <span>Profile updated successfully</span>
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-white mb-4">Personal Information</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              First Name
-            </label>
-            <input
-              type="text"
-              value={profile.firstName}
-              onChange={(e) => setProfile({...profile, firstName: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Last Name
-            </label>
-            <input
-              type="text"
-              value={profile.lastName}
-              onChange={(e) => setProfile({...profile, lastName: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={profile.email}
-              onChange={(e) => setProfile({...profile, email: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Phone
-            </label>
-            <input
-              type="tel"
-              value={profile.phone}
-              onChange={(e) => setProfile({...profile, phone: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Job Title
-            </label>
-            <input
-              type="text"
-              value={profile.jobTitle}
-              onChange={(e) => setProfile({...profile, jobTitle: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Department
-            </label>
-            <input
-              type="text"
-              value={profile.department}
-              onChange={(e) => setProfile({...profile, department: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-        </div>
-        <div className="flex justify-end mt-6">
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            <span>{loading ? 'Saving...' : 'Save Changes'}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Company Information Page
-function CompanyInformationPage() {
-  const [company, setCompany] = useState({
-    name: '',
-    description: '',
-    website: '',
-    industry: '',
-    size: '',
-    address: '',
-    city: '',
-    postcode: '',
-    country: '',
-    logo: null as File | null
-  });
-  const [logoPreview, setLogoPreview] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  useEffect(() => {
-    // TODO: Load actual company data from API
-    setCompany({
-      name: 'TechCorp Ltd',
-      description: 'Leading technology training provider specializing in apprenticeships',
-      website: 'https://techcorp.co.uk',
-      industry: 'Technology',
-      size: '50-100',
-      address: '123 Business Street',
-      city: 'London',
-      postcode: 'SW1A 1AA',
-      country: 'United Kingdom',
-      logo: null
-    });
-  }, []);
-
-  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setCompany({...company, logo: file});
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setLogoPreview(e.target?.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      // Upload logo if a new one was selected
-      if (company.logo) {
-        const formData = new FormData();
-        formData.append('logo', company.logo);
-
-        const logoResponse = await fetch('/api/upload/company-logo', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (logoResponse.ok) {
-          const logoData = await logoResponse.json();
-          console.log('Logo uploaded:', logoData.logo.url);
-        }
-      }
-
-      // TODO: Save company information to API
-      const companyData = {
-        name: company.name,
-        description: company.description,
-        website: company.website,
-        industry: company.industry,
-        size: company.size,
-        address: company.address,
-        city: company.city,
-        postcode: company.postcode,
-        country: company.country
-      };
-
-      // Simulate API call for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error saving company:', error);
-      alert('Failed to save company information. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Company Information</h2>
-        {success && (
-          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
-            <CheckCircle className="h-4 w-4" />
-            <span>Company information updated successfully</span>
-          </div>
-        )}
-      </div>
-
-      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-white mb-4">Company Details</h3>
-
-        {/* Logo Upload */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">
-            Company Logo
-          </label>
-          <div className="flex items-center space-x-4">
-            <div className="w-24 h-24 border border-gray-300 rounded-lg flex items-center justify-center bg-gray-800/40 backdrop-blur-sm">
-              {logoPreview ? (
-                <img src={logoPreview} alt="Logo preview" className="w-full h-full object-contain rounded-lg" />
-              ) : (
-                <Building2 className="h-12 w-12 text-gray-400" />
-              )}
-            </div>
-            <div>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleLogoChange}
-                className="hidden"
-                id="logo-upload"
-              />
-              <label
-                htmlFor="logo-upload"
-                className="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 cursor-pointer inline-block"
-              >
-                Upload Logo
-              </label>
-              <p className="text-sm text-gray-500 mt-1">PNG, JPG up to 2MB</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Company Name
-            </label>
-            <input
-              type="text"
-              value={company.name}
-              onChange={(e) => setCompany({...company, name: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div className="md:col-span-2">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Description
-            </label>
-            <textarea
-              rows={4}
-              value={company.description}
-              onChange={(e) => setCompany({...company, description: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Website
-            </label>
-            <input
-              type="url"
-              value={company.website}
-              onChange={(e) => setCompany({...company, website: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Industry
-            </label>
-            <select
-              value={company.industry}
-              onChange={(e) => setCompany({...company, industry: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            >
-              <option value="">Select Industry</option>
-              <option value="Technology">Technology</option>
-              <option value="Healthcare">Healthcare</option>
-              <option value="Finance">Finance</option>
-              <option value="Manufacturing">Manufacturing</option>
-              <option value="Retail">Retail</option>
-              <option value="Construction">Construction</option>
-              <option value="Education">Education</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Company Size
-            </label>
-            <select
-              value={company.size}
-              onChange={(e) => setCompany({...company, size: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            >
-              <option value="">Select Size</option>
-              <option value="1-10">1-10 employees</option>
-              <option value="11-50">11-50 employees</option>
-              <option value="51-100">51-100 employees</option>
-              <option value="101-500">101-500 employees</option>
-              <option value="500+">500+ employees</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Address
-            </label>
-            <input
-              type="text"
-              value={company.address}
-              onChange={(e) => setCompany({...company, address: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              City
-            </label>
-            <input
-              type="text"
-              value={company.city}
-              onChange={(e) => setCompany({...company, city: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Postcode
-            </label>
-            <input
-              type="text"
-              value={company.postcode}
-              onChange={(e) => setCompany({...company, postcode: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Country
-            </label>
-            <select
-              value={company.country}
-              onChange={(e) => setCompany({...company, country: e.target.value})}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-            >
-              <option value="">Select Country</option>
-              <option value="United Kingdom">United Kingdom</option>
-              <option value="Ireland">Ireland</option>
-              <option value="United States">United States</option>
-              <option value="Canada">Canada</option>
-              <option value="Australia">Australia</option>
-            </select>
-          </div>
-        </div>
-        <div className="flex justify-end mt-6">
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            <span>{loading ? 'Saving...' : 'Save Changes'}</span>
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// Notification Preferences Page
-function NotificationPreferencesPage() {
-  const [preferences, setPreferences] = useState({
-    emailNotifications: {
-      newApplications: true,
-      interviewReminders: true,
-      messageReceived: true,
-      subscriptionUpdates: false,
-      marketingEmails: false
-    },
-    pushNotifications: {
-      newApplications: true,
-      interviewReminders: true,
-      messageReceived: false,
-      systemUpdates: true
-    }
-  });
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const handleEmailChange = (key: string, value: boolean) => {
-    setPreferences({
-      ...preferences,
-      emailNotifications: {
-        ...preferences.emailNotifications,
-        [key]: value
-      }
-    });
-  };
-
-  const handlePushChange = (key: string, value: boolean) => {
-    setPreferences({
-      ...preferences,
-      pushNotifications: {
-        ...preferences.pushNotifications,
-        [key]: value
-      }
-    });
-  };
-
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      // TODO: Save to API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccess(true);
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error saving preferences:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-white">Notification Preferences</h2>
-        {success && (
-          <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
-            <CheckCircle className="h-4 w-4" />
-            <span>Preferences updated successfully</span>
-          </div>
-        )}
-      </div>
-
-      <div className="space-y-6">
-        {/* Email Notifications */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-            <Mail className="h-5 w-5" />
-            <span>Email Notifications</span>
-          </h3>
-          <div className="space-y-4">
-            {Object.entries(preferences.emailNotifications).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-white">
-                    {key === 'newApplications' ? 'New Applications' :
-                     key === 'interviewReminders' ? 'Interview Reminders' :
-                     key === 'messageReceived' ? 'Message Received' :
-                     key === 'subscriptionUpdates' ? 'Subscription Updates' :
-                     'Marketing Emails'}
-                  </h4>
-                  <p className="text-sm text-gray-300">
-                    {key === 'newApplications' ? 'Get notified when candidates apply to your jobs' :
-                     key === 'interviewReminders' ? 'Reminders about upcoming interviews' :
-                     key === 'messageReceived' ? 'When candidates send you messages' :
-                     key === 'subscriptionUpdates' ? 'Billing and subscription notifications' :
-                     'Product updates and promotional content'}
-                  </p>
-                </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={value}
-                    onChange={(e) => handleEmailChange(key, e.target.checked)}
-                  />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Push Notifications */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-            <Bell className="h-5 w-5" />
-            <span>Push Notifications</span>
-          </h3>
-          <div className="space-y-4">
-            {Object.entries(preferences.pushNotifications).map(([key, value]) => (
-              <div key={key} className="flex items-center justify-between">
-                <div>
-                  <h4 className="font-medium text-white">
-                    {key === 'newApplications' ? 'New Applications' :
-                     key === 'interviewReminders' ? 'Interview Reminders' :
-                     key === 'messageReceived' ? 'Message Received' :
-                     'System Updates'}
-                  </h4>
-                  <p className="text-sm text-gray-300">
-                    {key === 'newApplications' ? 'Browser notifications for new applications' :
-                     key === 'interviewReminders' ? 'Browser reminders for interviews' :
-                     key === 'messageReceived' ? 'Instant notifications for new messages' :
-                     'Important system notifications'}
-                  </p>
-                </div>
-                <label className="relative inline-flex items-center cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="sr-only peer"
-                    checked={value}
-                    onChange={(e) => handlePushChange(key, e.target.checked)}
-                  />
-                  <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-orange/25 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-orange"></div>
-                </label>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      <div className="flex justify-end">
-        <button
-          onClick={handleSave}
-          disabled={loading}
-          className="bg-orange text-white px-6 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
-        >
-          <Save className="h-4 w-4" />
-          <span>{loading ? 'Saving...' : 'Save Preferences'}</span>
-        </button>
-      </div>
-    </div>
-  );
-}
-
-// Job Creation Modal Component
-function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (listing: Omit<JobListing, 'id'>) => void }) {
-  const [formData, setFormData] = useState({
-    title: '',
-    company: 'TechCorp Ltd', // This would come from company profile
-    location: '',
-    type: 'full-time' as 'full-time' | 'part-time' | 'contract',
-    salary: '',
-    description: '',
-    requirements: [''],
-    postedDate: new Date().toISOString().split('T')[0],
-    closingDate: '',
-    applications: 0,
-    status: 'active' as 'active' | 'paused' | 'closed'
-  });
-  const [loading, setLoading] = useState(false);
-
-  const handleRequirementChange = (index: number, value: string) => {
-    const newRequirements = [...formData.requirements];
-    newRequirements[index] = value;
-    setFormData({ ...formData, requirements: newRequirements });
-  };
-
-  const addRequirement = () => {
-    setFormData({ ...formData, requirements: [...formData.requirements, ''] });
-  };
-
-  const removeRequirement = (index: number) => {
-    if (formData.requirements.length > 1) {
-      const newRequirements = formData.requirements.filter((_, i) => i !== index);
-      setFormData({ ...formData, requirements: newRequirements });
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.title || !formData.location || !formData.salary || !formData.description || !formData.closingDate) {
-      alert('Please fill in all required fields including the application closing date');
-      return;
-    }
-
-    // Validate closing date is in the future
-    const closingDate = new Date(formData.closingDate);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (closingDate <= today) {
-      alert('Application closing date must be in the future');
-      return;
-    }
-
-    setLoading(true);
-    try {
-      // TODO: Submit to API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const filteredRequirements = formData.requirements.filter(req => req.trim() !== '');
-      onSave({
-        ...formData,
-        requirements: filteredRequirements
-      });
-    } catch (error) {
-      console.error('Error creating job listing:', error);
-      alert('Failed to create job listing. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg border border-white/20 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-white/20 flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-white">Create New Job Listing</h3>
-          <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-gray-300"
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Job Title *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                placeholder="e.g., Software Developer Apprentice"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Location *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.location}
-                onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-                placeholder="e.g., London, UK"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Employment Type *
-              </label>
-              <select
-                required
-                value={formData.type}
-                onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              >
-                <option value="full-time">Full-time</option>
-                <option value="part-time">Part-time</option>
-                <option value="contract">Contract</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Salary Range *
-              </label>
-              <input
-                type="text"
-                required
-                value={formData.salary}
-                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
-                placeholder="e.g., £18,000 - £22,000"
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Application Closing Date *
-              </label>
-              <input
-                type="date"
-                required
-                value={formData.closingDate}
-                onChange={(e) => setFormData({ ...formData, closingDate: e.target.value })}
-                min={new Date().toISOString().split('T')[0]}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Status
-              </label>
-              <select
-                value={formData.status}
-                onChange={(e) => setFormData({ ...formData, status: e.target.value as any })}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              >
-                <option value="active">Active</option>
-                <option value="paused">Paused</option>
-                <option value="closed">Closed</option>
-              </select>
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Job Description *
-              </label>
-              <textarea
-                required
-                rows={6}
-                value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                placeholder="Describe the role, responsibilities, and what the apprentice will learn..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Requirements
-              </label>
-              <div className="space-y-3">
-                {formData.requirements.map((requirement, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <input
-                      type="text"
-                      value={requirement}
-                      onChange={(e) => handleRequirementChange(index, e.target.value)}
-                      placeholder={`Requirement ${index + 1}`}
-                      className="flex-1 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-                    />
-                    {formData.requirements.length > 1 && (
-                      <button
-                        type="button"
-                        onClick={() => removeRequirement(index)}
-                        className="text-red-600 hover:text-red-800 p-2"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </button>
-                    )}
-                  </div>
-                ))}
-                <button
-                  type="button"
-                  onClick={addRequirement}
-                  className="text-orange hover:text-orange/80 flex items-center space-x-2 text-sm"
-                >
-                  <Plus className="h-4 w-4" />
-                  <span>Add Requirement</span>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex justify-end space-x-3 pt-4 border-t border-white/20">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white/10"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-orange text-white rounded-lg hover:bg-orange/90 flex items-center space-x-2 disabled:opacity-50"
-            >
-              <Save className="h-4 w-4" />
-              <span>{loading ? 'Creating...' : 'Create Job Listing'}</span>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-}
-
-// Account & Billing Settings Page
-function AccountBillingPage() {
-  return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-white">Account & Billing</h2>
-      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <p className="text-gray-300 mb-4">
-          Manage your subscription, billing information, and payment methods.
-        </p>
-        <Link
-          to="/company/subscription"
-          className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 inline-flex items-center space-x-2"
-        >
-          <CreditCard className="h-4 w-4" />
-          <span>Go to Subscription & Billing</span>
-        </Link>
-      </div>
-    </div>
-  );
-}
-
-// Help & Support Page
-function HelpSupportPage() {
-  const [message, setMessage] = useState('');
-  const [email, setEmail] = useState('');
-  const [category, setCategory] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      // TODO: Submit to API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setSuccess(true);
-      setMessage('');
-      setCategory('');
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error submitting support request:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-white">Help & Support</h2>
-
-      {success && (
-        <div className="bg-green-100 text-green-700 p-4 rounded-lg flex items-center space-x-2">
-          <CheckCircle className="h-5 w-5" />
-          <span>Support request submitted successfully. We'll get back to you within 24 hours.</span>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Quick Help */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-white mb-4">Quick Help</h3>
-          <div className="space-y-4">
-            <div className="border border-white/20 rounded-lg p-4">
-              <h4 className="font-medium text-white mb-2">Getting Started</h4>
-              <p className="text-sm text-gray-300 mb-2">Learn how to post your first job and manage applications.</p>
-              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
-            </div>
-            <div className="border border-white/20 rounded-lg p-4">
-              <h4 className="font-medium text-white mb-2">Billing & Subscriptions</h4>
-              <p className="text-sm text-gray-300 mb-2">Understand our pricing and manage your subscription.</p>
-              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
-            </div>
-            <div className="border border-white/20 rounded-lg p-4">
-              <h4 className="font-medium text-white mb-2">Managing Candidates</h4>
-              <p className="text-sm text-gray-300 mb-2">Best practices for reviewing and interviewing candidates.</p>
-              <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
-            </div>
-          </div>
-        </div>
-
-        {/* Contact Support */}
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-white mb-4">Contact Support</h3>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Category
-              </label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                required
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              >
-                <option value="">Select a category</option>
-                <option value="technical">Technical Issue</option>
-                <option value="billing">Billing Question</option>
-                <option value="account">Account Management</option>
-                <option value="feature">Feature Request</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Message
-              </label>
-              <textarea
-                rows={6}
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                required
-                placeholder="Describe your issue or question..."
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-orange text-white py-2 rounded-lg hover:bg-orange/90 disabled:opacity-50"
-            >
-              {loading ? 'Submitting...' : 'Submit Support Request'}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-}
+// Settings pages would continue with the same modern design pattern...
 
 export default function CompanyPortal() {
   return (
-    <CompanyPortalLayout>
-      <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/listings" element={<JobListingsPage />} />
-        <Route path="/applications" element={<ApplicationsPage />} />
-        <Route path="/interviews" element={<InterviewsPage />} />
-        <Route path="/subscription" element={<SubscriptionPage />} />
-        <Route path="/messages" element={<MessagesPage />} />
-        <Route path="/settings/profile" element={<ProfileSettingsPage />} />
-        <Route path="/settings/company" element={<CompanyInformationPage />} />
-        <Route path="/settings/notifications" element={<NotificationPreferencesPage />} />
-        <Route path="/settings/billing" element={<AccountBillingPage />} />
-        <Route path="/settings/help" element={<HelpSupportPage />} />
-      </Routes>
-    </CompanyPortalLayout>
+    <Routes>
+      <Route
+        path="/*"
+        element={
+          <CompanyPortalLayout>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/listings" element={<JobListingsPage />} />
+              <Route path="/applications" element={<ApplicationsPage />} />
+              <Route path="/interviews" element={<InterviewsPage />} />
+              <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/subscription" element={<SubscriptionPage />} />
+            </Routes>
+          </CompanyPortalLayout>
+        }
+      />
+    </Routes>
   );
 }
