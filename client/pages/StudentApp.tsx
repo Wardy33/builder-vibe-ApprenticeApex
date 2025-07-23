@@ -521,14 +521,6 @@ function HomePage() {
     }
   };
 
-  const isApplicationClosed = (closingDate: string) => {
-    const today = new Date();
-    const deadline = new Date(closingDate);
-    today.setHours(0, 0, 0, 0);
-    deadline.setHours(0, 0, 0, 0);
-    return deadline < today;
-  };
-
   return (
     <div className="p-4 space-y-6">
       {/* Welcome Header */}
