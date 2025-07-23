@@ -283,7 +283,7 @@ export default function Index() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/student/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 font-bold rounded-xl hover:bg-gray-100 transition-all duration-200 hover:scale-105 shadow-xl"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-xl border border-white/20"
                 >
                   Sign Up as Student 🎓
                   <ArrowRight className="ml-2 h-5 w-5" />
