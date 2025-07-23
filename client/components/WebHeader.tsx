@@ -27,7 +27,7 @@ export function WebHeader() {
             <Link
               to="/"
               className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
-                isActive("/") ? "bg-gradient-to-r from-orange-400 to-pink-500 text-white" : "text-white hover:bg-white/10"
+                isActive("/") ? "bg-pink-500 text-white" : "text-white hover:bg-white/10"
               }`}
             >
               Home
