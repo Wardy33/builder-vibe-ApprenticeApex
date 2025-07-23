@@ -1175,7 +1175,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => navigate(`/student/chat/${id}`)}
-                className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-xl border border-yellow-300"
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-xl"
               >
                 <MessageCircle className="h-4 w-4" />
                 Message Company
