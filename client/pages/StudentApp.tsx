@@ -1572,7 +1572,7 @@ function ProfilePage() {
                 {mockProfile.email}
               </div>
               <div className="flex items-center text-gray-300 text-sm">
-                <Phone className="h-4 w-4 mr-2 text-gray-500" />
+                <Phone className="h-4 w-4 mr-2 text-cyan-400" />
                 {mockProfile.phone}
               </div>
               <div className="flex items-center text-gray-300 text-sm">
