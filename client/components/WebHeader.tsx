@@ -147,7 +147,7 @@ export function WebHeader() {
               </Link>
               <Link
                 to="/for-employers"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-cyan-400 hover:to-blue-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-cyan-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 For Employers
