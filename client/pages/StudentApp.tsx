@@ -352,7 +352,7 @@ function SwipeCard({
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setShowTransportModal(false)}
-                  className="flex-1 bg-gray-200 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+                  className="flex-1 bg-gray-700/40 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-600/40 transition-colors backdrop-blur-sm border border-white/20"
                 >
                   Close
                 </button>
