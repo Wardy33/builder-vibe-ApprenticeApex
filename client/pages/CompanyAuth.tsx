@@ -577,19 +577,18 @@ export function CompanySignInForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/auth/company/signin', {
+      const response = await apiClient.request('/api/auth/company/signin', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
+        body: formData
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        localStorage.setItem('token', data.token);
-        navigate('/company');
+      if (response.error) {
+        alert(response.error.error || 'Sign in failed');
       } else {
-        const error = await response.json();
-        alert(error.error || 'Sign in failed');
+        // Use consistent token storage
+        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+        navigate('/company');
       }
     } catch (error) {
       alert('Sign in failed. Please try again.');
