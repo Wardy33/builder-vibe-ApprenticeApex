@@ -2853,7 +2853,7 @@ function ChangePasswordPage() {
         <button
           onClick={handleSave}
           disabled={loading}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
           {loading ? 'Changing...' : success ? 'Changed!' : 'Change Password'}
         </button>
