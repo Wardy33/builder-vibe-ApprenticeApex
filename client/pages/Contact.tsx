@@ -62,7 +62,7 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Get in <span className="bg-gradient-to-r from-blue-400 via-pink-500 to-orange-500 bg-clip-text text-transparent animate-pulse">Touch</span> <span className="text-2xl animate-bounce">✨</span>
+            Get in <span className="bg-gradient-to-r from-blue-400 via-pink-500 to-orange-500 bg-clip-text text-transparent animate-pulse">Touch</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
             We're here to help you succeed. Whether you're a student looking for guidance
@@ -74,13 +74,13 @@ export default function Contact() {
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-8">
             <div>
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Contact Information 📧</h2>
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">Contact Information</h2>
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
                   <Mail className="h-6 w-6 mt-1 text-orange-400 animate-pulse" />
                   <div>
-                    <h3 className="font-semibold text-white mb-1">Email 📧</h3>
+                    <h3 className="font-semibold text-white mb-1">Email</h3>
                     <p className="text-gray-300 text-sm mb-1">General inquiries</p>
                     <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange-400 hover:text-orange-300 transition-colors hover:underline">
                       hello@apprenticeapex.co.uk
@@ -93,7 +93,7 @@ export default function Contact() {
                 <div className="flex items-start space-x-4">
                   <Clock className="h-6 w-6 mt-1 text-cyan-400 animate-pulse" />
                   <div>
-                    <h3 className="font-semibold text-white mb-1">Support Hours ⏰</h3>
+                    <h3 className="font-semibold text-white mb-1">Support Hours</h3>
                     <p className="text-gray-300 text-sm">
                       Monday - Friday: 9:00 AM - 6:00 PM GMT<br />
                       Saturday: 10:00 AM - 4:00 PM GMT<br />
@@ -106,26 +106,26 @@ export default function Contact() {
 
             {/* Quick Contact Options */}
             <div className="rounded-2xl p-6 bg-gradient-to-br from-purple-500/20 via-pink-500/20 to-orange-500/20 border border-white/20 shadow-xl backdrop-blur-sm">
-              <h3 className="text-xl font-bold mb-4 text-white">Quick Help 🚀</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Quick Help</h3>
               <div className="space-y-3">
                 <div className="flex items-center space-x-3">
                   <Users className="h-5 w-5 text-orange-400" />
                   <div>
-                    <p className="font-medium text-white text-sm">For Students 🎓</p>
+                    <p className="font-medium text-white text-sm">For Students</p>
                     <p className="text-gray-300 text-xs">Account help, profile setup, applications</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <Building2 className="h-5 w-5 text-cyan-400" />
                   <div>
-                    <p className="font-medium text-white text-sm">For Employers 💼</p>
+                    <p className="font-medium text-white text-sm">For Employers</p>
                     <p className="text-gray-300 text-xs">Posting jobs, candidate management, billing</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-3">
                   <MessageCircle className="h-5 w-5 text-pink-400" />
                   <div>
-                    <p className="font-medium text-white text-sm">Live Chat 💬</p>
+                    <p className="font-medium text-white text-sm">Live Chat</p>
                     <p className="text-gray-300 text-xs">Instant support during business hours</p>
                   </div>
                 </div>
