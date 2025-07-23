@@ -224,7 +224,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.companySize}
                     onChange={(e) => handleInputChange('companySize', e.target.value)}
-                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-gray-800/40 border border-white/20 rounded-lg text-white focus:outline-none focus:border-orange-400 backdrop-blur-sm transition-all duration-200"
                   >
                     <option value="">Select company size</option>
                     {companySizes.map(size => (
