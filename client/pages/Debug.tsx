@@ -60,11 +60,11 @@ export default function Debug() {
           <h2 className="text-xl font-semibold text-white mb-4">API Information</h2>
           <div className="space-y-3">
             <div>
-              <h3 className="font-semibold text-gray-700">Backend URL</h3>
+              <h3 className="font-semibold text-gray-200">Backend URL</h3>
               <p className="text-sm text-gray-300">http://localhost:8080</p>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-700">Key Endpoints</h3>
+              <h3 className="font-semibold text-gray-200">Key Endpoints</h3>
               <ul className="text-sm text-gray-300 space-y-1">
                 <li>
                   <code className="bg-gray-800/60 px-1 py-0.5 rounded">GET /api/ping</code> - Health check
@@ -91,7 +91,7 @@ export default function Debug() {
           <h2 className="text-xl font-semibold text-white mb-4">External Services Setup</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h3 className="font-semibold text-gray-700 mb-2">Ready for Integration</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">Ready for Integration</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
@@ -112,7 +112,7 @@ export default function Debug() {
               </ul>
             </div>
             <div>
-              <h3 className="font-semibold text-gray-700 mb-2">Implementation Notes</h3>
+              <h3 className="font-semibold text-gray-200 mb-2">Implementation Notes</h3>
               <ul className="space-y-2 text-sm text-gray-300">
                 <li>• All API clients pre-configured</li>
                 <li>• Error handling & retry logic implemented</li>
