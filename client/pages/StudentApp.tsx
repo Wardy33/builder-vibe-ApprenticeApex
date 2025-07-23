@@ -556,7 +556,7 @@ function HomePage() {
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-cyan-500/20">
+          <div className="bg-gradient-to-br from-cyan-300/60 via-blue-400/50 to-cyan-500/70 border border-cyan-300/60 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-cyan-400/40">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Applications Yet
@@ -627,7 +627,7 @@ function HomePage() {
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-cyan-500/20">
+          <div className="bg-gradient-to-br from-cyan-300/60 via-blue-400/50 to-cyan-500/70 border border-cyan-300/60 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-cyan-400/40">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Interviews Scheduled
