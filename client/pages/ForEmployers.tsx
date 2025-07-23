@@ -241,38 +241,41 @@ export default function ForEmployers() {
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-                Choose Your Plan
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                💎 Choose Your Plan ✨
               </h2>
-              <p className="text-xl text-gray-600">Flexible pricing that grows with your business</p>
+              <p className="text-xl text-gray-300">Flexible pricing that grows with your business 🚀</p>
             </div>
             
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6">
               {plans.map((plan) => (
-                <div 
+                <div
                   key={plan.id}
-                  className="relative p-6 rounded-xl border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:scale-105 shadow-sm"
-                  style={{backgroundColor: '#f8f9fa'}}
+                  className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-xl backdrop-blur-sm ${
+                    plan.popular
+                      ? 'bg-gradient-to-br from-orange-400/20 via-pink-500/20 to-red-500/20 border-orange-400/30'
+                      : 'bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border-white/20'
+                  }`}
                 >
 
                   
                   <div className="text-center mb-6">
-                    <h3 className="text-xl font-bold text-black mb-2">{plan.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4">{plan.description}</p>
+                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
+                    <p className="text-gray-300 text-sm mb-4">{plan.description}</p>
                     
                     <div className="mb-4">
-                      <div className="text-3xl font-bold text-black">
-                        {typeof plan.monthlyFee === 'number' 
+                      <div className="text-3xl font-bold bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
+                        {typeof plan.monthlyFee === 'number'
                           ? formatCurrency(plan.monthlyFee)
                           : plan.monthlyFee
                         }
                       </div>
-                      <div className="text-gray-600 text-sm">per month</div>
+                      <div className="text-gray-300 text-sm">per month</div>
                     </div>
                     
                     <div className="text-center">
-                      <div className="font-semibold" style={{color: '#da6927'}}>
-                        {plan.successFee 
+                      <div className="font-semibold text-orange-400">
+                        {plan.successFee
                           ? `+ ${formatCurrency(plan.successFee)} per hire`
                           : `+ ${plan.successFeeRate}% of first year salary`
                         }
@@ -284,27 +287,27 @@ export default function ForEmployers() {
                     {plan.features.slice(0, 6).map((feature, index) => (
                       <div key={index} className="flex items-start">
                         <Check className="w-5 h-5 text-green-400 mr-3 mt-0.5 flex-shrink-0" />
-                        <span className="text-gray-700 text-sm">{feature}</span>
+                        <span className="text-gray-300 text-sm">{feature}</span>
                       </div>
                     ))}
                     {plan.features.length > 6 && (
-                      <div className="text-gray-600 text-sm">
+                      <div className="text-gray-400 text-sm">
                         +{plan.features.length - 6} more features
                       </div>
                     )}
                   </div>
                   
-                  <div className="border-t border-gray-200 pt-4 mb-6">
-                    <div className="text-gray-600 text-sm mb-2">Limits:</div>
+                  <div className="border-t border-white/20 pt-4 mb-6">
+                    <div className="text-gray-400 text-sm mb-2">Limits:</div>
                     <div className="space-y-1">
-                      <div className="text-black text-sm">
+                      <div className="text-white text-sm">
                         📝 {plan.limits.jobPostings} job postings
                       </div>
-                      <div className="text-black text-sm">
+                      <div className="text-white text-sm">
                         👤 {plan.limits.users} user{plan.limits.users !== 1 ? 's' : ''}
                       </div>
                       {plan.limits.duration && (
-                        <div className="text-black text-sm">
+                        <div className="text-white text-sm">
                           ⏱️ {plan.limits.duration}
                         </div>
                       )}
@@ -313,7 +316,11 @@ export default function ForEmployers() {
                   
                   <Link
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
-                    className="w-full py-3 px-4 rounded-lg font-semibold transition-colors text-center block bg-gray-100 text-black hover:bg-gray-200 border border-gray-300"
+                    className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
+                      plan.popular
+                        ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white border border-white/20'
+                        : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white border border-white/20'
+                    }`}
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
                      plan.id === 'enterprise' ? 'Contact Sales' :
