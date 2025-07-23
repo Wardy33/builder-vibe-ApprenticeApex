@@ -1655,7 +1655,33 @@ function InterviewsPage() {
                   <option value="completed">Completed</option>
                   <option value="cancelled">Cancelled</option>
                 </select>
-                <button className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-2 rounded-xl transition-colors">
+                <button
+                  onClick={() => {
+                    if (interview.type === 'video' && interview.status === 'scheduled') {
+                      // For demo purposes, open a generic video call platform
+                      // In a real app, this would connect to your video call service
+                      const videoCallUrl = `https://meet.google.com/new?authuser=0`;
+                      window.open(videoCallUrl, '_blank');
+                    } else if (interview.type !== 'video') {
+                      alert(`This is a ${interview.type} interview. Video call not available.`);
+                    } else if (interview.status !== 'scheduled') {
+                      alert('This interview is not scheduled yet.');
+                    }
+                  }}
+                  disabled={interview.type !== 'video' || interview.status !== 'scheduled'}
+                  className={`p-2 rounded-xl transition-colors ${
+                    interview.type === 'video' && interview.status === 'scheduled'
+                      ? 'text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer'
+                      : 'text-gray-400 cursor-not-allowed'
+                  }`}
+                  title={
+                    interview.type !== 'video'
+                      ? `${interview.type} interview - video call not available`
+                      : interview.status !== 'scheduled'
+                      ? 'Interview not scheduled yet'
+                      : 'Start video call'
+                  }
+                >
                   <Video className="h-5 w-5" />
                 </button>
               </div>
