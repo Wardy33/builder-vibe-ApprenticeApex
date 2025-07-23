@@ -444,13 +444,27 @@ export default function SubscriptionManager() {
             });
 
             // For demo, simulate plan activation
+            const successFeeRates = {
+              starter: 12,
+              professional: 10,
+              business: 8,
+              enterprise: 0
+            };
+
+            const monthlyFees = {
+              starter: 49,
+              professional: 99,
+              business: 199,
+              enterprise: 0
+            };
+
             const updatedSubscriptionData = {
               subscription: {
                 planType: plan.id,
                 status: 'active',
                 isInTrial: false,
-                monthlyFee: plan.id === 'starter' ? 49 : plan.id === 'professional' ? 99 : 199,
-                successFeeRate: plan.id === 'starter' ? 12 : plan.id === 'professional' ? 10 : 8,
+                monthlyFee: monthlyFees[plan.id as keyof typeof monthlyFees] || 0,
+                successFeeRate: successFeeRates[plan.id as keyof typeof successFeeRates] || 0,
                 features: {},
                 usage: {
                   jobPostingsThisMonth: 0,
@@ -809,6 +823,58 @@ export default function SubscriptionManager() {
                   Contact our sales team
                 </button>
               </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cancel Subscription Modal */}
+      {showCancelModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl p-6 max-w-md w-full">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Cancel Subscription</h3>
+              <button
+                onClick={() => setShowCancelModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="mb-6">
+              <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4 mb-4">
+                <div className="flex items-start space-x-3">
+                  <AlertTriangle className="h-5 w-5 text-yellow-600 mt-0.5" />
+                  <div>
+                    <h4 className="text-yellow-800 font-medium mb-1">Important Information</h4>
+                    <p className="text-yellow-700 text-sm">
+                      Your subscription will remain active until the end of your current billing period
+                      (30 days from your last payment). You'll continue to have full access during this time.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <p className="text-gray-600">
+                Are you sure you want to cancel your subscription? You can reactivate it anytime before
+                the billing period ends.
+              </p>
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                onClick={() => setShowCancelModal(false)}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 font-medium transition-colors"
+              >
+                Keep Subscription
+              </button>
+              <button
+                onClick={cancelSubscription}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 font-medium transition-colors"
+              >
+                Cancel Subscription
+              </button>
             </div>
           </div>
         </div>
