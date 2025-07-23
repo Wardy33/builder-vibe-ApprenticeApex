@@ -612,7 +612,7 @@ export function CompanySignInForm() {
 
           <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 shadow-sm p-8 space-y-6" style={{backgroundColor: '#f8f9fa'}}>
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Email Address
               </label>
               <div className="relative">
@@ -629,7 +629,7 @@ export function CompanySignInForm() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <div className="relative">
