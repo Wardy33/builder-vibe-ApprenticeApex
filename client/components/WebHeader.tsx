@@ -38,7 +38,7 @@ export function WebHeader() {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10"
               >
-                For Students 🎓
+                For Students
                 <ChevronDown className="ml-1 h-4 w-4" />
               </button>
               
