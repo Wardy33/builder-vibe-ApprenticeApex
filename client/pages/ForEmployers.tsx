@@ -319,7 +319,7 @@ export default function ForEmployers() {
                   <Link
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
                     className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
-                      plan.popular
+                      plan.id === 'trial'
                         ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white border border-white/20'
                         : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white border border-white/20'
                     }`}
