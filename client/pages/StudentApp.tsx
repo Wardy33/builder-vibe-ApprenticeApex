@@ -2475,8 +2475,8 @@ function ChangePicturePage() {
         <h1 className="text-2xl font-bold text-black">Change Picture</h1>
       </div>
 
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <h3 className="text-lg font-semibold text-black mb-4">Profile Picture</h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Picture</h3>
 
         <div className="text-center">
           <div className="relative inline-block mb-4">
