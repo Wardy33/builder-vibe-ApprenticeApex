@@ -1908,12 +1908,43 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
 
 function EditAboutPage() {
   const navigate = useNavigate();
-  const [bio, setBio] = useState("Passionate about technology and eager to start my career in software development.");
+  const [bio, setBio] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleSave = () => {
-    // In a real app, this would save to backend
-    console.log('Saving bio:', bio);
-    navigate(-1);
+  useEffect(() => {
+    // Load existing bio from localStorage
+    const savedBio = localStorage.getItem('studentProfile_bio');
+    if (savedBio) {
+      setBio(savedBio);
+    } else {
+      setBio("Passionate about technology and eager to start my career in software development.");
+    }
+  }, []);
+
+  const handleSave = async () => {
+    if (bio.length > 500) {
+      alert('Bio must be 500 characters or less');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Save to localStorage (in real app, would save to backend)
+      localStorage.setItem('studentProfile_bio', bio);
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+    } catch (error) {
+      alert('Failed to save bio. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -1961,14 +1992,71 @@ function EditAboutPage() {
 function EditContactPage() {
   const navigate = useNavigate();
   const [contact, setContact] = useState({
-    email: "sarah.johnson@email.com",
-    phone: "07123 456789",
-    location: "London, UK"
+    email: "",
+    phone: "",
+    location: ""
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleSave = () => {
-    console.log('Saving contact info:', contact);
-    navigate(-1);
+  useEffect(() => {
+    // Load existing contact info from localStorage
+    const savedContact = localStorage.getItem('studentProfile_contact');
+    if (savedContact) {
+      setContact(JSON.parse(savedContact));
+    } else {
+      setContact({
+        email: "sarah.johnson@email.com",
+        phone: "07123 456789",
+        location: "London, UK"
+      });
+    }
+  }, []);
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!contact.email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(contact.email)) {
+      newErrors.email = 'Please enter a valid email';
+    }
+
+    if (!contact.phone) {
+      newErrors.phone = 'Phone number is required';
+    }
+
+    if (!contact.location) {
+      newErrors.location = 'Location is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Save to localStorage (in real app, would save to backend)
+      localStorage.setItem('studentProfile_contact', JSON.stringify(contact));
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+    } catch (error) {
+      alert('Failed to save contact information. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -2036,13 +2124,29 @@ function EditContactPage() {
 
 function EditSkillsPage() {
   const navigate = useNavigate();
-  const [skills, setSkills] = useState(["JavaScript", "React", "Problem Solving", "Communication"]);
+  const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // Load existing skills from localStorage
+    const savedSkills = localStorage.getItem('studentProfile_skills');
+    if (savedSkills) {
+      setSkills(JSON.parse(savedSkills));
+    } else {
+      setSkills(["JavaScript", "React", "Problem Solving", "Communication"]);
+    }
+  }, []);
 
   const addSkill = () => {
-    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
+    if (newSkill.trim() && !skills.includes(newSkill.trim()) && skills.length < 20) {
       setSkills([...skills, newSkill.trim()]);
       setNewSkill("");
+    } else if (skills.length >= 20) {
+      alert('You can only have up to 20 skills');
+    } else if (skills.includes(newSkill.trim())) {
+      alert('This skill is already added');
     }
   };
 
@@ -2050,9 +2154,29 @@ function EditSkillsPage() {
     setSkills(skills.filter(skill => skill !== skillToRemove));
   };
 
-  const handleSave = () => {
-    console.log('Saving skills:', skills);
-    navigate(-1);
+  const handleSave = async () => {
+    if (skills.length === 0) {
+      alert('Please add at least one skill');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Save to localStorage (in real app, would save to backend)
+      localStorage.setItem('studentProfile_skills', JSON.stringify(skills));
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+    } catch (error) {
+      alert('Failed to save skills. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -2125,11 +2249,43 @@ function EditSkillsPage() {
 
 function EditAvailabilityPage() {
   const navigate = useNavigate();
-  const [availability, setAvailability] = useState("September 2024");
+  const [availability, setAvailability] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
-  const handleSave = () => {
-    console.log('Saving availability:', availability);
-    navigate(-1);
+  useEffect(() => {
+    // Load existing availability from localStorage
+    const savedAvailability = localStorage.getItem('studentProfile_availability');
+    if (savedAvailability) {
+      setAvailability(savedAvailability);
+    } else {
+      setAvailability("September 2024");
+    }
+  }, []);
+
+  const handleSave = async () => {
+    if (!availability.trim()) {
+      alert('Please enter your availability');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Save to localStorage (in real app, would save to backend)
+      localStorage.setItem('studentProfile_availability', availability);
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+    } catch (error) {
+      alert('Failed to save availability. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -2176,10 +2332,35 @@ function EditAvailabilityPage() {
 function ChangePicturePage() {
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    // Load existing profile image from localStorage
+    const savedImage = localStorage.getItem('studentProfile_image');
+    if (savedImage) {
+      setCurrentImage(savedImage);
+    } else {
+      setCurrentImage("https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop");
+    }
+  }, []);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
+
+      // Check file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please select an image file');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onload = (e) => {
         setSelectedImage(e.target?.result as string);
@@ -2188,9 +2369,29 @@ function ChangePicturePage() {
     }
   };
 
-  const handleSave = () => {
-    console.log('Saving new profile picture');
-    navigate(-1);
+  const handleSave = async () => {
+    if (!selectedImage) {
+      alert('Please select an image first');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // Save to localStorage (in real app, would upload to backend)
+      localStorage.setItem('studentProfile_image', selectedImage);
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 1500);
+    } catch (error) {
+      alert('Failed to save profile picture. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
