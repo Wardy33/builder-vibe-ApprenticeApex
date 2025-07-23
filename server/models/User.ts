@@ -209,4 +209,4 @@ const userSchema = new Schema<IUser>(
 userSchema.index({ role: 1 });
 userSchema.index({ "profile.location.coordinates": "2dsphere" });
 
-export const User = mongoose.model<IUser>("User", userSchema);
+export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
