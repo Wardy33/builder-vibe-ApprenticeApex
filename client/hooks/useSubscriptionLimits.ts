@@ -28,31 +28,39 @@ export function useSubscriptionLimits() {
 
   const loadSubscriptionLimits = async () => {
     try {
-      const response = await fetch('/api/subscriptions/current', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      // For demo purposes, check localStorage for subscription data
+      const demoSubscriptionData = localStorage.getItem('demoSubscriptionData');
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
-          setLimits({
-            canCreateJobPosting: data.limits?.canCreateJobPosting ?? true,
-            canAddUser: data.limits?.canAddUser ?? true,
-            isTrialExpired: data.isTrialExpired ?? false,
-            daysLeftInTrial: data.daysLeftInTrial ?? 0,
-            hasSubscription: data.hasSubscription ?? false,
-            planType: data.subscription?.planType,
-            isInTrial: data.subscription?.isInTrial,
-            loading: false
-          });
-        } else {
-          setLimits(prev => ({ ...prev, loading: false, error: 'Failed to load subscription' }));
-        }
+      if (demoSubscriptionData) {
+        const data = JSON.parse(demoSubscriptionData);
+        setLimits({
+          canCreateJobPosting: data.limits?.canCreateJobPosting ?? true,
+          canAddUser: data.limits?.canAddUser ?? true,
+          isTrialExpired: data.isTrialExpired ?? false,
+          daysLeftInTrial: data.daysLeftInTrial ?? 0,
+          hasSubscription: true, // User has demo subscription/trial
+          planType: data.subscription?.planType,
+          isInTrial: data.subscription?.isInTrial,
+          loading: false
+        });
       } else {
-        setLimits(prev => ({ ...prev, loading: false, error: 'Network error' }));
+        // No subscription data - user needs to start trial or subscribe
+        setLimits({
+          canCreateJobPosting: false,
+          canAddUser: false,
+          isTrialExpired: false,
+          daysLeftInTrial: 0,
+          hasSubscription: false,
+          loading: false
+        });
       }
+
+      // In a real app, this would be:
+      // const response = await fetch('/api/subscriptions/current', {
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+      //   }
+      // });
     } catch (error) {
       console.error('Error loading subscription limits:', error);
       setLimits(prev => ({ ...prev, loading: false, error: 'Connection error' }));
@@ -61,26 +69,32 @@ export function useSubscriptionLimits() {
 
   const checkLimit = async (action: string) => {
     try {
-      const response = await fetch(`/api/subscriptions/check-limits/${action}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
+      // For demo purposes, check localStorage for subscription data
+      const demoSubscriptionData = localStorage.getItem('demoSubscriptionData');
 
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success) {
+      if (demoSubscriptionData) {
+        const data = JSON.parse(demoSubscriptionData);
+
+        // If user has active subscription or trial, allow most actions
+        if (data.subscription?.status === 'active') {
           return {
-            allowed: data.allowed,
-            reason: data.reason
+            allowed: true,
+            reason: ''
           };
         }
       }
-      
+
       return {
         allowed: false,
-        reason: 'Unable to check subscription limits'
+        reason: 'No active subscription. Please start a trial or upgrade your plan.'
       };
+
+      // In a real app, this would be:
+      // const response = await fetch(`/api/subscriptions/check-limits/${action}`, {
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+      //   }
+      // });
     } catch (error) {
       console.error('Error checking subscription limit:', error);
       return {
@@ -92,21 +106,46 @@ export function useSubscriptionLimits() {
 
   const startTrial = async () => {
     try {
-      const response = await fetch('/api/subscriptions/start-trial', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
+      // For demo purposes, create trial data directly
+      const mockTrialData = {
+        subscription: {
+          planType: 'trial',
+          status: 'active',
+          isInTrial: true,
+          monthlyFee: 0,
+          successFeeRate: 0,
+          features: {},
+          usage: {
+            jobPostingsThisMonth: 0,
+            usersActive: 1,
+            hiresThisMonth: 0
+          },
+          trialEndDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString()
+        },
+        outstandingBalance: {
+          totalAmount: 0,
+          count: 0
+        },
+        isTrialExpired: false,
+        daysLeftInTrial: 60,
+        limits: {
+          canCreateJobPosting: true,
+          canAddUser: true
         }
-      });
+      };
 
-      if (response.ok) {
-        await loadSubscriptionLimits(); // Reload limits after starting trial
-        return { success: true };
-      } else {
-        const data = await response.json();
-        return { success: false, error: data.error || 'Failed to start trial' };
-      }
+      localStorage.setItem('demoSubscriptionData', JSON.stringify(mockTrialData));
+      await loadSubscriptionLimits(); // Reload limits after starting trial
+      return { success: true };
+
+      // In a real app, this would be:
+      // const response = await fetch('/api/subscriptions/start-trial', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('token')}`,
+      //     'Content-Type': 'application/json'
+      //   }
+      // });
     } catch (error) {
       return { success: false, error: 'Connection error' };
     }
