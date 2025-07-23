@@ -55,17 +55,15 @@ export default function SubscriptionManager() {
 
   const loadSubscriptionData = async () => {
     try {
-      const response = await fetch('/api/subscriptions/current', {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        if (data.success && data.hasSubscription) {
-          setSubscriptionData(data);
-        }
+      // For demo purposes, check if we have a trial or subscription
+      const hasExistingSubscription = localStorage.getItem('demoSubscriptionData');
+
+      if (hasExistingSubscription) {
+        const data = JSON.parse(hasExistingSubscription);
+        setSubscriptionData(data);
+      } else {
+        // No subscription data means user needs to choose a plan
+        setSubscriptionData(null);
       }
     } catch (error) {
       console.error('Error loading subscription data:', error);
