@@ -11,6 +11,7 @@ import SubscriptionManager from "../components/SubscriptionManager";
 import SubscriptionPrompt from "../components/SubscriptionPrompt";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
 import LiveChat from "../components/LiveChat";
+import NotificationModal from "../components/NotificationModal";
 import {
   ArrowLeft,
   Home,
@@ -875,6 +876,12 @@ function JobListingsPage() {
   const location = useLocation();
   const [listings, setListings] = useState<JobListing[]>(mockJobListings);
   const [isCreating, setIsCreating] = useState(false);
+  const [notification, setNotification] = useState<{
+    isOpen: boolean;
+    type: 'success' | 'error' | 'info' | 'payment';
+    title: string;
+    message: string;
+  }>({ isOpen: false, type: 'info', title: '', message: '' });
 
   // Check if we should open create modal from URL parameter
   useEffect(() => {
@@ -1021,7 +1028,12 @@ function JobListingsPage() {
         )
       );
       setEditingId(null);
-      alert('Job listing updated successfully!');
+      setNotification({
+        isOpen: true,
+        type: 'success',
+        title: 'Job Listing Updated!',
+        message: `Your ${formData.title} position has been updated successfully. All changes are now live.`
+      });
     } else {
       // Create new listing
       const newListing = {
@@ -1030,7 +1042,12 @@ function JobListingsPage() {
       };
       setListings(prev => [newListing, ...prev]);
       setIsCreating(false);
-      alert('Job listing created successfully!');
+      setNotification({
+        isOpen: true,
+        type: 'success',
+        title: 'Job Listing Created!',
+        message: `Your ${newListing.title} position has been posted successfully and is now live. Candidates can start applying immediately.`
+      });
     }
   };
 
@@ -1378,6 +1395,15 @@ function JobListingsPage() {
           </div>
         </div>
       )}
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={notification.isOpen}
+        onClose={() => setNotification({ ...notification, isOpen: false })}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+      />
     </div>
   );
 }
