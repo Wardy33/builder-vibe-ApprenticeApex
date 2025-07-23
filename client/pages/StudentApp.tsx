@@ -2272,18 +2272,18 @@ function EditSkillsPage() {
             onChange={(e) => setNewSkill(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addSkill()}
             placeholder="Add a new skill..."
-            className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             maxLength={50}
           />
           <button
             onClick={addSkill}
             disabled={!newSkill.trim() || skills.length >= 20}
-            className="bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-semibold transition-all duration-300"
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white px-4 py-2 rounded-lg font-semibold transition-all duration-300"
           >
             Add
           </button>
         </div>
-        <p className="text-sm text-black/60 mt-2">{skills.length}/20 skills</p>
+        <p className="text-sm text-gray-600 mt-2">{skills.length}/20 skills</p>
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
             Skills updated successfully!
