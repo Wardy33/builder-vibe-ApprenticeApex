@@ -136,16 +136,16 @@ export default function Contact() {
           {/* Contact Form */}
           <div className="lg:col-span-2">
             <div className="rounded-2xl p-8 bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 shadow-xl backdrop-blur-sm">
-              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">Send us a Message 📝</h2>
+              <h2 className="text-2xl font-bold mb-6 bg-gradient-to-r from-pink-500 to-orange-500 bg-clip-text text-transparent">Send us a Message</h2>
               
               {isSubmitted ? (
                 <div className="text-center py-12">
                   <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Send className="h-8 w-8 text-green-600" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-2">Message Sent! ✨</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">Message Sent!</h3>
                   <p className="text-gray-300 mb-6">
-                    Thank you for contacting us. We'll get back to you within 24 hours 🚀
+                    Thank you for contacting us. We'll get back to you within 24 hours
                   </p>
                   <button
                     onClick={() => {
@@ -154,7 +154,7 @@ export default function Contact() {
                     }}
                     className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                   >
-                    Send Another Message 🚀
+                    Send Another Message
                   </button>
                 </div>
               ) : (
@@ -162,7 +162,7 @@ export default function Contact() {
                   {/* User Type */}
                   <div>
                     <label className="block text-sm font-medium text-white mb-2">
-                      I am a... 👥
+                      I am a...
                     </label>
                     <div className="grid grid-cols-2 gap-4">
                       <label className="flex items-center space-x-2 cursor-pointer">
@@ -174,7 +174,7 @@ export default function Contact() {
                           onChange={(e) => handleInputChange("userType", e.target.value)}
                           className="text-orange-500 border-gray-300 focus:ring-orange-500 bg-white"
                         />
-                        <span className="text-gray-300">Student 🎓</span>
+                        <span className="text-gray-300">Student</span>
                       </label>
                       <label className="flex items-center space-x-2 cursor-pointer">
                         <input
@@ -257,7 +257,7 @@ export default function Contact() {
                     loadingText="Sending Message..."
                     className="w-full bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-105 shadow-xl"
                   >
-                    Send Message 🚀
+                    Send Message
                   </LoadingButton>
                 </form>
               )}
