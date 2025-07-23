@@ -145,7 +145,7 @@ apprenticeshipSchema.virtual("conversionRate").get(function () {
   return (this.swipeStats.rightSwipes / this.swipeStats.totalSwipes) * 100;
 });
 
-export const Apprenticeship = mongoose.model<IApprenticeship>(
+export const Apprenticeship = mongoose.models.Apprenticeship || mongoose.model<IApprenticeship>(
   "Apprenticeship",
   apprenticeshipSchema,
 );
