@@ -1457,7 +1457,7 @@ function ChatPage() {
             >
               <p className="text-sm">{msg.content}</p>
               <p
-                className={`text-xs mt-1 ${msg.isOwn ? "text-orange-100" : "text-gray-500"}`}
+                className={`text-xs mt-1 ${msg.isOwn ? "text-cyan-100" : "text-gray-600"}`}
               >
                 {msg.timestamp}
               </p>
