@@ -2047,8 +2047,18 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.location || !formData.salary || !formData.description) {
-      alert('Please fill in all required fields');
+    if (!formData.title || !formData.location || !formData.salary || !formData.description || !formData.closingDate) {
+      alert('Please fill in all required fields including the application closing date');
+      return;
+    }
+
+    // Validate closing date is in the future
+    const closingDate = new Date(formData.closingDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (closingDate <= today) {
+      alert('Application closing date must be in the future');
       return;
     }
 
