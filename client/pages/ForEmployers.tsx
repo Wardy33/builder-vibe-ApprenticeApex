@@ -387,10 +387,10 @@ export default function ForEmployers() {
         <section className="py-16 px-4">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-                Proven ROI for Our Clients
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                📈 Proven ROI for Our Clients 🏆
               </h2>
-              <p className="text-xl text-gray-600">Real results from employers using ApprenticeApex</p>
+              <p className="text-xl text-gray-300">Real results from employers using ApprenticeApex ✨</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
