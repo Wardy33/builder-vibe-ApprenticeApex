@@ -869,7 +869,7 @@ function JobsPage() {
       {/* Header */}
       <div className="bg-white px-6 py-4 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900">Discover Jobs</h1>
-        <p className="text-gray-600 text-sm">Swipe right to like, left to pass</p>
+        <p className="text-gray-600 text-sm">Find your perfect apprenticeship match</p>
       </div>
 
       {/* Stack of cards */}
@@ -1798,7 +1798,10 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                location.pathname.includes('/profile') ? 'Profile' :
                'ApprenticeApex'}
             </h1>
-            <button className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors">
+            <button
+              onClick={() => navigate('/student/account-settings')}
+              className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
+            >
               <Settings className="h-5 w-5" />
             </button>
           </div>
