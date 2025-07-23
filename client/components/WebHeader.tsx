@@ -101,7 +101,7 @@ export function WebHeader() {
             </Link>
             <Link
               to="/student/signup"
-              className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 shadow-lg"
+              className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 shadow-lg"
             >
               Get Started
             </Link>
@@ -170,7 +170,7 @@ export function WebHeader() {
             <div className="mt-4 pt-4 border-t border-white/10 mx-2">
               <Link
                 to="/student/signup"
-                className="block w-full bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg"
+                className="block w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Get Started
