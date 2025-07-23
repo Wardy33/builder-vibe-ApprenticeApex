@@ -33,21 +33,21 @@ export default function Debug() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               to="/student/signup"
-              className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+              className="block p-4 border rounded-lg hover:bg-white/10 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Signup</h3>
               <p className="text-sm text-gray-300">Test enhanced registration flow</p>
             </Link>
             <Link
               to="/student/signin"
-              className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+              className="block p-4 border rounded-lg hover:bg-white/10 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Login</h3>
               <p className="text-sm text-gray-300">Test authentication system</p>
             </Link>
             <Link
               to="/company"
-              className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+              className="block p-4 border rounded-lg hover:bg-white/10 transition-colors"
             >
               <h3 className="font-semibold text-white">Company Portal</h3>
               <p className="text-sm text-gray-300">Mobile-optimized dashboard</p>
