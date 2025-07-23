@@ -1029,21 +1029,22 @@ function MatchesPage() {
                     <p className="text-xs text-gray-500 mb-3">
                       Matched {match.matchDate}
                     </p>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                       <button
                         onClick={() =>
                           navigate(`/student/apprenticeship-info/${match.id}`)
                         }
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-1 sm:gap-2"
                       >
-                        <Info className="h-4 w-4" />
-                        View Details
+                        <Info className="h-3 w-3 sm:h-4 sm:w-4" />
+                        <span className="hidden sm:inline">View Details</span>
+                        <span className="sm:hidden">Details</span>
                       </button>
                       <button
                         onClick={() => navigate(`/student/chat/${match.id}`)}
-                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors flex items-center justify-center gap-1 sm:gap-2"
                       >
-                        <MessageCircle className="h-4 w-4" />
+                        <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4" />
                         Message
                       </button>
                     </div>
