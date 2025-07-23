@@ -848,16 +848,16 @@ function JobsPage() {
       <div className="flex justify-center items-center gap-8 p-6">
         <button
           onClick={() => handleButtonSwipe("left")}
-          className="w-16 h-16 bg-red-500 rounded-full flex items-center justify-center shadow-lg hover:bg-red-600 transition-colors"
+          className="w-16 h-16 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 rounded-full flex items-center justify-center shadow-2xl hover:from-red-600 hover:via-pink-600 hover:to-red-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <X className="h-8 w-8 text-white" />
+          <X className="h-8 w-8 text-white drop-shadow-lg" />
         </button>
 
         <button
           onClick={() => handleButtonSwipe("right")}
-          className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 transition-colors"
+          className="w-16 h-16 bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-2xl hover:from-green-500 hover:via-emerald-600 hover:to-green-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <Heart className="h-8 w-8 text-white" />
+          <Heart className="h-8 w-8 text-white drop-shadow-lg" />
         </button>
       </div>
     </div>
@@ -908,7 +908,7 @@ function MatchesPage() {
         "Social media savvy",
         "Communication skills",
       ],
-      salary: "£16,000 - £22,000",
+      salary: "£16,000 - ��22,000",
     },
   ];
 
