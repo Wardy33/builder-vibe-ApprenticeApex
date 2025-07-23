@@ -2135,7 +2135,7 @@ function EditContactPage() {
             {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Location</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Location</label>
             <input
               type="text"
               value={contact.location}
@@ -2143,8 +2143,8 @@ function EditContactPage() {
                 setContact({...contact, location: e.target.value});
                 if (errors.location) setErrors({...errors, location: undefined});
               }}
-              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
-                errors.location ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
+                errors.location ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             />
             {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
