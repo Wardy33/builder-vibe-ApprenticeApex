@@ -1551,7 +1551,7 @@ function ProfilePage() {
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-purple-500/10">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">About</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors">
+              <button className="text-purple-400 hover:text-pink-300 transition-colors">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
@@ -1562,7 +1562,7 @@ function ProfilePage() {
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-purple-500/10">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Contact</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors">
+              <button className="text-purple-400 hover:text-pink-300 transition-colors">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
@@ -1586,7 +1586,7 @@ function ProfilePage() {
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-purple-500/10">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Skills</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors">
+              <button className="text-purple-400 hover:text-pink-300 transition-colors">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
@@ -1606,7 +1606,7 @@ function ProfilePage() {
           <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-purple-500/10">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Availability</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-colors">
+              <button className="text-purple-400 hover:text-pink-300 transition-colors">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
