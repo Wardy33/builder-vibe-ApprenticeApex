@@ -973,7 +973,7 @@ function MatchesPage() {
                 </button>
                 <button
                   onClick={() => navigate(`/student/chat/${match.id}`)}
-                  className="bg-gradient-to-r from-yellow-400 to-orange-400 hover:from-yellow-500 hover:to-orange-500 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg border border-yellow-300"
+                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Message
