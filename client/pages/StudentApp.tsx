@@ -523,19 +523,19 @@ function HomePage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
           <p className="text-sm text-gray-300">Active Applications</p>
         </div>
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
           <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
           <p className="text-sm text-gray-300">Profile Score</p>
         </div>
@@ -576,7 +576,7 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -641,7 +641,7 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -942,7 +942,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
             >
               <img
                 src={match.image}
@@ -1040,7 +1040,7 @@ function MessagesPage() {
             <div
               key={conversation.id}
               onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 cursor-pointer shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 group"
+              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 cursor-pointer shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 group"
             >
               <img
                 src={conversation.avatar}
@@ -1531,15 +1531,15 @@ function ProfilePage() {
       <div className="space-y-6">
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">12</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Applications</p>
           </div>
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">5</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Matches</p>
           </div>
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">92%</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Profile Score</p>
           </div>
@@ -1619,7 +1619,7 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-white py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300">
+          <button className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-white py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300">
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
