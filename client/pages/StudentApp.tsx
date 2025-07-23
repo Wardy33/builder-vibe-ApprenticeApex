@@ -1130,7 +1130,7 @@ function ApprenticeshipInfoPage() {
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-lg font-semibold text-white">
-          Apprenticeship Details ✨
+          Apprenticeship Details
         </h1>
         <div className="w-10" />
       </header>
