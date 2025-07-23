@@ -103,7 +103,7 @@ function SignUpForm() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
       {/* Header */}
       <header className="flex items-center justify-between p-4" style={{backgroundColor: '#020202'}}>
         <button
