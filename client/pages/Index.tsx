@@ -92,7 +92,7 @@ export default function Index() {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-16">
             {/* Student App Card */}
             <div className="group">
-              <div className="rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl bg-gradient-to-br from-orange-400 via-pink-500 to-red-500 border border-white/20 relative overflow-hidden">
+              <div className="rounded-3xl p-8 transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl bg-gradient-to-br from-orange-400 via-pink-500 to-red-500 relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                 <div className="relative z-10">
                 <div className="flex items-center mb-6">
@@ -283,7 +283,7 @@ export default function Index() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/student/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-bold rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-200 hover:scale-105 shadow-xl border border-white/20"
+                  className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-200 hover:scale-105"
                 >
                   Sign Up as Student
                   <ArrowRight className="ml-2 h-5 w-5" />
