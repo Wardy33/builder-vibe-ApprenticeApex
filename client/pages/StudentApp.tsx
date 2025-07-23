@@ -104,7 +104,7 @@ const mockApprenticeship: Apprenticeship[] = [
     description:
       "Hands-on experience in electrical systems design and installation. Work with experienced engineers.",
     requirements: ["Math skills", "Attention to detail", "Safety-conscious"],
-    salary: "£20,000 - £28,000",
+    salary: "£20,000 - ��28,000",
     image:
       "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=600&fit=crop",
   },
@@ -1638,7 +1638,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen bg-white">
       {/* Header - Gen-Z styling */}
-      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white shadow-sm">
+      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
           className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-gray-800 transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-gray-200"
