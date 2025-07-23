@@ -421,6 +421,7 @@ function HomePage() {
       status: "applied",
       appliedDate: "2 days ago",
       matchScore: 92,
+      closingDate: "2024-02-15",
       image:
         "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
     },
@@ -431,6 +432,7 @@ function HomePage() {
       status: "viewed",
       appliedDate: "1 week ago",
       matchScore: 88,
+      closingDate: "2024-02-28",
       image:
         "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
     },
@@ -441,6 +443,7 @@ function HomePage() {
       status: "shortlisted",
       appliedDate: "3 days ago",
       matchScore: 95,
+      closingDate: "2024-02-10",
       image:
         "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=60&h=60&fit=crop",
     },
@@ -593,6 +596,9 @@ function HomePage() {
                     </p>
                     <p className="text-white/80 text-xs font-medium">
                       Applied {application.appliedDate}
+                    </p>
+                    <p className="text-white/70 text-xs">
+                      Closes: {new Date(application.closingDate).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="flex flex-col items-end space-y-2">
