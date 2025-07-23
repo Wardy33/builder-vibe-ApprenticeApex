@@ -278,7 +278,7 @@ function Dashboard() {
     <div className="p-3 sm:p-6 space-y-4 sm:space-y-6">
       {/* Stats Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
-        <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-xs sm:text-sm">
@@ -293,7 +293,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Total Applications</p>
@@ -306,7 +306,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Interviews Scheduled</p>
@@ -319,7 +319,7 @@ function Dashboard() {
           </div>
         </div>
 
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Match Rate</p>
@@ -336,7 +336,7 @@ function Dashboard() {
       {/* Charts Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Applications Chart */}
-        <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
           <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
             Applications This Month
           </h3>
@@ -356,7 +356,7 @@ function Dashboard() {
         </div>
 
         {/* Industry Breakdown */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-xl font-bold text-gray-900 mb-4">
             Applications by Industry
           </h3>
@@ -387,7 +387,7 @@ function Dashboard() {
       </div>
 
       {/* Recent Applications */}
-      <div className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm">
+      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
           <h3 className="text-lg sm:text-xl font-bold text-gray-900">
             Recent Applications
@@ -506,7 +506,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
 
         {/* Notifications Dropdown */}
         {showNotifications && (
-          <div className="absolute top-full right-4 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+          <div className="absolute top-full right-4 mt-2 w-80 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">Notifications</h3>
               <div className="flex items-center space-x-2">
@@ -589,7 +589,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
 
         {/* Settings Dropdown */}
         {showSettings && (
-          <div className="absolute top-full right-4 mt-2 w-64 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+          <div className="absolute top-full right-4 mt-2 w-64 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
               <h3 className="font-semibold text-gray-900">Settings</h3>
               <button
@@ -859,7 +859,7 @@ function JobListingsPage() {
         {filteredListings.map((listing) => (
           <div
             key={listing.id}
-            className="bg-white border border-gray-200 rounded-lg p-4 sm:p-6 shadow-sm"
+            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">
@@ -1023,7 +1023,7 @@ function ApplicationsPage() {
         {filteredApplications.map((application) => (
           <div
             key={application.id}
-            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm"
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -1289,7 +1289,7 @@ function InterviewsPage() {
         {filteredInterviews.map((interview) => (
           <div
             key={interview.id}
-            className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm"
+            className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm"
           >
             <div className="flex items-center justify-between">
               <div className="flex-1">
@@ -1395,7 +1395,7 @@ function MessagesPage() {
         {conversations.map((conversation) => (
           <div
             key={conversation.id}
-            className={`bg-white border border-gray-200 rounded-lg p-6 shadow-sm hover:shadow-md cursor-pointer transition-shadow ${
+            className={`bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm hover:shadow-md cursor-pointer transition-shadow ${
               conversation.unread ? "border-l-4 border-l-orange" : ""
             }`}
           >
@@ -1494,7 +1494,7 @@ function ProfileSettingsPage() {
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
@@ -1681,7 +1681,7 @@ function CompanyInformationPage() {
         )}
       </div>
 
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Company Details</h3>
 
         {/* Logo Upload */}
@@ -1921,7 +1921,7 @@ function NotificationPreferencesPage() {
 
       <div className="space-y-6">
         {/* Email Notifications */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
             <Mail className="h-5 w-5" />
             <span>Email Notifications</span>
@@ -1960,7 +1960,7 @@ function NotificationPreferencesPage() {
         </div>
 
         {/* Push Notifications */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
             <Bell className="h-5 w-5" />
             <span>Push Notifications</span>
@@ -2236,7 +2236,7 @@ function AccountBillingPage() {
   return (
     <div className="p-6 space-y-6">
       <h2 className="text-2xl font-bold text-gray-900">Account & Billing</h2>
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+      <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
         <p className="text-gray-600 mb-4">
           Manage your subscription, billing information, and payment methods.
         </p>
@@ -2290,7 +2290,7 @@ function HelpSupportPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Quick Help */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Help</h3>
           <div className="space-y-4">
             <div className="border border-gray-200 rounded-lg p-4">
@@ -2312,7 +2312,7 @@ function HelpSupportPage() {
         </div>
 
         {/* Contact Support */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
