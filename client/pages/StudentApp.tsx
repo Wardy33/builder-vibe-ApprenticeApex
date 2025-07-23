@@ -576,7 +576,7 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 shadow-sm"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -641,7 +641,7 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm"
+                className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 shadow-sm"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -942,7 +942,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-white border border-gray-200 rounded-lg p-4 flex items-center space-x-4 shadow-sm"
+              className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 flex items-center space-x-4 shadow-sm"
             >
               <img
                 src={match.image}
@@ -1185,7 +1185,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Company Image */}
-        <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm overflow-hidden shadow-sm">
           <img
             src={apprenticeshipInfo.companyImage}
             alt="Company office"
@@ -1194,7 +1194,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Description */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             About this role
           </h3>
@@ -1204,7 +1204,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Requirements */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             Requirements
           </h3>
@@ -1219,7 +1219,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Responsibilities */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             Your responsibilities
           </h3>
@@ -1234,7 +1234,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Benefits */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             Benefits & Perks
           </h3>
@@ -1249,7 +1249,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Key Details */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-gray-900 mb-3">
             Key Details
           </h3>
@@ -1294,7 +1294,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Apply Button */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
+        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-gray-900 mb-2">
               Ready to apply?
