@@ -2363,14 +2363,14 @@ function EditAvailabilityPage() {
         <h1 className="text-2xl font-bold text-black">Edit Availability</h1>
       </div>
 
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <h3 className="text-lg font-semibold text-black mb-4">When are you available to start?</h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">When are you available to start?</h3>
         <input
           type="text"
           value={availability}
           onChange={(e) => setAvailability(e.target.value)}
           placeholder="e.g., September 2024"
-          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
