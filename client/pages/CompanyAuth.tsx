@@ -603,9 +603,9 @@ export function CompanySignInForm() {
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center py-12">
         <div className="max-w-md w-full mx-4">
           <div className="text-center mb-8">
-            <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
-            <h1 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>Welcome Back</h1>
-            <p className="text-gray-600">Sign in to your company portal</p>
+            <Building2 className="h-12 w-12 mx-auto mb-4 text-orange-400" />
+            <h1 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">Welcome Back</h1>
+            <p className="text-gray-300">Sign in to your company portal</p>
           </div>
 
           <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 shadow-sm p-8 space-y-6" style={{backgroundColor: '#f8f9fa'}}>
