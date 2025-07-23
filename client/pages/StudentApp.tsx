@@ -2496,11 +2496,11 @@ function ChangePicturePage() {
           />
           <label
             htmlFor="image-upload"
-            className="bg-orange hover:bg-orange/90 text-black px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block"
           >
             {selectedImage ? 'Choose Different Picture' : 'Choose New Picture'}
           </label>
-          <p className="text-sm text-black/60 mt-2">PNG, JPG up to 5MB</p>
+          <p className="text-sm text-gray-600 mt-2">PNG, JPG up to 5MB</p>
         </div>
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
