@@ -1363,19 +1363,21 @@ function ApplicationsPage() {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">Application Information</h4>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4 text-gray-500" />
-                      <span>{selectedApplication.email}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 text-gray-500" />
-                      <span>{selectedApplication.phone}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 text-gray-500" />
-                      <span>{selectedApplication.location}</span>
+                      <span>Location: {selectedApplication.location}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Users className="h-4 w-4 text-gray-500" />
+                      <span>Experience: {selectedApplication.experience}</span>
+                    </div>
+                    <div className="bg-gray-50 p-3 rounded-lg">
+                      <p className="text-sm text-gray-600 italic">
+                        Contact information has been removed for privacy compliance.
+                        Use the message feature to communicate with the candidate.
+                      </p>
                     </div>
                   </div>
                 </div>
