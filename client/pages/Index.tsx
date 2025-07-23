@@ -97,7 +97,7 @@ export default function Index() {
                 <div className="relative z-10">
                 <div className="flex items-center mb-6">
                   <Smartphone className="h-10 w-10 text-white mr-3 animate-bounce" />
-                  <h2 className="text-2xl font-bold text-white drop-shadow-lg">Student App ✨</h2>
+                  <h2 className="text-2xl font-bold text-white drop-shadow-lg">Student App</h2>
                 </div>
               <p className="text-white/90 mb-6">
                 Swipe through apprenticeship opportunities, create AI-powered
