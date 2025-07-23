@@ -159,7 +159,7 @@ interviewSchema.index({ scheduledDateTime: 1, status: 1 });
 interviewSchema.index({ studentId: 1, scheduledDateTime: -1 });
 interviewSchema.index({ companyId: 1, scheduledDateTime: -1 });
 
-export const Interview = mongoose.model<IInterview>(
+export const Interview = mongoose.models.Interview || mongoose.model<IInterview>(
   "Interview",
   interviewSchema,
 );
