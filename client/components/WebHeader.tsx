@@ -69,9 +69,9 @@ export function WebHeader() {
                 isActive("/for-employers") ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white" : "text-white hover:bg-white/10"
               }`}
             >
-              For Employers 💼
+              For Employers
             </Link>
-            
+
             <Link
               to="/about"
               className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
