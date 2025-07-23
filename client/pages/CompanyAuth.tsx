@@ -600,7 +600,7 @@ export function CompanySignInForm() {
 
   return (
     <WebLayout>
-      <div className="min-h-screen bg-white flex items-center justify-center py-12">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center py-12">
         <div className="max-w-md w-full mx-4">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
