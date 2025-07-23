@@ -271,6 +271,7 @@ export const mockCompanies = [
   {
     _id: "company1",
     email: "hr@techcorp.com",
+    password: "password123", // For testing - would be hashed in real app
     role: "company",
     profile: {
       companyName: "TechCorp Ltd",
@@ -282,6 +283,41 @@ export const mockCompanies = [
         firstName: "Emma",
         lastName: "Wilson",
         position: "HR Manager",
+      },
+    },
+  },
+  {
+    _id: "company2",
+    email: "admin@creativeagency.com",
+    password: "password123",
+    role: "company",
+    profile: {
+      companyName: "Creative Agency",
+      industry: "Marketing",
+      description:
+        "Full-service marketing agency specializing in digital marketing and brand development.",
+      location: { city: "Manchester", coordinates: [-2.2426, 53.4808] },
+      contactPerson: {
+        firstName: "David",
+        lastName: "Brown",
+        position: "Recruitment Manager",
+      },
+    },
+  },
+  {
+    _id: "company3",
+    email: "test@company.com",
+    password: "password123",
+    role: "company",
+    profile: {
+      companyName: "Test Company Ltd",
+      industry: "Technology",
+      description: "Test company for authentication testing.",
+      location: { city: "London", coordinates: [-0.1276, 51.5074] },
+      contactPerson: {
+        firstName: "Test",
+        lastName: "User",
+        position: "Test Manager",
       },
     },
   },
