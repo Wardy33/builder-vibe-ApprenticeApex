@@ -775,11 +775,14 @@ function JobListingsPage() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const subscriptionLimits = useSubscriptionLimits();
 
-  const filteredListings = listings.filter(
-    (listing) =>
+  const filteredListings = listings.filter((listing) => {
+    const matchesSearch =
       listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      listing.location.toLowerCase().includes(searchTerm.toLowerCase()),
-  );
+      listing.location.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || listing.status === statusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   const toggleStatus = (id: string) => {
     setListings((prev) =>
