@@ -292,7 +292,7 @@ export default function Index() {
                   to="/for-employers"
                   className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-200 hover:scale-105"
                 >
-                  Post Opportunities 💼
+                  Post Opportunities
                 </Link>
               </div>
             </div>
