@@ -2662,128 +2662,207 @@ function AccountSettingsPage() {
   const navigate = useNavigate();
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="bg-gray-50 min-h-screen">
       {/* Header */}
-      <div className="flex items-center mb-6">
-        <button
-          onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </button>
-        <h1 className="text-2xl font-bold text-black">Account Settings</h1>
+      <div className="bg-white px-6 py-6 border-b border-gray-200">
+        <div className="flex items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 mr-3 transition-colors"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
+        </div>
       </div>
 
       {/* Settings Options */}
-      <div className="space-y-4">
+      <div className="px-6 py-4 space-y-4">
         {/* Profile Settings */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-          <h3 className="text-lg font-semibold text-black mb-4">Profile Settings</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Settings</h3>
+          <div className="space-y-1">
             <button
               onClick={() => navigate('/student/edit-profile-info')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Edit Profile Information</span>
-              <Edit className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <Edit className="h-4 w-4 text-blue-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Edit Profile Information</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/change-picture')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Change Profile Picture</span>
-              <Camera className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                  <Camera className="h-4 w-4 text-purple-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Change Profile Picture</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/edit-skills-preferences')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Update Skills & Preferences</span>
-              <User className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                  <User className="h-4 w-4 text-green-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Update Skills & Preferences</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
 
         {/* Privacy & Security */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-          <h3 className="text-lg font-semibold text-black mb-4">Privacy & Security</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Privacy & Security</h3>
+          <div className="space-y-1">
             <button
               onClick={() => navigate('/student/change-password')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Change Password</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                  <Lock className="h-4 w-4 text-orange-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Change Password</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/privacy-settings')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Privacy Settings</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-indigo-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Privacy Settings</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/two-factor-auth')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Two-Factor Authentication</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-teal-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Two-Factor Authentication</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
 
         {/* Notifications */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-          <h3 className="text-lg font-semibold text-black mb-4">Notifications</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notifications</h3>
+          <div className="space-y-1">
             <button
               onClick={() => navigate('/student/notification-settings')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Push Notifications</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-yellow-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Push Notifications</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/email-preferences')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Email Preferences</span>
-              <Mail className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3">
+                  <Mail className="h-4 w-4 text-pink-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Email Preferences</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
 
         {/* App Settings */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-          <h3 className="text-lg font-semibold text-black mb-4">App Settings</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">App Settings</h3>
+          <div className="space-y-1">
             <button
               onClick={() => navigate('/student/language-region')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Language & Region</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-cyan-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Language & Region</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => navigate('/student/data-storage')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Data & Storage</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-slate-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Data & Storage</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
 
         {/* Account Actions */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-          <h3 className="text-lg font-semibold text-black mb-4">Account</h3>
-          <div className="space-y-3">
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Account</h3>
+          <div className="space-y-1">
             <button
               onClick={() => navigate('/student/download-data')}
-              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+              className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span className="text-black">Download My Data</span>
-              <Settings className="h-5 w-5 text-black" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-blue-600" />
+                </div>
+                <span className="text-gray-900 font-medium">Download My Data</span>
+              </div>
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
             <button
               onClick={() => {
@@ -2791,10 +2870,15 @@ function AccountSettingsPage() {
                   navigate('/student/delete-account');
                 }
               }}
-              className="w-full text-left p-3 hover:bg-red-100 rounded-lg transition-all duration-200 flex items-center justify-between text-red-600"
+              className="w-full text-left p-3 hover:bg-red-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
-              <span>Delete Account</span>
-              <Settings className="h-5 w-5" />
+              <div className="flex items-center">
+                <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
+                  <Settings className="h-4 w-4 text-red-600" />
+                </div>
+                <span className="text-red-600 font-medium">Delete Account</span>
+              </div>
+              <ArrowLeft className="h-4 w-4 text-red-400 rotate-180" />
             </button>
           </div>
         </div>
