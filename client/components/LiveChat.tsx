@@ -215,7 +215,7 @@ export default function LiveChat() {
           <div className="flex justify-start">
             <div className="flex items-start space-x-2">
               <div className="w-8 h-8 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center border-2 border-cyan-300 shadow-lg">
-                <Sparkles className="w-5 h-5 text-white" />
+                <MessageCircle className="w-5 h-5 text-white" />
               </div>
               <div className="bg-gradient-to-br from-cyan-50 to-blue-100 border border-cyan-300/50 rounded-xl p-3 shadow-xl">
                 <div className="flex space-x-1">
