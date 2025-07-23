@@ -157,7 +157,7 @@ export default function LiveChat() {
   }
 
   return (
-    <div className="fixed bottom-20 right-6 bg-gradient-to-br from-blue-500 via-purple-600 to-orange-500 p-1 rounded-2xl shadow-2xl w-96 h-[500px] flex flex-col z-50">
+    <div className="fixed bottom-20 right-4 bg-gradient-to-br from-blue-500 via-purple-600 to-orange-500 p-1 rounded-2xl shadow-2xl w-80 sm:w-96 h-96 sm:h-[500px] flex flex-col z-50">
       <div className="bg-black/90 backdrop-blur-sm rounded-2xl h-full flex flex-col overflow-hidden border border-white/20">
         {/* Header */}
         <div className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 p-4 rounded-t-2xl flex items-center justify-between">
