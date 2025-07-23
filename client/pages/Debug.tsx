@@ -28,7 +28,7 @@ export default function Debug() {
         <StatusDashboard />
 
         {/* Quick Links */}
-        <div className="mt-8 bg-white rounded-lg shadow-sm border p-6">
+        <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Access</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
@@ -56,7 +56,7 @@ export default function Debug() {
         </div>
 
         {/* API Information */}
-        <div className="mt-8 bg-white rounded-lg shadow-sm border p-6">
+        <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">API Information</h2>
           <div className="space-y-3">
             <div>
@@ -87,7 +87,7 @@ export default function Debug() {
         </div>
 
         {/* External Services Status */}
-        <div className="mt-8 bg-white rounded-lg shadow-sm border p-6">
+        <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">External Services Setup</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
