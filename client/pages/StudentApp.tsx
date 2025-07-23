@@ -1423,7 +1423,7 @@ function ChatPage() {
           >
             <div
               className={`max-w-xs px-4 py-2 rounded-lg ${
-                msg.isOwn ? "bg-orange text-white" : "bg-gray-100 text-white"
+                msg.isOwn ? "bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white" : "bg-gradient-to-br from-gray-700/40 via-gray-800/40 to-gray-900/40 text-white border border-white/10 backdrop-blur-sm"
               }`}
             >
               <p className="text-sm">{msg.content}</p>
