@@ -869,7 +869,7 @@ function JobListingsPage() {
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
           />
         </div>
-        <div className="relative">
+        <div className="relative" ref={filterRef}>
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="p-2 border border-gray-300 rounded-lg hover:bg-white/10 transition-colors"
