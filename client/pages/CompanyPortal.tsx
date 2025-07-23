@@ -773,7 +773,20 @@ function JobListingsPage() {
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [statusFilter, setStatusFilter] = useState<string>("all");
+  const filterRef = useRef<HTMLDivElement>(null);
   const subscriptionLimits = useSubscriptionLimits();
+
+  // Close filter dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+        setShowFilters(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const filteredListings = listings.filter((listing) => {
     const matchesSearch =
