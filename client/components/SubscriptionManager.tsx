@@ -310,11 +310,26 @@ export default function SubscriptionManager() {
     if (plan.action) {
       plan.action();
     } else if (plan.stripeLink) {
-      // In a real implementation, this would be a proper Stripe Checkout URL
-      // For demo, we'll show an alert and open a placeholder
-      if (confirm(`Redirect to Stripe to purchase ${plan.name} plan for ${plan.price}/${plan.period}?`)) {
-        // This would be the actual Stripe checkout URL
-        window.open(plan.stripeLink, '_blank');
+      // For demo purposes, show confirmation and redirect to Stripe
+      const periodText = plan.period ? '/' + plan.period : '';
+      const confirmMessage = `You will be redirected to Stripe to securely purchase the ${plan.name} plan for ${plan.price}${periodText}. Continue?`;
+
+      if (confirm(confirmMessage)) {
+        try {
+          // For demo, redirect to a Stripe-like URL
+          const demoStripeUrl = `https://checkout.stripe.com/demo/${plan.id}`;
+          window.open(demoStripeUrl, '_blank');
+
+          // For demo, show success message after a delay
+          setTimeout(() => {
+            const successMessage = `Demo: Payment completed successfully! ${plan.name} plan activated.`;
+            alert(successMessage);
+          }, 3000);
+
+        } catch (error) {
+          console.error('Error redirecting to Stripe:', error);
+          alert('Unable to redirect to payment page. Please try again or contact support.');
+        }
       }
     }
   };
