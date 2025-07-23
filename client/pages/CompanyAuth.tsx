@@ -527,7 +527,7 @@ export function CompanySignUpForm() {
                   type="button"
                   onClick={nextStep}
                   disabled={!validateStep(currentStep)}
-                  className="ml-auto px-6 py-3 text-white rounded-lg hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 border border-white/20"
+                  className="ml-auto px-6 py-3 text-white rounded-lg hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 bg-pink-500 hover:bg-pink-600 border border-white/20"
                 >
                   Next
                 </button>
@@ -537,7 +537,7 @@ export function CompanySignUpForm() {
                   isLoading={isSubmitting}
                   disabled={!validateStep(5)}
                   loadingText="Creating Account..."
-                  className="ml-auto px-6 py-3 text-white rounded-lg hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 border border-white/20"
+                  className="ml-auto px-6 py-3 text-white rounded-lg hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 bg-pink-500 hover:bg-pink-600 border border-white/20"
                 >
                   Complete Registration
                 </LoadingButton>
@@ -654,7 +654,7 @@ export function CompanySignInForm() {
               type="submit"
               isLoading={isSubmitting}
               loadingText="Signing In..."
-              className="w-full text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 hover:scale-105 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 border border-white/20"
+              className="w-full text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 border border-white/20"
             >
               Sign In
             </LoadingButton>
