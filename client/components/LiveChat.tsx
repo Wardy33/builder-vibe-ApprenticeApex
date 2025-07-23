@@ -163,7 +163,7 @@ export default function LiveChat() {
         <div className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 p-4 rounded-t-2xl flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full flex items-center justify-center border-2 border-white/30 shadow-lg">
-              <Sparkles className="w-6 h-6 text-white" />
+              <MessageCircle className="w-6 h-6 text-white" />
             </div>
             <div>
               <h3 className="font-bold text-white text-lg drop-shadow-lg">AI Assistant</h3>
