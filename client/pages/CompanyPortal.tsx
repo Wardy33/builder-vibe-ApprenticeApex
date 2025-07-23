@@ -468,7 +468,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
       {/* Header - Match student app black header */}
       <header className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-800 bg-black relative">
         <div className="flex items-center space-x-2 sm:space-x-4">
