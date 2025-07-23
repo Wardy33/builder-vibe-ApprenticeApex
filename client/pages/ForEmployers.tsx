@@ -310,7 +310,7 @@ export default function ForEmployers() {
                       </div>
                       {plan.limits.duration && (
                         <div className="text-white text-sm">
-                          ⏱️ {plan.limits.duration}
+                          {plan.limits.duration}
                         </div>
                       )}
                     </div>
