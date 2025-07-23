@@ -7,7 +7,7 @@ export default function CookiePolicy() {
       <SEOHead {...seoConfigs.cookiePolicy} />
       <div className="container mx-auto px-4 py-12">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl font-bold mb-8 text-center" style={{color: '#020202'}}>
+          <h1 className="text-4xl font-bold mb-8 text-center text-white drop-shadow-lg">
             Cookie Policy
           </h1>
           
