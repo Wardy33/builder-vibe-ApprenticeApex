@@ -809,7 +809,7 @@ function JobsPage() {
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 bg-gray-50 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+            className="p-2 bg-gray-800/40 border border-white/20 rounded-lg text-white hover:bg-gray-700/40 backdrop-blur-sm transition-all duration-200"
           >
             <Filter className="h-5 w-5" />
           </button>
