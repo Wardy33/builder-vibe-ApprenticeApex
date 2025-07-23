@@ -376,7 +376,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Professional',
       buttonColor: 'bg-orange-600 hover:bg-orange-700',
       popular: true,
-      stripeLink: 'https://buy.stripe.com/test_professional_99_gbp',
+      stripeLink: 'https://buy.stripe.com/test_00g6ou2hP5qO8Ug299',
       monthlyFee: 99,
       successFee: '12% of first year salary'
     },
@@ -400,7 +400,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Business',
       buttonColor: 'bg-purple-600 hover:bg-purple-700',
       popular: false,
-      stripeLink: 'https://buy.stripe.com/test_business_149_gbp',
+      stripeLink: 'https://buy.stripe.com/test_00g6ou2hP5qO8Ug149',
       monthlyFee: 149,
       successFee: '12% of first year salary'
     },
