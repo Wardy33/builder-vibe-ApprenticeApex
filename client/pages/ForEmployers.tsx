@@ -186,7 +186,7 @@ export default function ForEmployers() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/company/signup"
-                className="px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 flex items-center justify-center shadow-xl border border-white/20"
+                className="px-8 py-4 bg-pink-500 hover:bg-pink-600 text-white font-bold rounded-xl transition-all duration-200 hover:scale-105 flex items-center justify-center shadow-xl"
               >
                 Start Free Trial
                 <ArrowRight className="w-5 h-5 ml-2" />
@@ -320,7 +320,7 @@ export default function ForEmployers() {
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
                     className={`w-full py-4 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
                       plan.id === 'trial'
-                        ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white'
+                        ? 'bg-pink-500 hover:bg-pink-600 text-white'
                         : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white'
                     }`}
                   >
