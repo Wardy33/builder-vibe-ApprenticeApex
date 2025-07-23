@@ -192,7 +192,7 @@ export default function LiveChat() {
                 {message.sender === 'user' ? (
                   <User className="w-5 h-5 text-white" />
                 ) : (
-                  <Sparkles className="w-5 h-5 text-white" />
+                  <MessageCircle className="w-5 h-5 text-white" />
                 )}
               </div>
               <div className={`rounded-xl p-3 shadow-xl border ${
