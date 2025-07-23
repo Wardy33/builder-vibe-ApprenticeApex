@@ -585,10 +585,10 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold truncate">
+                    <h3 className="text-gray-800 font-semibold truncate">
                       {application.jobTitle}
                     </h3>
-                    <p className="text-gray-300 text-sm">
+                    <p className="text-gray-600 text-sm">
                       {application.company}
                     </p>
                     <p className="text-gray-500 text-xs">
