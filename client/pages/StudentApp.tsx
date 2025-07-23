@@ -159,9 +159,9 @@ function SwipeCard({
   return (
     <div
       ref={cardRef}
-      className={`swipe-card w-full max-w-sm mx-auto h-[500px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
+      className={`swipe-card w-full max-w-sm mx-auto h-[520px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
       style={{
-        transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.1}deg)`,
+        transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.05}deg)`,
         ...style,
       }}
       onMouseDown={handleDragStart}
@@ -169,34 +169,41 @@ function SwipeCard({
       onMouseUp={handleDragEnd}
       onMouseLeave={handleDragEnd}
     >
-      <div className="relative h-full">
-        <img
-          src={apprenticeship.image}
-          alt={apprenticeship.jobTitle}
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 gradient-overlay" />
+      <div className="relative h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+        {/* Image Section */}
+        <div className="relative h-64 overflow-hidden">
+          <img
+            src={apprenticeship.image}
+            alt={apprenticeship.jobTitle}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
-        {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 text-black">
-          {/* Header with company logo and duration */}
-          <div className="flex items-start justify-between mb-3">
-            <div className="flex items-center space-x-3 flex-1">
-              <div className="w-10 h-10 bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0 border border-white/20 shadow-lg">
-                <Building2 className="h-6 w-6 text-gray-700" />
+          {/* Duration Badge */}
+          <div className="absolute top-4 right-4">
+            <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+              {apprenticeship.duration}
+            </span>
+          </div>
+        </div>
+
+        {/* Content Section */}
+        <div className="p-5 space-y-4">
+          {/* Header */}
+          <div className="space-y-2">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                <Building2 className="h-5 w-5 text-blue-600" />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-xl font-bold text-white leading-tight drop-shadow-xl">
+                <h3 className="text-lg font-bold text-gray-900 leading-tight">
                   {apprenticeship.jobTitle}
                 </h3>
-                <p className="text-white font-medium text-sm drop-shadow-lg">
+                <p className="text-gray-600 font-medium text-sm">
                   {apprenticeship.company}
                 </p>
               </div>
             </div>
-            <span className="bg-white/90 text-black px-2 py-1 rounded-full text-xs font-bold ml-2 flex-shrink-0 shadow-lg">
-              {apprenticeship.duration}
-            </span>
           </div>
 
           {/* Location, Distance and Industry */}
