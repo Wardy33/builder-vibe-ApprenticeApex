@@ -271,7 +271,7 @@ function SwipeCard({
         {/* Transport Routes Modal */}
         {showTransportModal && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
-            <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/50 to-black/60 backdrop-blur-xl rounded-2xl p-6 w-full max-w-sm border border-white/30 shadow-2xl">
+            <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/50 to-blue-900/60 backdrop-blur-xl rounded-2xl p-6 w-full max-w-sm border border-cyan-400/40 shadow-2xl shadow-cyan-500/30">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-bold text-white">
                   Transport Routes
