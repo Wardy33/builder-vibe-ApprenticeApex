@@ -1106,10 +1106,18 @@ function JobListingsPage() {
 
 // Continue with other page components using the same modern design...
 function ApplicationsPage() {
+  const navigate = useNavigate();
   const [applications, setApplications] = useState<Application[]>(mockApplications);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showScheduleModal, setShowScheduleModal] = useState<string | null>(null);
+  const [interviewDetails, setInterviewDetails] = useState({
+    date: '',
+    time: '',
+    type: 'video' as 'video' | 'phone' | 'in-person',
+    duration: '30'
+  });
 
   const filteredApplications = applications.filter((application) => {
     const matchesSearch =
