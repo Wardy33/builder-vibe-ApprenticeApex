@@ -1424,7 +1424,7 @@ function ChatPage() {
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black mr-2 transition-all duration-200 hover:scale-105"
+            className="p-2 hover:bg-white/20 backdrop-blur-sm/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
