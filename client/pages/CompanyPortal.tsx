@@ -535,7 +535,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                 notifications.map((notification) => (
                   <div
                     key={notification.id}
-                    className={`p-3 sm:p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer touch-manipulation ${
+                    className={`p-3 sm:p-4 border-b border-gray-100 hover:bg-white/10 cursor-pointer touch-manipulation ${
                       !notification.read ? "bg-orange/5" : ""
                     }`}
                     onClick={() => markAsRead(notification.id)}
@@ -850,7 +850,7 @@ function JobListingsPage() {
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
           />
         </div>
-        <button className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+        <button className="p-2 border border-gray-300 rounded-lg hover:bg-white/10">
           <Filter className="h-5 w-5 text-gray-300" />
         </button>
       </div>
@@ -2212,7 +2212,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              className="px-6 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-white/10"
             >
               Cancel
             </button>
