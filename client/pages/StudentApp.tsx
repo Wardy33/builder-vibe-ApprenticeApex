@@ -1122,7 +1122,7 @@ function ApprenticeshipInfoPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
@@ -1137,7 +1137,7 @@ function ApprenticeshipInfoPage() {
         <div className="w-10" />
       </header>
 
-      <div className="p-4 space-y-6">
+      <div className="p-4 space-y-6 bg-white">
         {/* Company Header */}
         <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
           <div className="flex items-start space-x-4">
