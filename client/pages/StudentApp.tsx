@@ -3080,8 +3080,8 @@ function TwoFactorAuthPage() {
         </button>
         <h1 className="text-2xl font-bold text-black">Two-Factor Authentication</h1>
       </div>
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <p className="text-black">Two-factor authentication setup will be available soon.</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <p className="text-gray-900">Two-factor authentication setup will be available soon.</p>
       </div>
     </div>
   );
