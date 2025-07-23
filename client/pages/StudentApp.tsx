@@ -2673,7 +2673,7 @@ function EditSkillsPreferencesPage() {
 
           <div>
             <label className="block text-sm font-medium text-gray-900 mb-2">Salary Range (£)</label>
-            <div className="flex gap-2 items-center">
+            <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
               <input
                 type="number"
                 value={preferences.salaryRange.min}
@@ -2681,10 +2681,10 @@ function EditSkillsPreferencesPage() {
                   ...preferences,
                   salaryRange: {...preferences.salaryRange, min: parseInt(e.target.value)}
                 })}
-                className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Min"
               />
-              <span className="text-gray-900">to</span>
+              <span className="text-gray-900 text-center sm:text-left text-sm">to</span>
               <input
                 type="number"
                 value={preferences.salaryRange.max}
@@ -2692,7 +2692,7 @@ function EditSkillsPreferencesPage() {
                   ...preferences,
                   salaryRange: {...preferences.salaryRange, max: parseInt(e.target.value)}
                 })}
-                className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Max"
               />
             </div>
@@ -3408,7 +3408,7 @@ function DownloadDataPage() {
               <li>• Profile information (bio, contact details, skills)</li>
               <li>• Privacy and notification settings</li>
               <li>• Account metadata and preferences</li>
-              <li>�� Application history and activity data</li>
+              <li>• Application history and activity data</li>
             </ul>
           </div>
 
