@@ -199,7 +199,7 @@ function SignUpForm() {
 
             {/* Password */}
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Password
               </label>
               <div className="relative">
@@ -210,14 +210,13 @@ function SignUpForm() {
                   onChange={(e) =>
                     handleInputChange("password", e.target.value)
                   }
-                  className="w-full pl-10 pr-12 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  className="w-full pl-10 pr-12 py-3 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-400 backdrop-blur-sm transition-all duration-200"
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-black"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   {showPassword ? (
                     <EyeOff className="h-5 w-5" />
@@ -452,7 +451,7 @@ function SignInForm() {
                     handleInputChange("password", e.target.value)
                   }
                   className="w-full pl-10 pr-12 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  placeholder="•••••••��"
+                  placeholder="•��•••••��"
                 />
                 <button
                   type="button"
