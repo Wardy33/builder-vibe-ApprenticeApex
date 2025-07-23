@@ -82,7 +82,7 @@ export default function Index() {
                     <div className="text-blue-600 text-xs leading-tight">Tomorrow 2PM</div>
                   </div>
                 </div>
-                <h3 className="text-white font-bold mb-2">3. Start Career 🚀</h3>
+                <h3 className="text-white font-bold mb-2">3. Start Career</h3>
                 <p className="text-gray-400 text-sm">Begin your apprenticeship journey</p>
               </div>
             </div>
