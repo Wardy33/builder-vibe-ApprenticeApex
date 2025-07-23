@@ -333,13 +333,13 @@ export default function ForEmployers() {
         </section>
         
         {/* Comparison Section */}
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-16 px-4 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-black mb-4">
-                Why Choose ApprenticeApex?
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+                🏆 Why Choose ApprenticeApex? ✨
               </h2>
-              <p className="text-xl text-gray-600">Compare us against traditional recruitment methods</p>
+              <p className="text-xl text-gray-300">Compare us against traditional recruitment methods 📊</p>
             </div>
             
             <div className="overflow-x-auto">
