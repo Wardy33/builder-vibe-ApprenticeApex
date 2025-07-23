@@ -1619,7 +1619,7 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 hover:from-gray-700/40 hover:via-gray-800/40 hover:to-gray-900/40 text-white py-3 px-4 rounded-lg flex items-center justify-between transition-all duration-200 backdrop-blur-sm hover:scale-105">
+          <button className="w-full bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 hover:from-blue-700/40 hover:via-cyan-600/40 hover:to-blue-800/40 text-white py-3 px-4 rounded-lg flex items-center justify-between transition-all duration-200 backdrop-blur-sm hover:scale-105 shadow-lg shadow-cyan-500/20 hover:shadow-cyan-400/40">
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
