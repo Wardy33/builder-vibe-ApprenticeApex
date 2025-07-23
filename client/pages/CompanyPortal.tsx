@@ -4,6 +4,7 @@ import {
   Link,
   useNavigate,
   useLocation,
+  useParams,
 } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import SubscriptionManager from "../components/SubscriptionManager";
