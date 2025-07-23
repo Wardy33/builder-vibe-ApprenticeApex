@@ -1194,7 +1194,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Description */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             About this role
           </h3>
@@ -1204,7 +1204,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Requirements */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Requirements
           </h3>
@@ -1219,7 +1219,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Responsibilities */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Your responsibilities
           </h3>
@@ -1234,7 +1234,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Benefits */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Benefits & Perks
           </h3>
@@ -1249,7 +1249,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Key Details */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Key Details
           </h3>
@@ -1294,7 +1294,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Apply Button */}
-        <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 shadow-xl">
+        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-8 shadow-xl">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-white mb-2">
               Ready to apply?
