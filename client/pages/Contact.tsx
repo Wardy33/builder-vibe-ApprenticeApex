@@ -152,7 +152,7 @@ export default function Contact() {
                       setIsSubmitted(false);
                       setFormData({ name: "", email: "", subject: "", message: "", userType: "student" });
                     }}
-                    className="bg-gradient-to-r from-orange-400 to-pink-500 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                   >
                     Send Another Message
                   </button>
@@ -255,7 +255,7 @@ export default function Contact() {
                     type="submit"
                     isLoading={isSubmitting}
                     loadingText="Sending Message..."
-                    className="w-full bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-105 shadow-xl"
+                    className="w-full bg-pink-500 hover:bg-pink-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-200 hover:scale-105 shadow-xl"
                   >
                     Send Message
                   </LoadingButton>
