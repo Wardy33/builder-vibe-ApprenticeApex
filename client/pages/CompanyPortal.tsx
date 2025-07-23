@@ -5,7 +5,7 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import SubscriptionManager from "../components/SubscriptionManager";
 import SubscriptionPrompt from "../components/SubscriptionPrompt";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
