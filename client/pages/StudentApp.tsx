@@ -1541,7 +1541,7 @@ function ProfilePage() {
           </div>
           <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-orange">92%</h3>
-            <p className="text-sm text-white font-medium">Profile Score</p>
+            <p className="text-sm text-cyan-100 font-semibold tracking-wide">Profile Score</p>
           </div>
         </div>
 
