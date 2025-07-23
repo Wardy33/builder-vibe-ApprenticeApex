@@ -278,11 +278,11 @@ function SignUpForm() {
                 />
                 <span className="text-sm text-gray-300">
                   I agree to the{" "}
-                  <Link to="/terms-of-service" className="hover:underline" style={{color: '#da6927'}} target="_blank">
+                  <Link to="/terms-of-service" className="hover:underline text-orange-400" target="_blank">
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy-policy" className="hover:underline" style={{color: '#da6927'}} target="_blank">
+                  <Link to="/privacy-policy" className="hover:underline text-orange-400" target="_blank">
                     Privacy Policy
                   </Link>
                 </span>
@@ -308,20 +308,18 @@ function SignUpForm() {
               type="submit"
               isLoading={loading}
               loadingText="Creating Account..."
-              className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{backgroundColor: '#da6927'}}
+              className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 hover:scale-105 border border-white/20"
             >
-              Create Account
+              Create Account 🚀
             </LoadingButton>
           </form>
 
           <div className="mt-8 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-300">
               Already have an account?{" "}
               <Link
                 to="/student/signin"
-                className="hover:underline font-medium"
-                style={{color: '#da6927'}}
+                className="hover:underline font-medium text-orange-400"
               >
                 Sign In
               </Link>
