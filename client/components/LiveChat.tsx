@@ -149,7 +149,7 @@ export default function LiveChat() {
       <button
         onClick={() => setIsOpen(true)}
         className="fixed bottom-6 right-6 bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 z-50 border-2 border-white/30"
-        title="Open live chat ✨"
+        title="Open live chat"
       >
         <Sparkles className="w-7 h-7" />
       </button>
@@ -166,8 +166,8 @@ export default function LiveChat() {
               <Sparkles className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h3 className="font-bold text-white text-lg drop-shadow-lg">AI Assistant 🤖✨</h3>
-              <p className="text-white/90 text-sm font-medium">Online • Super fast replies 🚀</p>
+              <h3 className="font-bold text-white text-lg drop-shadow-lg">AI Assistant</h3>
+              <p className="text-white/90 text-sm font-medium">Online • Super fast replies</p>
             </div>
           </div>
           <button
@@ -239,7 +239,7 @@ export default function LiveChat() {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Type your message... 💬"
+            placeholder="Type your message..."
             className="flex-1 border border-white/30 rounded-xl px-4 py-3 text-sm bg-white/90 backdrop-blur-sm focus:outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-400/50 focus:bg-white placeholder-gray-500"
           />
           <button
@@ -254,7 +254,7 @@ export default function LiveChat() {
             onClick={handleContactSupport}
             className="w-full mt-3 text-transparent bg-gradient-to-r from-cyan-400 via-orange-400 to-pink-500 bg-clip-text hover:from-cyan-500 hover:to-pink-600 text-sm transition-all duration-200 font-bold text-center"
           >
-            🚀 Email our support team ✨
+            Email our support team
           </button>
         </div>
       </div>
