@@ -1131,7 +1131,7 @@ function ApprenticeshipInfoPage() {
     ],
     salary: "£18,000 - £25,000",
     startDate: "September 2024",
-    applicationDeadline: "15th July 2024",
+    applicationDeadline: "2024-02-15",
     companyImage:
       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=300&fit=crop",
     companyLogo:
