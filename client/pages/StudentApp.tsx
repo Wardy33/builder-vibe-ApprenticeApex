@@ -1594,25 +1594,56 @@ function ProfilePage() {
   };
 
   return (
-    <div className="p-4">
-      <div className="text-center mb-6">
-        <div className="relative inline-block mb-4">
-          <img
-            src={mockProfile.profileImage}
-            alt="Profile"
-            className="w-24 h-24 rounded-full object-cover mx-auto"
-          />
-          <button
-            onClick={() => navigate('/student/change-picture')}
-            className="absolute bottom-0 right-0 bg-orange p-2 rounded-full text-black hover:bg-orange/90 transition-all duration-200"
-          >
-            <Camera className="h-4 w-4" />
-          </button>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Profile Header */}
+      <div className="bg-white px-6 py-8">
+        <div className="text-center mb-6">
+          <div className="relative inline-block mb-4">
+            <img
+              src={mockProfile.profileImage}
+              alt="Profile"
+              className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg"
+            />
+            <button
+              onClick={() => navigate('/student/change-picture')}
+              className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white hover:bg-blue-700 transition-colors shadow-lg"
+            >
+              <Camera className="h-4 w-4" />
+            </button>
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            {mockProfile.firstName} {mockProfile.lastName}
+          </h2>
+          <p className="text-gray-600 flex items-center justify-center">
+            <MapPin className="h-4 w-4 mr-1" />
+            {mockProfile.location}
+          </p>
         </div>
-        <h2 className="text-2xl font-bold text-black mb-1">
-          {mockProfile.firstName} {mockProfile.lastName}
-        </h2>
-        <p className="text-gray-400">{mockProfile.location}</p>
+
+        {/* Quick Stats */}
+        <div className="grid grid-cols-3 gap-4 mb-6">
+          <div className="text-center">
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <FileText className="w-6 h-6 text-blue-600" />
+            </div>
+            <p className="text-xl font-bold text-gray-900">12</p>
+            <p className="text-xs text-gray-600">Applications</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Heart className="w-6 h-6 text-green-600" />
+            </div>
+            <p className="text-xl font-bold text-gray-900">5</p>
+            <p className="text-xs text-gray-600">Matches</p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <User className="w-6 h-6 text-purple-600" />
+            </div>
+            <p className="text-xl font-bold text-gray-900">92%</p>
+            <p className="text-xs text-gray-600">Profile Score</p>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-6">
