@@ -1071,8 +1071,20 @@ function JobListingsPage() {
                       {listing.status === "active" ? "Pause" : "Activate"}
                     </button>
                     <button
-                      onClick={() => setEditingId(listing.id)}
-                      className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                      onClick={() => {
+                        if (listing.status === 'active') {
+                          alert('Cannot edit an active job listing. Please pause it first.');
+                          return;
+                        }
+                        setEditingId(listing.id);
+                      }}
+                      disabled={listing.status === 'active'}
+                      className={`p-2 rounded-xl transition-colors ${
+                        listing.status === 'active'
+                          ? 'text-gray-400 cursor-not-allowed'
+                          : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                      }`}
+                      title={listing.status === 'active' ? 'Pause the listing first to edit' : 'Edit listing'}
                     >
                       <Edit className="h-4 w-4" />
                     </button>
