@@ -2558,38 +2558,38 @@ function EditProfileInfoPage() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black mb-2">First Name</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">First Name</label>
             <input
               type="text"
               value={profileInfo.firstName}
               onChange={(e) => setProfileInfo({...profileInfo, firstName: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Last Name</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Last Name</label>
             <input
               type="text"
               value={profileInfo.lastName}
               onChange={(e) => setProfileInfo({...profileInfo, lastName: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Date of Birth</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Date of Birth</label>
             <input
               type="date"
               value={profileInfo.dateOfBirth}
               onChange={(e) => setProfileInfo({...profileInfo, dateOfBirth: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Gender</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Gender</label>
             <select
               value={profileInfo.gender}
               onChange={(e) => setProfileInfo({...profileInfo, gender: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="Male">Male</option>
               <option value="Female">Female</option>
