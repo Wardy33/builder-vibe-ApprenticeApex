@@ -1620,25 +1620,25 @@ function ProfilePage() {
           </p>
         </div>
 
-        {/* Quick Stats */}
+        {/* Modern Quick Stats */}
         <div className="grid grid-cols-3 gap-4 mb-6">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <FileText className="w-6 h-6 text-blue-600" />
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm text-center">
+            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <FileText className="w-5 h-5 text-blue-600" />
             </div>
             <p className="text-xl font-bold text-gray-900">12</p>
             <p className="text-xs text-gray-600">Applications</p>
           </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <Heart className="w-6 h-6 text-green-600" />
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm text-center">
+            <div className="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <Heart className="w-5 h-5 text-green-600" />
             </div>
             <p className="text-xl font-bold text-gray-900">5</p>
             <p className="text-xs text-gray-600">Matches</p>
           </div>
-          <div className="text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-2">
-              <User className="w-6 h-6 text-purple-600" />
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm text-center">
+            <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-2">
+              <User className="w-5 h-5 text-purple-600" />
             </div>
             <p className="text-xl font-bold text-gray-900">92%</p>
             <p className="text-xs text-gray-600">Profile Score</p>
@@ -1646,109 +1646,91 @@ function ProfilePage() {
         </div>
       </div>
 
-      <div className="space-y-6">
-        {/* Quick Stats */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black ">12</h3>
-            <p className="text-sm text-black font-bold tracking-wide ">Applications</p>
+      {/* Profile Sections */}
+      <div className="px-6 space-y-4">
+        {/* Bio */}
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-gray-900 font-semibold">About</h3>
+            <button
+              onClick={() => navigate('/student/edit-about')}
+              className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
+            >
+              <Edit className="h-4 w-4" />
+            </button>
           </div>
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black ">5</h3>
-            <p className="text-sm text-black font-bold tracking-wide ">Matches</p>
+          <p className="text-gray-700 text-sm leading-relaxed">{mockProfile.bio}</p>
+        </div>
+
+        {/* Contact Info */}
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-gray-900 font-semibold">Contact</h3>
+            <button
+              onClick={() => navigate('/student/edit-contact')}
+              className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
+            >
+              <Edit className="h-4 w-4" />
+            </button>
           </div>
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black ">92%</h3>
-            <p className="text-sm text-black font-bold tracking-wide ">Profile Score</p>
+          <div className="space-y-3">
+            <div className="flex items-center text-gray-700 text-sm">
+              <Mail className="h-4 w-4 mr-3 text-gray-500" />
+              {mockProfile.email}
+            </div>
+            <div className="flex items-center text-gray-700 text-sm">
+              <Phone className="h-4 w-4 mr-3 text-gray-500" />
+              {mockProfile.phone}
+            </div>
+            <div className="flex items-center text-gray-700 text-sm">
+              <MapPin className="h-4 w-4 mr-3 text-gray-500" />
+              {mockProfile.location}
+            </div>
           </div>
         </div>
 
-        {/* Profile Sections */}
-        <div className="space-y-4">
-          {/* Bio */}
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold ">About</h3>
-              <button
-                onClick={() => navigate('/student/edit-about')}
-                className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </div>
-            <p className="text-black/80 text-sm">{mockProfile.bio}</p>
+        {/* Skills */}
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-gray-900 font-semibold">Skills</h3>
+            <button
+              onClick={() => navigate('/student/edit-skills')}
+              className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
+            >
+              <Edit className="h-4 w-4" />
+            </button>
           </div>
-
-          {/* Contact Info */}
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold ">Contact</h3>
-              <button
-                onClick={() => navigate('/student/edit-contact')}
-                className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110"
+          <div className="flex flex-wrap gap-2">
+            {mockProfile.skills.map((skill) => (
+              <span
+                key={skill}
+                className="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
               >
-                <Edit className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center text-black/80 text-sm">
-                <Mail className="h-5 w-5 mr-3 text-black/80" />
-                {mockProfile.email}
-              </div>
-              <div className="flex items-center text-black/80 text-sm">
-                <Phone className="h-5 w-5 mr-3 text-black/80" />
-                {mockProfile.phone}
-              </div>
-              <div className="flex items-center text-black/80 text-sm">
-                <MapPin className="h-5 w-5 mr-3 text-black/80" />
-                {mockProfile.location}
-              </div>
-            </div>
+                {skill}
+              </span>
+            ))}
           </div>
+        </div>
 
-          {/* Skills */}
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold ">Skills</h3>
-              <button
-                onClick={() => navigate('/student/edit-skills')}
-                className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              {mockProfile.skills.map((skill) => (
-                <span
-                  key={skill}
-                  className="bg-white/20 text-black px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
+        {/* Availability */}
+        <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-gray-900 font-semibold">Availability</h3>
+            <button
+              onClick={() => navigate('/student/edit-availability')}
+              className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
+            >
+              <Edit className="h-4 w-4" />
+            </button>
           </div>
-
-          {/* Availability */}
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold ">Availability</h3>
-              <button
-                onClick={() => navigate('/student/edit-availability')}
-                className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110"
-              >
-                <Edit className="h-4 w-4" />
-              </button>
-            </div>
-            <div className="flex items-center text-black/80 text-sm">
-              <Calendar className="h-5 w-5 mr-3 text-black/80" />
-              Available from {mockProfile.availableFrom}
-            </div>
+          <div className="flex items-center text-gray-700 text-sm">
+            <Calendar className="h-4 w-4 mr-3 text-gray-500" />
+            Available from {mockProfile.availableFrom}
           </div>
         </div>
 
         {/* Settings */}
-        <div className="pt-4 border-t border-gray-700">
+        <div className="pt-4">
           <button
             onClick={() => {
               try {
@@ -1757,10 +1739,10 @@ function ProfilePage() {
                 console.error('Navigation error to account-settings:', error);
               }
             }}
-            className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-black py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300"
+            className="w-full bg-white rounded-xl p-5 border border-gray-200 shadow-sm text-gray-900 flex items-center justify-between hover:shadow-md hover:border-gray-300 transition-all duration-200"
           >
-            <span>Account Settings</span>
-            <Settings className="h-5 w-5" />
+            <span className="font-medium">Account Settings</span>
+            <Settings className="h-5 w-5 text-gray-500" />
           </button>
         </div>
       </div>
