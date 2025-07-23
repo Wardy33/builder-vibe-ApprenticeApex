@@ -1968,7 +1968,14 @@ function EditAboutPage() {
           rows={6}
           className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
         />
-        <p className="text-sm text-black/60 mt-2">{bio.length}/500 characters</p>
+        <p className={`text-sm mt-2 ${bio.length > 500 ? 'text-red-600' : 'text-black/60'}`}>
+          {bio.length}/500 characters {bio.length > 500 && '(Too long)'}
+        </p>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
+            Bio updated successfully!
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3">
@@ -1980,9 +1987,10 @@ function EditAboutPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          disabled={loading}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          Save Changes
+          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
         </button>
       </div>
     </div>
