@@ -12,7 +12,7 @@ export default function TermsOfService() {
           </h1>
 
           <div className="rounded-xl p-2 mb-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
-            <p className="text-gray-700 text-center">
+            <p className="text-gray-300 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
                 month: 'long', 
@@ -27,17 +27,17 @@ export default function TermsOfService() {
               {/* Introduction */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>1. Introduction and Acceptance</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   Welcome to ApprenticeApex, the UK's leading apprenticeship matching platform. These Terms of Service 
                   ("Terms") govern your use of our website, mobile application, and related services (collectively, the "Service") 
                   operated by ApprenticeApex Ltd, a company registered in England and Wales.
                 </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any 
                   part of these terms, you may not access the Service. These Terms apply to all visitors, users, 
                   students, employers, and others who access or use the Service.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   Our Service facilitates connections between students seeking apprenticeships and employers offering 
                   apprenticeship opportunities. We are not an employment agency and do not guarantee employment outcomes.
                 </p>
@@ -46,7 +46,7 @@ export default function TermsOfService() {
               {/* Definitions */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>2. Definitions</h2>
-                <ul className="text-gray-700 space-y-3 mb-6 list-disc list-inside">
+                <ul className="text-gray-300 space-y-3 mb-6 list-disc list-inside">
                   <li><strong>"Platform"</strong> refers to the ApprenticeApex website, mobile app, and related services</li>
                   <li><strong>"Student"</strong> refers to individuals seeking apprenticeship opportunities</li>
                   <li><strong>"Employer"</strong> refers to companies, organizations, or individuals posting apprenticeship opportunities</li>
@@ -68,7 +68,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">3.2 Account Registration</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   To use our Service, you must:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -112,7 +112,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">4.3 Prohibited Activities</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   All users are prohibited from:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -132,7 +132,7 @@ export default function TermsOfService() {
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>5. Apprenticeship-Specific Terms</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">5.1 Apprenticeship Standards</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   All apprenticeship opportunities posted on our platform must:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -144,7 +144,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">5.2 Matching Algorithm</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   Our AI matching algorithm considers various factors including:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -155,7 +155,7 @@ export default function TermsOfService() {
                   <li>Educational background and qualifications</li>
                   <li>Accessibility requirements and driving license status</li>
                 </ul>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   Matches are suggestions only and do not guarantee employment or successful applications.
                 </p>
 
@@ -173,7 +173,7 @@ export default function TermsOfService() {
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>6. Anti-Poaching and Revenue Protection</h2>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.1 No-Poaching Clause</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   <strong>Employers are strictly prohibited from:</strong>
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -185,7 +185,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.2 Platform Fee Obligation</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   <strong>Success Fee Requirements:</strong>
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -197,7 +197,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.3 Liquidated Damages</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   <strong>Bypass penalties include:</strong>
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -215,7 +215,7 @@ export default function TermsOfService() {
                 </p>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">6.5 Monitoring and Enforcement</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   ApprenticeApex reserves the right to:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -285,7 +285,7 @@ export default function TermsOfService() {
               {/* Privacy and Data */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>9. Privacy and Data Protection</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   Your privacy is important to us. Our collection and use of personal information is governed 
                   by our <a href="/privacy-policy" className="text-orange hover:underline">Privacy Policy</a>, 
                   which forms an integral part of these Terms.
@@ -349,7 +349,7 @@ export default function TermsOfService() {
                 </ul>
 
                 <h3 className="text-xl font-semibold mb-3 text-white">11.2 Termination by Us</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   We may suspend or terminate your account if you:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -387,7 +387,7 @@ export default function TermsOfService() {
               {/* Changes to Terms */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>14. Changes to Terms</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   We may modify these Terms from time to time. When we make significant changes:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -402,10 +402,10 @@ export default function TermsOfService() {
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>15. Contact Information</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-300 leading-relaxed mb-4">
                     For questions about these Terms or our Service, please contact us:
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed">
                     <strong>ApprenticeApex Ltd</strong><br />
                     <strong>Email:</strong> <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline">hello@apprenticeapex.co.uk</a>
                   </p>
@@ -415,7 +415,7 @@ export default function TermsOfService() {
               {/* Acknowledgment */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>16. Acknowledgment</h2>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   By using our Service, you acknowledge that you have read, understood, and agree to be 
                   bound by these Terms of Service. These Terms constitute the entire agreement between 
                   you and ApprenticeApex regarding the use of our Service.
