@@ -839,14 +839,14 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               </Link>
 
               <button
-                onClick={() => navigate('/')}
-                className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-200"
-              >
-                <div className="p-1 rounded-lg">
-                  <ArrowLeft className="h-5 w-5" />
-                </div>
-                <span>Sign Out</span>
-              </button>
+              onClick={() => navigate('/')}
+              className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-200"
+            >
+              <div className="p-1 rounded-lg">
+                <ArrowLeft className="h-5 w-5" />
+              </div>
+              <span>Back to Main Site</span>
+            </button>
             </div>
           </nav>
         </aside>
@@ -1211,6 +1211,151 @@ function JobListingsPage() {
           onUpgrade={() => window.location.href = '/for-employers'}
           onClose={() => setShowSubscriptionPrompt(false)}
         />
+      )}
+
+      {/* Create/Edit Listing Modal */}
+      {(isCreating || editingId) && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-gray-900">
+                {editingId ? 'Edit Job Listing' : 'Create New Job Listing'}
+              </h3>
+              <button
+                onClick={() => {
+                  setIsCreating(false);
+                  setEditingId(null);
+                }}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    placeholder="e.g. Software Developer Apprentice"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+                  <input
+                    type="text"
+                    value={formData.location}
+                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    placeholder="e.g. London, UK"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Employment Type *</label>
+                  <select
+                    value={formData.type}
+                    onChange={(e) => setFormData({...formData, type: e.target.value as any})}
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  >
+                    <option value="full-time">Full-time</option>
+                    <option value="part-time">Part-time</option>
+                    <option value="contract">Contract</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Salary Range *</label>
+                  <input
+                    type="text"
+                    value={formData.salary}
+                    onChange={(e) => setFormData({...formData, salary: e.target.value})}
+                    placeholder="e.g. £18,000 - £22,000"
+                    className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  rows={4}
+                  placeholder="Describe the role, responsibilities, and what the apprentice will learn..."
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Requirements *</label>
+                <div className="space-y-3">
+                  {formData.requirements.map((requirement, index) => (
+                    <div key={index} className="flex items-center space-x-3">
+                      <input
+                        type="text"
+                        value={requirement}
+                        onChange={(e) => updateRequirement(index, e.target.value)}
+                        placeholder={`Requirement ${index + 1}`}
+                        className="flex-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      />
+                      {formData.requirements.length > 1 && (
+                        <button
+                          onClick={() => removeRequirement(index)}
+                          className="p-2 text-red-600 hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                  <button
+                    onClick={addRequirement}
+                    className="flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium"
+                  >
+                    <Plus className="h-4 w-4" />
+                    <span>Add Requirement</span>
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Application Closing Date *</label>
+                <input
+                  type="date"
+                  value={formData.closingDate}
+                  onChange={(e) => setFormData({...formData, closingDate: e.target.value})}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+            </div>
+
+            <div className="p-6 border-t border-gray-200 flex justify-end space-x-3">
+              <button
+                onClick={() => {
+                  setIsCreating(false);
+                  setEditingId(null);
+                }}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleSaveListing}
+                className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 flex items-center space-x-2"
+              >
+                <Save className="h-4 w-4" />
+                <span>{editingId ? 'Update Listing' : 'Create Listing'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
