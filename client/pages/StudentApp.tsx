@@ -1636,9 +1636,9 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black">
+    <div className="min-h-screen bg-white">
       {/* Header - Gen-Z styling */}
-      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
+      <header className="flex items-center justify-between p-4 border-b border-gray-200 bg-white shadow-sm">
         <button
           onClick={() => navigate(-1)}
           className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20"
