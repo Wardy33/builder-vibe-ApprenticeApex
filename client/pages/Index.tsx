@@ -124,7 +124,7 @@ export default function Index() {
                 <div className="flex gap-3">
                   <Link
                     to="/student/signup"
-                    className="flex-1 bg-white text-orange-600 font-bold py-3 px-4 rounded-xl text-center hover:bg-gray-100 transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-orange-400 to-pink-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-orange-500 hover:to-pink-600 transition-all duration-200 hover:scale-105 shadow-lg"
                   >
                     Sign Up
                   </Link>
@@ -175,7 +175,7 @@ export default function Index() {
                 <div className="flex gap-3">
                   <Link
                     to="/company/signup"
-                    className="flex-1 bg-white text-blue-600 font-bold py-3 px-4 rounded-xl text-center hover:bg-gray-100 transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-gradient-to-r from-cyan-400 to-blue-500 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-cyan-500 hover:to-blue-600 transition-all duration-200 hover:scale-105 shadow-lg"
                   >
                     Sign Up
                   </Link>
@@ -283,7 +283,7 @@ export default function Index() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/student/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-xl border border-white/20"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-gray-800 to-gray-900 text-white font-bold rounded-xl hover:from-gray-700 hover:to-gray-800 transition-all duration-200 hover:scale-105 shadow-xl border border-white/20"
                 >
                   Sign Up as Student
                   <ArrowRight className="ml-2 h-5 w-5" />
