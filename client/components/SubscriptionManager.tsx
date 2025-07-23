@@ -169,15 +169,15 @@ export default function SubscriptionManager() {
       if (confirm(`Upgrade to ${getPlanDisplayName(planType)} plan?`)) {
         const successFeeRates = {
           starter: 12,
-          professional: 10,
-          business: 8,
-          enterprise: 0
+          professional: 12,
+          business: 12,
+          enterprise: 12
         };
 
         const monthlyFees = {
           starter: 49,
           professional: 99,
-          business: 199,
+          business: 149,
           enterprise: 0
         };
 
