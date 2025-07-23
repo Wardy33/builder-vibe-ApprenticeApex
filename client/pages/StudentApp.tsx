@@ -1144,11 +1144,11 @@ function ApprenticeshipInfoPage() {
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black transition-all duration-200 hover:scale-105"
+          className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-semibold text-black">
+        <h1 className="text-lg font-semibold text-white">
           Apprenticeship Details
         </h1>
         <div className="w-10" />
@@ -1164,7 +1164,7 @@ function ApprenticeshipInfoPage() {
               className="w-16 h-16 rounded-lg object-cover"
             />
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-black mb-1">
+              <h2 className="text-2xl font-bold text-white mb-1">
                 {apprenticeshipInfo.jobTitle}
               </h2>
               <p className="text-orange font-semibold text-lg mb-2">
