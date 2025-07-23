@@ -1559,24 +1559,24 @@ function ProfilePage() {
           </div>
 
           {/* Contact Info */}
-          <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-500/20">
+          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold">Contact</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-all duration-200 hover:scale-110">
+              <h3 className="text-white font-semibold drop-shadow-lg">Contact</h3>
+              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center text-gray-300 text-sm">
-                <Mail className="h-5 w-5 mr-3 text-cyan-400" />
+              <div className="flex items-center text-white/80 text-sm">
+                <Mail className="h-5 w-5 mr-3 text-white/80" />
                 {mockProfile.email}
               </div>
-              <div className="flex items-center text-gray-300 text-sm">
-                <Phone className="h-5 w-5 mr-3 text-cyan-400" />
+              <div className="flex items-center text-white/80 text-sm">
+                <Phone className="h-5 w-5 mr-3 text-white/80" />
                 {mockProfile.phone}
               </div>
-              <div className="flex items-center text-gray-300 text-sm">
-                <MapPin className="h-5 w-5 mr-3 text-cyan-400" />
+              <div className="flex items-center text-white/80 text-sm">
+                <MapPin className="h-5 w-5 mr-3 text-white/80" />
                 {mockProfile.location}
               </div>
             </div>
