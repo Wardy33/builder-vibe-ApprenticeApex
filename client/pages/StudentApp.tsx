@@ -1641,7 +1641,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-800 rounded-full text-white"
+          className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
