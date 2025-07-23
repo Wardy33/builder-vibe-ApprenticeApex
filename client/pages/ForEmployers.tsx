@@ -465,32 +465,31 @@ export default function ForEmployers() {
         </section>
         
         {/* Contact Section */}
-        <section className="py-16 px-4 bg-gray-50">
+        <section className="py-16 px-4 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
-              Have Questions? We're Here to Help
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 drop-shadow-lg">
+              🙋 Have Questions? We're Here to Help ✨
             </h2>
             
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <Mail className="w-8 h-8 mx-auto mb-4" style={{color: '#da6927'}} />
-                <h3 className="font-semibold mb-2" style={{color: '#020202'}}>Email Support</h3>
-                <p className="text-gray-600 text-sm mb-4">Get help within 2 hours</p>
-                <a href="mailto:hello@apprenticeapex.co.uk" className="hover:opacity-80" style={{color: '#da6927'}}>
+              <div className="p-6 rounded-xl border border-white/20 shadow-xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+                <Mail className="w-8 h-8 mx-auto mb-4 text-cyan-400" />
+                <h3 className="font-semibold mb-2 text-white">Email Support</h3>
+                <p className="text-gray-300 text-sm mb-4">Get help within 2 hours</p>
+                <a href="mailto:hello@apprenticeapex.co.uk" className="hover:opacity-80 text-cyan-400">
                   hello@apprenticeapex.co.uk
                 </a>
               </div>
               
 
               
-              <div className="p-6 rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
-                <MessageCircle className="w-8 h-8 mx-auto mb-4" style={{color: '#da6927'}} />
-                <h3 className="font-semibold mb-2" style={{color: '#020202'}}>Live Chat</h3>
-                <p className="text-gray-600 text-sm mb-4">Instant help when you need it</p>
+              <div className="p-6 rounded-xl border border-white/20 shadow-xl bg-gradient-to-br from-orange-400/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+                <MessageCircle className="w-8 h-8 mx-auto mb-4 text-orange-400" />
+                <h3 className="font-semibold mb-2 text-white">Live Chat</h3>
+                <p className="text-gray-300 text-sm mb-4">Instant help when you need it</p>
                 <button
                   onClick={handleStartChat}
-                  className="hover:opacity-80"
-                  style={{color: '#da6927'}}
+                  className="hover:opacity-80 text-orange-400"
                 >
                   Start Chat
                 </button>
