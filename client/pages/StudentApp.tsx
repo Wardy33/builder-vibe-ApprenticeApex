@@ -1938,6 +1938,22 @@ export default function StudentApp() {
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/account-settings" element={<AccountSettingsPage />} />
+              <Route path="/edit-about" element={<EditAboutPage />} />
+              <Route path="/edit-contact" element={<EditContactPage />} />
+              <Route path="/edit-skills" element={<EditSkillsPage />} />
+              <Route path="/edit-availability" element={<EditAvailabilityPage />} />
+              <Route path="/change-picture" element={<ChangePicturePage />} />
+              <Route path="/edit-profile-info" element={<EditProfileInfoPage />} />
+              <Route path="/edit-skills-preferences" element={<EditSkillsPreferencesPage />} />
+              <Route path="/change-password" element={<ChangePasswordPage />} />
+              <Route path="/privacy-settings" element={<PrivacySettingsPage />} />
+              <Route path="/two-factor-auth" element={<TwoFactorAuthPage />} />
+              <Route path="/notification-settings" element={<NotificationSettingsPage />} />
+              <Route path="/email-preferences" element={<EmailPreferencesPage />} />
+              <Route path="/language-region" element={<LanguageRegionPage />} />
+              <Route path="/data-storage" element={<DataStoragePage />} />
+              <Route path="/download-data" element={<DownloadDataPage />} />
+              <Route path="/delete-account" element={<DeleteAccountPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </StudentAppLayout>
