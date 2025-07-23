@@ -40,6 +40,15 @@ import {
 } from "lucide-react";
 import LiveChat from "../components/LiveChat";
 
+// Helper function to check if application deadline has passed
+const isApplicationClosed = (closingDate: string) => {
+  const today = new Date();
+  const deadline = new Date(closingDate);
+  today.setHours(0, 0, 0, 0);
+  deadline.setHours(0, 0, 0, 0);
+  return deadline < today;
+};
+
 interface Apprenticeship {
   id: string;
   jobTitle: string;
