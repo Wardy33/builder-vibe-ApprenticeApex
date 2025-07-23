@@ -576,7 +576,7 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-blue-400/40 hover:scale-102 transition-all duration-300 hover:border-cyan-300/50 group cursor-pointer"
+                className="bg-gradient-to-br from-cyan-300/60 via-blue-400/50 to-cyan-500/70 border border-cyan-300/60 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-400/40 hover:shadow-xl hover:shadow-blue-300/60 hover:scale-102 transition-all duration-300 hover:border-cyan-200/80 group cursor-pointer"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -641,7 +641,7 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-500/20 hover:shadow-xl hover:shadow-blue-400/40 hover:scale-102 transition-all duration-300 hover:border-cyan-300/50 group cursor-pointer"
+                className="bg-gradient-to-br from-cyan-300/60 via-blue-400/50 to-cyan-500/70 border border-cyan-300/60 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-400/40 hover:shadow-xl hover:shadow-blue-300/60 hover:scale-102 transition-all duration-300 hover:border-cyan-200/80 group cursor-pointer"
               >
                 <div className="flex items-center space-x-4">
                   <img
