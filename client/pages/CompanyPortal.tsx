@@ -882,8 +882,8 @@ function JobListingsPage() {
     if (searchParams.get('create') === 'true') {
       // Clear the URL parameter
       window.history.replaceState({}, '', '/company/listings');
-      // Trigger create listing
-      handleCreateListing();
+      // Open create modal
+      setIsCreating(true);
     }
   }, [location]);
   const [editingId, setEditingId] = useState<string | null>(null);
