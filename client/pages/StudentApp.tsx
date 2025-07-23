@@ -627,7 +627,7 @@ function HomePage() {
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-[#84CC16]/60 border border-[#84CC16]/80 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-[#84CC16]/40">
+          <div className="bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-cyan-400/30 rounded-xl backdrop-blur-sm p-8 text-center shadow-xl">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Interviews Scheduled
