@@ -608,7 +608,7 @@ export function CompanySignInForm() {
             <p className="text-gray-300">Sign in to your company portal</p>
           </div>
 
-          <form onSubmit={handleSubmit} className="rounded-xl border border-gray-200 shadow-sm p-8 space-y-6" style={{backgroundColor: '#f8f9fa'}}>
+          <form onSubmit={handleSubmit} className="rounded-xl border border-white/20 shadow-xl p-8 space-y-6 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 backdrop-blur-sm">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
                 Email Address
