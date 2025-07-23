@@ -305,7 +305,7 @@ function SwipeCard({
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
                       <p className="font-medium text-black">Bus Route</p>
-                      <p className="text-sm text-gray-300">25 min ��� £2.50</p>
+                      <p className="text-sm text-gray-300">25 min • £2.50</p>
                     </div>
                   </div>
                   <button className="text-blue-600 text-sm font-medium hover:underline">
@@ -1801,15 +1801,24 @@ function AccountSettingsPage() {
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
           <h3 className="text-lg font-semibold text-black mb-4">Privacy & Security</h3>
           <div className="space-y-3">
-            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+            <button
+              onClick={(e) => {e.preventDefault(); console.log('Change Password clicked');}}
+              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+            >
               <span className="text-black">Change Password</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
-            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+            <button
+              onClick={(e) => {e.preventDefault(); console.log('Privacy Settings clicked');}}
+              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+            >
               <span className="text-black">Privacy Settings</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
-            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+            <button
+              onClick={(e) => {e.preventDefault(); console.log('Two-Factor Authentication clicked');}}
+              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+            >
               <span className="text-black">Two-Factor Authentication</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
