@@ -233,7 +233,7 @@ export default function Index() {
                   <MessageCircle className="h-10 w-10 text-white animate-pulse" />
                 </div>
                 <h4 className="text-xl font-semibold mb-2 text-white">
-                  Real-time Communication 💬
+                  Real-time Communication
                 </h4>
                 <p className="text-gray-300">
                   Instant messaging powered by Sendbird for seamless connections
