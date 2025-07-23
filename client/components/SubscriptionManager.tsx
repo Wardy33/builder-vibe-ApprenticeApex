@@ -11,7 +11,8 @@ import {
   Briefcase,
   Settings,
   ArrowUp,
-  Download
+  Download,
+  X
 } from 'lucide-react';
 
 interface SubscriptionData {
