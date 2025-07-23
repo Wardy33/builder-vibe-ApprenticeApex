@@ -678,28 +678,26 @@ function HomePage() {
         )}
       </div>
 
-      {/* Upcoming Interviews */}
-      <div>
+      {/* Upcoming Interviews Section */}
+      <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Upcoming Interviews
-          </h2>
+          <h2 className="text-xl font-bold text-gray-900">Upcoming Interviews</h2>
           <Link
             to="/student/interviews"
-            className="text-cyan-500 text-sm hover:underline"
+            className="text-blue-600 text-sm font-medium hover:text-blue-700"
           >
             View All
           </Link>
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
-            <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-black font-bold mb-2 ">
-              No Interviews Scheduled
-            </h3>
-            <p className="text-black/90 text-sm font-semibold">
-              Your interview invitations will appear here.
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Calendar className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Interviews Scheduled</h3>
+            <p className="text-gray-600 text-sm">
+              Your interview invitations will appear here
             </p>
           </div>
         ) : (
@@ -707,50 +705,45 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-200"
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-start space-x-3">
                   <img
                     src={interview.image}
                     alt={interview.company}
-                    className="w-12 h-12 rounded-lg object-cover"
+                    className="w-12 h-12 rounded-xl object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-black font-bold truncate ">
-                      {interview.jobTitle}
-                    </h3>
-                    <p className="text-black/90 text-sm font-semibold">{interview.company}</p>
-                    <div className="flex items-center space-x-3 mt-1">
-                      <div className="flex items-center text-black/80 text-xs font-medium">
-                        <Calendar className="h-3 w-3 mr-1" />
-                        {interview.date} at {interview.time}
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">
+                          {interview.jobTitle}
+                        </h3>
+                        <p className="text-gray-600 text-sm">{interview.company}</p>
                       </div>
-                      <div className="flex items-center text-black/80 text-xs font-medium">
-                        <Video className="h-3 w-3 mr-1" />
-                        {interview.type}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-end space-y-2">
-                    <span
-                      className={`flex items-center px-2 py-1 rounded-full text-xs font-medium ${
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                         interview.status === "confirmed"
-                          ? "bg-green-500/20 text-green-400"
-                          : "bg-yellow-500/20 text-yellow-400"
-                      }`}
-                    >
-                      {interview.status === "confirmed" ? (
-                        <CheckCircle className="h-3 w-3 mr-1" />
-                      ) : (
-                        <AlertCircle className="h-3 w-3 mr-1" />
-                      )}
-                      {interview.status === "confirmed"
-                        ? "Confirmed"
-                        : "Pending"}
-                    </span>
-                    <button className="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
-                      Join Call
-                    </button>
+                          ? "bg-green-100 text-green-700"
+                          : "bg-yellow-100 text-yellow-700"
+                      }`}>
+                        {interview.status === "confirmed" ? "Confirmed" : "Pending"}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4 text-xs text-gray-500">
+                        <div className="flex items-center">
+                          <Calendar className="h-3 w-3 mr-1" />
+                          {interview.date} at {interview.time}
+                        </div>
+                        <div className="flex items-center">
+                          <Video className="h-3 w-3 mr-1" />
+                          {interview.type}
+                        </div>
+                      </div>
+                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                        Join Call
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
