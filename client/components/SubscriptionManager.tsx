@@ -498,12 +498,12 @@ export default function SubscriptionManager() {
   return (
     <div className="space-y-6">
       {/* Current Plan Overview */}
-      <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
+      <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Subscription Overview</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Subscription Overview</h2>
           <button
             onClick={() => setShowUpgradeModal(true)}
-            className="px-4 py-2 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors flex items-center"
+            className="px-4 py-2 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-colors flex items-center"
           >
             <ArrowUp className="w-4 h-4 mr-2" />
             Upgrade Plan
@@ -512,59 +512,65 @@ export default function SubscriptionManager() {
 
         <div className="grid md:grid-cols-3 gap-6">
           {/* Plan Details */}
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center mb-3">
-              <CreditCard className="w-5 h-5 text-orange-400 mr-2" />
-              <h3 className="font-semibold text-white">Current Plan</h3>
+          <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-blue-100 rounded-lg">
+                <CreditCard className="w-5 h-5 text-blue-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 ml-3">Current Plan</h3>
             </div>
-            <div className="text-2xl font-bold text-white mb-1">
+            <div className="text-2xl font-bold text-gray-900 mb-2">
               {getPlanDisplayName(subscription.planType)}
             </div>
-            <div className={`text-sm ${getStatusColor(subscription.status)}`}>
+            <div className={`text-sm font-medium mb-3 ${getStatusColor(subscription.status)}`}>
               {subscription.status} {subscription.isInTrial && '(Trial)'}
             </div>
-            <div className="text-gray-400 text-sm mt-2">
+            <div className="text-gray-600 text-sm mb-1">
               Monthly: {formatCurrency(subscription.monthlyFee)}
             </div>
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-600 text-sm">
               Success Fee: {subscription.successFeeRate}%
             </div>
           </div>
 
           {/* Trial Status */}
           {subscription.isInTrial && (
-            <div className="bg-gray-800 p-4 rounded-lg">
-              <div className="flex items-center mb-3">
-                <Clock className="w-5 h-5 text-orange-400 mr-2" />
-                <h3 className="font-semibold text-white">Trial Status</h3>
+            <div className="bg-green-50 p-6 rounded-xl border border-green-200">
+              <div className="flex items-center mb-4">
+                <div className="p-2 bg-green-100 rounded-lg">
+                  <Clock className="w-5 h-5 text-green-600" />
+                </div>
+                <h3 className="font-semibold text-gray-900 ml-3">Trial Status</h3>
               </div>
-              <div className="text-2xl font-bold text-white mb-1">
+              <div className="text-2xl font-bold text-gray-900 mb-2">
                 {daysLeftInTrial} days
               </div>
-              <div className="text-gray-400 text-sm">remaining</div>
+              <div className="text-gray-600 text-sm mb-3">remaining in trial</div>
               {isTrialExpired && (
-                <div className="flex items-center mt-2 text-red-400">
-                  <AlertTriangle className="w-4 h-4 mr-1" />
-                  <span className="text-sm">Trial expired</span>
+                <div className="flex items-center mt-2 text-red-600 bg-red-100 p-2 rounded-lg">
+                  <AlertTriangle className="w-4 h-4 mr-2" />
+                  <span className="text-sm font-medium">Trial expired</span>
                 </div>
               )}
             </div>
           )}
 
           {/* Outstanding Balance */}
-          <div className="bg-gray-800 p-4 rounded-lg">
-            <div className="flex items-center mb-3">
-              <DollarSign className="w-5 h-5 text-orange-400 mr-2" />
-              <h3 className="font-semibold text-white">Outstanding</h3>
+          <div className="bg-orange-50 p-6 rounded-xl border border-orange-200">
+            <div className="flex items-center mb-4">
+              <div className="p-2 bg-orange-100 rounded-lg">
+                <DollarSign className="w-5 h-5 text-orange-600" />
+              </div>
+              <h3 className="font-semibold text-gray-900 ml-3">Outstanding</h3>
             </div>
-            <div className="text-2xl font-bold text-white mb-1">
+            <div className="text-2xl font-bold text-gray-900 mb-2">
               {formatCurrency(outstandingBalance.totalAmount)}
             </div>
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-600 text-sm mb-3">
               {outstandingBalance.count} invoice{outstandingBalance.count !== 1 ? 's' : ''}
             </div>
             {outstandingBalance.totalAmount > 0 && (
-              <button className="mt-2 text-orange-400 hover:text-orange-300 text-sm">
+              <button className="mt-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-sm font-medium">
                 Pay Now →
               </button>
             )}
@@ -573,42 +579,48 @@ export default function SubscriptionManager() {
       </div>
 
       {/* Usage Stats */}
-      <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
-        <h3 className="text-xl font-bold text-white mb-4">This Month's Usage</h3>
+      <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+        <h3 className="text-xl font-bold text-gray-900 mb-6">This Month's Usage</h3>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <div className="text-center">
-            <Briefcase className="w-8 h-8 text-orange-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">
+          <div className="text-center p-4 bg-blue-50 rounded-xl">
+            <div className="p-3 bg-blue-100 rounded-xl w-fit mx-auto mb-3">
+              <Briefcase className="w-8 h-8 text-blue-600" />
+            </div>
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {subscription.usage.jobPostingsThisMonth}
             </div>
-            <div className="text-gray-400 text-sm">Job Postings</div>
+            <div className="text-gray-600 text-sm font-medium">Job Postings</div>
           </div>
-          
-          <div className="text-center">
-            <Users className="w-8 h-8 text-orange-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">
+
+          <div className="text-center p-4 bg-green-50 rounded-xl">
+            <div className="p-3 bg-green-100 rounded-xl w-fit mx-auto mb-3">
+              <Users className="w-8 h-8 text-green-600" />
+            </div>
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {subscription.usage.usersActive}
             </div>
-            <div className="text-gray-400 text-sm">Active Users</div>
+            <div className="text-gray-600 text-sm font-medium">Active Users</div>
           </div>
-          
-          <div className="text-center">
-            <TrendingUp className="w-8 h-8 text-orange-400 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-white">
+
+          <div className="text-center p-4 bg-purple-50 rounded-xl">
+            <div className="p-3 bg-purple-100 rounded-xl w-fit mx-auto mb-3">
+              <TrendingUp className="w-8 h-8 text-purple-600" />
+            </div>
+            <div className="text-2xl font-bold text-gray-900 mb-1">
               {subscription.usage.hiresThisMonth}
             </div>
-            <div className="text-gray-400 text-sm">Successful Hires</div>
+            <div className="text-gray-600 text-sm font-medium">Successful Hires</div>
           </div>
         </div>
       </div>
 
       {/* Recent Billing */}
-      <div className="bg-gray-900 p-6 rounded-xl border border-gray-700">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-xl font-bold text-white">Recent Billing</h3>
-          <button className="text-orange-400 hover:text-orange-300 flex items-center">
-            <Download className="w-4 h-4 mr-1" />
+      <div className="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-xl font-bold text-gray-900">Recent Billing</h3>
+          <button className="text-blue-600 hover:text-blue-700 flex items-center font-medium">
+            <Download className="w-4 h-4 mr-2" />
             Download All
           </button>
         </div>
@@ -616,18 +628,18 @@ export default function SubscriptionManager() {
         {billingHistory.length > 0 ? (
           <div className="space-y-3">
             {billingHistory.slice(0, 5).map((bill) => (
-              <div key={bill._id} className="flex items-center justify-between p-3 bg-gray-800 rounded-lg">
+              <div key={bill._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
                 <div className="flex-1">
-                  <div className="text-white font-medium">{bill.description}</div>
-                  <div className="text-gray-400 text-sm">
+                  <div className="text-gray-900 font-medium mb-1">{bill.description}</div>
+                  <div className="text-gray-600 text-sm">
                     {formatDate(bill.createdAt)} • Due: {formatDate(bill.dueDate)}
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-white font-semibold">
+                  <div className="text-gray-900 font-semibold mb-1">
                     {formatCurrency(bill.amount)}
                   </div>
-                  <div className={`text-xs px-2 py-1 rounded ${getBillingStatusColor(bill.status)}`}>
+                  <div className={`text-xs px-3 py-1 rounded-full font-medium ${getBillingStatusColor(bill.status)}`}>
                     {bill.status}
                   </div>
                 </div>
@@ -635,8 +647,12 @@ export default function SubscriptionManager() {
             ))}
           </div>
         ) : (
-          <div className="text-center text-gray-400 py-8">
-            No billing history yet
+          <div className="text-center text-gray-600 py-8">
+            <div className="text-gray-400 mb-2">
+              <Calendar className="w-12 h-12 mx-auto mb-3" />
+            </div>
+            <h4 className="font-medium text-gray-900 mb-1">No billing history yet</h4>
+            <p className="text-sm">Your invoices and payment history will appear here</p>
           </div>
         )}
       </div>
