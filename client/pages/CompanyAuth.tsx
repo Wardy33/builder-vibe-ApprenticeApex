@@ -263,7 +263,7 @@ export function CompanySignUpForm() {
             {/* Step 2: Contact Information */}
             {currentStep === 2 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black mb-6">Contact Information</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Contact Information</h2>
                 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
@@ -331,7 +331,7 @@ export function CompanySignUpForm() {
             {/* Step 3: Address */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black mb-6">Company Address</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Company Address</h2>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -382,7 +382,7 @@ export function CompanySignUpForm() {
             {/* Step 4: Account Setup */}
             {currentStep === 4 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black mb-6">Account Security</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Account Security</h2>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-300 mb-2">
@@ -433,7 +433,7 @@ export function CompanySignUpForm() {
             {/* Step 5: Agreements */}
             {currentStep === 5 && (
               <div className="space-y-6">
-                <h2 className="text-2xl font-bold text-black mb-6">Legal Agreements</h2>
+                <h2 className="text-2xl font-bold text-white mb-6">Legal Agreements</h2>
                 <p className="text-gray-600 mb-6">
                   Please review and accept the following agreements to complete your registration:
                 </p>
