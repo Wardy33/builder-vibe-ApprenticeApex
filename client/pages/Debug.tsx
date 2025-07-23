@@ -36,21 +36,21 @@ export default function Debug() {
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Signup</h3>
-              <p className="text-sm text-gray-600">Test enhanced registration flow</p>
+              <p className="text-sm text-gray-300">Test enhanced registration flow</p>
             </Link>
             <Link
               to="/student/signin"
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Login</h3>
-              <p className="text-sm text-gray-600">Test authentication system</p>
+              <p className="text-sm text-gray-300">Test authentication system</p>
             </Link>
             <Link
               to="/company"
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
               <h3 className="font-semibold text-white">Company Portal</h3>
-              <p className="text-sm text-gray-600">Mobile-optimized dashboard</p>
+              <p className="text-sm text-gray-300">Mobile-optimized dashboard</p>
             </Link>
           </div>
         </div>
@@ -61,11 +61,11 @@ export default function Debug() {
           <div className="space-y-3">
             <div>
               <h3 className="font-semibold text-gray-700">Backend URL</h3>
-              <p className="text-sm text-gray-600">http://localhost:8080</p>
+              <p className="text-sm text-gray-300">http://localhost:8080</p>
             </div>
             <div>
               <h3 className="font-semibold text-gray-700">Key Endpoints</h3>
-              <ul className="text-sm text-gray-600 space-y-1">
+              <ul className="text-sm text-gray-300 space-y-1">
                 <li>
                   <code className="bg-gray-100 px-1 py-0.5 rounded">GET /api/ping</code> - Health check
                 </li>
@@ -92,7 +92,7 @@ export default function Debug() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-gray-700 mb-2">Ready for Integration</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-gray-300">
                 <li className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-green-500 rounded-full"></span>
                   Stripe (Payments) - API keys needed
@@ -113,7 +113,7 @@ export default function Debug() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-700 mb-2">Implementation Notes</h3>
-              <ul className="space-y-2 text-sm text-gray-600">
+              <ul className="space-y-2 text-sm text-gray-300">
                 <li>• All API clients pre-configured</li>
                 <li>• Error handling & retry logic implemented</li>
                 <li>• Mobile-responsive design completed</li>
