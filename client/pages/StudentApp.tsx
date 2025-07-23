@@ -1198,7 +1198,7 @@ function ApprenticeshipInfoPage() {
           <h3 className="text-lg font-semibold text-white mb-3">
             About this role
           </h3>
-          <p className="text-gray-700 leading-relaxed">
+          <p className="text-gray-300 leading-relaxed">
             {apprenticeshipInfo.description}
           </p>
         </div>
