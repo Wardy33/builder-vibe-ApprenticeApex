@@ -1479,7 +1479,7 @@ function ChatPage() {
           <button
             onClick={handleSendMessage}
             disabled={!message.trim() || !canSendMessage()}
-            className="bg-orange text-white p-2 rounded-lg hover:bg-orange/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white p-2 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/20"
           >
             <MessageCircle className="h-5 w-5" />
           </button>
