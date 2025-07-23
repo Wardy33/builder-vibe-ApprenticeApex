@@ -1134,6 +1134,41 @@ function ApplicationsPage() {
     );
   };
 
+  const handleScheduleInterview = (applicationId: string) => {
+    setShowScheduleModal(applicationId);
+    // Reset form
+    setInterviewDetails({
+      date: '',
+      time: '',
+      type: 'video',
+      duration: '30'
+    });
+  };
+
+  const confirmScheduleInterview = () => {
+    if (!interviewDetails.date || !interviewDetails.time) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    // Update application status to interview
+    updateApplicationStatus(showScheduleModal!, 'interview');
+
+    // Here you would also send the interview details to your backend
+    console.log('Scheduling interview:', {
+      applicationId: showScheduleModal,
+      ...interviewDetails
+    });
+
+    alert(`Interview scheduled successfully for ${interviewDetails.date} at ${interviewDetails.time}`);
+    setShowScheduleModal(null);
+  };
+
+  const handleMessageCandidate = (applicationId: string) => {
+    // Navigate to messages page with this candidate
+    navigate(`/company/messages/${applicationId}`);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
