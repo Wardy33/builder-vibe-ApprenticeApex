@@ -2709,7 +2709,7 @@ function EditSkillsPreferencesPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
           Save Changes
         </button>
