@@ -1503,7 +1503,7 @@ function ChatPage() {
                 : "Waiting for company response..."
             }
             disabled={!canSendMessage()}
-            className="flex-1 px-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange disabled:bg-gray-900/40 disabled:text-gray-500 disabled:cursor-not-allowed backdrop-blur-sm transition-all duration-200"
+            className="flex-1 px-4 py-2 bg-white/90 border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
           />
           <button
             onClick={handleSendMessage}
