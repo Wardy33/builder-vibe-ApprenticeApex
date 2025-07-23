@@ -655,11 +655,11 @@ function HomePage() {
                     </h3>
                     <p className="text-white/90 text-sm font-semibold">{interview.company}</p>
                     <div className="flex items-center space-x-3 mt-1">
-                      <div className="flex items-center text-gray-600 text-xs">
+                      <div className="flex items-center text-white/80 text-xs font-medium">
                         <Calendar className="h-3 w-3 mr-1" />
                         {interview.date} at {interview.time}
                       </div>
-                      <div className="flex items-center text-gray-600 text-xs">
+                      <div className="flex items-center text-white/80 text-xs font-medium">
                         <Video className="h-3 w-3 mr-1" />
                         {interview.type}
                       </div>
