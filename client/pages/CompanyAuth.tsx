@@ -137,7 +137,7 @@ export function CompanySignUpForm() {
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 mx-auto mb-4 text-orange-400" />
-            <h1 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">Join ApprenticeApex</h1>
+            <h1 className="text-3xl font-bold mb-2 text-cyan-400 drop-shadow-lg">Join ApprenticeApex</h1>
             <p className="text-gray-300">Start your 60-day risk-free trial today</p>
           </div>
 
