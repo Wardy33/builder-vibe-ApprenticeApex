@@ -950,11 +950,11 @@ function MatchesPage() {
                 className="w-16 h-16 rounded-lg object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-gray-800 font-semibold">
+                <h3 className="text-white font-bold drop-shadow-lg">
                   {match.jobTitle}
                 </h3>
-                <p className="text-gray-600">{match.company}</p>
-                <p className="text-sm text-gray-500">{match.matchDate}</p>
+                <p className="text-white/90 font-semibold">{match.company}</p>
+                <p className="text-sm text-white/80 font-medium">{match.matchDate}</p>
               </div>
               <div className="flex flex-col gap-2">
                 {match.status === "new" && (
