@@ -615,7 +615,7 @@ function HomePage() {
       {/* Upcoming Interviews */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
             Upcoming Interviews
           </h2>
           <Link
