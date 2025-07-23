@@ -2725,14 +2725,54 @@ function ChangePasswordPage() {
     new: "",
     confirm: ""
   });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
 
-  const handleSave = () => {
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!passwords.current) {
+      newErrors.current = 'Current password is required';
+    }
+
+    if (!passwords.new) {
+      newErrors.new = 'New password is required';
+    } else if (passwords.new.length < 8) {
+      newErrors.new = 'Password must be at least 8 characters';
+    }
+
     if (passwords.new !== passwords.confirm) {
-      alert("New passwords don't match!");
+      newErrors.confirm = "Passwords don't match";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) {
       return;
     }
-    console.log('Changing password');
-    navigate(-1);
+
+    setLoading(true);
+    try {
+      // In real app, would validate current password and update
+      // For demo, just simulate the API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      // Store a flag that password was changed
+      localStorage.setItem('studentProfile_passwordChanged', new Date().toISOString());
+
+      setSuccess(true);
+      setTimeout(() => {
+        navigate(-1);
+      }, 2000);
+    } catch (error) {
+      alert('Failed to change password. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -2755,29 +2795,52 @@ function ChangePasswordPage() {
             <input
               type="password"
               value={passwords.current}
-              onChange={(e) => setPasswords({...passwords, current: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setPasswords({...passwords, current: e.target.value});
+                if (errors.current) setErrors({...errors, current: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.current ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.current && <p className="text-red-500 text-sm mt-1">{errors.current}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-black mb-2">New Password</label>
             <input
               type="password"
               value={passwords.new}
-              onChange={(e) => setPasswords({...passwords, new: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setPasswords({...passwords, new: e.target.value});
+                if (errors.new) setErrors({...errors, new: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.new ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.new && <p className="text-red-500 text-sm mt-1">{errors.new}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-black mb-2">Confirm New Password</label>
             <input
               type="password"
               value={passwords.confirm}
-              onChange={(e) => setPasswords({...passwords, confirm: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setPasswords({...passwords, confirm: e.target.value});
+                if (errors.confirm) setErrors({...errors, confirm: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.confirm ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.confirm && <p className="text-red-500 text-sm mt-1">{errors.confirm}</p>}
           </div>
         </div>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
+            Password changed successfully!
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3">
@@ -2789,9 +2852,10 @@ function ChangePasswordPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          disabled={loading}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          Change Password
+          {loading ? 'Changing...' : success ? 'Changed!' : 'Change Password'}
         </button>
       </div>
     </div>
