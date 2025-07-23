@@ -180,22 +180,195 @@ export default function SubscriptionManager() {
     );
   }
 
+  const subscriptionPlans = [
+    {
+      id: 'trial',
+      name: 'Free Trial',
+      price: '£0',
+      period: '60 days',
+      description: 'Risk-free trial with full access',
+      features: [
+        'Post unlimited jobs',
+        'Access to all candidates',
+        'Basic analytics',
+        'Email support',
+        'Pay only £399 per successful hire'
+      ],
+      buttonText: 'Start Free Trial',
+      buttonColor: 'bg-green-600 hover:bg-green-700',
+      popular: false,
+      action: startTrial
+    },
+    {
+      id: 'starter',
+      name: 'Starter',
+      price: '£49',
+      period: 'month',
+      description: 'Perfect for small businesses',
+      features: [
+        'Up to 5 job postings per month',
+        'Access to verified candidates',
+        'Basic analytics & reporting',
+        'Email support',
+        '12% success fee per hire'
+      ],
+      buttonText: 'Choose Starter',
+      buttonColor: 'bg-blue-600 hover:bg-blue-700',
+      popular: false,
+      stripeLink: 'https://buy.stripe.com/test_starter_plan'
+    },
+    {
+      id: 'professional',
+      name: 'Professional',
+      price: '£99',
+      period: 'month',
+      description: 'Most popular for growing teams',
+      features: [
+        'Up to 15 job postings per month',
+        'Priority candidate matching',
+        'Advanced analytics & insights',
+        'Phone & email support',
+        '10% success fee per hire',
+        'Custom branding'
+      ],
+      buttonText: 'Choose Professional',
+      buttonColor: 'bg-orange-600 hover:bg-orange-700',
+      popular: true,
+      stripeLink: 'https://buy.stripe.com/test_professional_plan'
+    },
+    {
+      id: 'business',
+      name: 'Business',
+      price: '£199',
+      period: 'month',
+      description: 'For established enterprises',
+      features: [
+        'Unlimited job postings',
+        'Dedicated account manager',
+        'Custom integrations',
+        'Priority support',
+        '8% success fee per hire',
+        'Advanced reporting',
+        'Multi-user access'
+      ],
+      buttonText: 'Choose Business',
+      buttonColor: 'bg-purple-600 hover:bg-purple-700',
+      popular: false,
+      stripeLink: 'https://buy.stripe.com/test_business_plan'
+    },
+    {
+      id: 'enterprise',
+      name: 'Enterprise',
+      price: 'Custom',
+      period: '',
+      description: 'Tailored for large organizations',
+      features: [
+        'Everything in Business',
+        'Custom pricing',
+        'API access',
+        'White-label solution',
+        'Negotiable success fees',
+        'Dedicated support team',
+        'SLA guarantees'
+      ],
+      buttonText: 'Contact Sales',
+      buttonColor: 'bg-gray-600 hover:bg-gray-700',
+      popular: false,
+      action: () => window.open('mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry', '_blank')
+    }
+  ];
+
+  const handlePlanSelection = (plan: any) => {
+    if (plan.action) {
+      plan.action();
+    } else if (plan.stripeLink) {
+      // In a real implementation, this would be a proper Stripe Checkout URL
+      // For demo, we'll show an alert and open a placeholder
+      if (confirm(`Redirect to Stripe to purchase ${plan.name} plan for ${plan.price}/${plan.period}?`)) {
+        // This would be the actual Stripe checkout URL
+        window.open(plan.stripeLink, '_blank');
+      }
+    }
+  };
+
   if (!subscriptionData) {
     return (
-      <div className="bg-gray-900 p-8 rounded-xl border border-gray-700">
+      <div className="space-y-8">
+        {/* Header */}
         <div className="text-center">
-          <Briefcase className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-bold text-white mb-4">Start Your Journey</h3>
-          <p className="text-gray-400 mb-6">
-            Begin with our 60-day risk-free trial. No monthly fees, no setup costs.
-            Only pay £399 when you successfully hire an apprentice.
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Start with our risk-free trial or choose a plan that fits your hiring needs.
+            All plans include access to our complete platform and candidate network.
           </p>
-          <button
-            onClick={startTrial}
-            className="px-6 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
-          >
-            Start Free Trial
-          </button>
+        </div>
+
+        {/* Pricing Cards */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+          {subscriptionPlans.map((plan) => (
+            <div
+              key={plan.id}
+              className={`relative bg-white rounded-2xl border-2 p-6 shadow-sm hover:shadow-md transition-all duration-200 ${
+                plan.popular ? 'border-orange-500 shadow-orange-100' : 'border-gray-200'
+              }`}
+            >
+              {plan.popular && (
+                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                  <span className="bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                    Most Popular
+                  </span>
+                </div>
+              )}
+
+              <div className="text-center mb-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-2">{plan.name}</h3>
+                <div className="mb-2">
+                  <span className="text-3xl font-bold text-gray-900">{plan.price}</span>
+                  {plan.period && <span className="text-gray-600">/{plan.period}</span>}
+                </div>
+                <p className="text-gray-600 text-sm">{plan.description}</p>
+              </div>
+
+              <ul className="space-y-3 mb-8">
+                {plan.features.map((feature, index) => (
+                  <li key={index} className="flex items-start space-x-2">
+                    <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700 text-sm">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <button
+                onClick={() => handlePlanSelection(plan)}
+                className={`w-full py-3 px-4 rounded-xl font-semibold text-white transition-colors ${plan.buttonColor}`}
+              >
+                {plan.buttonText}
+              </button>
+            </div>
+          ))}
+        </div>
+
+        {/* FAQ Section */}
+        <div className="bg-gray-50 rounded-2xl p-8">
+          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">Frequently Asked Questions</h3>
+          <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-2">What's included in the free trial?</h4>
+              <p className="text-gray-600 text-sm">Full access to our platform for 60 days. No monthly fees - only pay £399 when you successfully hire.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-2">Can I change plans anytime?</h4>
+              <p className="text-gray-600 text-sm">Yes, you can upgrade or downgrade your plan at any time. Changes take effect on your next billing cycle.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-2">What payment methods do you accept?</h4>
+              <p className="text-gray-600 text-sm">We accept all major credit cards, debit cards, and bank transfers through our secure Stripe integration.</p>
+            </div>
+            <div>
+              <h4 className="font-semibold text-gray-900 mb-2">Is there a setup fee?</h4>
+              <p className="text-gray-600 text-sm">No setup fees ever. Start immediately with your chosen plan.</p>
+            </div>
+          </div>
         </div>
       </div>
     );
