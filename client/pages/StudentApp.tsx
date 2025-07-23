@@ -271,18 +271,18 @@ function SwipeCard({
           </div>
         </div>
 
-        {/* Swipe indicators */}
+        {/* Modern Swipe indicators */}
         {dragDistance > 50 && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 text-black px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
-              INTERESTED
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+            <div className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse shadow-lg">
+              ❤️ LIKE
             </div>
           </div>
         )}
         {dragDistance < -50 && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-black px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
-              PASS
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+            <div className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse shadow-lg">
+              ✕ PASS
             </div>
           </div>
         )}
