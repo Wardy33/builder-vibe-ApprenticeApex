@@ -3324,8 +3324,8 @@ function DataStoragePage() {
         </button>
         <h1 className="text-2xl font-bold text-black">Data & Storage</h1>
       </div>
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <p className="text-black">Data and storage management will be available soon.</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <p className="text-gray-900">Data and storage management will be available soon.</p>
       </div>
     </div>
   );
@@ -3408,7 +3408,7 @@ function DownloadDataPage() {
               <li>• Profile information (bio, contact details, skills)</li>
               <li>• Privacy and notification settings</li>
               <li>• Account metadata and preferences</li>
-              <li>• Application history and activity data</li>
+              <li>�� Application history and activity data</li>
             </ul>
           </div>
 
