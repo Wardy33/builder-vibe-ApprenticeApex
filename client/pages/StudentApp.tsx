@@ -1619,7 +1619,7 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-[#EF4444]/60 border border-[#EF4444]/80 hover:bg-[#EF4444]/70 text-white py-3 px-4 rounded-lg flex items-center justify-between transition-all duration-200 backdrop-blur-sm hover:scale-102 shadow-lg shadow-[#EF4444]/40 hover:shadow-[#EF4444]/60">
+          <button className="w-full bg-[#EF4444]/60 border border-[#EF4444]/80 text-white py-3 px-4 rounded-lg flex items-center justify-between backdrop-blur-sm shadow-lg shadow-[#EF4444]/40">
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
