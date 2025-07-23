@@ -970,76 +970,89 @@ function MatchesPage() {
   ];
 
   return (
-    <div className="p-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-black mb-2">Your Matches</h2>
-        <p className="text-gray-300">
+    <div className="bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white px-6 py-6 border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Your Matches</h2>
+        <p className="text-gray-600">
           Companies that are interested in your profile
         </p>
       </div>
 
-      {mockMatches.length === 0 ? (
-        <div className="text-center py-12">
-          <Star className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-black mb-2">
-            No matches yet
-          </h3>
-          <p className="text-gray-300 mb-6">
-            Keep swiping to find your perfect apprenticeship!
-          </p>
-          <Link
-            to="/student/jobs"
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
-          >
-            Start Swiping
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          {mockMatches.map((match) => (
-            <div
-              key={match.id}
-              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
-            >
-              <img
-                src={match.image}
-                alt={match.jobTitle}
-                className="w-16 h-16 rounded-lg object-cover"
-              />
-              <div className="flex-1">
-                <h3 className="text-black font-bold ">
-                  {match.jobTitle}
-                </h3>
-                <p className="text-black/90 font-semibold">{match.company}</p>
-                <p className="text-sm text-black/80 font-medium">{match.matchDate}</p>
-              </div>
-              <div className="flex flex-col gap-2">
-                {match.status === "new" && (
-                  <span className="bg-yellow-400 text-gray-900 text-xs px-2 py-1 rounded-full font-bold">
-                    New
-                  </span>
-                )}
-                <button
-                  onClick={() =>
-                    navigate(`/student/apprenticeship-info/${match.id}`)
-                  }
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
-                >
-                  <Info className="h-4 w-4" />
-                  Info
-                </button>
-                <button
-                  onClick={() => navigate(`/student/chat/${match.id}`)}
-                  className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
-                >
-                  <MessageCircle className="h-4 w-4" />
-                  Message
-                </button>
-              </div>
+      <div className="px-6 py-4">
+        {mockMatches.length === 0 ? (
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Star className="h-8 w-8 text-gray-400" />
             </div>
-          ))}
-        </div>
-      )}
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No matches yet
+            </h3>
+            <p className="text-gray-600 text-sm mb-6">
+              Keep swiping to find your perfect apprenticeship!
+            </p>
+            <Link
+              to="/student/jobs"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-colors"
+            >
+              Start Swiping
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {mockMatches.map((match) => (
+              <div
+                key={match.id}
+                className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300"
+              >
+                <div className="flex items-start space-x-4">
+                  <img
+                    src={match.image}
+                    alt={match.jobTitle}
+                    className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between mb-2">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-base truncate">
+                          {match.jobTitle}
+                        </h3>
+                        <p className="text-gray-600 text-sm">{match.company}</p>
+                      </div>
+                      {match.status === "new" && (
+                        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">
+                          New
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-gray-500 mb-3">
+                      Matched {match.matchDate}
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() =>
+                          navigate(`/student/apprenticeship-info/${match.id}`)
+                        }
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                      >
+                        <Info className="h-4 w-4" />
+                        View Details
+                      </button>
+                      <button
+                        onClick={() => navigate(`/student/chat/${match.id}`)}
+                        className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2"
+                      >
+                        <MessageCircle className="h-4 w-4" />
+                        Message
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1069,63 +1082,72 @@ function MessagesPage() {
   ];
 
   return (
-    <div className="p-4">
-      <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-black mb-2">Messages</h2>
-        <p className="text-gray-300">Chat with companies</p>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Header */}
+      <div className="bg-white px-6 py-6 border-b border-gray-200">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Messages</h2>
+        <p className="text-gray-600">Chat with companies</p>
       </div>
 
-      {mockConversations.length === 0 ? (
-        <div className="text-center py-12">
-          <MessageCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-black mb-2">
-            No messages yet
-          </h3>
-          <p className="text-gray-300 mb-6">
-            Start matching with companies to begin conversations!
-          </p>
-          <Link
-            to="/student/jobs"
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
-          >
-            Find Matches
-          </Link>
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {mockConversations.map((conversation) => (
-            <div
-              key={conversation.id}
-              onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 cursor-pointer shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 group"
-            >
-              <img
-                src={conversation.avatar}
-                alt={conversation.company}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-black font-bold truncate ">
-                    {conversation.company}
-                  </h3>
-                  <span className="text-xs text-black/80 font-medium">
-                    {conversation.time}
-                  </span>
-                </div>
-                <p
-                  className={`text-sm truncate ${conversation.unread ? "text-black font-semibold" : "text-black/90 font-medium"}`}
-                >
-                  {conversation.lastMessage}
-                </p>
-              </div>
-              {conversation.unread && (
-                <div className="w-3 h-3 bg-yellow-400 rounded-full flex-shrink-0 shadow-lg" />
-              )}
+      <div className="px-6 py-4">
+        {mockConversations.length === 0 ? (
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MessageCircle className="h-8 w-8 text-gray-400" />
             </div>
-          ))}
-        </div>
-      )}
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No messages yet
+            </h3>
+            <p className="text-gray-600 text-sm mb-6">
+              Start matching with companies to begin conversations!
+            </p>
+            <Link
+              to="/student/jobs"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-colors"
+            >
+              Find Matches
+            </Link>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {mockConversations.map((conversation) => (
+              <div
+                key={conversation.id}
+                onClick={() => navigate(`/student/chat/${conversation.id}`)}
+                className="bg-white rounded-xl p-4 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300 cursor-pointer"
+              >
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={conversation.avatar}
+                    alt={conversation.company}
+                    className="w-12 h-12 rounded-full object-cover flex-shrink-0"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-1">
+                      <h3 className="font-semibold text-gray-900 truncate">
+                        {conversation.company}
+                      </h3>
+                      <div className="flex items-center space-x-2">
+                        <span className="text-xs text-gray-500">
+                          {conversation.time}
+                        </span>
+                        {conversation.unread && (
+                          <div className="w-2 h-2 bg-blue-600 rounded-full" />
+                        )}
+                      </div>
+                    </div>
+                    <p
+                      className={`text-sm truncate ${conversation.unread ? "text-gray-900 font-medium" : "text-gray-600"}`}
+                    >
+                      {conversation.lastMessage}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -1251,7 +1273,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Description */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h3 className="text-lg font-semibold text-black mb-3">
             About this role
           </h3>
@@ -1261,7 +1283,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Requirements */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h3 className="text-lg font-semibold text-black mb-3">
             Requirements
           </h3>
@@ -1276,7 +1298,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Responsibilities */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h3 className="text-lg font-semibold text-black mb-3">
             Your responsibilities
           </h3>
@@ -1291,7 +1313,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Benefits */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h3 className="text-lg font-semibold text-black mb-3">
             Benefits & Perks
           </h3>
@@ -1306,7 +1328,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Key Details */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <h3 className="text-lg font-semibold text-black mb-3">
             Key Details
           </h3>
@@ -1356,7 +1378,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Apply Button */}
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
+        <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
           <div className="text-center">
             {isApplicationClosed(apprenticeshipInfo.applicationDeadline) ? (
               <>
