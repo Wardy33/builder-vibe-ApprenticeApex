@@ -11,7 +11,14 @@ import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
-import { User } from "../models/User";
+// Conditional import to prevent model overwrite
+let User: any;
+try {
+  User = require("../models/User").User;
+} catch (error) {
+  // Model might not be available in mock mode
+  User = null;
+}
 import { Subscription } from "../models/Payment";
 
 const router = express.Router();
