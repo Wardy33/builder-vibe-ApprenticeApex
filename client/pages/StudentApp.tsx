@@ -522,34 +522,82 @@ function HomePage() {
   };
 
   return (
-    <div className="p-4 space-y-6">
-      {/* Welcome Header */}
-      <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
-          Welcome back, Sarah!
-        </h1>
-        <p className="text-black">
-          Here's your apprenticeship journey overview
-        </p>
-      </div>
+    <div className="bg-gray-50 min-h-screen">
+      {/* Modern Header Section */}
+      <div className="bg-white px-6 pt-8 pb-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+              Good morning, Sarah! 👋
+            </h1>
+            <p className="text-gray-600 text-sm">Ready to explore new opportunities?</p>
+          </div>
+          <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+            <User className="w-6 h-6 text-white" />
+          </div>
+        </div>
 
-      {/* Quick Stats */}
-      <div className="grid grid-cols-3 gap-4">
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black ">
-            {applications.length}
-          </h3>
-          <p className="text-sm text-black font-semibold">Active Applications</p>
+        {/* Progress Ring */}
+        <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">Profile Strength</h3>
+              <p className="text-gray-600 text-sm">Complete your profile to get better matches</p>
+            </div>
+            <div className="relative w-16 h-16">
+              <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+                <path
+                  className="text-gray-300"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+                <path
+                  className="text-blue-500"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeDasharray={`${profileScore}, 100`}
+                  fill="transparent"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                />
+              </svg>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-sm font-bold text-gray-900">{profileScore}%</span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black ">
-            {interviews.length}
-          </h3>
-          <p className="text-sm text-black font-semibold">Upcoming Interviews</p>
-        </div>
-        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black ">{profileScore}%</h3>
-          <p className="text-sm text-black font-semibold">Profile Score</p>
+
+        {/* Quick Stats Cards */}
+        <div className="grid grid-cols-3 gap-3">
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+            <div className="text-center">
+              <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <FileText className="w-4 h-4 text-green-600" />
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{applications.length}</p>
+              <p className="text-xs text-gray-600">Applications</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+            <div className="text-center">
+              <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <Calendar className="w-4 h-4 text-blue-600" />
+              </div>
+              <p className="text-2xl font-bold text-gray-900">{interviews.length}</p>
+              <p className="text-xs text-gray-600">Interviews</p>
+            </div>
+          </div>
+          <div className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
+            <div className="text-center">
+              <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mx-auto mb-2">
+                <Heart className="w-4 h-4 text-purple-600" />
+              </div>
+              <p className="text-2xl font-bold text-gray-900">5</p>
+              <p className="text-xs text-gray-600">Matches</p>
+            </div>
+          </div>
         </div>
       </div>
 
