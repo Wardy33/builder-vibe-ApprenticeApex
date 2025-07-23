@@ -2254,6 +2254,8 @@ export default function CompanyPortal() {
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/messages/:id" element={<CompanyChatPage />} />
               <Route path="/subscription" element={<SubscriptionPage />} />
+              <Route path="/settings" element={<CompanySettingsPage />} />
+              <Route path="/settings/profile" element={<CompanyProfileSettingsPage />} />
             </Routes>
           </CompanyPortalLayout>
         }
