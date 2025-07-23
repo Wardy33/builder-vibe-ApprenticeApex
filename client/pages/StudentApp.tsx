@@ -2865,6 +2865,39 @@ function ChangePasswordPage() {
 // Create placeholder pages for the remaining settings
 function PrivacySettingsPage() {
   const navigate = useNavigate();
+  const [settings, setSettings] = useState({
+    profileVisibility: 'public',
+    showLocation: true,
+    showEmail: false,
+    showPhone: false,
+    allowMessages: true,
+    allowInterviews: true,
+    dataSharing: false
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('studentPrivacy_settings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
+    }
+  }, []);
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      localStorage.setItem('studentPrivacy_settings', JSON.stringify(settings));
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      alert('Failed to save privacy settings. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
@@ -2873,8 +2906,165 @@ function PrivacySettingsPage() {
         </button>
         <h1 className="text-2xl font-bold text-black">Privacy Settings</h1>
       </div>
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <p className="text-black">Privacy settings configuration will be available soon.</p>
+
+      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Visibility</h3>
+          <div className="space-y-3">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="profileVisibility"
+                value="public"
+                checked={settings.profileVisibility === 'public'}
+                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                className="mr-3"
+              />
+              <div>
+                <span className="font-medium">Public</span>
+                <p className="text-sm text-gray-600">Your profile is visible to all employers</p>
+              </div>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="profileVisibility"
+                value="limited"
+                checked={settings.profileVisibility === 'limited'}
+                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                className="mr-3"
+              />
+              <div>
+                <span className="font-medium">Limited</span>
+                <p className="text-sm text-gray-600">Only matched employers can see your full profile</p>
+              </div>
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                name="profileVisibility"
+                value="private"
+                checked={settings.profileVisibility === 'private'}
+                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                className="mr-3"
+              />
+              <div>
+                <span className="font-medium">Private</span>
+                <p className="text-sm text-gray-600">Your profile is hidden from all employers</p>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+          <div className="space-y-3">
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Show Location</span>
+                <p className="text-sm text-gray-600">Allow employers to see your location</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.showLocation}
+                onChange={(e) => setSettings({...settings, showLocation: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Show Email</span>
+                <p className="text-sm text-gray-600">Allow employers to see your email address</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.showEmail}
+                onChange={(e) => setSettings({...settings, showEmail: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Show Phone</span>
+                <p className="text-sm text-gray-600">Allow employers to see your phone number</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.showPhone}
+                onChange={(e) => setSettings({...settings, showPhone: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Communication</h3>
+          <div className="space-y-3">
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Allow Messages</span>
+                <p className="text-sm text-gray-600">Let employers send you messages</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.allowMessages}
+                onChange={(e) => setSettings({...settings, allowMessages: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Allow Interview Requests</span>
+                <p className="text-sm text-gray-600">Let employers request interviews</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.allowInterviews}
+                onChange={(e) => setSettings({...settings, allowInterviews: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Usage</h3>
+          <label className="flex items-center justify-between">
+            <div>
+              <span className="font-medium">Data Sharing</span>
+              <p className="text-sm text-gray-600">Allow anonymized data to be used for research</p>
+            </div>
+            <input
+              type="checkbox"
+              checked={settings.dataSharing}
+              onChange={(e) => setSettings({...settings, dataSharing: e.target.checked})}
+              className="ml-3"
+            />
+          </label>
+        </div>
+
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            Privacy settings updated successfully!
+          </div>
+        )}
+
+        <div className="flex gap-3 pt-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          >
+            {loading ? 'Saving...' : success ? 'Saved!' : 'Save Settings'}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -2899,6 +3089,41 @@ function TwoFactorAuthPage() {
 
 function NotificationSettingsPage() {
   const navigate = useNavigate();
+  const [settings, setSettings] = useState({
+    pushNotifications: true,
+    emailNotifications: true,
+    smsNotifications: false,
+    newMatches: true,
+    newMessages: true,
+    interviewInvites: true,
+    applicationUpdates: true,
+    marketingEmails: false,
+    weeklyDigest: true
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const savedSettings = localStorage.getItem('studentNotification_settings');
+    if (savedSettings) {
+      setSettings(JSON.parse(savedSettings));
+    }
+  }, []);
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      localStorage.setItem('studentNotification_settings', JSON.stringify(settings));
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      alert('Failed to save notification settings. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
@@ -2907,8 +3132,149 @@ function NotificationSettingsPage() {
         </button>
         <h1 className="text-2xl font-bold text-black">Notification Settings</h1>
       </div>
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <p className="text-black">Notification preferences will be available soon.</p>
+
+      <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-6">
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Methods</h3>
+          <div className="space-y-3">
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Push Notifications</span>
+                <p className="text-sm text-gray-600">Receive notifications in the app</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.pushNotifications}
+                onChange={(e) => setSettings({...settings, pushNotifications: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Email Notifications</span>
+                <p className="text-sm text-gray-600">Receive notifications via email</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.emailNotifications}
+                onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">SMS Notifications</span>
+                <p className="text-sm text-gray-600">Receive important updates via text</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.smsNotifications}
+                onChange={(e) => setSettings({...settings, smsNotifications: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Types</h3>
+          <div className="space-y-3">
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">New Matches</span>
+                <p className="text-sm text-gray-600">When employers are interested in your profile</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.newMatches}
+                onChange={(e) => setSettings({...settings, newMatches: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">New Messages</span>
+                <p className="text-sm text-gray-600">When employers send you messages</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.newMessages}
+                onChange={(e) => setSettings({...settings, newMessages: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Interview Invites</span>
+                <p className="text-sm text-gray-600">When employers invite you for interviews</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.interviewInvites}
+                onChange={(e) => setSettings({...settings, interviewInvites: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Application Updates</span>
+                <p className="text-sm text-gray-600">Updates on your job applications</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.applicationUpdates}
+                onChange={(e) => setSettings({...settings, applicationUpdates: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Weekly Digest</span>
+                <p className="text-sm text-gray-600">Weekly summary of your activity</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.weeklyDigest}
+                onChange={(e) => setSettings({...settings, weeklyDigest: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+            <label className="flex items-center justify-between">
+              <div>
+                <span className="font-medium">Marketing Emails</span>
+                <p className="text-sm text-gray-600">Tips and career advice emails</p>
+              </div>
+              <input
+                type="checkbox"
+                checked={settings.marketingEmails}
+                onChange={(e) => setSettings({...settings, marketingEmails: e.target.checked})}
+                className="ml-3"
+              />
+            </label>
+          </div>
+        </div>
+
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+            Notification settings updated successfully!
+          </div>
+        )}
+
+        <div className="flex gap-3 pt-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          >
+            {loading ? 'Saving...' : success ? 'Saved!' : 'Save Settings'}
+          </button>
+        </div>
       </div>
     </div>
   );
