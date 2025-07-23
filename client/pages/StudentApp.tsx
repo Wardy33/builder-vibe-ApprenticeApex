@@ -1568,7 +1568,7 @@ function ProfilePage() {
             </div>
             <div className="space-y-2">
               <div className="flex items-center text-gray-300 text-sm">
-                <Mail className="h-4 w-4 mr-2 text-cyan-400" />
+                <Mail className="h-5 w-5 mr-3 text-cyan-400" />
                 {mockProfile.email}
               </div>
               <div className="flex items-center text-gray-300 text-sm">
