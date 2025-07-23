@@ -873,6 +873,17 @@ function JobListingsPage() {
   const filterRef = useRef<HTMLDivElement>(null);
   const subscriptionLimits = useSubscriptionLimits();
 
+  // Form state for creating/editing listings
+  const [formData, setFormData] = useState({
+    title: '',
+    location: '',
+    type: 'full-time' as 'full-time' | 'part-time' | 'contract',
+    salary: '',
+    description: '',
+    requirements: [''],
+    closingDate: ''
+  });
+
   // Close filter dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -928,7 +939,101 @@ function JobListingsPage() {
       return;
     }
 
+    // Reset form and open create modal
+    setFormData({
+      title: '',
+      location: '',
+      type: 'full-time',
+      salary: '',
+      description: '',
+      requirements: [''],
+      closingDate: ''
+    });
     setIsCreating(true);
+  };
+
+  const handleEditListing = (listing: JobListing) => {
+    if (listing.status === 'active') {
+      alert('Cannot edit an active job listing. Please pause it first.');
+      return;
+    }
+
+    setFormData({
+      title: listing.title,
+      location: listing.location,
+      type: listing.type,
+      salary: listing.salary,
+      description: listing.description,
+      requirements: listing.requirements,
+      closingDate: listing.closingDate
+    });
+    setEditingId(listing.id);
+  };
+
+  const handleSaveListing = () => {
+    // Validate form
+    if (!formData.title || !formData.location || !formData.salary || !formData.description || !formData.closingDate) {
+      alert('Please fill in all required fields');
+      return;
+    }
+
+    if (formData.requirements.some(req => !req.trim())) {
+      alert('Please fill in all requirements or remove empty ones');
+      return;
+    }
+
+    const listingData = {
+      ...formData,
+      company: 'TechCorp Ltd', // In real app, get from user context
+      postedDate: new Date().toISOString().split('T')[0],
+      applications: 0,
+      status: 'active' as const
+    };
+
+    if (editingId) {
+      // Update existing listing
+      setListings(prev =>
+        prev.map(listing =>
+          listing.id === editingId
+            ? { ...listing, ...listingData }
+            : listing
+        )
+      );
+      setEditingId(null);
+      alert('Job listing updated successfully!');
+    } else {
+      // Create new listing
+      const newListing = {
+        id: `listing_${Date.now()}`,
+        ...listingData
+      };
+      setListings(prev => [newListing, ...prev]);
+      setIsCreating(false);
+      alert('Job listing created successfully!');
+    }
+  };
+
+  const addRequirement = () => {
+    setFormData(prev => ({
+      ...prev,
+      requirements: [...prev.requirements, '']
+    }));
+  };
+
+  const updateRequirement = (index: number, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      requirements: prev.requirements.map((req, i) => i === index ? value : req)
+    }));
+  };
+
+  const removeRequirement = (index: number) => {
+    if (formData.requirements.length > 1) {
+      setFormData(prev => ({
+        ...prev,
+        requirements: prev.requirements.filter((_, i) => i !== index)
+      }));
+    }
   };
 
   const handleStartTrial = async () => {
@@ -1072,13 +1177,7 @@ function JobListingsPage() {
                       {listing.status === "active" ? "Pause" : "Activate"}
                     </button>
                     <button
-                      onClick={() => {
-                        if (listing.status === 'active') {
-                          alert('Cannot edit an active job listing. Please pause it first.');
-                          return;
-                        }
-                        setEditingId(listing.id);
-                      }}
+                      onClick={() => handleEditListing(listing)}
                       disabled={listing.status === 'active'}
                       className={`p-2 rounded-xl transition-colors ${
                         listing.status === 'active'
