@@ -49,7 +49,7 @@ export function WebHeader() {
                     className="block px-4 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
                     onClick={() => setIsDropdownOpen(false)}
                   >
-                    Sign Up 🚀
+                    Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
