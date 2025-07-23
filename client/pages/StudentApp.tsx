@@ -513,7 +513,7 @@ function HomePage() {
     <div className="p-4 space-y-6">
       {/* Welcome Header */}
       <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-white mb-2">
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
           Welcome back, Sarah!
         </h1>
         <p className="text-gray-300">
