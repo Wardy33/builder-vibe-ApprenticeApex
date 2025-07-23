@@ -605,8 +605,13 @@ function HomePage() {
                     <p className="text-white/80 text-xs font-medium">
                       Applied {application.appliedDate}
                     </p>
-                    <p className="text-white/70 text-xs">
-                      Closes: {new Date(application.closingDate).toLocaleDateString()}
+                    <p className={`text-xs font-medium ${isApplicationClosed(application.closingDate)
+                      ? 'text-red-300 font-bold'
+                      : 'text-white/70'}`}>
+                      {isApplicationClosed(application.closingDate)
+                        ? `Closed: ${new Date(application.closingDate).toLocaleDateString()}`
+                        : `Closes: ${new Date(application.closingDate).toLocaleDateString()}`
+                      }
                     </p>
                   </div>
                   <div className="flex flex-col items-end space-y-2">
