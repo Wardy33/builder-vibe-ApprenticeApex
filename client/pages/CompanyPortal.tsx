@@ -284,7 +284,7 @@ function Dashboard() {
               <p className="text-gray-600 text-xs sm:text-sm">
                 Active Listings
               </p>
-              <p className="text-2xl sm:text-3xl font-bold text-gray-900">12</p>
+              <p className="text-2xl sm:text-3xl font-bold text-white">12</p>
             </div>
             <Building2 className="h-6 w-6 sm:h-8 sm:w-8 text-orange" />
           </div>
@@ -297,7 +297,7 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Total Applications</p>
-              <p className="text-3xl font-bold text-gray-900">247</p>
+              <p className="text-3xl font-bold text-white">247</p>
             </div>
             <Users className="h-8 w-8 text-orange" />
           </div>
@@ -310,7 +310,7 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Interviews Scheduled</p>
-              <p className="text-3xl font-bold text-gray-900">8</p>
+              <p className="text-3xl font-bold text-white">8</p>
             </div>
             <Video className="h-8 w-8 text-orange" />
           </div>
@@ -323,7 +323,7 @@ function Dashboard() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-600 text-sm">Match Rate</p>
-              <p className="text-3xl font-bold text-gray-900">78%</p>
+              <p className="text-3xl font-bold text-white">78%</p>
             </div>
             <BarChart3 className="h-8 w-8 text-orange" />
           </div>
@@ -337,7 +337,7 @@ function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Applications Chart */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">
+          <h3 className="text-lg sm:text-xl font-bold text-white mb-4">
             Applications This Month
           </h3>
           <div className="h-48 sm:h-64 flex items-end justify-between space-x-1 sm:space-x-2">
@@ -357,7 +357,7 @@ function Dashboard() {
 
         {/* Industry Breakdown */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-xl font-bold text-gray-900 mb-4">
+          <h3 className="text-xl font-bold text-white mb-4">
             Applications by Industry
           </h3>
           <div className="space-y-4">
@@ -389,7 +389,7 @@ function Dashboard() {
       {/* Recent Applications */}
       <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 sm:p-6 shadow-sm">
         <div className="flex items-center justify-between mb-4 sm:mb-6">
-          <h3 className="text-lg sm:text-xl font-bold text-gray-900">
+          <h3 className="text-lg sm:text-xl font-bold text-white">
             Recent Applications
           </h3>
           <Link
@@ -406,7 +406,7 @@ function Dashboard() {
               className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-gray-100"
             >
               <div>
-                <h4 className="font-semibold text-gray-900">
+                <h4 className="font-semibold text-white">
                   {application.candidateName}
                 </h4>
                 <p className="text-gray-600 text-sm">{application.jobTitle}</p>
@@ -508,7 +508,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         {showNotifications && (
           <div className="absolute top-full right-4 mt-2 w-80 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="font-semibold text-gray-900">Notifications</h3>
+              <h3 className="font-semibold text-white">Notifications</h3>
               <div className="flex items-center space-x-2">
                 {unreadCount > 0 && (
                   <button
@@ -566,7 +566,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-gray-900">
+                        <p className="text-sm font-medium text-white">
                           {notification.title}
                         </p>
                         <p className="text-sm text-gray-600">
@@ -591,7 +591,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         {showSettings && (
           <div className="absolute top-full right-4 mt-2 w-64 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
             <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="font-semibold text-gray-900">Settings</h3>
+              <h3 className="font-semibold text-white">Settings</h3>
               <button
                 onClick={() => setShowSettings(false)}
                 className="text-gray-400 hover:text-gray-600"
@@ -668,7 +668,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
           <nav className="p-4 space-y-2">
             {/* Mobile close button */}
             <div className="lg:hidden flex justify-between items-center mb-4">
-              <span className="font-semibold text-gray-900">Menu</span>
+              <span className="font-semibold text-white">Menu</span>
               <button
                 onClick={() => setShowMobileSidebar(false)}
                 className="p-2 hover:bg-gray-200 rounded-lg touch-manipulation"
@@ -828,7 +828,7 @@ function JobListingsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Job Listings</h2>
+        <h2 className="text-2xl font-bold text-white">Job Listings</h2>
         <button
           onClick={handleCreateListing}
           disabled={subscriptionLimits.loading}
@@ -864,7 +864,7 @@ function JobListingsPage() {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-white">
                     {listing.title}
                   </h3>
                   <span
@@ -991,7 +991,7 @@ function ApplicationsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Applications</h2>
+        <h2 className="text-2xl font-bold text-white">Applications</h2>
         <div className="flex items-center space-x-4">
           <select
             value={statusFilter}
@@ -1028,7 +1028,7 @@ function ApplicationsPage() {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-white">
                     {application.candidateName}
                   </h3>
                   <span
@@ -1128,7 +1128,7 @@ function ApplicationsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-gray-900">
+              <h3 className="text-xl font-semibold text-white">
                 {selectedApplication.candidateName} -{" "}
                 {selectedApplication.jobTitle}
               </h3>
@@ -1142,7 +1142,7 @@ function ApplicationsPage() {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                  <h4 className="font-semibold text-white mb-2">
                     Contact Information
                   </h4>
                   <div className="space-y-2 text-sm">
@@ -1161,7 +1161,7 @@ function ApplicationsPage() {
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                  <h4 className="font-semibold text-white mb-2">
                     Application Details
                   </h4>
                   <div className="space-y-2 text-sm">
@@ -1182,7 +1182,7 @@ function ApplicationsPage() {
                 </div>
               </div>
               <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Skills</h4>
+                <h4 className="font-semibold text-white mb-2">Skills</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedApplication.skills?.map((skill, index) => (
                     <span
@@ -1255,7 +1255,7 @@ function InterviewsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Interviews</h2>
+        <h2 className="text-2xl font-bold text-white">Interviews</h2>
         <button className="bg-orange text-white px-4 py-2 rounded-lg hover:bg-orange/90 flex items-center space-x-2">
           <Plus className="h-5 w-5" />
           <span>Schedule Interview</span>
@@ -1294,7 +1294,7 @@ function InterviewsPage() {
             <div className="flex items-center justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-white">
                     {interview.candidateName}
                   </h3>
                   <span
@@ -1389,7 +1389,7 @@ function MessagesPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Messages</h2>
+      <h2 className="text-2xl font-bold text-white">Messages</h2>
 
       <div className="grid gap-4">
         {conversations.map((conversation) => (
@@ -1402,7 +1402,7 @@ function MessagesPage() {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center space-x-3 mb-2">
-                  <h3 className="text-lg font-semibold text-gray-900">
+                  <h3 className="text-lg font-semibold text-white">
                     {conversation.candidateName}
                   </h3>
                   {conversation.unread && (
@@ -1431,7 +1431,7 @@ function SubscriptionPage() {
   return (
     <div className="p-4 sm:p-6 max-w-7xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
           Subscription & Billing
         </h1>
         <p className="text-gray-600">
@@ -1485,7 +1485,7 @@ function ProfileSettingsPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Profile Settings</h2>
+        <h2 className="text-2xl font-bold text-white">Profile Settings</h2>
         {success && (
           <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
             <CheckCircle className="h-4 w-4" />
@@ -1495,7 +1495,7 @@ function ProfileSettingsPage() {
       </div>
 
       <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">Personal Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -1672,7 +1672,7 @@ function CompanyInformationPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Company Information</h2>
+        <h2 className="text-2xl font-bold text-white">Company Information</h2>
         {success && (
           <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
             <CheckCircle className="h-4 w-4" />
@@ -1682,7 +1682,7 @@ function CompanyInformationPage() {
       </div>
 
       <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Company Details</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">Company Details</h3>
 
         {/* Logo Upload */}
         <div className="mb-6">
@@ -1910,7 +1910,7 @@ function NotificationPreferencesPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-gray-900">Notification Preferences</h2>
+        <h2 className="text-2xl font-bold text-white">Notification Preferences</h2>
         {success && (
           <div className="flex items-center space-x-2 bg-green-100 text-green-700 px-3 py-2 rounded-lg">
             <CheckCircle className="h-4 w-4" />
@@ -1922,7 +1922,7 @@ function NotificationPreferencesPage() {
       <div className="space-y-6">
         {/* Email Notifications */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
             <Mail className="h-5 w-5" />
             <span>Email Notifications</span>
           </h3>
@@ -1930,7 +1930,7 @@ function NotificationPreferencesPage() {
             {Object.entries(preferences.emailNotifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-white">
                     {key === 'newApplications' ? 'New Applications' :
                      key === 'interviewReminders' ? 'Interview Reminders' :
                      key === 'messageReceived' ? 'Message Received' :
@@ -1961,7 +1961,7 @@ function NotificationPreferencesPage() {
 
         {/* Push Notifications */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
             <Bell className="h-5 w-5" />
             <span>Push Notifications</span>
           </h3>
@@ -1969,7 +1969,7 @@ function NotificationPreferencesPage() {
             {Object.entries(preferences.pushNotifications).map(([key, value]) => (
               <div key={key} className="flex items-center justify-between">
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="font-medium text-white">
                     {key === 'newApplications' ? 'New Applications' :
                      key === 'interviewReminders' ? 'Interview Reminders' :
                      key === 'messageReceived' ? 'Message Received' :
@@ -2073,7 +2073,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-xl font-semibold text-gray-900">Create New Job Listing</h3>
+          <h3 className="text-xl font-semibold text-white">Create New Job Listing</h3>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-gray-600"
@@ -2235,7 +2235,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
 function AccountBillingPage() {
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Account & Billing</h2>
+      <h2 className="text-2xl font-bold text-white">Account & Billing</h2>
       <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
         <p className="text-gray-600 mb-4">
           Manage your subscription, billing information, and payment methods.
@@ -2279,7 +2279,7 @@ function HelpSupportPage() {
 
   return (
     <div className="p-6 space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Help & Support</h2>
+      <h2 className="text-2xl font-bold text-white">Help & Support</h2>
 
       {success && (
         <div className="bg-green-100 text-green-700 p-4 rounded-lg flex items-center space-x-2">
@@ -2291,20 +2291,20 @@ function HelpSupportPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Quick Help */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Help</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">Quick Help</h3>
           <div className="space-y-4">
             <div className="border border-gray-200 rounded-lg p-4">
-              <h4 className="font-medium text-gray-900 mb-2">Getting Started</h4>
+              <h4 className="font-medium text-white mb-2">Getting Started</h4>
               <p className="text-sm text-gray-600 mb-2">Learn how to post your first job and manage applications.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
             <div className="border border-gray-200 rounded-lg p-4">
-              <h4 className="font-medium text-gray-900 mb-2">Billing & Subscriptions</h4>
+              <h4 className="font-medium text-white mb-2">Billing & Subscriptions</h4>
               <p className="text-sm text-gray-600 mb-2">Understand our pricing and manage your subscription.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
             <div className="border border-gray-200 rounded-lg p-4">
-              <h4 className="font-medium text-gray-900 mb-2">Managing Candidates</h4>
+              <h4 className="font-medium text-white mb-2">Managing Candidates</h4>
               <p className="text-sm text-gray-600 mb-2">Best practices for reviewing and interviewing candidates.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
@@ -2313,7 +2313,7 @@ function HelpSupportPage() {
 
         {/* Contact Support */}
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Support</h3>
+          <h3 className="text-lg font-semibold text-white mb-4">Contact Support</h3>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
