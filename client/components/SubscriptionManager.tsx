@@ -525,39 +525,73 @@ export default function SubscriptionManager() {
       {/* Upgrade Modal */}
       {showUpgradeModal && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-900 rounded-xl border border-gray-700 p-6 max-w-md w-full">
-            <h3 className="text-xl font-bold text-white mb-4">Upgrade Your Plan</h3>
-            
-            <div className="space-y-3 mb-6">
-              {['starter', 'professional', 'business'].map((plan) => (
-                <button
-                  key={plan}
-                  onClick={() => upgradePlan(plan)}
-                  className="w-full p-3 text-left bg-gray-800 hover:bg-gray-700 rounded-lg border border-gray-600 transition-colors"
+          <div className="bg-white rounded-xl p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">Upgrade Your Plan</h3>
+              <button
+                onClick={() => setShowUpgradeModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              {subscriptionPlans.filter(p => p.id !== 'trial').map((plan) => (
+                <div
+                  key={plan.id}
+                  className={`border-2 rounded-xl p-4 ${
+                    plan.popular ? 'border-orange-500 bg-orange-50' : 'border-gray-200'
+                  }`}
                 >
-                  <div className="font-semibold text-white capitalize">{plan}</div>
-                  <div className="text-gray-400 text-sm">
-                    {plan === 'starter' && '£49/month + 12% success fee'}
-                    {plan === 'professional' && '£99/month + 12% success fee'}
-                    {plan === 'business' && '£149/month + 12% success fee'}
+                  {plan.popular && (
+                    <span className="inline-block bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-semibold mb-2">
+                      Recommended
+                    </span>
+                  )}
+                  <h4 className="font-bold text-gray-900 text-lg mb-1">{plan.name}</h4>
+                  <div className="mb-3">
+                    <span className="text-2xl font-bold text-gray-900">{plan.price}</span>
+                    {plan.period && <span className="text-gray-600">/{plan.period}</span>}
                   </div>
-                </button>
+                  <p className="text-gray-600 text-sm mb-3">{plan.description}</p>
+
+                  <ul className="space-y-1 mb-4">
+                    {plan.features.slice(0, 3).map((feature, index) => (
+                      <li key={index} className="flex items-center space-x-2">
+                        <CheckCircle className="h-3 w-3 text-green-500" />
+                        <span className="text-gray-700 text-xs">{feature}</span>
+                      </li>
+                    ))}
+                    {plan.features.length > 3 && (
+                      <li className="text-gray-500 text-xs">
+                        +{plan.features.length - 3} more features...
+                      </li>
+                    )}
+                  </ul>
+
+                  <button
+                    onClick={() => {
+                      setShowUpgradeModal(false);
+                      handlePlanSelection(plan);
+                    }}
+                    className={`w-full py-2 px-4 rounded-lg font-semibold text-white transition-colors ${plan.buttonColor}`}
+                  >
+                    {plan.buttonText}
+                  </button>
+                </div>
               ))}
             </div>
-            
-            <div className="flex gap-3">
-              <button
-                onClick={() => setShowUpgradeModal(false)}
-                className="flex-1 px-4 py-2 border border-gray-600 text-white rounded-lg hover:bg-gray-800 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={() => setShowUpgradeModal(false)}
-                className="px-4 py-2 text-orange-400 hover:text-orange-300"
-              >
-                Contact Sales
-              </button>
+
+            <div className="mt-6 text-center">
+              <p className="text-gray-600 text-sm">
+                Need help choosing? <button
+                  onClick={() => window.open('mailto:sales@apprenticeapex.co.uk?subject=Plan Selection Help', '_blank')}
+                  className="text-blue-600 hover:text-blue-700 underline"
+                >
+                  Contact our sales team
+                </button>
+              </p>
             </div>
           </div>
         </div>
