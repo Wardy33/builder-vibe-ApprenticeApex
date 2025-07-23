@@ -771,6 +771,8 @@ function JobListingsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [showSubscriptionPrompt, setShowSubscriptionPrompt] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
   const subscriptionLimits = useSubscriptionLimits();
 
   const filteredListings = listings.filter(
