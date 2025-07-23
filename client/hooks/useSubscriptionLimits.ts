@@ -135,6 +135,7 @@ export function useSubscriptionLimits() {
           isInTrial: true,
           monthlyFee: 0,
           successFeeRate: 0,
+          successFeeDescription: '£399 per successful apprentice placement',
           features: {},
           usage: {
             jobPostingsThisMonth: 0,
