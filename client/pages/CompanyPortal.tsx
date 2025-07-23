@@ -1286,13 +1286,30 @@ function ApplicationsPage() {
                 </div>
               </div>
               
-              <div className="flex flex-col space-y-3 ml-6">
-                <button
-                  onClick={() => setSelectedApplication(application)}
-                  className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-2 rounded-xl transition-colors"
-                >
-                  <Eye className="h-5 w-5" />
-                </button>
+              <div className="flex flex-col space-y-2 ml-6">
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => setSelectedApplication(application)}
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50 p-2 rounded-xl transition-colors"
+                    title="View Details"
+                  >
+                    <Eye className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleMessageCandidate(application.id)}
+                    className="text-green-600 hover:text-green-700 hover:bg-green-50 p-2 rounded-xl transition-colors"
+                    title="Message Candidate"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => handleScheduleInterview(application.id)}
+                    className="text-purple-600 hover:text-purple-700 hover:bg-purple-50 p-2 rounded-xl transition-colors"
+                    title="Schedule Interview"
+                  >
+                    <Calendar className="h-4 w-4" />
+                  </button>
+                </div>
                 <select
                   value={application.status}
                   onChange={(e) =>
