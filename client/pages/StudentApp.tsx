@@ -601,34 +601,32 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Current Applications */}
-      <div>
+      {/* Current Applications Section */}
+      <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
-            Current Applications
-          </h2>
+          <h2 className="text-xl font-bold text-gray-900">Recent Applications</h2>
           <Link
             to="/student/applications"
-            className="text-cyan-500 text-sm hover:underline"
+            className="text-blue-600 text-sm font-medium hover:text-blue-700"
           >
             View All
           </Link>
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
-            <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-black font-bold mb-2 ">
-              No Applications Yet
-            </h3>
-            <p className="text-black/90 text-sm mb-4 font-semibold">
-              Start swiping to apply for apprenticeships!
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <FileText className="h-8 w-8 text-gray-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Applications Yet</h3>
+            <p className="text-gray-600 text-sm mb-6">
+              Start exploring opportunities to find your dream apprenticeship
             </p>
             <Link
               to="/student/jobs"
-              className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium transition-colors"
             >
-              Find Jobs
+              Explore Jobs
             </Link>
           </div>
         ) : (
@@ -636,41 +634,41 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-200"
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-start space-x-3">
                   <img
                     src={application.image}
                     alt={application.company}
-                    className="w-12 h-12 rounded-lg object-cover"
+                    className="w-12 h-12 rounded-xl object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-black font-bold truncate ">
-                      {application.jobTitle}
-                    </h3>
-                    <p className="text-black/90 text-sm font-semibold">
-                      {application.company}
-                    </p>
-                    <p className="text-black/80 text-xs font-medium">
-                      Applied {application.appliedDate}
-                    </p>
-                    <p className={`text-xs font-medium ${isApplicationClosed(application.closingDate)
-                      ? 'text-red-300 font-bold'
-                      : 'text-black/70'}`}>
-                      {isApplicationClosed(application.closingDate)
-                        ? `Closed: ${new Date(application.closingDate).toLocaleDateString()}`
-                        : `Closes: ${new Date(application.closingDate).toLocaleDateString()}`
-                      }
-                    </p>
-                  </div>
-                  <div className="flex flex-col items-end space-y-2">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium text-black ${getStatusColor(application.status)}`}
-                    >
-                      {getStatusText(application.status)}
-                    </span>
-                    <div className="text-yellow-200 text-sm font-bold ">
-                      {application.matchScore}% match
+                    <div className="flex items-start justify-between mb-1">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-sm truncate">
+                          {application.jobTitle}
+                        </h3>
+                        <p className="text-gray-600 text-sm">{application.company}</p>
+                      </div>
+                      <div className="flex items-center space-x-2 ml-2">
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          application.status === 'applied' ? 'bg-blue-100 text-blue-700' :
+                          application.status === 'viewed' ? 'bg-yellow-100 text-yellow-700' :
+                          application.status === 'shortlisted' ? 'bg-green-100 text-green-700' :
+                          'bg-gray-100 text-gray-700'
+                        }`}>
+                          {getStatusText(application.status)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-xs text-gray-500 mt-2">
+                      <span>Applied {application.appliedDate}</span>
+                      <div className="flex items-center space-x-2">
+                        <div className="flex items-center">
+                          <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
+                          <span className="font-medium text-green-600">{application.matchScore}% match</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
