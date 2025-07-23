@@ -1049,7 +1049,7 @@ function MessagesPage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-white font-semibold truncate">
+                  <h3 className="text-gray-800 font-semibold truncate">
                     {conversation.company}
                   </h3>
                   <span className="text-xs text-gray-500">
