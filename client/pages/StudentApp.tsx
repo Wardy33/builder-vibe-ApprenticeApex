@@ -104,7 +104,7 @@ const mockApprenticeship: Apprenticeship[] = [
     description:
       "Hands-on experience in electrical systems design and installation. Work with experienced engineers.",
     requirements: ["Math skills", "Attention to detail", "Safety-conscious"],
-    salary: "£20,000 - ��28,000",
+    salary: "£20,000 - £28,000",
     image:
       "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=600&fit=crop",
   },
@@ -1657,7 +1657,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 pb-20 bg-white text-gray-900">{children}</main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl">
+      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/20 backdrop-blur-xl shadow-2xl">
         <div className="flex justify-around items-center py-2">
           <Link
             to="/student/home"
