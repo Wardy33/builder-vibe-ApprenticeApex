@@ -1430,6 +1430,88 @@ function ApplicationsPage() {
           </div>
         </div>
       )}
+
+      {/* Schedule Interview Modal */}
+      {showScheduleModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-2xl max-w-md w-full p-6">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-semibold text-gray-900">Schedule Interview</h3>
+              <button
+                onClick={() => setShowScheduleModal(null)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                <input
+                  type="date"
+                  value={interviewDetails.date}
+                  onChange={(e) => setInterviewDetails({...interviewDetails, date: e.target.value})}
+                  min={new Date().toISOString().split('T')[0]}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                <input
+                  type="time"
+                  value={interviewDetails.time}
+                  onChange={(e) => setInterviewDetails({...interviewDetails, time: e.target.value})}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Interview Type</label>
+                <select
+                  value={interviewDetails.type}
+                  onChange={(e) => setInterviewDetails({...interviewDetails, type: e.target.value as any})}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="video">Video Call</option>
+                  <option value="phone">Phone Call</option>
+                  <option value="in-person">In-Person</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                <select
+                  value={interviewDetails.duration}
+                  onChange={(e) => setInterviewDetails({...interviewDetails, duration: e.target.value})}
+                  className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="15">15 minutes</option>
+                  <option value="30">30 minutes</option>
+                  <option value="45">45 minutes</option>
+                  <option value="60">60 minutes</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex space-x-3 mt-6">
+              <button
+                onClick={() => setShowScheduleModal(null)}
+                className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmScheduleInterview}
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+              >
+                Schedule Interview
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
