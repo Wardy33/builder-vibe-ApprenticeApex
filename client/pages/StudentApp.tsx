@@ -2879,7 +2879,9 @@ function AccountSettingsPage() {
                 </div>
                 <span className="text-red-600 font-medium">Delete Account</span>
               </div>
-              <ArrowLeft className="h-4 w-4 text-red-400 rotate-180" />
+              <svg className="h-4 w-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         </div>
