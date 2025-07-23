@@ -212,20 +212,20 @@ export default function SubscriptionManager() {
 
   const getStatusColor = (status: string) => {
     const colors = {
-      active: 'text-green-400',
-      expired: 'text-red-400',
-      cancelled: 'text-gray-400'
+      active: 'text-green-600 bg-green-100 px-2 py-1 rounded-lg',
+      expired: 'text-red-600 bg-red-100 px-2 py-1 rounded-lg',
+      cancelled: 'text-gray-600 bg-gray-100 px-2 py-1 rounded-lg'
     };
-    return colors[status as keyof typeof colors] || 'text-gray-400';
+    return colors[status as keyof typeof colors] || 'text-gray-600 bg-gray-100 px-2 py-1 rounded-lg';
   };
 
   const getBillingStatusColor = (status: string) => {
     const colors = {
-      paid: 'text-green-400 bg-green-400/10',
-      pending: 'text-yellow-400 bg-yellow-400/10',
-      overdue: 'text-red-400 bg-red-400/10'
+      paid: 'text-green-700 bg-green-100',
+      pending: 'text-yellow-700 bg-yellow-100',
+      overdue: 'text-red-700 bg-red-100'
     };
-    return colors[status as keyof typeof colors] || 'text-gray-400 bg-gray-400/10';
+    return colors[status as keyof typeof colors] || 'text-gray-700 bg-gray-100';
   };
 
   if (loading) {
@@ -731,6 +731,16 @@ export default function SubscriptionManager() {
           </div>
         </div>
       )}
+
+      {/* Notification Modal */}
+      <NotificationModal
+        isOpen={notification.isOpen}
+        onClose={() => setNotification({ ...notification, isOpen: false })}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        action={notification.action}
+      />
     </div>
   );
 }
