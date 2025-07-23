@@ -147,7 +147,7 @@ export default function Index() {
                 <div className="flex items-center mb-6">
                   <Building2 className="h-10 w-10 text-white mr-3 animate-pulse" />
                   <h2 className="text-2xl font-bold text-white drop-shadow-lg">
-                    Company Portal 🏢
+                    Company Portal
                   </h2>
                 </div>
                 <p className="text-white/90 mb-6 font-medium">
