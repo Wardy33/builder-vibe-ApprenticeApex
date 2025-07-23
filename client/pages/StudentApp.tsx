@@ -1185,7 +1185,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Company Image */}
-        <div className="bg-gradient-to-br from-purple-800/30 via-pink-700/20 to-purple-900/40 border border-purple-400/20 rounded-lg backdrop-blur-sm overflow-hidden shadow-lg shadow-purple-500/10">
+        <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm overflow-hidden shadow-lg shadow-cyan-500/20">
           <img
             src={apprenticeshipInfo.companyImage}
             alt="Company office"
