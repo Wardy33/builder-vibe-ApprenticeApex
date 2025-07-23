@@ -663,7 +663,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         <aside
           className={`${
             showMobileSidebar ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 fixed lg:static w-64 border-r border-white/20 min-h-[calc(100vh-73px)] bg-gray-50 z-50 transition-transform duration-300 ease-in-out`}
+          } lg:translate-x-0 fixed lg:static w-64 border-r border-white/20 min-h-[calc(100vh-73px)] bg-gradient-to-b from-gray-900 to-black z-50 transition-transform duration-300 ease-in-out`}
         >
           <nav className="p-4 space-y-2">
             {/* Mobile close button */}
