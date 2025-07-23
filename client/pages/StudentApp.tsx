@@ -785,7 +785,7 @@ function JobsPage() {
           </p>
           <button
             onClick={() => setCurrentIndex(0)}
-            className="bg-orange text-white px-6 py-3 rounded-full font-medium"
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
           >
             Start Over
           </button>
@@ -908,7 +908,7 @@ function MatchesPage() {
         "Social media savvy",
         "Communication skills",
       ],
-      salary: "£16,000 - ��22,000",
+      salary: "£16,000 - £22,000",
     },
   ];
 
