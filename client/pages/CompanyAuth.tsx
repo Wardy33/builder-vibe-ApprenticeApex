@@ -133,7 +133,7 @@ export function CompanySignUpForm() {
 
   return (
     <WebLayout>
-      <div className="min-h-screen bg-white py-12">
+      <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black py-12">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
             <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
