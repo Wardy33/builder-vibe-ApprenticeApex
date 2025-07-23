@@ -950,10 +950,10 @@ function MatchesPage() {
                 className="w-16 h-16 rounded-lg object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-white font-semibold">
+                <h3 className="text-gray-800 font-semibold">
                   {match.jobTitle}
                 </h3>
-                <p className="text-gray-300">{match.company}</p>
+                <p className="text-gray-600">{match.company}</p>
                 <p className="text-sm text-gray-500">{match.matchDate}</p>
               </div>
               <div className="flex flex-col gap-2">
