@@ -854,8 +854,12 @@ function JobsPage() {
   }
 
   return (
-    <div className="flex flex-col h-full">
-
+    <div className="flex flex-col h-full bg-gray-50">
+      {/* Header */}
+      <div className="bg-white px-6 py-4 border-b border-gray-200">
+        <h1 className="text-xl font-bold text-gray-900">Discover Jobs</h1>
+        <p className="text-gray-600 text-sm">Swipe right to like, left to pass</p>
+      </div>
 
       {/* Stack of cards */}
       <div className="flex-1 flex items-center justify-center p-4 relative">
@@ -870,8 +874,8 @@ function JobsPage() {
               style={{
                 position: "absolute",
                 zIndex: -(index + 1),
-                transform: `scale(${1 - (index + 1) * 0.05}) translateY(${(index + 1) * 10}px)`,
-                opacity: 1 - (index + 1) * 0.2,
+                transform: `scale(${1 - (index + 1) * 0.03}) translateY(${(index + 1) * 8}px)`,
+                opacity: 1 - (index + 1) * 0.15,
               }}
             />
           ))}
@@ -885,21 +889,23 @@ function JobsPage() {
         />
       </div>
 
-      {/* Action buttons */}
-      <div className="flex justify-center items-center gap-8 p-6">
-        <button
-          onClick={() => handleButtonSwipe("left")}
-          className="w-16 h-16 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 rounded-full flex items-center justify-center shadow-2xl hover:from-red-600 hover:via-pink-600 hover:to-red-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
-        >
-          <X className="h-8 w-8 text-black " />
-        </button>
+      {/* Modern Action buttons */}
+      <div className="bg-white px-6 py-4 border-t border-gray-200">
+        <div className="flex justify-center items-center gap-6 max-w-xs mx-auto">
+          <button
+            onClick={() => handleButtonSwipe("left")}
+            className="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:border-red-300 hover:bg-red-50 transition-all duration-200 hover:scale-105"
+          >
+            <X className="h-6 w-6 text-red-500" />
+          </button>
 
-        <button
-          onClick={() => handleButtonSwipe("right")}
-          className="w-16 h-16 bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-2xl hover:from-green-500 hover:via-emerald-600 hover:to-green-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
-        >
-          <Heart className="h-8 w-8 text-black " />
-        </button>
+          <button
+            onClick={() => handleButtonSwipe("right")}
+            className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-all duration-200 hover:scale-105"
+          >
+            <Heart className="h-6 w-6 text-white" />
+          </button>
+        </div>
       </div>
     </div>
   );
