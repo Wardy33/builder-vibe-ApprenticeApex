@@ -122,10 +122,10 @@ function SignUpForm() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">
-              Join ApprenticeApex ✨
+              Join ApprenticeApex
             </h2>
             <p className="text-gray-300">
-              Create your student account to find amazing apprenticeships 🚀
+              Create your student account to find amazing apprenticeships
             </p>
           </div>
 
@@ -310,7 +310,7 @@ function SignUpForm() {
               loadingText="Creating Account..."
               className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 hover:scale-105 border border-white/20"
             >
-              Create Account 🚀
+              Create Account
             </LoadingButton>
           </form>
 
@@ -406,10 +406,10 @@ function SignInForm() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">
-              👋 Welcome Back ✨
+              Welcome Back
             </h2>
             <p className="text-gray-300">
-              Sign in to continue your apprenticeship journey 🚀
+              Sign in to continue your apprenticeship journey
             </p>
           </div>
 
@@ -504,7 +504,7 @@ function SignInForm() {
               loadingText="Signing In..."
               className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 hover:scale-105 border border-white/20"
             >
-              Sign In 🚀
+              Sign In
             </LoadingButton>
           </form>
 
