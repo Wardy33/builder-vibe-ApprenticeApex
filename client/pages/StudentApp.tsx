@@ -1533,7 +1533,7 @@ function ProfilePage() {
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
             <h3 className="text-2xl font-bold text-orange">12</h3>
-            <p className="text-sm text-purple-200">Applications</p>
+            <p className="text-sm text-cyan-200">Applications</p>
           </div>
           <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
             <h3 className="text-2xl font-bold text-orange">5</h3>
