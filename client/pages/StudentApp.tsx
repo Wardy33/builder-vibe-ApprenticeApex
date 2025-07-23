@@ -804,7 +804,7 @@ function JobsPage() {
             <input
               type="text"
               placeholder="Search apprenticeships..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-300 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-orange"
+              className="w-full pl-10 pr-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange backdrop-blur-sm transition-all duration-200"
             />
           </div>
           <button
