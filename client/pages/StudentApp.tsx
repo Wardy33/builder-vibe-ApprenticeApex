@@ -2648,7 +2648,7 @@ function EditSkillsPreferencesPage() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Job Preferences</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Preferred Industries</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Preferred Industries</label>
             <div className="flex flex-wrap gap-2">
               {["Technology", "Marketing", "Finance", "Healthcare", "Education"].map((industry) => (
                 <button
@@ -2661,8 +2661,8 @@ function EditSkillsPreferencesPage() {
                   }}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
                     preferences.industries.includes(industry)
-                      ? 'bg-cyan-500 text-black'
-                      : 'bg-white/20 text-black hover:bg-white/30'
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                   }`}
                 >
                   {industry}
@@ -2672,7 +2672,7 @@ function EditSkillsPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Salary Range (£)</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Salary Range (£)</label>
             <div className="flex gap-2 items-center">
               <input
                 type="number"
@@ -2681,10 +2681,10 @@ function EditSkillsPreferencesPage() {
                   ...preferences,
                   salaryRange: {...preferences.salaryRange, min: parseInt(e.target.value)}
                 })}
-                className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Min"
               />
-              <span className="text-black">to</span>
+              <span className="text-gray-900">to</span>
               <input
                 type="number"
                 value={preferences.salaryRange.max}
@@ -2692,7 +2692,7 @@ function EditSkillsPreferencesPage() {
                   ...preferences,
                   salaryRange: {...preferences.salaryRange, max: parseInt(e.target.value)}
                 })}
-                className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="Max"
               />
             </div>
