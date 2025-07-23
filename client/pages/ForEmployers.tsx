@@ -343,13 +343,13 @@ export default function ForEmployers() {
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full rounded-xl border border-gray-200 shadow-sm" style={{backgroundColor: '#f8f9fa'}}>
+              <table className="w-full rounded-xl border border-white/20 shadow-xl backdrop-blur-sm bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40">
                 <thead>
-                  <tr className="border-b border-gray-200">
-                    <th className="text-left p-4 text-black font-semibold">Method</th>
-                    <th className="text-center p-4 text-black font-semibold">Cost per Hire</th>
-                    <th className="text-center p-4 text-black font-semibold">Setup Costs</th>
-                    <th className="text-center p-4 text-black font-semibold">Risk Level</th>
+                  <tr className="border-b border-white/20">
+                    <th className="text-left p-4 text-white font-semibold">Method</th>
+                    <th className="text-center p-4 text-white font-semibold">Cost per Hire</th>
+                    <th className="text-center p-4 text-white font-semibold">Setup Costs</th>
+                    <th className="text-center p-4 text-white font-semibold">Risk Level</th>
                   </tr>
                 </thead>
                 <tbody>
