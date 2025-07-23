@@ -353,28 +353,28 @@ export default function ForEmployers() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-200 bg-orange-50">
-                    <td className="p-4 text-black font-semibold">ApprenticeApex Trial</td>
+                  <tr className="border-b border-white/20 bg-gradient-to-r from-orange-400/20 to-pink-500/20">
+                    <td className="p-4 text-white font-semibold">ApprenticeApex Trial</td>
                     <td className="p-4 text-center text-orange-500 font-bold">£399</td>
                     <td className="p-4 text-center text-green-400 font-bold">£0</td>
                     <td className="p-4 text-center text-green-400 font-bold">No Risk</td>
                   </tr>
-                  <tr className="border-b border-gray-200">
-                    <td className="p-4 text-gray-700">Traditional Recruiter</td>
-                    <td className="p-4 text-center text-gray-700">£3,000-6,000</td>
-                    <td className="p-4 text-center text-gray-700">£0</td>
+                  <tr className="border-b border-white/20">
+                    <td className="p-4 text-gray-300">Traditional Recruiter</td>
+                    <td className="p-4 text-center text-gray-300">£3,000-6,000</td>
+                    <td className="p-4 text-center text-gray-300">£0</td>
                     <td className="p-4 text-center text-red-400">High Risk</td>
                   </tr>
-                  <tr className="border-b border-gray-200">
-                    <td className="p-4 text-gray-700">Job Boards + Internal HR</td>
-                    <td className="p-4 text-center text-gray-700">£1,500-3,000</td>
-                    <td className="p-4 text-center text-gray-700">£500+</td>
+                  <tr className="border-b border-white/20">
+                    <td className="p-4 text-gray-300">Job Boards + Internal HR</td>
+                    <td className="p-4 text-center text-gray-300">£1,500-3,000</td>
+                    <td className="p-4 text-center text-gray-300">£500+</td>
                     <td className="p-4 text-center text-yellow-400">Medium Risk</td>
                   </tr>
                   <tr>
-                    <td className="p-4 text-gray-700">Training Provider Markup</td>
-                    <td className="p-4 text-center text-gray-700">£1,000-2,500</td>
-                    <td className="p-4 text-center text-gray-700">Variable</td>
+                    <td className="p-4 text-gray-300">Training Provider Markup</td>
+                    <td className="p-4 text-center text-gray-300">£1,000-2,500</td>
+                    <td className="p-4 text-center text-gray-300">Variable</td>
                     <td className="p-4 text-center text-yellow-400">Medium Risk</td>
                   </tr>
                 </tbody>
