@@ -175,7 +175,7 @@ export default function ForEmployers() {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Hire</span>
+              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">Hire</span>
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto font-medium">
@@ -318,10 +318,10 @@ export default function ForEmployers() {
                   
                   <Link
                     to={plan.id === 'enterprise' ? '/contact' : '/company/signup'}
-                    className={`w-full py-3 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
+                    className={`w-full py-4 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
                       plan.id === 'trial'
-                        ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white border border-white/20'
-                        : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white border border-white/20'
+                        ? 'bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white'
+                        : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white'
                     }`}
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
@@ -345,7 +345,7 @@ export default function ForEmployers() {
             </div>
             
             <div className="overflow-x-auto">
-              <table className="w-full rounded-xl border border-white/20 shadow-xl backdrop-blur-sm bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40">
+              <table className="w-full rounded-xl border border-white/30 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-orange-400/10 via-pink-500/10 to-blue-500/10">
                 <thead>
                   <tr className="border-b border-white/20">
                     <th className="text-left p-4 text-white font-semibold">Method</th>
@@ -405,7 +405,7 @@ export default function ForEmployers() {
               
               <div className="p-8 rounded-xl border border-white/20 shadow-xl text-center bg-gradient-to-br from-orange-400/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
                 <Clock className="w-12 h-12 mx-auto mb-4 text-orange-400" />
-                <div className="text-3xl font-bold mb-2 text-orange-400 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] [background-clip:text]">14 days</div>
+                <div className="text-3xl font-bold mb-2 text-white">14 days</div>
                 <div className="text-white font-semibold mb-2">Average Time to Hire</div>
                 <div className="text-gray-300">vs 45+ days for traditional methods</div>
               </div>
@@ -433,7 +433,10 @@ export default function ForEmployers() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/company/signup"
-                className="px-8 py-4 border-2 text-white font-bold rounded-lg transition-all duration-200 flex items-center justify-center hover:scale-105 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 border-white"
+                className="px-8 py-4 border-2 border-white text-white font-semibold rounded-lg hover:bg-white transition-colors flex items-center justify-center"
+                style={{borderColor: '#ffffff', color: '#ffffff'}}
+                onMouseEnter={(e) => {e.currentTarget.style.backgroundColor = '#ffffff'; e.currentTarget.style.color = '#da6927';}}
+                onMouseLeave={(e) => {e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#ffffff';}}
               >
                 Start Free Trial Now
                 <ArrowRight className="w-5 h-5 ml-2" />
