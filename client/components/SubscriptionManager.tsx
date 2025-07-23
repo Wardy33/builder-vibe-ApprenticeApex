@@ -646,7 +646,7 @@ export default function SubscriptionManager() {
               Monthly: {formatCurrency(subscription.monthlyFee)}
             </div>
             <div className="text-gray-600 text-sm">
-              Success Fee: {subscription.successFeeRate}%
+              Success Fee: {subscription.successFeeRate}% of first year salary
             </div>
           </div>
 
