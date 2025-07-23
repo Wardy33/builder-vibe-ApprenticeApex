@@ -29,27 +29,27 @@ export default function Debug() {
 
         {/* Quick Links */}
         <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Access</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">Quick Access</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
               to="/student/signup"
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <h3 className="font-semibold text-gray-900">Student Signup</h3>
+              <h3 className="font-semibold text-white">Student Signup</h3>
               <p className="text-sm text-gray-600">Test enhanced registration flow</p>
             </Link>
             <Link
               to="/student/signin"
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <h3 className="font-semibold text-gray-900">Student Login</h3>
+              <h3 className="font-semibold text-white">Student Login</h3>
               <p className="text-sm text-gray-600">Test authentication system</p>
             </Link>
             <Link
               to="/company"
               className="block p-4 border rounded-lg hover:bg-gray-50 transition-colors"
             >
-              <h3 className="font-semibold text-gray-900">Company Portal</h3>
+              <h3 className="font-semibold text-white">Company Portal</h3>
               <p className="text-sm text-gray-600">Mobile-optimized dashboard</p>
             </Link>
           </div>
@@ -57,7 +57,7 @@ export default function Debug() {
 
         {/* API Information */}
         <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">API Information</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">API Information</h2>
           <div className="space-y-3">
             <div>
               <h3 className="font-semibold text-gray-700">Backend URL</h3>
@@ -88,7 +88,7 @@ export default function Debug() {
 
         {/* External Services Status */}
         <div className="mt-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg shadow-xl backdrop-blur-sm p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">External Services Setup</h2>
+          <h2 className="text-xl font-semibold text-white mb-4">External Services Setup</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h3 className="font-semibold text-gray-700 mb-2">Ready for Integration</h3>
