@@ -566,7 +566,7 @@ function HomePage() {
             </p>
             <Link
               to="/student/jobs"
-              className="bg-orange text-white px-4 py-2 rounded-lg text-sm"
+              className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
             >
               Find Jobs
             </Link>
