@@ -136,9 +136,9 @@ export function CompanySignUpForm() {
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black py-12">
         <div className="container mx-auto px-4 max-w-2xl">
           <div className="text-center mb-8">
-            <Building2 className="h-12 w-12 mx-auto mb-4" style={{color: '#da6927'}} />
-            <h1 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>Join ApprenticeApex</h1>
-            <p className="text-gray-600">Start your 60-day risk-free trial today</p>
+            <Building2 className="h-12 w-12 mx-auto mb-4 text-orange-400" />
+            <h1 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">Join ApprenticeApex</h1>
+            <p className="text-gray-300">Start your 60-day risk-free trial today</p>
           </div>
 
           {/* Progress indicator */}
