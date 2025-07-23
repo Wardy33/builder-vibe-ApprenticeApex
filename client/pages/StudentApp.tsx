@@ -1832,14 +1832,14 @@ function AccountSettingsPage() {
               <Settings className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Privacy Settings clicked');}}
+              onClick={() => navigate('/student/privacy-settings')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Privacy Settings</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Two-Factor Authentication clicked');}}
+              onClick={() => navigate('/student/two-factor-auth')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Two-Factor Authentication</span>
@@ -1853,14 +1853,14 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-black mb-4">Notifications</h3>
           <div className="space-y-3">
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Push Notifications clicked');}}
+              onClick={() => navigate('/student/notification-settings')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Push Notifications</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Email Preferences clicked');}}
+              onClick={() => navigate('/student/email-preferences')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Email Preferences</span>
@@ -1874,14 +1874,14 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-black mb-4">App Settings</h3>
           <div className="space-y-3">
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Language & Region clicked');}}
+              onClick={() => navigate('/student/language-region')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Language & Region</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Data & Storage clicked');}}
+              onClick={() => navigate('/student/data-storage')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Data & Storage</span>
@@ -1895,14 +1895,18 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-black mb-4">Account</h3>
           <div className="space-y-3">
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Download My Data clicked');}}
+              onClick={() => navigate('/student/download-data')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Download My Data</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) console.log('Delete Account confirmed');}}
+              onClick={() => {
+                if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                  navigate('/student/delete-account');
+                }
+              }}
               className="w-full text-left p-3 hover:bg-red-100 rounded-lg transition-all duration-200 flex items-center justify-between text-red-600"
             >
               <span>Delete Account</span>
