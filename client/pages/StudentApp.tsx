@@ -1441,7 +1441,7 @@ function ChatPage() {
           <div className="flex justify-center">
             <div className="bg-gradient-to-br from-yellow-500/20 via-yellow-600/20 to-orange-500/20 border border-yellow-400/30 rounded-lg px-4 py-2 flex items-center space-x-2 backdrop-blur-sm">
               <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
-              <p className="text-sm text-yellow-700">
+              <p className="text-sm text-yellow-300">
                 Waiting for {chatInfo.company} to respond...
               </p>
             </div>
