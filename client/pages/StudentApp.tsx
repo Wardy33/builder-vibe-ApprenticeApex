@@ -1548,7 +1548,7 @@ function ProfilePage() {
         {/* Profile Sections */}
         <div className="space-y-4">
           {/* Bio */}
-          <div className="bg-gray-800 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">About</h3>
               <button className="text-orange">
@@ -1559,7 +1559,7 @@ function ProfilePage() {
           </div>
 
           {/* Contact Info */}
-          <div className="bg-gray-800 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Contact</h3>
               <button className="text-orange">
@@ -1583,7 +1583,7 @@ function ProfilePage() {
           </div>
 
           {/* Skills */}
-          <div className="bg-gray-800 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Skills</h3>
               <button className="text-orange">
@@ -1603,7 +1603,7 @@ function ProfilePage() {
           </div>
 
           {/* Availability */}
-          <div className="bg-gray-800 rounded-lg p-4">
+          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold">Availability</h3>
               <button className="text-orange">
