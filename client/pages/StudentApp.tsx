@@ -1728,83 +1728,121 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header - Gen-Z styling */}
-      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
-        <button
-          onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20"
-        >
-          <ArrowLeft className="h-6 w-6" />
-        </button>
-        <h1 className="text-2xl font-bold text-cyan-400 ">
-          ApprenticeApex
-        </h1>
-        <button className="p-2 hover:bg-cyan-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
-          <Settings className="h-6 w-6" />
-        </button>
-      </header>
+    <div className="min-h-screen bg-gray-50">
+      {/* Clean modern header - only show on non-home pages */}
+      {!isActive("/student/home") && !isActive("/student/") && (
+        <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-40">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              {location.pathname.includes('/jobs') ? 'Find Jobs' :
+               location.pathname.includes('/matches') ? 'Your Matches' :
+               location.pathname.includes('/messages') ? 'Messages' :
+               location.pathname.includes('/profile') ? 'Profile' :
+               'ApprenticeApex'}
+            </h1>
+            <button className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors">
+              <Settings className="h-5 w-5" />
+            </button>
+          </div>
+        </header>
+      )}
 
-      {/* Content - Gen-Z background */}
-      <main className="flex-1 pb-20 bg-white text-gray-900">{children}</main>
+      {/* Content */}
+      <main className="flex-1 pb-20">{children}</main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/20 backdrop-blur-xl shadow-2xl">
-        <div className="flex justify-around items-center py-2">
+      {/* Modern Bottom Navigation */}
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
+        <div className="flex justify-around items-center max-w-md mx-auto">
           <Link
             to="/student/home"
-            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
-              isActive("/student/home")
-                ? "text-black bg-gradient-to-r from-orange-400 to-pink-500 scale-105"
-                : "text-gray-300 hover:text-cyan-500-400 hover:scale-105"
+            className={`flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
+              isActive("/student/home") || isActive("/student/")
+                ? "text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <Home className="h-6 w-6 mb-1" />
-            <span className="text-xs">Home</span>
+            <div className={`p-1 rounded-lg ${
+              isActive("/student/home") || isActive("/student/")
+                ? "bg-blue-100"
+                : ""
+            }`}>
+              <Home className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-medium mt-1">Home</span>
           </Link>
           <Link
             to="/student/jobs"
-            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
+            className={`flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
               isActive("/student/jobs")
-                ? "text-black bg-gradient-to-r from-cyan-400 to-blue-500 scale-105"
-                : "text-gray-300 hover:text-cyan-400 hover:scale-105"
+                ? "text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <Briefcase className="h-6 w-6 mb-1" />
-            <span className="text-xs">Jobs</span>
+            <div className={`p-1 rounded-lg ${
+              isActive("/student/jobs")
+                ? "bg-blue-100"
+                : ""
+            }`}>
+              <Briefcase className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-medium mt-1">Jobs</span>
           </Link>
           <Link
             to="/student/matches"
-            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
+            className={`flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
               isActive("/student/matches")
-                ? "text-black bg-gradient-to-r from-pink-500 to-red-500 scale-105"
-                : "text-gray-300 hover:text-pink-400 hover:scale-105"
+                ? "text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <Heart className="h-6 w-6 mb-1" />
-            <span className="text-xs">Matches</span>
+            <div className={`p-1 rounded-lg ${
+              isActive("/student/matches")
+                ? "bg-blue-100"
+                : ""
+            }`}>
+              <Heart className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-medium mt-1">Matches</span>
           </Link>
           <Link
             to="/student/messages"
-            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
+            className={`flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
               isActive("/student/messages")
-                ? "text-black bg-gradient-to-r from-purple-500 to-pink-500 scale-105"
-                : "text-gray-300 hover:text-purple-400 hover:scale-105"
+                ? "text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <MessageCircle className="h-6 w-6 mb-1" />
-            <span className="text-xs">Messages</span>
+            <div className={`p-1 rounded-lg ${
+              isActive("/student/messages")
+                ? "bg-blue-100"
+                : ""
+            }`}>
+              <MessageCircle className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-medium mt-1">Messages</span>
           </Link>
           <Link
             to="/student/profile"
-            className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
+            className={`flex flex-col items-center p-2 rounded-xl transition-all duration-200 ${
               isActive("/student/profile")
-                ? "text-black bg-gradient-to-r from-green-400 to-cyan-400 scale-105"
-                : "text-gray-300 hover:text-green-400 hover:scale-105"
+                ? "text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <User className="h-6 w-6 mb-1" />
-            <span className="text-xs">Profile</span>
+            <div className={`p-1 rounded-lg ${
+              isActive("/student/profile")
+                ? "bg-blue-100"
+                : ""
+            }`}>
+              <User className="h-5 w-5" />
+            </div>
+            <span className="text-xs font-medium mt-1">Profile</span>
           </Link>
         </div>
       </nav>
