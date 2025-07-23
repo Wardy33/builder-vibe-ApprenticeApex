@@ -476,15 +476,13 @@ function SignInForm() {
                   onChange={(e) =>
                     handleInputChange("rememberMe", e.target.checked)
                   }
-                  className="w-4 h-4 border-gray-300 rounded focus:ring-orange-500"
-                  style={{color: '#da6927', backgroundColor: 'white'}}
+                  className="w-4 h-4 border-white/20 rounded focus:ring-orange-500 bg-gray-800/40 text-orange-400"
                 />
-                <span className="text-sm text-black">Remember me</span>
+                <span className="text-sm text-gray-300">Remember me</span>
               </label>
               <Link
                 to="/student/forgot-password"
-                className="text-sm hover:underline"
-                style={{color: '#da6927'}}
+                className="text-sm hover:underline text-orange-400"
               >
                 Forgot password?
               </Link>
@@ -504,10 +502,9 @@ function SignInForm() {
               type="submit"
               isLoading={loading}
               loadingText="Signing In..."
-              className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{backgroundColor: '#da6927'}}
+              className="w-full text-white font-semibold py-3 px-4 rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 hover:scale-105 border border-white/20"
             >
-              Sign In
+              Sign In 🚀
             </LoadingButton>
           </form>
 
