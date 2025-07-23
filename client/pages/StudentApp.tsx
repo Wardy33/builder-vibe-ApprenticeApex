@@ -1811,7 +1811,7 @@ function AccountSettingsPage() {
               <Camera className="h-5 w-5 text-black" />
             </button>
             <button
-              onClick={(e) => {e.preventDefault(); console.log('Update Skills & Preferences clicked');}}
+              onClick={() => navigate('/student/edit-skills-preferences')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Update Skills & Preferences</span>
