@@ -1217,7 +1217,7 @@ function ApprenticeshipInfoPage() {
           <h3 className="text-lg font-semibold text-black mb-3">
             About this role
           </h3>
-          <p className="text-gray-300 leading-relaxed">
+          <p className="text-black leading-relaxed">
             {apprenticeshipInfo.description}
           </p>
         </div>
@@ -1231,7 +1231,7 @@ function ApprenticeshipInfoPage() {
             {apprenticeshipInfo.requirements.map((req, index) => (
               <li key={index} className="flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                <span className="text-gray-300">{req}</span>
+                <span className="text-black">{req}</span>
               </li>
             ))}
           </ul>
