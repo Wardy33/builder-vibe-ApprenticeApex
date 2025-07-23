@@ -221,7 +221,7 @@ export default function ForEmployers() {
               </div>
 
               <div className="p-8 rounded-2xl bg-gradient-to-br from-orange-400/20 to-pink-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
-                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£399</div>
+                <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£399</div>
                 <div className="text-white font-bold mb-2">Per Successful Hire 🎯</div>
                 <div className="text-gray-300 text-sm">Only pay when candidate starts</div>
               </div>
