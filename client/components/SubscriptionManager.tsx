@@ -131,6 +131,7 @@ export default function SubscriptionManager() {
             isInTrial: true,
             monthlyFee: 0,
             successFeeRate: 0,
+            successFeeDescription: '£399 per successful apprentice placement',
             features: {},
             usage: {
               jobPostingsThisMonth: 2,
@@ -352,7 +353,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Starter',
       buttonColor: 'bg-blue-600 hover:bg-blue-700',
       popular: false,
-      stripeLink: 'https://buy.stripe.com/test_starter_49_gbp',
+      stripeLink: 'https://buy.stripe.com/test_00g6ou2hP5qO8Ug144',
       monthlyFee: 49,
       successFee: '12% of first year salary'
     },
