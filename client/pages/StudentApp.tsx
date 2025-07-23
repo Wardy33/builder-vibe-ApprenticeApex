@@ -1286,8 +1286,13 @@ function ApprenticeshipInfoPage() {
               <Clock className="h-5 w-5 text-gray-500 mr-2" />
               <div>
                 <p className="text-sm text-gray-300">Application Deadline</p>
-                <p className="font-medium text-white">
-                  {apprenticeshipInfo.applicationDeadline}
+                <p className={`font-medium ${isApplicationClosed(apprenticeshipInfo.applicationDeadline)
+                  ? 'text-red-400 font-bold'
+                  : 'text-white'}`}>
+                  {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
+                  {isApplicationClosed(apprenticeshipInfo.applicationDeadline) && (
+                    <span className="text-red-400 text-sm ml-2">(CLOSED)</span>
+                  )}
                 </p>
               </div>
             </div>
