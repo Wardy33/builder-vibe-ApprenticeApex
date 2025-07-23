@@ -1438,7 +1438,7 @@ function ChatPage() {
             <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black transition-all duration-200 hover:scale-105">
+        <button className="p-2 hover:bg-white/20 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105">
           <Video className="h-6 w-6" />
         </button>
       </header>
