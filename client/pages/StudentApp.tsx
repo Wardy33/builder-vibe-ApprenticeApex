@@ -2251,14 +2251,22 @@ function EditSkillsPage() {
             onKeyPress={(e) => e.key === 'Enter' && addSkill()}
             placeholder="Add a new skill..."
             className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            maxLength={50}
           />
           <button
             onClick={addSkill}
-            className="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg font-semibold transition-all duration-300"
+            disabled={!newSkill.trim() || skills.length >= 20}
+            className="bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black px-4 py-2 rounded-lg font-semibold transition-all duration-300"
           >
             Add
           </button>
         </div>
+        <p className="text-sm text-black/60 mt-2">{skills.length}/20 skills</p>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
+            Skills updated successfully!
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3">
@@ -2270,9 +2278,10 @@ function EditSkillsPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          disabled={loading}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          Save Changes
+          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
         </button>
       </div>
     </div>
