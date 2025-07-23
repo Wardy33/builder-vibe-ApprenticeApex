@@ -1981,16 +1981,16 @@ function EditAboutPage() {
         <h1 className="text-2xl font-bold text-black">Edit About</h1>
       </div>
 
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <h3 className="text-lg font-semibold text-black mb-4">About Me</h3>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">About Me</h3>
         <textarea
           value={bio}
           onChange={(e) => setBio(e.target.value)}
           placeholder="Tell employers about yourself..."
           rows={6}
-          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
+          className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         />
-        <p className={`text-sm mt-2 ${bio.length > 500 ? 'text-red-600' : 'text-black/60'}`}>
+        <p className={`text-sm mt-2 ${bio.length > 500 ? 'text-red-600' : 'text-gray-600'}`}>
           {bio.length}/500 characters {bio.length > 500 && '(Too long)'}
         </p>
         {success && (
