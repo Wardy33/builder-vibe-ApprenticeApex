@@ -206,31 +206,30 @@ function SwipeCard({
             </div>
           </div>
 
-          {/* Location, Distance and Industry */}
-          <div className="space-y-2 mb-3 text-sm">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <MapPin className="h-3 w-3 mr-1 text-white/90" />
-                <span className="text-white/90 drop-shadow-lg">{apprenticeship.location}</span>
+          {/* Location and Info */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center text-gray-600">
+                <MapPin className="h-4 w-4 mr-1" />
+                <span>{apprenticeship.location}</span>
               </div>
-              <div className="flex items-center">
-                <Briefcase className="h-3 w-3 mr-1 text-white/90" />
-                <span className="text-white/90 drop-shadow-lg">{apprenticeship.industry}</span>
+              <div className="flex items-center text-gray-600">
+                <Briefcase className="h-4 w-4 mr-1" />
+                <span>{apprenticeship.industry}</span>
               </div>
             </div>
+
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <Navigation className="h-3 w-3 mr-1 text-white" />
-                <span className="text-white font-medium drop-shadow-lg">
-                  {apprenticeship.distance} from home
-                </span>
+              <div className="flex items-center text-sm text-gray-600">
+                <Navigation className="h-4 w-4 mr-1 text-blue-600" />
+                <span className="font-medium">{apprenticeship.distance} away</span>
               </div>
               <button
                 onClick={(e) => {
                   e.stopPropagation();
                   handleTransportRoutes(apprenticeship);
                 }}
-                className="flex items-center bg-black/60 hover:bg-black/70 text-white px-2 py-1 rounded-lg text-xs transition-all duration-300 hover:scale-105 backdrop-blur-sm border border-white/20 shadow-lg"
+                className="flex items-center bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
               >
                 <RouteIcon className="h-3 w-3 mr-1" />
                 Routes
@@ -239,32 +238,36 @@ function SwipeCard({
           </div>
 
           {/* Description */}
-          <p className="text-sm text-white/90 mb-3 line-clamp-2 leading-relaxed drop-shadow-lg">
+          <p className="text-sm text-gray-700 line-clamp-3 leading-relaxed">
             {apprenticeship.description}
           </p>
 
           {/* Requirements Preview */}
-          <div className="mb-3">
-            <div className="flex flex-wrap gap-1">
-              {apprenticeship.requirements.slice(0, 2).map((req, index) => (
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Key Requirements</p>
+            <div className="flex flex-wrap gap-2">
+              {apprenticeship.requirements.slice(0, 3).map((req, index) => (
                 <span
                   key={index}
-                  className="bg-black/60 text-white px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
+                  className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs font-medium"
                 >
                   {req}
                 </span>
               ))}
-              {apprenticeship.requirements.length > 2 && (
-                <span className="bg-black/60 text-white px-2 py-1 rounded text-xs">
-                  +{apprenticeship.requirements.length - 2} more
+              {apprenticeship.requirements.length > 3 && (
+                <span className="bg-gray-100 text-gray-500 px-2 py-1 rounded-lg text-xs">
+                  +{apprenticeship.requirements.length - 3} more
                 </span>
               )}
             </div>
           </div>
 
           {/* Salary */}
-          <div className="text-base font-semibold text-white drop-shadow-lg">
-            {apprenticeship.salary}
+          <div className="border-t border-gray-200 pt-3">
+            <p className="text-lg font-bold text-gray-900">
+              {apprenticeship.salary}
+            </p>
+            <p className="text-xs text-gray-500">per year</p>
           </div>
         </div>
 
