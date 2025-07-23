@@ -751,7 +751,15 @@ function HomePage() {
                           {interview.type}
                         </div>
                       </div>
-                      <button className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors">
+                      <button
+                        onClick={() => {
+                          // For demo purposes, open a generic video call platform
+                          // In a real app, this would connect to your video call service
+                          const videoCallUrl = `https://meet.google.com/new?authuser=0`;
+                          window.open(videoCallUrl, '_blank');
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+                      >
                         Join Call
                       </button>
                     </div>
