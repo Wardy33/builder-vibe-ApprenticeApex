@@ -1611,7 +1611,7 @@ function ProfilePage() {
               </button>
             </div>
             <div className="flex items-center text-gray-300 text-sm">
-              <Calendar className="h-4 w-4 mr-2 text-cyan-400" />
+              <Calendar className="h-5 w-5 mr-3 text-cyan-400" />
               Available from {mockProfile.availableFrom}
             </div>
           </div>
