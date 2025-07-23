@@ -252,8 +252,10 @@ export default function ForEmployers() {
                 <div
                   key={plan.id}
                   className={`relative p-6 rounded-xl border transition-all duration-300 hover:scale-105 shadow-xl backdrop-blur-sm ${
-                    plan.popular
+                    plan.id === 'trial'
                       ? 'bg-gradient-to-br from-orange-400/20 via-pink-500/20 to-red-500/20 border-orange-400/30'
+                      : plan.popular
+                      ? 'bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border-white/20'
                       : 'bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border-white/20'
                   }`}
                 >
