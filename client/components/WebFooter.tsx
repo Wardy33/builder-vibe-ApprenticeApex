@@ -13,12 +13,12 @@ export function WebFooter() {
               <span className="text-2xl font-bold">
                 <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>
                 <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
-                <span className="text-lg animate-pulse">✨</span>
+
               </span>
             </div>
             <p className="text-gray-300 text-sm">
               Connecting students with apprenticeship opportunities through AI-powered matching.
-              Building the future workforce, one apprentice at a time 🚀
+              Building the future workforce, one apprentice at a time
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-orange-400 transition-all duration-200 hover:scale-110">
@@ -38,11 +38,11 @@ export function WebFooter() {
 
           {/* For Students */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Students 🎓</h3>
+            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Students</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/student/signup" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
-                  Sign Up 🚀
+                  Sign Up
                 </Link>
               </li>
               <li>
@@ -60,7 +60,7 @@ export function WebFooter() {
 
           {/* For Employers */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-bold">For Employers 💼</h3>
+            <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-bold">For Employers</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/company" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
@@ -69,7 +69,7 @@ export function WebFooter() {
               </li>
               <li>
                 <Link to="/for-employers" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
-                  Post Opportunities 📝
+                  Post Opportunities
                 </Link>
               </li>
               <li>
@@ -82,7 +82,7 @@ export function WebFooter() {
 
           {/* Contact & Legal */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Contact & Legal 📞</h3>
+            <h3 className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Contact & Legal</h3>
             <ul className="space-y-2">
               <li>
                 <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
@@ -96,7 +96,7 @@ export function WebFooter() {
               </li>
               <li>
                 <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
-                  Support ⚡
+                  Support
                 </Link>
               </li>
               <li>
@@ -124,7 +124,7 @@ export function WebFooter() {
             <div className="flex items-center space-x-3">
               <Mail className="h-6 w-6 text-orange-400 animate-pulse" />
               <div>
-                <p className="text-white text-sm font-medium">Email 📧</p>
+                <p className="text-white text-sm font-medium">Email</p>
                 <p className="text-gray-300 text-sm">hello@apprenticeapex.co.uk</p>
               </div>
             </div>
@@ -135,7 +135,7 @@ export function WebFooter() {
         <div className="border-t border-white/10 py-6">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2025 ApprenticeApex. All rights reserved. ✨
+              © 2025 ApprenticeApex. All rights reserved.
             </p>
             <div className="flex space-x-6">
               <Link to="/acceptable-use" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
