@@ -1063,7 +1063,7 @@ function MessagesPage() {
                 </p>
               </div>
               {conversation.unread && (
-                <div className="w-3 h-3 bg-orange rounded-full flex-shrink-0" />
+                <div className="w-3 h-3 bg-yellow-400 rounded-full flex-shrink-0 shadow-lg" />
               )}
             </div>
           ))}
