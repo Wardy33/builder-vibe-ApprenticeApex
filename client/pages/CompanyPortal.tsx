@@ -1199,15 +1199,7 @@ function ApplicationsPage() {
                   </div>
                   <p className="text-gray-600 mb-3">{application.jobTitle}</p>
                   
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
-                    <div className="flex items-center space-x-2">
-                      <Mail className="h-4 w-4" />
-                      <span>{application.email}</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4" />
-                      <span>{application.phone}</span>
-                    </div>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-600 mb-4">
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4" />
                       <span>{application.location}</span>
@@ -1215,6 +1207,10 @@ function ApplicationsPage() {
                     <div className="flex items-center space-x-2">
                       <Calendar className="h-4 w-4" />
                       <span>{new Date(application.applicationDate).toLocaleDateString()}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <Users className="h-4 w-4" />
+                      <span>{application.experience} experience</span>
                     </div>
                   </div>
                   
