@@ -11,15 +11,15 @@ export default function Debug() {
         <div className="mb-8">
           <Link 
             to="/" 
-            className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4"
+            className="inline-flex items-center gap-2 text-gray-300 hover:text-white mb-4 transition-colors duration-200"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Homepage
           </Link>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-white drop-shadow-lg">
             ApprenticeApex Debug Dashboard
           </h1>
-          <p className="text-gray-600 mt-2">
+          <p className="text-gray-300 mt-2">
             System status and feature implementation overview
           </p>
         </div>
