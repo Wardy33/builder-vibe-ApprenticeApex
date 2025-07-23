@@ -747,7 +747,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         </aside>
 
         {/* Main Content - White background */}
-        <main className="flex-1 bg-white text-gray-900 lg:ml-0">
+        <main className="flex-1 bg-transparent text-white lg:ml-0">
           {/* Mobile Menu Button */}
           <button
             onClick={() => setShowMobileSidebar(true)}
