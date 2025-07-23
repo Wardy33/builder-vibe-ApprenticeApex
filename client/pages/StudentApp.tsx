@@ -2459,7 +2459,7 @@ function ChangePicturePage() {
         <div className="text-center">
           <div className="relative inline-block mb-4">
             <img
-              src={selectedImage || "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop"}
+              src={selectedImage || currentImage}
               alt="Profile"
               className="w-32 h-32 rounded-full object-cover mx-auto"
             />
@@ -2476,9 +2476,15 @@ function ChangePicturePage() {
             htmlFor="image-upload"
             className="bg-orange hover:bg-orange/90 text-black px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block"
           >
-            Choose New Picture
+            {selectedImage ? 'Choose Different Picture' : 'Choose New Picture'}
           </label>
+          <p className="text-sm text-black/60 mt-2">PNG, JPG up to 5MB</p>
         </div>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
+            Profile picture updated successfully!
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3">
@@ -2490,9 +2496,10 @@ function ChangePicturePage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          disabled={loading || !selectedImage}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          Save Changes
+          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
         </button>
       </div>
     </div>
