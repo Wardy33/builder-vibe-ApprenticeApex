@@ -330,7 +330,7 @@ function SwipeCard({
                 {/* Car Route */}
                 <div className="flex items-center justify-between p-3 bg-gradient-to-br from-orange-500/20 via-orange-600/20 to-orange-700/20 rounded-lg border border-orange-400/30 backdrop-blur-sm">
                   <div className="flex items-center">
-                    <Car className="h-5 w-5 text-orange-600 mr-3" />
+                    <Car className="h-5 w-5 text-cyan-500-600 mr-3" />
                     <div>
                       <p className="font-medium text-black">Driving</p>
                       <p className="text-sm text-gray-300">
@@ -338,7 +338,7 @@ function SwipeCard({
                       </p>
                     </div>
                   </div>
-                  <button className="text-orange-600 text-sm font-medium hover:underline">
+                  <button className="text-cyan-500-600 text-sm font-medium hover:underline">
                     View
                   </button>
                 </div>
@@ -561,7 +561,7 @@ function HomePage() {
           </h2>
           <Link
             to="/student/applications"
-            className="text-orange text-sm hover:underline"
+            className="text-cyan-500 text-sm hover:underline"
           >
             View All
           </Link>
@@ -640,7 +640,7 @@ function HomePage() {
           </h2>
           <Link
             to="/student/interviews"
-            className="text-orange text-sm hover:underline"
+            className="text-cyan-500 text-sm hover:underline"
           >
             View All
           </Link>
@@ -1150,7 +1150,7 @@ function ApprenticeshipInfoPage() {
               <h2 className="text-2xl font-bold text-white mb-1">
                 {apprenticeshipInfo.jobTitle}
               </h2>
-              <p className="text-orange font-semibold text-lg mb-2">
+              <p className="text-cyan-500 font-semibold text-lg mb-2">
                 {apprenticeshipInfo.company}
               </p>
               <div className="flex items-center space-x-4 text-sm text-gray-300">
@@ -1171,7 +1171,7 @@ function ApprenticeshipInfoPage() {
           </div>
 
           <div className="mt-4 flex items-center justify-between">
-            <div className="text-2xl font-bold text-orange">
+            <div className="text-2xl font-bold text-cyan-500">
               {apprenticeshipInfo.salary}
             </div>
             <div className="flex gap-2">
@@ -1228,7 +1228,7 @@ function ApprenticeshipInfoPage() {
           <ul className="space-y-2">
             {apprenticeshipInfo.responsibilities.map((resp, index) => (
               <li key={index} className="flex items-start">
-                <Briefcase className="h-5 w-5 text-orange mr-2 mt-0.5 flex-shrink-0" />
+                <Briefcase className="h-5 w-5 text-cyan-500 mr-2 mt-0.5 flex-shrink-0" />
                 <span className="text-black">{resp}</span>
               </li>
             ))}
@@ -1691,7 +1691,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/home")
                 ? "text-black bg-gradient-to-r from-orange-400 to-pink-500 scale-105"
-                : "text-gray-300 hover:text-orange-400 hover:scale-105"
+                : "text-gray-300 hover:text-cyan-500-400 hover:scale-105"
             }`}
           >
             <Home className="h-6 w-6 mb-1" />
