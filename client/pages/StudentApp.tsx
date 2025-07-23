@@ -641,7 +641,7 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 shadow-xl hover:shadow-purple-500/30 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-gradient-to-br from-pink-400/40 to-pink-600/50 border border-pink-400/50 rounded-xl backdrop-blur-sm p-6 shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
