@@ -660,14 +660,14 @@ export function CompanySignInForm() {
             </LoadingButton>
 
             <div className="text-center space-y-4">
-              <Link to="/company/forgot-password" className="hover:underline text-sm" style={{color: '#da6927'}}>
+              <Link to="/company/forgot-password" className="hover:underline text-sm text-orange-400">
                 Forgot your password?
               </Link>
 
-              <div className="border-t border-gray-300 pt-4">
-                <p className="text-gray-600 text-sm">
+              <div className="border-t border-white/20 pt-4">
+                <p className="text-gray-300 text-sm">
                   Don't have an account?{' '}
-                  <Link to="/company/signup" className="hover:underline" style={{color: '#da6927'}}>
+                  <Link to="/company/signup" className="hover:underline text-orange-400">
                     Start your free trial
                   </Link>
                 </p>
