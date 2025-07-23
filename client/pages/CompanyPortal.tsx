@@ -1818,6 +1818,149 @@ function SubscriptionPage() {
   );
 }
 
+function CompanyChatPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([
+    {
+      id: "1",
+      senderId: "student",
+      content: "Thank you for considering my application. I'm really excited about this opportunity and would love to learn more about the role.",
+      timestamp: "10:30 AM",
+      isOwn: false,
+    },
+    {
+      id: "2",
+      senderId: "company",
+      content: "Hi Sarah! We're impressed with your application. We'd like to schedule a video interview with you. Are you available this week?",
+      timestamp: "10:45 AM",
+      isOwn: true,
+    },
+    {
+      id: "3",
+      senderId: "student",
+      content: "Yes, I'm available! I'm flexible with timing. What days work best for you?",
+      timestamp: "11:00 AM",
+      isOwn: false,
+    },
+  ]);
+
+  // Mock candidate data
+  const candidateInfo = {
+    name: "Sarah Johnson",
+    jobTitle: "Software Developer",
+    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=50&h=50&fit=crop",
+  };
+
+  const handleSendMessage = () => {
+    if (message.trim()) {
+      const newMessage = {
+        id: `msg_${Date.now()}`,
+        senderId: "company",
+        content: message.trim(),
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        }),
+        isOwn: true,
+      };
+
+      setMessages((prev) => [...prev, newMessage]);
+      setMessage("");
+
+      // In real app, send message via API to sync with student app
+      console.log("Sending message to student app:", newMessage.content);
+    }
+  };
+
+  return (
+    <div className="min-h-[calc(100vh-120px)] bg-white flex flex-col">
+      {/* Header */}
+      <header className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <div className="flex items-center">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-2 hover:bg-gray-100 rounded-full text-gray-700 mr-3 transition-all duration-200"
+          >
+            <ArrowLeft className="h-6 w-6" />
+          </button>
+          <img
+            src={candidateInfo.avatar}
+            alt={candidateInfo.name}
+            className="w-10 h-10 rounded-full object-cover mr-3"
+          />
+          <div>
+            <h1 className="font-semibold text-gray-900">{candidateInfo.name}</h1>
+            <p className="text-sm text-gray-600">{candidateInfo.jobTitle}</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => {
+              const videoCallUrl = `https://meet.google.com/new?authuser=0`;
+              window.open(videoCallUrl, '_blank');
+            }}
+            className="p-2 hover:bg-gray-100 rounded-full text-gray-700 transition-all duration-200"
+            title="Start video call"
+          >
+            <Video className="h-5 w-5" />
+          </button>
+          <button className="p-2 hover:bg-gray-100 rounded-full text-gray-700 transition-all duration-200">
+            <Phone className="h-5 w-5" />
+          </button>
+        </div>
+      </header>
+
+      {/* Messages */}
+      <div className="flex-1 px-6 py-4 overflow-y-auto space-y-4">
+        {messages.map((msg) => (
+          <div
+            key={msg.id}
+            className={`flex ${msg.isOwn ? "justify-end" : "justify-start"}`}
+          >
+            <div
+              className={`max-w-[70%] px-4 py-2 rounded-2xl ${
+                msg.isOwn
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-100 text-gray-900"
+              }`}
+            >
+              <p className="text-sm leading-relaxed">{msg.content}</p>
+              <p className={`text-xs mt-1 ${
+                msg.isOwn ? "text-blue-100" : "text-gray-500"
+              }`}>
+                {msg.timestamp}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Message Input */}
+      <div className="border-t border-gray-200 px-6 py-4 bg-gray-50">
+        <div className="flex items-center space-x-3">
+          <input
+            type="text"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            placeholder="Type your message..."
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+          <button
+            onClick={handleSendMessage}
+            disabled={!message.trim()}
+            className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 // Settings pages would continue with the same modern design pattern...
 
 export default function CompanyPortal() {
