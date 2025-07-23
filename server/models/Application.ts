@@ -109,7 +109,7 @@ applicationSchema.index(
 );
 applicationSchema.index({ companyId: 1, status: 1 });
 
-export const Application = mongoose.model<IApplication>(
+export const Application = mongoose.models.Application || mongoose.model<IApplication>(
   "Application",
   applicationSchema,
 );
