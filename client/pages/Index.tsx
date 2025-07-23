@@ -204,7 +204,7 @@ export default function Index() {
           {/* Features Section */}
           <div className="text-center">
             <h3 className="text-3xl md:text-4xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">
-              Platform Features ⚡
+              Platform Features
             </h3>
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="text-center group">
