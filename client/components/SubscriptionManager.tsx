@@ -254,7 +254,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Starter',
       buttonColor: 'bg-blue-600 hover:bg-blue-700',
       popular: false,
-      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_starter_plan'
+      stripeLink: 'https://stripe.com/docs/testing'
     },
     {
       id: 'professional',
@@ -273,7 +273,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Professional',
       buttonColor: 'bg-orange-600 hover:bg-orange-700',
       popular: true,
-      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_professional_plan'
+      stripeLink: 'https://stripe.com/docs/testing'
     },
     {
       id: 'business',
@@ -293,7 +293,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Business',
       buttonColor: 'bg-purple-600 hover:bg-purple-700',
       popular: false,
-      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_business_plan'
+      stripeLink: 'https://stripe.com/docs/testing'
     },
     {
       id: 'enterprise',
@@ -327,19 +327,49 @@ export default function SubscriptionManager() {
 
       if (confirm(confirmMessage)) {
         try {
-          // For demo, redirect to a Stripe-like URL
-          const demoStripeUrl = `https://checkout.stripe.com/demo/${plan.id}`;
-          window.open(demoStripeUrl, '_blank');
+          // For demo, simulate payment process
+          alert(`Demo Mode: Redirecting to Stripe payment for ${plan.name} plan (${plan.price}${periodText})`);
 
-          // For demo, show success message after a delay
+          // For demo, show immediate success
+          const successMessage = `Demo: Payment completed successfully! ${plan.name} plan has been activated. You now have access to all ${plan.name} features.`;
+
           setTimeout(() => {
-            const successMessage = `Demo: Payment completed successfully! ${plan.name} plan activated.`;
             alert(successMessage);
-          }, 3000);
+
+            // For demo, simulate plan activation
+            const updatedSubscriptionData = {
+              subscription: {
+                planType: plan.id,
+                status: 'active',
+                isInTrial: false,
+                monthlyFee: plan.id === 'starter' ? 49 : plan.id === 'professional' ? 99 : 199,
+                successFeeRate: plan.id === 'starter' ? 12 : plan.id === 'professional' ? 10 : 8,
+                features: {},
+                usage: {
+                  jobPostingsThisMonth: 0,
+                  usersActive: 1,
+                  hiresThisMonth: 0
+                }
+              },
+              outstandingBalance: {
+                totalAmount: 0,
+                count: 0
+              },
+              isTrialExpired: false,
+              daysLeftInTrial: 0,
+              limits: {
+                canCreateJobPosting: true,
+                canAddUser: true
+              }
+            };
+
+            localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedSubscriptionData));
+            window.location.reload(); // Refresh to show new plan
+          }, 1000);
 
         } catch (error) {
-          console.error('Error redirecting to Stripe:', error);
-          alert('Unable to redirect to payment page. Please try again or contact support.');
+          console.error('Error in demo payment:', error);
+          alert('Demo payment simulation failed. Please try again.');
         }
       }
     }
