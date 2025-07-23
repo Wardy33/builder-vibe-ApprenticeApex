@@ -1580,7 +1580,10 @@ function ProfilePage() {
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-black font-semibold ">About</h3>
-              <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
+              <button
+                onClick={() => navigate('/student/edit-about')}
+                className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110"
+              >
                 <Edit className="h-4 w-4" />
               </button>
             </div>
