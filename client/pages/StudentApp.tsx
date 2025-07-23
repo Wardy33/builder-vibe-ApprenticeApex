@@ -3290,8 +3290,8 @@ function EmailPreferencesPage() {
         </button>
         <h1 className="text-2xl font-bold text-black">Email Preferences</h1>
       </div>
-      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
-        <p className="text-black">Email preferences configuration will be available soon.</p>
+      <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+        <p className="text-gray-900">Email preferences configuration will be available soon.</p>
       </div>
     </div>
   );
