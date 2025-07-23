@@ -1320,15 +1320,37 @@ function ApprenticeshipInfoPage() {
         {/* Apply Button */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <div className="text-center">
-            <h3 className="text-lg font-semibold text-white mb-2">
-              Ready to apply?
-            </h3>
-            <p className="text-gray-300 mb-4">
-              Join {apprenticeshipInfo.company} and start your career journey!
-            </p>
-            <button className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
-              Apply Now
-            </button>
+            {isApplicationClosed(apprenticeshipInfo.applicationDeadline) ? (
+              <>
+                <h3 className="text-lg font-semibold text-red-300 mb-2">
+                  Applications Closed
+                </h3>
+                <p className="text-red-200 mb-4">
+                  The application deadline for this position has passed on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}.
+                </p>
+                <button
+                  disabled
+                  className="w-full bg-gray-500 text-gray-300 py-4 px-6 rounded-xl font-bold cursor-not-allowed shadow-xl opacity-60"
+                >
+                  Applications Closed
+                </button>
+              </>
+            ) : (
+              <>
+                <h3 className="text-lg font-semibold text-white mb-2">
+                  Ready to apply?
+                </h3>
+                <p className="text-white/80 mb-2">
+                  Join {apprenticeshipInfo.company} and start your career journey!
+                </p>
+                <p className="text-white/70 text-sm mb-4">
+                  Applications close on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
+                </p>
+                <button className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
+                  Apply Now
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
