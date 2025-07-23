@@ -1962,7 +1962,281 @@ function CompanyChatPage() {
   );
 }
 
-// Settings pages would continue with the same modern design pattern...
+function CompanySettingsPage() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">Company Settings</h2>
+        <p className="text-gray-600">Manage your company profile and preferences</p>
+      </div>
+
+      {/* Settings Navigation */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <Link
+          to="/company/settings/profile"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:bg-blue-200 transition-colors">
+              <Building2 className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Company Profile</h3>
+              <p className="text-gray-600 text-sm">Update company information and branding</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/company/settings/users"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center group-hover:bg-green-200 transition-colors">
+              <Users className="h-6 w-6 text-green-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">User Management</h3>
+              <p className="text-gray-600 text-sm">Manage team members and permissions</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/company/settings/notifications"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+              <Bell className="h-6 w-6 text-purple-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Notifications</h3>
+              <p className="text-gray-600 text-sm">Configure alert preferences</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/company/settings/integrations"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center group-hover:bg-orange-200 transition-colors">
+              <Settings className="h-6 w-6 text-orange-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Integrations</h3>
+              <p className="text-gray-600 text-sm">Connect with external tools</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/company/settings/billing"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center group-hover:bg-yellow-200 transition-colors">
+              <CreditCard className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Billing & Payment</h3>
+              <p className="text-gray-600 text-sm">Manage payment methods and billing</p>
+            </div>
+          </div>
+        </Link>
+
+        <Link
+          to="/company/settings/security"
+          className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 group"
+        >
+          <div className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center group-hover:bg-red-200 transition-colors">
+              <Settings className="h-6 w-6 text-red-600" />
+            </div>
+            <div>
+              <h3 className="font-semibold text-gray-900">Security</h3>
+              <p className="text-gray-600 text-sm">Password and security settings</p>
+            </div>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function CompanyProfileSettingsPage() {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState({
+    companyName: "TechCorp Ltd",
+    description: "A leading technology company specializing in software development and digital innovation.",
+    industry: "Technology",
+    size: "50-100",
+    website: "https://techcorp.co.uk",
+    address: "123 Tech Street, London, UK",
+    phone: "+44 20 1234 5678",
+    email: "hr@techcorp.co.uk",
+    logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop"
+  });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSave = async () => {
+    setLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => setSuccess(false), 3000);
+    } catch (error) {
+      alert('Failed to save profile. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center space-x-4">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
+        >
+          <ArrowLeft className="h-5 w-5" />
+        </button>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">Company Profile</h2>
+          <p className="text-gray-600">Update your company information</p>
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6">
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+            <input
+              type="text"
+              value={profile.companyName}
+              onChange={(e) => setProfile({...profile, companyName: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+            <select
+              value={profile.industry}
+              onChange={(e) => setProfile({...profile, industry: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="Technology">Technology</option>
+              <option value="Finance">Finance</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Retail">Retail</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+          <textarea
+            value={profile.description}
+            onChange={(e) => setProfile({...profile, description: e.target.value})}
+            rows={4}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Size</label>
+            <select
+              value={profile.size}
+              onChange={(e) => setProfile({...profile, size: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="1-10">1-10 employees</option>
+              <option value="11-50">11-50 employees</option>
+              <option value="51-100">51-100 employees</option>
+              <option value="101-500">101-500 employees</option>
+              <option value="500+">500+ employees</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+            <input
+              type="url"
+              value={profile.website}
+              onChange={(e) => setProfile({...profile, website: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+          <input
+            type="text"
+            value={profile.address}
+            onChange={(e) => setProfile({...profile, address: e.target.value})}
+            className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          />
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+            <input
+              type="tel"
+              value={profile.phone}
+              onChange={(e) => setProfile({...profile, phone: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <input
+              type="email"
+              value={profile.email}
+              onChange={(e) => setProfile({...profile, email: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+        </div>
+
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl">
+            Profile updated successfully!
+          </div>
+        )}
+
+        <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+          <button
+            onClick={() => navigate(-1)}
+            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={loading}
+            className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50"
+          >
+            {loading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function CompanyPortal() {
   return (
