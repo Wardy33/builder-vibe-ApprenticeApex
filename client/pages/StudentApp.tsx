@@ -942,7 +942,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-[#00D4FF]/60 border border-[#00D4FF]/80 rounded-lg backdrop-blur-sm p-4 flex items-center space-x-4 shadow-lg shadow-[#00D4FF]/40 hover:shadow-xl hover:shadow-[#00D4FF]/60 hover:scale-102 transition-all duration-300 hover:border-[#00D4FF] group cursor-pointer"
+              className="bg-[#84CC16]/60 border border-[#84CC16]/80 rounded-lg backdrop-blur-sm p-4 flex items-center space-x-4 shadow-lg shadow-[#84CC16]/40 hover:shadow-xl hover:shadow-[#84CC16]/60 hover:scale-102 transition-all duration-300 hover:border-[#84CC16] group cursor-pointer"
             >
               <img
                 src={match.image}
