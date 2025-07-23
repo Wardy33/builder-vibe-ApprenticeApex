@@ -1657,7 +1657,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       <main className="flex-1 pb-20 bg-gradient-to-br from-gray-900/50 to-black/50 text-white backdrop-blur-sm">{children}</main>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/10 backdrop-blur-md">
+      <nav className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black via-gray-900 to-black border-t border-white/20 backdrop-blur-xl shadow-2xl">
         <div className="flex justify-around items-center py-2">
           <Link
             to="/student/home"
