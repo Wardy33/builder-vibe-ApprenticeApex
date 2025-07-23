@@ -1525,7 +1525,16 @@ function ChatPage() {
             <p className="text-xs text-gray-500">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-gray-100 rounded-full text-black transition-all duration-200">
+        <button
+          onClick={() => {
+            // For demo purposes, open a generic video call platform
+            // In a real app, this would connect to your video call service with the specific employer
+            const videoCallUrl = `https://meet.google.com/new?authuser=0`;
+            window.open(videoCallUrl, '_blank');
+          }}
+          className="p-2 hover:bg-gray-100 rounded-full text-black transition-all duration-200"
+          title="Start video call"
+        >
           <Video className="h-5 w-5" />
         </button>
       </header>
