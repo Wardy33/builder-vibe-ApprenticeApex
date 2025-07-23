@@ -2087,29 +2087,52 @@ function EditContactPage() {
             <input
               type="email"
               value={contact.email}
-              onChange={(e) => setContact({...contact, email: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setContact({...contact, email: e.target.value});
+                if (errors.email) setErrors({...errors, email: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-black mb-2">Phone</label>
             <input
               type="tel"
               value={contact.phone}
-              onChange={(e) => setContact({...contact, phone: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setContact({...contact, phone: e.target.value});
+                if (errors.phone) setErrors({...errors, phone: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
           </div>
           <div>
             <label className="block text-sm font-medium text-black mb-2">Location</label>
             <input
               type="text"
               value={contact.location}
-              onChange={(e) => setContact({...contact, location: e.target.value})}
-              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              onChange={(e) => {
+                setContact({...contact, location: e.target.value});
+                if (errors.location) setErrors({...errors, location: undefined});
+              }}
+              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
+                errors.location ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              }`}
             />
+            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
           </div>
         </div>
+        {success && (
+          <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
+            Contact information updated successfully!
+          </div>
+        )}
       </div>
 
       <div className="flex gap-3">
@@ -2121,9 +2144,10 @@ function EditContactPage() {
         </button>
         <button
           onClick={handleSave}
-          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+          disabled={loading}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          Save Changes
+          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
         </button>
       </div>
     </div>
