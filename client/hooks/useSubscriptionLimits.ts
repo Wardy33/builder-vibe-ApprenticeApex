@@ -24,6 +24,27 @@ export function useSubscriptionLimits() {
 
   useEffect(() => {
     loadSubscriptionLimits();
+
+    // Listen for changes to demo subscription data
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'demoSubscriptionData') {
+        loadSubscriptionLimits();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also listen for manual updates to localStorage
+    const handleCustomUpdate = () => {
+      loadSubscriptionLimits();
+    };
+
+    window.addEventListener('subscriptionUpdated', handleCustomUpdate);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('subscriptionUpdated', handleCustomUpdate);
+    };
   }, []);
 
   const loadSubscriptionLimits = async () => {
