@@ -308,7 +308,7 @@ export default function Contact() {
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">How long does the application process take? ⏱️</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">How long does the application process take?</h3>
                 <p className="text-gray-300 text-sm">
                   This varies by employer, but most respond within 1-2 weeks. You'll receive notifications
                   throughout the process to keep you updated.
