@@ -274,7 +274,7 @@ export default function Index() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
             <div className="relative z-10">
               <h3 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                Ready to Start Your Apprenticeship Journey? 🚀
+                Ready to Start Your Apprenticeship Journey?
               </h3>
               <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto font-medium">
                 Join thousands of students who have found their perfect apprenticeship match.
