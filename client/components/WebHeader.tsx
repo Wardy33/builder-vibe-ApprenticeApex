@@ -173,7 +173,7 @@ export function WebHeader() {
                 className="block w-full bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 hover:from-orange-500 hover:to-blue-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                Get Started ✨
+                Get Started
               </Link>
             </div>
           </div>
