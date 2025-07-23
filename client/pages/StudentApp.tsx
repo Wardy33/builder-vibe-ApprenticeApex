@@ -1602,8 +1602,7 @@ function ChatPage() {
 
 function ProfilePage() {
   const navigate = useNavigate();
-
-  const mockProfile = {
+  const [profile, setProfile] = useState({
     firstName: "Sarah",
     lastName: "Johnson",
     email: "sarah.johnson@email.com",
@@ -1612,9 +1611,32 @@ function ProfilePage() {
     bio: "Passionate about technology and eager to start my career in software development.",
     skills: ["JavaScript", "React", "Problem Solving", "Communication"],
     availableFrom: "September 2024",
-    profileImage:
-      "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
-  };
+    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
+  });
+
+  useEffect(() => {
+    // Load profile data from localStorage
+    const loadProfileData = () => {
+      const savedBio = localStorage.getItem('studentProfile_bio');
+      const savedContact = localStorage.getItem('studentProfile_contact');
+      const savedSkills = localStorage.getItem('studentProfile_skills');
+      const savedAvailability = localStorage.getItem('studentProfile_availability');
+      const savedImage = localStorage.getItem('studentProfile_image');
+
+      setProfile(prev => ({
+        ...prev,
+        bio: savedBio || prev.bio,
+        ...savedContact ? JSON.parse(savedContact) : { email: prev.email, phone: prev.phone, location: prev.location },
+        skills: savedSkills ? JSON.parse(savedSkills) : prev.skills,
+        availableFrom: savedAvailability || prev.availableFrom,
+        profileImage: savedImage || prev.profileImage,
+      }));
+    };
+
+    loadProfileData();
+  }, []);
+
+  const mockProfile = profile;
 
   return (
     <div className="bg-gray-50 min-h-screen">
