@@ -238,6 +238,7 @@ export const mockStudents = [
   {
     _id: "student2",
     email: "mike.chen@email.com",
+    password: "password123",
     role: "student",
     profile: {
       firstName: "Mike",
