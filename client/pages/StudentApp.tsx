@@ -2252,7 +2252,7 @@ function EditSkillsPage() {
           {skills.map((skill) => (
             <span
               key={skill}
-              className="bg-white/20 text-black px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm flex items-center gap-2"
+              className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2"
             >
               {skill}
               <button
