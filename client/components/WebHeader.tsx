@@ -154,7 +154,7 @@ export function WebHeader() {
               </Link>
               <Link
                 to="/about"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-purple-500 hover:to-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-purple-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 About
