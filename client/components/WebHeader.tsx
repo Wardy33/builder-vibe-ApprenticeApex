@@ -46,14 +46,14 @@ export function WebHeader() {
                 <div className="absolute top-full left-0 mt-2 w-48 bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-xl shadow-2xl py-2 backdrop-blur-sm">
                   <Link
                     to="/student/signup"
-                    className="block px-4 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
+                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
-                    className="block px-4 py-3 text-sm text-white hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
+                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     Sign In
@@ -126,21 +126,21 @@ export function WebHeader() {
             <div className="space-y-2">
               <Link
                 to="/"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Home
               </Link>
               <Link
                 to="/student/signup"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Student Sign Up
               </Link>
               <Link
                 to="/student/signin"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-gradient-to-r hover:from-orange-400 hover:to-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Student Sign In
