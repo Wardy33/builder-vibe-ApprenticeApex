@@ -2105,7 +2105,7 @@ function EditContactPage() {
         <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-black mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
             <input
               type="email"
               value={contact.email}
@@ -2113,8 +2113,8 @@ function EditContactPage() {
                 setContact({...contact, email: e.target.value});
                 if (errors.email) setErrors({...errors, email: undefined});
               }}
-              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
-                errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
+                errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             />
             {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
