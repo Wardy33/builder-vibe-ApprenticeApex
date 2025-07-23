@@ -250,7 +250,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Starter',
       buttonColor: 'bg-blue-600 hover:bg-blue-700',
       popular: false,
-      stripeLink: 'https://buy.stripe.com/test_starter_plan'
+      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_starter_plan'
     },
     {
       id: 'professional',
@@ -269,7 +269,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Professional',
       buttonColor: 'bg-orange-600 hover:bg-orange-700',
       popular: true,
-      stripeLink: 'https://buy.stripe.com/test_professional_plan'
+      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_professional_plan'
     },
     {
       id: 'business',
@@ -289,7 +289,7 @@ export default function SubscriptionManager() {
       buttonText: 'Choose Business',
       buttonColor: 'bg-purple-600 hover:bg-purple-700',
       popular: false,
-      stripeLink: 'https://buy.stripe.com/test_business_plan'
+      stripeLink: 'https://checkout.stripe.com/c/pay/cs_test_business_plan'
     },
     {
       id: 'enterprise',
