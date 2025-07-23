@@ -214,7 +214,7 @@ function SwipeCard({
                   e.stopPropagation();
                   handleTransportRoutes(apprenticeship);
                 }}
-                className="flex items-center bg-gray-700/80 hover:bg-gray-600/80 px-2 py-1 rounded text-xs transition-colors"
+                className="flex items-center bg-gradient-to-r from-gray-600/60 via-gray-700/60 to-gray-800/60 hover:from-gray-500/80 hover:via-gray-600/80 hover:to-gray-700/80 px-2 py-1 rounded-lg text-xs transition-all duration-300 hover:scale-105 backdrop-blur-sm border border-white/20 shadow-lg"
               >
                 <RouteIcon className="h-3 w-3 mr-1" />
                 Routes
