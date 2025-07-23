@@ -105,8 +105,8 @@ messageSchema.index({ receiverId: 1, readAt: 1 });
 conversationSchema.index({ participants: 1 });
 conversationSchema.index({ lastMessageAt: -1 });
 
-export const Message = mongoose.model<IMessage>("Message", messageSchema);
-export const Conversation = mongoose.model<IConversation>(
+export const Message = mongoose.models.Message || mongoose.model<IMessage>("Message", messageSchema);
+export const Conversation = mongoose.models.Conversation || mongoose.model<IConversation>(
   "Conversation",
   conversationSchema,
 );
