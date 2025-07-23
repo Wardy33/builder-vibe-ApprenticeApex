@@ -558,10 +558,10 @@ function HomePage() {
         {mockApplications.length === 0 ? (
           <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 text-center shadow-xl">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-gray-800 font-semibold mb-2">
+            <h3 className="text-white font-bold mb-2 drop-shadow-lg">
               No Applications Yet
             </h3>
-            <p className="text-gray-300 text-sm mb-4">
+            <p className="text-white/90 text-sm mb-4 font-semibold">
               Start swiping to apply for apprenticeships!
             </p>
             <Link
