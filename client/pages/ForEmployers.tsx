@@ -433,8 +433,7 @@ export default function ForEmployers() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/company/signup"
-                className="px-8 py-4 border-2 text-white font-bold rounded-lg transition-colors flex items-center justify-center hover:opacity-90"
-                style={{backgroundColor: '#da6927', borderColor: '#ffffff'}}
+                className="px-8 py-4 border-2 text-white font-bold rounded-lg transition-all duration-200 flex items-center justify-center hover:scale-105 bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 border-white"
               >
                 Start Free Trial Now
                 <ArrowRight className="w-5 h-5 ml-2" />
