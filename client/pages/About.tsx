@@ -137,24 +137,24 @@ export default function About() {
 
         {/* CTA */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-6 text-white">Ready to Join Our Community? 🚀</h2>
+          <h2 className="text-3xl font-bold mb-6 text-white">Ready to Join Our Community?</h2>
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto font-medium">
             Whether you're a student looking for your perfect apprenticeship or an
-            employer seeking talented individuals, we're here to help you succeed ✨
+            employer seeking talented individuals, we're here to help you succeed
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/student/signup"
               className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-xl"
             >
-              Start as Student 🎓
+              Start as Student
               <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
             <Link
               to="/company"
               className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105"
             >
-              Join as Employer 💼
+              Join as Employer
             </Link>
           </div>
         </div>
