@@ -1774,6 +1774,762 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function EditAboutPage() {
+  const navigate = useNavigate();
+  const [bio, setBio] = useState("Passionate about technology and eager to start my career in software development.");
+
+  const handleSave = () => {
+    // In a real app, this would save to backend
+    console.log('Saving bio:', bio);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Edit About</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">About Me</h3>
+        <textarea
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Tell employers about yourself..."
+          rows={6}
+          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500 resize-none"
+        />
+        <p className="text-sm text-black/60 mt-2">{bio.length}/500 characters</p>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditContactPage() {
+  const navigate = useNavigate();
+  const [contact, setContact] = useState({
+    email: "sarah.johnson@email.com",
+    phone: "07123 456789",
+    location: "London, UK"
+  });
+
+  const handleSave = () => {
+    console.log('Saving contact info:', contact);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Edit Contact</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Contact Information</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Email</label>
+            <input
+              type="email"
+              value={contact.email}
+              onChange={(e) => setContact({...contact, email: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Phone</label>
+            <input
+              type="tel"
+              value={contact.phone}
+              onChange={(e) => setContact({...contact, phone: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Location</label>
+            <input
+              type="text"
+              value={contact.location}
+              onChange={(e) => setContact({...contact, location: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditSkillsPage() {
+  const navigate = useNavigate();
+  const [skills, setSkills] = useState(["JavaScript", "React", "Problem Solving", "Communication"]);
+  const [newSkill, setNewSkill] = useState("");
+
+  const addSkill = () => {
+    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
+      setSkills([...skills, newSkill.trim()]);
+      setNewSkill("");
+    }
+  };
+
+  const removeSkill = (skillToRemove: string) => {
+    setSkills(skills.filter(skill => skill !== skillToRemove));
+  };
+
+  const handleSave = () => {
+    console.log('Saving skills:', skills);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Edit Skills</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Your Skills</h3>
+
+        <div className="flex flex-wrap gap-2 mb-4">
+          {skills.map((skill) => (
+            <span
+              key={skill}
+              className="bg-white/20 text-black px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm flex items-center gap-2"
+            >
+              {skill}
+              <button
+                onClick={() => removeSkill(skill)}
+                className="hover:bg-red-500/20 rounded-full p-1"
+              >
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={newSkill}
+            onChange={(e) => setNewSkill(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && addSkill()}
+            placeholder="Add a new skill..."
+            className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          />
+          <button
+            onClick={addSkill}
+            className="bg-cyan-500 hover:bg-cyan-600 text-black px-4 py-2 rounded-lg font-semibold transition-all duration-300"
+          >
+            Add
+          </button>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditAvailabilityPage() {
+  const navigate = useNavigate();
+  const [availability, setAvailability] = useState("September 2024");
+
+  const handleSave = () => {
+    console.log('Saving availability:', availability);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Edit Availability</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">When are you available to start?</h3>
+        <input
+          type="text"
+          value={availability}
+          onChange={(e) => setAvailability(e.target.value)}
+          placeholder="e.g., September 2024"
+          className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+        />
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ChangePicturePage() {
+  const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSelectedImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = () => {
+    console.log('Saving new profile picture');
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Change Picture</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Profile Picture</h3>
+
+        <div className="text-center">
+          <div className="relative inline-block mb-4">
+            <img
+              src={selectedImage || "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop"}
+              alt="Profile"
+              className="w-32 h-32 rounded-full object-cover mx-auto"
+            />
+          </div>
+
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            className="hidden"
+            id="image-upload"
+          />
+          <label
+            htmlFor="image-upload"
+            className="bg-orange hover:bg-orange/90 text-black px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block"
+          >
+            Choose New Picture
+          </label>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditProfileInfoPage() {
+  const navigate = useNavigate();
+  const [profileInfo, setProfileInfo] = useState({
+    firstName: "Sarah",
+    lastName: "Johnson",
+    dateOfBirth: "1995-05-15",
+    gender: "Female"
+  });
+
+  const handleSave = () => {
+    console.log('Saving profile info:', profileInfo);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Edit Profile Information</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Personal Information</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">First Name</label>
+            <input
+              type="text"
+              value={profileInfo.firstName}
+              onChange={(e) => setProfileInfo({...profileInfo, firstName: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Last Name</label>
+            <input
+              type="text"
+              value={profileInfo.lastName}
+              onChange={(e) => setProfileInfo({...profileInfo, lastName: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Date of Birth</label>
+            <input
+              type="date"
+              value={profileInfo.dateOfBirth}
+              onChange={(e) => setProfileInfo({...profileInfo, dateOfBirth: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Gender</label>
+            <select
+              value={profileInfo.gender}
+              onChange={(e) => setProfileInfo({...profileInfo, gender: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditSkillsPreferencesPage() {
+  const navigate = useNavigate();
+  const [preferences, setPreferences] = useState({
+    industries: ["Technology", "Marketing"],
+    jobTypes: ["Apprenticeship", "Graduate Role"],
+    workLocations: ["On-site", "Hybrid"],
+    salaryRange: { min: 18000, max: 30000 }
+  });
+
+  const handleSave = () => {
+    console.log('Saving skills and preferences:', preferences);
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Skills & Preferences</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Job Preferences</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Preferred Industries</label>
+            <div className="flex flex-wrap gap-2">
+              {["Technology", "Marketing", "Finance", "Healthcare", "Education"].map((industry) => (
+                <button
+                  key={industry}
+                  onClick={() => {
+                    const newIndustries = preferences.industries.includes(industry)
+                      ? preferences.industries.filter(i => i !== industry)
+                      : [...preferences.industries, industry];
+                    setPreferences({...preferences, industries: newIndustries});
+                  }}
+                  className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
+                    preferences.industries.includes(industry)
+                      ? 'bg-cyan-500 text-black'
+                      : 'bg-white/20 text-black hover:bg-white/30'
+                  }`}
+                >
+                  {industry}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Salary Range (£)</label>
+            <div className="flex gap-2 items-center">
+              <input
+                type="number"
+                value={preferences.salaryRange.min}
+                onChange={(e) => setPreferences({
+                  ...preferences,
+                  salaryRange: {...preferences.salaryRange, min: parseInt(e.target.value)}
+                })}
+                className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                placeholder="Min"
+              />
+              <span className="text-black">to</span>
+              <input
+                type="number"
+                value={preferences.salaryRange.max}
+                onChange={(e) => setPreferences({
+                  ...preferences,
+                  salaryRange: {...preferences.salaryRange, max: parseInt(e.target.value)}
+                })}
+                className="flex-1 p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                placeholder="Max"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Save Changes
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ChangePasswordPage() {
+  const navigate = useNavigate();
+  const [passwords, setPasswords] = useState({
+    current: "",
+    new: "",
+    confirm: ""
+  });
+
+  const handleSave = () => {
+    if (passwords.new !== passwords.confirm) {
+      alert("New passwords don't match!");
+      return;
+    }
+    console.log('Changing password');
+    navigate(-1);
+  };
+
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Change Password</h1>
+      </div>
+
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-black mb-4">Password Settings</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Current Password</label>
+            <input
+              type="password"
+              value={passwords.current}
+              onChange={(e) => setPasswords({...passwords, current: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">New Password</label>
+            <input
+              type="password"
+              value={passwords.new}
+              onChange={(e) => setPasswords({...passwords, new: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-black mb-2">Confirm New Password</label>
+            <input
+              type="password"
+              value={passwords.confirm}
+              onChange={(e) => setPasswords({...passwords, confirm: e.target.value})}
+              className="w-full p-3 border border-gray-300 rounded-lg text-black bg-white focus:outline-none focus:ring-2 focus:ring-cyan-500"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="flex gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Cancel
+        </button>
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-black py-3 px-6 rounded-xl font-semibold transition-all duration-300"
+        >
+          Change Password
+        </button>
+      </div>
+    </div>
+  );
+}
+
+// Create placeholder pages for the remaining settings
+function PrivacySettingsPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Privacy Settings</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Privacy settings configuration will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function TwoFactorAuthPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Two-Factor Authentication</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Two-factor authentication setup will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function NotificationSettingsPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Notification Settings</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Notification preferences will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function EmailPreferencesPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Email Preferences</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Email preferences configuration will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function LanguageRegionPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Language & Region</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Language and region settings will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function DataStoragePage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Data & Storage</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Data and storage management will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function DownloadDataPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Download My Data</h1>
+      </div>
+      <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+        <p className="text-black">Data download functionality will be available soon.</p>
+      </div>
+    </div>
+  );
+}
+
+function DeleteAccountPage() {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Delete Account</h1>
+      </div>
+      <div className="bg-red-50 border border-red-200 rounded-xl p-6 shadow-xl">
+        <h3 className="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3>
+        <p className="text-red-600 mb-4">Account deletion is permanent and cannot be undone.</p>
+        <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300">
+          Permanently Delete Account
+        </button>
+      </div>
+    </div>
+  );
+}
+
 function AccountSettingsPage() {
   const navigate = useNavigate();
 
