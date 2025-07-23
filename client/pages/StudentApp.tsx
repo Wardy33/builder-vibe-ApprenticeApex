@@ -556,7 +556,7 @@ function HomePage() {
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-[#00D4FF]/60 border border-[#00D4FF]/80 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-[#00D4FF]/40">
+          <div className="bg-[#EF4444]/60 border border-[#EF4444]/80 rounded-lg backdrop-blur-sm p-6 text-center shadow-lg shadow-[#EF4444]/40">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Applications Yet
