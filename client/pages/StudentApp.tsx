@@ -173,7 +173,7 @@ function SwipeCard({
           {/* Header with company logo and duration */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-3 flex-1">
-              <div className="w-10 h-10 bg-gray-800/40 backdrop-blur-sm rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-10 h-10 bg-gradient-to-br from-white/10 via-white/5 to-transparent backdrop-blur-sm rounded-xl flex items-center justify-center flex-shrink-0 border border-white/20 shadow-lg">
                 <Building2 className="h-6 w-6 text-gray-700" />
               </div>
               <div className="min-w-0 flex-1">
