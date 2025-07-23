@@ -122,7 +122,7 @@ function SignUpForm() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">
-              🎆 Join ApprenticeApex ✨
+              Join ApprenticeApex ✨
             </h2>
             <p className="text-gray-300">
               Create your student account to find amazing apprenticeships 🚀
