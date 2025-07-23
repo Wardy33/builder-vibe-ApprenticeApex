@@ -1576,7 +1576,7 @@ function ProfilePage() {
                 {mockProfile.phone}
               </div>
               <div className="flex items-center text-gray-300 text-sm">
-                <MapPin className="h-4 w-4 mr-2 text-cyan-400" />
+                <MapPin className="h-5 w-5 mr-3 text-cyan-400" />
                 {mockProfile.location}
               </div>
             </div>
