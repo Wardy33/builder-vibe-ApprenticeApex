@@ -263,4 +263,4 @@ billingSchema.methods.daysPastDue = function() {
   return Math.ceil(msPastDue / (24 * 60 * 60 * 1000));
 };
 
-export const Billing = mongoose.model<IBilling>('Billing', billingSchema);
+export const Billing = mongoose.models.Billing || mongoose.model<IBilling>('Billing', billingSchema);
