@@ -84,7 +84,7 @@ export function WebHeader() {
             <Link
               to="/contact"
               className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
-                isActive("/contact") ? "bg-gradient-to-r from-green-400 to-cyan-400 text-white" : "text-white hover:bg-white/10"
+                isActive("/contact") ? "bg-green-500 text-white" : "text-white hover:bg-white/10"
               }`}
             >
               Contact
