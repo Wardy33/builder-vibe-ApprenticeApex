@@ -169,7 +169,7 @@ function SwipeCard({
         <div className="absolute inset-0 gradient-overlay" />
 
         {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
+        <div className="absolute bottom-0 left-0 right-0 p-4 text-black">
           {/* Header with company logo and duration */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-3 flex-1">
@@ -177,7 +177,7 @@ function SwipeCard({
                 <Building2 className="h-6 w-6 text-gray-700" />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-xl font-bold text-white leading-tight">
+                <h3 className="text-xl font-bold text-black leading-tight">
                   {apprenticeship.jobTitle}
                 </h3>
                 <p className="text-orange font-medium text-sm">
@@ -233,13 +233,13 @@ function SwipeCard({
               {apprenticeship.requirements.slice(0, 2).map((req, index) => (
                 <span
                   key={index}
-                  className="bg-gradient-to-r from-gray-600/60 via-gray-700/70 to-gray-800/60 text-white px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
+                  className="bg-gradient-to-r from-gray-600/60 via-gray-700/70 to-gray-800/60 text-black px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
                 >
                   {req}
                 </span>
               ))}
               {apprenticeship.requirements.length > 2 && (
-                <span className="bg-gray-700/80 text-white px-2 py-1 rounded text-xs">
+                <span className="bg-gray-700/80 text-black px-2 py-1 rounded text-xs">
                   +{apprenticeship.requirements.length - 2} more
                 </span>
               )}
@@ -255,14 +255,14 @@ function SwipeCard({
         {/* Swipe indicators */}
         {dragDistance > 50 && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 text-white px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
+            <div className="bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 text-black px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
               INTERESTED
             </div>
           </div>
         )}
         {dragDistance < -50 && (
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <div className="bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-white px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
+            <div className="bg-gradient-to-r from-red-500 via-pink-500 to-red-600 text-black px-6 py-3 rounded-full font-bold text-xl animate-pulse shadow-2xl border-2 border-white/30">
               PASS
             </div>
           </div>
@@ -273,7 +273,7 @@ function SwipeCard({
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
             <div className="bg-gradient-to-r from-pink-500 to-red-500 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm border border-pink-300 shadow-2xl">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-white">
+                <h3 className="text-lg font-bold text-black">
                   Transport Routes
                 </h3>
                 <button
@@ -295,7 +295,7 @@ function SwipeCard({
                   <div className="flex items-center">
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
-                      <p className="font-medium text-white">Bus Route</p>
+                      <p className="font-medium text-black">Bus Route</p>
                       <p className="text-sm text-gray-300">25 min • £2.50</p>
                     </div>
                   </div>
@@ -309,7 +309,7 @@ function SwipeCard({
                   <div className="flex items-center">
                     <Train className="h-5 w-5 text-green-600 mr-3" />
                     <div>
-                      <p className="font-medium text-white">Train Route</p>
+                      <p className="font-medium text-black">Train Route</p>
                       <p className="text-sm text-gray-300">18 min • £4.20</p>
                     </div>
                   </div>
@@ -323,7 +323,7 @@ function SwipeCard({
                   <div className="flex items-center">
                     <Car className="h-5 w-5 text-orange-600 mr-3" />
                     <div>
-                      <p className="font-medium text-white">Driving</p>
+                      <p className="font-medium text-black">Driving</p>
                       <p className="text-sm text-gray-300">
                         12 min • Parking £8/day
                       </p>
@@ -339,7 +339,7 @@ function SwipeCard({
                   <div className="flex items-center">
                     <User className="h-5 w-5 text-gray-300 mr-3" />
                     <div>
-                      <p className="font-medium text-white">Walking</p>
+                      <p className="font-medium text-black">Walking</p>
                       <p className="text-sm text-gray-300">28 min • Free</p>
                     </div>
                   </div>
@@ -352,7 +352,7 @@ function SwipeCard({
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={() => setShowTransportModal(false)}
-                  className="flex-1 bg-gray-700/40 text-white py-2 px-4 rounded-lg font-medium hover:bg-gray-600/40 transition-colors backdrop-blur-sm border border-white/20"
+                  className="flex-1 bg-gray-700/40 text-black py-2 px-4 rounded-lg font-medium hover:bg-gray-600/40 transition-colors backdrop-blur-sm border border-white/20"
                 >
                   Close
                 </button>
@@ -362,7 +362,7 @@ function SwipeCard({
                     const mapsUrl = `https://maps.google.com/maps/dir/Your+Home/${encodeURIComponent(apprenticeship.location)}`;
                     window.open(mapsUrl, "_blank");
                   }}
-                  className="flex-1 bg-orange text-white py-2 px-4 rounded-lg font-medium hover:bg-orange/90 transition-colors"
+                  className="flex-1 bg-orange text-black py-2 px-4 rounded-lg font-medium hover:bg-orange/90 transition-colors"
                 >
                   Open Maps
                 </button>
@@ -535,19 +535,19 @@ function HomePage() {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-white drop-shadow-lg">
+          <h3 className="text-2xl font-bold text-black drop-shadow-lg">
             {applications.length}
           </h3>
           <p className="text-sm text-black font-semibold">Active Applications</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-white drop-shadow-lg">
+          <h3 className="text-2xl font-bold text-black drop-shadow-lg">
             {interviews.length}
           </h3>
           <p className="text-sm text-black font-semibold">Upcoming Interviews</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-white drop-shadow-lg">{profileScore}%</h3>
+          <h3 className="text-2xl font-bold text-black drop-shadow-lg">{profileScore}%</h3>
           <p className="text-sm text-black font-semibold">Profile Score</p>
         </div>
       </div>
@@ -569,15 +569,15 @@ function HomePage() {
         {mockApplications.length === 0 ? (
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-white font-bold mb-2 drop-shadow-lg">
+            <h3 className="text-black font-bold mb-2 drop-shadow-lg">
               No Applications Yet
             </h3>
-            <p className="text-white/90 text-sm mb-4 font-semibold">
+            <p className="text-black/90 text-sm mb-4 font-semibold">
               Start swiping to apply for apprenticeships!
             </p>
             <Link
               to="/student/jobs"
-              className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
+              className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
             >
               Find Jobs
             </Link>
@@ -596,18 +596,18 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-bold truncate drop-shadow-lg">
+                    <h3 className="text-black font-bold truncate drop-shadow-lg">
                       {application.jobTitle}
                     </h3>
-                    <p className="text-white/90 text-sm font-semibold">
+                    <p className="text-black/90 text-sm font-semibold">
                       {application.company}
                     </p>
-                    <p className="text-white/80 text-xs font-medium">
+                    <p className="text-black/80 text-xs font-medium">
                       Applied {application.appliedDate}
                     </p>
                     <p className={`text-xs font-medium ${isApplicationClosed(application.closingDate)
                       ? 'text-red-300 font-bold'
-                      : 'text-white/70'}`}>
+                      : 'text-black/70'}`}>
                       {isApplicationClosed(application.closingDate)
                         ? `Closed: ${new Date(application.closingDate).toLocaleDateString()}`
                         : `Closes: ${new Date(application.closingDate).toLocaleDateString()}`
@@ -616,7 +616,7 @@ function HomePage() {
                   </div>
                   <div className="flex flex-col items-end space-y-2">
                     <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium text-white ${getStatusColor(application.status)}`}
+                      className={`px-2 py-1 rounded-full text-xs font-medium text-black ${getStatusColor(application.status)}`}
                     >
                       {getStatusText(application.status)}
                     </span>
@@ -648,10 +648,10 @@ function HomePage() {
         {mockInterviews.length === 0 ? (
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-white font-bold mb-2 drop-shadow-lg">
+            <h3 className="text-black font-bold mb-2 drop-shadow-lg">
               No Interviews Scheduled
             </h3>
-            <p className="text-white/90 text-sm font-semibold">
+            <p className="text-black/90 text-sm font-semibold">
               Your interview invitations will appear here.
             </p>
           </div>
@@ -669,16 +669,16 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-bold truncate drop-shadow-lg">
+                    <h3 className="text-black font-bold truncate drop-shadow-lg">
                       {interview.jobTitle}
                     </h3>
-                    <p className="text-white/90 text-sm font-semibold">{interview.company}</p>
+                    <p className="text-black/90 text-sm font-semibold">{interview.company}</p>
                     <div className="flex items-center space-x-3 mt-1">
-                      <div className="flex items-center text-white/80 text-xs font-medium">
+                      <div className="flex items-center text-black/80 text-xs font-medium">
                         <Calendar className="h-3 w-3 mr-1" />
                         {interview.date} at {interview.time}
                       </div>
-                      <div className="flex items-center text-white/80 text-xs font-medium">
+                      <div className="flex items-center text-black/80 text-xs font-medium">
                         <Video className="h-3 w-3 mr-1" />
                         {interview.type}
                       </div>
@@ -701,7 +701,7 @@ function HomePage() {
                         ? "Confirmed"
                         : "Pending"}
                     </span>
-                    <button className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
+                    <button className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 shadow-lg">
                       Join Call
                     </button>
                   </div>
@@ -796,7 +796,7 @@ function JobsPage() {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-white mb-4">
+          <h3 className="text-2xl font-bold text-black mb-4">
             No more opportunities!
           </h3>
           <p className="text-gray-400 mb-6">
@@ -804,7 +804,7 @@ function JobsPage() {
           </p>
           <button
             onClick={() => setCurrentIndex(0)}
-            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-black px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
           >
             Start Over
           </button>
@@ -823,12 +823,12 @@ function JobsPage() {
             <input
               type="text"
               placeholder="Search apprenticeships..."
-              className="w-full pl-10 pr-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange backdrop-blur-sm transition-all duration-200"
+              className="w-full pl-10 pr-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange backdrop-blur-sm transition-all duration-200"
             />
           </div>
           <button
             onClick={() => setShowFilters(!showFilters)}
-            className="p-2 bg-gray-800/40 border border-white/20 rounded-lg text-white hover:bg-gray-700/40 backdrop-blur-sm transition-all duration-200"
+            className="p-2 bg-gray-800/40 border border-white/20 rounded-lg text-black hover:bg-gray-700/40 backdrop-blur-sm transition-all duration-200"
           >
             <Filter className="h-5 w-5" />
           </button>
@@ -869,14 +869,14 @@ function JobsPage() {
           onClick={() => handleButtonSwipe("left")}
           className="w-16 h-16 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 rounded-full flex items-center justify-center shadow-2xl hover:from-red-600 hover:via-pink-600 hover:to-red-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <X className="h-8 w-8 text-white drop-shadow-lg" />
+          <X className="h-8 w-8 text-black drop-shadow-lg" />
         </button>
 
         <button
           onClick={() => handleButtonSwipe("right")}
           className="w-16 h-16 bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-2xl hover:from-green-500 hover:via-emerald-600 hover:to-green-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <Heart className="h-8 w-8 text-white drop-shadow-lg" />
+          <Heart className="h-8 w-8 text-black drop-shadow-lg" />
         </button>
       </div>
     </div>
@@ -934,7 +934,7 @@ function MatchesPage() {
   return (
     <div className="p-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Your Matches</h2>
+        <h2 className="text-2xl font-bold text-black mb-2">Your Matches</h2>
         <p className="text-gray-300">
           Companies that are interested in your profile
         </p>
@@ -943,7 +943,7 @@ function MatchesPage() {
       {mockMatches.length === 0 ? (
         <div className="text-center py-12">
           <Star className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h3 className="text-xl font-semibold text-black mb-2">
             No matches yet
           </h3>
           <p className="text-gray-300 mb-6">
@@ -951,7 +951,7 @@ function MatchesPage() {
           </p>
           <Link
             to="/student/jobs"
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
+            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
           >
             Start Swiping
           </Link>
@@ -969,11 +969,11 @@ function MatchesPage() {
                 className="w-16 h-16 rounded-lg object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-white font-bold drop-shadow-lg">
+                <h3 className="text-black font-bold drop-shadow-lg">
                   {match.jobTitle}
                 </h3>
-                <p className="text-white/90 font-semibold">{match.company}</p>
-                <p className="text-sm text-white/80 font-medium">{match.matchDate}</p>
+                <p className="text-black/90 font-semibold">{match.company}</p>
+                <p className="text-sm text-black/80 font-medium">{match.matchDate}</p>
               </div>
               <div className="flex flex-col gap-2">
                 {match.status === "new" && (
@@ -985,14 +985,14 @@ function MatchesPage() {
                   onClick={() =>
                     navigate(`/student/apprenticeship-info/${match.id}`)
                   }
-                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
+                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
                 >
                   <Info className="h-4 w-4" />
                   Info
                 </button>
                 <button
                   onClick={() => navigate(`/student/chat/${match.id}`)}
-                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
+                  className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Message
@@ -1033,14 +1033,14 @@ function MessagesPage() {
   return (
     <div className="p-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white mb-2">Messages</h2>
+        <h2 className="text-2xl font-bold text-black mb-2">Messages</h2>
         <p className="text-gray-300">Chat with companies</p>
       </div>
 
       {mockConversations.length === 0 ? (
         <div className="text-center py-12">
           <MessageCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-2">
+          <h3 className="text-xl font-semibold text-black mb-2">
             No messages yet
           </h3>
           <p className="text-gray-300 mb-6">
@@ -1048,7 +1048,7 @@ function MessagesPage() {
           </p>
           <Link
             to="/student/jobs"
-            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
+            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
           >
             Find Matches
           </Link>
@@ -1068,15 +1068,15 @@ function MessagesPage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-white font-bold truncate drop-shadow-lg">
+                  <h3 className="text-black font-bold truncate drop-shadow-lg">
                     {conversation.company}
                   </h3>
-                  <span className="text-xs text-white/80 font-medium">
+                  <span className="text-xs text-black/80 font-medium">
                     {conversation.time}
                   </span>
                 </div>
                 <p
-                  className={`text-sm truncate ${conversation.unread ? "text-white font-semibold" : "text-white/90 font-medium"}`}
+                  className={`text-sm truncate ${conversation.unread ? "text-black font-semibold" : "text-black/90 font-medium"}`}
                 >
                   {conversation.lastMessage}
                 </p>
@@ -1144,11 +1144,11 @@ function ApprenticeshipInfoPage() {
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105"
+          className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black transition-all duration-200 hover:scale-105"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-lg font-semibold text-white">
+        <h1 className="text-lg font-semibold text-black">
           Apprenticeship Details
         </h1>
         <div className="w-10" />
@@ -1164,7 +1164,7 @@ function ApprenticeshipInfoPage() {
               className="w-16 h-16 rounded-lg object-cover"
             />
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white mb-1">
+              <h2 className="text-2xl font-bold text-black mb-1">
                 {apprenticeshipInfo.jobTitle}
               </h2>
               <p className="text-orange font-semibold text-lg mb-2">
@@ -1194,7 +1194,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex gap-2">
               <button
                 onClick={() => navigate(`/student/chat/${id}`)}
-                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-xl"
+                className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-2 shadow-xl"
               >
                 <MessageCircle className="h-4 w-4" />
                 Message Company
@@ -1214,7 +1214,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Description */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-black mb-3">
             About this role
           </h3>
           <p className="text-gray-300 leading-relaxed">
@@ -1224,7 +1224,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Requirements */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-black mb-3">
             Requirements
           </h3>
           <ul className="space-y-2">
@@ -1239,7 +1239,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Responsibilities */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-black mb-3">
             Your responsibilities
           </h3>
           <ul className="space-y-2">
@@ -1254,7 +1254,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Benefits */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-black mb-3">
             Benefits & Perks
           </h3>
           <ul className="space-y-2">
@@ -1269,7 +1269,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Key Details */}
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
-          <h3 className="text-lg font-semibold text-white mb-3">
+          <h3 className="text-lg font-semibold text-black mb-3">
             Key Details
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1277,7 +1277,7 @@ function ApprenticeshipInfoPage() {
               <Calendar className="h-5 w-5 text-gray-500 mr-2" />
               <div>
                 <p className="text-sm text-gray-300">Start Date</p>
-                <p className="font-medium text-white">
+                <p className="font-medium text-black">
                   {apprenticeshipInfo.startDate}
                 </p>
               </div>
@@ -1288,7 +1288,7 @@ function ApprenticeshipInfoPage() {
                 <p className="text-sm text-gray-300">Application Deadline</p>
                 <p className={`font-medium ${isApplicationClosed(apprenticeshipInfo.applicationDeadline)
                   ? 'text-red-400 font-bold'
-                  : 'text-white'}`}>
+                  : 'text-black'}`}>
                   {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
                   {isApplicationClosed(apprenticeshipInfo.applicationDeadline) && (
                     <span className="text-red-400 text-sm ml-2">(CLOSED)</span>
@@ -1300,7 +1300,7 @@ function ApprenticeshipInfoPage() {
               <Building2 className="h-5 w-5 text-gray-500 mr-2" />
               <div>
                 <p className="text-sm text-gray-300">Industry</p>
-                <p className="font-medium text-white">
+                <p className="font-medium text-black">
                   {apprenticeshipInfo.industry}
                 </p>
               </div>
@@ -1309,7 +1309,7 @@ function ApprenticeshipInfoPage() {
               <User className="h-5 w-5 text-gray-500 mr-2" />
               <div>
                 <p className="text-sm text-gray-300">Duration</p>
-                <p className="font-medium text-white">
+                <p className="font-medium text-black">
                   {apprenticeshipInfo.duration}
                 </p>
               </div>
@@ -1337,16 +1337,16 @@ function ApprenticeshipInfoPage() {
               </>
             ) : (
               <>
-                <h3 className="text-lg font-semibold text-white mb-2">
+                <h3 className="text-lg font-semibold text-black mb-2">
                   Ready to apply?
                 </h3>
-                <p className="text-white/80 mb-2">
+                <p className="text-black/80 mb-2">
                   Join {apprenticeshipInfo.company} and start your career journey!
                 </p>
-                <p className="text-white/70 text-sm mb-4">
+                <p className="text-black/70 text-sm mb-4">
                   Applications close on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
                 </p>
-                <button className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
+                <button className="w-full bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-black py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
                   Apply Now
                 </button>
               </>
@@ -1441,7 +1441,7 @@ function ChatPage() {
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
+            className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black mr-2 transition-all duration-200 hover:scale-105"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
@@ -1451,11 +1451,11 @@ function ChatPage() {
             className="w-10 h-10 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-white">{chatInfo.company}</h1>
+            <h1 className="font-semibold text-black">{chatInfo.company}</h1>
             <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105">
+        <button className="p-2 hover:bg-gray-800/40 backdrop-blur-sm/10 rounded-full text-black transition-all duration-200 hover:scale-105">
           <Video className="h-6 w-6" />
         </button>
       </header>
@@ -1469,7 +1469,7 @@ function ChatPage() {
           >
             <div
               className={`max-w-xs px-4 py-2 rounded-lg ${
-                msg.isOwn ? "bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white" : "bg-gradient-to-br from-gray-700/40 via-gray-800/40 to-gray-900/40 text-white border border-white/10 backdrop-blur-sm"
+                msg.isOwn ? "bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-black" : "bg-gradient-to-br from-gray-700/40 via-gray-800/40 to-gray-900/40 text-black border border-white/10 backdrop-blur-sm"
               }`}
             >
               <p className="text-sm">{msg.content}</p>
@@ -1520,12 +1520,12 @@ function ChatPage() {
                 : "Waiting for company response..."
             }
             disabled={!canSendMessage()}
-            className="flex-1 px-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange disabled:bg-gray-900/40 disabled:text-gray-500 disabled:cursor-not-allowed backdrop-blur-sm transition-all duration-200"
+            className="flex-1 px-4 py-2 bg-gray-800/40 border border-white/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange disabled:bg-gray-900/40 disabled:text-gray-500 disabled:cursor-not-allowed backdrop-blur-sm transition-all duration-200"
           />
           <button
             onClick={handleSendMessage}
             disabled={!message.trim() || !canSendMessage()}
-            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white p-2 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/20"
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-black p-2 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/20"
           >
             <MessageCircle className="h-5 w-5" />
           </button>
@@ -1564,11 +1564,11 @@ function ProfilePage() {
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover mx-auto"
           />
-          <button className="absolute bottom-0 right-0 bg-orange p-2 rounded-full text-white">
+          <button className="absolute bottom-0 right-0 bg-orange p-2 rounded-full text-black">
             <Camera className="h-4 w-4" />
           </button>
         </div>
-        <h2 className="text-2xl font-bold text-white mb-1">
+        <h2 className="text-2xl font-bold text-black mb-1">
           {mockProfile.firstName} {mockProfile.lastName}
         </h2>
         <p className="text-gray-400">{mockProfile.location}</p>
@@ -1578,16 +1578,16 @@ function ProfilePage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-white drop-shadow-lg">12</h3>
-            <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Applications</p>
+            <h3 className="text-2xl font-bold text-black drop-shadow-lg">12</h3>
+            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Applications</p>
           </div>
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-white drop-shadow-lg">5</h3>
-            <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Matches</p>
+            <h3 className="text-2xl font-bold text-black drop-shadow-lg">5</h3>
+            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Matches</p>
           </div>
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-white drop-shadow-lg">92%</h3>
-            <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Profile Score</p>
+            <h3 className="text-2xl font-bold text-black drop-shadow-lg">92%</h3>
+            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Profile Score</p>
           </div>
         </div>
 
@@ -1596,33 +1596,33 @@ function ProfilePage() {
           {/* Bio */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold drop-shadow-lg">About</h3>
-              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
+              <h3 className="text-black font-semibold drop-shadow-lg">About</h3>
+              <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
-            <p className="text-white/80 text-sm">{mockProfile.bio}</p>
+            <p className="text-black/80 text-sm">{mockProfile.bio}</p>
           </div>
 
           {/* Contact Info */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold drop-shadow-lg">Contact</h3>
-              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
+              <h3 className="text-black font-semibold drop-shadow-lg">Contact</h3>
+              <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
             <div className="space-y-2">
-              <div className="flex items-center text-white/80 text-sm">
-                <Mail className="h-5 w-5 mr-3 text-white/80" />
+              <div className="flex items-center text-black/80 text-sm">
+                <Mail className="h-5 w-5 mr-3 text-black/80" />
                 {mockProfile.email}
               </div>
-              <div className="flex items-center text-white/80 text-sm">
-                <Phone className="h-5 w-5 mr-3 text-white/80" />
+              <div className="flex items-center text-black/80 text-sm">
+                <Phone className="h-5 w-5 mr-3 text-black/80" />
                 {mockProfile.phone}
               </div>
-              <div className="flex items-center text-white/80 text-sm">
-                <MapPin className="h-5 w-5 mr-3 text-white/80" />
+              <div className="flex items-center text-black/80 text-sm">
+                <MapPin className="h-5 w-5 mr-3 text-black/80" />
                 {mockProfile.location}
               </div>
             </div>
@@ -1631,8 +1631,8 @@ function ProfilePage() {
           {/* Skills */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold drop-shadow-lg">Skills</h3>
-              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
+              <h3 className="text-black font-semibold drop-shadow-lg">Skills</h3>
+              <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
@@ -1640,7 +1640,7 @@ function ProfilePage() {
               {mockProfile.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="bg-white/20 text-white px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
+                  className="bg-white/20 text-black px-3 py-1 rounded-full text-sm font-medium backdrop-blur-sm"
                 >
                   {skill}
                 </span>
@@ -1651,13 +1651,13 @@ function ProfilePage() {
           {/* Availability */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold drop-shadow-lg">Availability</h3>
-              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
+              <h3 className="text-black font-semibold drop-shadow-lg">Availability</h3>
+              <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
-            <div className="flex items-center text-white/80 text-sm">
-              <Calendar className="h-5 w-5 mr-3 text-white/80" />
+            <div className="flex items-center text-black/80 text-sm">
+              <Calendar className="h-5 w-5 mr-3 text-black/80" />
               Available from {mockProfile.availableFrom}
             </div>
           </div>
@@ -1665,7 +1665,7 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-white py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300">
+          <button className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-black py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300">
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
@@ -1687,14 +1687,14 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
       <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20"
+          className="p-2 hover:bg-gradient-to-r hover:from-orange-400/20 hover:to-pink-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20"
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-2xl font-bold text-white drop-shadow-lg">
+        <h1 className="text-2xl font-bold text-black drop-shadow-lg">
           ApprenticeApex
         </h1>
-        <button className="p-2 hover:bg-gradient-to-r hover:from-cyan-400/20 hover:to-blue-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
+        <button className="p-2 hover:bg-gradient-to-r hover:from-cyan-400/20 hover:to-blue-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
           <Settings className="h-6 w-6" />
         </button>
       </header>
@@ -1709,7 +1709,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             to="/student/home"
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/home")
-                ? "text-white bg-gradient-to-r from-orange-400 to-pink-500 scale-105"
+                ? "text-black bg-gradient-to-r from-orange-400 to-pink-500 scale-105"
                 : "text-gray-300 hover:text-orange-400 hover:scale-105"
             }`}
           >
@@ -1720,7 +1720,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             to="/student/jobs"
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/jobs")
-                ? "text-white bg-gradient-to-r from-cyan-400 to-blue-500 scale-105"
+                ? "text-black bg-gradient-to-r from-cyan-400 to-blue-500 scale-105"
                 : "text-gray-300 hover:text-cyan-400 hover:scale-105"
             }`}
           >
@@ -1731,7 +1731,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             to="/student/matches"
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/matches")
-                ? "text-white bg-gradient-to-r from-pink-500 to-red-500 scale-105"
+                ? "text-black bg-gradient-to-r from-pink-500 to-red-500 scale-105"
                 : "text-gray-300 hover:text-pink-400 hover:scale-105"
             }`}
           >
@@ -1742,7 +1742,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             to="/student/messages"
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/messages")
-                ? "text-white bg-gradient-to-r from-purple-500 to-pink-500 scale-105"
+                ? "text-black bg-gradient-to-r from-purple-500 to-pink-500 scale-105"
                 : "text-gray-300 hover:text-purple-400 hover:scale-105"
             }`}
           >
@@ -1753,7 +1753,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             to="/student/profile"
             className={`flex flex-col items-center p-3 rounded-xl transition-all duration-200 ${
               isActive("/student/profile")
-                ? "text-white bg-gradient-to-r from-green-400 to-cyan-400 scale-105"
+                ? "text-black bg-gradient-to-r from-green-400 to-cyan-400 scale-105"
                 : "text-gray-300 hover:text-green-400 hover:scale-105"
             }`}
           >
