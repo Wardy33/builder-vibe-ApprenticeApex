@@ -2022,6 +2022,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
     description: '',
     requirements: [''],
     postedDate: new Date().toISOString().split('T')[0],
+    closingDate: '',
     applications: 0,
     status: 'active' as 'active' | 'paused' | 'closed'
   });
