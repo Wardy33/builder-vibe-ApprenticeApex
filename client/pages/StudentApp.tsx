@@ -1647,7 +1647,13 @@ function ProfilePage() {
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
           <button
-            onClick={() => navigate('/student/account-settings')}
+            onClick={() => {
+              try {
+                navigate('/student/account-settings');
+              } catch (error) {
+                console.error('Navigation error to account-settings:', error);
+              }
+            }}
             className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-black py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300"
           >
             <span>Account Settings</span>
