@@ -186,10 +186,10 @@ function SwipeCard({
                 <Building2 className="h-6 w-6 text-gray-700" />
               </div>
               <div className="min-w-0 flex-1">
-                <h3 className="text-xl font-bold text-black leading-tight">
+                <h3 className="text-xl font-bold text-white leading-tight drop-shadow-xl">
                   {apprenticeship.jobTitle}
                 </h3>
-                <p className="text-orange font-medium text-sm">
+                <p className="text-white font-medium text-sm drop-shadow-lg">
                   {apprenticeship.company}
                 </p>
               </div>
@@ -203,18 +203,18 @@ function SwipeCard({
           <div className="space-y-2 mb-3 text-sm">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <MapPin className="h-3 w-3 mr-1 text-gray-300" />
-                <span className="text-gray-300">{apprenticeship.location}</span>
+                <MapPin className="h-3 w-3 mr-1 text-white/90" />
+                <span className="text-white/90 drop-shadow-lg">{apprenticeship.location}</span>
               </div>
               <div className="flex items-center">
-                <Briefcase className="h-3 w-3 mr-1 text-gray-300" />
-                <span className="text-gray-300">{apprenticeship.industry}</span>
+                <Briefcase className="h-3 w-3 mr-1 text-white/90" />
+                <span className="text-white/90 drop-shadow-lg">{apprenticeship.industry}</span>
               </div>
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <Navigation className="h-3 w-3 mr-1 text-orange" />
-                <span className="text-orange font-medium">
+                <Navigation className="h-3 w-3 mr-1 text-white" />
+                <span className="text-white font-medium drop-shadow-lg">
                   {apprenticeship.distance} from home
                 </span>
               </div>
@@ -232,7 +232,7 @@ function SwipeCard({
           </div>
 
           {/* Description */}
-          <p className="text-sm text-gray-200 mb-3 line-clamp-2 leading-relaxed">
+          <p className="text-sm text-white/90 mb-3 line-clamp-2 leading-relaxed drop-shadow-lg">
             {apprenticeship.description}
           </p>
 
@@ -242,13 +242,13 @@ function SwipeCard({
               {apprenticeship.requirements.slice(0, 2).map((req, index) => (
                 <span
                   key={index}
-                  className="bg-gradient-to-r from-gray-600/60 via-gray-700/70 to-gray-800/60 text-black px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
+                  className="bg-black/60 text-white px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
                 >
                   {req}
                 </span>
               ))}
               {apprenticeship.requirements.length > 2 && (
-                <span className="bg-gray-700/80 text-black px-2 py-1 rounded text-xs">
+                <span className="bg-black/60 text-white px-2 py-1 rounded text-xs">
                   +{apprenticeship.requirements.length - 2} more
                 </span>
               )}
@@ -256,7 +256,7 @@ function SwipeCard({
           </div>
 
           {/* Salary */}
-          <div className="text-base font-semibold text-orange">
+          <div className="text-base font-semibold text-white drop-shadow-lg">
             {apprenticeship.salary}
           </div>
         </div>
@@ -305,7 +305,7 @@ function SwipeCard({
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
                       <p className="font-medium text-black">Bus Route</p>
-                      <p className="text-sm text-gray-300">25 min �� £2.50</p>
+                      <p className="text-sm text-gray-300">25 min • £2.50</p>
                     </div>
                   </div>
                   <button className="text-blue-600 text-sm font-medium hover:underline">
