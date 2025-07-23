@@ -117,7 +117,7 @@ export default function About() {
           <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Impact</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="group">
-              <div className="text-4xl font-bold mb-2 text-orange-400 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text [-webkit-background-clip:text] [-webkit-text-fill-color:transparent] [background-clip:text] group-hover:scale-110 transition-transform duration-200">10,000+</div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">10,000+</div>
               <div className="text-gray-300">Students Registered</div>
             </div>
             <div className="group">
