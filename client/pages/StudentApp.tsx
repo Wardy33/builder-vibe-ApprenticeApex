@@ -1829,11 +1829,17 @@ function AccountSettingsPage() {
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
           <h3 className="text-lg font-semibold text-black mb-4">Notifications</h3>
           <div className="space-y-3">
-            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+            <button
+              onClick={(e) => {e.preventDefault(); console.log('Push Notifications clicked');}}
+              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+            >
               <span className="text-black">Push Notifications</span>
               <Settings className="h-5 w-5 text-black" />
             </button>
-            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+            <button
+              onClick={(e) => {e.preventDefault(); console.log('Email Preferences clicked');}}
+              className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
+            >
               <span className="text-black">Email Preferences</span>
               <Mail className="h-5 w-5 text-black" />
             </button>
