@@ -162,4 +162,4 @@ employerAccessSchema.statics.flagSuspiciousActivity = async function(
   );
 };
 
-export const EmployerAccess = mongoose.model<IEmployerAccess>('EmployerAccess', employerAccessSchema);
+export const EmployerAccess = mongoose.models.EmployerAccess || mongoose.model<IEmployerAccess>('EmployerAccess', employerAccessSchema);
