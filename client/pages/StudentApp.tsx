@@ -285,7 +285,7 @@ function SwipeCard({
               </div>
 
               <div className="space-y-3">
-                <div className="text-sm text-gray-600 mb-4">
+                <div className="text-sm text-gray-300 mb-4">
                   Routes from your home to{" "}
                   <strong>{apprenticeship.company}</strong>
                 </div>
@@ -296,7 +296,7 @@ function SwipeCard({
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
                       <p className="font-medium text-white">Bus Route</p>
-                      <p className="text-sm text-gray-600">25 min • £2.50</p>
+                      <p className="text-sm text-gray-300">25 min • £2.50</p>
                     </div>
                   </div>
                   <button className="text-blue-600 text-sm font-medium hover:underline">
@@ -310,7 +310,7 @@ function SwipeCard({
                     <Train className="h-5 w-5 text-green-600 mr-3" />
                     <div>
                       <p className="font-medium text-white">Train Route</p>
-                      <p className="text-sm text-gray-600">18 min • £4.20</p>
+                      <p className="text-sm text-gray-300">18 min • £4.20</p>
                     </div>
                   </div>
                   <button className="text-green-600 text-sm font-medium hover:underline">
@@ -324,7 +324,7 @@ function SwipeCard({
                     <Car className="h-5 w-5 text-orange-600 mr-3" />
                     <div>
                       <p className="font-medium text-white">Driving</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-300">
                         12 min • Parking £8/day
                       </p>
                     </div>
@@ -337,13 +337,13 @@ function SwipeCard({
                 {/* Walking */}
                 <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
                   <div className="flex items-center">
-                    <User className="h-5 w-5 text-gray-600 mr-3" />
+                    <User className="h-5 w-5 text-gray-300 mr-3" />
                     <div>
                       <p className="font-medium text-white">Walking</p>
-                      <p className="text-sm text-gray-600">28 min • Free</p>
+                      <p className="text-sm text-gray-300">28 min • Free</p>
                     </div>
                   </div>
-                  <button className="text-gray-600 text-sm font-medium hover:underline">
+                  <button className="text-gray-300 text-sm font-medium hover:underline">
                     View
                   </button>
                 </div>
@@ -516,7 +516,7 @@ function HomePage() {
         <h1 className="text-2xl font-bold text-white mb-2">
           Welcome back, Sarah!
         </h1>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Here's your apprenticeship journey overview
         </p>
       </div>
@@ -527,17 +527,17 @@ function HomePage() {
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
-          <p className="text-sm text-gray-600">Active Applications</p>
+          <p className="text-sm text-gray-300">Active Applications</p>
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
-          <p className="text-sm text-gray-600">Upcoming Interviews</p>
+          <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
         <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
-          <p className="text-sm text-gray-600">Profile Score</p>
+          <p className="text-sm text-gray-300">Profile Score</p>
         </div>
       </div>
 
@@ -561,7 +561,7 @@ function HomePage() {
             <h3 className="text-white font-semibold mb-2">
               No Applications Yet
             </h3>
-            <p className="text-gray-600 text-sm mb-4">
+            <p className="text-gray-300 text-sm mb-4">
               Start swiping to apply for apprenticeships!
             </p>
             <Link
@@ -588,7 +588,7 @@ function HomePage() {
                     <h3 className="text-white font-semibold truncate">
                       {application.jobTitle}
                     </h3>
-                    <p className="text-gray-600 text-sm">
+                    <p className="text-gray-300 text-sm">
                       {application.company}
                     </p>
                     <p className="text-gray-500 text-xs">
@@ -632,7 +632,7 @@ function HomePage() {
             <h3 className="text-white font-semibold mb-2">
               No Interviews Scheduled
             </h3>
-            <p className="text-gray-600 text-sm">
+            <p className="text-gray-300 text-sm">
               Your interview invitations will appear here.
             </p>
           </div>
@@ -653,13 +653,13 @@ function HomePage() {
                     <h3 className="text-white font-semibold truncate">
                       {interview.jobTitle}
                     </h3>
-                    <p className="text-gray-600 text-sm">{interview.company}</p>
+                    <p className="text-gray-300 text-sm">{interview.company}</p>
                     <div className="flex items-center space-x-3 mt-1">
-                      <div className="flex items-center text-gray-600 text-xs">
+                      <div className="flex items-center text-gray-300 text-xs">
                         <Calendar className="h-3 w-3 mr-1" />
                         {interview.date} at {interview.time}
                       </div>
-                      <div className="flex items-center text-gray-600 text-xs">
+                      <div className="flex items-center text-gray-300 text-xs">
                         <Video className="h-3 w-3 mr-1" />
                         {interview.type}
                       </div>
@@ -916,7 +916,7 @@ function MatchesPage() {
     <div className="p-4">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-white mb-2">Your Matches</h2>
-        <p className="text-gray-600">
+        <p className="text-gray-300">
           Companies that are interested in your profile
         </p>
       </div>
@@ -927,7 +927,7 @@ function MatchesPage() {
           <h3 className="text-xl font-semibold text-white mb-2">
             No matches yet
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             Keep swiping to find your perfect apprenticeship!
           </p>
           <Link
@@ -953,7 +953,7 @@ function MatchesPage() {
                 <h3 className="text-white font-semibold">
                   {match.jobTitle}
                 </h3>
-                <p className="text-gray-600">{match.company}</p>
+                <p className="text-gray-300">{match.company}</p>
                 <p className="text-sm text-gray-500">{match.matchDate}</p>
               </div>
               <div className="flex flex-col gap-2">
@@ -1015,7 +1015,7 @@ function MessagesPage() {
     <div className="p-4">
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-white mb-2">Messages</h2>
-        <p className="text-gray-600">Chat with companies</p>
+        <p className="text-gray-300">Chat with companies</p>
       </div>
 
       {mockConversations.length === 0 ? (
@@ -1024,7 +1024,7 @@ function MessagesPage() {
           <h3 className="text-xl font-semibold text-white mb-2">
             No messages yet
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-300 mb-6">
             Start matching with companies to begin conversations!
           </p>
           <Link
@@ -1057,7 +1057,7 @@ function MessagesPage() {
                   </span>
                 </div>
                 <p
-                  className={`text-sm truncate ${conversation.unread ? "text-white" : "text-gray-600"}`}
+                  className={`text-sm truncate ${conversation.unread ? "text-white" : "text-gray-300"}`}
                 >
                   {conversation.lastMessage}
                 </p>
@@ -1151,7 +1151,7 @@ function ApprenticeshipInfoPage() {
               <p className="text-orange font-semibold text-lg mb-2">
                 {apprenticeshipInfo.company}
               </p>
-              <div className="flex items-center space-x-4 text-sm text-gray-600">
+              <div className="flex items-center space-x-4 text-sm text-gray-300">
                 <div className="flex items-center">
                   <MapPin className="h-4 w-4 mr-1" />
                   {apprenticeshipInfo.location}
@@ -1257,7 +1257,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Calendar className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-600">Start Date</p>
+                <p className="text-sm text-gray-300">Start Date</p>
                 <p className="font-medium text-white">
                   {apprenticeshipInfo.startDate}
                 </p>
@@ -1266,7 +1266,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Clock className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-600">Application Deadline</p>
+                <p className="text-sm text-gray-300">Application Deadline</p>
                 <p className="font-medium text-white">
                   {apprenticeshipInfo.applicationDeadline}
                 </p>
@@ -1275,7 +1275,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Building2 className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-600">Industry</p>
+                <p className="text-sm text-gray-300">Industry</p>
                 <p className="font-medium text-white">
                   {apprenticeshipInfo.industry}
                 </p>
@@ -1284,7 +1284,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <User className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-600">Duration</p>
+                <p className="text-sm text-gray-300">Duration</p>
                 <p className="font-medium text-white">
                   {apprenticeshipInfo.duration}
                 </p>
@@ -1299,7 +1299,7 @@ function ApprenticeshipInfoPage() {
             <h3 className="text-lg font-semibold text-white mb-2">
               Ready to apply?
             </h3>
-            <p className="text-gray-600 mb-4">
+            <p className="text-gray-300 mb-4">
               Join {apprenticeshipInfo.company} and start your career journey!
             </p>
             <button className="w-full bg-orange text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange/90 transition-colors">
@@ -1453,7 +1453,7 @@ function ChatPage() {
       <div className="p-4 border-t border-gray-200 bg-gray-800/40 backdrop-blur-sm">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-gray-300">
               Please wait for {chatInfo.company} to respond before sending
               another message
             </p>
