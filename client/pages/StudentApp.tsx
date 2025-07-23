@@ -966,14 +966,14 @@ function MatchesPage() {
                   onClick={() =>
                     navigate(`/student/apprenticeship-info/${match.id}`)
                   }
-                  className="bg-gray-200 text-white px-4 py-2 rounded-lg text-sm hover:bg-gray-300 transition-colors flex items-center justify-center gap-1"
+                  className="bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 hover:from-cyan-600 hover:via-blue-600 hover:to-purple-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg border border-white/20"
                 >
                   <Info className="h-4 w-4" />
                   Info
                 </button>
                 <button
                   onClick={() => navigate(`/student/chat/${match.id}`)}
-                  className="bg-orange text-white px-4 py-2 rounded-lg text-sm hover:bg-orange/90 transition-colors flex items-center justify-center gap-1"
+                  className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-4 py-2 rounded-lg text-sm transition-all duration-300 hover:scale-105 flex items-center justify-center gap-1 shadow-lg border border-white/20"
                 >
                   <MessageCircle className="h-4 w-4" />
                   Message
