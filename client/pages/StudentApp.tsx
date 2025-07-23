@@ -1548,14 +1548,14 @@ function ProfilePage() {
         {/* Profile Sections */}
         <div className="space-y-4">
           {/* Bio */}
-          <div className="bg-gradient-to-br from-cyan-400/20 via-blue-500/20 to-cyan-600/30 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 shadow-lg shadow-cyan-500/20">
+          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-white font-semibold">About</h3>
-              <button className="text-cyan-400 hover:text-cyan-300 transition-all duration-200 hover:scale-110">
+              <h3 className="text-white font-semibold drop-shadow-lg">About</h3>
+              <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
             </div>
-            <p className="text-gray-300 text-sm">{mockProfile.bio}</p>
+            <p className="text-white/80 text-sm">{mockProfile.bio}</p>
           </div>
 
           {/* Contact Info */}
