@@ -1967,6 +1967,7 @@ function CompanyChatPage() {
 export default function CompanyPortal() {
   return (
     <Routes>
+      <Route path="/chat/:id" element={<CompanyChatPage />} />
       <Route
         path="/*"
         element={
@@ -1977,6 +1978,7 @@ export default function CompanyPortal() {
               <Route path="/applications" element={<ApplicationsPage />} />
               <Route path="/interviews" element={<InterviewsPage />} />
               <Route path="/messages" element={<MessagesPage />} />
+              <Route path="/messages/:id" element={<CompanyChatPage />} />
               <Route path="/subscription" element={<SubscriptionPage />} />
             </Routes>
           </CompanyPortalLayout>
