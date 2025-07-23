@@ -151,7 +151,7 @@ export default function LiveChat() {
         className="fixed bottom-6 right-6 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-2xl transition-all duration-300 z-50 border-2 border-white/30"
         title="Open live chat"
       >
-        <Sparkles className="w-7 h-7" />
+        <MessageCircle className="w-7 h-7" />
       </button>
     );
   }
