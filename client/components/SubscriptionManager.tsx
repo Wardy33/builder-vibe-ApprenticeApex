@@ -138,6 +138,8 @@ export default function SubscriptionManager() {
         setSubscriptionData(mockTrialData);
         // Store demo data in localStorage
         localStorage.setItem('demoSubscriptionData', JSON.stringify(mockTrialData));
+        // Trigger event to refresh subscription limits across the app
+        window.dispatchEvent(new Event('subscriptionUpdated'));
       }
     } catch (error) {
       console.error('Error starting trial:', error);
@@ -161,6 +163,8 @@ export default function SubscriptionManager() {
 
         setSubscriptionData(updatedData);
         localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedData));
+        // Trigger event to refresh subscription limits across the app
+        window.dispatchEvent(new Event('subscriptionUpdated'));
         setShowUpgradeModal(false);
         alert(`Successfully upgraded to ${getPlanDisplayName(planType)} plan!`);
       }
@@ -364,7 +368,10 @@ export default function SubscriptionManager() {
             };
 
             localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedSubscriptionData));
-            window.location.reload(); // Refresh to show new plan
+            // Trigger event to refresh subscription limits across the app
+            window.dispatchEvent(new Event('subscriptionUpdated'));
+            // Refresh page to show new plan after a short delay
+            setTimeout(() => window.location.reload(), 500);
           }, 1000);
 
         } catch (error) {
