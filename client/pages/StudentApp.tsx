@@ -340,7 +340,7 @@ function SwipeCard({
                     <User className="h-5 w-5 text-gray-300 mr-3" />
                     <div>
                       <p className="font-medium text-white">Walking</p>
-                      <p className="text-sm text-gray-300">28 min • Free</p>
+                      <p className="text-sm text-gray-300">28 min ��� Free</p>
                     </div>
                   </div>
                   <button className="text-gray-300 text-sm font-medium hover:underline">
@@ -942,7 +942,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-gradient-to-br from-pink-400/40 to-pink-600/50 border border-pink-400/50 rounded-xl backdrop-blur-sm p-6 flex items-center space-x-4 shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 cursor-pointer group"
+              className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
             >
               <img
                 src={match.image}
