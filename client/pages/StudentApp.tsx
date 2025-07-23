@@ -576,7 +576,7 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-gradient-to-br from-pink-400/40 to-pink-600/50 border border-pink-400/50 rounded-xl backdrop-blur-sm p-6 shadow-xl hover:shadow-pink-500/30 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
