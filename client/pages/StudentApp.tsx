@@ -527,7 +527,7 @@ function HomePage() {
         <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-3">
           Welcome back, Sarah!
         </h1>
-        <p className="text-gray-600">
+        <p className="text-black">
           Here's your apprenticeship journey overview
         </p>
       </div>
@@ -1274,7 +1274,7 @@ function ApprenticeshipInfoPage() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center">
-              <Calendar className="h-5 w-5 text-gray-500 mr-2" />
+              <Calendar className="h-5 w-5 text-black/50 mr-2" />
               <div>
                 <p className="text-sm text-black/70">Start Date</p>
                 <p className="font-medium text-black">
@@ -1283,7 +1283,7 @@ function ApprenticeshipInfoPage() {
               </div>
             </div>
             <div className="flex items-center">
-              <Clock className="h-5 w-5 text-gray-500 mr-2" />
+              <Clock className="h-5 w-5 text-black/50 mr-2" />
               <div>
                 <p className="text-sm text-black/70">Application Deadline</p>
                 <p className={`font-medium ${isApplicationClosed(apprenticeshipInfo.applicationDeadline)
@@ -1297,7 +1297,7 @@ function ApprenticeshipInfoPage() {
               </div>
             </div>
             <div className="flex items-center">
-              <Building2 className="h-5 w-5 text-gray-500 mr-2" />
+              <Building2 className="h-5 w-5 text-black/50 mr-2" />
               <div>
                 <p className="text-sm text-black/70">Industry</p>
                 <p className="font-medium text-black">
@@ -1306,7 +1306,7 @@ function ApprenticeshipInfoPage() {
               </div>
             </div>
             <div className="flex items-center">
-              <User className="h-5 w-5 text-gray-500 mr-2" />
+              <User className="h-5 w-5 text-black/50 mr-2" />
               <div>
                 <p className="text-sm text-black/70">Duration</p>
                 <p className="font-medium text-black">
