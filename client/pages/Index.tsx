@@ -56,7 +56,7 @@ export default function Index() {
                     <div className="text-gray-600 text-xs">£20k</div>
                   </div>
                 </div>
-                <h3 className="text-white font-bold mb-2">1. Browse Jobs ���</h3>
+                <h3 className="text-white font-bold mb-2">1. Browse Jobs 👀</h3>
                 <p className="text-gray-400 text-sm">Swipe through curated apprenticeships</p>
               </div>
 
@@ -253,7 +253,7 @@ export default function Index() {
                 </div>
                 <div className="group">
                   <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">2,500+</div>
-                  <div className="text-gray-300 text-sm font-medium">Partner Companies 🏢</div>
+                  <div className="text-gray-300 text-sm font-medium">Partner Companies</div>
                 </div>
                 <div className="group">
                   <div className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">85%</div>
