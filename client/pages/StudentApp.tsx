@@ -1695,7 +1695,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
         <h1 className="text-2xl font-bold text-cyan-400 drop-shadow-lg">
           ApprenticeApex
         </h1>
-        <button className="p-2 hover:bg-gradient-to-r hover:from-cyan-400/20 hover:to-blue-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
+        <button className="p-2 hover:bg-cyan-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
           <Settings className="h-6 w-6" />
         </button>
       </header>
