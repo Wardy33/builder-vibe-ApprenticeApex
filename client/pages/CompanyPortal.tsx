@@ -856,9 +856,66 @@ function JobListingsPage() {
             className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange focus:border-transparent w-full"
           />
         </div>
-        <button className="p-2 border border-gray-300 rounded-lg hover:bg-white/10">
-          <Filter className="h-5 w-5 text-gray-300" />
-        </button>
+        <div className="relative">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className="p-2 border border-gray-300 rounded-lg hover:bg-white/10 transition-colors"
+          >
+            <Filter className="h-5 w-5 text-gray-300" />
+          </button>
+
+          {showFilters && (
+            <div className="absolute right-0 top-12 bg-white border border-gray-300 rounded-lg shadow-lg p-4 z-10 min-w-48">
+              <h4 className="font-semibold text-gray-900 mb-3">Filter by Status</h4>
+              <div className="space-y-2">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="all"
+                    checked={statusFilter === "all"}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700">All</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="active"
+                    checked={statusFilter === "active"}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700">Active</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="paused"
+                    checked={statusFilter === "paused"}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700">Paused</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="status"
+                    value="closed"
+                    checked={statusFilter === "closed"}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="mr-2"
+                  />
+                  <span className="text-gray-700">Closed</span>
+                </label>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       <div className="grid gap-4 sm:gap-6">
