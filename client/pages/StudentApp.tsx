@@ -1139,7 +1139,7 @@ function ApprenticeshipInfoPage() {
 
       <div className="p-4 space-y-6 bg-white">
         {/* Company Header */}
-        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+        <div className="bg-black border border-gray-600 rounded-2xl p-6 shadow-xl">
           <div className="flex items-start space-x-4">
             <img
               src={apprenticeshipInfo.companyLogo}
@@ -1646,7 +1646,10 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-black py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300">
+          <button
+            onClick={() => navigate('/student/account-settings')}
+            className="w-full bg-[#00D4FF] border border-[#00D4FF]/30 text-black py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-[#00D4FF]/50 hover:scale-105 transition-all duration-300"
+          >
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
