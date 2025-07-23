@@ -932,7 +932,7 @@ function MatchesPage() {
           </p>
           <Link
             to="/student/jobs"
-            className="bg-white text-purple-600 hover:bg-gray-50 px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl border border-purple-200"
+            className="bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-xl"
           >
             Start Swiping
           </Link>
