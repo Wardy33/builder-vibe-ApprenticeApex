@@ -70,7 +70,7 @@ const mockApprenticeship: Apprenticeship[] = [
       "Problem-solving skills",
       "Passion for technology",
     ],
-    salary: "£18,000 - ��25,000",
+    salary: "£18,000 - £25,000",
     image:
       "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop",
   },
@@ -523,19 +523,19 @@ function HomePage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
           <p className="text-sm text-gray-300">Active Applications</p>
         </div>
-        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
           <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
-        <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+        <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
           <p className="text-sm text-gray-300">Profile Score</p>
         </div>
@@ -1531,15 +1531,15 @@ function ProfilePage() {
       <div className="space-y-6">
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-orange">12</h3>
             <p className="text-sm text-cyan-100 font-semibold tracking-wide">Applications</p>
           </div>
-          <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-orange">5</h3>
             <p className="text-sm text-cyan-100 font-semibold tracking-wide">Matches</p>
           </div>
-          <div className="bg-gradient-to-br from-blue-400/40 to-blue-600/50 border border-blue-400/60 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
+          <div className="bg-gradient-to-br from-purple-500/40 to-pink-500/50 border border-purple-400/50 rounded-xl backdrop-blur-sm p-6 text-center shadow-xl hover:shadow-purple-500/30 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-orange">92%</h3>
             <p className="text-sm text-cyan-100 font-semibold tracking-wide">Profile Score</p>
           </div>
