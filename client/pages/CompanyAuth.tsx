@@ -527,8 +527,7 @@ export function CompanySignUpForm() {
                   type="button"
                   onClick={nextStep}
                   disabled={!validateStep(currentStep)}
-                  className="ml-auto px-6 py-3 text-white rounded-lg hover:opacity-90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
-                  style={{backgroundColor: '#da6927'}}
+                  className="ml-auto px-6 py-3 text-white rounded-lg hover:scale-105 disabled:bg-gray-400 disabled:cursor-not-allowed transition-all duration-200 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 border border-white/20"
                 >
                   Next
                 </button>
