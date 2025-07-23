@@ -650,10 +650,10 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-white font-semibold truncate">
+                    <h3 className="text-gray-800 font-semibold truncate">
                       {interview.jobTitle}
                     </h3>
-                    <p className="text-gray-300 text-sm">{interview.company}</p>
+                    <p className="text-gray-600 text-sm">{interview.company}</p>
                     <div className="flex items-center space-x-3 mt-1">
                       <div className="flex items-center text-gray-300 text-xs">
                         <Calendar className="h-3 w-3 mr-1" />
