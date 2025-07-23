@@ -1418,78 +1418,75 @@ function ChatPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex flex-col">
-      {/* Header */}
-      <header className="flex items-center justify-between p-4 border-b border-white/10 bg-gradient-to-r from-black via-gray-900 to-black backdrop-blur-sm">
+    <div className="min-h-screen bg-white flex flex-col">
+      {/* Header - Instagram Style */}
+      <header className="bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
         <div className="flex items-center">
           <button
             onClick={() => navigate(-1)}
-            className="p-2 hover:bg-white/20 backdrop-blur-sm/10 rounded-full text-white mr-2 transition-all duration-200 hover:scale-105"
+            className="p-2 hover:bg-gray-100 rounded-full text-black mr-2 transition-all duration-200"
           >
             <ArrowLeft className="h-6 w-6" />
           </button>
           <img
             src={chatInfo.companyLogo}
             alt={chatInfo.company}
-            className="w-10 h-10 rounded-full object-cover mr-3"
+            className="w-8 h-8 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-white">{chatInfo.company}</h1>
-            <p className="text-sm text-gray-300">{chatInfo.jobTitle}</p>
+            <h1 className="font-semibold text-black text-sm">{chatInfo.company}</h1>
+            <p className="text-xs text-gray-500">{chatInfo.jobTitle}</p>
           </div>
         </div>
-        <button className="p-2 hover:bg-white/20 backdrop-blur-sm/10 rounded-full text-white transition-all duration-200 hover:scale-105">
-          <Video className="h-6 w-6" />
+        <button className="p-2 hover:bg-gray-100 rounded-full text-black transition-all duration-200">
+          <Video className="h-5 w-5" />
         </button>
       </header>
 
-      {/* Messages */}
-      <div className="flex-1 p-4 space-y-4 overflow-y-auto">
+      {/* Messages - Instagram Style */}
+      <div className="flex-1 px-4 py-2 overflow-y-auto">
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`flex ${msg.isOwn ? "justify-end" : "justify-start"}`}
+            className={`flex mb-2 ${msg.isOwn ? "justify-end" : "justify-start"}`}
           >
             <div
-              className={`max-w-xs px-4 py-2 rounded-lg ${
-                msg.isOwn ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white shadow-lg" : "bg-white/95 text-black shadow-lg border border-gray-200"
+              className={`max-w-[70%] px-4 py-2 ${
+                msg.isOwn
+                  ? "bg-blue-500 text-white rounded-l-3xl rounded-tr-3xl rounded-br-md"
+                  : "bg-gray-200 text-black rounded-r-3xl rounded-tl-3xl rounded-bl-md"
               }`}
             >
-              <p className="text-sm">{msg.content}</p>
-              <p
-                className={`text-xs mt-1 ${msg.isOwn ? "text-cyan-100" : "text-gray-600"}`}
-              >
-                {msg.timestamp}
-              </p>
+              <p className="text-sm leading-relaxed">{msg.content}</p>
             </div>
           </div>
         ))}
 
-        {/* Waiting for response indicator */}
+        {/* Typing indicator - Instagram Style */}
         {!canSendMessage() && (
-          <div className="flex justify-center">
-            <div className="bg-gradient-to-r from-pink-400/20 to-purple-400/20 border border-pink-300/50 rounded-lg px-4 py-2 flex items-center space-x-2 backdrop-blur-sm">
-              <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
-              <p className="text-sm text-white">
-                Waiting for {chatInfo.company} to respond...
-              </p>
+          <div className="flex justify-start mb-2">
+            <div className="bg-gray-200 rounded-r-3xl rounded-tl-3xl rounded-bl-md px-4 py-2 flex items-center space-x-1">
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+              </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Message Input */}
-      <div className="p-4 border-t border-white/20 bg-gradient-to-r from-gray-800/60 to-gray-700/60 backdrop-blur-sm">
+      {/* Message Input - Instagram Style */}
+      <div className="bg-white border-t border-gray-200 px-4 py-3">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
-            <p className="text-sm text-white">
-              Please wait for {chatInfo.company} to respond before sending
-              another message
+            <p className="text-xs text-gray-500">
+              Wait for {chatInfo.company} to respond before sending another message
             </p>
           </div>
         )}
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
           <input
             type="text"
             value={message}
@@ -1499,24 +1496,25 @@ function ChatPage() {
             }
             placeholder={
               canSendMessage()
-                ? "Type a message..."
-                : "Waiting for company response..."
+                ? "Message..."
+                : "Waiting for response..."
             }
             disabled={!canSendMessage()}
-            className="flex-1 px-4 py-2 bg-white/90 border border-gray-300 rounded-lg text-black placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-2 focus:ring-cyan-500/20 disabled:bg-gray-300 disabled:text-gray-600 disabled:cursor-not-allowed transition-all duration-200 shadow-lg"
+            className="flex-1 bg-transparent text-black placeholder-gray-500 text-sm focus:outline-none disabled:text-gray-400"
           />
-          <button
-            onClick={handleSendMessage}
-            disabled={!message.trim() || !canSendMessage()}
-            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-black p-2 rounded-lg transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg border border-white/20"
-          >
-            <MessageCircle className="h-5 w-5" />
-          </button>
+          {message.trim() && canSendMessage() && (
+            <button
+              onClick={handleSendMessage}
+              className="text-blue-500 font-semibold text-sm ml-2 hover:text-blue-600 transition-colors"
+            >
+              Send
+            </button>
+          )}
         </div>
 
         {!canSendMessage() && (
-          <div className="mt-2 text-xs text-gray-500 text-center">
-            You sent: "{getLastStudentMessage()?.content}"
+          <div className="mt-2 text-xs text-gray-400 text-center">
+            You: "{getLastStudentMessage()?.content}"
           </div>
         )}
       </div>
