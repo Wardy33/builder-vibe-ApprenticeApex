@@ -321,7 +321,7 @@ export default function ForEmployers() {
                     className={`w-full py-4 px-4 rounded-lg font-semibold transition-all duration-200 text-center block hover:scale-105 ${
                       plan.id === 'trial'
                         ? 'bg-pink-500 hover:bg-pink-600 text-white'
-                        : 'bg-gradient-to-r from-cyan-400 to-blue-500 text-white'
+                        : 'bg-cyan-500 hover:bg-cyan-600 text-white'
                     }`}
                   >
                     {plan.id === 'trial' ? 'Start Free Trial' :
