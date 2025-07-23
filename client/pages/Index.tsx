@@ -69,7 +69,7 @@ export default function Index() {
                     <div className="text-green-600 text-xs">92% fit</div>
                   </div>
                 </div>
-                <h3 className="text-white font-bold mb-2">2. Get Matched 🎯</h3>
+                <h3 className="text-white font-bold mb-2">2. Get Matched</h3>
                 <p className="text-gray-400 text-sm">AI finds your perfect fit</p>
               </div>
 
