@@ -61,6 +61,7 @@ interface JobListing {
   description: string;
   requirements: string[];
   postedDate: string;
+  closingDate: string;
   applications: number;
   status: "active" | "paused" | "closed";
 }
