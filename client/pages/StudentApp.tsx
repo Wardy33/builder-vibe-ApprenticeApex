@@ -536,19 +536,19 @@ function HomePage() {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black drop-shadow-lg">
+          <h3 className="text-2xl font-bold text-black ">
             {applications.length}
           </h3>
           <p className="text-sm text-black font-semibold">Active Applications</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black drop-shadow-lg">
+          <h3 className="text-2xl font-bold text-black ">
             {interviews.length}
           </h3>
           <p className="text-sm text-black font-semibold">Upcoming Interviews</p>
         </div>
         <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-          <h3 className="text-2xl font-bold text-black drop-shadow-lg">{profileScore}%</h3>
+          <h3 className="text-2xl font-bold text-black ">{profileScore}%</h3>
           <p className="text-sm text-black font-semibold">Profile Score</p>
         </div>
       </div>
@@ -570,7 +570,7 @@ function HomePage() {
         {mockApplications.length === 0 ? (
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-black font-bold mb-2 drop-shadow-lg">
+            <h3 className="text-black font-bold mb-2 ">
               No Applications Yet
             </h3>
             <p className="text-black/90 text-sm mb-4 font-semibold">
@@ -597,7 +597,7 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-black font-bold truncate drop-shadow-lg">
+                    <h3 className="text-black font-bold truncate ">
                       {application.jobTitle}
                     </h3>
                     <p className="text-black/90 text-sm font-semibold">
@@ -621,7 +621,7 @@ function HomePage() {
                     >
                       {getStatusText(application.status)}
                     </span>
-                    <div className="text-yellow-200 text-sm font-bold drop-shadow-lg">
+                    <div className="text-yellow-200 text-sm font-bold ">
                       {application.matchScore}% match
                     </div>
                   </div>
@@ -649,7 +649,7 @@ function HomePage() {
         {mockInterviews.length === 0 ? (
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-            <h3 className="text-black font-bold mb-2 drop-shadow-lg">
+            <h3 className="text-black font-bold mb-2 ">
               No Interviews Scheduled
             </h3>
             <p className="text-black/90 text-sm font-semibold">
@@ -670,7 +670,7 @@ function HomePage() {
                     className="w-12 h-12 rounded-lg object-cover"
                   />
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-black font-bold truncate drop-shadow-lg">
+                    <h3 className="text-black font-bold truncate ">
                       {interview.jobTitle}
                     </h3>
                     <p className="text-black/90 text-sm font-semibold">{interview.company}</p>
@@ -870,14 +870,14 @@ function JobsPage() {
           onClick={() => handleButtonSwipe("left")}
           className="w-16 h-16 bg-gradient-to-r from-red-500 via-pink-500 to-red-600 rounded-full flex items-center justify-center shadow-2xl hover:from-red-600 hover:via-pink-600 hover:to-red-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <X className="h-8 w-8 text-black drop-shadow-lg" />
+          <X className="h-8 w-8 text-black " />
         </button>
 
         <button
           onClick={() => handleButtonSwipe("right")}
           className="w-16 h-16 bg-gradient-to-r from-green-400 via-emerald-500 to-green-600 rounded-full flex items-center justify-center shadow-2xl hover:from-green-500 hover:via-emerald-600 hover:to-green-700 transition-all duration-300 hover:scale-110 border-2 border-white/20"
         >
-          <Heart className="h-8 w-8 text-black drop-shadow-lg" />
+          <Heart className="h-8 w-8 text-black " />
         </button>
       </div>
     </div>
@@ -970,7 +970,7 @@ function MatchesPage() {
                 className="w-16 h-16 rounded-lg object-cover"
               />
               <div className="flex-1">
-                <h3 className="text-black font-bold drop-shadow-lg">
+                <h3 className="text-black font-bold ">
                   {match.jobTitle}
                 </h3>
                 <p className="text-black/90 font-semibold">{match.company}</p>
@@ -1069,7 +1069,7 @@ function MessagesPage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-black font-bold truncate drop-shadow-lg">
+                  <h3 className="text-black font-bold truncate ">
                     {conversation.company}
                   </h3>
                   <span className="text-xs text-black/80 font-medium">
@@ -1579,16 +1579,16 @@ function ProfilePage() {
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black drop-shadow-lg">12</h3>
-            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Applications</p>
+            <h3 className="text-2xl font-bold text-black ">12</h3>
+            <p className="text-sm text-black font-bold tracking-wide ">Applications</p>
           </div>
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black drop-shadow-lg">5</h3>
-            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Matches</p>
+            <h3 className="text-2xl font-bold text-black ">5</h3>
+            <p className="text-sm text-black font-bold tracking-wide ">Matches</p>
           </div>
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-[#00D4FF]/50 transition-all duration-300 hover:scale-105">
-            <h3 className="text-2xl font-bold text-black drop-shadow-lg">92%</h3>
-            <p className="text-sm text-black font-bold tracking-wide drop-shadow-lg">Profile Score</p>
+            <h3 className="text-2xl font-bold text-black ">92%</h3>
+            <p className="text-sm text-black font-bold tracking-wide ">Profile Score</p>
           </div>
         </div>
 
@@ -1597,7 +1597,7 @@ function ProfilePage() {
           {/* Bio */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold drop-shadow-lg">About</h3>
+              <h3 className="text-black font-semibold ">About</h3>
               <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
@@ -1608,7 +1608,7 @@ function ProfilePage() {
           {/* Contact Info */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold drop-shadow-lg">Contact</h3>
+              <h3 className="text-black font-semibold ">Contact</h3>
               <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
@@ -1632,7 +1632,7 @@ function ProfilePage() {
           {/* Skills */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold drop-shadow-lg">Skills</h3>
+              <h3 className="text-black font-semibold ">Skills</h3>
               <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
@@ -1652,7 +1652,7 @@ function ProfilePage() {
           {/* Availability */}
           <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
-              <h3 className="text-black font-semibold drop-shadow-lg">Availability</h3>
+              <h3 className="text-black font-semibold ">Availability</h3>
               <button className="text-black/80 hover:text-black transition-all duration-200 hover:scale-110">
                 <Edit className="h-4 w-4" />
               </button>
@@ -1692,7 +1692,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-2xl font-bold text-cyan-400 drop-shadow-lg">
+        <h1 className="text-2xl font-bold text-cyan-400 ">
           ApprenticeApex
         </h1>
         <button className="p-2 hover:bg-cyan-500/20 rounded-full text-black transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
