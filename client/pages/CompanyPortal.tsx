@@ -507,7 +507,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         {/* Notifications Dropdown */}
         {showNotifications && (
           <div className="absolute top-full right-4 mt-2 w-80 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="p-4 border-b border-white/20 flex items-center justify-between">
               <h3 className="font-semibold text-white">Notifications</h3>
               <div className="flex items-center space-x-2">
                 {unreadCount > 0 && (
@@ -590,7 +590,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         {/* Settings Dropdown */}
         {showSettings && (
           <div className="absolute top-full right-4 mt-2 w-64 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm shadow-lg z-50">
-            <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+            <div className="p-4 border-b border-white/20 flex items-center justify-between">
               <h3 className="font-semibold text-white">Settings</h3>
               <button
                 onClick={() => setShowSettings(false)}
@@ -663,7 +663,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         <aside
           className={`${
             showMobileSidebar ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 fixed lg:static w-64 border-r border-gray-200 min-h-[calc(100vh-73px)] bg-gray-50 z-50 transition-transform duration-300 ease-in-out`}
+          } lg:translate-x-0 fixed lg:static w-64 border-r border-white/20 min-h-[calc(100vh-73px)] bg-gray-50 z-50 transition-transform duration-300 ease-in-out`}
         >
           <nav className="p-4 space-y-2">
             {/* Mobile close button */}
@@ -1127,7 +1127,7 @@ function ApplicationsPage() {
       {selectedApplication && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+            <div className="p-6 border-b border-white/20 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-white">
                 {selectedApplication.candidateName} -{" "}
                 {selectedApplication.jobTitle}
@@ -1194,7 +1194,7 @@ function ApplicationsPage() {
                   ))}
                 </div>
               </div>
-              <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+              <div className="flex justify-end space-x-3 pt-4 border-t border-white/20">
                 <button
                   onClick={() => {
                     updateApplicationStatus(selectedApplication.id, "rejected");
@@ -2072,7 +2072,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6 border-b border-gray-200 flex items-center justify-between">
+        <div className="p-6 border-b border-white/20 flex items-center justify-between">
           <h3 className="text-xl font-semibold text-white">Create New Job Listing</h3>
           <button
             onClick={onClose}
@@ -2208,7 +2208,7 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
             </div>
           </div>
 
-          <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+          <div className="flex justify-end space-x-3 pt-4 border-t border-white/20">
             <button
               type="button"
               onClick={onClose}
@@ -2293,17 +2293,17 @@ function HelpSupportPage() {
         <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-6 shadow-sm">
           <h3 className="text-lg font-semibold text-white mb-4">Quick Help</h3>
           <div className="space-y-4">
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-white/20 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Getting Started</h4>
               <p className="text-sm text-gray-300 mb-2">Learn how to post your first job and manage applications.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-white/20 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Billing & Subscriptions</h4>
               <p className="text-sm text-gray-300 mb-2">Understand our pricing and manage your subscription.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
             </div>
-            <div className="border border-gray-200 rounded-lg p-4">
+            <div className="border border-white/20 rounded-lg p-4">
               <h4 className="font-medium text-white mb-2">Managing Candidates</h4>
               <p className="text-sm text-gray-300 mb-2">Best practices for reviewing and interviewing candidates.</p>
               <a href="#" className="text-orange hover:text-orange/80 text-sm">View Guide →</a>
