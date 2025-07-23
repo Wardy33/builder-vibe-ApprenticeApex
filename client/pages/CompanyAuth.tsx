@@ -654,8 +654,7 @@ export function CompanySignInForm() {
               type="submit"
               isLoading={isSubmitting}
               loadingText="Signing In..."
-              className="w-full text-white py-3 px-4 rounded-lg font-semibold transition-colors"
-              style={{backgroundColor: '#da6927'}}
+              className="w-full text-white py-3 px-4 rounded-lg font-semibold transition-all duration-200 hover:scale-105 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:to-red-600 border border-white/20"
             >
               Sign In
             </LoadingButton>
