@@ -421,10 +421,10 @@ export default function ForEmployers() {
         </section>
         
         {/* CTA Section */}
-        <section className="py-16 px-4" style={{background: '#da6927'}}>
+        <section className="py-16 px-4 bg-gradient-to-br from-orange-400/90 via-pink-500/90 to-red-500/90 backdrop-blur-sm">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Ready to Revolutionize Your Apprentice Recruitment?
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
+              🚀 Ready to Revolutionize Your Apprentice Recruitment? ✨
             </h2>
             <p className="text-xl text-white/90 mb-8">
               Start your 60-day risk-free trial today. No setup fees, no monthly costs, pay only for results.
