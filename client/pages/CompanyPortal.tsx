@@ -1407,12 +1407,23 @@ function ApplicationsPage() {
                 </button>
                 <button
                   onClick={() => {
-                    updateApplicationStatus(selectedApplication.id, "interview");
+                    handleMessageCandidate(selectedApplication.id);
                     setSelectedApplication(null);
                   }}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700"
+                  className="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 flex items-center space-x-2"
                 >
-                  Schedule Interview
+                  <MessageCircle className="h-4 w-4" />
+                  <span>Message</span>
+                </button>
+                <button
+                  onClick={() => {
+                    handleScheduleInterview(selectedApplication.id);
+                    setSelectedApplication(null);
+                  }}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 flex items-center space-x-2"
+                >
+                  <Calendar className="h-4 w-4" />
+                  <span>Schedule Interview</span>
                 </button>
               </div>
             </div>
