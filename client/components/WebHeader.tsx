@@ -66,7 +66,7 @@ export function WebHeader() {
             <Link
               to="/for-employers"
               className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
-                isActive("/for-employers") ? "bg-gradient-to-r from-cyan-400 to-blue-500 text-white" : "text-white hover:bg-white/10"
+                isActive("/for-employers") ? "bg-cyan-500 text-white" : "text-white hover:bg-white/10"
               }`}
             >
               For Employers
