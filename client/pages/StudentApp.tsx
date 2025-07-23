@@ -1797,14 +1797,7 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-black mb-4">Profile Settings</h3>
           <div className="space-y-3">
             <button
-              onClick={(e) => {
-                try {
-                  e.preventDefault();
-                  console.log('Edit Profile Information clicked');
-                } catch (error) {
-                  console.error('Error in Edit Profile Information click:', error);
-                }
-              }}
+              onClick={() => navigate('/student/edit-profile-info')}
               className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <span className="text-black">Edit Profile Information</span>
