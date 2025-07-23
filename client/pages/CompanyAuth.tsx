@@ -193,7 +193,7 @@ export function CompanySignUpForm() {
                     required
                     value={formData.companyName}
                     onChange={(e) => handleInputChange('companyName', e.target.value)}
-                    className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:border-orange-500"
+                    className="w-full p-3 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-400 backdrop-blur-sm transition-all duration-200"
                     placeholder="Acme Training Ltd"
                   />
                 </div>
