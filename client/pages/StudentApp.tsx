@@ -1302,7 +1302,7 @@ function ApprenticeshipInfoPage() {
             <p className="text-gray-300 mb-4">
               Join {apprenticeshipInfo.company} and start your career journey!
             </p>
-            <button className="w-full bg-orange text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange/90 transition-colors">
+            <button className="w-full bg-gradient-to-r from-green-400 via-emerald-500 to-cyan-500 hover:from-green-500 hover:via-emerald-600 hover:to-cyan-600 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:scale-105 shadow-2xl border border-white/20">
               Apply Now
             </button>
           </div>
