@@ -309,4 +309,5 @@ subscriptionSchema.methods.upgradePlan = async function(newPlanType: string) {
   return await this.save();
 };
 
-export const Subscription = mongoose.model<ISubscription>('Subscription', subscriptionSchema);
+// Prevent model overwrite error
+export const Subscription = mongoose.models.Subscription || mongoose.model<ISubscription>('Subscription', subscriptionSchema);
