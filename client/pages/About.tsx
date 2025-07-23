@@ -65,7 +65,7 @@ export default function About() {
               <p className="text-gray-300 leading-relaxed">
                 Today, we're proud to serve thousands of students and hundreds of employers
                 across the UK, creating meaningful connections that lead to successful careers
-                and thriving businesses 🚀
+                and thriving businesses
               </p>
             </div>
           </div>
@@ -73,13 +73,13 @@ export default function About() {
 
         {/* Our Values */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Our Values 💎</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-green-400 via-cyan-400 to-blue-500 bg-clip-text text-transparent">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center group">
               <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-xl">
                 <Users className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">People First 👥</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">People First</h3>
               <p className="text-gray-300">
                 Every decision we make is guided by what's best for our users –
                 both students and employers. We're building relationships, not just transactions.
@@ -90,7 +90,7 @@ export default function About() {
               <div className="w-20 h-20 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-xl">
                 <Target className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Quality Matches 🎯</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Quality Matches</h3>
               <p className="text-gray-300">
                 We're obsessed with creating perfect matches. Our AI continuously learns
                 and improves to ensure every connection has the potential for success.
@@ -101,7 +101,7 @@ export default function About() {
               <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-6 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-xl">
                 <Heart className="h-10 w-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-4 text-white">Genuine Care ❤️</h3>
+              <h3 className="text-xl font-bold mb-4 text-white">Genuine Care</h3>
               <p className="text-gray-300">
                 We genuinely care about the success of every apprentice and employer
                 on our platform. Your success is our success.
