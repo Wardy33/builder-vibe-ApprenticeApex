@@ -291,7 +291,7 @@ function SwipeCard({
                 </div>
 
                 {/* Bus Route */}
-                <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center justify-between p-3 bg-gradient-to-br from-blue-500/20 via-blue-600/20 to-blue-700/20 rounded-lg border border-blue-400/30 backdrop-blur-sm">
                   <div className="flex items-center">
                     <Bus className="h-5 w-5 text-blue-600 mr-3" />
                     <div>
@@ -305,7 +305,7 @@ function SwipeCard({
                 </div>
 
                 {/* Train Route */}
-                <div className="flex items-center justify-between p-3 bg-green-50 rounded-lg border border-green-200">
+                <div className="flex items-center justify-between p-3 bg-gradient-to-br from-green-500/20 via-green-600/20 to-green-700/20 rounded-lg border border-green-400/30 backdrop-blur-sm">
                   <div className="flex items-center">
                     <Train className="h-5 w-5 text-green-600 mr-3" />
                     <div>
@@ -319,7 +319,7 @@ function SwipeCard({
                 </div>
 
                 {/* Car Route */}
-                <div className="flex items-center justify-between p-3 bg-orange-50 rounded-lg border border-orange-200">
+                <div className="flex items-center justify-between p-3 bg-gradient-to-br from-orange-500/20 via-orange-600/20 to-orange-700/20 rounded-lg border border-orange-400/30 backdrop-blur-sm">
                   <div className="flex items-center">
                     <Car className="h-5 w-5 text-orange-600 mr-3" />
                     <div>
@@ -335,7 +335,7 @@ function SwipeCard({
                 </div>
 
                 {/* Walking */}
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-white/20">
+                <div className="flex items-center justify-between p-3 bg-gradient-to-br from-gray-500/20 via-gray-600/20 to-gray-700/20 rounded-lg border border-gray-400/30 backdrop-blur-sm">
                   <div className="flex items-center">
                     <User className="h-5 w-5 text-gray-300 mr-3" />
                     <div>
