@@ -523,19 +523,19 @@ function HomePage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+        <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
           <p className="text-sm text-gray-300">Active Applications</p>
         </div>
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+        <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
           <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
-        <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+        <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
           <p className="text-sm text-gray-300">Profile Score</p>
         </div>
@@ -1531,15 +1531,15 @@ function ProfilePage() {
       <div className="space-y-6">
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+          <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
             <h3 className="text-2xl font-bold text-orange">12</h3>
             <p className="text-sm text-gray-400">Applications</p>
           </div>
-          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+          <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
             <h3 className="text-2xl font-bold text-orange">5</h3>
             <p className="text-sm text-gray-400">Matches</p>
           </div>
-          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 rounded-lg backdrop-blur-sm p-4 text-center">
+          <div className="bg-gradient-to-br from-blue-800/40 via-cyan-700/40 to-blue-900/40 border border-cyan-400/30 rounded-lg backdrop-blur-sm p-4 text-center shadow-lg shadow-cyan-500/20">
             <h3 className="text-2xl font-bold text-orange">92%</h3>
             <p className="text-sm text-gray-400">Profile Score</p>
           </div>
