@@ -335,7 +335,7 @@ function SwipeCard({
                 </div>
 
                 {/* Walking */}
-                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border border-white/20">
                   <div className="flex items-center">
                     <User className="h-5 w-5 text-gray-300 mr-3" />
                     <div>
@@ -523,19 +523,19 @@ function HomePage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+        <div className="bg-gray-50 border border-white/20 rounded-lg p-4 text-center">
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
           <p className="text-sm text-gray-300">Active Applications</p>
         </div>
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+        <div className="bg-gray-50 border border-white/20 rounded-lg p-4 text-center">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
           <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
-        <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 text-center">
+        <div className="bg-gray-50 border border-white/20 rounded-lg p-4 text-center">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
           <p className="text-sm text-gray-300">Profile Score</p>
         </div>
@@ -556,7 +556,7 @@ function HomePage() {
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+          <div className="bg-gray-50 border border-white/20 rounded-lg p-6 text-center">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Applications Yet
@@ -627,7 +627,7 @@ function HomePage() {
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-gray-50 border border-gray-200 rounded-lg p-6 text-center">
+          <div className="bg-gray-50 border border-white/20 rounded-lg p-6 text-center">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-semibold mb-2">
               No Interviews Scheduled
@@ -797,7 +797,7 @@ function JobsPage() {
   return (
     <div className="flex flex-col h-full">
       {/* Header with search and filters */}
-      <div className="p-4 border-b border-gray-200 bg-gray-800/40 backdrop-blur-sm">
+      <div className="p-4 border-b border-white/20 bg-gray-800/40 backdrop-blur-sm">
         <div className="flex items-center gap-3">
           <div className="flex-1 relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
@@ -1040,7 +1040,7 @@ function MessagesPage() {
             <div
               key={conversation.id}
               onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-gray-800/40 backdrop-blur-sm border border-gray-200 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
+              className="bg-gray-800/40 backdrop-blur-sm border border-white/20 hover:bg-gray-50 rounded-lg p-4 flex items-center space-x-4 cursor-pointer transition-colors shadow-sm"
             >
               <img
                 src={conversation.avatar}
@@ -1450,7 +1450,7 @@ function ChatPage() {
       </div>
 
       {/* Message Input */}
-      <div className="p-4 border-t border-gray-200 bg-gray-800/40 backdrop-blur-sm">
+      <div className="p-4 border-t border-white/20 bg-gray-800/40 backdrop-blur-sm">
         {!canSendMessage() && (
           <div className="mb-3 text-center">
             <p className="text-sm text-gray-300">
