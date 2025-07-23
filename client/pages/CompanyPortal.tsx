@@ -2145,6 +2145,20 @@ function JobCreationModal({ onClose, onSave }: { onClose: () => void; onSave: (l
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
+                Application Closing Date *
+              </label>
+              <input
+                type="date"
+                required
+                value={formData.closingDate}
+                onChange={(e) => setFormData({ ...formData, closingDate: e.target.value })}
+                min={new Date().toISOString().split('T')[0]}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
                 Status
               </label>
               <select
