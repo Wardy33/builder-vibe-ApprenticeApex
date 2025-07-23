@@ -1547,7 +1547,10 @@ function ProfilePage() {
             alt="Profile"
             className="w-24 h-24 rounded-full object-cover mx-auto"
           />
-          <button className="absolute bottom-0 right-0 bg-orange p-2 rounded-full text-black">
+          <button
+            onClick={() => navigate('/student/change-picture')}
+            className="absolute bottom-0 right-0 bg-orange p-2 rounded-full text-black hover:bg-orange/90 transition-all duration-200"
+          >
             <Camera className="h-4 w-4" />
           </button>
         </div>
