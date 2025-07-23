@@ -1299,7 +1299,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <Building2 className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-300">Industry</p>
+                <p className="text-sm text-black/70">Industry</p>
                 <p className="font-medium text-black">
                   {apprenticeshipInfo.industry}
                 </p>
@@ -1308,7 +1308,7 @@ function ApprenticeshipInfoPage() {
             <div className="flex items-center">
               <User className="h-5 w-5 text-gray-500 mr-2" />
               <div>
-                <p className="text-sm text-gray-300">Duration</p>
+                <p className="text-sm text-black/70">Duration</p>
                 <p className="font-medium text-black">
                   {apprenticeshipInfo.duration}
                 </p>
