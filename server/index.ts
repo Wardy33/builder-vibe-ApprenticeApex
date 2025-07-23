@@ -211,6 +211,7 @@ export const mockStudents = [
   {
     _id: "student1",
     email: "sarah.johnson@email.com",
+    password: "password123", // For testing - would be hashed in real app
     role: "student",
     profile: {
       firstName: "Sarah",
