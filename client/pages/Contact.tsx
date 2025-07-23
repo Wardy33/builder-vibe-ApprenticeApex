@@ -62,7 +62,7 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            Get in <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Touch</span> <span className="text-2xl animate-bounce">✨</span>
+            Get in <span className="bg-gradient-to-r from-blue-400 via-pink-500 to-orange-500 bg-clip-text text-transparent animate-pulse">Touch</span> <span className="text-2xl animate-bounce">✨</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
             We're here to help you succeed. Whether you're a student looking for guidance
