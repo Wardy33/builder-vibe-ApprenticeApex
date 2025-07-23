@@ -523,19 +523,19 @@ function HomePage() {
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {applications.length}
           </h3>
           <p className="text-sm text-gray-300">Active Applications</p>
         </div>
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">
             {interviews.length}
           </h3>
           <p className="text-sm text-gray-300">Upcoming Interviews</p>
         </div>
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
           <h3 className="text-2xl font-bold text-orange">{profileScore}%</h3>
           <p className="text-sm text-gray-300">Profile Score</p>
         </div>
@@ -556,7 +556,7 @@ function HomePage() {
         </div>
 
         {mockApplications.length === 0 ? (
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 text-center shadow-xl">
+          <div className="border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <FileText className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-bold mb-2 drop-shadow-lg">
               No Applications Yet
@@ -576,7 +576,7 @@ function HomePage() {
             {mockApplications.map((application) => (
               <div
                 key={application.id}
-                className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -627,7 +627,7 @@ function HomePage() {
         </div>
 
         {mockInterviews.length === 0 ? (
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 text-center shadow-xl">
+          <div className="border border-[#00D4FF]/30 rounded-xl p-8 text-center shadow-xl">
             <Calendar className="h-12 w-12 text-gray-400 mx-auto mb-3" />
             <h3 className="text-white font-bold mb-2 drop-shadow-lg">
               No Interviews Scheduled
@@ -641,7 +641,7 @@ function HomePage() {
             {mockInterviews.map((interview) => (
               <div
                 key={interview.id}
-                className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+                className="border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
               >
                 <div className="flex items-center space-x-4">
                   <img
@@ -942,7 +942,7 @@ function MatchesPage() {
           {mockMatches.map((match) => (
             <div
               key={match.id}
-              className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
+              className="border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 cursor-pointer group"
             >
               <img
                 src={match.image}
@@ -1040,7 +1040,7 @@ function MessagesPage() {
             <div
               key={conversation.id}
               onClick={() => navigate(`/student/chat/${conversation.id}`)}
-              className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 flex items-center space-x-4 cursor-pointer shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 group"
+              className="border border-[#00D4FF]/30 rounded-xl p-6 flex items-center space-x-4 cursor-pointer shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 group"
             >
               <img
                 src={conversation.avatar}
@@ -1185,7 +1185,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Company Image */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl overflow-hidden shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl overflow-hidden shadow-xl">
           <img
             src={apprenticeshipInfo.companyImage}
             alt="Company office"
@@ -1194,7 +1194,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Description */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             About this role
           </h3>
@@ -1204,7 +1204,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Requirements */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Requirements
           </h3>
@@ -1219,7 +1219,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Responsibilities */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Your responsibilities
           </h3>
@@ -1234,7 +1234,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Benefits */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Benefits & Perks
           </h3>
@@ -1249,7 +1249,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Key Details */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <h3 className="text-lg font-semibold text-white mb-3">
             Key Details
           </h3>
@@ -1294,7 +1294,7 @@ function ApprenticeshipInfoPage() {
         </div>
 
         {/* Apply Button */}
-        <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-8 shadow-xl">
+        <div className="border border-[#00D4FF]/30 rounded-xl p-8 shadow-xl">
           <div className="text-center">
             <h3 className="text-lg font-semibold text-white mb-2">
               Ready to apply?
@@ -1531,15 +1531,15 @@ function ProfilePage() {
       <div className="space-y-6">
         {/* Quick Stats */}
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">12</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Applications</p>
           </div>
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">5</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Matches</p>
           </div>
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
+          <div className="border border-[#00D4FF]/30 rounded-xl p-6 text-center shadow-xl hover:shadow-pink-500/50 transition-all duration-300 hover:scale-105">
             <h3 className="text-2xl font-bold text-white drop-shadow-lg">92%</h3>
             <p className="text-sm text-white font-bold tracking-wide drop-shadow-lg">Profile Score</p>
           </div>
@@ -1548,7 +1548,7 @@ function ProfilePage() {
         {/* Profile Sections */}
         <div className="space-y-4">
           {/* Bio */}
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
+          <div className="border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold drop-shadow-lg">About</h3>
               <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
@@ -1559,7 +1559,7 @@ function ProfilePage() {
           </div>
 
           {/* Contact Info */}
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
+          <div className="border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold drop-shadow-lg">Contact</h3>
               <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
@@ -1583,7 +1583,7 @@ function ProfilePage() {
           </div>
 
           {/* Skills */}
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
+          <div className="border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold drop-shadow-lg">Skills</h3>
               <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
@@ -1603,7 +1603,7 @@ function ProfilePage() {
           </div>
 
           {/* Availability */}
-          <div className="bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 rounded-lg p-4 shadow-lg">
+          <div className="border border-[#00D4FF]/30 rounded-lg p-4 shadow-lg">
             <div className="flex items-center justify-between mb-3">
               <h3 className="text-white font-semibold drop-shadow-lg">Availability</h3>
               <button className="text-white/80 hover:text-white transition-all duration-200 hover:scale-110">
@@ -1619,7 +1619,7 @@ function ProfilePage() {
 
         {/* Settings */}
         <div className="pt-4 border-t border-gray-700">
-          <button className="w-full bg-gradient-to-r from-pink-500 to-red-500 border border-pink-300 text-white py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300">
+          <button className="w-full border border-[#00D4FF]/30 text-white py-4 px-6 rounded-xl flex items-center justify-between shadow-xl hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300">
             <span>Account Settings</span>
             <Settings className="h-5 w-5" />
           </button>
