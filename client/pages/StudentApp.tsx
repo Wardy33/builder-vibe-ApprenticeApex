@@ -1751,6 +1751,111 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
   );
 }
 
+function AccountSettingsPage() {
+  const navigate = useNavigate();
+
+  return (
+    <div className="p-4 space-y-6">
+      {/* Header */}
+      <div className="flex items-center mb-6">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3 transition-all duration-200"
+        >
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">Account Settings</h1>
+      </div>
+
+      {/* Settings Options */}
+      <div className="space-y-4">
+        {/* Profile Settings */}
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+          <h3 className="text-lg font-semibold text-black mb-4">Profile Settings</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Edit Profile Information</span>
+              <Edit className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Change Profile Picture</span>
+              <Camera className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Update Skills & Preferences</span>
+              <User className="h-5 w-5 text-black" />
+            </button>
+          </div>
+        </div>
+
+        {/* Privacy & Security */}
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+          <h3 className="text-lg font-semibold text-black mb-4">Privacy & Security</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Change Password</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Privacy Settings</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Two-Factor Authentication</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+          </div>
+        </div>
+
+        {/* Notifications */}
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+          <h3 className="text-lg font-semibold text-black mb-4">Notifications</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Push Notifications</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Email Preferences</span>
+              <Mail className="h-5 w-5 text-black" />
+            </button>
+          </div>
+        </div>
+
+        {/* App Settings */}
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+          <h3 className="text-lg font-semibold text-black mb-4">App Settings</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Language & Region</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Data & Storage</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+          </div>
+        </div>
+
+        {/* Account Actions */}
+        <div className="bg-[#00D4FF] border border-[#00D4FF]/30 rounded-xl p-6 shadow-xl">
+          <h3 className="text-lg font-semibold text-black mb-4">Account</h3>
+          <div className="space-y-3">
+            <button className="w-full text-left p-3 hover:bg-black/10 rounded-lg transition-all duration-200 flex items-center justify-between">
+              <span className="text-black">Download My Data</span>
+              <Settings className="h-5 w-5 text-black" />
+            </button>
+            <button className="w-full text-left p-3 hover:bg-red-100 rounded-lg transition-all duration-200 flex items-center justify-between text-red-600">
+              <span>Delete Account</span>
+              <Settings className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function StudentApp() {
   return (
     <Routes>
@@ -1769,6 +1874,7 @@ export default function StudentApp() {
               <Route path="/matches" element={<MatchesPage />} />
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/account-settings" element={<AccountSettingsPage />} />
               <Route path="/" element={<HomePage />} />
             </Routes>
           </StudentAppLayout>
