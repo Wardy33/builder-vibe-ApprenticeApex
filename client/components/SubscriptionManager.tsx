@@ -525,10 +525,16 @@ export default function SubscriptionManager() {
         {/* Header */}
         <div className="text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Choose Your Plan</h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Start with our risk-free trial or choose a plan that fits your hiring needs.
-            All plans include access to our complete platform and candidate network.
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+            Start with our 60-day risk-free trial or choose a plan that fits your hiring needs.
+            All paid plans include 12% of first year salary per successful hire.
           </p>
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 max-w-2xl mx-auto">
+            <p className="text-blue-800 text-sm font-medium">
+              🎆 New Pricing Structure: All plans now feature competitive monthly rates plus a consistent 12% success fee,
+              ensuring you only pay when we deliver results!
+            </p>
+          </div>
         </div>
 
         {/* Pricing Cards */}
