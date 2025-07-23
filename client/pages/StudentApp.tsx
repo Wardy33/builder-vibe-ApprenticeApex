@@ -1029,7 +1029,7 @@ function MessagesPage() {
           </p>
           <Link
             to="/student/jobs"
-            className="bg-orange text-white px-6 py-3 rounded-lg font-medium"
+            className="bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 hover:from-purple-600 hover:via-pink-600 hover:to-red-600 text-white px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
           >
             Find Matches
           </Link>
