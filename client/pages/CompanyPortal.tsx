@@ -481,7 +481,7 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
             <Home className="h-5 w-5 sm:h-6 sm:w-6" />
           </button>
           <h1 className="text-lg sm:text-xl font-bold text-white">
-            <span className="text-orange">ApprenticeApex</span>
+            <span className="text-cyan-400">ApprenticeApex</span>
             <span className="hidden sm:inline"> Portal</span>
           </h1>
         </div>
