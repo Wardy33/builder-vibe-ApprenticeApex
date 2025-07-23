@@ -15,7 +15,7 @@ export default function About() {
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
             We're revolutionizing the apprenticeship landscape by connecting ambitious students
-            with forward-thinking employers through AI-powered matching technology 🚀
+            with forward-thinking employers through AI-powered matching technology
           </p>
         </div>
 
