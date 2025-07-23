@@ -121,11 +121,11 @@ function SignUpForm() {
       <div className="flex-1 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-2" style={{color: '#020202'}}>
-              Join ApprenticeApex
+            <h2 className="text-3xl font-bold mb-2 text-white drop-shadow-lg">
+              🎆 Join ApprenticeApex ✨
             </h2>
-            <p className="text-gray-600">
-              Create your student account to find amazing apprenticeships
+            <p className="text-gray-300">
+              Create your student account to find amazing apprenticeships 🚀
             </p>
           </div>
 
@@ -133,7 +133,7 @@ function SignUpForm() {
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
+                <label className="block text-sm font-medium text-gray-300 mb-2">
                   First Name
                 </label>
                 <div className="relative">
@@ -144,8 +144,7 @@ function SignUpForm() {
                     onChange={(e) =>
                       handleInputChange("firstName", e.target.value)
                     }
-                    className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                    style={{focusBorderColor: '#da6927'}}
+                    className="w-full pl-10 pr-4 py-3 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-400 backdrop-blur-sm transition-all duration-200"
                     placeholder="John"
                   />
                 </div>
