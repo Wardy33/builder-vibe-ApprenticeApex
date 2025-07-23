@@ -298,4 +298,4 @@ successFeeSchema.methods.raiseDispute = function(reason: string) {
   return this.save();
 };
 
-export const SuccessFee = mongoose.model<ISuccessFee>('SuccessFee', successFeeSchema);
+export const SuccessFee = mongoose.models.SuccessFee || mongoose.model<ISuccessFee>('SuccessFee', successFeeSchema);
