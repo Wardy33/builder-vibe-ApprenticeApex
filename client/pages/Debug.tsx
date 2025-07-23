@@ -67,19 +67,19 @@ export default function Debug() {
               <h3 className="font-semibold text-gray-700">Key Endpoints</h3>
               <ul className="text-sm text-gray-300 space-y-1">
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">GET /api/ping</code> - Health check
+                  <code className="bg-gray-800/60 px-1 py-0.5 rounded">GET /api/ping</code> - Health check
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">POST /api/auth/register</code> - User registration
+                  <code className="bg-gray-800/60 px-1 py-0.5 rounded">POST /api/auth/register</code> - User registration
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">POST /api/auth/login</code> - User login
+                  <code className="bg-gray-800/60 px-1 py-0.5 rounded">POST /api/auth/login</code> - User login
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">GET /api/matching/jobs</code> - Job matching (requires auth)
+                  <code className="bg-gray-800/60 px-1 py-0.5 rounded">GET /api/matching/jobs</code> - Job matching (requires auth)
                 </li>
                 <li>
-                  <code className="bg-gray-100 px-1 py-0.5 rounded">GET /api/matching/profile-status</code> - Profile completion check
+                  <code className="bg-gray-800/60 px-1 py-0.5 rounded">GET /api/matching/profile-status</code> - Profile completion check
                 </li>
               </ul>
             </div>
