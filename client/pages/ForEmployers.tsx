@@ -171,16 +171,16 @@ export default function ForEmployers() {
           <div className="container mx-auto max-w-6xl text-center">
             <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-400/20 via-pink-500/20 to-blue-500/20 border border-white/20 rounded-full text-orange-300 text-sm font-bold mb-6 backdrop-blur-sm">
               <Zap className="w-4 h-4 mr-2 animate-pulse" />
-              Risk-Free Apprentice Recruitment ✨
+              Risk-Free Apprentice Recruitment
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Hire</span> 🚀
+              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent animate-pulse">Hire</span>
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto font-medium">
               Start with our 60-day risk-free trial. No monthly fees, no setup costs.
-              Only pay £399 when you successfully hire an apprentice ✨
+              Only pay £399 when you successfully hire an apprentice
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -188,7 +188,7 @@ export default function ForEmployers() {
                 to="/company/signup"
                 className="px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 flex items-center justify-center shadow-xl border border-white/20"
               >
-                Start Free Trial 🚀
+                Start Free Trial
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
 
@@ -197,7 +197,7 @@ export default function ForEmployers() {
                 className="px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105 flex items-center justify-center"
               >
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Contact Sales 💬
+                Contact Sales
               </Link>
             </div>
           </div>
@@ -208,7 +208,7 @@ export default function ForEmployers() {
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                🚀 Launch Offer - First 60 Days ✨
+                Launch Offer - First 60 Days
               </h2>
               <p className="text-xl text-gray-300 font-medium">Perfect for testing ApprenticeApex risk-free</p>
             </div>
@@ -216,19 +216,19 @@ export default function ForEmployers() {
             <div className="grid md:grid-cols-3 gap-8">
               <div className="p-8 rounded-2xl bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
                 <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£0</div>
-                <div className="text-white font-bold mb-2">Setup Costs 🎆</div>
+                <div className="text-white font-bold mb-2">Setup Costs</div>
                 <div className="text-gray-300 text-sm">No upfront fees or monthly charges</div>
               </div>
 
               <div className="p-8 rounded-2xl bg-gradient-to-br from-orange-400/20 to-pink-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
                 <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£399</div>
-                <div className="text-white font-bold mb-2">Per Successful Hire 🎯</div>
+                <div className="text-white font-bold mb-2">Per Successful Hire</div>
                 <div className="text-gray-300 text-sm">Only pay when candidate starts</div>
               </div>
 
               <div className="p-8 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
                 <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">777%</div>
-                <div className="text-white font-bold mb-2">Average ROI 📈</div>
+                <div className="text-white font-bold mb-2">Average ROI</div>
                 <div className="text-gray-300 text-sm">vs traditional recruitment</div>
               </div>
             </div>
@@ -242,9 +242,9 @@ export default function ForEmployers() {
           <div className="container mx-auto max-w-7xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                💎 Choose Your Plan ✨
+                Choose Your Plan
               </h2>
-              <p className="text-xl text-gray-300">Flexible pricing that grows with your business 🚀</p>
+              <p className="text-xl text-gray-300">Flexible pricing that grows with your business</p>
             </div>
             
             <div className="grid lg:grid-cols-5 md:grid-cols-3 gap-6">
@@ -303,10 +303,10 @@ export default function ForEmployers() {
                     <div className="text-gray-400 text-sm mb-2">Limits:</div>
                     <div className="space-y-1">
                       <div className="text-white text-sm">
-                        📝 {plan.limits.jobPostings} job postings
+                        {plan.limits.jobPostings} job postings
                       </div>
                       <div className="text-white text-sm">
-                        👤 {plan.limits.users} user{plan.limits.users !== 1 ? 's' : ''}
+                        {plan.limits.users} user{plan.limits.users !== 1 ? 's' : ''}
                       </div>
                       {plan.limits.duration && (
                         <div className="text-white text-sm">
@@ -339,9 +339,9 @@ export default function ForEmployers() {
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                🏆 Why Choose ApprenticeApex? ✨
+                Why Choose ApprenticeApex?
               </h2>
-              <p className="text-xl text-gray-300">Compare us against traditional recruitment methods 📊</p>
+              <p className="text-xl text-gray-300">Compare us against traditional recruitment methods</p>
             </div>
             
             <div className="overflow-x-auto">
@@ -390,9 +390,9 @@ export default function ForEmployers() {
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                📈 Proven ROI for Our Clients 🏆
+                Proven ROI for Our Clients
               </h2>
-              <p className="text-xl text-gray-300">Real results from employers using ApprenticeApex ✨</p>
+              <p className="text-xl text-gray-300">Real results from employers using ApprenticeApex</p>
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
@@ -424,7 +424,7 @@ export default function ForEmployers() {
         <section className="py-16 px-4 bg-gradient-to-br from-orange-400/90 via-pink-500/90 to-red-500/90 backdrop-blur-sm">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg">
-              🚀 Ready to Revolutionize Your Apprentice Recruitment? ✨
+              Ready to Revolutionize Your Apprentice Recruitment?
             </h2>
             <p className="text-xl text-white/90 mb-8">
               Start your 60-day risk-free trial today. No setup fees, no monthly costs, pay only for results.
@@ -469,7 +469,7 @@ export default function ForEmployers() {
         <section className="py-16 px-4 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm">
           <div className="container mx-auto max-w-4xl text-center">
             <h2 className="text-2xl md:text-3xl font-bold text-white mb-8 drop-shadow-lg">
-              🙋 Have Questions? We're Here to Help ✨
+              Have Questions? We're Here to Help
             </h2>
             
             <div className="grid md:grid-cols-2 gap-6">
