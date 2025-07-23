@@ -1645,8 +1645,8 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-xl font-bold text-white">
-          <span className="text-orange">Apprentice</span>Apex
+        <h1 className="text-xl font-bold">
+          <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 bg-clip-text text-transparent">Apprentice</span><span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
         </h1>
         <button className="p-2 hover:bg-gradient-to-r hover:from-cyan-400/20 hover:to-blue-500/20 rounded-full text-white transition-all duration-200 hover:scale-110 backdrop-blur-sm border border-transparent hover:border-white/20">
           <Settings className="h-6 w-6" />
