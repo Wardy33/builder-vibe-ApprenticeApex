@@ -261,7 +261,7 @@ export default function Index() {
                 </div>
                 <div className="group">
                   <div className="text-4xl font-bold bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">24hrs</div>
-                  <div className="text-gray-300 text-sm font-medium">Average Response ⚡</div>
+                  <div className="text-gray-300 text-sm font-medium">Average Response</div>
                 </div>
               </div>
             </div>
