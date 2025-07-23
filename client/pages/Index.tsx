@@ -285,7 +285,7 @@ export default function Index() {
                   to="/student/signup"
                   className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-white font-bold rounded-xl hover:from-orange-500 hover:to-red-600 transition-all duration-200 hover:scale-105 shadow-xl border border-white/20"
                 >
-                  Sign Up as Student 🎓
+                  Sign Up as Student
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
                 <Link
