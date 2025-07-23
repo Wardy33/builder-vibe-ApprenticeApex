@@ -233,7 +233,7 @@ function SwipeCard({
               {apprenticeship.requirements.slice(0, 2).map((req, index) => (
                 <span
                   key={index}
-                  className="bg-gray-700/80 text-white px-2 py-1 rounded text-xs"
+                  className="bg-gradient-to-r from-gray-600/60 via-gray-700/70 to-gray-800/60 text-white px-2 py-1 rounded-lg text-xs backdrop-blur-sm border border-white/20 shadow-sm"
                 >
                   {req}
                 </span>
