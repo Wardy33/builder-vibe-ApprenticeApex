@@ -95,19 +95,46 @@ export default function SubscriptionManager() {
 
   const startTrial = async () => {
     try {
-      const response = await fetch('/api/subscriptions/start-trial', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        await loadSubscriptionData();
+      // For demo purposes, simulate starting a trial
+      if (confirm('Start your 60-day free trial? You will have full access to all features.')) {
+        // Simulate successful trial start
+        alert('Trial started successfully! You now have 60 days of full access.');
+
+        // For demo, set mock subscription data
+        const mockTrialData = {
+          subscription: {
+            planType: 'trial',
+            status: 'active',
+            isInTrial: true,
+            monthlyFee: 0,
+            successFeeRate: 0,
+            features: {},
+            usage: {
+              jobPostingsThisMonth: 2,
+              usersActive: 1,
+              hiresThisMonth: 0
+            },
+            trialEndDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString()
+          },
+          outstandingBalance: {
+            totalAmount: 0,
+            count: 0
+          },
+          isTrialExpired: false,
+          daysLeftInTrial: 60,
+          limits: {
+            canCreateJobPosting: true,
+            canAddUser: true
+          }
+        };
+
+        setSubscriptionData(mockTrialData);
+        // Store demo data in localStorage
+        localStorage.setItem('demoSubscriptionData', JSON.stringify(mockTrialData));
       }
     } catch (error) {
       console.error('Error starting trial:', error);
+      alert('Failed to start trial. Please try again.');
     }
   };
 
