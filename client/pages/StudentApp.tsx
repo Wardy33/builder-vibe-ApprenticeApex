@@ -2806,7 +2806,7 @@ function ChangePasswordPage() {
             {errors.current && <p className="text-red-500 text-sm mt-1">{errors.current}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-black mb-2">New Password</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">New Password</label>
             <input
               type="password"
               value={passwords.new}
@@ -2814,8 +2814,8 @@ function ChangePasswordPage() {
                 setPasswords({...passwords, new: e.target.value});
                 if (errors.new) setErrors({...errors, new: undefined});
               }}
-              className={`w-full p-3 border rounded-lg text-black bg-white focus:outline-none focus:ring-2 ${
-                errors.new ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-cyan-500'
+              className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
+                errors.new ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
               }`}
             />
             {errors.new && <p className="text-red-500 text-sm mt-1">{errors.new}</p>}
