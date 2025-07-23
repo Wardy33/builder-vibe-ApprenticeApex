@@ -12,7 +12,7 @@ export default function AcceptableUse() {
           </h1>
           
           <div className="rounded-xl p-2 mb-8" className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
-            <p className="text-gray-700 text-center">
+            <p className="text-gray-300 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
                 month: 'long', 
@@ -27,12 +27,12 @@ export default function AcceptableUse() {
               {/* Introduction */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>1. Introduction</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   This Acceptable Use Policy ("Policy") governs your use of ApprenticeApex's platform and services. 
                   It outlines what constitutes acceptable and unacceptable behavior when using our apprenticeship 
                   matching platform.
                 </p>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   This Policy applies to all users, including students seeking apprenticeships and employers 
                   posting opportunities. Violation of this Policy may result in account suspension or termination.
                 </p>
@@ -41,7 +41,7 @@ export default function AcceptableUse() {
               {/* Acceptable Use */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>2. Acceptable Use</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   You may use our platform to:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -109,7 +109,7 @@ export default function AcceptableUse() {
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>4. Content Standards</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">4.1 Professional Content</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   All content on our platform should be:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -159,7 +159,7 @@ export default function AcceptableUse() {
               {/* Reporting Violations */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>6. Reporting Violations</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   If you encounter behavior that violates this Policy, please report it immediately:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -168,7 +168,7 @@ export default function AcceptableUse() {
                   <li>Contact our support team through the platform</li>
                   <li>For urgent safety concerns, contact local authorities first</li>
                 </ul>
-                <p className="text-gray-700 leading-relaxed">
+                <p className="text-gray-300 leading-relaxed">
                   We take all reports seriously and will investigate promptly while maintaining confidentiality.
                 </p>
               </section>
@@ -178,7 +178,7 @@ export default function AcceptableUse() {
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>7. Enforcement and Consequences</h2>
                 
                 <h3 className="text-xl font-semibold mb-3 text-white">7.1 Investigation Process</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   When violations are reported or detected, we will:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -209,7 +209,7 @@ export default function AcceptableUse() {
               {/* User Safety */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>8. User Safety and Security</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   To maintain a safe environment:
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -225,7 +225,7 @@ export default function AcceptableUse() {
               {/* Third-Party Services */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>9. Third-Party Services</h2>
-                <p className="text-gray-700 leading-relaxed mb-4">
+                <p className="text-gray-300 leading-relaxed mb-4">
                   When using integrated third-party services (video calls, payments, etc.):
                 </p>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
@@ -249,10 +249,10 @@ export default function AcceptableUse() {
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>11. Contact Information</h2>
                 <div className="bg-gray-800/50 rounded-lg p-6">
-                  <p className="text-gray-700 leading-relaxed mb-4">
+                  <p className="text-gray-300 leading-relaxed mb-4">
                     For questions about this Policy or to report violations:
                   </p>
-                  <p className="text-gray-700 leading-relaxed">
+                  <p className="text-gray-300 leading-relaxed">
                     <strong>General Inquiries:</strong>
                     <a href="mailto:hello@apprenticeapex.co.uk" className="text-orange hover:underline ml-1">
                       hello@apprenticeapex.co.uk
