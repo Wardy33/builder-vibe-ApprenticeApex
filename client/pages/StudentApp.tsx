@@ -1049,10 +1049,10 @@ function MessagesPage() {
               />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between mb-1">
-                  <h3 className="text-gray-800 font-semibold truncate">
+                  <h3 className="text-white font-bold truncate drop-shadow-lg">
                     {conversation.company}
                   </h3>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-white/80 font-medium">
                     {conversation.time}
                   </span>
                 </div>
