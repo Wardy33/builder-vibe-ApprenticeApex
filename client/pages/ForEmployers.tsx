@@ -394,25 +394,25 @@ export default function ForEmployers() {
             </div>
             
             <div className="grid md:grid-cols-3 gap-8">
-              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <TrendingUp className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
-                <div className="text-3xl font-bold text-black mb-2">777%</div>
-                <div className="text-black font-semibold mb-2">Average ROI</div>
-                <div className="text-gray-600">during 60-day trial vs traditional recruitment</div>
+              <div className="p-8 rounded-xl border border-white/20 shadow-xl text-center bg-gradient-to-br from-cyan-400/20 to-blue-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+                <TrendingUp className="w-12 h-12 mx-auto mb-4 text-cyan-400" />
+                <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-cyan-300 to-blue-500 bg-clip-text text-transparent">777%</div>
+                <div className="text-white font-semibold mb-2">Average ROI</div>
+                <div className="text-gray-300">during 60-day trial vs traditional recruitment</div>
               </div>
               
-              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <Clock className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
-                <div className="text-3xl font-bold text-black mb-2">14 days</div>
-                <div className="text-black font-semibold mb-2">Average Time to Hire</div>
-                <div className="text-gray-600">vs 45+ days for traditional methods</div>
+              <div className="p-8 rounded-xl border border-white/20 shadow-xl text-center bg-gradient-to-br from-orange-400/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+                <Clock className="w-12 h-12 mx-auto mb-4 text-orange-400" />
+                <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent">14 days</div>
+                <div className="text-white font-semibold mb-2">Average Time to Hire</div>
+                <div className="text-gray-300">vs 45+ days for traditional methods</div>
               </div>
               
-              <div className="p-8 rounded-xl border border-gray-200 shadow-sm text-center" style={{backgroundColor: '#f8f9fa'}}>
-                <Users className="w-12 h-12 mx-auto mb-4" style={{color: '#da6927'}} />
-                <div className="text-3xl font-bold text-black mb-2">92%</div>
-                <div className="text-black font-semibold mb-2">Hire Success Rate</div>
-                <div className="text-gray-600">apprentices who complete their programs</div>
+              <div className="p-8 rounded-xl border border-white/20 shadow-xl text-center bg-gradient-to-br from-purple-500/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
+                <Users className="w-12 h-12 mx-auto mb-4 text-purple-400" />
+                <div className="text-3xl font-bold mb-2 bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">92%</div>
+                <div className="text-white font-semibold mb-2">Hire Success Rate</div>
+                <div className="text-gray-300">apprentices who complete their programs</div>
               </div>
             </div>
           </div>
