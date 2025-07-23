@@ -145,10 +145,9 @@ export function CompanySignUpForm() {
           <div className="mb-8">
             <div className="flex justify-between items-center relative">
               {/* Progress line background */}
-              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
+              <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-white/20 -translate-y-1/2 z-0"></div>
               <div
-                className="absolute top-1/2 left-0 h-0.5 -translate-y-1/2 z-0 transition-all duration-500"
-                style={{backgroundColor: '#da6927'}}
+                className="absolute top-1/2 left-0 h-0.5 -translate-y-1/2 z-0 transition-all duration-500 bg-gradient-to-r from-orange-400 to-pink-500"
                 style={{ width: `${((currentStep - 1) / 4) * 100}%` }}
               ></div>
 
