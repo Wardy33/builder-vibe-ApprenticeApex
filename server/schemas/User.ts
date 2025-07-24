@@ -49,6 +49,19 @@ export interface IUser extends Document {
   trialStatus?: 'pending' | 'paid' | 'used';
   trialPaidAt?: Date;
 
+  // Email management
+  emailVerifiedAt?: Date;
+  emailPreferences?: {
+    applicationNotifications: boolean;
+    paymentNotifications: boolean;
+    marketingEmails: boolean;
+    weeklyDigest: boolean;
+    interviewReminders: boolean;
+    unsubscribedAt?: Date;
+    updatedAt?: Date;
+  };
+  unsubscribeToken?: string;
+
   createdAt: Date;
   updatedAt: Date;
   
