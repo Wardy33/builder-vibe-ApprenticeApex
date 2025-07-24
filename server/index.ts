@@ -42,6 +42,7 @@ import contactRoutes from "./routes/contact";
 import testRoutes from "./routes/test";
 import testEndpointRoutes from "./routes/testEndpoints";
 import healthRoutes from "./routes/health";
+import stripeRoutes from "./routes/stripe";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
@@ -186,7 +187,8 @@ export function createApp() {
   app.use("/api/messages", authenticateToken, messageRoutes);
   app.use("/api/analytics", authenticateToken, analyticsRoutes);
   app.use("/api/upload", authenticateToken, uploadRoutes);
-  app.use("/api/payments", authenticateToken, paymentRoutes);
+  app.use("/api/payments", paymentRoutes); // Some endpoints require auth, handled individually
+  app.use("/api/stripe", stripeRoutes); // Stripe webhooks and utilities
   app.use("/api/interviews", authenticateToken, interviewRoutes);
   app.use("/api/matching", authenticateToken, matchingRoutes);
   app.use("/api/access-control", authenticateToken, accessControlRoutes);
