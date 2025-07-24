@@ -99,7 +99,7 @@ router.post("/verification/send",
         customData: { verificationToken }
       });
 
-      await emailService.sendEmail({
+      await EmailService.getInstance().sendEmail({
         to: user.email,
         subject: template.subject,
         html: template.html,
@@ -197,7 +197,7 @@ router.post("/password-reset/send",
         customData: { resetToken }
       });
 
-      await emailService.sendEmail({
+      await EmailService.getInstance().sendEmail({
         to: user.email,
         subject: template.subject,
         html: template.html,
@@ -423,7 +423,7 @@ router.post("/test",
           return sendError(res, "Invalid email type", 400, 'INVALID_TYPE');
       }
 
-      await emailService.sendEmail({
+      await EmailService.getInstance().sendEmail({
         to,
         subject: `[TEST] ${template.subject}`,
         html: template.html,
