@@ -183,12 +183,16 @@ export default function SubscriptionManager() {
         };
 
         const updatedData = {
-          ...subscriptionData,
+          ...subscriptionData!,
           subscription: {
             ...subscriptionData!.subscription,
             planType: planType,
             monthlyFee: monthlyFees[planType as keyof typeof monthlyFees] || 0,
             successFeeRate: successFeeRates[planType as keyof typeof successFeeRates] || 0
+          },
+          outstandingBalance: subscriptionData!.outstandingBalance || {
+            totalAmount: 0,
+            count: 0
           }
         };
 
@@ -214,10 +218,14 @@ export default function SubscriptionManager() {
     try {
       if (confirm('Are you sure you want to cancel your subscription? It will remain active until the end of your current billing period.')) {
         const updatedData = {
-          ...subscriptionData,
+          ...subscriptionData!,
           subscription: {
             ...subscriptionData!.subscription,
             status: 'cancelled'
+          },
+          outstandingBalance: subscriptionData!.outstandingBalance || {
+            totalAmount: 0,
+            count: 0
           }
         };
 
