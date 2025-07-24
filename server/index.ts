@@ -39,6 +39,8 @@ import accessControlRoutes from "./routes/accessControl";
 import alertRoutes from "./routes/alerts";
 import subscriptionRoutes from "./routes/subscriptions";
 import contactRoutes from "./routes/contact";
+import testRoutes from "./routes/test";
+import testEndpointRoutes from "./routes/testEndpoints";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
@@ -190,6 +192,13 @@ export function createApp() {
   app.use("/api/alerts", authenticateToken, alertRoutes);
   app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
   app.use("/api/contact", contactRoutes); // Public route, no auth required
+
+  // Database testing routes (development and staging only)
+  if (env.NODE_ENV !== 'production') {
+    app.use("/api/test", testRoutes);
+    app.use("/api/test", testEndpointRoutes);
+    console.log('🧪 Database test endpoints enabled at /api/test/*');
+  }
 
   // Legacy demo route
   app.get("/api/demo", handleDemo);
