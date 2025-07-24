@@ -43,6 +43,7 @@ import testRoutes from "./routes/test";
 import testEndpointRoutes from "./routes/testEndpoints";
 import healthRoutes from "./routes/health";
 import stripeRoutes from "./routes/stripe";
+import emailRoutes from "./routes/emails";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
