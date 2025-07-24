@@ -1,5 +1,10 @@
 import express from "express";
 import mongoose from "mongoose";
+
+// Import production database configuration
+import { database, connectDatabase } from "./config/database";
+import { initializeIndexes } from "./config/indexes";
+import { databaseMiddleware, databaseHealthCheck, optimizeQueries } from "./middleware/database";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
@@ -82,6 +87,10 @@ export function createApp() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
+  // Database middleware
+  app.use(databaseHealthCheck());
+  app.use(optimizeQueries());
+
   // Apply security middleware only if environment is properly validated
   if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
     // Security middleware (applied first)
@@ -128,7 +137,7 @@ export function createApp() {
     });
   }
 
-  // Health check
+  // Health check endpoints
   app.get("/api/ping", (_req, res) => {
     res.json({
       message: "ApprenticeApex API v1.0",
@@ -136,6 +145,26 @@ export function createApp() {
       status: "healthy",
     });
   });
+
+  // Comprehensive health check
+  app.get("/api/health", async (_req, res) => {
+    const dbStatus = database.getHealthStatus();
+    const performanceMonitor = databaseMiddleware.monitor;
+    const healthStatus = performanceMonitor.getHealthStatus();
+
+    res.json({
+      status: dbStatus.status === 'healthy' && healthStatus.status === 'healthy' ? 'healthy' : 'degraded',
+      timestamp: new Date().toISOString(),
+      database: dbStatus,
+      performance: healthStatus,
+      uptime: process.uptime(),
+      memory: process.memoryUsage(),
+      version: "1.0.0"
+    });
+  });
+
+  // Database-specific health check (handled by middleware)
+  // Route: /api/health/database
 
   // Rate limiting (only if security middleware is enabled)
   if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
@@ -176,33 +205,43 @@ export function createApp() {
   return { app, httpServer, io };
 }
 
-// Database connection
-export async function connectDatabase() {
+// Production-ready database connection
+export async function connectToDatabase() {
   try {
-    const mongoUri =
-      process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex";
-
-    if (process.env.MONGODB_URI) {
-      await mongoose.connect(mongoUri, {
-        retryWrites: true,
-        w: "majority",
-      });
-      console.log("🗄️  Database connection established (MongoDB)");
-    } else {
-      // For development without MongoDB, we'll use a mock connection
+    // Check if MongoDB URI is provided
+    if (!process.env.MONGODB_URI) {
+      console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
       console.log("🗄️  Database connection established (mock)");
+      return true;
     }
+
+    // Connect to production MongoDB
+    await database.connect();
+
+    // Initialize database indexes
+    await initializeIndexes();
 
     // Initialize alert system after database connection
     AlertService.initialize();
     AlertService.integrateWithMonitoring();
     console.log("🚨 Anti-poaching alert system initialized");
 
+    // Register graceful shutdown handlers
+    database.registerShutdownHandler(async () => {
+      console.log("🚨 Shutting down alert system...");
+      // Add any alert system cleanup here
+    });
+
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);
     return false;
   }
+}
+
+// Legacy function for backwards compatibility
+export async function connectDatabase() {
+  return connectToDatabase();
 }
 
 // Export environment config for other modules
