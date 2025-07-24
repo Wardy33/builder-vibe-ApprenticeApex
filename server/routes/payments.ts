@@ -465,7 +465,7 @@ router.post("/create-payment-intent", [
     const userId = req.user!.userId;
     const { amount, currency, description, metadata = {} } = req.body;
 
-    const customer = await stripeService.getOrCreateCustomer(userId);
+    const customer = await StripeService.getInstance().getOrCreateCustomer(userId);
 
     const paymentIntent = await stripeService['stripe'].paymentIntents.create({
       amount,
