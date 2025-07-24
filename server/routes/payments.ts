@@ -282,7 +282,7 @@ router.get("/customer/:userId", [
       return sendError(res, 'Access denied', 403, 'ACCESS_DENIED');
     }
 
-    const paymentHistory = await stripeService.getCustomerPaymentHistory(userId);
+    const paymentHistory = await StripeService.getInstance().getCustomerPaymentHistory(userId);
 
     // Get subscription information
     const subscription = await Subscription.findOne({
