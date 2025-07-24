@@ -1,7 +1,7 @@
 import express from "express";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError } from "../utils/apiResponse";
-import { stripeService } from "../services/stripeService";
+import StripeService from "../services/stripeService";
 import { createRateLimit } from "../middleware/security";
 
 const router = express.Router();
