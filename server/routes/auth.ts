@@ -16,7 +16,7 @@ import nodemailer from "nodemailer";
 // Import production schemas
 import { User, validateUserRegistration, validateUserUpdate } from "../schemas/User";
 import { database } from "../config/database";
-import emailService from "../services/emailService";
+import EmailService from "../services/emailService";
 
 const router = express.Router();
 
