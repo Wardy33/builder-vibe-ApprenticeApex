@@ -622,7 +622,7 @@ export class StripeService {
       try {
         const user = await User.findById(payment.userId);
         if (user) {
-          await emailService.sendPaymentConfirmation(user, payment);
+          await EmailService.getInstance().sendPaymentConfirmation(user, payment);
           console.log(`📧 Payment confirmation email sent to ${user.email}`);
         }
       } catch (emailError) {
