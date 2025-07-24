@@ -10,10 +10,7 @@ import session from "express-session";
 // Import security middleware
 import {
   helmetConfig,
-  corsConfig,
   createRateLimit,
-  authRateLimit,
-  paymentRateLimit,
   secureRoutes,
   securityLogger,
 } from "./middleware/security";
@@ -90,7 +87,17 @@ export function createApp() {
     // Security middleware (applied first)
     app.use(securityLogger());
     app.use(helmetConfig);
-    app.use(corsConfig);
+    // Basic CORS for development
+    app.use((req: any, res: any, next: any) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', '*');
+      res.header('Access-Control-Allow-Methods', '*');
+      if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+      } else {
+        next();
+      }
+    });
 
     // Session configuration for CSRF protection
     app.use(session({
@@ -132,8 +139,8 @@ export function createApp() {
 
   // Rate limiting (only if security middleware is enabled)
   if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
-    app.use('/api/auth', authRateLimit);
-    app.use('/api/payments', paymentRateLimit);
+    app.use('/api/auth', createRateLimit(15 * 60 * 1000, 5)); // Auth rate limit
+    app.use('/api/payments', createRateLimit(60 * 60 * 1000, 10)); // Payment rate limit
     app.use('/api', createRateLimit());
   }
 
