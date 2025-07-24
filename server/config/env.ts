@@ -22,11 +22,14 @@ const envSchema = z.object({
   DAILY_API_KEY: z.string().optional(),
   DAILY_DOMAIN_NAME: z.string().optional(),
 
-  // Email Configuration
-  EMAIL_SERVICE: z.string().optional(),
-  EMAIL_USER: z.string().email().optional(),
-  EMAIL_PASSWORD: z.string().optional(),
+  // Email Configuration (Hostinger SMTP)
+  SMTP_HOST: z.string().optional().default('smtp.hostinger.com'),
+  SMTP_PORT: z.string().optional().transform(val => Number(val) || 465).default('465'),
+  SMTP_SECURE: z.string().optional().transform(val => val === 'true').default('true'),
+  SMTP_USER: z.string().email().optional(),
+  SMTP_PASSWORD: z.string().optional(),
   EMAIL_FROM: z.string().email().optional(),
+  EMAIL_FROM_NAME: z.string().optional().default('ApprenticeApex'),
 
   // Security Configuration
   RATE_LIMIT_WINDOW_MS: z.string().optional().transform(val => Number(val) || 900000).default('900000'), // 15 minutes
