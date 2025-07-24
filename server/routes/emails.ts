@@ -26,7 +26,8 @@ const emailRateLimit = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req: AuthenticatedRequest) => {
-    return req.user?.id || req.ip;
+    // Use user ID if authenticated, otherwise use a simple fallback
+    return req.user?.id || 'anonymous';
   }
 });
 
