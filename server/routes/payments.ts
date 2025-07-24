@@ -6,436 +6,503 @@ import {
   requireCompanyRole,
 } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
-import { Subscription, Payment, Invoice } from "../models/Payment";
-import { v4 as uuidv4 } from "uuid";
+import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
+import { validateDatabaseInput } from "../middleware/database";
+import { stripeService, StripeService } from "../services/stripeService";
+import { User } from "../schemas/User";
+import { Payment, Subscription } from "../schemas/Payment";
+import { Application } from "../schemas/Application";
 
 const router = express.Router();
 
-// Subscription plans configuration
-const SUBSCRIPTION_PLANS = {
-  basic: {
-    name: "Basic",
-    price: 2900, // £29.00 in pence
-    currency: "gbp",
-    interval: "month",
-    features: {
-      maxJobListings: 5,
-      maxApplications: 100,
-      advancedAnalytics: false,
-      prioritySupport: false,
-      customBranding: false,
-      apiAccess: false,
-    },
-  },
-  premium: {
-    name: "Premium",
-    price: 7900, // £79.00 in pence
-    currency: "gbp",
-    interval: "month",
-    features: {
-      maxJobListings: 25,
-      maxApplications: 500,
-      advancedAnalytics: true,
-      prioritySupport: true,
-      customBranding: false,
-      apiAccess: false,
-    },
-  },
-  enterprise: {
-    name: "Enterprise",
-    price: 19900, // £199.00 in pence
-    currency: "gbp",
-    interval: "month",
-    features: {
-      maxJobListings: -1, // unlimited
-      maxApplications: -1, // unlimited
-      advancedAnalytics: true,
-      prioritySupport: true,
-      customBranding: true,
-      apiAccess: true,
-    },
-  },
-};
-
-// Get available subscription plans
-router.get(
-  "/plans",
-  asyncHandler(async (req, res) => {
-    res.json({
-      plans: SUBSCRIPTION_PLANS,
+// Get Stripe publishable key for frontend
+router.get("/config", asyncHandler(async (req, res) => {
+  try {
+    const publishableKey = await stripeService.getPublishableKey();
+    
+    sendSuccess(res, {
+      publishableKey,
+      subscriptionPlans: StripeService.SUBSCRIPTION_PLANS,
+      trialPlacementFee: StripeService.TRIAL_PLACEMENT_FEE,
+      successFeePercentage: StripeService.SUCCESS_FEE_PERCENTAGE
     });
-  }),
-);
 
-// Get current subscription
-router.get(
-  "/subscription",
+  } catch (error) {
+    console.error('❌ Failed to get Stripe config:', error);
+    sendError(res, 'Failed to get payment configuration', 500, 'STRIPE_CONFIG_ERROR');
+  }
+}));
+
+// Create trial payment intent (£399 one-time payments)
+router.post("/create-trial-intent", [
   authenticateToken,
   requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
+  body("metadata").optional().isObject()
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('💳 Creating trial payment intent...');
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
 
-    // Mock subscription for demo
-    const mockSubscription = {
-      _id: "sub_" + userId,
-      userId,
-      plan: "basic",
-      status: "active",
-      currentPeriodStart: new Date(),
-      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      features: SUBSCRIPTION_PLANS.basic.features,
-      stripeCustomerId: "cus_mock_" + userId,
-      stripeSubscriptionId: "sub_mock_" + userId,
-    };
+  try {
+    const userId = req.user!.userId;
+    const { metadata = {} } = req.body;
 
-    res.json({
-      subscription: mockSubscription,
-    });
-  }),
-);
-
-// Create subscription
-router.post(
-  "/subscribe",
-  authenticateToken,
-  requireCompanyRole,
-  [
-    body("plan").isIn(["basic", "premium", "enterprise"]),
-    body("paymentMethodId").notEmpty().withMessage("Payment method required"),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
+    // Verify user is a company
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'company') {
+      return sendError(res, 'Only companies can purchase trial placements', 403, 'COMPANY_ONLY');
     }
 
-    const { userId } = req.user!;
-    const { plan, paymentMethodId } = req.body;
-
-    // In a real app, this would integrate with Stripe
-    // For demo purposes, we'll create a mock subscription
-
-    const planConfig =
-      SUBSCRIPTION_PLANS[plan as keyof typeof SUBSCRIPTION_PLANS];
-    const subscriptionId = "sub_" + uuidv4();
-    const customerId = "cus_" + uuidv4();
-
-    const mockSubscription = {
-      _id: subscriptionId,
+    // Check if user already has an active trial payment
+    const existingTrialPayment = await Payment.findOne({
       userId,
-      plan,
-      status: "active",
-      stripeSubscriptionId: subscriptionId,
-      stripeCustomerId: customerId,
-      currentPeriodStart: new Date(),
-      currentPeriodEnd: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-      features: planConfig.features,
-      billingHistory: [],
-    };
-
-    // Create initial payment record
-    const payment = {
-      _id: "pay_" + uuidv4(),
-      userId,
-      subscriptionId,
-      amount: planConfig.price,
-      currency: planConfig.currency,
-      status: "succeeded",
-      type: "subscription",
-      description: `${planConfig.name} plan subscription`,
-      metadata: {
-        plan,
-        billingPeriod: "monthly",
-      },
-    };
-
-    res.json({
-      subscription: mockSubscription,
-      payment,
-      message: "Subscription created successfully",
+      'metadata.trialPlacement': true,
+      status: { $in: ['succeeded', 'pending'] }
     });
-  }),
-);
+
+    if (existingTrialPayment) {
+      return sendError(res, 'Trial placement already purchased or pending', 400, 'TRIAL_EXISTS');
+    }
+
+    const result = await stripeService.createTrialPaymentIntent(userId, {
+      companyName: user.profile.companyName || 'Unknown Company',
+      ...metadata
+    });
+
+    console.log(`✅ Trial payment intent created for company: ${user.profile.companyName}`);
+
+    sendSuccess(res, {
+      clientSecret: result.clientSecret,
+      paymentIntentId: result.paymentIntent.id,
+      amount: result.paymentIntent.amount,
+      currency: result.paymentIntent.currency,
+      description: result.paymentIntent.description,
+      paymentRecord: {
+        id: result.paymentRecord._id,
+        status: result.paymentRecord.status,
+        createdAt: result.paymentRecord.createdAt
+      }
+    }, 201);
+
+  } catch (error: any) {
+    console.error('❌ Failed to create trial payment intent:', error);
+    sendError(res, error.message || 'Failed to create trial payment intent', 500, 'TRIAL_PAYMENT_ERROR');
+  }
+}));
+
+// Create subscription (£49, £99, £149 monthly plans)
+router.post("/create-subscription", [
+  authenticateToken,
+  requireCompanyRole,
+  body("planType").isIn(['professional', 'business', 'enterprise']),
+  body("paymentMethodId").optional().isString()
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('📋 Creating subscription...');
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  try {
+    const userId = req.user!.userId;
+    const { planType, paymentMethodId } = req.body;
+
+    // Verify user is a company
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'company') {
+      return sendError(res, 'Only companies can purchase subscriptions', 403, 'COMPANY_ONLY');
+    }
+
+    // Check if user already has an active subscription
+    const existingSubscription = await Subscription.findOne({
+      userId,
+      status: { $in: ['active', 'trialing'] }
+    });
+
+    if (existingSubscription) {
+      return sendError(res, 'User already has an active subscription', 400, 'SUBSCRIPTION_EXISTS');
+    }
+
+    const result = await stripeService.createSubscription(userId, planType, paymentMethodId);
+
+    console.log(`✅ Subscription created for company: ${user.profile.companyName} (${planType})`);
+
+    sendSuccess(res, {
+      subscription: {
+        id: result.subscription.id,
+        status: result.subscription.status,
+        current_period_end: result.subscription.current_period_end,
+        latest_invoice: result.subscription.latest_invoice
+      },
+      subscriptionRecord: {
+        id: result.subscriptionRecord._id,
+        plan: result.subscriptionRecord.plan,
+        status: result.subscriptionRecord.status,
+        features: result.subscriptionRecord.features,
+        nextBillingDate: result.subscriptionRecord.nextBillingDate
+      },
+      clientSecret: result.subscription.latest_invoice?.payment_intent?.client_secret
+    }, 201);
+
+  } catch (error: any) {
+    console.error('❌ Failed to create subscription:', error);
+    sendError(res, error.message || 'Failed to create subscription', 500, 'SUBSCRIPTION_ERROR');
+  }
+}));
+
+// Calculate success fee (12% of first-year salary)
+router.post("/calculate-success-fee", [
+  authenticateToken,
+  requireCompanyRole,
+  body("applicationId").isMongoId()
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('🧮 Calculating success fee...');
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  try {
+    const { applicationId } = req.body;
+    const companyUserId = req.user!.userId;
+
+    // Verify the application belongs to the company
+    const application = await Application.findById(applicationId);
+    if (!application) {
+      return sendError(res, 'Application not found', 404, 'APPLICATION_NOT_FOUND');
+    }
+
+    if (application.companyId !== companyUserId) {
+      return sendError(res, 'Application does not belong to this company', 403, 'ACCESS_DENIED');
+    }
+
+    // Check if application is in a state where success fee can be calculated
+    if (!['offer_accepted', 'hired'].includes(application.status)) {
+      return sendError(res, 'Success fee can only be calculated for hired candidates', 400, 'INVALID_APPLICATION_STATUS');
+    }
+
+    const successFeeCalculation = await stripeService.calculateSuccessFee(applicationId);
+
+    sendSuccess(res, {
+      calculation: successFeeCalculation,
+      formattedAmount: `£${(successFeeCalculation.calculatedFee / 100).toFixed(2)}`,
+      formattedBaseAmount: `£${(successFeeCalculation.baseAmount / 100).toFixed(2)}`,
+      feePercentageDisplay: `${(successFeeCalculation.feePercentage * 100).toFixed(1)}%`
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to calculate success fee:', error);
+    sendError(res, error.message || 'Failed to calculate success fee', 500, 'SUCCESS_FEE_CALCULATION_ERROR');
+  }
+}));
+
+// Create success fee payment intent
+router.post("/create-success-fee-intent", [
+  authenticateToken,
+  requireCompanyRole,
+  body("applicationId").isMongoId(),
+  body("metadata").optional().isObject()
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('💰 Creating success fee payment intent...');
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  try {
+    const { applicationId, metadata = {} } = req.body;
+    const companyUserId = req.user!.userId;
+
+    // Verify the application belongs to the company
+    const application = await Application.findById(applicationId);
+    if (!application) {
+      return sendError(res, 'Application not found', 404, 'APPLICATION_NOT_FOUND');
+    }
+
+    if (application.companyId !== companyUserId) {
+      return sendError(res, 'Application does not belong to this company', 403, 'ACCESS_DENIED');
+    }
+
+    // Check if success fee has already been paid
+    const existingSuccessFeePayment = await Payment.findOne({
+      userId: companyUserId,
+      'metadata.applicationId': applicationId,
+      'metadata.successFee': true,
+      status: { $in: ['succeeded', 'pending'] }
+    });
+
+    if (existingSuccessFeePayment) {
+      return sendError(res, 'Success fee already paid or pending for this application', 400, 'SUCCESS_FEE_EXISTS');
+    }
+
+    const result = await stripeService.createSuccessFeePaymentIntent(
+      applicationId,
+      companyUserId,
+      metadata
+    );
+
+    console.log(`✅ Success fee payment intent created for application: ${applicationId}`);
+
+    sendSuccess(res, {
+      clientSecret: result.clientSecret,
+      paymentIntentId: result.paymentIntent.id,
+      amount: result.paymentIntent.amount,
+      currency: result.paymentIntent.currency,
+      description: result.paymentIntent.description,
+      calculation: result.successFeeCalculation,
+      paymentRecord: {
+        id: result.paymentRecord._id,
+        status: result.paymentRecord.status,
+        createdAt: result.paymentRecord.createdAt
+      }
+    }, 201);
+
+  } catch (error: any) {
+    console.error('❌ Failed to create success fee payment intent:', error);
+    sendError(res, error.message || 'Failed to create success fee payment intent', 500, 'SUCCESS_FEE_PAYMENT_ERROR');
+  }
+}));
+
+// Get customer payment history
+router.get("/customer/:userId", [
+  authenticateToken
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  try {
+    const { userId } = req.params;
+    const requestingUserId = req.user!.userId;
+
+    // Users can only view their own payment history (or admin can view any)
+    if (userId !== requestingUserId && req.user!.role !== 'admin') {
+      return sendError(res, 'Access denied', 403, 'ACCESS_DENIED');
+    }
+
+    const paymentHistory = await stripeService.getCustomerPaymentHistory(userId);
+
+    // Get subscription information
+    const subscription = await Subscription.findOne({
+      userId,
+      status: { $in: ['active', 'trialing', 'past_due'] }
+    });
+
+    sendSuccess(res, {
+      paymentHistory,
+      subscription: subscription ? {
+        plan: subscription.plan,
+        status: subscription.status,
+        nextBillingDate: subscription.nextBillingDate,
+        features: subscription.features
+      } : null,
+      summary: {
+        totalPayments: paymentHistory.length,
+        totalAmount: paymentHistory.reduce((sum, payment) => 
+          payment.status === 'succeeded' ? sum + payment.amount : sum, 0
+        ),
+        lastPaymentDate: paymentHistory.length > 0 ? paymentHistory[0].createdAt : null
+      }
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to get payment history:', error);
+    sendError(res, error.message || 'Failed to get payment history', 500, 'PAYMENT_HISTORY_ERROR');
+  }
+}));
 
 // Update subscription
-router.put(
-  "/subscription",
+router.put("/update-subscription", [
   authenticateToken,
   requireCompanyRole,
-  [body("plan").isIn(["basic", "premium", "enterprise"])],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+  body("planType").isIn(['professional', 'business', 'enterprise'])
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('🔄 Updating subscription...');
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
 
-    const { userId } = req.user!;
-    const { plan } = req.body;
+  try {
+    const userId = req.user!.userId;
+    const { planType } = req.body;
 
-    // In a real app, update Stripe subscription
-    const planConfig =
-      SUBSCRIPTION_PLANS[plan as keyof typeof SUBSCRIPTION_PLANS];
+    const result = await stripeService.updateSubscription(userId, planType);
 
-    res.json({
-      message: "Subscription updated successfully",
-      plan: planConfig,
+    console.log(`✅ Subscription updated for user: ${userId} to ${planType}`);
+
+    sendSuccess(res, {
+      subscription: {
+        id: result.subscription.id,
+        status: result.subscription.status,
+        current_period_end: result.subscription.current_period_end
+      },
+      subscriptionRecord: {
+        id: result.subscriptionRecord._id,
+        plan: result.subscriptionRecord.plan,
+        planName: result.subscriptionRecord.planName,
+        amount: result.subscriptionRecord.amount,
+        features: result.subscriptionRecord.features
+      }
     });
-  }),
-);
+
+  } catch (error: any) {
+    console.error('❌ Failed to update subscription:', error);
+    sendError(res, error.message || 'Failed to update subscription', 500, 'SUBSCRIPTION_UPDATE_ERROR');
+  }
+}));
 
 // Cancel subscription
-router.delete(
-  "/subscription",
+router.post("/cancel-subscription", [
   authenticateToken,
   requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
+  body("cancelAtPeriodEnd").optional().isBoolean(),
+  body("cancellationReason").optional().isString().isLength({ max: 500 })
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  console.log('❌ Canceling subscription...');
+  
+  try {
+    const userId = req.user!.userId;
+    const { cancelAtPeriodEnd = true, cancellationReason } = req.body;
 
-    // In a real app, cancel Stripe subscription
-    res.json({
-      message: "Subscription cancelled successfully",
+    const subscription = await Subscription.findOne({
+      userId,
+      status: { $in: ['active', 'trialing'] }
     });
-  }),
-);
 
-// Get payment history
-router.get(
-  "/payments",
-  authenticateToken,
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
-    const page = parseInt(req.query.page as string) || 1;
-    const limit = parseInt(req.query.limit as string) || 10;
-
-    // Mock payment history
-    const mockPayments = [
-      {
-        _id: "pay_1",
-        amount: 2900,
-        currency: "gbp",
-        status: "succeeded",
-        type: "subscription",
-        description: "Basic plan subscription",
-        createdAt: new Date("2024-01-15"),
-      },
-      {
-        _id: "pay_2",
-        amount: 2900,
-        currency: "gbp",
-        status: "succeeded",
-        type: "subscription",
-        description: "Basic plan subscription",
-        createdAt: new Date("2023-12-15"),
-      },
-    ];
-
-    res.json({
-      payments: mockPayments,
-      pagination: {
-        currentPage: page,
-        totalPages: 1,
-        totalItems: mockPayments.length,
-        itemsPerPage: limit,
-      },
-    });
-  }),
-);
-
-// Get invoices
-router.get(
-  "/invoices",
-  authenticateToken,
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
-
-    // Mock invoices
-    const mockInvoices = [
-      {
-        _id: "inv_1",
-        invoiceNumber: "INV-2024-001",
-        amount: 2900,
-        currency: "gbp",
-        status: "paid",
-        dueDate: new Date("2024-01-15"),
-        paidAt: new Date("2024-01-15"),
-        lineItems: [
-          {
-            description: "Basic Plan - Monthly",
-            quantity: 1,
-            unitAmount: 2900,
-            totalAmount: 2900,
-          },
-        ],
-      },
-    ];
-
-    res.json({
-      invoices: mockInvoices,
-    });
-  }),
-);
-
-// Download invoice
-router.get(
-  "/invoices/:invoiceId/download",
-  authenticateToken,
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { invoiceId } = req.params;
-    const { userId } = req.user!;
-
-    // In a real app, generate PDF invoice
-    res.json({
-      downloadUrl: `https://api.apprenticeapex.com/invoices/${invoiceId}/pdf`,
-      message: "Invoice download link generated",
-    });
-  }),
-);
-
-// Create payment intent for one-time payments
-router.post(
-  "/payment-intent",
-  authenticateToken,
-  requireCompanyRole,
-  [
-    body("amount").isInt({ min: 1 }),
-    body("currency").isIn(["gbp", "usd", "eur"]),
-    body("description").notEmpty(),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
+    if (!subscription) {
+      return sendError(res, 'No active subscription found', 404, 'NO_SUBSCRIPTION');
     }
 
-    const { userId } = req.user!;
-    const { amount, currency, description } = req.body;
+    // Cancel in Stripe
+    const stripeSubscription = await stripeService['stripe'].subscriptions.update(
+      subscription.stripeSubscriptionId,
+      {
+        cancel_at_period_end: cancelAtPeriodEnd,
+        ...(cancellationReason && {
+          metadata: { cancellationReason }
+        })
+      }
+    );
 
-    // In a real app, create Stripe payment intent
-    const paymentIntent = {
-      id: "pi_" + uuidv4(),
-      clientSecret: "pi_" + uuidv4() + "_secret",
+    // Update database
+    subscription.cancelAtPeriodEnd = cancelAtPeriodEnd;
+    subscription.cancellationReason = cancellationReason;
+    if (!cancelAtPeriodEnd) {
+      subscription.status = 'cancelled';
+      subscription.cancelledAt = new Date();
+    }
+    await subscription.save();
+
+    console.log(`✅ Subscription ${cancelAtPeriodEnd ? 'scheduled for cancellation' : 'cancelled'}: ${subscription.stripeSubscriptionId}`);
+
+    sendSuccess(res, {
+      message: cancelAtPeriodEnd ? 
+        'Subscription will be cancelled at the end of the current period' : 
+        'Subscription cancelled immediately',
+      subscription: {
+        id: stripeSubscription.id,
+        status: stripeSubscription.status,
+        cancel_at_period_end: stripeSubscription.cancel_at_period_end,
+        current_period_end: stripeSubscription.current_period_end
+      }
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to cancel subscription:', error);
+    sendError(res, error.message || 'Failed to cancel subscription', 500, 'SUBSCRIPTION_CANCEL_ERROR');
+  }
+}));
+
+// Legacy subscription endpoints (for backwards compatibility)
+router.get("/subscription", authenticateToken, asyncHandler(async (req: AuthenticatedRequest, res) => {
+  try {
+    const userId = req.user!.userId;
+    
+    const subscription = await Subscription.findOne({
+      userId,
+      status: { $in: ['active', 'trialing', 'past_due', 'cancelled'] }
+    });
+
+    if (!subscription) {
+      return sendSuccess(res, { subscription: null });
+    }
+
+    sendSuccess(res, {
+      subscription: {
+        id: subscription._id,
+        plan: subscription.plan,
+        status: subscription.status,
+        currentPeriodStart: subscription.currentPeriodStart,
+        currentPeriodEnd: subscription.currentPeriodEnd,
+        features: subscription.features,
+        cancelAtPeriodEnd: subscription.cancelAtPeriodEnd
+      }
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to get subscription:', error);
+    sendError(res, 'Failed to get subscription', 500, 'SUBSCRIPTION_GET_ERROR');
+  }
+}));
+
+// Legacy payment endpoints
+router.post("/create-payment-intent", [
+  authenticateToken,
+  body("amount").isInt({ min: 50 }), // Minimum £0.50
+  body("currency").isIn(['gbp', 'usd', 'eur']),
+  body("description").isString().isLength({ min: 1, max: 500 })
+], asyncHandler(async (req: AuthenticatedRequest, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  try {
+    const userId = req.user!.userId;
+    const { amount, currency, description, metadata = {} } = req.body;
+
+    const customer = await stripeService.getOrCreateCustomer(userId);
+
+    const paymentIntent = await stripeService['stripe'].paymentIntents.create({
       amount,
       currency,
-      status: "requires_payment_method",
-    };
-
-    res.json({
-      paymentIntent,
+      customer: customer.id,
+      description,
+      metadata: {
+        userId,
+        ...metadata
+      }
     });
-  }),
-);
 
-// Webhook endpoint for Stripe (in production)
-router.post(
-  "/webhook",
-  express.raw({ type: "application/json" }),
-  asyncHandler(async (req, res) => {
-    const sig = req.headers["stripe-signature"];
-
-    // In a real app, verify webhook signature and process events
-    const event = {
-      type: "payment_intent.succeeded",
-      data: {
-        object: {
-          id: "pi_mock",
-          amount: 2900,
-          currency: "gbp",
-        },
-      },
-    };
-
-    switch (event.type) {
-      case "payment_intent.succeeded":
-        console.log("Payment succeeded:", event.data.object);
-        break;
-      case "invoice.payment_succeeded":
-        console.log("Invoice payment succeeded:", event.data.object);
-        break;
-      case "customer.subscription.updated":
-        console.log("Subscription updated:", event.data.object);
-        break;
-      case "customer.subscription.deleted":
-        console.log("Subscription cancelled:", event.data.object);
-        break;
-      default:
-        console.log(`Unhandled event type ${event.type}`);
-    }
-
-    res.json({ received: true });
-  }),
-);
-
-// Get payment method
-router.get(
-  "/payment-methods",
-  authenticateToken,
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
-
-    // Mock payment methods
-    const mockPaymentMethods = [
-      {
-        id: "pm_mock_1",
-        type: "card",
-        card: {
-          brand: "visa",
-          last4: "4242",
-          exp_month: 12,
-          exp_year: 2025,
-        },
-        billing_details: {
-          name: "John Doe",
-        },
-      },
-    ];
-
-    res.json({
-      paymentMethods: mockPaymentMethods,
+    // Create payment record
+    const paymentRecord = new Payment({
+      userId,
+      amount,
+      currency: currency.toUpperCase(),
+      description,
+      type: 'one_time',
+      paymentMethodType: 'card',
+      status: 'pending',
+      stripePaymentIntentId: paymentIntent.id,
+      stripeCustomerId: customer.id,
+      metadata
     });
-  }),
-);
 
-// Add payment method
-router.post(
-  "/payment-methods",
-  authenticateToken,
-  requireCompanyRole,
-  [body("paymentMethodId").notEmpty()],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+    await paymentRecord.save();
 
-    const { userId } = req.user!;
-    const { paymentMethodId } = req.body;
+    sendSuccess(res, {
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id
+    }, 201);
 
-    // In a real app, attach payment method to customer
-    res.json({
-      message: "Payment method added successfully",
-      paymentMethodId,
-    });
-  }),
-);
-
-// Delete payment method
-router.delete(
-  "/payment-methods/:paymentMethodId",
-  authenticateToken,
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { paymentMethodId } = req.params;
-    const { userId } = req.user!;
-
-    // In a real app, detach payment method
-    res.json({
-      message: "Payment method removed successfully",
-    });
-  }),
-);
+  } catch (error: any) {
+    console.error('❌ Failed to create payment intent:', error);
+    sendError(res, 'Failed to create payment intent', 500, 'PAYMENT_INTENT_ERROR');
+  }
+}));
 
 export default router;
