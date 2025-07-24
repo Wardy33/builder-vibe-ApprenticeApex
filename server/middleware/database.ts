@@ -513,8 +513,4 @@ DatabaseValidator.registerSchema('payments', z.object({
 }).passthrough());
 
 // Export everything
-export {
-  DatabaseLogger,
-  DatabaseValidator,
-  DatabasePerformanceMonitor
-};
+// Classes are already exported above
