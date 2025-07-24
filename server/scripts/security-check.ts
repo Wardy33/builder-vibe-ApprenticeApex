@@ -105,7 +105,7 @@ export function runSecurityChecks(): boolean {
 export function printProductionChecklist(): void {
   console.log('\n🎯 Production Deployment Checklist:\n');
   
-  console.log('���� Required Environment Variables:');
+  console.log('📋 Required Environment Variables:');
   console.log('   □ MONGODB_URI (with SSL in production)');
   console.log('   □ JWT_SECRET (minimum 32 characters)');
   console.log('   □ STRIPE_SECRET_KEY');
@@ -144,14 +144,14 @@ export function printProductionChecklist(): void {
 }
 
 // Auto-run if this file is executed directly
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   console.log('🔐 ApprenticeApex Security Validation\n');
-  
+
   const passed = runSecurityChecks();
-  
+
   if (!passed) {
     process.exit(1);
   }
-  
+
   printProductionChecklist();
 }
