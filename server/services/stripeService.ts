@@ -3,6 +3,8 @@ import { getEnvConfig } from '../config/env';
 import { User } from '../schemas/User';
 import { Payment, Subscription, validatePaymentCreation } from '../schemas/Payment';
 import { Application } from '../schemas/Application';
+import { Apprenticeship } from '../schemas/Apprenticeship';
+import emailService from './emailService';
 
 interface StripeConfig {
   secretKey: string;
