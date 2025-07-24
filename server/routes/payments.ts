@@ -8,7 +8,7 @@ import {
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
 import { validateDatabaseInput } from "../middleware/database";
-import { stripeService, StripeService } from "../services/stripeService";
+import StripeService from "../services/stripeService";
 import { User } from "../schemas/User";
 import { Payment, Subscription } from "../schemas/Payment";
 import { Application } from "../schemas/Application";
