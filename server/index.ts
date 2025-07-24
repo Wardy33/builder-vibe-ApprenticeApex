@@ -41,6 +41,7 @@ import subscriptionRoutes from "./routes/subscriptions";
 import contactRoutes from "./routes/contact";
 import testRoutes from "./routes/test";
 import testEndpointRoutes from "./routes/testEndpoints";
+import healthRoutes from "./routes/health";
 
 // Import middleware
 import { authenticateToken } from "./middleware/auth";
@@ -165,8 +166,8 @@ export function createApp() {
     });
   });
 
-  // Database-specific health check (handled by middleware)
-  // Route: /api/health/database
+  // Enhanced health check routes
+  app.use("/api/health", healthRoutes);
 
   // Rate limiting (only if security middleware is enabled)
   if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
