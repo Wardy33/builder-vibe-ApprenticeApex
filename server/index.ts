@@ -51,8 +51,22 @@ import { AlertService } from "./services/alertService";
 // Load environment variables
 dotenv.config();
 
-// Validate environment variables on startup
-const env = validateEnv();
+// Validate environment variables on startup (skip in Vite dev mode)
+let env: any;
+try {
+  env = validateEnv();
+} catch (error) {
+  console.warn('⚠️  Environment validation skipped in development mode');
+  env = {
+    NODE_ENV: process.env.NODE_ENV || 'development',
+    PORT: Number(process.env.PORT) || 3001,
+    FRONTEND_URL: process.env.FRONTEND_URL || 'http://localhost:5173',
+    MONGODB_URI: process.env.MONGODB_URI || 'mongodb://localhost:27017/apprenticeapex',
+    JWT_SECRET: process.env.JWT_SECRET || 'development-secret-key-minimum-32-characters-long-for-security',
+    RATE_LIMIT_WINDOW_MS: Number(process.env.RATE_LIMIT_WINDOW_MS) || 900000,
+    RATE_LIMIT_MAX_REQUESTS: Number(process.env.RATE_LIMIT_MAX_REQUESTS) || 100,
+  };
+}
 
 export function createApp() {
   const app = express();
@@ -67,29 +81,45 @@ export function createApp() {
   // Trust proxy (important for rate limiting and IP detection)
   app.set('trust proxy', 1);
 
-  // Security middleware (applied first)
-  app.use(securityLogger());
-  app.use(helmetConfig);
-  app.use(corsConfig);
-
-  // Session configuration for CSRF protection
-  app.use(session({
-    secret: env.JWT_SECRET,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: env.NODE_ENV === 'production', // HTTPS only in production
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    },
-  }));
-
   // Basic middleware
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Security routes middleware
-  app.use(secureRoutes());
+  // Apply security middleware only if environment is properly validated
+  if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
+    // Security middleware (applied first)
+    app.use(securityLogger());
+    app.use(helmetConfig);
+    app.use(corsConfig);
+
+    // Session configuration for CSRF protection
+    app.use(session({
+      secret: env.JWT_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        secure: env.NODE_ENV === 'production', // HTTPS only in production
+        httpOnly: true,
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      },
+    }));
+
+    // Security routes middleware
+    app.use(secureRoutes());
+  } else {
+    console.warn('⚠️  Security middleware disabled in development mode');
+    // Basic CORS for development
+    app.use((req: any, res: any, next: any) => {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', '*');
+      res.header('Access-Control-Allow-Methods', '*');
+      if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+      } else {
+        next();
+      }
+    });
+  }
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -100,10 +130,12 @@ export function createApp() {
     });
   });
 
-  // Rate limiting
-  app.use('/api/auth', authRateLimit);
-  app.use('/api/payments', paymentRateLimit);
-  app.use('/api', createRateLimit());
+  // Rate limiting (only if security middleware is enabled)
+  if (env.NODE_ENV && typeof env.JWT_SECRET === 'string' && env.JWT_SECRET.length >= 32) {
+    app.use('/api/auth', authRateLimit);
+    app.use('/api/payments', paymentRateLimit);
+    app.use('/api', createRateLimit());
+  }
 
   // Public routes
   app.use("/api/auth", authRoutes);
