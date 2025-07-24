@@ -618,6 +618,17 @@ export class StripeService {
         });
       }
 
+      // Send payment confirmation email
+      try {
+        const user = await User.findById(payment.userId);
+        if (user) {
+          await emailService.sendPaymentConfirmation(user, payment);
+          console.log(`📧 Payment confirmation email sent to ${user.email}`);
+        }
+      } catch (emailError) {
+        console.warn('⚠️  Failed to send payment confirmation email:', emailError);
+      }
+
       console.log(`✅ Payment intent succeeded processed: ${paymentIntent.id}`);
 
     } catch (error) {
