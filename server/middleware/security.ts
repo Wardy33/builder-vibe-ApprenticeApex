@@ -60,25 +60,42 @@ export const corsConfig = cors({
 
 // Rate limiting configuration
 export function createRateLimit(windowMs?: number, max?: number) {
-  const env = getEnvConfig();
-  
-  return rateLimit({
-    windowMs: windowMs || env.RATE_LIMIT_WINDOW_MS,
-    max: max || env.RATE_LIMIT_MAX_REQUESTS,
-    message: {
-      error: 'Too many requests from this IP, please try again later.',
-      retryAfter: Math.ceil((windowMs || env.RATE_LIMIT_WINDOW_MS) / 1000 / 60),
-    },
-    standardHeaders: true,
-    legacyHeaders: false,
-    handler: (req: Request, res: Response) => {
-      console.warn(`🚨 Rate limit exceeded for IP: ${req.ip} on ${req.path}`);
-      res.status(429).json({
+  const defaultWindowMs = windowMs || 900000; // 15 minutes
+  const defaultMax = max || 100;
+
+  try {
+    const env = getEnvConfig();
+
+    return rateLimit({
+      windowMs: windowMs || env.RATE_LIMIT_WINDOW_MS,
+      max: max || env.RATE_LIMIT_MAX_REQUESTS,
+      message: {
         error: 'Too many requests from this IP, please try again later.',
         retryAfter: Math.ceil((windowMs || env.RATE_LIMIT_WINDOW_MS) / 1000 / 60),
-      });
-    },
-  });
+      },
+      standardHeaders: true,
+      legacyHeaders: false,
+      handler: (req: Request, res: Response) => {
+        console.warn(`🚨 Rate limit exceeded for IP: ${req.ip} on ${req.path}`);
+        res.status(429).json({
+          error: 'Too many requests from this IP, please try again later.',
+          retryAfter: Math.ceil((windowMs || env.RATE_LIMIT_WINDOW_MS) / 1000 / 60),
+        });
+      },
+    });
+  } catch (error) {
+    // Fallback for development when environment isn't validated
+    return rateLimit({
+      windowMs: defaultWindowMs,
+      max: defaultMax,
+      message: {
+        error: 'Too many requests from this IP, please try again later.',
+        retryAfter: Math.ceil(defaultWindowMs / 1000 / 60),
+      },
+      standardHeaders: true,
+      legacyHeaders: false,
+    });
+  }
 }
 
 // Stricter rate limiting for authentication endpoints
