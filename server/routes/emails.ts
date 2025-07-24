@@ -8,7 +8,7 @@ import rateLimit from "express-rate-limit";
 
 // Import production schemas and services
 import { User } from "../schemas/User";
-import emailService from "../services/emailService";
+import EmailService from "../services/emailService";
 import emailTemplates from "../services/emailTemplates";
 import { getEnvConfig } from "../config/env";
 
