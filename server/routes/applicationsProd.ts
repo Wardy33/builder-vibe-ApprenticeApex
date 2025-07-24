@@ -9,7 +9,7 @@ import { validateDatabaseInput } from "../middleware/database";
 import { Application, validateApplicationCreation } from "../schemas/Application";
 import { Apprenticeship } from "../schemas/Apprenticeship";
 import { User } from "../schemas/User";
-import emailService from "../services/emailService";
+import EmailService from "../services/emailService";
 
 const router = express.Router();
 
