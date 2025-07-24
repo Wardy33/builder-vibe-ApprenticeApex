@@ -166,52 +166,42 @@ export async function connectDatabase() {
   }
 }
 
-// JWT utilities
-export const JWT_SECRET =
-  process.env.JWT_SECRET || "your-secret-key-change-in-production";
+// Export environment config for other modules
+export { getEnvConfig };
 
-// Environment configuration
+// Legacy exports for backwards compatibility (will be removed)
+export const JWT_SECRET = env.JWT_SECRET;
 export const config = {
-  port: process.env.PORT || 3001,
-  nodeEnv: process.env.NODE_ENV || "development",
-  mongoUri:
-    process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex",
-  jwtSecret: JWT_SECRET,
+  port: env.PORT,
+  nodeEnv: env.NODE_ENV,
+  mongoUri: env.MONGODB_URI,
+  jwtSecret: env.JWT_SECRET,
   stripe: {
-    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
-    secretKey: process.env.STRIPE_SECRET_KEY,
-    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
-  },
-  twilio: {
-    accountSid: process.env.TWILIO_ACCOUNT_SID,
-    authToken: process.env.TWILIO_AUTH_TOKEN,
-    apiKey: process.env.TWILIO_API_KEY,
-    apiSecret: process.env.TWILIO_API_SECRET,
+    publishableKey: env.STRIPE_PUBLISHABLE_KEY,
+    secretKey: env.STRIPE_SECRET_KEY,
+    webhookSecret: env.STRIPE_WEBHOOK_SECRET,
   },
   daily: {
-    apiKey: process.env.DAILY_API_KEY,
-    domainName: process.env.DAILY_DOMAIN_NAME,
+    apiKey: env.DAILY_API_KEY,
+    domainName: env.DAILY_DOMAIN_NAME,
   },
   email: {
-    service: process.env.EMAIL_SERVICE || "gmail",
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT ? parseInt(process.env.EMAIL_PORT) : 587,
-    secure: process.env.EMAIL_SECURE === "true",
-    user: process.env.EMAIL_USER,
-    password: process.env.EMAIL_PASSWORD,
-    from: process.env.EMAIL_FROM || "noreply@apprenticeapex.com",
+    service: env.EMAIL_SERVICE,
+    user: env.EMAIL_USER,
+    password: env.EMAIL_PASSWORD,
+    from: env.EMAIL_FROM,
   },
   frontend: {
-    url: process.env.FRONTEND_URL || "http://localhost:5173",
+    url: env.FRONTEND_URL,
   },
 };
 
-export function generateToken(userId: string, role: string): string {
-  return jwt.sign({ userId, role }, JWT_SECRET, { expiresIn: "7d" });
+export function generateToken(userId: string, role: 'student' | 'company' | 'admin', email: string): string {
+  return jwt.sign({ userId, role, email }, env.JWT_SECRET, { expiresIn: "7d" });
 }
 
-export function verifyToken(token: string): any {
-  return jwt.verify(token, JWT_SECRET);
+export function verifyToken(token: string): { userId: string; role: string; email: string; iat: number; exp: number } {
+  return jwt.verify(token, env.JWT_SECRET) as { userId: string; role: string; email: string; iat: number; exp: number };
 }
 
 // Password utilities
