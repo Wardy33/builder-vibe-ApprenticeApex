@@ -373,6 +373,13 @@ export function databaseHealthCheck() {
 
     // Check database connection for other routes
     if (!database.isConnected()) {
+      // In development mode without MONGODB_URI, allow requests to proceed
+      const env = process.env.MONGODB_URI;
+      if (!env || env === '') {
+        console.warn('⚠️  Running in development mode without database connection');
+        return next(); // Allow request to proceed
+      }
+
       return res.status(503).json({
         success: false,
         error: 'Database connection unavailable',
