@@ -1121,6 +1121,12 @@ userSchema.methods.generatePasswordResetToken = function(): string {
   return token;
 };
 
+userSchema.methods.generateUnsubscribeToken = function(): string {
+  const token = Math.random().toString(36).substr(2, 15) + Math.random().toString(36).substr(2, 15);
+  this.unsubscribeToken = token;
+  return token;
+};
+
 userSchema.methods.updateLastActivity = async function(): Promise<void> {
   this.lastActivityAt = new Date();
   await this.save({ validateBeforeSave: false });
