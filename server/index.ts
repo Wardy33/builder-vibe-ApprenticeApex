@@ -64,33 +64,32 @@ export function createApp() {
   // Make io available in request context
   app.set("io", io);
 
-  // Middleware
-  app.use(
-    cors({
-      origin: function (origin, callback) {
-        const allowedOrigins = [
-          process.env.FRONTEND_URL || "http://localhost:8080",
-          "http://localhost:8080",
-          "https://437d478412674681b0783b89ee86bcb3-5f907b79497c47c599f14e3a4.fly.dev"
-        ];
+  // Trust proxy (important for rate limiting and IP detection)
+  app.set('trust proxy', 1);
 
-        // Allow requests with no origin (mobile apps, Postman, etc.)
-        if (!origin) return callback(null, true);
+  // Security middleware (applied first)
+  app.use(securityLogger());
+  app.use(helmetConfig);
+  app.use(corsConfig);
 
-        if (allowedOrigins.indexOf(origin) !== -1) {
-          callback(null, true);
-        } else {
-          callback(new Error('Not allowed by CORS'));
-        }
-      },
-      credentials: true,
-    }),
-  );
+  // Session configuration for CSRF protection
+  app.use(session({
+    secret: env.JWT_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: env.NODE_ENV === 'production', // HTTPS only in production
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  }));
+
+  // Basic middleware
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Trust proxy for production
-  app.set("trust proxy", 1);
+  // Security routes middleware
+  app.use(secureRoutes());
 
   // Health check
   app.get("/api/ping", (_req, res) => {
@@ -100,6 +99,11 @@ export function createApp() {
       status: "healthy",
     });
   });
+
+  // Rate limiting
+  app.use('/api/auth', authRateLimit);
+  app.use('/api/payments', paymentRateLimit);
+  app.use('/api', createRateLimit());
 
   // Public routes
   app.use("/api/auth", authRoutes);
