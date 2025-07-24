@@ -360,7 +360,7 @@ router.get("/queue/status",
     }
 
     try {
-      const queueStatus = emailService.getQueueStatus();
+      const queueStatus = EmailService.getInstance().getQueueStatus();
 
       sendSuccess(res, {
         queue: queueStatus,
