@@ -1,48 +1,83 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../index";
+import { getEnvConfig } from "../config/env";
+
+// Define user types
+export interface User {
+  userId: string;
+  role: 'student' | 'company' | 'admin';
+  email: string;
+}
 
 export interface AuthenticatedRequest extends Request {
-  user?: {
-    userId: string;
-    role: string;
-  };
+  user?: User;
+}
+
+// JWT payload interface
+interface JWTPayload {
+  userId: string;
+  role: 'student' | 'company' | 'admin';
+  email: string;
+  iat: number;
+  exp: number;
 }
 
 export function authenticateToken(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
-) {
+): void {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1]; // Bearer TOKEN
 
   if (!token) {
-    return res.status(401).json({ error: "Access token required" });
+    res.status(401).json({
+      error: "Access token required",
+      code: "MISSING_TOKEN"
+    });
+    return;
   }
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET) as any;
+    const env = getEnvConfig();
+    const decoded = jwt.verify(token, env.JWT_SECRET) as JWTPayload;
+
     req.user = {
       userId: decoded.userId,
       role: decoded.role,
+      email: decoded.email,
     };
+
     next();
   } catch (error) {
-    return res.status(403).json({ error: "Invalid or expired token" });
+    console.warn(`🚨 Invalid token attempt from IP: ${req.ip}`);
+    res.status(403).json({
+      error: "Invalid or expired token",
+      code: "INVALID_TOKEN"
+    });
+    return;
   }
 }
 
-export function requireRole(roles: string[]) {
-  return (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export function requireRole(roles: Array<'student' | 'company' | 'admin'>) {
+  return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
-      return res.status(401).json({ error: "Authentication required" });
+      res.status(401).json({
+        error: "Authentication required",
+        code: "NO_AUTH"
+      });
+      return;
     }
 
     if (!roles.includes(req.user.role)) {
-      return res
-        .status(403)
-        .json({ error: "Insufficient permissions for this action" });
+      console.warn(`🚨 Unauthorized access attempt: ${req.user.email} (${req.user.role}) tried to access ${req.path}`);
+      res.status(403).json({
+        error: "Insufficient permissions for this action",
+        code: "INSUFFICIENT_PERMISSIONS",
+        required: roles,
+        current: req.user.role
+      });
+      return;
     }
 
     next();
@@ -53,14 +88,22 @@ export function requireStudentRole(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
-) {
-  return requireRole(["student"])(req, res, next);
+): void {
+  requireRole(["student"])(req, res, next);
 }
 
 export function requireCompanyRole(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
-) {
-  return requireRole(["company"])(req, res, next);
+): void {
+  requireRole(["company"])(req, res, next);
+}
+
+export function requireAdminRole(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): void {
+  requireRole(["admin"])(req, res, next);
 }
