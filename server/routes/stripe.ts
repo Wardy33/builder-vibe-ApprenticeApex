@@ -29,7 +29,7 @@ router.post("/webhook", [
     }
 
     // Process the webhook event using StripeService
-    await stripeService.processWebhookEvent(req.body, signature);
+    await StripeService.getInstance().processWebhookEvent(req.body, signature);
 
     console.log('✅ Webhook processed successfully');
     
