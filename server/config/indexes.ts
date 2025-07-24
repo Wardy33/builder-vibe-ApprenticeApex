@@ -775,5 +775,4 @@ export async function initializeIndexes(): Promise<void> {
   }
 }
 
-// Export for external usage
-export { IndexManager };
+// IndexManager is already exported as a class above
