@@ -4,7 +4,7 @@ import { User } from '../schemas/User';
 import { Payment, Subscription, validatePaymentCreation } from '../schemas/Payment';
 import { Application } from '../schemas/Application';
 import { Apprenticeship } from '../schemas/Apprenticeship';
-import emailService from './emailService';
+import EmailService from './emailService';
 
 interface StripeConfig {
   secretKey: string;
