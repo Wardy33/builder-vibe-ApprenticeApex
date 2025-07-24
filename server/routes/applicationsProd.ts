@@ -138,7 +138,7 @@ router.post("/submit",
             }
           });
 
-          await emailService.sendEmail({
+          await EmailService.getInstance().sendEmail({
             to: employer.email,
             subject: template.subject,
             html: template.html,
@@ -269,7 +269,7 @@ router.patch("/:applicationId/status",
                   application: updatedApplication
                 });
 
-                await emailService.sendEmail({
+                await EmailService.getInstance().sendEmail({
                   to: student.email,
                   subject: template.subject,
                   html: template.html,
