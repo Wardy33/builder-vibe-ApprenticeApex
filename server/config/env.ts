@@ -4,7 +4,7 @@ import { z } from 'zod';
 const envSchema = z.object({
   // Server Configuration
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().transform(Number).default(3001),
+  PORT: z.string().optional().transform(val => Number(val) || 3001).default('3001'),
   FRONTEND_URL: z.string().url().default('http://localhost:5173'),
 
   // Database Configuration
@@ -29,8 +29,8 @@ const envSchema = z.object({
   EMAIL_FROM: z.string().email().optional(),
 
   // Security Configuration
-  RATE_LIMIT_WINDOW_MS: z.string().transform(Number).default(900000), // 15 minutes
-  RATE_LIMIT_MAX_REQUESTS: z.string().transform(Number).default(100),
+  RATE_LIMIT_WINDOW_MS: z.string().optional().transform(val => Number(val) || 900000).default('900000'), // 15 minutes
+  RATE_LIMIT_MAX_REQUESTS: z.string().optional().transform(val => Number(val) || 100).default('100'),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
