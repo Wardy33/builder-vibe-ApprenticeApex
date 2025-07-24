@@ -91,6 +91,19 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
 
     console.log(`✅ User registered successfully: ${savedUser.email} (${savedUser.role})`);
 
+    // Send welcome email based on user role
+    try {
+      if (savedUser.role === 'student') {
+        await emailService.sendWelcomeEmailStudent(savedUser);
+        console.log(`📧 Welcome email sent to student: ${savedUser.email}`);
+      } else if (savedUser.role === 'company') {
+        await emailService.sendWelcomeEmailEmployer(savedUser);
+        console.log(`📧 Welcome email sent to employer: ${savedUser.email}`);
+      }
+    } catch (emailError) {
+      console.warn('⚠️  Failed to send welcome email:', emailError);
+    }
+
     sendSuccess(res, {
       token,
       user: {
