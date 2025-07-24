@@ -94,10 +94,10 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
     // Send welcome email based on user role
     try {
       if (savedUser.role === 'student') {
-        await emailService.sendWelcomeEmailStudent(savedUser);
+        await EmailService.getInstance().sendWelcomeEmailStudent(savedUser);
         console.log(`📧 Welcome email sent to student: ${savedUser.email}`);
       } else if (savedUser.role === 'company') {
-        await emailService.sendWelcomeEmailEmployer(savedUser);
+        await EmailService.getInstance().sendWelcomeEmailEmployer(savedUser);
         console.log(`📧 Welcome email sent to employer: ${savedUser.email}`);
       }
     } catch (emailError) {
