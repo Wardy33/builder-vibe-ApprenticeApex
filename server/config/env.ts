@@ -49,8 +49,8 @@ export function validateEnv(): EnvConfig {
       if (!envConfig.STRIPE_SECRET_KEY) {
         throw new Error('STRIPE_SECRET_KEY is required in production');
       }
-      if (!envConfig.EMAIL_USER || !envConfig.EMAIL_PASSWORD) {
-        throw new Error('Email configuration is required in production');
+      if (!envConfig.SMTP_USER || !envConfig.SMTP_PASSWORD || !envConfig.EMAIL_FROM) {
+        throw new Error('SMTP configuration (SMTP_USER, SMTP_PASSWORD, EMAIL_FROM) is required in production');
       }
       if (!envConfig.DAILY_API_KEY) {
         console.warn('⚠️  DAILY_API_KEY not configured - video calls will use mock implementation');
