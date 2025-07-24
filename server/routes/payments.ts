@@ -186,7 +186,7 @@ router.post("/calculate-success-fee", [
       return sendError(res, 'Success fee can only be calculated for hired candidates', 400, 'INVALID_APPLICATION_STATUS');
     }
 
-    const successFeeCalculation = await stripeService.calculateSuccessFee(applicationId);
+    const successFeeCalculation = await StripeService.getInstance().calculateSuccessFee(applicationId);
 
     sendSuccess(res, {
       calculation: successFeeCalculation,
