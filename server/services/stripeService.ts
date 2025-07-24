@@ -655,6 +655,27 @@ export class StripeService {
         await User.findByIdAndUpdate(subscriptionRecord.userId, {
           'subscriptionStatus': subscription.status
         });
+
+        // Send subscription confirmation email
+        try {
+          const user = await User.findById(subscriptionRecord.userId);
+          if (user) {
+            const emailTemplates = await import('./emailTemplates');
+            const template = emailTemplates.default.getSubscriptionConfirmationTemplate({
+              user,
+              subscription: subscriptionRecord
+            });
+            await emailService.sendEmail({
+              to: user.email,
+              subject: template.subject,
+              html: template.html,
+              text: template.text
+            });
+            console.log(`📧 Subscription confirmation email sent to ${user.email}`);
+          }
+        } catch (emailError) {
+          console.warn('⚠️  Failed to send subscription confirmation email:', emailError);
+        }
       }
 
       console.log(`✅ Subscription created processed: ${subscription.id}`);
