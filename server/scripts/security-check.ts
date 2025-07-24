@@ -1,4 +1,8 @@
+import dotenv from 'dotenv';
 import { validateEnv, getEnvConfig } from '../config/env';
+
+// Load environment variables
+dotenv.config();
 
 /**
  * Comprehensive security validation script
