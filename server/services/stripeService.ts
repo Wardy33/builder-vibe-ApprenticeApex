@@ -665,7 +665,7 @@ export class StripeService {
               user,
               subscription: subscriptionRecord
             });
-            await emailService.sendEmail({
+            await EmailService.getInstance().sendEmail({
               to: user.email,
               subject: template.subject,
               html: template.html,
