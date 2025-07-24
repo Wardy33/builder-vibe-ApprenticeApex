@@ -729,4 +729,4 @@ ApprenticeApex`;
   }
 }
 
-export default EmailService.getInstance();
+export default EmailService;
