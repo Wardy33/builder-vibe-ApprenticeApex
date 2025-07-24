@@ -1,4 +1,4 @@
-import { getEnvConfig } from '../config/env';
+import { validateEnv, getEnvConfig } from '../config/env';
 
 /**
  * Comprehensive security validation script
@@ -12,7 +12,7 @@ export function runSecurityChecks(): boolean {
   const errors: string[] = [];
 
   try {
-    const env = getEnvConfig();
+    const env = validateEnv();
 
     // 1. Environment Variables Check
     console.log('📋 Checking environment variables...');
