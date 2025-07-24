@@ -4,29 +4,18 @@ import {
   hashPassword,
   comparePassword,
   generateToken,
-  mockStudents,
-  mockCompanies,
+  verifyToken
 } from "../index";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
+import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
+import { validateDatabaseInput } from "../middleware/database";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
-// Conditional import to prevent model overwrite
-let User: any;
-try {
-  User = require("../models/User").User;
-} catch (error) {
-  // Model might not be available in mock mode
-  User = null;
-}
-// Conditional import to prevent model overwrite
-let Subscription: any;
-try {
-  Subscription = require("../models/Payment").Subscription;
-} catch (error) {
-  // Model might not be available in mock mode
-  Subscription = null;
-}
+
+// Import production schemas
+import { User, validateUserRegistration, validateUserUpdate } from "../schemas/User";
+import { database } from "../config/database";
 
 const router = express.Router();
 
@@ -35,7 +24,9 @@ const registerValidation = [
   body("email").isEmail().normalizeEmail(),
   body("password")
     .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters"),
+    .withMessage("Password must be at least 8 characters")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage("Password must contain at least one lowercase letter, one uppercase letter, and one number"),
   body("role")
     .isIn(["student", "company"])
     .withMessage("Role must be student or company"),
@@ -47,353 +38,161 @@ const registerValidation = [
 const loginValidation = [
   body("email").isEmail().normalizeEmail(),
   body("password").notEmpty().withMessage("Password is required"),
+  body("role").optional().isIn(["student", "company", "admin"]).withMessage("Invalid role"),
 ];
 
-// Register endpoint
-router.post(
-  "/register",
-  registerValidation,
-  asyncHandler(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
+// User Registration
+router.post("/register", registerValidation, asyncHandler(async (req, res) => {
+  console.log("Registration attempt started...");
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    console.log("Registration validation errors:", errors.array());
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  const { email, password, role, profile } = req.body;
+
+  // Check database connection
+  if (!database.isConnected()) {
+    console.warn("⚠️ Database not connected, registration might fail");
+  }
+
+  try {
+    // Validate input data with Zod
+    const validation = validateUserRegistration({ email, password, role, profile });
+    if (!validation.success) {
+      return sendValidationError(res, 'Invalid input data', validation.error?.errors);
     }
 
-    const { email, password, role, firstName, lastName, companyName } =
-      req.body;
-
-    // Check if user already exists (mock check)
-    const existingUser = [...mockStudents, ...mockCompanies].find(
-      (user) => user.email === email,
-    );
-
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      throw new CustomError("Email already registered", 409);
+      return sendError(res, "User with this email already exists", 400, 'USER_EXISTS');
     }
 
-    // Hash password
-    const hashedPassword = await hashPassword(password);
-
-    // Create user profile based on role
-    let profile: any = {};
-    if (role === "student") {
-      if (!firstName || !lastName) {
-        throw new CustomError(
-          "First name and last name required for students",
-          400,
-        );
-      }
-      profile = {
-        firstName,
-        lastName,
-        bio: "",
-        skills: [],
-        education: [],
-        experience: [],
-        location: { city: "", coordinates: [0, 0] },
-        preferences: {
-          industries: [],
-          maxDistance: 25,
-          salaryRange: { min: 0, max: 100000 },
-        },
-        isActive: true,
-      };
-    } else if (role === "company") {
-      if (!companyName) {
-        throw new CustomError(
-          "Company name required for company accounts",
-          400,
-        );
-      }
-      profile = {
-        companyName,
-        industry: "",
-        description: "",
-        location: { city: "", address: "", coordinates: [0, 0] },
-        contactPerson: {
-          firstName: firstName || "",
-          lastName: lastName || "",
-          position: "",
-        },
-        isVerified: false,
-      };
-    }
-
-    // In a real app, save to database
-    const userId = `${role}_${Date.now()}`;
-    const token = generateToken(userId, role);
-
-    res.status(201).json({
-      message: "Registration successful",
-      user: {
-        id: userId,
-        email,
-        role,
-        profile,
-        isEmailVerified: false,
-      },
-      token,
+    // Create new user with auto-generated email verification token
+    const newUser = new User({
+      email,
+      password, // Will be hashed by pre-save middleware
+      role,
+      profile,
+      isEmailVerified: false,
     });
-  }),
-);
 
-// Login endpoint
-router.post(
-  "/login",
-  loginValidation,
-  asyncHandler(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
+    // Generate email verification token
+    const verificationToken = newUser.generateEmailVerificationToken();
+    
+    const savedUser = await newUser.save();
+
+    // Generate JWT token
+    const token = generateToken(savedUser._id, savedUser.role, savedUser.email);
+
+    console.log(`✅ User registered successfully: ${savedUser.email} (${savedUser.role})`);
+
+    sendSuccess(res, {
+      token,
+      user: {
+        id: savedUser._id,
+        email: savedUser.email,
+        role: savedUser.role,
+        profile: savedUser.profile,
+        isEmailVerified: savedUser.isEmailVerified,
+      },
+      emailVerificationRequired: true
+    }, 201);
+
+  } catch (error: any) {
+    console.error('Registration error:', error);
+    
+    if (error.name === "ValidationError") {
+      return sendValidationError(res, "Validation failed", error.errors);
+    }
+    if (error.code === 11000) {
+      return sendError(res, "User with this email already exists", 400, 'DUPLICATE_EMAIL');
+    }
+    return sendError(res, "Registration failed", 500, 'REGISTRATION_ERROR');
+  }
+}));
+
+// User Login
+router.post("/login", loginValidation, asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  const { email, password, role } = req.body;
+
+  console.log("Login attempt for:", email, "Role:", role);
+
+  // Check database connection
+  if (!database.isConnected()) {
+    console.warn("⚠️ Database not connected, login might fail");
+    return sendError(res, "Service temporarily unavailable", 503, 'SERVICE_UNAVAILABLE');
+  }
+
+  try {
+    // Find user by email and optional role
+    const query: any = { email, isActive: true };
+    if (role) {
+      query.role = role;
     }
 
-    const { email, password } = req.body;
-
-    // Find user (mock lookup)
-    const user = [...mockStudents, ...mockCompanies].find(
-      (user) => user.email === email,
-    );
-
+    const user = await User.findOne(query).select("+password");
     if (!user) {
-      throw new CustomError("Invalid credentials", 401);
+      return sendError(res, "Invalid credentials", 401, 'INVALID_CREDENTIALS');
     }
 
-    // In a real app, compare with hashed password
-    // const isValidPassword = await comparePassword(password, user.password);
-    // For mock, we'll assume password is correct if user exists
+    // Verify password using instance method
+    const isValidPassword = await user.comparePassword(password);
+    if (!isValidPassword) {
+      return sendError(res, "Invalid credentials", 401, 'INVALID_CREDENTIALS');
+    }
 
-    const token = generateToken(user._id, user.role);
+    // Update last login and activity
+    user.lastLoginAt = new Date();
+    await user.updateLastActivity();
 
-    res.json({
-      message: "Login successful",
+    // Generate JWT token
+    const token = generateToken(user._id, user.role, user.email);
+
+    console.log(`✅ User logged in successfully: ${user.email} (${user.role})`);
+
+    sendSuccess(res, {
+      token,
       user: {
         id: user._id,
         email: user.email,
         role: user.role,
         profile: user.profile,
-      },
-      token,
-    });
-  }),
-);
-
-// Refresh token endpoint
-router.post(
-  "/refresh",
-  asyncHandler(async (req, res) => {
-    const { refreshToken } = req.body;
-
-    if (!refreshToken) {
-      throw new CustomError("Refresh token required", 400);
-    }
-
-    // In a real app, validate refresh token
-    // For mock, generate new token
-    const token = generateToken("mock_user_id", "student");
-
-    res.json({
-      token,
-      message: "Token refreshed successfully",
-    });
-  }),
-);
-
-// Password reset request
-router.post(
-  "/forgot-password",
-  [body("email").isEmail().normalizeEmail()],
-  asyncHandler(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Valid email required", 400);
-    }
-
-    const { email } = req.body;
-
-    // In a real app, send password reset email
-    console.log(`Password reset requested for: ${email}`);
-
-    res.json({
-      message: "Password reset instructions sent to your email",
-    });
-  }),
-);
-
-// Verify email endpoint
-router.post(
-  "/verify-email",
-  asyncHandler(async (req, res) => {
-    const { token } = req.body;
-
-    if (!token) {
-      throw new CustomError("Verification token required", 400);
-    }
-
-    // In a real app, verify email token
-    res.json({
-      message: "Email verified successfully",
-    });
-  }),
-);
-
-// Get current user profile
-router.get(
-  "/me",
-  authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
-
-    // In a real app, fetch from database
-    const user = [...mockStudents, ...mockCompanies].find(
-      (user) => user._id === userId,
-    );
-
-    if (!user) {
-      throw new CustomError("User not found", 404);
-    }
-
-    res.json({
-      user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
-        profile: user.profile,
+        isEmailVerified: user.isEmailVerified,
+        lastLoginAt: user.lastLoginAt
       },
     });
-  }),
-);
 
-// Update user profile
-router.put(
-  "/profile",
-  authenticateToken,
-  [
-    body("firstName").optional().trim().isLength({ min: 1 }),
-    body("lastName").optional().trim().isLength({ min: 1 }),
-    body("bio").optional().isLength({ max: 500 }),
-    body("skills").optional().isArray(),
-    body("location.city").optional().trim().isLength({ min: 1 }),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+  } catch (error: any) {
+    console.error('Login error:', error);
+    return sendError(res, "Login failed", 500, 'LOGIN_ERROR');
+  }
+}));
 
-    const { userId } = req.user!;
-    const updateData = req.body;
-
-    // In a real app, update user in database
-    res.json({
-      message: "Profile updated successfully",
-      profile: updateData,
-    });
-  }),
-);
-
-// Change password
-router.put(
-  "/change-password",
-  authenticateToken,
-  [
-    body("currentPassword").notEmpty(),
-    body("newPassword").isLength({ min: 8 }),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
-
-    const { userId } = req.user!;
-    const { currentPassword, newPassword } = req.body;
-
-    // In a real app, verify current password and update
-    const hashedNewPassword = await hashPassword(newPassword);
-
-    res.json({
-      message: "Password changed successfully",
-    });
-  }),
-);
-
-// Delete account
-router.delete(
-  "/account",
-  authenticateToken,
-  [body("password").notEmpty(), body("confirmation").equals("DELETE")],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
-
-    const { userId } = req.user!;
-    const { password } = req.body;
-
-    // In a real app, verify password and delete account
-    res.json({
-      message: "Account deleted successfully",
-    });
-  }),
-);
-
-// Two-factor authentication setup
-router.post(
-  "/2fa/setup",
-  authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { userId } = req.user!;
-
-    // In a real app, generate 2FA secret and QR code
-    const secret = uuidv4();
-    const qrCodeUrl = `data:image/png;base64,mock_qr_code`;
-
-    res.json({
-      secret,
-      qrCodeUrl,
-      backupCodes: ["12345678", "87654321", "11111111", "22222222", "33333333"],
-    });
-  }),
-);
-
-// Verify 2FA setup
-router.post(
-  "/2fa/verify",
-  authenticateToken,
-  [body("token").isLength({ min: 6, max: 6 })],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
-
-    const { userId } = req.user!;
-    const { token } = req.body;
-
-    // In a real app, verify 2FA token
-    res.json({
-      message: "2FA enabled successfully",
-    });
-  }),
-);
-
-// Company signup
-router.post("/company/signup", [
-  body("companyName").trim().isLength({ min: 1 }).withMessage("Company name is required"),
-  body("industry").trim().isLength({ min: 1 }).withMessage("Industry is required"),
-  body("companySize").trim().isLength({ min: 1 }).withMessage("Company size is required"),
-  body("firstName").trim().isLength({ min: 1 }).withMessage("First name is required"),
-  body("lastName").trim().isLength({ min: 1 }).withMessage("Last name is required"),
-  body("position").trim().isLength({ min: 1 }).withMessage("Position is required"),
-  body("email").isEmail().withMessage("Valid email is required"),
-  body("address").trim().isLength({ min: 1 }).withMessage("Address is required"),
-  body("city").trim().isLength({ min: 1 }).withMessage("City is required"),
-  body("postcode").trim().isLength({ min: 1 }).withMessage("Postcode is required"),
-  body("password").isLength({ min: 8 }).withMessage("Password must be at least 8 characters"),
+// Company Registration (Extended)
+router.post("/register/company", [
+  ...registerValidation,
+  body("companyName").notEmpty().withMessage("Company name is required"),
+  body("industry").notEmpty().withMessage("Industry is required"),
+  body("description").isLength({ min: 50 }).withMessage("Description must be at least 50 characters"),
+  body("firstName").notEmpty().withMessage("Contact first name is required"),
+  body("lastName").notEmpty().withMessage("Contact last name is required"),
+  body("position").notEmpty().withMessage("Contact position is required"),
+  body("address").notEmpty().withMessage("Address is required"),
+  body("city").notEmpty().withMessage("City is required"),
+  body("postcode").matches(/^[A-Z]{1,2}[0-9][A-Z0-9]? ?[0-9][A-Z]{2}$/i).withMessage("Invalid UK postcode"),
+  // Legal agreement validations
   body("termsAccepted").custom((value) => {
     if (!value || value !== true) {
-      throw new Error("Terms of service must be accepted");
+      throw new Error("Terms and conditions must be accepted");
     }
     return true;
   }),
@@ -422,13 +221,13 @@ router.post("/company/signup", [
     return true;
   }),
 ], asyncHandler(async (req, res) => {
-  console.log("Company signup attempt started...");
+  console.log("Company registration attempt started...");
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("Company signup validation errors:", errors.array());
-    throw new CustomError("Validation failed", 400);
+    console.log("Company registration validation errors:", errors.array());
+    return sendValidationError(res, "Validation failed", errors.array());
   }
-  console.log("Validation passed, processing registration...");
 
   const {
     companyName, industry, companySize, website, description,
@@ -438,189 +237,342 @@ router.post("/company/signup", [
     exclusivityAccepted, dataProcessingAccepted
   } = req.body;
 
-  // For now, default to mock data to avoid dynamic require issues
-  const hasMongoDb = false;
+  // Check database connection
+  if (!database.isConnected()) {
+    console.warn("⚠️ Database not connected, registration might fail");
+    return sendError(res, "Service temporarily unavailable", 503, 'SERVICE_UNAVAILABLE');
+  }
 
-  if (hasMongoDb) {
-    // Real database operations
-    try {
-      // Check if user already exists
-      const existingUser = await User.findOne({ email });
-      if (existingUser) {
-        throw new CustomError("User with this email already exists", 400);
-      }
-
-      // Hash password
-      const hashedPassword = await hashPassword(password);
-
-      // Create user with company profile
-      const user = new User({
-        email,
-        password: hashedPassword,
-        role: "company",
-        profile: {
-          companyName,
-          industry,
-          description,
-          location: {
-            city,
-            address,
-            coordinates: [0, 0] // Would geocode in production
-          },
-          contactPerson: {
-            firstName,
-            lastName,
-            position
-          }
-        }
-      });
-
-      await user.save();
-
-      // Create trial subscription
-      try {
-        const { SubscriptionService } = await import('../services/subscriptionService');
-        await SubscriptionService.createTrialSubscription(user._id.toString());
-      } catch (error) {
-        console.log('Trial subscription creation failed (non-critical):', error);
-      }
-
-      // Generate token
-      const token = generateToken(user._id.toString(), user.role);
-
-      res.status(201).json({
-        message: "Company account created successfully",
-        token,
-        user: {
-          id: user._id,
-          email: user.email,
-          role: user.role,
-          companyName: user.profile?.companyName
-        }
-      });
-    } catch (error) {
-      console.error('Database error in company signup:', error);
-      throw new CustomError("Registration failed. Please try again.", 500);
-    }
-  } else {
-    // Mock data operations (for development)
-    console.log("Using mock data for company registration");
-
-    // Check if user already exists (mock check)
-    const existingUser = [...mockStudents, ...mockCompanies].find(
-      (user) => user.email === email
-    );
-
+  try {
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
     if (existingUser) {
-      console.log("Email already exists:", email);
-      throw new CustomError("Email already registered", 409);
+      return sendError(res, "User with this email already exists", 400, 'USER_EXISTS');
     }
 
-    console.log("Email is available, creating new company...");
-
-    // Hash password
-    console.log("Hashing password...");
-    const hashedPassword = await hashPassword(password);
-    console.log("Password hashed successfully");
-
-    // Create mock user
-    const userId = `company_${Date.now()}`;
-    const token = generateToken(userId, "company");
-
-    const newCompany = {
-      _id: userId,
-      email,
-      password: hashedPassword,
-      role: "company" as const,
-      profile: {
-        companyName,
-        industry,
-        description: description || "",
-        location: {
-          city: city || "",
-          address: address || "",
-          coordinates: [0, 0] as [number, number]
-        },
-        contactPerson: {
-          firstName,
-          lastName,
-          position: position || "",
-        },
-        isVerified: false,
+    // Create company profile
+    const companyProfile = {
+      companyName,
+      industry,
+      companySize: companySize || '1-10',
+      website,
+      description,
+      location: {
+        address,
+        city,
+        postcode: postcode.toUpperCase(),
+        country: 'United Kingdom',
+        coordinates: [0, 0] // Would geocode in production
       },
-      isEmailVerified: false,
+      contactPerson: {
+        firstName,
+        lastName,
+        position,
+        email
+      },
+      verificationStatus: 'pending',
+      complianceChecks: {
+        hasPublicLiabilityInsurance: false,
+        hasEmployersLiabilityInsurance: false,
+        isRegisteredForApprenticeships: false
+      }
     };
 
-    // Add to mock companies array
-    mockCompanies.push(newCompany);
+    // Create user with company profile
+    const user = new User({
+      email,
+      password, // Will be hashed by pre-save middleware
+      role: "company",
+      profile: companyProfile,
+      isEmailVerified: false
+    });
 
-    res.status(201).json({
+    // Generate email verification token
+    const verificationToken = user.generateEmailVerificationToken();
+
+    const savedUser = await user.save();
+
+    // Create trial subscription if subscription service is available
+    try {
+      const { SubscriptionService } = await import('../services/subscriptionService');
+      await SubscriptionService.createTrialSubscription(savedUser._id.toString());
+      console.log(`✅ Trial subscription created for company: ${companyName}`);
+    } catch (error) {
+      console.log('Trial subscription creation failed (non-critical):', error);
+    }
+
+    // Generate JWT token
+    const token = generateToken(savedUser._id, savedUser.role, savedUser.email);
+
+    console.log(`✅ Company registered successfully: ${companyName} (${savedUser.email})`);
+
+    sendSuccess(res, {
       message: "Company account created successfully",
       token,
       user: {
-        id: userId,
-        email,
-        role: "company",
-        companyName
-      }
-    });
+        id: savedUser._id,
+        email: savedUser.email,
+        role: savedUser.role,
+        companyName: savedUser.profile?.companyName,
+        isEmailVerified: savedUser.isEmailVerified
+      },
+      emailVerificationRequired: true
+    }, 201);
+
+  } catch (error: any) {
+    console.error('Company registration error:', error);
+    
+    if (error.name === "ValidationError") {
+      return sendValidationError(res, "Validation failed", error.errors);
+    }
+    if (error.code === 11000) {
+      return sendError(res, "User with this email already exists", 400, 'DUPLICATE_EMAIL');
+    }
+    return sendError(res, "Company registration failed", 500, 'REGISTRATION_ERROR');
   }
 }));
 
-// Company signin
-router.post("/company/signin", [
-  body("email").isEmail().withMessage("Valid email is required"),
-  body("password").isLength({ min: 1 }).withMessage("Password is required"),
+// Email Verification
+router.post("/verify-email", asyncHandler(async (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return sendError(res, "Verification token is required", 400, 'TOKEN_REQUIRED');
+  }
+
+  try {
+    const user = await User.findOne({
+      emailVerificationToken: token,
+      emailVerificationExpires: { $gt: new Date() }
+    });
+
+    if (!user) {
+      return sendError(res, "Invalid or expired verification token", 400, 'INVALID_TOKEN');
+    }
+
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+    await user.save();
+
+    console.log(`✅ Email verified for user: ${user.email}`);
+
+    sendSuccess(res, {
+      message: "Email verified successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        isEmailVerified: user.isEmailVerified
+      }
+    });
+
+  } catch (error: any) {
+    console.error('Email verification error:', error);
+    return sendError(res, "Email verification failed", 500, 'VERIFICATION_ERROR');
+  }
+}));
+
+// Password Reset Request
+router.post("/forgot-password", [
+  body("email").isEmail().normalizeEmail()
 ], asyncHandler(async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    console.log("Company signin validation errors:", errors.array());
-    throw new CustomError("Validation failed", 400);
+    return sendValidationError(res, "Validation failed", errors.array());
   }
 
-  const { email, password } = req.body;
+  const { email } = req.body;
 
-  // For now, default to mock data to avoid dynamic require issues
-  const hasMongoDb = false;
+  try {
+    const user = await User.findOne({ email, isActive: true });
+    
+    // Always return success for security (don't reveal if email exists)
+    if (!user) {
+      return sendSuccess(res, {
+        message: "If an account with that email exists, we've sent a password reset link"
+      });
+    }
 
-  let user;
-  let isValidPassword = false;
+    const resetToken = user.generatePasswordResetToken();
+    await user.save();
 
-  if (hasMongoDb) {
-    // Real database operations
-    try {
-      user = await User.findOne({ email, role: "company" });
-      if (user) {
-        isValidPassword = await comparePassword(password, user.password);
+    // TODO: Send password reset email
+    console.log(`Password reset token generated for ${email}: ${resetToken}`);
+
+    sendSuccess(res, {
+      message: "If an account with that email exists, we've sent a password reset link"
+    });
+
+  } catch (error: any) {
+    console.error('Password reset request error:', error);
+    return sendError(res, "Password reset request failed", 500, 'RESET_REQUEST_ERROR');
+  }
+}));
+
+// Password Reset
+router.post("/reset-password", [
+  body("token").notEmpty().withMessage("Reset token is required"),
+  body("password")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters")
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
+    .withMessage("Password must contain at least one lowercase letter, one uppercase letter, and one number")
+], asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return sendValidationError(res, "Validation failed", errors.array());
+  }
+
+  const { token, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      passwordResetToken: token,
+      passwordResetExpires: { $gt: new Date() }
+    });
+
+    if (!user) {
+      return sendError(res, "Invalid or expired reset token", 400, 'INVALID_TOKEN');
+    }
+
+    user.password = password; // Will be hashed by pre-save middleware
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    console.log(`✅ Password reset successful for user: ${user.email}`);
+
+    sendSuccess(res, {
+      message: "Password reset successfully"
+    });
+
+  } catch (error: any) {
+    console.error('Password reset error:', error);
+    return sendError(res, "Password reset failed", 500, 'RESET_ERROR');
+  }
+}));
+
+// Get Current User Profile
+router.get("/me", authenticateToken, asyncHandler(async (req: AuthenticatedRequest, res) => {
+  try {
+    const user = await User.findById(req.user?.userId).select('-password');
+    
+    if (!user) {
+      return sendError(res, "User not found", 404, 'USER_NOT_FOUND');
+    }
+
+    // Update last activity
+    await user.updateLastActivity();
+
+    sendSuccess(res, {
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+        settings: user.settings,
+        isEmailVerified: user.isEmailVerified,
+        lastLoginAt: user.lastLoginAt,
+        lastActivityAt: user.lastActivityAt,
+        createdAt: user.createdAt
       }
-    } catch (error) {
-      console.error('Database error in company signin:', error);
-      throw new CustomError("Sign in failed. Please try again.", 500);
-    }
-  } else {
-    // Mock data fallback
-    user = mockCompanies.find(u => u.email === email);
-    // For mock data, assume password is correct if user exists
-    isValidPassword = !!user;
+    });
+
+  } catch (error: any) {
+    console.error('Get profile error:', error);
+    return sendError(res, "Failed to get user profile", 500, 'PROFILE_ERROR');
   }
+}));
 
-  if (!user || !isValidPassword) {
-    throw new CustomError("Invalid credentials", 401);
-  }
-
-  // Generate token
-  const token = generateToken(user._id.toString ? user._id.toString() : user._id, user.role);
-
-  res.json({
-    message: "Sign in successful",
-    token,
-    user: {
-      id: user._id,
-      email: user.email,
-      role: user.role,
-      companyName: user.profile?.companyName
+// Update User Profile
+router.put("/me", authenticateToken, validateDatabaseInput('users'), asyncHandler(async (req: AuthenticatedRequest, res) => {
+  try {
+    const validation = validateUserUpdate(req.body);
+    if (!validation.success) {
+      return sendValidationError(res, 'Invalid input data', validation.error?.errors);
     }
+
+    const user = await User.findById(req.user?.userId);
+    
+    if (!user) {
+      return sendError(res, "User not found", 404, 'USER_NOT_FOUND');
+    }
+
+    // Update allowed fields
+    const { profile, settings } = req.body;
+    
+    if (profile) {
+      user.profile = { ...user.profile, ...profile };
+    }
+    
+    if (settings) {
+      user.settings = { ...user.settings, ...settings };
+    }
+
+    await user.save();
+
+    console.log(`✅ Profile updated for user: ${user.email}`);
+
+    sendSuccess(res, {
+      message: "Profile updated successfully",
+      user: {
+        id: user._id,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+        settings: user.settings,
+        isEmailVerified: user.isEmailVerified
+      }
+    });
+
+  } catch (error: any) {
+    console.error('Update profile error:', error);
+    
+    if (error.name === "ValidationError") {
+      return sendValidationError(res, "Validation failed", error.errors);
+    }
+    return sendError(res, "Failed to update profile", 500, 'UPDATE_ERROR');
+  }
+}));
+
+// Logout (token invalidation would be handled client-side or with a token blacklist)
+router.post("/logout", authenticateToken, asyncHandler(async (req: AuthenticatedRequest, res) => {
+  // In a production system, you might want to blacklist the token
+  // For now, just return success
+  console.log(`User logged out: ${req.user?.email}`);
+  
+  sendSuccess(res, {
+    message: "Logged out successfully"
   });
+}));
+
+// Deactivate Account
+router.delete("/me", authenticateToken, asyncHandler(async (req: AuthenticatedRequest, res) => {
+  try {
+    const { reason } = req.body;
+    
+    const user = await User.findById(req.user?.userId);
+    
+    if (!user) {
+      return sendError(res, "User not found", 404, 'USER_NOT_FOUND');
+    }
+
+    user.isActive = false;
+    user.deactivatedAt = new Date();
+    user.deactivationReason = reason || 'User requested account deactivation';
+    await user.save();
+
+    console.log(`✅ Account deactivated for user: ${user.email}`);
+
+    sendSuccess(res, {
+      message: "Account deactivated successfully"
+    });
+
+  } catch (error: any) {
+    console.error('Account deactivation error:', error);
+    return sendError(res, "Failed to deactivate account", 500, 'DEACTIVATION_ERROR');
+  }
 }));
 
 export default router;
