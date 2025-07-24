@@ -43,7 +43,8 @@ const passwordResetRateLimit = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => {
-    return req.body.email || req.ip;
+    // Use email from request body for password reset limiting
+    return req.body.email || 'anonymous';
   }
 });
 
