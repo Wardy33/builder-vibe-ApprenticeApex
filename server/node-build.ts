@@ -1,15 +1,21 @@
 import path from "path";
-import { createApp, connectDatabase, config } from "./index";
+import { createApp, connectToDatabase, config } from "./index";
+import { database } from "./config/database";
 import express from "express";
 
 async function startServer() {
   try {
-    // Connect to database
-    const dbConnected = await connectDatabase();
+    // Connect to production database
+    console.log('🔄 Initializing database connection...');
+    const dbConnected = await connectToDatabase();
 
     if (!dbConnected && config.nodeEnv === "production") {
-      console.error("Failed to connect to database in production");
+      console.error("❌ Failed to connect to database in production");
       process.exit(1);
+    }
+
+    if (dbConnected) {
+      console.log('✅ Database connection established successfully');
     }
 
     const { app, httpServer, io } = createApp();
@@ -31,41 +37,91 @@ async function startServer() {
       res.sendFile(path.join(distPath, "index.html"));
     });
 
-    // Graceful shutdown
-    process.on("SIGTERM", () => {
-      console.log("🛑 SIGTERM received, shutting down gracefully");
-      httpServer.close(() => {
-        console.log("Process terminated");
+    // Graceful shutdown with database cleanup
+    const gracefulShutdown = async (signal: string) => {
+      console.log(`🛑 ${signal} received, shutting down gracefully`);
+
+      try {
+        // Close HTTP server
+        await new Promise<void>((resolve, reject) => {
+          httpServer.close((err) => {
+            if (err) reject(err);
+            else resolve();
+          });
+        });
+
+        // Close database connection
+        await database.gracefulShutdown();
+
+        console.log('✅ Graceful shutdown completed');
         process.exit(0);
-      });
+      } catch (error) {
+        console.error('❌ Error during graceful shutdown:', error);
+        process.exit(1);
+      }
+    };
+
+    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+    // Handle uncaught exceptions
+    process.on('uncaughtException', async (error) => {
+      console.error('❌ Uncaught Exception:', error);
+      await gracefulShutdown('UNCAUGHT_EXCEPTION');
     });
 
-    process.on("SIGINT", () => {
-      console.log("🛑 SIGINT received, shutting down gracefully");
-      httpServer.close(() => {
-        console.log("Process terminated");
-        process.exit(0);
-      });
+    process.on('unhandledRejection', async (reason, promise) => {
+      console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+      await gracefulShutdown('UNHANDLED_REJECTION');
     });
 
     httpServer.listen(config.port, () => {
       console.log(`🚀 ApprenticeApex server running on port ${config.port}`);
       console.log(`📱 Frontend: http://localhost:${config.port}`);
       console.log(`🔧 API: http://localhost:${config.port}/api`);
+      console.log(`🏥 Health Check: http://localhost:${config.port}/api/health`);
+      console.log(`🗄️ Database Health: http://localhost:${config.port}/api/health/database`);
       console.log(`🗨️ Socket.IO server initialized`);
       console.log(`🌍 Environment: ${config.nodeEnv}`);
 
-      if (config.nodeEnv === "development") {
-        console.log(`📝 Mock data mode enabled`);
+      // Log database status
+      const dbStatus = database.getHealthStatus();
+      console.log(`🗄️ Database Status: ${dbStatus.status}`);
+
+      if (dbStatus.poolSize && dbStatus.poolSize > 0) {
+        console.log(`🏊 Connection Pool: ${dbStatus.availableConnections}/${dbStatus.poolSize} available`);
       }
+
+      if (config.mongoUri) {
+        console.log(`🗄️ Database: Production MongoDB`);
+      } else {
+        console.log(`📝 Database: Development mode (mock data fallback)`);
+      }
+
+      console.log('🎯 Server startup completed successfully!');
     });
 
     // Log Socket.IO connection events
-    io.on("connection", (socket) => {
+    io.on('connection', (socket) => {
       console.log(`🔗 Socket connected: ${socket.id}`);
+
+      socket.on('disconnect', (reason) => {
+        console.log(`🔗 Socket disconnected: ${socket.id} (${reason})`);
+      });
     });
+
+    // Log server readiness
+    console.log('🎉 ApprenticeApex server is ready to handle requests!');
   } catch (error) {
-    console.error("❌ Failed to start server:", error);
+    console.error('❌ Failed to start server:', error);
+
+    // Attempt database cleanup on startup failure
+    try {
+      await database.gracefulShutdown();
+    } catch (cleanupError) {
+      console.error('❌ Error during cleanup:', cleanupError);
+    }
+
     process.exit(1);
   }
 }
