@@ -41,6 +41,14 @@ export interface IUser extends Document {
   isActive: boolean;
   deactivatedAt?: Date;
   deactivationReason?: string;
+
+  // Stripe integration
+  stripeCustomerId?: string;
+  subscriptionStatus?: 'active' | 'cancelled' | 'past_due' | 'trialing' | 'incomplete';
+  subscriptionPlan?: 'professional' | 'business' | 'enterprise';
+  trialStatus?: 'pending' | 'paid' | 'used';
+  trialPaidAt?: Date;
+
   createdAt: Date;
   updatedAt: Date;
   
@@ -967,6 +975,38 @@ const userSchema = new Schema<IUser>({
     type: String,
     trim: true,
     maxlength: [500, 'Deactivation reason must not exceed 500 characters']
+  },
+
+  // Stripe integration fields
+  stripeCustomerId: {
+    type: String,
+    sparse: true,
+    index: true
+  },
+  subscriptionStatus: {
+    type: String,
+    enum: {
+      values: ['active', 'cancelled', 'past_due', 'trialing', 'incomplete'],
+      message: 'Invalid subscription status'
+    },
+    index: true
+  },
+  subscriptionPlan: {
+    type: String,
+    enum: {
+      values: ['professional', 'business', 'enterprise'],
+      message: 'Invalid subscription plan'
+    }
+  },
+  trialStatus: {
+    type: String,
+    enum: {
+      values: ['pending', 'paid', 'used'],
+      message: 'Invalid trial status'
+    }
+  },
+  trialPaidAt: {
+    type: Date
   }
 }, {
   timestamps: true,
