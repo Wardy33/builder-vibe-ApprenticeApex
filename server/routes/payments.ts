@@ -67,7 +67,7 @@ router.post("/create-trial-intent", [
       return sendError(res, 'Trial placement already purchased or pending', 400, 'TRIAL_EXISTS');
     }
 
-    const result = await stripeService.createTrialPaymentIntent(userId, {
+    const result = await StripeService.getInstance().createTrialPaymentIntent(userId, {
       companyName: user.profile.companyName || 'Unknown Company',
       ...metadata
     });
@@ -127,7 +127,7 @@ router.post("/create-subscription", [
       return sendError(res, 'User already has an active subscription', 400, 'SUBSCRIPTION_EXISTS');
     }
 
-    const result = await stripeService.createSubscription(userId, planType, paymentMethodId);
+    const result = await StripeService.getInstance().createSubscription(userId, planType, paymentMethodId);
 
     console.log(`✅ Subscription created for company: ${user.profile.companyName} (${planType})`);
 
@@ -241,7 +241,7 @@ router.post("/create-success-fee-intent", [
       return sendError(res, 'Success fee already paid or pending for this application', 400, 'SUCCESS_FEE_EXISTS');
     }
 
-    const result = await stripeService.createSuccessFeePaymentIntent(
+    const result = await StripeService.getInstance().createSuccessFeePaymentIntent(
       applicationId,
       companyUserId,
       metadata
@@ -330,7 +330,7 @@ router.put("/update-subscription", [
     const userId = req.user!.userId;
     const { planType } = req.body;
 
-    const result = await stripeService.updateSubscription(userId, planType);
+    const result = await StripeService.getInstance().updateSubscription(userId, planType);
 
     console.log(`✅ Subscription updated for user: ${userId} to ${planType}`);
 
