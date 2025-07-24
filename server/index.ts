@@ -1,11 +1,25 @@
 import express from "express";
-import cors from "cors";
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
 import { createServer } from "http";
 import dotenv from "dotenv";
+import session from "express-session";
+
+// Import security middleware
+import {
+  helmetConfig,
+  corsConfig,
+  createRateLimit,
+  authRateLimit,
+  paymentRateLimit,
+  secureRoutes,
+  securityLogger,
+} from "./middleware/security";
+
+// Import environment validation
+import { validateEnv, getEnvConfig } from "./config/env";
 
 // Import routes
 import { handleDemo } from "./routes/demo";
@@ -36,6 +50,9 @@ import { AlertService } from "./services/alertService";
 
 // Load environment variables
 dotenv.config();
+
+// Validate environment variables on startup
+const env = validateEnv();
 
 export function createApp() {
   const app = express();
