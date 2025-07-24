@@ -18,7 +18,7 @@ const router = express.Router();
 // Get Stripe publishable key for frontend
 router.get("/config", asyncHandler(async (req, res) => {
   try {
-    const publishableKey = await stripeService.getPublishableKey();
+    const publishableKey = await StripeService.getInstance().getPublishableKey();
     
     sendSuccess(res, {
       publishableKey,
