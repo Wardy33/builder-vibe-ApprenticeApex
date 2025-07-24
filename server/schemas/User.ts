@@ -1020,6 +1020,44 @@ const userSchema = new Schema<IUser>({
   },
   trialPaidAt: {
     type: Date
+  },
+
+  // Email management fields
+  emailVerifiedAt: {
+    type: Date
+  },
+  emailPreferences: {
+    applicationNotifications: {
+      type: Boolean,
+      default: true
+    },
+    paymentNotifications: {
+      type: Boolean,
+      default: true
+    },
+    marketingEmails: {
+      type: Boolean,
+      default: true
+    },
+    weeklyDigest: {
+      type: Boolean,
+      default: true
+    },
+    interviewReminders: {
+      type: Boolean,
+      default: true
+    },
+    unsubscribedAt: {
+      type: Date
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now
+    }
+  },
+  unsubscribeToken: {
+    type: String,
+    sparse: true
   }
 }, {
   timestamps: true,
