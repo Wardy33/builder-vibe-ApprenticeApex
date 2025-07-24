@@ -251,7 +251,7 @@ router.patch("/:applicationId/status",
       // Send status update email to student
       try {
         const student = application.studentId as any;
-        await emailService.sendApplicationStatusUpdate(student, updatedApplication, apprenticeship);
+        await EmailService.getInstance().sendApplicationStatusUpdate(student, updatedApplication, apprenticeship);
         console.log(`📧 Status update email sent to ${student.email}`);
 
         // Send interview reminder email if interview scheduled
