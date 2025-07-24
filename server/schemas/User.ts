@@ -69,6 +69,7 @@ export interface IUser extends Document {
   comparePassword(candidatePassword: string): Promise<boolean>;
   generateEmailVerificationToken(): string;
   generatePasswordResetToken(): string;
+  generateUnsubscribeToken(): string;
   updateLastActivity(): Promise<void>;
 }
 
