@@ -196,6 +196,7 @@ export function createApp() {
   app.use("/api/alerts", authenticateToken, alertRoutes);
   app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
   app.use("/api/contact", contactRoutes); // Public route, no auth required
+  app.use("/api/emails", emailRoutes); // Email management (mixed auth requirements)
 
   // Database testing routes (development and staging only)
   if (env.NODE_ENV !== 'production') {
