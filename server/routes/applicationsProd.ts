@@ -117,7 +117,7 @@ router.post("/submit",
 
       // Send application confirmation email to student
       try {
-        await emailService.sendApplicationSubmitted(user, savedApplication, apprenticeship);
+        await EmailService.getInstance().sendApplicationSubmitted(user, savedApplication, apprenticeship);
         console.log(`📧 Application confirmation email sent to ${user.email}`);
       } catch (emailError) {
         console.warn('⚠️  Failed to send application confirmation email:', emailError);
