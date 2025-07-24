@@ -853,7 +853,8 @@ export class StripeService {
 }
 
 // Export singleton instance
-export const stripeService = StripeService.getInstance();
+// Export the service class (not instance to avoid early initialization)
+export { StripeService as default };
 
 // Export types and constants (StripeService class already exported above)
 export type { CreatePaymentIntentParams, CreateSubscriptionParams, SuccessFeeCalculation };
