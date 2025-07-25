@@ -6,8 +6,8 @@ import { VideoCall } from '../models/VideoCall';
 import { Application } from '../models/Application';
 import { Apprenticeship } from '../models/Apprenticeship';
 import { User } from '../models/User';
-import { emailService } from '../services/emailService';
-import { createResponse } from '../utils/apiResponse';
+import EmailService from '../services/emailService';
+import { sendSuccess, sendError } from '../utils/apiResponse';
 
 const router = express.Router();
 
