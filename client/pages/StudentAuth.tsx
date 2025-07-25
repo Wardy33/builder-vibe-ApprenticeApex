@@ -533,3 +533,13 @@ function SignInForm() {
 }
 
 export { SignUpForm, SignInForm };
+
+// Default export for lazy loading
+export default function StudentAuth() {
+  // Check URL to determine which form to show
+  const path = window.location.pathname;
+  if (path.includes('/signin')) {
+    return <SignInForm />;
+  }
+  return <SignUpForm />;
+}
