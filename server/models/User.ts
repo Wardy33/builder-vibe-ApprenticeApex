@@ -125,7 +125,6 @@ const studentProfileSchema = new Schema<IStudentProfile>({
     postcode: { type: String },
     coordinates: {
       type: [Number],
-      index: "2dsphere",
     },
   },
   preferences: {
@@ -157,7 +156,6 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
     address: { type: String, required: true },
     coordinates: {
       type: [Number],
-      index: "2dsphere",
     },
   },
   contactPerson: {
@@ -205,8 +203,6 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-// Indexes for performance (email index is already created by unique: true)
-userSchema.index({ role: 1 });
-userSchema.index({ "profile.location.coordinates": "2dsphere" });
+// Indexes are managed centrally in server/config/indexes.ts
 
 export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
