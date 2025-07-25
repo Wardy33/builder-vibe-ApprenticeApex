@@ -144,6 +144,22 @@ router.post(
     body("direction").isIn(["left", "right"]),
     body("studentLocation").optional().isObject(),
   ],
+  // Conditionally apply auth middleware based on database connection
+  (req: AuthenticatedRequest, res: express.Response, next: express.NextFunction) => {
+    // In development mode without database, always use mock authentication
+    if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
+      console.log('🔓 Using mock authentication for apprenticeships swipe endpoint');
+      req.user = {
+        userId: 'mock-student-id',
+        role: 'student',
+        email: 'mock@student.com'
+      };
+      next();
+    } else {
+      // Production mode - require proper authentication
+      authenticateToken(req, res, next);
+    }
+  },
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
