@@ -210,6 +210,7 @@ export function createApp() {
   app.use("/api/payments", paymentRoutes); // Some endpoints require auth, handled individually
   app.use("/api/stripe", stripeRoutes); // Stripe webhooks and utilities
   app.use("/api/interviews", authenticateToken, interviewRoutes);
+  app.use("/api/video-interview", authenticateToken, videoInterviewRoutes);
   app.use("/api/matching", authenticateToken, matchingRoutes);
   app.use("/api/access-control", authenticateToken, accessControlRoutes);
   app.use("/api/alerts", authenticateToken, alertRoutes);
