@@ -1,4 +1,5 @@
-import { getEnvConfig } from '../config/env.js';
+// Email Templates for ApprenticeApex
+// Comprehensive email templates for user communications
 
 export interface EmailTemplate {
   subject: string;
@@ -6,609 +7,658 @@ export interface EmailTemplate {
   text: string;
 }
 
-export interface EmailTemplateData {
-  user: any;
-  company?: any;
-  apprenticeship?: any;
-  application?: any;
-  payment?: any;
-  interview?: any;
-  subscription?: any;
-  customData?: Record<string, any>;
+// Helper function to create responsive email wrapper
+function createEmailWrapper(content: string, preheader?: string): string {
+  return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ApprenticeApex</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        /* Reset styles */
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+        img {
+            -ms-interpolation-mode: bicubic;
+        }
+
+        /* Base styles */
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100% !important;
+            min-width: 100%;
+            background-color: #f8fafc;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            text-align: center;
+        }
+        
+        .logo {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .content {
+            padding: 40px 20px;
+            line-height: 1.6;
+            color: #374151;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, #0080FF, #0066CC);
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .button:hover {
+            background: linear-gradient(135deg, #0066CC, #0052A3);
+        }
+        
+        .info-box {
+            background-color: #f3f4f6;
+            border-left: 4px solid #0080FF;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning-box {
+            background-color: #fef3cd;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .footer {
+            background-color: #f9fafb;
+            padding: 30px 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #6b7280;
+            text-decoration: none;
+        }
+        
+        @media only screen and (max-width: 480px) {
+            .content {
+                padding: 20px 15px;
+            }
+            .header {
+                padding: 30px 15px;
+            }
+            .footer {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    ${preheader ? `<div style="display: none; max-height: 0; overflow: hidden;">${preheader}</div>` : ''}
+    <div class="email-container">
+        <div class="header">
+            <a href="https://apprenticeapex.com" class="logo">
+                <span style="background: linear-gradient(45deg, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Apprentice</span><span style="background: linear-gradient(45deg, #3b82f6, #1d4ed8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Apex</span>
+            </a>
+        </div>
+        <div class="content">
+            ${content}
+        </div>
+        <div class="footer">
+            <p>
+                <strong>ApprenticeApex</strong><br>
+                The UK's Premier Apprenticeship Platform
+            </p>
+            <div class="social-links">
+                <a href="https://apprenticeapex.com/about">About</a> |
+                <a href="https://apprenticeapex.com/contact">Contact</a> |
+                <a href="https://apprenticeapex.com/privacy-policy">Privacy</a> |
+                <a href="https://apprenticeapex.com/terms-of-service">Terms</a>
+            </div>
+            <p style="font-size: 12px; color: #9ca3af;">
+                This email was sent to you because you have an account with ApprenticeApex.<br>
+                If you no longer wish to receive these emails, you can <a href="{unsubscribe_url}" style="color: #9ca3af;">unsubscribe here</a>.
+            </p>
+        </div>
+    </div>
+</body>
+</html>`;
 }
 
-export class EmailTemplates {
-  private static instance: EmailTemplates;
+// Helper function to format date and time
+function formatDateTime(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  };
+  return date.toLocaleDateString('en-GB', options);
+}
 
-  public static getInstance(): EmailTemplates {
-    if (!EmailTemplates.instance) {
-      EmailTemplates.instance = new EmailTemplates();
-    }
-    return EmailTemplates.instance;
-  }
+// Helper function to format date only
+function formatDate(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  return date.toLocaleDateString('en-GB', options);
+}
 
-  private getBaseUrl(): string {
-    return getEnvConfig().FRONTEND_URL;
-  }
+// Helper function to format time only
+function formatTime(date: Date): string {
+  const options: Intl.DateTimeFormatOptions = {
+    hour: '2-digit',
+    minute: '2-digit',
+    timeZoneName: 'short'
+  };
+  return date.toLocaleTimeString('en-GB', options);
+}
 
-  // Password Reset Template
-  public getPasswordResetTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, customData } = data;
-    const resetToken = customData?.resetToken || '';
-    const resetUrl = `${this.getBaseUrl()}/reset-password?token=${resetToken}`;
+export interface InterviewInvitationData {
+  employerName: string;
+  studentName: string;
+  apprenticeshipTitle: string;
+  scheduledAt: Date;
+  meetingUrl: string;
+  duration: number;
+}
 
-    const subject = 'Reset Your ApprenticeApex Password';
+// Interview invitation for employers
+export function createInterviewInvitationEmployer(data: InterviewInvitationData): EmailTemplate {
+  const { employerName, studentName, apprenticeshipTitle, scheduledAt, meetingUrl, duration } = data;
+  
+  const subject = `Video Interview Scheduled: ${studentName} for ${apprenticeshipTitle}`;
+  const preheader = `Your interview with ${studentName} is scheduled for ${formatDate(scheduledAt)}`;
+  
+  const html = createEmailWrapper(`
+    <h1 style="color: #1f2937; margin-bottom: 20px;">Video Interview Scheduled</h1>
     
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Your Password</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Reset Your Password 🔒</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Secure your account</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.firstName || user.name || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                We received a request to reset your password for your ApprenticeApex account. If you didn't make this request, you can safely ignore this email.
-            </p>
-            
-            <div style="background: #fff3cd; border: 1px solid #ffeaa7; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #856404; margin: 0; font-size: 14px;">
-                    <strong>Security Notice:</strong> This password reset link will expire in 1 hour for your security.
-                </p>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${resetUrl}" style="background: #dc3545; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Reset My Password</a>
-            </div>
-            
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-                If the button doesn't work, copy and paste this link into your browser:<br>
-                <a href="${resetUrl}" style="color: #0080FF; word-break: break-all;">${resetUrl}</a>
-            </p>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Keeping your account secure</p>
-        </div>
-    </div>
-</body>
-</html>`;
-
-    const text = `Reset Your Password - ApprenticeApex
-
-Hi ${user.firstName || user.name || 'there'},
-
-We received a request to reset your password for your ApprenticeApex account. If you didn't make this request, you can safely ignore this email.
-
-Reset your password: ${resetUrl}
-
-This link will expire in 1 hour for your security.
-
-ApprenticeApex - Keeping your account secure`;
-
-    return { subject, html, text };
-  }
-
-  // Email Verification Template
-  public getEmailVerificationTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, customData } = data;
-    const verificationToken = customData?.verificationToken || '';
-    const verificationUrl = `${this.getBaseUrl()}/verify-email?token=${verificationToken}`;
-
-    const subject = 'Verify Your Email Address - ApprenticeApex';
+    <p>Dear ${employerName},</p>
     
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify Your Email</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Verify Your Email ✉️</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">One click to activate your account</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.firstName || user.name || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Welcome to ApprenticeApex! To complete your registration and start your apprenticeship journey, please verify your email address by clicking the button below.
-            </p>
-            
-            <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="color: #155724; margin: 0; font-size: 14px;">
-                    <strong>Why verify?</strong> Email verification helps us keep your account secure and ensures you receive important updates about your apprenticeship applications.
-                </p>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${verificationUrl}" style="background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Verify My Email</a>
-            </div>
-            
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-                If the button doesn't work, copy and paste this link into your browser:<br>
-                <a href="${verificationUrl}" style="color: #0080FF; word-break: break-all;">${verificationUrl}</a>
-            </p>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Start your journey with verified security</p>
-        </div>
-    </div>
-</body>
-</html>`;
-
-    const text = `Verify Your Email Address - ApprenticeApex
-
-Hi ${user.firstName || user.name || 'there'},
-
-Welcome to ApprenticeApex! To complete your registration and start your apprenticeship journey, please verify your email address.
-
-Verify your email: ${verificationUrl}
-
-Email verification helps us keep your account secure and ensures you receive important updates about your apprenticeship applications.
-
-ApprenticeApex - Start your journey with verified security`;
-
-    return { subject, html, text };
-  }
-
-  // Interview Reminder Template
-  public getInterviewReminderTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, apprenticeship, interview } = data;
-    const interviewDate = new Date(interview.scheduledAt);
-    const isToday = interviewDate.toDateString() === new Date().toDateString();
-
-    const subject = `${isToday ? 'Today:' : 'Reminder:'} Interview for ${apprenticeship.title} at ${apprenticeship.companyName}`;
+    <p>Your video interview has been successfully scheduled! Here are the details:</p>
     
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Reminder</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #6f42c1 0%, #0080FF 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">${isToday ? 'Interview Today!' : 'Interview Reminder'} 💼</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">You're one step closer to your dream apprenticeship</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.firstName || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                ${isToday ? 'Your interview is today!' : 'This is a friendly reminder about your upcoming interview.'} Here are the details:
-            </p>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="color: #0080FF; margin: 0 0 15px 0; font-size: 18px;">${apprenticeship.title}</h3>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="padding: 8px 0; color: #666; font-weight: bold;">Company:</td>
-                        <td style="padding: 8px 0; color: #333;">${apprenticeship.companyName}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 8px 0; color: #666; font-weight: bold;">Date:</td>
-                        <td style="padding: 8px 0; color: #333;">${interviewDate.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 8px 0; color: #666; font-weight: bold;">Time:</td>
-                        <td style="padding: 8px 0; color: #333;">${interviewDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</td>
-                    </tr>
-                    ${interview.location ? `
-                    <tr>
-                        <td style="padding: 8px 0; color: #666; font-weight: bold;">Location:</td>
-                        <td style="padding: 8px 0; color: #333;">${interview.location}</td>
-                    </tr>
-                    ` : ''}
-                    ${interview.type === 'video' ? `
-                    <tr>
-                        <td style="padding: 8px 0; color: #666; font-weight: bold;">Type:</td>
-                        <td style="padding: 8px 0; color: #333;">Video Interview</td>
-                    </tr>
-                    ` : ''}
-                </table>
-            </div>
-            
-            <div style="background: #e7f3ff; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h4 style="color: #0080FF; margin: 0 0 10px 0;">Interview Tips:</h4>
-                <ul style="color: #333; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
-                    <li>Review the job description and company information</li>
-                    <li>Prepare examples that showcase your skills and experiences</li>
-                    <li>Have questions ready to ask about the role and company culture</li>
-                    <li>Test your technology if it's a video interview</li>
-                    <li>Arrive/join 5-10 minutes early</li>
-                </ul>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${this.getBaseUrl()}/applications/${data.application?._id || ''}" style="background: #6f42c1; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">View Application Details</a>
-            </div>
-            
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-                Good luck! We're rooting for you. If you need to reschedule, contact the employer as soon as possible.
-            </p>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Preparing you for success</p>
-        </div>
+    <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #1f2937;">Interview Details</h3>
+        <p style="margin: 5px 0;"><strong>Candidate:</strong> ${studentName}</p>
+        <p style="margin: 5px 0;"><strong>Position:</strong> ${apprenticeshipTitle}</p>
+        <p style="margin: 5px 0;"><strong>Date & Time:</strong> ${formatDateTime(scheduledAt)}</p>
+        <p style="margin: 5px 0;"><strong>Duration:</strong> ${duration} minutes</p>
     </div>
-</body>
-</html>`;
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="${meetingUrl}" class="button" style="color: #ffffff;">Join Video Interview</a>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin: 0 0 10px 0; color: #d97706;">Important Reminders</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Test your camera and microphone before the interview</li>
+            <li>Ensure you have a stable internet connection</li>
+            <li>Find a quiet, well-lit location for the interview</li>
+            <li>Have the candidate's CV and application ready for reference</li>
+            <li>The interview room will be available 15 minutes before the scheduled time</li>
+        </ul>
+    </div>
+    
+    <h3 style="color: #1f2937;">Technical Requirements</h3>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Modern web browser (Chrome, Firefox, Safari, or Edge)</li>
+        <li>Webcam and microphone</li>
+        <li>Stable internet connection (minimum 1 Mbps upload/download)</li>
+        <li>No software installation required - works directly in your browser</li>
+    </ul>
+    
+    <h3 style="color: #1f2937;">Need Help?</h3>
+    <p>If you experience any technical difficulties during the interview, please:</p>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Use the "Report Issue" button in the video interface</li>
+        <li>Contact our support team at <a href="mailto:support@apprenticeapex.com">support@apprenticeapex.com</a></li>
+        <li>Call our support line at 0800 123 4567</li>
+    </ul>
+    
+    <p>Good luck with your interview! We're here to support you in finding the perfect apprentice.</p>
+    
+    <p>Best regards,<br>
+    The ApprenticeApex Team</p>
+  `, preheader);
+  
+  const text = `
+Video Interview Scheduled
 
-    const text = `Interview Reminder - ApprenticeApex
+Dear ${employerName},
 
-Hi ${user.firstName || 'there'},
-
-${isToday ? 'Your interview is today!' : 'This is a friendly reminder about your upcoming interview.'}
+Your video interview has been successfully scheduled!
 
 Interview Details:
-Position: ${apprenticeship.title}
-Company: ${apprenticeship.companyName}
-Date: ${interviewDate.toLocaleDateString('en-GB', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-Time: ${interviewDate.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}
-${interview.location ? `Location: ${interview.location}` : ''}
-${interview.type === 'video' ? 'Type: Video Interview' : ''}
+- Candidate: ${studentName}
+- Position: ${apprenticeshipTitle}
+- Date & Time: ${formatDateTime(scheduledAt)}
+- Duration: ${duration} minutes
 
-Interview Tips:
-- Review the job description and company information
-- Prepare examples that showcase your skills and experiences
-- Have questions ready to ask about the role and company culture
-- Test your technology if it's a video interview
-- Arrive/join 5-10 minutes early
+Join the interview: ${meetingUrl}
 
-Good luck!
+Important Reminders:
+- Test your camera and microphone before the interview
+- Ensure you have a stable internet connection
+- Find a quiet, well-lit location for the interview
+- Have the candidate's CV and application ready for reference
+- The interview room will be available 15 minutes before the scheduled time
 
-ApprenticeApex`;
+Technical Requirements:
+- Modern web browser (Chrome, Firefox, Safari, or Edge)
+- Webcam and microphone
+- Stable internet connection (minimum 1 Mbps upload/download)
+- No software installation required
 
-    return { subject, html, text };
-  }
+Need help? Contact support@apprenticeapex.com or call 0800 123 4567
 
-  // Subscription Confirmation Template
-  public getSubscriptionConfirmationTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, subscription } = data;
-    const planNames = {
-      'starter': 'Starter Plan',
-      'professional': 'Professional Plan',
-      'enterprise': 'Enterprise Plan'
-    };
-
-    const planPrices = {
-      'starter': '£49',
-      'professional': '£99',
-      'enterprise': '£149'
-    };
-
-    const subject = `Subscription Confirmed - ${planNames[subscription.plan as keyof typeof planNames]} - ApprenticeApex`;
-    
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Subscription Confirmed</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Subscription Active! 🎉</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Welcome to ${planNames[subscription.plan as keyof typeof planNames]}</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.companyName || user.firstName || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Thank you for subscribing to ApprenticeApex! Your ${planNames[subscription.plan as keyof typeof planNames]} is now active and you have access to all the features included in your plan.
-            </p>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="color: #28a745; margin: 0 0 15px 0; font-size: 18px;">Subscription Details</h3>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Plan:</td>
-                        <td style="padding: 10px 0; color: #333;">${planNames[subscription.plan as keyof typeof planNames]}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Monthly Cost:</td>
-                        <td style="padding: 10px 0; color: #333;">${planPrices[subscription.plan as keyof typeof planPrices]} per month</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Next Billing:</td>
-                        <td style="padding: 10px 0; color: #333;">${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-GB')}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Status:</td>
-                        <td style="padding: 10px 0; color: #28a745; font-weight: bold;">Active</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h4 style="color: #155724; margin: 0 0 10px 0;">What's included in your plan:</h4>
-                <ul style="color: #155724; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
-                    ${subscription.plan === 'starter' ? `
-                    <li>Post up to 3 jobs simultaneously</li>
-                    <li>Access to candidate database</li>
-                    <li>Basic matching algorithm</li>
-                    <li>Email support</li>
-                    ` : subscription.plan === 'professional' ? `
-                    <li>Post up to 10 jobs simultaneously</li>
-                    <li>Advanced AI-powered matching</li>
-                    <li>Priority candidate visibility</li>
-                    <li>Video interview scheduling</li>
-                    <li>Priority email & chat support</li>
-                    ` : `
-                    <li>Unlimited job postings</li>
-                    <li>Premium AI matching & analytics</li>
-                    <li>Dedicated account manager</li>
-                    <li>Custom branding options</li>
-                    <li>API access for integrations</li>
-                    <li>24/7 phone support</li>
-                    `}
-                </ul>
-            </div>
-            
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${this.getBaseUrl()}/employer/dashboard" style="background: #28a745; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Access Your Dashboard</a>
-            </div>
-            
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-                You can manage your subscription, update payment methods, or view billing history in your account settings.
-            </p>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Empowering your recruitment success</p>
-        </div>
-    </div>
-</body>
-</html>`;
-
-    const text = `Subscription Confirmed - ApprenticeApex
-
-Hi ${user.companyName || user.firstName || 'there'},
-
-Thank you for subscribing to ApprenticeApex! Your ${planNames[subscription.plan as keyof typeof planNames]} is now active.
-
-Subscription Details:
-Plan: ${planNames[subscription.plan as keyof typeof planNames]}
-Monthly Cost: ${planPrices[subscription.plan as keyof typeof planPrices]} per month
-Next Billing: ${new Date(subscription.currentPeriodEnd).toLocaleDateString('en-GB')}
-Status: Active
-
-Access your dashboard: ${this.getBaseUrl()}/employer/dashboard
-
-You can manage your subscription in your account settings.
-
-ApprenticeApex - Empowering your recruitment success`;
-
-    return { subject, html, text };
-  }
-
-  // Success Fee Invoice Template
-  public getSuccessFeeInvoiceTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, payment, apprenticeship, customData } = data;
-    const successFee = payment.amount;
-    const candidateName = customData?.candidateName || 'Selected candidate';
-    const annualSalary = customData?.annualSalary || 0;
-
-    const subject = `Success Fee Invoice - £${successFee} - ${apprenticeship.title}`;
-    
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Success Fee Invoice</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #0080FF 0%, #00D4FF 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Successful Hire! 🎉</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Success fee invoice - ${apprenticeship.title}</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.companyName || user.firstName || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                Congratulations on your successful hire! ${candidateName} has been placed in the ${apprenticeship.title} position. As per our agreement, here's your success fee invoice.
-            </p>
-            
-            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h3 style="color: #0080FF; margin: 0 0 15px 0; font-size: 18px;">Invoice Details</h3>
-                <table style="width: 100%; border-collapse: collapse;">
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Position:</td>
-                        <td style="padding: 10px 0; color: #333;">${apprenticeship.title}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Placed Candidate:</td>
-                        <td style="padding: 10px 0; color: #333;">${candidateName}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Annual Salary:</td>
-                        <td style="padding: 10px 0; color: #333;">£${annualSalary.toLocaleString()}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Success Fee (12%):</td>
-                        <td style="padding: 10px 0; color: #0080FF; font-weight: bold; font-size: 18px;">£${successFee.toLocaleString()}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Invoice Date:</td>
-                        <td style="padding: 10px 0; color: #333;">${new Date(payment.createdAt).toLocaleDateString('en-GB')}</td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 10px 0; color: #666; font-weight: bold;">Payment Status:</td>
-                        <td style="padding: 10px 0; color: #28a745; font-weight: bold;">${payment.status === 'succeeded' ? 'Paid' : 'Pending'}</td>
-                    </tr>
-                </table>
-            </div>
-            
-            <div style="background: #d4edda; border: 1px solid #c3e6cb; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h4 style="color: #155724; margin: 0 0 10px 0;">What's included in this fee:</h4>
-                <ul style="color: #155724; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 20px;">
-                    <li>Complete candidate sourcing and screening</li>
-                    <li>AI-powered matching technology</li>
-                    <li>Application management and coordination</li>
-                    <li>Interview scheduling and support</li>
-                    <li>Onboarding assistance</li>
-                    <li>90-day replacement guarantee</li>
-                </ul>
-            </div>
-            
-            ${payment.status !== 'succeeded' ? `
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${this.getBaseUrl()}/payments/success-fee/${payment._id}" style="background: #0080FF; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">Pay Success Fee</a>
-            </div>
-            ` : ''}
-            
-            <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 20px 0 0 0;">
-                Thank you for using ApprenticeApex for your recruitment needs. We look forward to helping you find more exceptional talent.
-            </p>
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Invoice Reference: ${payment._id}</p>
-        </div>
-    </div>
-</body>
-</html>`;
-
-    const text = `Success Fee Invoice - ApprenticeApex
-
-Hi ${user.companyName || user.firstName || 'there'},
-
-Congratulations on your successful hire! ${candidateName} has been placed in the ${apprenticeship.title} position.
-
-Invoice Details:
-Position: ${apprenticeship.title}
-Placed Candidate: ${candidateName}
-Annual Salary: £${annualSalary.toLocaleString()}
-Success Fee (12%): £${successFee.toLocaleString()}
-Invoice Date: ${new Date(payment.createdAt).toLocaleDateString('en-GB')}
-Payment Status: ${payment.status === 'succeeded' ? 'Paid' : 'Pending'}
-
-What's included:
-- Complete candidate sourcing and screening
-- AI-powered matching technology
-- Application management and coordination
-- Interview scheduling and support
-- Onboarding assistance
-- 90-day replacement guarantee
-
-${payment.status !== 'succeeded' ? `Pay success fee: ${this.getBaseUrl()}/payments/success-fee/${payment._id}` : ''}
-
-Invoice Reference: ${payment._id}
-
-ApprenticeApex`;
-
-    return { subject, html, text };
-  }
-
-  // Generic notification template
-  public getNotificationTemplate(data: EmailTemplateData): EmailTemplate {
-    const { user, customData } = data;
-    const title = customData?.title || 'Notification';
-    const message = customData?.message || 'You have a new notification.';
-    const actionUrl = customData?.actionUrl;
-    const actionText = customData?.actionText || 'View Details';
-
-    const subject = `${title} - ApprenticeApex`;
-    
-    const html = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title}</title>
-</head>
-<body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f8f9fa;">
-    <div style="max-width: 600px; margin: 0 auto; background-color: white;">
-        <!-- Header -->
-        <div style="background: linear-gradient(135deg, #6c757d 0%, #495057 100%); padding: 40px 20px; text-align: center;">
-            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">${title}</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">ApprenticeApex Notification</p>
-        </div>
-        
-        <!-- Content -->
-        <div style="padding: 40px 30px;">
-            <h2 style="color: #0A0E27; margin: 0 0 20px 0; font-size: 24px;">Hi ${user.firstName || user.companyName || 'there'},</h2>
-            
-            <p style="color: #333; font-size: 16px; line-height: 1.6; margin: 0 0 20px 0;">
-                ${message}
-            </p>
-            
-            ${actionUrl ? `
-            <div style="text-align: center; margin: 30px 0;">
-                <a href="${actionUrl}" style="background: #6c757d; color: white; padding: 15px 30px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">${actionText}</a>
-            </div>
-            ` : ''}
-        </div>
-        
-        <!-- Footer -->
-        <div style="background: #0A0E27; padding: 30px; text-align: center;">
-            <p style="color: white; margin: 0 0 10px 0; font-size: 16px; font-weight: bold;">ApprenticeApex</p>
-            <p style="color: #B3B3B3; margin: 0; font-size: 14px;">Stay connected with your apprenticeship journey</p>
-        </div>
-    </div>
-</body>
-</html>`;
-
-    const text = `${title} - ApprenticeApex
-
-Hi ${user.firstName || user.companyName || 'there'},
-
-${message}
-
-${actionUrl ? `${actionText}: ${actionUrl}` : ''}
-
-ApprenticeApex`;
-
-    return { subject, html, text };
-  }
+Best regards,
+The ApprenticeApex Team
+  `;
+  
+  return { subject, html, text };
 }
 
-export default EmailTemplates.getInstance();
+// Interview invitation for students
+export function createInterviewInvitationStudent(data: InterviewInvitationData): EmailTemplate {
+  const { employerName, studentName, apprenticeshipTitle, scheduledAt, meetingUrl, duration } = data;
+  
+  const subject = `🎉 Interview Invitation: ${apprenticeshipTitle}`;
+  const preheader = `You've been invited to interview for ${apprenticeshipTitle} on ${formatDate(scheduledAt)}`;
+  
+  const html = createEmailWrapper(`
+    <h1 style="color: #1f2937; margin-bottom: 20px;">🎉 Interview Invitation</h1>
+    
+    <p>Dear ${studentName},</p>
+    
+    <p><strong>Congratulations!</strong> You've been invited to a video interview for an exciting apprenticeship opportunity!</p>
+    
+    <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #1f2937;">Interview Details</h3>
+        <p style="margin: 5px 0;"><strong>Position:</strong> ${apprenticeshipTitle}</p>
+        <p style="margin: 5px 0;"><strong>Employer:</strong> ${employerName}</p>
+        <p style="margin: 5px 0;"><strong>Date & Time:</strong> ${formatDateTime(scheduledAt)}</p>
+        <p style="margin: 5px 0;"><strong>Duration:</strong> ${duration} minutes</p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="${meetingUrl}" class="button" style="color: #ffffff;">Join Video Interview</a>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin: 0 0 10px 0; color: #d97706;">Interview Preparation Tips</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Research the company and the role thoroughly</li>
+            <li>Prepare examples of your achievements and experiences</li>
+            <li>Test your camera and microphone beforehand</li>
+            <li>Dress professionally (at least from the waist up!)</li>
+            <li>Find a quiet, well-lit space for the interview</li>
+            <li>Have a copy of your CV and application ready</li>
+            <li>Prepare thoughtful questions about the apprenticeship</li>
+        </ul>
+    </div>
+    
+    <h3 style="color: #1f2937;">What to Expect</h3>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>The interview will last approximately ${duration} minutes</li>
+        <li>You'll discuss your background, interests, and career goals</li>
+        <li>The employer will explain the role and company culture</li>
+        <li>There will be time for you to ask questions</li>
+        <li>The video call will be recorded for quality and training purposes</li>
+    </ul>
+    
+    <h3 style="color: #1f2937;">Technical Requirements</h3>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Modern web browser (Chrome, Firefox, Safari, or Edge recommended)</li>
+        <li>Webcam and microphone</li>
+        <li>Stable internet connection</li>
+        <li>No software downloads required - everything works in your browser</li>
+    </ul>
+    
+    <h3 style="color: #1f2937;">Need Support?</h3>
+    <p>We're here to help you succeed! If you need any assistance:</p>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Check out our <a href="https://apprenticeapex.com/interview-guide">Interview Preparation Guide</a></li>
+        <li>Contact our student support team at <a href="mailto:students@apprenticeapex.com">students@apprenticeapex.com</a></li>
+        <li>Join our community forum for peer support and tips</li>
+    </ul>
+    
+    <p><strong>Good luck!</strong> We're rooting for you and excited to see you take this next step in your career journey.</p>
+    
+    <p>Best regards,<br>
+    The ApprenticeApex Team</p>
+  `, preheader);
+  
+  const text = `
+🎉 Interview Invitation: ${apprenticeshipTitle}
+
+Dear ${studentName},
+
+Congratulations! You've been invited to a video interview for an exciting apprenticeship opportunity!
+
+Interview Details:
+- Position: ${apprenticeshipTitle}
+- Employer: ${employerName}
+- Date & Time: ${formatDateTime(scheduledAt)}
+- Duration: ${duration} minutes
+
+Join the interview: ${meetingUrl}
+
+Interview Preparation Tips:
+- Research the company and the role thoroughly
+- Prepare examples of your achievements and experiences
+- Test your camera and microphone beforehand
+- Dress professionally
+- Find a quiet, well-lit space for the interview
+- Have a copy of your CV ready
+- Prepare thoughtful questions about the apprenticeship
+
+Technical Requirements:
+- Modern web browser (Chrome, Firefox, Safari, or Edge)
+- Webcam and microphone
+- Stable internet connection
+- No software downloads required
+
+Need support? Contact students@apprenticeapex.com
+
+Good luck!
+The ApprenticeApex Team
+  `;
+  
+  return { subject, html, text };
+}
+
+export interface InterviewCancellationData {
+  employerName: string;
+  studentName: string;
+  apprenticeshipTitle: string;
+  scheduledAt: Date;
+}
+
+// Interview cancellation notification for employers
+export function createInterviewCancellationEmployer(data: InterviewCancellationData): EmailTemplate {
+  const { employerName, studentName, apprenticeshipTitle, scheduledAt } = data;
+  
+  const subject = `Interview Cancelled: ${studentName} for ${apprenticeshipTitle}`;
+  const preheader = `Your interview with ${studentName} scheduled for ${formatDate(scheduledAt)} has been cancelled`;
+  
+  const html = createEmailWrapper(`
+    <h1 style="color: #dc2626; margin-bottom: 20px;">Interview Cancelled</h1>
+    
+    <p>Dear ${employerName},</p>
+    
+    <p>We're writing to inform you that your video interview has been cancelled.</p>
+    
+    <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #1f2937;">Cancelled Interview Details</h3>
+        <p style="margin: 5px 0;"><strong>Candidate:</strong> ${studentName}</p>
+        <p style="margin: 5px 0;"><strong>Position:</strong> ${apprenticeshipTitle}</p>
+        <p style="margin: 5px 0;"><strong>Original Date & Time:</strong> ${formatDateTime(scheduledAt)}</p>
+    </div>
+    
+    <p>The application status has been updated and you can reschedule the interview at any time through your employer dashboard.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="https://apprenticeapex.com/company" class="button" style="color: #ffffff;">Go to Dashboard</a>
+    </div>
+    
+    <p>If you have any questions or need assistance with rescheduling, please don't hesitate to contact our support team.</p>
+    
+    <p>Best regards,<br>
+    The ApprenticeApex Team</p>
+  `, preheader);
+  
+  const text = `
+Interview Cancelled
+
+Dear ${employerName},
+
+Your video interview has been cancelled.
+
+Cancelled Interview Details:
+- Candidate: ${studentName}
+- Position: ${apprenticeshipTitle}
+- Original Date & Time: ${formatDateTime(scheduledAt)}
+
+You can reschedule the interview through your dashboard: https://apprenticeapex.com/company
+
+Contact us if you need assistance.
+
+Best regards,
+The ApprenticeApex Team
+  `;
+  
+  return { subject, html, text };
+}
+
+// Interview cancellation notification for students
+export function createInterviewCancellationStudent(data: InterviewCancellationData): EmailTemplate {
+  const { employerName, studentName, apprenticeshipTitle, scheduledAt } = data;
+  
+  const subject = `Interview Update: ${apprenticeshipTitle}`;
+  const preheader = `Your interview for ${apprenticeshipTitle} scheduled for ${formatDate(scheduledAt)} has been cancelled`;
+  
+  const html = createEmailWrapper(`
+    <h1 style="color: #dc2626; margin-bottom: 20px;">Interview Update</h1>
+    
+    <p>Dear ${studentName},</p>
+    
+    <p>We're writing to inform you that your scheduled video interview has been cancelled by the employer.</p>
+    
+    <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #1f2937;">Cancelled Interview Details</h3>
+        <p style="margin: 5px 0;"><strong>Position:</strong> ${apprenticeshipTitle}</p>
+        <p style="margin: 5px 0;"><strong>Employer:</strong> ${employerName}</p>
+        <p style="margin: 5px 0;"><strong>Original Date & Time:</strong> ${formatDateTime(scheduledAt)}</p>
+    </div>
+    
+    <p><strong>Please don't be discouraged!</strong> Interview cancellations can happen for various reasons, and this doesn't reflect on your application quality.</p>
+    
+    <div class="warning-box">
+        <h3 style="margin: 0 0 10px 0; color: #d97706;">What Happens Next?</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>Your application remains active and under review</li>
+            <li>The employer may reschedule the interview for a later date</li>
+            <li>You may be contacted for alternative interview arrangements</li>
+            <li>Continue exploring other opportunities on our platform</li>
+        </ul>
+    </div>
+    
+    <p>While you wait for updates on this opportunity, we encourage you to:</p>
+    <ul style="margin: 10px 0; padding-left: 20px;">
+        <li>Continue applying to other relevant apprenticeships</li>
+        <li>Update your profile with any new skills or experiences</li>
+        <li>Practice your interview skills with our online tools</li>
+        <li>Connect with other students in our community forum</li>
+    </ul>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="https://apprenticeapex.com/student" class="button" style="color: #ffffff;">View More Opportunities</a>
+    </div>
+    
+    <p>Remember, the right opportunity is out there waiting for you. Keep pushing forward!</p>
+    
+    <p>Best regards,<br>
+    The ApprenticeApex Team</p>
+  `, preheader);
+  
+  const text = `
+Interview Update
+
+Dear ${studentName},
+
+Your scheduled video interview has been cancelled by the employer.
+
+Cancelled Interview Details:
+- Position: ${apprenticeshipTitle}
+- Employer: ${employerName}
+- Original Date & Time: ${formatDateTime(scheduledAt)}
+
+Please don't be discouraged! Your application remains active and the employer may reschedule.
+
+What to do next:
+- Continue applying to other apprenticeships
+- Update your profile
+- Practice interview skills
+- Explore more opportunities: https://apprenticeapex.com/student
+
+Keep pushing forward!
+
+Best regards,
+The ApprenticeApex Team
+  `;
+  
+  return { subject, html, text };
+}
+
+export interface InterviewReminderData {
+  employerName: string;
+  studentName: string;
+  apprenticeshipTitle: string;
+  scheduledAt: Date;
+  meetingUrl: string;
+  timeUntil: string; // e.g., "24 hours", "1 hour"
+}
+
+// Interview reminder for both employers and students
+export function createInterviewReminder(data: InterviewReminderData, isEmployer: boolean): EmailTemplate {
+  const { employerName, studentName, apprenticeshipTitle, scheduledAt, meetingUrl, timeUntil } = data;
+  
+  const recipientName = isEmployer ? employerName : studentName;
+  const otherParty = isEmployer ? studentName : employerName;
+  const subject = `⏰ Interview Reminder: ${apprenticeshipTitle} in ${timeUntil}`;
+  const preheader = `Your interview ${isEmployer ? 'with ' + studentName : 'for ' + apprenticeshipTitle} is coming up in ${timeUntil}`;
+  
+  const html = createEmailWrapper(`
+    <h1 style="color: #0080FF; margin-bottom: 20px;">⏰ Interview Reminder</h1>
+    
+    <p>Dear ${recipientName},</p>
+    
+    <p>This is a friendly reminder that your video interview is coming up in <strong>${timeUntil}</strong>!</p>
+    
+    <div class="info-box">
+        <h3 style="margin: 0 0 15px 0; color: #1f2937;">Interview Details</h3>
+        <p style="margin: 5px 0;"><strong>${isEmployer ? 'Candidate' : 'Position'}:</strong> ${isEmployer ? studentName : apprenticeshipTitle}</p>
+        <p style="margin: 5px 0;"><strong>${isEmployer ? 'Position' : 'Employer'}:</strong> ${isEmployer ? apprenticeshipTitle : employerName}</p>
+        <p style="margin: 5px 0;"><strong>Date & Time:</strong> ${formatDateTime(scheduledAt)}</p>
+        <p style="margin: 5px 0;"><strong>Starting in:</strong> ${timeUntil}</p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="${meetingUrl}" class="button" style="color: #ffffff;">Join Video Interview</a>
+    </div>
+    
+    <div class="warning-box">
+        <h3 style="margin: 0 0 10px 0; color: #d97706;">Quick Checklist</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+            <li>✅ Test your camera and microphone</li>
+            <li>✅ Check your internet connection</li>
+            <li>✅ Find a quiet, well-lit space</li>
+            <li>✅ Have your notes and questions ready</li>
+            <li>✅ Arrive 5-10 minutes early</li>
+        </ul>
+    </div>
+    
+    <p>The interview room will be available 15 minutes before the scheduled time. We recommend joining early to test your setup.</p>
+    
+    <p>Need technical support? Contact us at <a href="mailto:support@apprenticeapex.com">support@apprenticeapex.com</a> or call 0800 123 4567.</p>
+    
+    <p>Best of luck!</p>
+    
+    <p>Best regards,<br>
+    The ApprenticeApex Team</p>
+  `, preheader);
+  
+  const text = `
+⏰ Interview Reminder
+
+Dear ${recipientName},
+
+Your video interview is coming up in ${timeUntil}!
+
+Interview Details:
+- ${isEmployer ? 'Candidate' : 'Position'}: ${isEmployer ? studentName : apprenticeshipTitle}
+- ${isEmployer ? 'Position' : 'Employer'}: ${isEmployer ? apprenticeshipTitle : employerName}
+- Date & Time: ${formatDateTime(scheduledAt)}
+- Starting in: ${timeUntil}
+
+Join the interview: ${meetingUrl}
+
+Quick Checklist:
+- Test your camera and microphone
+- Check your internet connection
+- Find a quiet, well-lit space
+- Have your notes ready
+- Arrive 5-10 minutes early
+
+Need support? Contact support@apprenticeapex.com or call 0800 123 4567
+
+Best of luck!
+
+The ApprenticeApex Team
+  `;
+  
+  return { subject, html, text };
+}
+
+// Export all template functions
+export const emailTemplates = {
+  interviewInvitationEmployer: createInterviewInvitationEmployer,
+  interviewInvitationStudent: createInterviewInvitationStudent,
+  interviewCancellationEmployer: createInterviewCancellationEmployer,
+  interviewCancellationStudent: createInterviewCancellationStudent,
+  interviewReminder: createInterviewReminder
+};
