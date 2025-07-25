@@ -26,7 +26,7 @@ const validateInterviewId = [
  * Schedule a new video interview
  * POST /api/video-interview/schedule
  */
-router.post('/schedule', auth, requireRole(['company']), validateScheduleInterview, async (req, res) => {
+router.post('/schedule', authenticateToken, requireRole(['company']), validateScheduleInterview, async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -160,7 +160,7 @@ router.post('/schedule', auth, requireRole(['company']), validateScheduleIntervi
  * Get interview details
  * GET /api/video-interview/:interviewId
  */
-router.get('/:interviewId', auth, validateInterviewId, async (req, res) => {
+router.get('/:interviewId', authenticateToken, validateInterviewId, async (req, res) => {
   try {
     const { interviewId } = req.params;
     const userId = req.user.id;
@@ -235,7 +235,7 @@ router.get('/:interviewId', auth, validateInterviewId, async (req, res) => {
  * Join interview (track participant joining)
  * POST /api/video-interview/:interviewId/join
  */
-router.post('/:interviewId/join', auth, validateInterviewId, async (req, res) => {
+router.post('/:interviewId/join', authenticateToken, validateInterviewId, async (req, res) => {
   try {
     const { interviewId } = req.params;
     const userId = req.user.id;
@@ -268,7 +268,7 @@ router.post('/:interviewId/join', auth, validateInterviewId, async (req, res) =>
  * Leave interview (track participant leaving)
  * POST /api/video-interview/:interviewId/leave
  */
-router.post('/:interviewId/leave', auth, validateInterviewId, async (req, res) => {
+router.post('/:interviewId/leave', authenticateToken, validateInterviewId, async (req, res) => {
   try {
     const { interviewId } = req.params;
     const userId = req.user.id;
@@ -301,7 +301,7 @@ router.post('/:interviewId/leave', auth, validateInterviewId, async (req, res) =
  * Cancel interview
  * DELETE /api/video-interview/:interviewId
  */
-router.delete('/:interviewId', auth, validateInterviewId, async (req, res) => {
+router.delete('/:interviewId', authenticateToken, validateInterviewId, async (req, res) => {
   try {
     const { interviewId } = req.params;
     const userId = req.user.id;
@@ -379,7 +379,7 @@ router.delete('/:interviewId', auth, validateInterviewId, async (req, res) => {
  * Get user's interviews (upcoming and past)
  * GET /api/video-interview/my-interviews
  */
-router.get('/my-interviews', auth, async (req, res) => {
+router.get('/my-interviews', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
     const isEmployer = req.user.role === 'company';
@@ -405,7 +405,7 @@ router.get('/my-interviews', auth, async (req, res) => {
  * Report technical issues
  * POST /api/video-interview/:interviewId/report-issue
  */
-router.post('/:interviewId/report-issue', auth, validateInterviewId, [
+router.post('/:interviewId/report-issue', authenticateToken, validateInterviewId, [
   body('issueType').isIn(['connection', 'quality', 'other']).withMessage('Valid issue type required'),
   body('description').isLength({ min: 10, max: 500 }).withMessage('Description must be 10-500 characters')
 ], async (req, res) => {
