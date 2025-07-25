@@ -45,10 +45,10 @@ export default function Index() {
               <p className="text-gray-300 text-lg">Watch students swipe through opportunities in real-time</p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 items-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-center">
               {/* Step 1 */}
               <div className="text-center">
-                <div className="w-20 h-32 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl mx-auto mb-4 p-3 transform rotate-12 hover:rotate-0 transition-all duration-300 shadow-2xl border border-white/20">
+                <div className="w-24 h-36 sm:w-20 sm:h-32 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl mx-auto mb-4 p-3 transform rotate-12 hover:rotate-0 transition-all duration-300 shadow-2xl border border-white/20 touch-target">
                   <div className="bg-white/90 rounded-xl h-full flex flex-col justify-center items-center text-xs">
                     <div className="w-6 h-6 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-full mb-1 animate-pulse"></div>
                     <div className="text-gray-800 font-bold text-xs leading-tight">Software Dev</div>
