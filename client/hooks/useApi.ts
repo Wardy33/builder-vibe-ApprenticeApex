@@ -74,12 +74,20 @@ export function useAuth() {
     // Check if user is authenticated on mount
     const token = localStorage.getItem('authToken');
     const userProfile = localStorage.getItem('userProfile');
-    
+
     if (token && userProfile) {
-      setIsAuthenticated(true);
-      setUser(JSON.parse(userProfile));
+      try {
+        setIsAuthenticated(true);
+        setUser(JSON.parse(userProfile));
+      } catch (error) {
+        console.warn('Failed to parse user profile from localStorage, clearing auth state:', error);
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userProfile');
+        setIsAuthenticated(false);
+        setUser(null);
+      }
     }
-    
+
     setLoading(false);
   }, []);
 
