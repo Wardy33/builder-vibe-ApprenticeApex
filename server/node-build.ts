@@ -1,5 +1,5 @@
 import path from "path";
-import { createApp, connectToDatabase, config } from "./index";
+import { createServer, connectToDatabase, config } from "./index";
 import { database } from "./config/database";
 import express from "express";
 
