@@ -217,26 +217,40 @@ export function VideoInterview({
     if (!callFrame) return;
 
     // Joined meeting
-    callFrame.on('joined-meeting', (event: any) => {
+    callFrame.on('joined-meeting', async (event: any) => {
       console.log('[VideoInterview] Joined meeting:', event);
-      setCallState(prev => ({
-        ...prev,
-        isJoined: true,
-        isLoading: false,
-        isConnected: true
-      }));
-      onJoin?.();
+
+      // Notify backend of participant join
+      try {
+        await joinInterview(interviewId);
+        setCallState(prev => ({
+          ...prev,
+          isJoined: true,
+          isLoading: false,
+          isConnected: true
+        }));
+        onJoin?.();
+      } catch (error) {
+        console.error('[VideoInterview] Failed to notify backend of join:', error);
+      }
     });
 
     // Left meeting
-    callFrame.on('left-meeting', (event: any) => {
+    callFrame.on('left-meeting', async (event: any) => {
       console.log('[VideoInterview] Left meeting:', event);
-      setCallState(prev => ({
-        ...prev,
-        isJoined: false,
-        isConnected: false
-      }));
-      onLeave?.();
+
+      // Notify backend of participant leave
+      try {
+        await leaveInterview(interviewId);
+        setCallState(prev => ({
+          ...prev,
+          isJoined: false,
+          isConnected: false
+        }));
+        onLeave?.();
+      } catch (error) {
+        console.error('[VideoInterview] Failed to notify backend of leave:', error);
+      }
     });
 
     // Participant joined
