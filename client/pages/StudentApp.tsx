@@ -180,7 +180,8 @@ const mockApprenticeship: Apprenticeship[] = [
   },
 ];
 
-function SwipeCard({
+// SwipeCard component moved to top of file - removing duplicate
+function SwipeCardOld({
   apprenticeship,
   onSwipe,
   style,
