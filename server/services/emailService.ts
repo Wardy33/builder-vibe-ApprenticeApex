@@ -303,7 +303,7 @@ class EmailService {
   // Template generation methods (will be implemented in next step)
   private getWelcomeStudentTemplate(user: any): EmailTemplate {
     const env = getEnvConfig();
-    const subject = 'Welcome to ApprenticeApex - Your apprenticeship journey starts now! 🚀';
+    const subject = 'Welcome to ApprenticeApex - Your apprenticeship journey starts now! ���';
     
     const html = `
 <!DOCTYPE html>
@@ -723,8 +723,126 @@ ApprenticeApex`;
       'hired': 'Amazing news! You\'ve been selected for this apprenticeship. Welcome to your new career journey!',
       'rejected': 'Unfortunately, you weren\'t selected for this particular role. Don\'t let this discourage you - keep applying to find the perfect match for your skills.',
     };
-    
+
     return messages[status as keyof typeof messages] || 'Your application status has been updated.';
+  }
+
+  /**
+   * Send video interview invitation email
+   */
+  public async sendInterviewInvitation(
+    recipientEmail: string,
+    data: InterviewInvitationData,
+    isEmployer: boolean
+  ): Promise<boolean> {
+    try {
+      const template = isEmployer
+        ? emailTemplates.interviewInvitationEmployer(data)
+        : emailTemplates.interviewInvitationStudent(data);
+
+      const emailOptions: EmailOptions = {
+        to: recipientEmail,
+        subject: template.subject,
+        html: template.html,
+        text: template.text
+      };
+
+      return await this.sendEmail(emailOptions);
+    } catch (error) {
+      console.error('[EmailService] Error sending interview invitation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Send interview cancellation email
+   */
+  public async sendInterviewCancellation(
+    recipientEmail: string,
+    data: InterviewCancellationData,
+    isEmployer: boolean
+  ): Promise<boolean> {
+    try {
+      const template = isEmployer
+        ? emailTemplates.interviewCancellationEmployer(data)
+        : emailTemplates.interviewCancellationStudent(data);
+
+      const emailOptions: EmailOptions = {
+        to: recipientEmail,
+        subject: template.subject,
+        html: template.html,
+        text: template.text
+      };
+
+      return await this.sendEmail(emailOptions);
+    } catch (error) {
+      console.error('[EmailService] Error sending interview cancellation:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Send interview reminder email
+   */
+  public async sendInterviewReminder(
+    recipientEmail: string,
+    data: InterviewReminderData,
+    isEmployer: boolean
+  ): Promise<boolean> {
+    try {
+      const template = emailTemplates.interviewReminder(data, isEmployer);
+
+      const emailOptions: EmailOptions = {
+        to: recipientEmail,
+        subject: template.subject,
+        html: template.html,
+        text: template.text
+      };
+
+      return await this.sendEmail(emailOptions);
+    } catch (error) {
+      console.error('[EmailService] Error sending interview reminder:', error);
+      return false;
+    }
+  }
+
+  /**
+   * Send batch interview reminders (for scheduled jobs)
+   */
+  public async sendInterviewReminders(
+    reminders: Array<{
+      recipientEmail: string;
+      data: InterviewReminderData;
+      isEmployer: boolean;
+    }>
+  ): Promise<{ sent: number; failed: number }> {
+    let sent = 0;
+    let failed = 0;
+
+    for (const reminder of reminders) {
+      try {
+        const success = await this.sendInterviewReminder(
+          reminder.recipientEmail,
+          reminder.data,
+          reminder.isEmployer
+        );
+
+        if (success) {
+          sent++;
+        } else {
+          failed++;
+        }
+
+        // Add small delay between emails to avoid rate limiting
+        await new Promise(resolve => setTimeout(resolve, 100));
+      } catch (error) {
+        console.error('[EmailService] Error in batch reminder:', error);
+        failed++;
+      }
+    }
+
+    console.log(`[EmailService] Interview reminders sent: ${sent} successful, ${failed} failed`);
+    return { sent, failed };
   }
 
   public async close(): Promise<void> {
