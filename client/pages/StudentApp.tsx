@@ -579,6 +579,7 @@ function JobsPage() {
       setLoading(true);
       try {
         const response = await apiClient.discoverApprenticeships();
+        console.log('Apprenticeships API Response:', response);
         if (response.data && (response.data.apprenticeships || response.data.length > 0)) {
           // Handle both response formats: direct array or nested apprenticeships property
           const apprenticeshipsList = response.data.apprenticeships || response.data;
