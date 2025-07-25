@@ -39,7 +39,7 @@ async function startServer() {
     });
 
     // Create HTTP server
-    const httpServer = require('http').createServer(app);
+    const httpServer = http.createServer(app);
 
     // Graceful shutdown with database cleanup
     const gracefulShutdown = async (signal: string) => {
