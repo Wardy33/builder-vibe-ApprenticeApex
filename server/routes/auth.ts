@@ -280,6 +280,32 @@ router.post("/register/company", [
   // Check database connection
   if (!database.isConnected()) {
     console.warn("⚠️ Database not connected, registration might fail");
+
+    // In development mode without MONGODB_URI, use mock registration
+    const env = process.env.MONGODB_URI;
+    if (!env || env === '') {
+      console.warn('⚠️ Using mock registration in development mode');
+
+      // Mock successful registration for development
+      const mockUser = {
+        _id: 'mock-user-' + Date.now(),
+        email: email,
+        role: role || 'student',
+        firstName: firstName || 'Mock',
+        lastName: lastName || 'User',
+        isActive: true,
+        createdAt: new Date()
+      };
+
+      const token = generateToken(mockUser._id, mockUser.role as 'student' | 'company' | 'admin', mockUser.email);
+
+      return sendSuccess(res, {
+        token,
+        user: mockUser,
+        message: 'Mock registration successful (development mode)'
+      });
+    }
+
     return sendError(res, "Service temporarily unavailable", 503, 'SERVICE_UNAVAILABLE');
   }
 
