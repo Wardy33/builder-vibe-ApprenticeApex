@@ -598,7 +598,9 @@ function JobsPage() {
           }));
           setApprenticeships(transformedData);
         } else if (response.error) {
-          const errorMessage = response.error?.error || JSON.stringify(response.error) || 'Unknown error';
+          const errorMessage = typeof response.error === 'string'
+            ? response.error
+            : response.error?.error || response.error?.message || 'Failed to load apprenticeships from server';
           console.error('Failed to load apprenticeships:', errorMessage);
           // Keep using mock data if API fails
         }
