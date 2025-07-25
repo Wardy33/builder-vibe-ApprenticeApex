@@ -130,43 +130,51 @@ export function WebHeader() {
 
             <Link
               to="/for-employers"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
                 isActive("/for-employers") ? "bg-cyan-500 text-white" : "text-white hover:bg-white/10"
               }`}
+              aria-current={isActive("/for-employers") ? "page" : undefined}
+              aria-label="Employer information and portal"
             >
               For Employers
             </Link>
 
             <Link
               to="/about"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
                 isActive("/about") ? "bg-purple-500 text-white" : "text-white hover:bg-white/10"
               }`}
+              aria-current={isActive("/about") ? "page" : undefined}
+              aria-label="About ApprenticeApex"
             >
               About
             </Link>
 
             <Link
               to="/contact"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
                 isActive("/contact") ? "bg-green-500 text-white" : "text-white hover:bg-white/10"
               }`}
+              aria-current={isActive("/contact") ? "page" : undefined}
+              aria-label="Contact us"
             >
               Contact
             </Link>
           </nav>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4" role="group" aria-label="Account actions">
             <Link
               to="/student/signin"
-              className="text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10"
+              className="text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10 focus-indicator"
+              aria-label="Sign in to your student account"
             >
               Sign In
             </Link>
             <Link
               to="/student/signup"
-              className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 shadow-lg"
+              className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 shadow-lg focus-indicator"
+              aria-label="Get started - create your student account"
             >
               Get Started
             </Link>
@@ -175,12 +183,15 @@ export function WebHeader() {
           {/* Mobile menu button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-xl text-white transition-all duration-200 hover:scale-105 hover:bg-white/10"
+            className="md:hidden p-2 rounded-xl text-white transition-all duration-200 hover:scale-105 hover:bg-white/10 focus-indicator"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-menu"
+            aria-label={isMobileMenuOpen ? "Close mobile menu" : "Open mobile menu"}
           >
             {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-6 w-6" aria-hidden="true" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-6 w-6" aria-hidden="true" />
             )}
           </button>
         </div>
