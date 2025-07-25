@@ -41,6 +41,7 @@ import accessControlRoutes from "./routes/accessControl";
 import alertRoutes from "./routes/alerts";
 import subscriptionRoutes from "./routes/subscriptions";
 import contactRoutes from "./routes/contact";
+import videoInterviewRoutes from "./routes/videoInterview";
 import testRoutes from "./routes/test";
 import testEndpointRoutes from "./routes/testEndpoints";
 import healthRoutes from "./routes/health";
