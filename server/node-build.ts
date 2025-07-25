@@ -104,14 +104,7 @@ async function startServer() {
       console.log('🎯 Server startup completed successfully!');
     });
 
-    // Log Socket.IO connection events
-    io.on('connection', (socket) => {
-      console.log(`🔗 Socket connected: ${socket.id}`);
-
-      socket.on('disconnect', (reason) => {
-        console.log(`🔗 Socket disconnected: ${socket.id} (${reason})`);
-      });
-    });
+    // Server is ready for connections
 
     // Log server readiness
     console.log('🎉 ApprenticeApex server is ready to handle requests!');
