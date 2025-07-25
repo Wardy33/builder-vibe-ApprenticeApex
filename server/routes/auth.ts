@@ -143,6 +143,32 @@ router.post("/login", loginValidation, asyncHandler(async (req, res) => {
   // Check database connection
   if (!database.isConnected()) {
     console.warn("⚠️ Database not connected, login might fail");
+
+    // In development mode without MONGODB_URI, use mock authentication
+    const env = process.env.MONGODB_URI;
+    if (!env || env === '') {
+      console.warn('⚠️ Using mock authentication in development mode');
+
+      // Mock successful login for development
+      const mockUser = {
+        _id: 'mock-user-id',
+        email: email,
+        role: role || 'student',
+        firstName: 'Mock',
+        lastName: 'User',
+        isActive: true,
+        createdAt: new Date()
+      };
+
+      const token = generateToken(mockUser._id, mockUser.role as 'student' | 'company' | 'admin', mockUser.email);
+
+      return sendSuccess(res, {
+        token,
+        user: mockUser,
+        message: 'Mock login successful (development mode)'
+      });
+    }
+
     return sendError(res, "Service temporarily unavailable", 503, 'SERVICE_UNAVAILABLE');
   }
 
