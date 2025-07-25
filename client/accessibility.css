@@ -112,10 +112,10 @@ nav a:focus-visible {
 }
 
 /* ========================================
-   TOUCH TARGET SIZES (MOBILE) 
+   TOUCH TARGET SIZES (MOBILE)
    ======================================== */
 
-/* Minimum 44px touch targets for mobile */
+/* Minimum 44px touch targets for mobile - CRITICAL FIX */
 @media (max-width: 768px) {
   button,
   input[type="button"],
@@ -124,13 +124,32 @@ nav a:focus-visible {
   a,
   [role="button"],
   [role="link"],
-  [tabindex] {
-    min-height: 44px;
-    min-width: 44px;
+  [tabindex],
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
     touch-action: manipulation;
+    /* Ensure adequate spacing between touch elements */
+    margin: 4px;
   }
 
-  /* Ensure text inputs have minimum font size to prevent zoom on iOS */
+  /* Special handling for inline buttons and links */
+  a:not(.button):not(.btn),
+  button:not(.large) {
+    padding: 12px 16px !important;
+    min-height: 44px !important;
+  }
+
+  /* Navigation menu items need proper touch targets */
+  nav a,
+  nav button,
+  .nav-item {
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    margin: 2px 0 !important;
+  }
+
+  /* Form inputs optimized for mobile */
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -139,7 +158,45 @@ nav a:focus-visible {
   input[type="search"],
   textarea,
   select {
-    font-size: max(16px, 1rem);
+    font-size: max(16px, 1rem) !important;
+    min-height: 48px !important;
+    padding: 12px 16px !important;
+    border-radius: 8px !important;
+  }
+
+  /* Card and grid optimizations for mobile */
+  .swipe-card {
+    max-height: 480px !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Statistics grids - force single column on smallest screens */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  /* Ensure proper spacing in mobile layouts */
+  .mobile-spacing > * + * {
+    margin-top: 8px !important;
+  }
+
+  /* Text sizing for mobile readability */
+  .hero-text {
+    font-size: 2.5rem !important; /* Much smaller than current text-5xl md:text-7xl */
+    line-height: 1.2 !important;
+  }
+
+  /* Responsive button groups */
+  .button-group {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  .button-group button {
+    width: 100% !important;
+    min-height: 48px !important;
   }
 }
 
