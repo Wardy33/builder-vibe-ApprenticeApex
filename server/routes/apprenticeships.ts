@@ -22,8 +22,9 @@ router.get(
   ],
   // Conditionally apply auth middleware based on database connection
   (req: AuthenticatedRequest, res: express.Response, next: express.NextFunction) => {
+    // In development mode without database, always use mock authentication
     if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-      // Mock authentication for development mode - always allow access
+      console.log('🔓 Using mock authentication for apprenticeships discover endpoint');
       req.user = {
         userId: 'mock-student-id',
         role: 'student',
@@ -31,21 +32,8 @@ router.get(
       };
       next();
     } else {
-      // Try authentication but fallback to mock if it fails
-      const authHeader = req.headers["authorization"];
-      const token = authHeader && authHeader.split(" ")[1];
-
-      if (!token) {
-        // No token provided - use mock user for development
-        req.user = {
-          userId: 'mock-student-id',
-          role: 'student',
-          email: 'mock@student.com'
-        };
-        next();
-      } else {
-        authenticateToken(req, res, next);
-      }
+      // Production mode - require proper authentication
+      authenticateToken(req, res, next);
     }
   },
   asyncHandler(async (req: AuthenticatedRequest, res) => {
