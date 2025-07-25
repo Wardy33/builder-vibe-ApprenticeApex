@@ -84,7 +84,6 @@ const apprenticeshipSchema = new Schema<IApprenticeship>(
       postcode: { type: String, required: true },
       coordinates: {
         type: [Number],
-        index: "2dsphere",
         required: true,
       },
     },
@@ -131,13 +130,7 @@ const apprenticeshipSchema = new Schema<IApprenticeship>(
   },
 );
 
-// Indexes for performance
-apprenticeshipSchema.index({ companyId: 1 });
-apprenticeshipSchema.index({ industry: 1 });
-apprenticeshipSchema.index({ isActive: 1 });
-apprenticeshipSchema.index({ "location.coordinates": "2dsphere" });
-apprenticeshipSchema.index({ createdAt: -1 });
-apprenticeshipSchema.index({ applicationDeadline: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 // Virtual for conversion rate
 apprenticeshipSchema.virtual("conversionRate").get(function () {
