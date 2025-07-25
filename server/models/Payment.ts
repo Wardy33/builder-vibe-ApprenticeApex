@@ -78,7 +78,6 @@ const subscriptionSchema = new Schema<ISubscription>(
     userId: {
       type: String,
       required: true,
-      index: true,
     },
     plan: {
       type: String,
@@ -89,10 +88,9 @@ const subscriptionSchema = new Schema<ISubscription>(
       type: String,
       enum: ["active", "cancelled", "expired", "trial", "past_due"],
       default: "trial",
-      index: true,
     },
-    stripeSubscriptionId: { type: String, index: true },
-    stripeCustomerId: { type: String, index: true },
+    stripeSubscriptionId: { type: String },
+    stripeCustomerId: { type: String },
     currentPeriodStart: {
       type: Date,
       required: true,
@@ -100,7 +98,6 @@ const subscriptionSchema = new Schema<ISubscription>(
     currentPeriodEnd: {
       type: Date,
       required: true,
-      index: true,
     },
     trialEnd: { type: Date },
     features: {
