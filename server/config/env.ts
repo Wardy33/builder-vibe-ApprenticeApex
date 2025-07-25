@@ -20,7 +20,7 @@ const envSchema = z.object({
 
   // Video Call Configuration
   DAILY_API_KEY: z.string().optional(),
-  DAILY_DOMAIN_NAME: z.string().optional(),
+  DAILY_DOMAIN: z.string().optional(),
 
   // Email Configuration (Hostinger SMTP)
   SMTP_HOST: z.string().optional().default('smtp.hostinger.com'),
