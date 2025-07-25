@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import path from "path";
 
 // Import production database configuration
 import { database, connectDatabase } from "./config/database";
