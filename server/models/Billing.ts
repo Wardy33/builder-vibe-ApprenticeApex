@@ -43,8 +43,8 @@ export interface IBilling extends Document {
 }
 
 const billingSchema = new Schema<IBilling>({
-  employerId: { type: String, required: true, index: true },
-  subscriptionId: { type: String, required: true, index: true },
+  employerId: { type: String, required: true },
+  subscriptionId: { type: String, required: true },
   
   invoiceType: { 
     type: String, 
@@ -84,10 +84,7 @@ const billingSchema = new Schema<IBilling>({
   timestamps: true
 });
 
-// Indexes
-billingSchema.index({ employerId: 1, status: 1 });
-billingSchema.index({ dueDate: 1, status: 1 });
-billingSchema.index({ invoiceType: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 // Static methods
 billingSchema.statics.createMonthlyFee = async function(
