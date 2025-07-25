@@ -161,10 +161,10 @@ class ApiClient {
   }
 
   // Auth methods
-  async login(email: string, password: string): Promise<ApiResponse<AuthResponse>> {
+  async login(email: string, password: string, role?: 'student' | 'company'): Promise<ApiResponse<AuthResponse>> {
     return this.makeRequest<AuthResponse>('/api/auth/login', {
       method: 'POST',
-      body: { email, password },
+      body: { email, password, role },
     });
   }
 
@@ -183,7 +183,7 @@ class ApiClient {
   }
 
   async companySignup(companyData: any): Promise<ApiResponse<AuthResponse>> {
-    return this.makeRequest<AuthResponse>('/api/auth/company/signup', {
+    return this.makeRequest<AuthResponse>('/api/auth/register/company', {
       method: 'POST',
       body: companyData,
     });
