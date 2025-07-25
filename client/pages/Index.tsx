@@ -245,21 +245,21 @@ export default function Index() {
           <div className="py-16 rounded-3xl mt-16 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-white/10">
             <div className="max-w-4xl mx-auto text-center">
               <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Impact</h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                <div className="group">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">10,000+</div>
+              <div className="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                <div className="group text-center touch-target p-4">
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">10,000+</div>
                   <div className="text-gray-300 text-sm font-medium">Active Students</div>
                 </div>
-                <div className="group">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">2,500+</div>
+                <div className="group text-center touch-target p-4">
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">2,500+</div>
                   <div className="text-gray-300 text-sm font-medium">Partner Companies</div>
                 </div>
-                <div className="group">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">85%</div>
+                <div className="group text-center touch-target p-4">
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">85%</div>
                   <div className="text-gray-300 text-sm font-medium">Match Success Rate</div>
                 </div>
-                <div className="group">
-                  <div className="text-4xl font-bold bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-2 group-hover:scale-110 transition-transform duration-200">24hrs</div>
+                <div className="group text-center touch-target p-4">
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">24hrs</div>
                   <div className="text-gray-300 text-sm font-medium">Average Response</div>
                 </div>
               </div>
