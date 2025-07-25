@@ -198,56 +198,79 @@ export function WebHeader() {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm border-t border-white/10 rounded-b-xl mx-4">
-            <div className="space-y-2">
+          <div
+            className="md:hidden py-4 bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm border-t border-white/10 rounded-b-xl mx-4"
+            id="mobile-menu"
+            role="navigation"
+            aria-label="Mobile navigation"
+            ref={mobileMenuRef}
+          >
+            <div className="space-y-2" role="list">
               <Link
                 to="/"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/") ? "page" : undefined}
+                aria-label="Navigate to home page"
               >
                 Home
               </Link>
               <Link
                 to="/student/signup"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-label="Sign up as a student"
               >
                 Student Sign Up
               </Link>
               <Link
                 to="/student/signin"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-label="Sign in to your student account"
               >
                 Student Sign In
               </Link>
               <Link
                 to="/for-employers"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-cyan-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-cyan-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/for-employers") ? "page" : undefined}
+                aria-label="Employer information and portal"
               >
                 For Employers
               </Link>
               <Link
                 to="/about"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-purple-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-purple-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/about") ? "page" : undefined}
+                aria-label="About ApprenticeApex"
               >
                 About
               </Link>
               <Link
                 to="/contact"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-green-500 mx-2"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-green-500 mx-2 focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/contact") ? "page" : undefined}
+                aria-label="Contact us"
               >
                 Contact
               </Link>
             </div>
-            <div className="mt-4 pt-4 border-t border-white/10 mx-2">
+            <div className="mt-4 pt-4 border-t border-white/10 mx-2" role="group" aria-label="Primary actions">
               <Link
                 to="/student/signup"
-                className="block w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg"
+                className="block w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg focus-indicator"
                 onClick={() => setIsMobileMenuOpen(false)}
+                aria-label="Get started - create your student account"
               >
                 Get Started
               </Link>
