@@ -47,8 +47,7 @@ export default defineConfig(({ mode }) => ({
       'lucide-react',
       'clsx',
       'tailwind-merge',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-button'
+      '@radix-ui/react-dialog'
     ]
   },
   plugins: [
