@@ -1,6 +1,6 @@
 import express from 'express';
 import { body, param, validationResult } from 'express-validator';
-import { auth, requireRole } from '../middleware/auth';
+import { authenticateToken, requireRole } from '../middleware/auth';
 import { videoService } from '../services/videoService';
 import VideoCall from '../models/VideoCall';
 import Application from '../models/Application';
