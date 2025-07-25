@@ -7,7 +7,7 @@ import { databaseMiddleware, databaseHealthCheck, optimizeQueries } from "./midd
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import multer from "multer";
-import { createServer } from "http";
+import { createServer as createHttpServer } from "http";
 import dotenv from "dotenv";
 import session from "express-session";
 
