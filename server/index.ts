@@ -1,4 +1,5 @@
 import express from "express";
+import compression from "compression";
 
 // Import production database configuration
 import { database, connectDatabase as dbConnect } from "./config/database";
@@ -93,6 +94,21 @@ export function createApp() {
 
   // Trust proxy (important for rate limiting and IP detection)
   app.set("trust proxy", 1);
+
+  // Compression middleware - Apply before other middleware for optimal performance
+  app.use(compression({
+    filter: (req, res) => {
+      // Don't compress responses with this request header
+      if (req.headers['x-no-compression']) {
+        return false;
+      }
+      // Use compression default filter for all other responses
+      return compression.filter(req, res);
+    },
+    level: 6, // Balanced compression level (1-9, where 6 is optimal)
+    threshold: 1024, // Only compress responses larger than 1KB
+    memLevel: 8, // Memory usage optimization
+  }));
 
   // Basic middleware
   app.use(express.json({ limit: "10mb" }));
@@ -566,6 +582,19 @@ export function createServer() {
 
   // Trust proxy (important for serverless environments)
   app.set("trust proxy", 1);
+
+  // Compression middleware for serverless
+  app.use(compression({
+    filter: (req, res) => {
+      if (req.headers['x-no-compression']) {
+        return false;
+      }
+      return compression.filter(req, res);
+    },
+    level: 6,
+    threshold: 1024,
+    memLevel: 8,
+  }));
 
   // Basic middleware
   app.use(express.json({ limit: "10mb" }));
