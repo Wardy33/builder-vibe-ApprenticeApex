@@ -675,12 +675,12 @@ export function VideoInterview({
                 Cancel
               </button>
               <button
-                onClick={reportTechnicalIssue}
-                disabled={!issueDescription.trim()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus-indicator"
+                onClick={handleReportTechnicalIssue}
+                disabled={!issueDescription.trim() || apiLoading}
+                className="px-4 py-2 bg-[#00D4FF] text-[#0A0E27] rounded-lg hover:bg-[#00D4FF]/90 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors focus-indicator"
                 aria-label="Submit technical issue report"
               >
-                Report Issue
+                {apiLoading ? 'Reporting...' : 'Report Issue'}
               </button>
             </div>
           </div>
