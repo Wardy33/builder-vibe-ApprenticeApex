@@ -84,7 +84,7 @@ async function startServer() {
       console.log(`🔧 API: http://localhost:${config.port}/api`);
       console.log(`🏥 Health Check: http://localhost:${config.port}/api/health`);
       console.log(`🗄️ Database Health: http://localhost:${config.port}/api/health/database`);
-      console.log(`🗨️ Socket.IO server initialized`);
+      console.log(`🌐 HTTP server initialized`);
       console.log(`🌍 Environment: ${config.nodeEnv}`);
 
       // Log database status
