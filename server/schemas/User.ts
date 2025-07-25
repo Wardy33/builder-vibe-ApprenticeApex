@@ -11,9 +11,8 @@ export const emailSchema = z.string()
   .trim();
 
 export const passwordSchema = z.string()
-  .min(8, 'Password must be at least 8 characters')
-  .max(128, 'Password must not exceed 128 characters')
-  .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 'Password must contain at least one lowercase letter, one uppercase letter, and one number');
+  .min(6, 'Password must be at least 6 characters')
+  .max(128, 'Password must not exceed 128 characters');
 
 export const phoneSchema = z.string()
   .regex(/^[\+]?[1-9][\d]{0,15}$/, 'Invalid phone number format')
