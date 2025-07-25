@@ -298,8 +298,8 @@ export function VideoInterview({
 
   }, [onJoin, onLeave, onError]);
 
-  // Join the meeting
-  const joinMeeting = useCallback(async () => {
+  // Join the meeting with backend token
+  const joinMeetingWithToken = useCallback(async (roomUrl: string, token: string) => {
     if (!callFrameRef.current) return;
 
     try {
@@ -307,12 +307,9 @@ export function VideoInterview({
 
       const joinOptions: any = {
         url: roomUrl,
+        token: token,
         showLeaveButton: false
       };
-
-      if (meetingToken) {
-        joinOptions.token = meetingToken;
-      }
 
       await callFrameRef.current.join(joinOptions);
     } catch (error) {
@@ -322,8 +319,9 @@ export function VideoInterview({
         isLoading: false,
         error: 'Failed to join video call'
       }));
+      onError?.('Failed to join video call');
     }
-  }, [roomUrl, meetingToken]);
+  }, [onError]);
 
   // Update participants list
   const updateParticipants = useCallback(() => {
