@@ -56,7 +56,28 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
 
   // Check database connection
   if (!database.isConnected()) {
-    console.warn("⚠️ Database not connected, registration might fail");
+    const env = process.env.MONGODB_URI;
+    if (!env || env === '') {
+      console.warn('⚠️ Using mock registration in development mode');
+      const mockUser = {
+        _id: 'mock-user-id-' + Date.now(),
+        email: email,
+        role: role || 'student',
+        firstName: req.body.firstName || 'Mock',
+        lastName: req.body.lastName || 'User',
+        isActive: true,
+        isEmailVerified: false,
+        createdAt: new Date()
+      };
+      const token = generateToken(mockUser._id, mockUser.role as 'student' | 'company' | 'admin', mockUser.email);
+      return sendSuccess(res, {
+        token,
+        user: mockUser,
+        message: 'Mock registration successful (development mode)',
+        emailVerificationRequired: false
+      }, 201);
+    }
+    return sendError(res, "Service temporarily unavailable", 503, 'SERVICE_UNAVAILABLE');
   }
 
   try {
