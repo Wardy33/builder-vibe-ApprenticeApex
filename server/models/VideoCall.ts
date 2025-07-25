@@ -62,8 +62,7 @@ const VideoCallSchema = new Schema<IVideoCall>({
   interviewId: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   applicationId: {
     type: Schema.Types.ObjectId,
