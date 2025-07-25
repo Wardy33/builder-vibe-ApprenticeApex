@@ -653,7 +653,6 @@ export class IndexManager {
 
   private isEssentialIndex(indexName: string): boolean {
     const essentialIndexes = [
-      'users_email_unique',
       'applications_application_id',
       'payments_payment_id',
       'subscriptions_subscription_id'
