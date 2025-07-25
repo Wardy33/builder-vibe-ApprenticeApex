@@ -1,9 +1,7 @@
 import express from "express";
-import mongoose from "mongoose";
-import path from "path";
 
 // Import production database configuration
-import { database, connectDatabase } from "./config/database";
+import { database, connectDatabase as dbConnect } from "./config/database";
 import { initializeIndexes } from "./config/indexes";
 import { databaseMiddleware, databaseHealthCheck, optimizeQueries } from "./middleware/database";
 import bcrypt from "bcryptjs";
