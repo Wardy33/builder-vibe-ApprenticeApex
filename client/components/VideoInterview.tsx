@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-import { 
-  Video, 
-  VideoOff, 
-  Mic, 
-  MicOff, 
-  Monitor, 
+import {
+  Video,
+  VideoOff,
+  Mic,
+  MicOff,
+  Monitor,
   MonitorOff,
   Phone,
   PhoneOff,
@@ -16,6 +16,7 @@ import {
   Clock,
   ExternalLink
 } from 'lucide-react';
+import { useVideoInterview } from '../hooks/useVideoInterview';
 
 // Daily.co types and imports
 declare global {
