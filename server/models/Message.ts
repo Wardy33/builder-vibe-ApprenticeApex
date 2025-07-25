@@ -94,13 +94,7 @@ const conversationSchema = new Schema<IConversation>(
   },
 );
 
-// Indexes for performance
-messageSchema.index({ conversationId: 1, createdAt: -1 });
-messageSchema.index({ senderId: 1, createdAt: -1 });
-messageSchema.index({ receiverId: 1, readAt: 1 });
-
-conversationSchema.index({ participants: 1 });
-conversationSchema.index({ lastMessageAt: -1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 export const Message = mongoose.models.Message || mongoose.model<IMessage>("Message", messageSchema);
 export const Conversation = mongoose.models.Conversation || mongoose.model<IConversation>(
