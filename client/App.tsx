@@ -45,7 +45,13 @@ function LoadingFallback({ ariaLabel }: { ariaLabel: string }) {
 function App() {
   // Initialize service worker and PWA features
   useEffect(() => {
-    initializeServiceWorker();
+    try {
+      if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+        initializeServiceWorker();
+      }
+    } catch (error) {
+      console.warn('Service worker initialization failed:', error);
+    }
   }, []);
 
   return (
