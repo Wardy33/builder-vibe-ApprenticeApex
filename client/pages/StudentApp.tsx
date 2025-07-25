@@ -188,10 +188,13 @@ function SwipeCard({
       <div className="relative h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
         {/* Image Section */}
         <div className="relative h-64 overflow-hidden">
-          <img
+          <OptimizedImage
             src={apprenticeship.image}
-            alt={apprenticeship.jobTitle}
+            alt={`${apprenticeship.jobTitle} at ${apprenticeship.company}`}
             className="w-full h-full object-cover"
+            width={400}
+            height={256}
+            priority={true}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
