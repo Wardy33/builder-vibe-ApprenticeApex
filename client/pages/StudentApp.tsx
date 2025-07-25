@@ -160,7 +160,7 @@ function SwipeCard({
   return (
     <div
       ref={cardRef}
-      className={`swipe-card w-full max-w-sm mx-auto h-[520px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
+      className={`swipe-card w-full max-w-sm mx-auto h-[480px] sm:h-[520px] cursor-grab ${isDragging ? "cursor-grabbing dragging" : ""}`}
       style={{
         transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.05}deg)`,
         ...style,
@@ -169,6 +169,20 @@ function SwipeCard({
       onMouseMove={handleDrag}
       onMouseUp={handleDragEnd}
       onMouseLeave={handleDragEnd}
+      onTouchStart={(e) => {
+        e.preventDefault();
+        handleDragStart();
+      }}
+      onTouchMove={(e) => {
+        if (!isDragging) return;
+        const rect = cardRef.current?.getBoundingClientRect();
+        if (rect) {
+          const touch = e.touches[0];
+          const distance = touch.clientX - (rect.left + rect.width / 2);
+          setDragDistance(distance);
+        }
+      }}
+      onTouchEnd={handleDragEnd}
     >
       <div className="relative h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
         {/* Image Section */}
