@@ -68,13 +68,13 @@ const VideoCallSchema = new Schema<IVideoCall>({
     type: Schema.Types.ObjectId,
     ref: 'Application',
     required: true,
-    index: true
+
   },
   apprenticeshipId: {
     type: Schema.Types.ObjectId,
     ref: 'Apprenticeship',
     required: true,
-    index: true
+
   },
   
   // Participants
@@ -82,13 +82,13 @@ const VideoCallSchema = new Schema<IVideoCall>({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    index: true
+
   },
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: true,
-    index: true
+
   },
   employerName: {
     type: String,
@@ -108,7 +108,7 @@ const VideoCallSchema = new Schema<IVideoCall>({
     type: String,
     required: true,
     unique: true,
-    index: true
+
   },
   roomUrl: {
     type: String,
@@ -117,7 +117,7 @@ const VideoCallSchema = new Schema<IVideoCall>({
   roomId: {
     type: String,
     required: true,
-    index: true
+
   },
   
   // Access tokens (store hashed versions for security)
@@ -134,15 +134,15 @@ const VideoCallSchema = new Schema<IVideoCall>({
   scheduledAt: {
     type: Date,
     required: true,
-    index: true
+
   },
   startedAt: {
     type: Date,
-    index: true
+
   },
   endedAt: {
     type: Date,
-    index: true
+
   },
   duration: {
     type: Number,
@@ -156,7 +156,7 @@ const VideoCallSchema = new Schema<IVideoCall>({
     enum: ['scheduled', 'in_progress', 'completed', 'cancelled', 'no_show'],
     default: 'scheduled',
     required: true,
-    index: true
+
   },
   
   // Participant tracking
@@ -212,14 +212,14 @@ const VideoCallSchema = new Schema<IVideoCall>({
   dataRetentionDate: {
     type: Date,
     required: true,
-    index: true
+
   },
   
   // Metadata
   createdAt: {
     type: Date,
     default: Date.now,
-    index: true
+
   },
   updatedAt: {
     type: Date,
