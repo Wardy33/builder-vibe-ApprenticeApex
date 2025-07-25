@@ -14,14 +14,7 @@ export interface IIndexDefinition {
 // Define all indexes
 export const INDEX_DEFINITIONS: IIndexDefinition[] = [
   // User Collection Indexes
-  {
-    collection: 'users',
-    name: 'users_email_unique',
-    spec: { email: 1 },
-    options: { unique: true, background: true },
-    description: 'Unique index on email for authentication',
-    priority: 'high'
-  },
+  // Note: email index is automatically created by unique: true constraint in User model
   {
     collection: 'users',
     name: 'users_role_active',
