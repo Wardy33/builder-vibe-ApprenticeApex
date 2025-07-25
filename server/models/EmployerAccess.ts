@@ -30,8 +30,8 @@ export interface IEmployerAccess extends Document {
 }
 
 const employerAccessSchema = new Schema<IEmployerAccess>({
-  employerId: { type: String, required: true, index: true },
-  studentId: { type: String, required: true, index: true },
+  employerId: { type: String, required: true },
+  studentId: { type: String, required: true },
   accessLevel: { 
     type: Number, 
     enum: [1, 2, 3, 4], 
@@ -71,11 +71,8 @@ const employerAccessSchema = new Schema<IEmployerAccess>({
   timestamps: true,
 });
 
-// Compound indexes for efficient queries
-employerAccessSchema.index({ employerId: 1, studentId: 1 }, { unique: true });
-employerAccessSchema.index({ employerId: 1, accessLevel: 1 });
-employerAccessSchema.index({ studentId: 1, accessLevel: 1 });
-employerAccessSchema.index({ 'monitoringFlags.suspiciousActivity': 1 });
+// Indexes are managed centrally in server/config/indexes.ts
+// Note: employerId + studentId unique constraint is preserved
 
 // Static methods for access control
 employerAccessSchema.statics.getAccessLevel = async function(employerId: string, studentId: string) {
