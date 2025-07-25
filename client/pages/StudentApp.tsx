@@ -579,9 +579,10 @@ function JobsPage() {
       setLoading(true);
       try {
         const response = await apiClient.discoverApprenticeships();
-        if (response.data && response.data.length > 0) {
-          // Transform API data to match our interface
-          const transformedData = response.data.map((app: any, index: number) => ({
+        if (response.data && (response.data.apprenticeships || response.data.length > 0)) {
+          // Handle both response formats: direct array or nested apprenticeships property
+          const apprenticeshipsList = response.data.apprenticeships || response.data;
+          const transformedData = apprenticeshipsList.map((app: any, index: number) => ({
             id: app._id || app.id || `api_${index}`,
             jobTitle: app.jobTitle,
             company: app.companyName || app.company?.name || app.company,
