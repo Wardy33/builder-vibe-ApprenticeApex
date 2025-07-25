@@ -94,20 +94,8 @@ const applicationSchema = new Schema<IApplication>(
   },
 );
 
-// Indexes
-applicationSchema.index({ studentId: 1 });
-applicationSchema.index({ apprenticeshipId: 1 });
-applicationSchema.index({ companyId: 1 });
-applicationSchema.index({ status: 1 });
-applicationSchema.index({ appliedAt: -1 });
-applicationSchema.index({ aiMatchScore: -1 });
-
-// Compound indexes
-applicationSchema.index(
-  { studentId: 1, apprenticeshipId: 1 },
-  { unique: true },
-);
-applicationSchema.index({ companyId: 1, status: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
+// Note: studentId + apprenticeshipId unique constraint is preserved
 
 export const Application = mongoose.models.Application || mongoose.model<IApplication>(
   "Application",
@@ -134,7 +122,6 @@ const messageSchema = new Schema<IMessage>({
   conversationId: {
     type: String,
     required: true,
-    index: true,
   },
   senderId: {
     type: String,
@@ -170,11 +157,7 @@ const messageSchema = new Schema<IMessage>({
   },
 });
 
-// Indexes for messages
-messageSchema.index({ conversationId: 1, sentAt: -1 });
-messageSchema.index({ senderId: 1 });
-messageSchema.index({ receiverId: 1 });
-messageSchema.index({ isRead: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 export const Message = mongoose.model<IMessage>("Message", messageSchema);
 
@@ -229,10 +212,8 @@ const conversationSchema = new Schema<IConversation>(
   },
 );
 
-// Ensure unique conversations between participants
-conversationSchema.index({ participants: 1 }, { unique: true });
-conversationSchema.index({ applicationId: 1 });
-conversationSchema.index({ "lastMessage.sentAt": -1 });
+// Indexes are managed centrally in server/config/indexes.ts
+// Note: participants unique constraint is preserved
 
 export const Conversation = mongoose.model<IConversation>(
   "Conversation",
