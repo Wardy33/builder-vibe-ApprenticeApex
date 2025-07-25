@@ -18,7 +18,7 @@ async function startServer() {
       console.log('✅ Database connection established successfully');
     }
 
-    const { app, httpServer, io } = createApp();
+    const app = createServer();
 
     // In production, serve the built SPA files
     const __dirname = import.meta.dirname;
@@ -36,6 +36,9 @@ async function startServer() {
 
       res.sendFile(path.join(distPath, "index.html"));
     });
+
+    // Create HTTP server
+    const httpServer = require('http').createServer(app);
 
     // Graceful shutdown with database cleanup
     const gracefulShutdown = async (signal: string) => {
