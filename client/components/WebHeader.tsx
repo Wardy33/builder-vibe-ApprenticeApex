@@ -43,51 +43,87 @@ export function WebHeader() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center group">
+          <Link
+            to="/"
+            className="flex items-center group"
+            aria-label="ApprenticeApex Home"
+          >
             <span className="text-2xl font-bold text-white transform group-hover:scale-105 transition-all duration-200">
               <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>
               <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
-
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav
+            className="hidden md:flex items-center space-x-8"
+            role="navigation"
+            aria-label="Main navigation"
+          >
             <Link
               to="/"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl ${
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
                 isActive("/") ? "bg-pink-500 text-white" : "text-white hover:bg-white/10"
               }`}
+              aria-current={isActive("/") ? "page" : undefined}
+              aria-label="Home page"
             >
               Home
             </Link>
-            
-            <div className="relative">
+
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }
+                }}
+                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10 focus-indicator"
+                aria-expanded={isDropdownOpen}
+                aria-haspopup="true"
+                aria-label="Student menu"
+                id="student-menu-button"
               >
                 For Students
-                <ChevronDown className="ml-1 h-4 w-4" />
+                <ChevronDown
+                  className={`ml-1 h-4 w-4 transition-transform duration-200 ${
+                    isDropdownOpen ? 'rotate-180' : ''
+                  }`}
+                  aria-hidden="true"
+                />
               </button>
-              
+
               {isDropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 w-48 bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-xl shadow-2xl py-2 backdrop-blur-sm">
+                <div
+                  className="absolute top-full left-0 mt-2 w-48 bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-xl shadow-2xl py-2 backdrop-blur-sm"
+                  role="menu"
+                  aria-labelledby="student-menu-button"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') {
+                      setIsDropdownOpen(false);
+                    }
+                  }}
+                >
                   <Link
                     to="/student/signup"
-                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
+                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg focus-indicator"
                     onClick={() => setIsDropdownOpen(false)}
+                    role="menuitem"
+                    aria-label="Sign up as a student"
                   >
                     Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
-                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg"
+                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg focus-indicator"
                     onClick={() => setIsDropdownOpen(false)}
+                    role="menuitem"
+                    aria-label="Sign in as a student"
                   >
                     Sign In
                   </Link>
-
                 </div>
               )}
             </div>
