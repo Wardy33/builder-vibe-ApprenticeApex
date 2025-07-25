@@ -171,16 +171,16 @@ export default function Index() {
                     Video Interviews
                   </div>
                 </div>
-                <div className="flex gap-3">
+                <div className="button-group flex flex-col sm:flex-row gap-3">
                   <Link
                     to="/company/signup"
-                    className="flex-1 bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-[#00D4FF] hover:bg-[#00D4FF]/90 text-[#0A0E27] font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg touch-target min-h-[44px]"
                   >
                     Sign Up
                   </Link>
                   <Link
                     to="/company/signin"
-                    className="flex-1 border-2 border-white text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-white/20 transition-all duration-200 hover:scale-105"
+                    className="flex-1 border-2 border-white text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-white/20 transition-all duration-200 hover:scale-105 touch-target min-h-[44px]"
                   >
                     Sign In
                   </Link>
