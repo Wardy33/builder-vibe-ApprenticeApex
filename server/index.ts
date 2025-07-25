@@ -520,3 +520,75 @@ export const mockApprenticeships = [
     swipeStats: { totalSwipes: 65, rightSwipes: 28, leftSwipes: 37 },
   },
 ];
+
+// Export createServer function for serverless deployment
+export function createServer() {
+  const env = validateEnv();
+  const app = express();
+
+  // Trust proxy (important for serverless environments)
+  app.set('trust proxy', 1);
+
+  // Basic middleware
+  app.use(express.json({ limit: "10mb" }));
+  app.use(express.urlencoded({ extended: true, limit: "10mb" }));
+
+  // Database middleware with graceful degradation
+  app.use(databaseHealthCheck());
+  app.use(optimizeQueries());
+
+  // Security middleware for production
+  if (env.NODE_ENV === 'production') {
+    app.use(securityLogger());
+    app.use(helmetConfig);
+
+    // CORS for production
+    app.use((req: any, res: any, next: any) => {
+      const allowedOrigins = [env.FRONTEND_URL, 'https://app.builder.io'];
+      const origin = req.headers.origin;
+      if (allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+      }
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+      res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+      if (req.method === 'OPTIONS') {
+        res.sendStatus(200);
+        return;
+      }
+      next();
+    });
+  }
+
+  // Enhanced health check routes
+  app.use("/api/health", healthRoutes);
+
+  // Public routes
+  app.use("/api/auth", authRoutes);
+
+  // Protected routes (require authentication)
+  app.use("/api/users", authenticateToken, userRoutes);
+  app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
+  app.use("/api/applications", authenticateToken, applicationRoutes);
+  app.use("/api/messages", authenticateToken, messageRoutes);
+  app.use("/api/analytics", authenticateToken, analyticsRoutes);
+  app.use("/api/upload", authenticateToken, uploadRoutes);
+  app.use("/api/payments", paymentRoutes);
+  app.use("/api/stripe", stripeRoutes);
+  app.use("/api/interviews", authenticateToken, interviewRoutes);
+  app.use("/api/matching", authenticateToken, matchingRoutes);
+  app.use("/api/access-control", authenticateToken, accessControlRoutes);
+  app.use("/api/alerts", authenticateToken, alertRoutes);
+  app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
+  app.use("/api/contact", contactRoutes);
+  app.use("/api/emails", emailRoutes);
+
+  // Demo endpoints
+  app.get("/api/demo", authenticateToken, (req, res) => {
+    handleDemo(req, res);
+  });
+
+  // Global error handler
+  app.use(errorHandler);
+
+  return app;
+}
