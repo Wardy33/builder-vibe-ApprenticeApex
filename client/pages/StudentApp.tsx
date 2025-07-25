@@ -40,6 +40,7 @@ import {
   Lock,
 } from "lucide-react";
 import LiveChat from "../components/LiveChat";
+import OptimizedImage from "../components/OptimizedImage";
 
 // Helper function to check if application deadline has passed
 const isApplicationClosed = (closingDate: string) => {
