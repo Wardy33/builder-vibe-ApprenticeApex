@@ -377,18 +377,28 @@ export function VideoInterview({
     }
   }, []);
 
-  // Report technical issue
-  const reportTechnicalIssue = useCallback(async () => {
+  // Report technical issue to backend
+  const handleReportTechnicalIssue = useCallback(async () => {
     if (!issueDescription.trim()) return;
 
     try {
-      onTechnicalIssue?.(issueType, issueDescription);
-      setShowTechnicalIssueModal(false);
-      setIssueDescription('');
+      const success = await reportTechnicalIssue(interviewId, {
+        issueType,
+        description: issueDescription
+      });
+
+      if (success) {
+        setShowTechnicalIssueModal(false);
+        setIssueDescription('');
+        // Also notify parent component
+        onTechnicalIssue?.(issueType, issueDescription);
+      } else {
+        console.error('[VideoInterview] Failed to report technical issue to backend');
+      }
     } catch (error) {
       console.error('[VideoInterview] Report issue error:', error);
     }
-  }, [issueType, issueDescription, onTechnicalIssue]);
+  }, [issueType, issueDescription, interviewId, reportTechnicalIssue, onTechnicalIssue]);
 
   // Get connection quality indicator
   const getConnectionIndicator = () => {
