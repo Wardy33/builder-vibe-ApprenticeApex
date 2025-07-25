@@ -11,14 +11,64 @@ export default defineConfig(({ mode }) => ({
   },
   build: {
     outDir: "dist/spa",
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks - separate large dependencies
+          react: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          ui: [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-button',
+            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-accordion'
+          ],
+          icons: ['lucide-react'],
+          utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          forms: ['@hookform/resolvers', 'react-hook-form'],
+          charts: ['recharts'],
+          motion: ['framer-motion'],
+          three: ['three', '@react-three/fiber', '@react-three/drei']
+        }
+      }
+    },
+    chunkSizeWarningLimit: 1000,
+    target: 'esnext',
+    minify: 'esbuild',
+    sourcemap: false, // Disable sourcemaps for faster builds
+    reportCompressedSize: false, // Skip compressed size reporting
   },
-  plugins: [react(), ...(mode === "development" ? [expressPlugin()] : [])],
+  optimizeDeps: {
+    include: [
+      'react',
+      'react-dom',
+      'react-router-dom',
+      'lucide-react',
+      'clsx',
+      'tailwind-merge',
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-button'
+    ]
+  },
+  plugins: [
+    react({
+      // Optimize React plugin for faster builds
+      tsDecorators: true,
+    }),
+    ...(mode === "development" ? [expressPlugin()] : [])
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),
       "@shared": path.resolve(__dirname, "./shared"),
     },
   },
+  // Add define to reduce bundle size
+  define: {
+    'process.env.NODE_ENV': JSON.stringify(mode === 'production' ? 'production' : 'development'),
+  }
 }));
 
 function expressPlugin(): Plugin {
