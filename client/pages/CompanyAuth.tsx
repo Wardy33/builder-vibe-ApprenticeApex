@@ -686,3 +686,12 @@ export function CompanySignInForm() {
     </WebLayout>
   );
 }
+
+// Default export for lazy loading
+export default function CompanyAuth() {
+  const path = window.location.pathname;
+  if (path.includes('/signin')) {
+    return <CompanySignInForm />;
+  }
+  return <CompanySignUpForm />;
+}
