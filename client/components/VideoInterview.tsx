@@ -371,11 +371,19 @@ export function VideoInterview({
     }
   }, [callState.isScreenSharing]);
 
-  const leaveCall = useCallback(() => {
+  const leaveCall = useCallback(async () => {
     if (callFrameRef.current) {
-      callFrameRef.current.leave();
+      try {
+        // Notify backend before leaving
+        await leaveInterview(interviewId);
+        callFrameRef.current.leave();
+      } catch (error) {
+        console.error('[VideoInterview] Error leaving interview:', error);
+        // Still leave the call even if backend notification fails
+        callFrameRef.current.leave();
+      }
     }
-  }, []);
+  }, [interviewId, leaveInterview]);
 
   // Report technical issue to backend
   const handleReportTechnicalIssue = useCallback(async () => {
