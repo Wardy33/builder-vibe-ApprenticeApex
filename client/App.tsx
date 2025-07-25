@@ -46,28 +46,158 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
-        <Route path="/debug" element={<Debug />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/for-employers" element={<ForEmployers />} />
-        <Route path="/pricing" element={<ForEmployers />} />
-        <Route path="/browse-apprenticeships" element={<BrowseApprenticeships />} />
-        <Route path="/student-resources" element={<BrowseApprenticeships />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms-of-service" element={<TermsOfService />} />
-        <Route path="/cookie-policy" element={<CookiePolicy />} />
-        <Route path="/acceptable-use" element={<AcceptableUse />} />
-        <Route path="/student/signup" element={<SignUpForm />} />
-        <Route path="/student/signin" element={<SignInForm />} />
+        <Route
+          path="/debug"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Debug page" />}>
+              <Debug />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="About page" />}>
+              <About />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/contact"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Contact page" />}>
+              <Contact />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/for-employers"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Employers page" />}>
+              <ForEmployers />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/pricing"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Pricing page" />}>
+              <ForEmployers />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/browse-apprenticeships"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Browse apprenticeships" />}>
+              <BrowseApprenticeships />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/student-resources"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Student resources" />}>
+              <BrowseApprenticeships />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/privacy-policy"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Privacy policy" />}>
+              <PrivacyPolicy />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/terms-of-service"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Terms of service" />}>
+              <TermsOfService />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/cookie-policy"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Cookie policy" />}>
+              <CookiePolicy />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/acceptable-use"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Acceptable use policy" />}>
+              <AcceptableUse />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/student/signup"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Student signup" />}>
+              <StudentAuth />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/student/signin"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Student signin" />}>
+              <StudentAuth />
+            </Suspense>
+          }
+        />
         <Route
           path="/student/setup-profile"
-          element={<StudentProfileSetup />}
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Profile setup" />}>
+              <StudentProfileSetup />
+            </Suspense>
+          }
         />
-        <Route path="/student/*" element={<StudentApp />} />
-        <Route path="/company/signup" element={<CompanySignUpForm />} />
-        <Route path="/company/signin" element={<CompanySignInForm />} />
-        <Route path="/company/*" element={<CompanyPortal />} />
-        <Route path="*" element={<NotFound />} />
+        <Route
+          path="/student/*"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Student portal" />}>
+              <StudentApp />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/company/signup"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Company signup" />}>
+              <CompanyAuth />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/company/signin"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Company signin" />}>
+              <CompanyAuth />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/company/*"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Company portal" />}>
+              <CompanyPortal />
+            </Suspense>
+          }
+        />
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Page not found" />}>
+              <NotFound />
+            </Suspense>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
