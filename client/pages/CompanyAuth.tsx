@@ -582,6 +582,11 @@ export function CompanySignInForm() {
     setIsSubmitting(true);
 
     try {
+      console.log('Attempting company login to /api/auth/login with data:', {
+        email: formData.email,
+        role: 'company'
+      });
+
       const response = await apiClient.request('/api/auth/login', {
         method: 'POST',
         body: {
@@ -589,6 +594,8 @@ export function CompanySignInForm() {
           role: 'company'
         }
       });
+
+      console.log('Company login response:', response);
 
       if (response.error) {
         const errorMessage = response.error.error || 'Sign in failed';
