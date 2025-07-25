@@ -168,15 +168,13 @@ const invoiceSchema = new Schema<IInvoice>(
     userId: {
       type: String,
       required: true,
-      index: true,
     },
     subscriptionId: {
       type: String,
       required: true,
-      index: true,
     },
     paymentId: { type: String },
-    stripeInvoiceId: { type: String, index: true },
+    stripeInvoiceId: { type: String },
     invoiceNumber: {
       type: String,
       required: true,
@@ -196,7 +194,6 @@ const invoiceSchema = new Schema<IInvoice>(
       type: String,
       enum: ["draft", "open", "paid", "void", "uncollectible"],
       default: "draft",
-      index: true,
     },
     dueDate: {
       type: Date,
@@ -221,11 +218,7 @@ const invoiceSchema = new Schema<IInvoice>(
   },
 );
 
-// Indexes for performance
-subscriptionSchema.index({ userId: 1, status: 1 });
-paymentSchema.index({ userId: 1, createdAt: -1 });
-paymentSchema.index({ status: 1, createdAt: -1 });
-invoiceSchema.index({ userId: 1, status: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 export const Subscription = mongoose.models.Subscription || mongoose.model<ISubscription>(
   "Subscription",
