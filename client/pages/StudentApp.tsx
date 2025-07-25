@@ -39,6 +39,7 @@ import {
   Info,
   Lock,
 } from "lucide-react";
+import { apiClient } from "../lib/apiUtils";
 import LiveChat from "../components/LiveChat";
 import OptimizedImage from "../components/OptimizedImage";
 
