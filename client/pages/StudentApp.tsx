@@ -106,7 +106,70 @@ const SwipeCard = memo(({ apprenticeship, onSwipe, style }: {
       onMouseLeave={handleDragEnd}
       onTouchStart={handleTouchStart}
     >
-      {/* SwipeCard content will be moved here */}
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{ backgroundImage: `url(${apprenticeship.image})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+      </div>
+
+      {/* Content */}
+      <div className="relative h-full flex flex-col">
+        {/* Header Info */}
+        <div className="p-6 flex-1 flex flex-col justify-end text-white">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Building2 className="h-5 w-5 text-orange-400" />
+              <span className="text-sm font-medium text-orange-400">
+                {apprenticeship.company}
+              </span>
+            </div>
+
+            <h3 className="text-2xl font-bold leading-tight">
+              {apprenticeship.jobTitle}
+            </h3>
+
+            <div className="flex items-center gap-4 text-sm text-gray-300">
+              <div className="flex items-center gap-1">
+                <MapPin className="h-4 w-4" />
+                <span>{apprenticeship.location}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <Clock className="h-4 w-4" />
+                <span>{apprenticeship.duration}</span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 text-green-400 font-semibold">
+              <span>💰</span>
+              <span>{apprenticeship.salary}</span>
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="mt-4 p-4 bg-black/40 rounded-lg backdrop-blur-sm">
+            <p className="text-sm leading-relaxed mb-3">
+              {apprenticeship.description}
+            </p>
+
+            {/* Requirements */}
+            <div className="space-y-2">
+              <h4 className="text-sm font-semibold text-orange-400">Requirements:</h4>
+              <div className="flex flex-wrap gap-2">
+                {apprenticeship.requirements.slice(0, 3).map((req, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 bg-white/20 rounded-full text-xs"
+                  >
+                    {req}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 });
