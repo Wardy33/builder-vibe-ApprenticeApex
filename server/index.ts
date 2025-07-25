@@ -277,7 +277,8 @@ export async function connectToDatabase() {
     await dbConnect();
 
     // Initialize database indexes
-    await initializeIndexes();
+    // TODO: Temporarily disabled to prevent index conflicts
+    // await initializeIndexes();
 
     // Initialize alert system after database connection
     AlertService.initialize();
