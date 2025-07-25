@@ -2,6 +2,7 @@ import path from "path";
 import { createServer, connectToDatabase, config } from "./index";
 import { database } from "./config/database";
 import express from "express";
+import http from "http";
 
 async function startServer() {
   try {
