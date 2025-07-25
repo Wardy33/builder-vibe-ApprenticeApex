@@ -9,7 +9,7 @@ import rateLimit from "express-rate-limit";
 // Import production schemas and services
 import { User } from "../schemas/User";
 import EmailService from "../services/emailService";
-import emailTemplates from "../services/emailTemplates";
+import { emailTemplates } from "../services/emailTemplates";
 import { getEnvConfig } from "../config/env";
 
 const router = express.Router();
