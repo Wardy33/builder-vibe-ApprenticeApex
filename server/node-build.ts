@@ -7,7 +7,7 @@ import http from "http";
 async function startServer() {
   try {
     // Connect to production database
-    console.log('🔄 Initializing database connection...');
+    console.log("🔄 Initializing database connection...");
     const dbConnected = await connectToDatabase();
 
     if (!dbConnected && config.nodeEnv === "production") {
@@ -16,7 +16,7 @@ async function startServer() {
     }
 
     if (dbConnected) {
-      console.log('✅ Database connection established successfully');
+      console.log("✅ Database connection established successfully");
     }
 
     const app = createServer();
@@ -57,34 +57,38 @@ async function startServer() {
         // Close database connection
         await database.gracefulShutdown();
 
-        console.log('✅ Graceful shutdown completed');
+        console.log("✅ Graceful shutdown completed");
         process.exit(0);
       } catch (error) {
-        console.error('❌ Error during graceful shutdown:', error);
+        console.error("❌ Error during graceful shutdown:", error);
         process.exit(1);
       }
     };
 
-    process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-    process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+    process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
     // Handle uncaught exceptions
-    process.on('uncaughtException', async (error) => {
-      console.error('❌ Uncaught Exception:', error);
-      await gracefulShutdown('UNCAUGHT_EXCEPTION');
+    process.on("uncaughtException", async (error) => {
+      console.error("❌ Uncaught Exception:", error);
+      await gracefulShutdown("UNCAUGHT_EXCEPTION");
     });
 
-    process.on('unhandledRejection', async (reason, promise) => {
-      console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
-      await gracefulShutdown('UNHANDLED_REJECTION');
+    process.on("unhandledRejection", async (reason, promise) => {
+      console.error("❌ Unhandled Rejection at:", promise, "reason:", reason);
+      await gracefulShutdown("UNHANDLED_REJECTION");
     });
 
     httpServer.listen(config.port, () => {
       console.log(`🚀 ApprenticeApex server running on port ${config.port}`);
       console.log(`📱 Frontend: http://localhost:${config.port}`);
       console.log(`🔧 API: http://localhost:${config.port}/api`);
-      console.log(`🏥 Health Check: http://localhost:${config.port}/api/health`);
-      console.log(`🗄️ Database Health: http://localhost:${config.port}/api/health/database`);
+      console.log(
+        `🏥 Health Check: http://localhost:${config.port}/api/health`,
+      );
+      console.log(
+        `🗄️ Database Health: http://localhost:${config.port}/api/health/database`,
+      );
       console.log(`🌐 HTTP server initialized`);
       console.log(`🌍 Environment: ${config.nodeEnv}`);
 
@@ -93,7 +97,9 @@ async function startServer() {
       console.log(`🗄️ Database Status: ${dbStatus.status}`);
 
       if (dbStatus.poolSize && dbStatus.poolSize > 0) {
-        console.log(`🏊 Connection Pool: ${dbStatus.availableConnections}/${dbStatus.poolSize} available`);
+        console.log(
+          `🏊 Connection Pool: ${dbStatus.availableConnections}/${dbStatus.poolSize} available`,
+        );
       }
 
       if (config.mongoUri) {
@@ -102,21 +108,21 @@ async function startServer() {
         console.log(`📝 Database: Development mode (mock data fallback)`);
       }
 
-      console.log('🎯 Server startup completed successfully!');
+      console.log("🎯 Server startup completed successfully!");
     });
 
     // Server is ready for connections
 
     // Log server readiness
-    console.log('🎉 ApprenticeApex server is ready to handle requests!');
+    console.log("🎉 ApprenticeApex server is ready to handle requests!");
   } catch (error) {
-    console.error('❌ Failed to start server:', error);
+    console.error("❌ Failed to start server:", error);
 
     // Attempt database cleanup on startup failure
     try {
       await database.gracefulShutdown();
     } catch (cleanupError) {
-      console.error('❌ Error during cleanup:', cleanupError);
+      console.error("❌ Error during cleanup:", cleanupError);
     }
 
     process.exit(1);
