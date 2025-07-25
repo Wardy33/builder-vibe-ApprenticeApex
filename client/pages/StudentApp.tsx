@@ -181,15 +181,9 @@ const mockApprenticeship: Apprenticeship[] = [
 ];
 
 // SwipeCard component moved to top of file - removing duplicate
-function SwipeCardOld({
-  apprenticeship,
-  onSwipe,
-  style,
-}: {
-  apprenticeship: Apprenticeship;
-  onSwipe: (direction: "left" | "right") => void;
-  style?: React.CSSProperties;
-}) {
+// Duplicate SwipeCard function removed - using optimized version above
+
+function HomePage() {
   const [isDragging, setIsDragging] = useState(false);
   const [dragDistance, setDragDistance] = useState(0);
   const [showTransportModal, setShowTransportModal] = useState(false);
