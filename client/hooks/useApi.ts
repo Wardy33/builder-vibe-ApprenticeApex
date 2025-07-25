@@ -83,8 +83,8 @@ export function useAuth() {
     setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
-    const response = await apiClient.login(email, password);
+  const login = async (email: string, password: string, role?: 'student' | 'company') => {
+    const response = await apiClient.login(email, password, role);
     
     if (response.error) {
       throw new Error(response.error.error);
