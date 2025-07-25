@@ -6,7 +6,6 @@ import { initializeIndexes } from "./config/indexes";
 import { databaseMiddleware, databaseHealthCheck, optimizeQueries } from "./middleware/database";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import multer from "multer";
 import { createServer as createHttpServer } from "http";
 import dotenv from "dotenv";
 import session from "express-session";
@@ -224,7 +223,7 @@ export async function connectToDatabase() {
     // Check if MongoDB URI is provided
     if (!process.env.MONGODB_URI) {
       console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
-      console.log("🗄️  Database connection established (mock)");
+      console.log("🗄��  Database connection established (mock)");
       return true;
     }
 
