@@ -666,10 +666,12 @@ function HomePage() {
                 className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-200"
               >
                 <div className="flex items-start space-x-3">
-                  <img
+                  <OptimizedImage
                     src={application.image}
                     alt={application.company}
                     className="w-12 h-12 rounded-xl object-cover"
+                    width={48}
+                    height={48}
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-1">
