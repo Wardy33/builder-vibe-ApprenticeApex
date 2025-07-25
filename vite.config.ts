@@ -19,7 +19,6 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           ui: [
             '@radix-ui/react-dialog',
-            '@radix-ui/react-button',
             '@radix-ui/react-dropdown-menu',
             '@radix-ui/react-select',
             '@radix-ui/react-tabs',
