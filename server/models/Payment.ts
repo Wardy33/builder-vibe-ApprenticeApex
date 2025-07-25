@@ -120,11 +120,10 @@ const paymentSchema = new Schema<IPayment>(
     userId: {
       type: String,
       required: true,
-      index: true,
     },
-    subscriptionId: { type: String, index: true },
-    stripePaymentIntentId: { type: String, index: true },
-    stripeChargeId: { type: String, index: true },
+    subscriptionId: { type: String },
+    stripePaymentIntentId: { type: String },
+    stripeChargeId: { type: String },
     amount: {
       type: Number,
       required: true,
@@ -139,7 +138,6 @@ const paymentSchema = new Schema<IPayment>(
       type: String,
       enum: ["pending", "succeeded", "failed", "cancelled", "refunded"],
       default: "pending",
-      index: true,
     },
     type: {
       type: String,
