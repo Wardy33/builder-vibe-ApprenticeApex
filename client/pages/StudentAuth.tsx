@@ -346,7 +346,7 @@ function SignInForm() {
 
   const { submit, loading, error, clearError } = useFormSubmission(
     async (data: typeof formData) => {
-      return await login(data.email, data.password);
+      return await login(data.email, data.password, 'student');
     },
     {
       onSuccess: () => {
