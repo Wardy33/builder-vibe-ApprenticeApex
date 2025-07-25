@@ -80,7 +80,7 @@ export function WebHeader() {
                     setIsDropdownOpen(!isDropdownOpen);
                   }
                 }}
-                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10 focus-indicator"
+                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-4 py-3 rounded-xl hover:bg-white/10 min-h-[44px]"
                 aria-expanded={isDropdownOpen}
                 aria-haspopup="true"
                 aria-label="Student menu"
