@@ -63,9 +63,9 @@ export interface ISuccessFee extends Document {
 }
 
 const successFeeSchema = new Schema<ISuccessFee>({
-  employerId: { type: String, required: true, index: true },
-  studentId: { type: String, required: true, index: true },
-  apprenticeshipId: { type: String, index: true },
+  employerId: { type: String, required: true },
+  studentId: { type: String, required: true },
+  apprenticeshipId: { type: String },
   
   feeType: { 
     type: String, 
