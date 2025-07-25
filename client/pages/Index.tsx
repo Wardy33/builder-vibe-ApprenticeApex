@@ -279,17 +279,17 @@ export default function Index() {
                 Join thousands of students who have found their perfect apprenticeship match.
                 Get started today and take the first step towards your career
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="button-group flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   to="/student/signup"
-                  className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-200 hover:scale-105"
+                  className="inline-flex items-center justify-center px-8 py-4 bg-[#00D4FF] text-[#0A0E27] font-bold rounded-xl hover:bg-[#00D4FF]/90 transition-all duration-200 hover:scale-105 touch-target min-h-[48px]"
                 >
                   Sign Up as Student
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
                 <Link
                   to="/for-employers"
-                  className="inline-flex items-center justify-center px-8 py-4 border-2 border-white text-white font-bold rounded-xl hover:bg-white/20 transition-all duration-200 hover:scale-105"
+                  className="inline-flex items-center justify-center px-8 py-4 border-2 border-[#00D4FF] text-[#00D4FF] font-bold rounded-xl hover:bg-[#00D4FF]/10 transition-all duration-200 hover:scale-105 touch-target min-h-[48px]"
                 >
                   Post Opportunities
                 </Link>
