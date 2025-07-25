@@ -223,12 +223,12 @@ export async function connectToDatabase() {
     // Check if MongoDB URI is provided
     if (!process.env.MONGODB_URI) {
       console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
-      console.log("🗄��  Database connection established (mock)");
+      console.log("🗄️  Database connection established (mock)");
       return true;
     }
 
     // Connect to production MongoDB
-    await database.connect();
+    await dbConnect();
 
     // Initialize database indexes
     await initializeIndexes();
