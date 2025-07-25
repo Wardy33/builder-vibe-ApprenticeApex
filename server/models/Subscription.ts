@@ -52,7 +52,7 @@ export interface ISubscription extends Document {
 }
 
 const subscriptionSchema = new Schema<ISubscription>({
-  employerId: { type: String, required: true, index: true },
+  employerId: { type: String, required: true },
   planType: { 
     type: String, 
     enum: ['trial', 'starter', 'professional', 'business', 'enterprise'],
@@ -123,11 +123,7 @@ const subscriptionSchema = new Schema<ISubscription>({
   timestamps: true
 });
 
-// Indexes
-subscriptionSchema.index({ employerId: 1 });
-subscriptionSchema.index({ status: 1 });
-subscriptionSchema.index({ nextBillingDate: 1 });
-subscriptionSchema.index({ trialEndDate: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 // Static methods
 subscriptionSchema.statics.createTrialSubscription = async function(employerId: string) {
