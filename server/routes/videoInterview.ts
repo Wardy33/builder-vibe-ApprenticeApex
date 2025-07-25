@@ -2,7 +2,7 @@ import express from 'express';
 import { body, param, validationResult } from 'express-validator';
 import { authenticateToken, requireRole } from '../middleware/auth';
 import { videoService } from '../services/videoService';
-import { VideoCall } from '../models/VideoCall';
+import VideoCall from '../models/VideoCall';
 import { Application } from '../models/Application';
 import { Apprenticeship } from '../models/Apprenticeship';
 import { User } from '../models/User';
