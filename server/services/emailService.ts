@@ -4,6 +4,12 @@ import { User } from '../schemas/User.js';
 import { Payment } from '../schemas/Payment.js';
 import { Application } from '../schemas/Application.js';
 import { Apprenticeship } from '../schemas/Apprenticeship.js';
+import {
+  emailTemplates,
+  InterviewInvitationData,
+  InterviewCancellationData,
+  InterviewReminderData
+} from './emailTemplates';
 
 export interface EmailOptions {
   to: string | string[];
