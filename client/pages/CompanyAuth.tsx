@@ -108,15 +108,19 @@ export function CompanySignUpForm() {
       const response = await apiClient.companySignup(formData);
 
       if (response.error) {
-        alert(response.error.error || 'Registration failed');
+        const errorMessage = response.error.error || 'Registration failed';
+        console.error('Company signup error:', errorMessage);
+        alert(`Registration failed: ${errorMessage}`);
       } else {
         // Use consistent token storage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+        console.log('Company registration successful, redirecting to /company');
         navigate('/company');
       }
     } catch (error) {
-      alert('Registration failed. Please try again.');
+      console.error('Company signup exception:', error);
+      alert('Registration failed. Please check your internet connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -587,15 +591,19 @@ export function CompanySignInForm() {
       });
 
       if (response.error) {
-        alert(response.error.error || 'Sign in failed');
+        const errorMessage = response.error.error || 'Sign in failed';
+        console.error('Company signin error:', errorMessage);
+        alert(`Sign in failed: ${errorMessage}`);
       } else {
         // Use consistent token storage
         localStorage.setItem('authToken', response.data.token);
         localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+        console.log('Company login successful, redirecting to /company');
         navigate('/company');
       }
     } catch (error) {
-      alert('Sign in failed. Please try again.');
+      console.error('Company signin exception:', error);
+      alert('Sign in failed. Please check your internet connection and try again.');
     } finally {
       setIsSubmitting(false);
     }
