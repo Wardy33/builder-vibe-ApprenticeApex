@@ -577,26 +577,26 @@ function JobsPage() {
     const loadApprenticeships = async () => {
       setLoading(true);
       try {
-        const response = await fetch('/api/apprenticeships/discover');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.apprenticeships && data.apprenticeships.length > 0) {
-            // Transform API data to match our interface
-            const transformedData = data.apprenticeships.map((app: any, index: number) => ({
-              id: app._id || `api_${index}`,
-              jobTitle: app.jobTitle,
-              company: app.companyName || app.company,
-              industry: app.industry,
-              location: app.location?.city || app.location,
-              distance: `${(Math.random() * 5 + 0.5).toFixed(1)} miles`, // TODO: Calculate real distance
-              duration: app.duration || "3 years",
-              description: app.description,
-              requirements: app.requirements || [],
-              salary: app.salary || "£18,000 - £25,000",
-              image: app.image || `https://images.unsplash.com/photo-148631233821${index % 10}9-ce68d2c6f44d?w=400&h=600&fit=crop`,
-            }));
-            setApprenticeships(transformedData);
-          }
+        const response = await apiClient.discoverApprenticeships();
+        if (response.data && response.data.length > 0) {
+          // Transform API data to match our interface
+          const transformedData = response.data.map((app: any, index: number) => ({
+            id: app._id || app.id || `api_${index}`,
+            jobTitle: app.jobTitle,
+            company: app.companyName || app.company?.name || app.company,
+            industry: app.industry,
+            location: app.location?.city || app.location,
+            distance: app.distance ? `${app.distance.toFixed(1)} miles` : `${(Math.random() * 5 + 0.5).toFixed(1)} miles`,
+            duration: app.formattedDuration || app.duration || "3 years",
+            description: app.description,
+            requirements: app.requirements || [],
+            salary: app.formattedSalary || app.salary || "£18,000 - £25,000",
+            image: app.thumbnailImage || app.image || `https://images.unsplash.com/photo-148631233821${index % 10}9-ce68d2c6f44d?w=400&h=600&fit=crop`,
+          }));
+          setApprenticeships(transformedData);
+        } else if (response.error) {
+          console.error('Failed to load apprenticeships:', response.error);
+          // Keep using mock data if API fails
         }
       } catch (error) {
         console.error('Failed to load apprenticeships from API, using mock data:', error);
