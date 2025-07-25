@@ -596,11 +596,13 @@ function JobsPage() {
           }));
           setApprenticeships(transformedData);
         } else if (response.error) {
-          console.error('Failed to load apprenticeships:', response.error);
+          const errorMessage = response.error?.error || JSON.stringify(response.error) || 'Unknown error';
+          console.error('Failed to load apprenticeships:', errorMessage);
           // Keep using mock data if API fails
         }
       } catch (error) {
-        console.error('Failed to load apprenticeships from API, using mock data:', error);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error('Failed to load apprenticeships from API, using mock data:', errorMessage);
         // Keep using mock data as fallback
       } finally {
         setLoading(false);
