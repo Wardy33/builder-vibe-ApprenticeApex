@@ -14,26 +14,65 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Vendor chunks - separate large dependencies
-          react: ['react', 'react-dom'],
-          router: ['react-router-dom'],
-          ui: [
+          // Core React - Critical path
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-router': ['react-router-dom'],
+
+          // UI Library - Split by usage frequency
+          'vendor-ui-core': [
             '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu',
+            '@radix-ui/react-dropdown-menu'
+          ],
+          'vendor-ui-extended': [
             '@radix-ui/react-select',
             '@radix-ui/react-tabs',
-            '@radix-ui/react-accordion'
+            '@radix-ui/react-accordion',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-alert-dialog'
           ],
-          icons: ['lucide-react'],
-          utils: ['clsx', 'tailwind-merge', 'class-variance-authority'],
-          forms: ['@hookform/resolvers', 'react-hook-form'],
-          charts: ['recharts'],
-          motion: ['framer-motion'],
-          three: ['three', '@react-three/fiber', '@react-three/drei']
+
+          // Icons - Heavy dependency
+          'vendor-icons': ['lucide-react'],
+
+          // Utilities - Lightweight
+          'vendor-utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+
+          // Forms - Only if used
+          'vendor-forms': ['@hookform/resolvers', 'react-hook-form'],
+
+          // Charts - Lazy loaded
+          'vendor-charts': ['recharts'],
+
+          // Date utilities
+          'vendor-date': ['date-fns'],
+
+          // Socket.io for real-time features
+          'vendor-socket': ['socket.io-client']
+        },
+
+        // Optimize chunk naming for better caching
+        chunkFileNames: (chunkInfo) => {
+          const facadeModuleId = chunkInfo.facadeModuleId
+            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '')
+            : 'chunk';
+          return `${facadeModuleId}-[hash].js`;
+        },
+
+        // Optimize asset naming
+        assetFileNames: (assetInfo) => {
+          const info = assetInfo.name?.split('.') || [];
+          const ext = info[info.length - 1];
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext ?? '')) {
+            return `assets/images/[name]-[hash][extname]`;
+          }
+          if (/css/i.test(ext ?? '')) {
+            return `assets/css/[name]-[hash][extname]`;
+          }
+          return `assets/[name]-[hash][extname]`;
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 500,
     target: 'esnext',
     minify: 'esbuild',
     sourcemap: false, // Disable sourcemaps for faster builds
@@ -47,7 +86,13 @@ export default defineConfig(({ mode }) => ({
       'lucide-react',
       'clsx',
       'tailwind-merge',
-      '@radix-ui/react-dialog'
+      '@radix-ui/react-dialog',
+      '@radix-ui/react-dropdown-menu'
+    ],
+    exclude: [
+      'recharts', // Lazy load heavy chart library
+      '@react-three/fiber', // Lazy load 3D library if used
+      'framer-motion' // Lazy load animation library
     ]
   },
   plugins: [
