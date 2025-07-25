@@ -1,8 +1,9 @@
 import express from "express";
 import { body, query, validationResult } from "express-validator";
-import { AuthenticatedRequest, requireCompanyRole } from "../middleware/auth";
+import { AuthenticatedRequest, requireCompanyRole, authenticateToken } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { mockApprenticeships } from "../index";
+import { database } from "../config/database";
 
 const router = express.Router();
 
