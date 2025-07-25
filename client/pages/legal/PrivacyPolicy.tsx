@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
             Privacy Policy
           </h1>
           
-          <div className="rounded-xl p-2 mb-8" className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
+          <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
             <p className="text-gray-300 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
@@ -46,7 +46,7 @@ export default function PrivacyPolicy() {
               {/* Data Controller */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>2. Data Controller</h2>
-                <div className="rounded-lg p-6" className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
+                <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
                   <p className="text-gray-300 leading-relaxed mb-2">
                     <strong>ApprenticeApex Ltd</strong><br />
                     Registered in England and Wales<br />
@@ -59,7 +59,7 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>3. Information We Collect</h2>
                 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">3.1 Personal Information</h3>
+                <h3 className="text-white">3.1 Personal Information</h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   When you register and use our Service, we collect:
                 </p>
@@ -73,7 +73,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Qualification Data:</strong> Educational qualifications, certifications, driving license status</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">3.2 Professional Information</h3>
+                <h3 className="text-white">3.2 Professional Information</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li><strong>CVs and Documents:</strong> Uploaded CVs, certificates, portfolio items</li>
                   <li><strong>Video Profiles:</strong> 30-second introduction videos (optional)</li>
@@ -81,7 +81,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Company Information:</strong> For employers - company name, industry, job postings, company logo</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">3.3 Technical Information</h3>
+                <h3 className="text-white">3.3 Technical Information</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li><strong>Usage Data:</strong> How you interact with our platform, pages visited, time spent</li>
                   <li><strong>Device Data:</strong> IP address, browser type, device type, operating system</li>
@@ -89,7 +89,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Communication Data:</strong> Messages sent through our platform, video call logs</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">3.4 Sensitive Personal Data</h3>
+                <h3 className="text-white">3.4 Sensitive Personal Data</h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   We may collect limited sensitive personal data only where necessary and with your explicit consent:
                 </p>
@@ -103,7 +103,7 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>4. How We Use Your Information</h2>
                 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">4.1 Primary Purposes</h3>
+                <h3 className="text-white">4.1 Primary Purposes</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li><strong>Matching Services:</strong> Using our AI algorithm to match students with suitable apprenticeship opportunities</li>
                   <li><strong>Account Management:</strong> Creating and managing your account, authentication, customer support</li>
@@ -112,7 +112,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Payment Processing:</strong> Processing subscription fees and premium services (for employers)</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">4.2 Service Improvement</h3>
+                <h3 className="text-white">4.2 Service Improvement</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li>Analyzing usage patterns to improve our matching algorithm</li>
                   <li>Conducting research to enhance user experience</li>
@@ -120,7 +120,7 @@ export default function PrivacyPolicy() {
                   <li>Quality assurance and testing</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">4.3 Legal and Security</h3>
+                <h3 className="text-white">4.3 Legal and Security</h3>
                 <ul className="text-gray-300 space-y-2 mb-6 list-disc list-inside">
                   <li>Complying with legal obligations and regulatory requirements</li>
                   <li>Detecting and preventing fraud, abuse, or security breaches</li>
@@ -148,7 +148,7 @@ export default function PrivacyPolicy() {
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>6. How We Share Your Information</h2>
                 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">6.1 With Employers (Students)</h3>
+                <h3 className="text-white">6.1 With Employers (Students)</h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   When you apply for apprenticeships or match with employers, we share relevant profile information including:
                 </p>
@@ -160,7 +160,7 @@ export default function PrivacyPolicy() {
                   <li>Match percentage and compatibility factors</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">6.2 With Students (Employers)</h3>
+                <h3 className="text-white">6.2 With Students (Employers)</h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   When students match with your opportunities, we share:
                 </p>
@@ -170,7 +170,7 @@ export default function PrivacyPolicy() {
                   <li>Application and interview feedback</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">6.3 Service Providers</h3>
+                <h3 className="text-white">6.3 Service Providers</h3>
                 <p className="text-gray-300 leading-relaxed mb-4">
                   We work with trusted third-party service providers who help us operate our platform:
                 </p>
@@ -183,7 +183,7 @@ export default function PrivacyPolicy() {
                   <li><strong>Customer Support:</strong> To provide user assistance</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold mb-3" className="text-white">6.4 Legal Requirements</h3>
+                <h3 className="text-white">6.4 Legal Requirements</h3>
                 <p className="text-gray-300 leading-relaxed mb-6">
                   We may disclose your information when required by law, court order, or to protect our rights, 
                   prevent fraud, or ensure public safety.
@@ -301,7 +301,7 @@ export default function PrivacyPolicy() {
               {/* Contact */}
               <section>
                 <h2 className="text-2xl font-bold mb-4" style={{color: '#da6927'}}>14. Contact Us</h2>
-                <div className="rounded-lg p-6" className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
+                <div className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
                   <p className="text-gray-300 leading-relaxed mb-4">
                     If you have questions about this Privacy Policy or our data practices, please contact us:
                   </p>
