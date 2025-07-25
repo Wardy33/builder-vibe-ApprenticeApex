@@ -30,7 +30,7 @@ router.post('/schedule', authenticateToken, requireRole(['company']), validateSc
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json(createResponse(null, 'Validation failed', errors.array()));
+      return sendError(res, 'Validation failed', 400);
     }
 
     const { applicationId, scheduledAt, duration = 60 } = req.body;
@@ -42,13 +42,13 @@ router.post('/schedule', authenticateToken, requireRole(['company']), validateSc
       .populate('apprenticeshipId');
 
     if (!application) {
-      return res.status(404).json(createResponse(null, 'Application not found'));
+      return sendError(res, 'Application not found', 404);
     }
 
     // Verify employer owns the apprenticeship
     const apprenticeship = await Apprenticeship.findById(application.apprenticeshipId);
     if (!apprenticeship || apprenticeship.companyId.toString() !== employerId) {
-      return res.status(403).json(createResponse(null, 'Unauthorized to schedule interview for this application'));
+      return sendError(res, 'Unauthorized to schedule interview for this application', 403);
     }
 
     // Check if interview already exists
