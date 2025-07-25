@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
 import {
   Routes,
   Route,
@@ -50,6 +50,65 @@ const isApplicationClosed = (closingDate: string) => {
   deadline.setHours(0, 0, 0, 0);
   return deadline < today;
 };
+
+// Memoized SwipeCard component for better performance
+const SwipeCard = memo(({ apprenticeship, onSwipe, style }: {
+  apprenticeship: Apprenticeship;
+  onSwipe: (direction: "left" | "right") => void;
+  style?: React.CSSProperties;
+}) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragDistance, setDragDistance] = useState(0);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  const handleDragStart = useCallback(() => {
+    setIsDragging(true);
+  }, []);
+
+  const handleDrag = useCallback((e: React.MouseEvent) => {
+    if (!isDragging) return;
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (rect) {
+      const distance = e.clientX - (rect.left + rect.width / 2);
+      setDragDistance(distance);
+    }
+  }, [isDragging]);
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+    if (Math.abs(dragDistance) > 100) {
+      onSwipe(dragDistance > 0 ? "right" : "left");
+    }
+    setDragDistance(0);
+  }, [dragDistance, onSwipe]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+    e.preventDefault();
+    handleDragStart();
+  }, [handleDragStart]);
+
+  const cardStyle = useMemo(() => ({
+    ...style,
+    transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.1}deg)`,
+    opacity: 1 - Math.abs(dragDistance) * 0.002,
+    cursor: isDragging ? "grabbing" : "grab",
+  }), [style, dragDistance, isDragging]);
+
+  return (
+    <div
+      ref={cardRef}
+      className="swipe-card absolute bg-white rounded-2xl shadow-2xl border border-gray-100 w-full h-[480px] sm:h-[520px] overflow-hidden select-none"
+      style={cardStyle}
+      onMouseDown={handleDragStart}
+      onMouseMove={handleDrag}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+      onTouchStart={handleTouchStart}
+    >
+      {/* SwipeCard content will be moved here */}
+    </div>
+  );
+});
 
 interface Apprenticeship {
   id: string;
