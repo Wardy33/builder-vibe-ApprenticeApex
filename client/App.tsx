@@ -215,21 +215,40 @@ function App() {
   );
 }
 
-const container = document.getElementById("root");
-if (container) {
-  // Store root instance globally to prevent recreation during HMR
-  let root = (globalThis as any).__reactRoot;
-
-  if (!root) {
-    root = createRoot(container);
-    (globalThis as any).__reactRoot = root;
+// Initialize React app safely
+function initializeApp() {
+  const container = document.getElementById("root");
+  if (!container) {
+    console.error('Root container not found');
+    return;
   }
 
-  root.render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  );
+  try {
+    // Store root instance globally to prevent recreation during HMR
+    let root = (globalThis as any).__reactRoot;
+
+    if (!root) {
+      root = createRoot(container);
+      (globalThis as any).__reactRoot = root;
+    }
+
+    root.render(
+      <StrictMode>
+        <App />
+      </StrictMode>,
+    );
+  } catch (error) {
+    console.error('Failed to initialize React app:', error);
+    // Fallback: show basic error message
+    container.innerHTML = '<div style="padding: 20px; color: red;">App failed to load. Please refresh the page.</div>';
+  }
+}
+
+// Initialize when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
 }
 
 export default App;
