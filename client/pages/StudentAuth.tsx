@@ -50,6 +50,14 @@ function SignUpForm() {
     {
       onSuccess: () => {
         navigate("/student/setup-profile");
+      },
+      onError: (errorMessage: string) => {
+        // Provide user-friendly error messages
+        if (errorMessage.includes('503')) {
+          console.error('Service temporarily unavailable. Using development mode.');
+        } else if (errorMessage.includes('404')) {
+          console.error('Registration endpoint not found. Please check your network connection.');
+        }
       }
     }
   );
