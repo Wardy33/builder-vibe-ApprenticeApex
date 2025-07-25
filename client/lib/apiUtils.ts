@@ -45,7 +45,11 @@ class ApiClient {
 
   private getAuthToken(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem('authToken');
+      const token = localStorage.getItem('authToken');
+      if (!token) {
+        console.warn('No auth token found in localStorage');
+      }
+      return token;
     }
     return null;
   }
