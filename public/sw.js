@@ -1,0 +1,269 @@
+// ApprenticeApex Service Worker for Performance Optimization
+// Implements caching strategies for static assets and API responses
+
+const CACHE_NAME = 'apprenticeapex-v1.0.0';
+const STATIC_CACHE = 'apprenticeapex-static-v1.0.0';
+const DYNAMIC_CACHE = 'apprenticeapex-dynamic-v1.0.0';
+
+// Assets to cache on install
+const STATIC_ASSETS = [
+  '/',
+  '/index.html',
+  '/global.css',
+  '/accessibility.css',
+  // Add critical CSS and JS files as they are built
+];
+
+// API endpoints to cache with specific strategies
+const API_CACHE_PATTERNS = [
+  /^\/api\/health/,
+  /^\/api\/test/,
+  /^\/api\/apprenticeships\/browse/,
+  /^\/api\/company\/search/
+];
+
+// Install event - cache static assets
+self.addEventListener('install', (event) => {
+  console.log('[SW] Installing service worker...');
+  
+  event.waitUntil(
+    Promise.all([
+      caches.open(STATIC_CACHE).then((cache) => {
+        console.log('[SW] Caching static assets');
+        return cache.addAll(STATIC_ASSETS);
+      }),
+      // Force immediate activation
+      self.skipWaiting()
+    ])
+  );
+});
+
+// Activate event - clean up old caches
+self.addEventListener('activate', (event) => {
+  console.log('[SW] Activating service worker...');
+  
+  event.waitUntil(
+    Promise.all([
+      // Clean up old caches
+      caches.keys().then((cacheNames) => {
+        return Promise.all(
+          cacheNames.map((cacheName) => {
+            if (cacheName !== STATIC_CACHE && 
+                cacheName !== DYNAMIC_CACHE && 
+                cacheName !== CACHE_NAME) {
+              console.log('[SW] Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+      }),
+      // Take control of all clients immediately
+      self.clients.claim()
+    ])
+  );
+});
+
+// Fetch event - implement caching strategies
+self.addEventListener('fetch', (event) => {
+  const { request } = event;
+  const url = new URL(request.url);
+  
+  // Skip non-GET requests
+  if (request.method !== 'GET') {
+    return;
+  }
+  
+  // Handle different types of requests with appropriate strategies
+  if (isStaticAsset(url)) {
+    event.respondWith(handleStaticAsset(request));
+  } else if (isAPIRequest(url)) {
+    event.respondWith(handleAPIRequest(request));
+  } else if (isImageRequest(url)) {
+    event.respondWith(handleImageRequest(request));
+  } else {
+    event.respondWith(handlePageRequest(request));
+  }
+});
+
+// Check if request is for static asset
+function isStaticAsset(url) {
+  return url.pathname.match(/\.(css|js|woff2?|ttf|eot|ico|png|jpg|jpeg|gif|svg|webp|avif)$/);
+}
+
+// Check if request is API call
+function isAPIRequest(url) {
+  return url.pathname.startsWith('/api/');
+}
+
+// Check if request is for image
+function isImageRequest(url) {
+  return url.pathname.match(/\.(png|jpg|jpeg|gif|svg|webp|avif)$/);
+}
+
+// Handle static assets - Cache First strategy
+async function handleStaticAsset(request) {
+  try {
+    const cache = await caches.open(STATIC_CACHE);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      // Return cached version immediately
+      console.log('[SW] Serving from cache:', request.url);
+      return cached;
+    }
+    
+    // Fetch and cache if not found
+    const response = await fetch(request);
+    if (response.status === 200) {
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    console.log('[SW] Static asset fetch failed:', error);
+    // Return offline fallback if available
+    return new Response('Asset not available offline', { status: 503 });
+  }
+}
+
+// Handle API requests - Network First with cache fallback
+async function handleAPIRequest(request) {
+  try {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    
+    // Try network first
+    try {
+      const response = await fetch(request);
+      
+      // Cache successful GET responses for specific endpoints
+      if (response.status === 200 && shouldCacheAPI(request.url)) {
+        cache.put(request, response.clone());
+      }
+      
+      return response;
+    } catch (networkError) {
+      // Network failed, try cache
+      console.log('[SW] Network failed, checking cache for:', request.url);
+      const cached = await cache.match(request);
+      
+      if (cached) {
+        console.log('[SW] Serving API from cache:', request.url);
+        return cached;
+      }
+      
+      // Return error response
+      return new Response(
+        JSON.stringify({ 
+          error: 'Network unavailable', 
+          offline: true 
+        }), 
+        { 
+          status: 503,
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+    }
+  } catch (error) {
+    console.log('[SW] API request failed:', error);
+    return new Response('Service unavailable', { status: 503 });
+  }
+}
+
+// Handle image requests - Cache First with network fallback
+async function handleImageRequest(request) {
+  try {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    const cached = await cache.match(request);
+    
+    if (cached) {
+      return cached;
+    }
+    
+    // Fetch from network
+    const response = await fetch(request);
+    if (response.status === 200) {
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch (error) {
+    console.log('[SW] Image fetch failed:', error);
+    // Return placeholder or empty response
+    return new Response('Image not available', { status: 503 });
+  }
+}
+
+// Handle page requests - Network First for HTML
+async function handlePageRequest(request) {
+  try {
+    const cache = await caches.open(DYNAMIC_CACHE);
+    
+    // Try network first
+    try {
+      const response = await fetch(request);
+      
+      // Cache successful HTML responses
+      if (response.status === 200 && response.headers.get('content-type')?.includes('text/html')) {
+        cache.put(request, response.clone());
+      }
+      
+      return response;
+    } catch (networkError) {
+      // Network failed, try cache
+      const cached = await cache.match(request);
+      
+      if (cached) {
+        return cached;
+      }
+      
+      // Return offline page or index.html as fallback
+      const indexCache = await cache.match('/');
+      if (indexCache) {
+        return indexCache;
+      }
+      
+      return new Response('Page not available offline', { 
+        status: 503,
+        headers: { 'Content-Type': 'text/html' }
+      });
+    }
+  } catch (error) {
+    console.log('[SW] Page request failed:', error);
+    return new Response('Page not available', { status: 503 });
+  }
+}
+
+// Check if API endpoint should be cached
+function shouldCacheAPI(url) {
+  return API_CACHE_PATTERNS.some(pattern => pattern.test(url));
+}
+
+// Listen for messages from main thread
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  
+  if (event.data && event.data.type === 'GET_VERSION') {
+    event.ports[0].postMessage({ version: CACHE_NAME });
+  }
+  
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => caches.delete(cacheName))
+      );
+    }).then(() => {
+      event.ports[0].postMessage({ success: true });
+    });
+  }
+});
+
+// Handle errors
+self.addEventListener('error', (event) => {
+  console.error('[SW] Service worker error:', event.error);
+});
+
+self.addEventListener('unhandledrejection', (event) => {
+  console.error('[SW] Unhandled promise rejection:', event.reason);
+});
+
+console.log('[SW] Service worker loaded successfully');
