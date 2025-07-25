@@ -231,12 +231,7 @@ const VideoCallSchema = new Schema<IVideoCall>({
   toObject: { virtuals: true }
 });
 
-// Indexes for performance
-VideoCallSchema.index({ scheduledAt: 1, status: 1 });
-VideoCallSchema.index({ employerId: 1, status: 1 });
-VideoCallSchema.index({ studentId: 1, status: 1 });
-VideoCallSchema.index({ dataRetentionDate: 1 }); // For automated cleanup
-VideoCallSchema.index({ createdAt: -1 }); // For recent interviews
+// Indexes are managed centrally in server/config/indexes.ts
 
 // Virtual for calculated fields
 VideoCallSchema.virtual('isActive').get(function() {
