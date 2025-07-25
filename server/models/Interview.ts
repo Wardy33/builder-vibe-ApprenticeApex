@@ -154,10 +154,7 @@ const interviewSchema = new Schema<IInterview>(
   },
 );
 
-// Indexes for performance
-interviewSchema.index({ scheduledDateTime: 1, status: 1 });
-interviewSchema.index({ studentId: 1, scheduledDateTime: -1 });
-interviewSchema.index({ companyId: 1, scheduledDateTime: -1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 export const Interview = mongoose.models.Interview || mongoose.model<IInterview>(
   "Interview",
