@@ -87,6 +87,15 @@ export function VideoInterview({
 }: VideoInterviewProps) {
   const callFrameRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const {
+    joinInterview,
+    leaveInterview,
+    reportTechnicalIssue,
+    getInterviewDetails,
+    loading: apiLoading,
+    error: apiError
+  } = useVideoInterview();
+
   const [callState, setCallState] = useState<CallState>({
     isConnected: false,
     isJoined: false,
@@ -98,10 +107,38 @@ export function VideoInterview({
     connectionQuality: 'good',
     error: null
   });
-  
+
   const [showTechnicalIssueModal, setShowTechnicalIssueModal] = useState(false);
   const [issueDescription, setIssueDescription] = useState('');
   const [issueType, setIssueType] = useState<'connection' | 'quality' | 'other'>('connection');
+  const [interviewData, setInterviewData] = useState<any>(null);
+
+  // Initialize interview data from backend
+  useEffect(() => {
+    const initializeInterview = async () => {
+      try {
+        const details = await getInterviewDetails(interviewId);
+        if (details) {
+          setInterviewData(details);
+          // Use fresh meeting token from backend
+          if (details.meetingToken) {
+            initializeCall(details.roomUrl, details.meetingToken);
+          }
+        }
+      } catch (error) {
+        console.error('[VideoInterview] Failed to initialize:', error);
+        setCallState(prev => ({
+          ...prev,
+          isLoading: false,
+          error: 'Failed to initialize video interview'
+        }));
+      }
+    };
+
+    if (interviewId) {
+      initializeInterview();
+    }
+  }, [interviewId, getInterviewDetails]);
 
   // Initialize Daily.co call frame
   useEffect(() => {
