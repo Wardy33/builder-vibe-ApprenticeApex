@@ -144,11 +144,7 @@ const successFeeSchema = new Schema<ISuccessFee>({
   timestamps: true,
 });
 
-// Indexes for efficient queries
-successFeeSchema.index({ employerId: 1, paymentStatus: 1 });
-successFeeSchema.index({ dueDate: 1, paymentStatus: 1 });
-successFeeSchema.index({ exclusivePeriodEnd: 1 });
-successFeeSchema.index({ bypassDetected: 1 });
+// Indexes are managed centrally in server/config/indexes.ts
 
 // Static methods
 successFeeSchema.statics.createSuccessFee = async function(
