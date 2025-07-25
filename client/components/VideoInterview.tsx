@@ -690,4 +690,4 @@ export function VideoInterview({
   );
 }
 
-export default VideoInterview;
+export default memo(VideoInterview);
