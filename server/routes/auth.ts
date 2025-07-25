@@ -24,10 +24,8 @@ const router = express.Router();
 const registerValidation = [
   body("email").isEmail().normalizeEmail(),
   body("password")
-    .isLength({ min: 8 })
-    .withMessage("Password must be at least 8 characters")
-    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/)
-    .withMessage("Password must contain at least one lowercase letter, one uppercase letter, and one number"),
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters"),
   body("role")
     .isIn(["student", "company"])
     .withMessage("Role must be student or company"),
