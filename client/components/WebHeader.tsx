@@ -62,7 +62,7 @@ export function WebHeader() {
           >
             <Link
               to="/"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-4 py-3 rounded-xl min-h-[44px] flex items-center ${
                 isActive("/") ? "bg-pink-500 text-white" : "text-white hover:bg-white/10"
               }`}
               aria-current={isActive("/") ? "page" : undefined}
