@@ -53,17 +53,17 @@ const interviewSchema = new Schema<IInterview>(
     applicationId: {
       type: String,
       required: true,
-      index: true,
+  
     },
     studentId: {
       type: String,
       required: true,
-      index: true,
+  
     },
     companyId: {
       type: String,
       required: true,
-      index: true,
+  
     },
     jobTitle: {
       type: String,
@@ -72,7 +72,7 @@ const interviewSchema = new Schema<IInterview>(
     scheduledDateTime: {
       type: Date,
       required: true,
-      index: true,
+  
     },
     duration: {
       type: Number,
@@ -90,7 +90,7 @@ const interviewSchema = new Schema<IInterview>(
       type: String,
       enum: ["scheduled", "completed", "cancelled", "rescheduled", "no-show"],
       default: "scheduled",
-      index: true,
+  
     },
     videoCall: {
       platform: {
