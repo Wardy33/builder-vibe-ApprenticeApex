@@ -120,16 +120,16 @@ export default function Index() {
                   AI-Generated CVs
                 </div>
               </div>
-                <div className="flex gap-3">
+                <div className="button-group flex flex-col sm:flex-row gap-3">
                   <Link
                     to="/student/signup"
-                    className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg"
+                    className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg touch-target min-h-[44px]"
                   >
                     Sign Up
                   </Link>
                   <Link
                     to="/student/signin"
-                    className="flex-1 border-2 border-white text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-white/20 transition-all duration-200 hover:scale-105"
+                    className="flex-1 border-2 border-white text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-white/20 transition-all duration-200 hover:scale-105 touch-target min-h-[44px]"
                   >
                     Sign In
                   </Link>
