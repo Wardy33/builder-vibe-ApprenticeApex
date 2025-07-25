@@ -578,9 +578,12 @@ export function CompanySignInForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await apiClient.request('/api/auth/company/signin', {
+      const response = await apiClient.request('/api/auth/login', {
         method: 'POST',
-        body: formData
+        body: {
+          ...formData,
+          role: 'company'
+        }
       });
 
       if (response.error) {
