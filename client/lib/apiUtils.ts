@@ -176,10 +176,24 @@ class ApiClient {
     lastName?: string;
     companyName?: string;
   }): Promise<ApiResponse<AuthResponse>> {
-    return this.makeRequest<AuthResponse>('/api/auth/register', {
+    const response = await this.makeRequest<AuthResponse>('/api/auth/register', {
       method: 'POST',
       body: userData,
+      retries: 2, // Retry up to 2 times for registration
     });
+
+    // Handle specific error cases with user-friendly messages
+    if (response.error) {
+      if (response.error.error.includes('503')) {
+        response.error.error = 'Our servers are temporarily busy. Please try again in a moment.';
+      } else if (response.error.error.includes('404')) {
+        response.error.error = 'Registration service is currently unavailable. Please try again later.';
+      } else if (response.error.error.includes('already exists')) {
+        response.error.error = 'An account with this email already exists. Please try signing in instead.';
+      }
+    }
+
+    return response;
   }
 
   async companySignup(companyData: any): Promise<ApiResponse<AuthResponse>> {
