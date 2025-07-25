@@ -140,75 +140,76 @@ export function VideoInterview({
     }
   }, [interviewId, getInterviewDetails]);
 
-  // Initialize Daily.co call frame
-  useEffect(() => {
-    const initializeCall = async () => {
-      try {
-        // Load Daily.co SDK if not already loaded
-        if (!window.DailyIframe) {
-          const script = document.createElement('script');
-          script.src = 'https://unpkg.com/@daily-co/daily-js';
-          script.onload = () => initCall();
-          document.head.appendChild(script);
-        } else {
-          initCall();
-        }
-      } catch (error) {
-        console.error('[VideoInterview] Initialization error:', error);
-        setCallState(prev => ({
-          ...prev,
-          isLoading: false,
-          error: 'Failed to initialize video call'
-        }));
+  // Initialize Daily.co call frame with backend integration
+  const initializeCall = useCallback(async (roomUrl: string, token: string) => {
+    try {
+      // Load Daily.co SDK if not already loaded
+      if (!window.DailyIframe) {
+        const script = document.createElement('script');
+        script.src = 'https://unpkg.com/@daily-co/daily-js';
+        script.onload = () => createCallFrame(roomUrl, token);
+        document.head.appendChild(script);
+      } else {
+        createCallFrame(roomUrl, token);
       }
-    };
+    } catch (error) {
+      console.error('[VideoInterview] Initialization error:', error);
+      setCallState(prev => ({
+        ...prev,
+        isLoading: false,
+        error: 'Failed to initialize video call'
+      }));
+    }
+  }, []);
 
-    const initCall = () => {
-      if (!containerRef.current || !window.DailyIframe) return;
+  const createCallFrame = useCallback((roomUrl: string, token: string) => {
+    if (!containerRef.current || !window.DailyIframe) return;
 
-      // Create Daily.co call frame
-      callFrameRef.current = window.DailyIframe.createFrame(containerRef.current, {
-        iframeStyle: {
-          width: '100%',
-          height: '100%',
-          border: 'none',
-          borderRadius: '12px'
-        },
-        showLeaveButton: false,
-        showFullscreenButton: true,
-        showLocalVideo: true,
-        showParticipantsBar: true,
-        theme: {
-          accent: '#0080FF',
-          accentText: '#FFFFFF',
-          background: '#1F2937',
-          backgroundAccent: '#374151',
-          baseText: '#F9FAFB',
-          border: '#4B5563',
-          mainAreaBg: '#111827',
-          mainAreaBgAccent: '#1F2937',
-          mainAreaText: '#F9FAFB',
-          supportiveText: '#9CA3AF'
-        }
-      });
+    // Create Daily.co call frame
+    callFrameRef.current = window.DailyIframe.createFrame(containerRef.current, {
+      iframeStyle: {
+        width: '100%',
+        height: '100%',
+        border: 'none',
+        borderRadius: '12px'
+      },
+      showLeaveButton: false,
+      showFullscreenButton: true,
+      showLocalVideo: true,
+      showParticipantsBar: true,
+      theme: {
+        accent: '#00D4FF',
+        accentText: '#0A0E27',
+        background: '#1F2937',
+        backgroundAccent: '#374151',
+        baseText: '#F9FAFB',
+        border: '#4B5563',
+        mainAreaBg: '#111827',
+        mainAreaBgAccent: '#1F2937',
+        mainAreaText: '#F9FAFB',
+        supportiveText: '#9CA3AF'
+      }
+    });
 
-      // Set up event listeners
-      setupEventListeners();
-      
-      // Join the meeting
-      joinMeeting();
-    };
+    // Set up event listeners
+    setupEventListeners();
 
-    initializeCall();
+    // Join the meeting with backend token
+    joinMeetingWithToken(roomUrl, token);
+  }, []);
 
-    // Cleanup on unmount
+  // Cleanup on unmount
+  useEffect(() => {
     return () => {
       if (callFrameRef.current) {
-        callFrameRef.current.leave();
-        callFrameRef.current.destroy();
+        // Notify backend before leaving
+        leaveInterview(interviewId).then(() => {
+          callFrameRef.current.leave();
+          callFrameRef.current.destroy();
+        });
       }
     };
-  }, [roomUrl, meetingToken]);
+  }, [interviewId, leaveInterview]);
 
   // Set up Daily.co event listeners
   const setupEventListeners = useCallback(() => {
