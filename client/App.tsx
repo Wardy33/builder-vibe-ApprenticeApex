@@ -43,6 +43,11 @@ function LoadingFallback({ ariaLabel }: { ariaLabel: string }) {
 }
 
 function App() {
+  // Initialize service worker and PWA features
+  useEffect(() => {
+    initializeServiceWorker();
+  }, []);
+
   return (
     <BrowserRouter>
       <Routes>
