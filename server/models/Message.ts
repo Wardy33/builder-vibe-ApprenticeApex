@@ -39,17 +39,14 @@ const messageSchema = new Schema<IMessage>(
     conversationId: {
       type: String,
       required: true,
-      index: true,
     },
     senderId: {
       type: String,
       required: true,
-      index: true,
     },
     receiverId: {
       type: String,
       required: true,
-      index: true,
     },
     content: {
       type: String,
