@@ -34,6 +34,29 @@ select:focus-visible {
   border-color: #0080FF !important;
 }
 
+/* Remove focus indicators from header navigation buttons */
+header .focus-indicator,
+header button:focus-visible,
+header a:focus-visible,
+nav .focus-indicator,
+nav button:focus-visible,
+nav a:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Subtle focus for header buttons - minimal visual change */
+header .focus-indicator:focus-visible,
+header button:focus-visible,
+header a:focus-visible,
+nav .focus-indicator:focus-visible,
+nav button:focus-visible,
+nav a:focus-visible {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.02) !important;
+  transition: all 0.2s ease !important;
+}
+
 /* ========================================
    SKIP LINKS 
    ======================================== */
