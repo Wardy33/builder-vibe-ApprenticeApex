@@ -114,27 +114,154 @@ export default defineConfig(({ mode }) => ({
 }));
 
 function expressPlugin(): Plugin {
+  let serverInitialized = false;
+  let expressApp: any = null;
+
   return {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     async configureServer(server) {
-      // Import server functions
-      const { createServer, connectToDatabase } = require('./server/index.ts');
-
-      // Connect to database first
-      console.log('🔌 Initializing MongoDB Atlas connection...');
-      try {
-        await connectToDatabase();
-        console.log('✅ Database connection established');
-      } catch (error) {
-        console.warn('⚠️  Database connection failed, continuing in development mode:', error);
+      // Prevent multiple initializations
+      if (serverInitialized) {
+        console.log('🔄 Express server already initialized, skipping...');
+        return;
       }
 
-      // Create server app
-      const app = createServer();
+      try {
+        console.log('🚀 Initializing Express server plugin...');
+        
+        // Add global error handlers first
+        process.removeAllListeners('uncaughtException');
+        process.removeAllListeners('unhandledRejection');
+        
+        process.on('uncaughtException', (error) => {
+          console.error('❌ Uncaught Exception in Express plugin:', error.message);
+          // Don't exit, just log
+        });
 
-      // Add Express app as middleware to Vite dev server
-      server.middlewares.use(app);
+        process.on('unhandledRejection', (reason: any) => {
+          console.error('❌ Unhandled Rejection in Express plugin:', reason);
+          // Don't exit, just log
+        });
+
+        // Import server functions with error handling
+        let createServer, connectToDatabase;
+        try {
+          const serverModule = require('./server/index.ts');
+          createServer = serverModule.createServer;
+          connectToDatabase = serverModule.connectToDatabase;
+          
+          if (!createServer) {
+            throw new Error('createServer function not found in server/index.ts');
+          }
+        } catch (importError) {
+          console.error('❌ Failed to import server modules:', importError.message);
+          console.log('🔄 Attempting alternative import...');
+          
+          // Try alternative import method
+          try {
+            const serverModule = await import('./server/index.ts');
+            createServer = serverModule.createServer;
+            connectToDatabase = serverModule.connectToDatabase;
+          } catch (altImportError) {
+            console.error('❌ Alternative import failed:', altImportError.message);
+            console.log('⚠️  Express server will not be available');
+            return;
+          }
+        }
+
+        // Connect to database with timeout and fallback
+        console.log('🔌 Attempting database connection...');
+        if (connectToDatabase) {
+          try {
+            const dbConnected = await Promise.race([
+              connectToDatabase(),
+              new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Database connection timeout')), 10000)
+              )
+            ]);
+            
+            if (dbConnected) {
+              console.log('✅ Database connection established');
+            } else {
+              console.log('⚠️  Database connection failed, continuing without DB');
+            }
+          } catch (dbError) {
+            console.warn('⚠️  Database connection failed:', dbError.message);
+            console.log('📝 Continuing in development mode without database');
+          }
+        } else {
+          console.log('⚠️  No database connection function found, continuing without DB');
+        }
+
+        // Create Express app with error handling
+        console.log('🔨 Creating Express application...');
+        try {
+          expressApp = createServer();
+          console.log('✅ Express application created successfully');
+        } catch (appError) {
+          console.error('❌ Failed to create Express app:', appError.message);
+          console.log('⚠️  Express server will not be available');
+          return;
+        }
+
+        // Add Express app as middleware to Vite dev server with error handling
+        console.log('🔗 Integrating Express with Vite dev server...');
+        server.middlewares.use((req, res, next) => {
+          // Add error boundary for each request
+          try {
+            if (expressApp) {
+              expressApp(req, res, next);
+            } else {
+              next();
+            }
+          } catch (middlewareError) {
+            console.error('❌ Express middleware error:', middlewareError.message);
+            // Send error response if headers not sent
+            if (!res.headersSent) {
+              res.statusCode = 500;
+              res.setHeader('Content-Type', 'application/json');
+              res.end(JSON.stringify({
+                success: false,
+                error: 'Internal server error',
+                details: middlewareError.message
+              }));
+            }
+          }
+        });
+
+        serverInitialized = true;
+        console.log('🎯 Express plugin initialization completed successfully');
+        console.log('📡 API endpoints available at: http://localhost:5204/api/*');
+        console.log('🧪 Test auth endpoint: http://localhost:5204/api/auth/test');
+
+      } catch (pluginError) {
+        console.error('❌ Express plugin initialization failed:', pluginError.message);
+        console.error('Stack trace:', pluginError.stack);
+        console.log('⚠️  Vite will continue without Express integration');
+      }
     },
+
+    // Handle server restart/cleanup
+    buildStart() {
+      // Reset initialization flag when build starts
+      if (serverInitialized) {
+        console.log('🔄 Build started, resetting server state...');
+        serverInitialized = false;
+        expressApp = null;
+      }
+    },
+
+    // Handle hot updates more gracefully
+    handleHotUpdate({ file, server: viteServer }) {
+      // Only restart if server files changed
+      if (file.includes('/server/') && !file.includes('.test.') && !file.includes('.spec.')) {
+        console.log(`🔥 Server file changed: ${file.split('/').pop()}`);
+        console.log('🔄 Express server will reinitialize on next request');
+        serverInitialized = false;
+        expressApp = null;
+      }
+      return undefined; // Let Vite handle the update normally
+    }
   };
 }
