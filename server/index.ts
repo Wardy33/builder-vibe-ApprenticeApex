@@ -609,8 +609,9 @@ export function createServer() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Skip database middleware for createServer too
-  console.log("⚠️  Database middleware skipped in createServer");
+  // Database middleware with graceful degradation
+  app.use(databaseHealthCheck());
+  app.use(optimizeQueries());
 
   // Security middleware for production
   if (env.NODE_ENV === "production") {
