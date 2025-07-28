@@ -62,8 +62,6 @@ import { AlertService } from "./services/alertService";
 // Load environment variables
 dotenv.config();
 
-// Database connection managed by DatabaseManager singleton
-
 // Validate environment variables on startup (skip in Vite dev mode)
 let env: any;
 try {
@@ -129,6 +127,7 @@ export function createApp() {
     // Security middleware (applied first)
     app.use(securityLogger());
     app.use(helmetConfig);
+
     // Basic CORS for development
     app.use((req: any, res: any, next: any) => {
       res.header("Access-Control-Allow-Origin", "*");
@@ -220,6 +219,7 @@ export function createApp() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
+
   // Apprenticeships route - conditional authentication for development mode
   if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
     console.log('🔓 Apprenticeships routes running without global authentication in development mode');
@@ -372,8 +372,6 @@ export async function comparePassword(
   return bcrypt.compare(password, hashedPassword);
 }
 
-// Mock data removed - now using real MongoDB data
-
 // Export createServer function for serverless deployment
 export function createServer() {
   const env = validateEnv();
@@ -448,6 +446,7 @@ export function createServer() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
+
   // Apprenticeships route - conditional authentication for development mode
   if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
     console.log('🔓 Apprenticeships routes running without global authentication in development mode');
