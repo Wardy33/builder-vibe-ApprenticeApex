@@ -1,3 +1,22 @@
+// Custom Error class for better error handling
+export class CustomError extends Error {
+  public statusCode: number;
+  public details?: any;
+
+  constructor(message: string, statusCode: number = 500, details?: any) {
+    super(message);
+    this.name = this.constructor.name;
+    this.statusCode = statusCode;
+    this.details = details;
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Async handler wrapper to catch errors automatically
+export const asyncHandler = (fn: Function) => (req: any, res: any, next: any) => {
+  Promise.resolve(fn(req, res, next)).catch(next);
+};
+
 export const errorHandler = (err: any, req: any, res: any, next: any) => {
   console.error('Error caught by middleware:', err);
 
