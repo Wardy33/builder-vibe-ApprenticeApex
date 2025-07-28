@@ -121,8 +121,8 @@ function expressPlugin(): Plugin {
       console.log('🔧 Express plugin starting...');
 
       try {
-        // Import Express app creation from server/index.ts
-        const express = require('express');
+        // Import Express using ES6 import for compatibility
+        const { default: express } = await import('express');
 
         // Create a simple Express app without database connection for now
         const app = express();
