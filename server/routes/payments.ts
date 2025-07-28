@@ -10,7 +10,8 @@ import { sendSuccess, sendError, sendValidationError } from "../utils/apiRespons
 import { validateDatabaseInput } from "../middleware/database";
 import StripeService from "../services/stripeService";
 import { User } from "../models/User";
-import { Payment, Subscription } from "../models/Payment";
+import { Payment } from "../models/Payment";
+import { Subscription } from "../models/Subscription";
 import { Application } from "../models/Application";
 
 const router = express.Router();
