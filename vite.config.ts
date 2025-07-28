@@ -117,7 +117,7 @@ function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
-    configureServer(server) {
+    async configureServer(server) {
       console.log('🔧 Express plugin starting...');
 
       try {
