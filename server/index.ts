@@ -650,8 +650,8 @@ export function createServer() {
     });
   });
 
-  // Skip health routes that might cause issues
-  // app.use("/api/health", healthRoutes);
+  // Enhanced health check routes
+  app.use("/api/health", healthRoutes);
 
   // Public routes
   app.use("/api/auth", authRoutes);
