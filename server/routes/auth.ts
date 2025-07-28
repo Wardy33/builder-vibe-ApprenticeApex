@@ -5,6 +5,66 @@ import { User } from '../models/User';
 
 const router = express.Router();
 
+// ====================================================================
+// PHASE 3: ROUTE-SPECIFIC ERROR HANDLING AND DEBUGGING
+// ====================================================================
+
+// Route-level debugging middleware
+router.use((req, res, next) => {
+  console.log('\n🔐 === AUTH ROUTE DEBUG ===');
+  console.log('🔐 Auth Route Hit:', req.method, req.path);
+  console.log('🔐 Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('🔐 Body:', JSON.stringify(req.body, null, 2));
+  console.log('🔐 Content-Type:', req.get('Content-Type'));
+  console.log('🔐 === AUTH ROUTE DEBUG END ===\n');
+  next();
+});
+
+// Body validation middleware specifically for login
+router.use('/login', (req, res, next) => {
+  if (req.method === 'POST') {
+    console.log('🔒 Login-specific middleware check');
+    console.log('🔒 Request body exists:', !!req.body);
+    console.log('🔒 Request body type:', typeof req.body);
+    console.log('🔒 Request body keys:', req.body ? Object.keys(req.body) : 'no body');
+
+    if (!req.body) {
+      console.error('❌ No request body found for login');
+      return res.status(400).json({
+        success: false,
+        error: 'Request body is required',
+        details: 'POST request must include JSON body with email and password'
+      });
+    }
+
+    if (typeof req.body !== 'object') {
+      console.error('❌ Request body is not an object:', typeof req.body);
+      return res.status(400).json({
+        success: false,
+        error: 'Request body must be a JSON object',
+        received: typeof req.body,
+        body: req.body
+      });
+    }
+  }
+  next();
+});
+
+// Temporary debugging endpoint
+router.post('/login-test', (req, res) => {
+  console.log('🧪 Login test endpoint hit');
+  console.log('🧪 Body:', JSON.stringify(req.body, null, 2));
+
+  res.json({
+    success: true,
+    message: 'Login test endpoint working',
+    receivedBody: req.body,
+    bodyType: typeof req.body,
+    bodyKeys: req.body ? Object.keys(req.body) : [],
+    timestamp: new Date().toISOString()
+  });
+});
+
 // POST /api/auth/register - Register new user (EXISTING - KEEP THIS)
 router.post('/register', async (req, res) => {
   try {
