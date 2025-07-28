@@ -1,126 +1,62 @@
 import express from 'express';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { User } from '../models/User';
 
 const router = express.Router();
 
-// POST /api/auth/register - Register new user
+// POST /api/auth/register - Register new user (isolated version)
 router.post('/register', async (req, res) => {
-  try {
-    console.log('📝 Registration request received');
+  console.log('📝 Registration request received (isolated)');
+  console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
 
+  try {
     const { email, password, role, profile } = req.body;
 
-    // Simple validation
+    // Basic validation
     if (!email || !password || !role) {
-      console.log('❌ Missing basic fields');
-      res.status(400).json({
+      console.log('❌ Missing required fields');
+      return res.status(400).json({
         success: false,
         error: 'Email, password, and role are required'
       });
-      return;
     }
 
-    console.log('✅ Basic validation passed');
+    console.log('✅ Validation passed');
+    console.log('📧 Email:', email);
+    console.log('👤 Role:', role);
+    console.log('📝 Has profile:', !!profile);
 
-    // Create minimal user object
-    const userData = {
+    // For now, just return a mock successful response
+    // This tests if the route works without database dependencies
+    const mockUser = {
+      _id: 'mock-' + Date.now(),
       email: email.toLowerCase(),
-      password,
       role,
-      profile: profile || (role === 'student' ? {
+      profile: profile || {
         firstName: 'Test',
-        lastName: 'User',
-        skills: [],
-        hasDriversLicense: false,
-        education: [],
-        experience: [],
-        location: { city: 'Test', postcode: '', coordinates: [0, 0] },
-        preferences: {
-          industries: [],
-          maxDistance: 25,
-          salaryRange: { min: 0, max: 100000 }
-        },
-        transportModes: [],
-        isActive: true
-      } : {
-        companyName: 'Test Company',
-        industry: 'Technology',
-        description: 'Test company',
-        location: { city: 'Test', address: 'Test', coordinates: [0, 0] },
-        contactPerson: {
-          firstName: 'Test',
-          lastName: 'Contact',
-          position: 'Manager'
-        },
-        isVerified: false
-      }),
+        lastName: 'User'
+      },
       isEmailVerified: false,
-      isActive: true
+      createdAt: new Date()
     };
 
-    console.log('🔨 Creating user...');
+    const mockToken = 'mock-token-' + Date.now();
 
-    try {
-      const newUser = new User(userData);
-      await newUser.save();
-      console.log('✅ User saved to database');
-    } catch (dbError) {
-      console.log('⚠️ Database error, returning mock response:', dbError.message);
-      // Return success even if DB fails (for testing)
-      const mockUser = {
-        _id: 'mock-user-id',
-        email: email.toLowerCase(),
-        role,
-        profile: userData.profile,
-        isEmailVerified: false,
-        createdAt: new Date()
-      };
-
-      const token = jwt.sign(
-        { userId: 'mock-user-id', role, email: email.toLowerCase() },
-        process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
-        { expiresIn: '7d' }
-      );
-
-      res.status(201).json({
-        success: true,
-        data: { user: mockUser, token },
-        message: 'User registered successfully (mock mode)'
-      });
-      return;
-    }
-
-    // Generate token
-    const token = jwt.sign(
-      { userId: newUser._id, role: newUser.role, email: newUser.email },
-      process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
-      { expiresIn: '7d' }
-    );
-
-    console.log('✅ Registration completed');
+    console.log('✅ Sending mock success response');
 
     res.status(201).json({
       success: true,
       data: {
-        user: {
-          _id: newUser._id,
-          email: newUser.email,
-          role: newUser.role,
-          profile: newUser.profile,
-          isEmailVerified: newUser.isEmailVerified,
-          createdAt: newUser.createdAt
-        },
-        token
+        user: mockUser,
+        token: mockToken
       },
-      message: 'User registered successfully'
+      message: 'User registered successfully (mock mode)'
     });
 
-  } catch (error) {
-    console.error('❌ Registration error:', error.message);
+    console.log('✅ Response sent successfully');
 
-    // Ensure response is sent only once
+  } catch (error) {
+    console.error('❌ Error in registration:', error);
+    console.error('❌ Error stack:', error.stack);
+
     if (!res.headersSent) {
       res.status(500).json({
         success: false,
@@ -131,72 +67,45 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/login - Login user  
+// POST /api/auth/login - Login user (isolated version)
 router.post('/login', async (req, res) => {
-  try {
-    console.log('🔐 Login request received');
+  console.log('🔐 Login request received (isolated)');
 
+  try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(400).json({
+      return res.status(400).json({
         success: false,
         error: 'Email and password are required'
       });
-      return;
     }
 
-    try {
-      const user = await User.findOne({ email: email.toLowerCase() });
+    // Mock successful login for testing
+    const mockUser = {
+      _id: 'mock-user-' + Date.now(),
+      email: email.toLowerCase(),
+      role: 'student',
+      profile: {
+        firstName: 'Test',
+        lastName: 'User'
+      },
+      isEmailVerified: false
+    };
 
-      if (!user) {
-        res.status(401).json({
-          success: false,
-          error: 'Invalid email or password'
-        });
-        return;
-      }
+    const mockToken = 'mock-token-' + Date.now();
 
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-      if (!isPasswordValid) {
-        res.status(401).json({
-          success: false,
-          error: 'Invalid email or password'
-        });
-        return;
-      }
-
-      const token = jwt.sign(
-        { userId: user._id, role: user.role, email: user.email },
-        process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
-        { expiresIn: '7d' }
-      );
-
-      res.json({
-        success: true,
-        data: {
-          user: {
-            _id: user._id,
-            email: user.email,
-            role: user.role,
-            profile: user.profile,
-            isEmailVerified: user.isEmailVerified
-          },
-          token
-        },
-        message: 'Login successful'
-      });
-
-    } catch (dbError) {
-      console.log('⚠️ Database error during login:', dbError.message);
-      res.status(500).json({
-        success: false,
-        error: 'Database connection error'
-      });
-    }
+    res.json({
+      success: true,
+      data: {
+        user: mockUser,
+        token: mockToken
+      },
+      message: 'Login successful (mock mode)'
+    });
 
   } catch (error) {
-    console.error('❌ Login error:', error.message);
+    console.error('❌ Login error:', error);
 
     if (!res.headersSent) {
       res.status(500).json({
@@ -206,5 +115,17 @@ router.post('/login', async (req, res) => {
     }
   }
 });
+
+// GET /api/auth/test - Simple test endpoint
+router.get('/test', (req, res) => {
+  console.log('🧪 Auth test endpoint hit');
+  res.json({
+    success: true,
+    message: 'Auth routes are working',
+    timestamp: new Date().toISOString()
+  });
+});
+
+console.log('🔧 Auth routes module loaded successfully');
 
 export default router;
