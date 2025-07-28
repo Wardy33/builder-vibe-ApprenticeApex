@@ -116,8 +116,9 @@ export function createApp() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Skip the problematic database middleware for now
-  console.log("⚠️  Database middleware temporarily disabled to avoid connection issues");
+  // Database middleware
+  app.use(databaseHealthCheck());
+  app.use(optimizeQueries());
 
   // Apply security middleware only if environment is properly validated
   if (
