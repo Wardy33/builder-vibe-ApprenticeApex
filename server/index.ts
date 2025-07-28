@@ -263,23 +263,26 @@ export function createApp() {
 
 // Production-ready database connection
 export async function connectToDatabase() {
-  try {
-    // Get validated environment config instead of using process.env directly
-    const env = getEnvConfig();
+  console.log("🚀 connectToDatabase() function called!");
 
-    // Check if MongoDB URI is provided
-    if (!env.MONGODB_URI || env.MONGODB_URI === '') {
-      console.warn(
-        "⚠️  MONGODB_URI not provided. Using development mode with mock data.",
-      );
+  try {
+    console.log("🔍 DEBUG - About to call getEnvConfig()");
+
+    // TEMPORARY: Force the MongoDB URI directly to bypass all environment issues
+    const MONGODB_URI = "mongodb+srv://wardy33:BeauWard1337@clusteraa.6ulacjf.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAA";
+
+    console.log("🔍 DEBUG - Using forced MONGODB_URI:", MONGODB_URI.substring(0, 30) + "...");
+
+    // Skip environment config for now and use direct connection
+    if (!MONGODB_URI) {
+      console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
       console.log("🗄️  Database connection established (mock)");
       return true;
     }
 
-    console.log("🔍 DEBUG - MONGODB_URI:", env.MONGODB_URI ? `Found: ${env.MONGODB_URI.substring(0, 30)}...` : 'MISSING');
-
-    // Connect to production MongoDB
+    console.log("🔌 Attempting to connect to MongoDB Atlas...");
     await dbConnect();
+    console.log("🔌 dbConnect() completed successfully");
 
     // Initialize database indexes
     // TODO: Temporarily disabled to prevent index conflicts
@@ -300,6 +303,7 @@ export async function connectToDatabase() {
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);
+    console.error("❌ Full error details:", error.stack);
     console.warn("⚠️  Falling back to development mode with mock data");
     return false;
   }
