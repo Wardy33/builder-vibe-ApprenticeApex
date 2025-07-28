@@ -9,7 +9,7 @@ import {
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
-import { validateDatabaseInput } from "../middleware/database";
+import { DatabaseValidator } from "../middleware/database";
 import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
