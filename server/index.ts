@@ -639,6 +639,15 @@ export function createServer() {
     });
   }
 
+  // Basic health check endpoints
+  app.get("/api/ping", (_req, res) => {
+    res.json({
+      message: "ApprenticeApex API v1.0",
+      timestamp: new Date().toISOString(),
+      status: "healthy",
+    });
+  });
+
   // Enhanced health check routes
   app.use("/api/health", healthRoutes);
 
