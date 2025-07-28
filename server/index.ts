@@ -504,7 +504,7 @@ process.on('unhandledRejection', (reason: any, promise) => {
 });
 
 // Only start server if this file is run directly (not imported)
-if (require.main === module) {
+if (import.meta.url === `file://${process.argv[1]}`) {
   async function startServer() {
     try {
       const PORT = process.env.PORT || 3001;
