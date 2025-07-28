@@ -1,221 +1,256 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IApplication extends Document {
-  _id: string;
-  studentId: string;
-  apprenticeshipId: string;
-  companyId: string;
-  status:
-    | "applied"
-    | "viewed"
-    | "shortlisted"
-    | "interview_scheduled"
-    | "rejected"
-    | "accepted";
-  coverLetter?: string;
-  cvUrl?: string;
-  aiMatchScore: number; // AI-calculated compatibility score (0-100)
-  studentVideoUrl?: string;
-  companyNotes?: string;
-  interviewDetails?: {
+  student: mongoose.Types.ObjectId;
+  apprenticeship: mongoose.Types.ObjectId;
+  status: 'pending' | 'reviewing' | 'interviewed' | 'accepted' | 'rejected' | 'withdrawn';
+  submittedAt: Date;
+  lastUpdated: Date;
+  applicationData: {
+    coverLetter: string;
+    resumeUrl?: string;
+    portfolioUrl?: string;
+    additionalDocuments?: string[];
+    customAnswers?: {
+      question: string;
+      answer: string;
+    }[];
+  };
+  interview?: {
     scheduledDate: Date;
-    meetingUrl: string;
-    interviewerNotes?: string;
-    studentFeedback?: string;
+    type: 'phone' | 'video' | 'in-person';
+    location?: string;
+    meetingLink?: string;
+    notes?: string;
+    completed: boolean;
   };
-  swipeDirection: "right" | "left";
-  appliedAt: Date;
-  updatedAt: Date;
-}
-
-const applicationSchema = new Schema<IApplication>(
-  {
-    studentId: {
-      type: String,
-      required: true,
-      ref: "User",
-    },
-    apprenticeshipId: {
-      type: String,
-      required: true,
-      ref: "Apprenticeship",
-    },
-    companyId: {
-      type: String,
-      required: true,
-      ref: "User",
-    },
-    status: {
-      type: String,
-      enum: [
-        "applied",
-        "viewed",
-        "shortlisted",
-        "interview_scheduled",
-        "rejected",
-        "accepted",
-      ],
-      default: "applied",
-    },
-    coverLetter: {
-      type: String,
-      maxlength: 1000,
-    },
-    cvUrl: { type: String },
-    aiMatchScore: {
-      type: Number,
-      min: 0,
-      max: 100,
-      required: true,
-    },
-    studentVideoUrl: { type: String },
-    companyNotes: {
-      type: String,
-      maxlength: 500,
-    },
-    interviewDetails: {
-      scheduledDate: { type: Date },
-      meetingUrl: { type: String },
-      interviewerNotes: { type: String },
-      studentFeedback: { type: String },
-    },
-    swipeDirection: {
-      type: String,
-      enum: ["right", "left"],
-      required: true,
-    },
-    appliedAt: {
-      type: Date,
-      default: Date.now,
-    },
-  },
-  {
-    timestamps: true,
-  },
-);
-
-// Indexes are managed centrally in server/config/indexes.ts
-// Note: studentId + apprenticeshipId unique constraint is preserved
-
-export const Application = mongoose.models.Application || mongoose.model<IApplication>(
-  "Application",
-  applicationSchema,
-);
-
-// Message model for real-time chat
-export interface IMessage extends Document {
-  _id: string;
-  conversationId: string;
-  senderId: string;
-  receiverId: string;
-  messageType: "text" | "file" | "video" | "image";
-  content: string;
-  fileUrl?: string;
-  fileName?: string;
-  fileSize?: number;
-  isRead: boolean;
-  readAt?: Date;
-  sentAt: Date;
-}
-
-const messageSchema = new Schema<IMessage>({
-  conversationId: {
-    type: String,
-    required: true,
-  },
-  senderId: {
-    type: String,
-    required: true,
-    ref: "User",
-  },
-  receiverId: {
-    type: String,
-    required: true,
-    ref: "User",
-  },
-  messageType: {
-    type: String,
-    enum: ["text", "file", "video", "image"],
-    default: "text",
-  },
-  content: {
-    type: String,
-    required: true,
-    maxlength: 2000,
-  },
-  fileUrl: { type: String },
-  fileName: { type: String },
-  fileSize: { type: Number },
-  isRead: {
-    type: Boolean,
-    default: false,
-  },
-  readAt: { type: Date },
-  sentAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
-
-// Indexes are managed centrally in server/config/indexes.ts
-
-export const Message = mongoose.model<IMessage>("Message", messageSchema);
-
-// Conversation model
-export interface IConversation extends Document {
-  _id: string;
-  participants: string[];
-  applicationId?: string;
-  lastMessage?: {
-    content: string;
-    sentAt: Date;
-    senderId: string;
+  feedback?: {
+    rating: number;
+    comments: string;
+    providedBy: mongoose.Types.ObjectId;
+    providedAt: Date;
   };
-  unreadCount: {
-    [userId: string]: number;
-  };
-  isActive: boolean;
+  statusHistory: {
+    status: string;
+    changedAt: Date;
+    changedBy: mongoose.Types.ObjectId;
+    reason?: string;
+  }[];
+  matchScore?: number;
+  withdrawalReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-const conversationSchema = new Schema<IConversation>(
-  {
-    participants: [
-      {
-        type: String,
-        ref: "User",
-        required: true,
-      },
-    ],
-    applicationId: {
+const ApplicationSchema = new Schema<IApplication>({
+  student: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    index: true
+  },
+  apprenticeship: {
+    type: Schema.Types.ObjectId,
+    ref: 'Apprenticeship',
+    required: true,
+    index: true
+  },
+  status: {
+    type: String,
+    required: true,
+    enum: ['pending', 'reviewing', 'interviewed', 'accepted', 'rejected', 'withdrawn'],
+    default: 'pending',
+    index: true
+  },
+  submittedAt: {
+    type: Date,
+    default: Date.now,
+    required: true
+  },
+  lastUpdated: {
+    type: Date,
+    default: Date.now
+  },
+  applicationData: {
+    coverLetter: {
       type: String,
-      ref: "Application",
+      required: true,
+      maxlength: 2000
     },
-    lastMessage: {
-      content: { type: String },
-      sentAt: { type: Date },
-      senderId: { type: String },
+    resumeUrl: {
+      type: String,
+      validate: {
+        validator: function (url: string) {
+          return !url || /^https?:\/\/.+/.test(url);
+        },
+        message: 'Resume URL must be a valid HTTP/HTTPS URL'
+      }
     },
-    unreadCount: {
-      type: Map,
-      of: Number,
-      default: {},
+    portfolioUrl: {
+      type: String,
+      validate: {
+        validator: function (url: string) {
+          return !url || /^https?:\/\/.+/.test(url);
+        },
+        message: 'Portfolio URL must be a valid HTTP/HTTPS URL'
+      }
     },
-    isActive: {
+    additionalDocuments: [{
+      type: String
+    }],
+    customAnswers: [{
+      question: {
+        type: String,
+        required: true
+      },
+      answer: {
+        type: String,
+        required: true,
+        maxlength: 1000
+      }
+    }]
+  },
+  interview: {
+    scheduledDate: Date,
+    type: {
+      type: String,
+      enum: ['phone', 'video', 'in-person']
+    },
+    location: String,
+    meetingLink: {
+      type: String,
+      validate: {
+        validator: function (url: string) {
+          return !url || /^https?:\/\/.+/.test(url);
+        },
+        message: 'Meeting link must be a valid HTTP/HTTPS URL'
+      }
+    },
+    notes: {
+      type: String,
+      maxlength: 1000
+    },
+    completed: {
       type: Boolean,
-      default: true,
+      default: false
+    }
+  },
+  feedback: {
+    rating: {
+      type: Number,
+      min: 1,
+      max: 5
     },
+    comments: {
+      type: String,
+      maxlength: 1000
+    },
+    providedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    providedAt: {
+      type: Date,
+      default: Date.now
+    }
   },
-  {
-    timestamps: true,
+  statusHistory: [{
+    status: {
+      type: String,
+      required: true,
+      enum: ['pending', 'reviewing', 'interviewed', 'accepted', 'rejected', 'withdrawn']
+    },
+    changedAt: {
+      type: Date,
+      default: Date.now,
+      required: true
+    },
+    changedBy: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    reason: {
+      type: String,
+      maxlength: 500
+    }
+  }],
+  matchScore: {
+    type: Number,
+    min: 0,
+    max: 100
   },
-);
+  withdrawalReason: {
+    type: String,
+    maxlength: 500
+  }
+}, {
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
+});
 
-// Indexes are managed centrally in server/config/indexes.ts
-// Note: participants unique constraint is preserved
+// Compound indexes for performance
+ApplicationSchema.index({ student: 1, status: 1 });
+ApplicationSchema.index({ apprenticeship: 1, status: 1 });
+ApplicationSchema.index({ student: 1, apprenticeship: 1 }, { unique: true }); // Prevent duplicate applications
+ApplicationSchema.index({ submittedAt: -1 });
+ApplicationSchema.index({ lastUpdated: -1 });
 
-export const Conversation = mongoose.model<IConversation>(
-  "Conversation",
-  conversationSchema,
-);
+// Virtual populate for student details
+ApplicationSchema.virtual('studentDetails', {
+  ref: 'User',
+  localField: 'student',
+  foreignField: '_id',
+  justOne: true
+});
+
+// Virtual populate for apprenticeship details
+ApplicationSchema.virtual('apprenticeshipDetails', {
+  ref: 'Apprenticeship',
+  localField: 'apprenticeship',
+  foreignField: '_id',
+  justOne: true
+});
+
+// Pre-save middleware to update lastUpdated and add status history
+ApplicationSchema.pre('save', function (next) {
+  // Update lastUpdated timestamp
+  this.lastUpdated = new Date();
+
+  // Add to status history if status changed
+  if (this.isModified('status') && !this.isNew) {
+    this.statusHistory.push({
+      status: this.status,
+      changedAt: new Date(),
+      changedBy: this.modifiedBy || this.student, // You'll need to set modifiedBy when updating
+      reason: this.statusChangeReason // You'll need to set this when updating status
+    });
+  }
+
+  // Initialize status history for new applications
+  if (this.isNew) {
+    this.statusHistory.push({
+      status: this.status,
+      changedAt: new Date(),
+      changedBy: this.student
+    });
+  }
+
+  next();
+});
+
+// Static method to get applications by status
+ApplicationSchema.statics.findByStatus = function (status: string) {
+  return this.find({ status }).populate('student apprenticeship');
+};
+
+// Instance method to update status with history tracking
+ApplicationSchema.methods.updateStatus = function (newStatus: string, changedBy: string, reason?: string) {
+  this.status = newStatus;
+  this.modifiedBy = changedBy;
+  this.statusChangeReason = reason;
+  return this.save();
+};
+
+export const Application = mongoose.model<IApplication>('Application', ApplicationSchema);
