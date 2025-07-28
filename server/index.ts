@@ -265,9 +265,8 @@ export async function connectToDatabase() {
     // Clean, minimal connection options
     const options = {
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000, // 5 seconds
+      serverSelectionTimeoutMS: 5000,
       connectTimeoutMS: 5000,
-      socketTimeoutMS: 30000,
     };
 
     // Direct mongoose connection
