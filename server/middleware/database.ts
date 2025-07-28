@@ -507,4 +507,4 @@ DatabaseValidator.registerSchema('payments', z.object({
   amount: z.number().min(0),
   currency: z.string().length(3),
   description: z.string().min(1).max(500)
-}).passthrough();
+}).passthrough());
