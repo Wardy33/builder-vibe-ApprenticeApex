@@ -40,7 +40,7 @@ export function validatePaymentAmount(fieldName: string = 'amount') {
     (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return sendValidationError(res, 'Invalid payment amount', errors.array());
+        return sendValidationError(res, errors.array(), 'Invalid payment amount');
       }
       next();
     }
@@ -57,7 +57,7 @@ export function validateCurrency(fieldName: string = 'currency') {
     (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return sendValidationError(res, 'Invalid currency', errors.array());
+        return sendValidationError(res, errors.array(), 'Invalid currency');
       }
       
       // Normalize currency to uppercase
@@ -248,13 +248,4 @@ declare global {
   }
 }
 
-export {
-  validatePaymentAmount,
-  validateCurrency,
-  sanitizePaymentMetadata,
-  createPaymentRateLimit,
-  handleStripeError,
-  validateWebhookSignature,
-  auditPaymentOperation,
-  ensureIdempotency
-};
+// Functions are already exported above, removing duplicate exports
