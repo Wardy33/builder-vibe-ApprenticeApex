@@ -7,10 +7,10 @@ import { databaseMiddleware } from '../middleware/database';
 import { getEnvConfig } from '../config/env';
 
 // Import schemas for testing
-import { User, validateUserRegistration } from '../schemas/User';
-import { Apprenticeship, validateApprenticeshipCreation } from '../schemas/Apprenticeship';
-import { Application, validateApplicationCreation } from '../schemas/Application';
-import { Payment, validatePaymentCreation } from '../schemas/Payment';
+import { User } from '../models/User';
+import { Apprenticeship } from '../models/Apprenticeship';
+import { Application } from '../models/Application';
+import { Payment } from '../models/Payment';
 
 const router = express.Router();
 
