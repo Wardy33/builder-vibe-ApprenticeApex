@@ -119,8 +119,17 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      // Import and use createServer function for development (simpler, no Socket.IO)
-      const { createServer } = require('./server/index.ts');
+      // Import functions from server
+      const { createServer, connectToDatabase } = require('./server/index.ts');
+
+      // Initialize database connection first
+      console.log('🚀 Initializing database connection...');
+      connectToDatabase().then(() => {
+        console.log('✅ Database connection initialized in development mode');
+      }).catch((error) => {
+        console.error('❌ Database connection failed in development mode:', error);
+      });
+
       const app = createServer();
 
       // Add Express app as middleware to Vite dev server
