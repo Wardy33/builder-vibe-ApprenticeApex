@@ -2,7 +2,7 @@ import express from "express";
 import { body, query, validationResult } from "express-validator";
 import { AuthenticatedRequest, requireCompanyRole, authenticateToken } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
-import { mockApprenticeships } from "../index";
+// Mock data removed - now using real MongoDB data
 import { database } from "../config/database";
 
 const router = express.Router();
