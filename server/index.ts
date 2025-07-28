@@ -264,72 +264,38 @@ export function createApp() {
   return { app, httpServer, io };
 }
 
-// Simple, direct MongoDB connection
+// Production-ready database connection
 export async function connectToDatabase() {
   try {
-    console.log("🚀 Starting MongoDB connection...");
-
-    // Get the MongoDB URI directly from env config
-    const env = getEnvConfig();
-    const MONGODB_URI = env.MONGODB_URI;
-
-    if (!MONGODB_URI || MONGODB_URI === '') {
-      console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
-      isMongoConnected = false;
-      return false;
+    // Check if MongoDB URI is provided
+    if (!process.env.MONGODB_URI) {
+      console.warn(
+        "⚠️  MONGODB_URI not provided. Using development mode with mock data.",
+      );
+      console.log("🗄️  Database connection established (mock)");
+      return true;
     }
 
-    console.log("🔍 Connecting to MongoDB:", MONGODB_URI.substring(0, 30) + "...");
+    // Connect to production MongoDB
+    await dbConnect();
 
-    // Production MongoDB connection options (only modern supported parameters)
-    const options = {
-      maxPoolSize: 10,
-      serverSelectionTimeoutMS: 30000,
-      connectTimeoutMS: 30000,
-      maxIdleTimeMS: 300000,
-      retryWrites: true,
-      w: 'majority'
-    };
+    // Initialize database indexes
+    await initializeIndexes();
 
-    // Direct mongoose connection
-    await mongoose.connect(MONGODB_URI, options);
+    // Initialize alert system after database connection
+    AlertService.initialize();
+    AlertService.integrateWithMonitoring();
+    console.log("🚨 Anti-poaching alert system initialized");
 
-    isMongoConnected = true;
-    console.log("✅ MongoDB connected successfully!");
-    console.log(`📊 Connected to: ${mongoose.connection.name}`);
-
-    // Set up connection event handlers
-    mongoose.connection.on('error', (error) => {
-      console.error('❌ MongoDB error:', error);
-      isMongoConnected = false;
+    // Register graceful shutdown handlers
+    database.registerShutdownHandler(async () => {
+      console.log("🚨 Shutting down alert system...");
+      // Add any alert system cleanup here
     });
-
-    mongoose.connection.on('disconnected', () => {
-      console.warn('⚠️  MongoDB disconnected');
-      isMongoConnected = false;
-    });
-
-    mongoose.connection.on('reconnected', () => {
-      console.log('🔄 MongoDB reconnected');
-      isMongoConnected = true;
-    });
-
-    // Try to initialize alert system if connection is successful
-    try {
-      // Import alert system dynamically to avoid import issues
-      const { AlertService } = await import("./services/alertService");
-      AlertService.initialize();
-      AlertService.integrateWithMonitoring();
-      console.log("🚨 Alert system initialized");
-    } catch (error) {
-      console.warn("⚠️  Alert system initialization failed:", error);
-    }
 
     return true;
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
-    console.warn("⚠️  Continuing without database - using mock data");
-    isMongoConnected = false;
+    console.error("❌ Database connection failed:", error);
     return false;
   }
 }
