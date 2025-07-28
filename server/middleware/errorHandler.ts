@@ -1,131 +1,85 @@
-import { Request, Response, NextFunction } from "express";
-import { getEnvConfig } from "../config/env";
-import { ErrorResponse } from "../types/api";
+export const errorHandler = (err: any, req: any, res: any, next: any) => {
+  console.error('Error caught by middleware:', err);
 
-export interface AppError extends Error {
-  statusCode?: number;
-  isOperational?: boolean;
-  code?: string;
-}
-
-export function errorHandler(
-  err: AppError,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-): void {
-  const env = getEnvConfig();
-
-  // Default error values
-  let statusCode = err.statusCode || 500;
-  let message = err.message || "Internal Server Error";
-  let code = err.code || "UNKNOWN_ERROR";
-
-  // Enhanced security logging
-  const errorDetails = {
-    message: err.message,
-    name: err.name,
-    code: (err as any).code,
-    url: req.url,
-    method: req.method,
-    ip: req.ip,
-    userAgent: req.get('User-Agent'),
-    userId: (req as any).user?.userId,
-    timestamp: new Date().toISOString(),
-  };
-
-  // Mongoose validation error
-  if (err.name === "ValidationError") {
-    statusCode = 400;
-    message = "Validation Error: " + err.message;
-    code = "VALIDATION_ERROR";
+  // Prevent sending response if headers already sent
+  if (res.headersSent) {
+    return next(err);
   }
 
-  // Mongoose duplicate key error
-  if (err.name === "MongoError" && (err as any).code === 11000) {
-    statusCode = 400;
-    message = "Duplicate field value entered";
-    code = "DUPLICATE_FIELD";
+  // Handle specific error types
+  if (err.name === 'ValidationError') {
+    const errors = Object.values(err.errors).map((error: any) => error.message);
+    return res.status(400).json({
+      success: false,
+      error: 'Validation Error',
+      details: errors
+    });
   }
 
-  // Mongoose CastError (invalid ObjectId)
-  if (err.name === "CastError") {
-    statusCode = 404;
-    message = "Resource not found";
-    code = "INVALID_RESOURCE_ID";
+  if (err.name === 'CastError') {
+    return res.status(400).json({
+      success: false,
+      error: 'Invalid ID format',
+      details: 'The provided ID is not valid'
+    });
   }
 
-  // JWT errors
-  if (err.name === "JsonWebTokenError") {
-    statusCode = 401;
-    message = "Invalid token";
-    code = "INVALID_TOKEN";
+  if (err.code === 11000) {
+    const field = Object.keys(err.keyValue)[0];
+    return res.status(400).json({
+      success: false,
+      error: 'Duplicate Error',
+      details: `${field} already exists`
+    });
   }
 
-  if (err.name === "TokenExpiredError") {
-    statusCode = 401;
-    message = "Token expired";
-    code = "TOKEN_EXPIRED";
+  if (err.name === 'JsonWebTokenError') {
+    return res.status(401).json({
+      success: false,
+      error: 'Invalid Token',
+      details: 'Please provide a valid authentication token'
+    });
   }
 
-  // Rate limiting errors
-  if (err.message.includes('Too many requests')) {
-    statusCode = 429;
-    message = 'Rate limit exceeded';
-    code = 'RATE_LIMIT_EXCEEDED';
+  if (err.name === 'TokenExpiredError') {
+    return res.status(401).json({
+      success: false,
+      error: 'Token Expired',
+      details: 'Authentication token has expired'
+    });
   }
 
-  // CORS errors
-  if (err.message.includes('Not allowed by CORS')) {
-    statusCode = 403;
-    message = 'CORS policy violation';
-    code = 'CORS_VIOLATION';
+  // Handle MongoDB connection errors
+  if (err.name === 'MongoNetworkError' || err.name === 'MongooseServerSelectionError') {
+    return res.status(503).json({
+      success: false,
+      error: 'Database Connection Error',
+      details: 'Unable to connect to database'
+    });
   }
 
-  // Log security-related errors with higher severity
-  if (statusCode === 401 || statusCode === 403 || err.name.includes('Token')) {
-    console.warn('🚨 Security Error:', errorDetails);
-  } else if (statusCode >= 500) {
-    console.error('❌ Server Error:', errorDetails);
-  } else {
-    console.warn('⚠️  Client Error:', errorDetails);
+  // Handle timeout errors
+  if (err.name === 'MongooseError' && err.message.includes('timeout')) {
+    return res.status(504).json({
+      success: false,
+      error: 'Request Timeout',
+      details: 'Database operation timed out'
+    });
   }
 
-  const response: ErrorResponse = {
+  // Handle async errors that don't have proper status codes
+  if (err.statusCode) {
+    return res.status(err.statusCode).json({
+      success: false,
+      error: err.message || 'An error occurred',
+      details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
+  }
+
+  // Default server error
+  return res.status(500).json({
     success: false,
-    error: message,
-    code,
-    timestamp: new Date().toISOString(),
-  };
-
-  // Include additional details only in development
-  if (env.NODE_ENV === "development") {
-    response.stack = err.stack;
-    response.details = errorDetails;
-  }
-
-  res.status(statusCode).json(response);
-}
-
-export class CustomError extends Error {
-  statusCode: number;
-  isOperational: boolean;
-  code?: string;
-
-  constructor(message: string, statusCode: number, isOperational: boolean = true, code?: string) {
-    super(message);
-    this.statusCode = statusCode;
-    this.isOperational = isOperational;
-    this.code = code;
-
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
-
-export function asyncHandler<T = any>(
-  fn: (req: Request, res: Response, next: NextFunction) => Promise<T>,
-) {
-  return (req: Request, res: Response, next: NextFunction): void => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
-}
+    error: 'Internal Server Error',
+    details: process.env.NODE_ENV === 'development' ? err.message : 'Something went wrong'
+  });
+};
