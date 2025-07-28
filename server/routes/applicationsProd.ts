@@ -6,9 +6,9 @@ import { sendSuccess, sendError, sendValidationError } from "../utils/apiRespons
 import { validateDatabaseInput } from "../middleware/database";
 
 // Import production schemas
-import { Application, validateApplicationCreation } from "../schemas/Application";
-import { Apprenticeship } from "../schemas/Apprenticeship";
-import { User } from "../schemas/User";
+import { Application } from "../models/Application";
+import { Apprenticeship } from "../models/Apprenticeship";
+import { User } from "../models/User";
 import EmailService from "../services/emailService";
 
 const router = express.Router();
