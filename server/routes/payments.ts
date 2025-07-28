@@ -9,9 +9,9 @@ import { asyncHandler, CustomError } from "../middleware/errorHandler";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
 import { validateDatabaseInput } from "../middleware/database";
 import StripeService from "../services/stripeService";
-import { User } from "../schemas/User";
-import { Payment, Subscription } from "../schemas/Payment";
-import { Application } from "../schemas/Application";
+import { User } from "../models/User";
+import { Payment, Subscription } from "../models/Payment";
+import { Application } from "../models/Application";
 
 const router = express.Router();
 
