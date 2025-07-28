@@ -1,8 +1,9 @@
 import express from "express";
 import compression from "compression";
+import mongoose from "mongoose";
 
 // Import production database configuration
-import { database, connectDatabase as dbConnect } from "./config/database";
+import { database } from "./config/database";
 // Temporarily disabled index initialization
 import {
   databaseMiddleware,
@@ -71,7 +72,7 @@ try {
   env = {
     NODE_ENV: process.env.NODE_ENV || "development",
     PORT: Number(process.env.PORT) || 3001,
-    FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
+    FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5204",
     MONGODB_URI:
       process.env.MONGODB_URI || "mongodb://localhost:27017/apprenticeapex",
     JWT_SECRET:
@@ -218,13 +219,9 @@ export function createApp() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
-  // Apprenticeships route - conditional authentication for development mode
-  if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-    console.log('🔓 Apprenticeships routes running without global authentication in development mode');
-    app.use("/api/apprenticeships", apprenticeshipRoutes);
-  } else {
-    app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
-  }
+  // Apprenticeships route - always require authentication now that DB should work
+  app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
+
   app.use("/api/applications", authenticateToken, applicationRoutes);
   app.use("/api/messages", authenticateToken, messageRoutes);
   app.use("/api/analytics", authenticateToken, analyticsRoutes);
@@ -261,42 +258,51 @@ export function createApp() {
   return { app, httpServer, io };
 }
 
-// Production-ready database connection
+// Simple, direct MongoDB connection bypassing the complex DatabaseManager
 export async function connectToDatabase() {
   try {
-    // Get validated environment config
-    const env = getEnvConfig();
+    console.log("🚀 Starting direct MongoDB connection...");
 
-    // Check if MongoDB URI is provided
-    if (!env.MONGODB_URI || env.MONGODB_URI === '') {
+    // Get the MongoDB URI directly from env config
+    const env = getEnvConfig();
+    const MONGODB_URI = env.MONGODB_URI;
+
+    if (!MONGODB_URI || MONGODB_URI === '') {
       console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
-      console.log("🗄️  Database connection established (mock)");
-      return true;
+      return false;
     }
 
-    // Connect to production MongoDB
-    await dbConnect();
+    console.log("🔍 Using MongoDB URI:", MONGODB_URI.substring(0, 30) + "...");
 
-    // Initialize database indexes
-    // TODO: Temporarily disabled to prevent index conflicts
-    // await initializeIndexes();
+    // Simple, clean connection options
+    const options = {
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 10000, // 10 seconds
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
+      maxIdleTimeMS: 300000,
+    };
 
-    // Initialize alert system after database connection
-    AlertService.initialize();
-    AlertService.integrateWithMonitoring();
-    console.log("🚨 Anti-poaching alert system initialized");
+    // Direct mongoose connection
+    await mongoose.connect(MONGODB_URI, options);
 
-    // Register graceful shutdown handlers
-    database.registerShutdownHandler(async () => {
-      console.log("🚨 Shutting down alert system...");
-      // Add any alert system cleanup here
+    console.log("✅ MongoDB connected successfully!");
+    console.log(`📊 Connected to database: ${mongoose.connection.name}`);
+    console.log(`🔗 Connection state: ${mongoose.connection.readyState}`);
+
+    // Simple connection event handlers
+    mongoose.connection.on('error', (error) => {
+      console.error('❌ MongoDB connection error:', error);
     });
 
-    console.log("✅ Database connection successful - using MongoDB Atlas");
+    mongoose.connection.on('disconnected', () => {
+      console.warn('⚠️  MongoDB disconnected');
+    });
+
     return true;
   } catch (error) {
-    console.error("❌ Database connection failed:", error);
-    console.warn("⚠️  Falling back to development mode with mock data");
+    console.error("❌ MongoDB connection failed:", error);
+    console.warn("⚠️  Continuing without database - using mock data");
     return false;
   }
 }
@@ -659,13 +665,9 @@ export function createServer() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
-  // Apprenticeships route - conditional authentication for development mode
-  if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-    console.log('🔓 Apprenticeships routes running without global authentication in development mode');
-    app.use("/api/apprenticeships", apprenticeshipRoutes);
-  } else {
-    app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
-  }
+  // Always require authentication for apprenticeships now
+  app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
+
   app.use("/api/applications", authenticateToken, applicationRoutes);
   app.use("/api/messages", authenticateToken, messageRoutes);
   app.use("/api/analytics", authenticateToken, analyticsRoutes);
