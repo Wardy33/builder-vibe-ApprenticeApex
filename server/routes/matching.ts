@@ -7,117 +7,154 @@ import { authenticateToken } from '../middleware/auth';
 
 const router = express.Router();
 
-// GET /api/matching/recommendations - Get personalized job recommendations for student
+// Calculate match score between student and apprenticeship
+function calculateMatchScore(student: any, apprenticeship: any): number {
+  let score = 0;
+  const studentProfile = student.profile;
+
+  // Industry match (30 points)
+  if (studentProfile.preferences?.industries?.includes(apprenticeship.industry)) {
+    score += 30;
+  }
+
+  // Skills match (25 points)
+  const studentSkills = studentProfile.skills || [];
+  const requiredSkills = apprenticeship.requirements?.skills || [];
+  if (requiredSkills.length > 0) {
+    const matchingSkills = studentSkills.filter(skill =>
+      requiredSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
+    );
+    score += Math.min(25, (matchingSkills.length / requiredSkills.length) * 25);
+  } else {
+    score += 10; // Base points if no specific skills required
+  }
+
+  // Location match (20 points)
+  if (apprenticeship.isRemote || studentProfile.preferences?.maxDistance) {
+    if (apprenticeship.isRemote) {
+      score += 20;
+    } else if (studentProfile.location?.coordinates && apprenticeship.location?.coordinates) {
+      const distance = calculateDistance(
+        studentProfile.location.coordinates,
+        apprenticeship.location.coordinates
+      );
+      const maxDistance = studentProfile.preferences?.maxDistance || 25;
+      if (distance <= maxDistance) {
+        score += Math.max(0, 20 - (distance / maxDistance) * 10);
+      }
+    }
+  }
+
+  // Salary match (15 points)
+  if (studentProfile.preferences?.salaryRange && apprenticeship.salary) {
+    const studentMin = studentProfile.preferences.salaryRange.min || 0;
+    const studentMax = studentProfile.preferences.salaryRange.max || 100000;
+    const jobMin = apprenticeship.salary.min;
+    const jobMax = apprenticeship.salary.max;
+
+    if (jobMin >= studentMin && jobMax <= studentMax) {
+      score += 15;
+    } else if (jobMin <= studentMax && jobMax >= studentMin) {
+      score += 7; // Partial overlap
+    }
+  }
+
+  // Work type match (10 points)
+  if (studentProfile.preferences?.workType) {
+    if (studentProfile.preferences.workType === 'both' ||
+      studentProfile.preferences.workType === apprenticeship.employmentType) {
+      score += 10;
+    }
+  }
+
+  return Math.min(100, Math.round(score));
+}
+
+// Calculate distance between two coordinates (Haversine formula)
+function calculateDistance(coords1: [number, number], coords2: [number, number]): number {
+  const [lng1, lat1] = coords1;
+  const [lng2, lat2] = coords2;
+
+  const R = 6371; // Earth's radius in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c; // Distance in km
+}
+
+// GET /api/matching/recommendations - Get personalized apprenticeship recommendations
 router.get('/recommendations', authenticateToken, async (req: any, res: any) => {
   try {
     const userId = req.user.userId;
-    const { limit = 10, page = 1 } = req.query;
+    const userRole = req.user.role;
 
-    // Get user profile
-    const user = await User.findById(userId);
-    if (!user || user.role !== 'student') {
+    if (userRole !== 'student') {
       return res.status(403).json({
         success: false,
-        error: 'Only students can get job recommendations'
+        error: 'Only students can get recommendations'
       });
     }
 
-    // Get user's applications to exclude already applied jobs
-    const userApplications = await Application.find({
-      userId,
-      status: { $in: ['pending', 'reviewed', 'accepted'] }
-    }).select('apprenticeshipId').lean();
+    const { limit = 10, minScore = 40 } = req.query;
 
-    const appliedJobIds = userApplications.map(app => app.apprenticeshipId);
+    // Get student profile
+    const student = await User.findById(userId);
+    if (!student || !student.profile) {
+      return res.status(400).json({
+        success: false,
+        error: 'Student profile not found'
+      });
+    }
 
-    // Build matching query based on user preferences
-    const matchQuery: any = {
+    // Get apprenticeships the student hasn't applied to yet
+    const appliedApprenticeships = await Application.find({ student: userId })
+      .distinct('apprenticeship');
+
+    let query: any = {
       isActive: true,
-      moderationStatus: 'approved',
-      _id: { $nin: appliedJobIds }
+      applicationDeadline: { $gte: new Date() },
+      _id: { $nin: appliedApprenticeships }
     };
 
-    // Industry preference filter
-    if (user.profile?.preferences?.industries?.length > 0) {
-      matchQuery.industry = { $in: user.profile.preferences.industries };
+    // Filter by student preferences
+    const studentProfile = student.profile as any;
+    if (studentProfile.preferences?.industries?.length > 0) {
+      query.industry = { $in: studentProfile.preferences.industries };
     }
 
-    // Work type preference
-    if (user.profile?.workType) {
-      matchQuery.$or = [
-        { workType: user.profile.workType },
-        { workType: 'both' },
-        ...(user.profile.workType !== 'both' ? [{ workType: user.profile.workType }] : [])
-      ];
-    }
-
-    // Salary range filter
-    if (user.profile?.preferences?.salaryRange) {
-      const { min: userSalaryMin, max: userSalaryMax } = user.profile.preferences.salaryRange;
-
-      if (userSalaryMin || userSalaryMax) {
-        matchQuery.$and = matchQuery.$and || [];
-
-        if (userSalaryMin) {
-          matchQuery.$and.push({ 'salary.max': { $gte: userSalaryMin } });
-        }
-        if (userSalaryMax) {
-          matchQuery.$and.push({ 'salary.min': { $lte: userSalaryMax } });
-        }
-      }
-    }
-
-    // Location-based filter
-    if (user.profile?.location?.coordinates && user.profile?.preferences?.maxDistance) {
-      matchQuery['location.coordinates'] = {
-        $near: {
-          $geometry: {
-            type: 'Point',
-            coordinates: user.profile.location.coordinates
-          },
-          $maxDistance: user.profile.preferences.maxDistance * 1000 // Convert km to meters
-        }
-      };
-    }
-
-    // Get matching apprenticeships
-    const apprenticeships = await Apprenticeship.find(matchQuery)
-      .populate('companyId', 'profile.companyName profile.industry profile.location')
-      .sort({ createdAt: -1 })
-      .skip((parseInt(page) - 1) * parseInt(limit))
-      .limit(parseInt(limit))
+    // Get potential matches
+    const apprenticeships = await Apprenticeship.find(query)
+      .populate('company', 'profile.companyName profile.logo profile.isVerified')
+      .limit(parseInt(limit) * 2) // Get more than needed for filtering
       .lean();
 
-    // Calculate match scores for each apprenticeship
-    const apprenticeshipsWithScores = apprenticeships.map(job => {
-      const matchScore = calculateMatchScore(user.profile, job);
-      const distance = user.profile?.location?.coordinates && job.location?.coordinates ?
-        calculateDistance(user.profile.location.coordinates, job.location.coordinates) : null;
-
-      return {
-        ...job,
-        matchScore,
-        distance,
-        matchReasons: generateMatchReasons(user.profile, job)
-      };
-    });
-
-    // Sort by match score (highest first)
-    apprenticeshipsWithScores.sort((a, b) => b.matchScore - a.matchScore);
-
-    const total = await Apprenticeship.countDocuments(matchQuery);
+    // Calculate match scores and filter
+    const scoredApprenticeships = apprenticeships
+      .map(apprenticeship => ({
+        ...apprenticeship,
+        matchScore: calculateMatchScore(student, apprenticeship)
+      }))
+      .filter(apprenticeship => apprenticeship.matchScore >= parseInt(minScore))
+      .sort((a, b) => b.matchScore - a.matchScore)
+      .slice(0, parseInt(limit));
 
     res.json({
       success: true,
-      data: apprenticeshipsWithScores,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        pages: Math.ceil(total / parseInt(limit))
+      data: {
+        recommendations: scoredApprenticeships,
+        totalFound: scoredApprenticeships.length,
+        criteria: {
+          minScore: parseInt(minScore),
+          industries: studentProfile.preferences?.industries || [],
+          maxDistance: studentProfile.preferences?.maxDistance || 25
+        }
       }
     });
-
   } catch (error) {
     console.error('Error getting recommendations:', error);
     res.status(500).json({
@@ -128,526 +165,489 @@ router.get('/recommendations', authenticateToken, async (req: any, res: any) => 
   }
 });
 
-// GET /api/matching/candidates - Get matched candidates for company's jobs
+// GET /api/matching/candidates - Get matching candidates for company's apprenticeships
 router.get('/candidates', authenticateToken, async (req: any, res: any) => {
   try {
     const userId = req.user.userId;
-    const { apprenticeshipId, limit = 20, page = 1, minMatchScore = 50 } = req.query;
+    const userRole = req.user.role;
 
-    // Verify user is a company
-    const company = await User.findById(userId);
-    if (!company || company.role !== 'company') {
+    if (userRole !== 'company') {
       return res.status(403).json({
         success: false,
-        error: 'Only companies can view candidate matches'
+        error: 'Only companies can access this endpoint'
       });
     }
 
-    let apprenticeshipQuery: any = {
-      companyId: userId,
-      isActive: true
-    };
+    const { apprenticeshipId, limit = 20, minScore = 50 } = req.query;
 
-    // If specific apprenticeship requested, filter to that
-    if (apprenticeshipId) {
-      apprenticeshipQuery._id = apprenticeshipId;
-    }
-
-    // Get company's apprenticeships
-    const apprenticeships = await Apprenticeship.find(apprenticeshipQuery).lean();
-
-    if (apprenticeships.length === 0) {
-      return res.json({
-        success: true,
-        data: [],
-        pagination: { page: 1, limit: parseInt(limit), total: 0, pages: 0 }
-      });
-    }
-
-    const apprenticeshipIds = apprenticeships.map(job => job._id);
-
-    // Get students who haven't applied to these jobs yet
-    const existingApplications = await Application.find({
-      apprenticeshipId: { $in: apprenticeshipIds },
-      status: { $in: ['pending', 'reviewed', 'accepted'] }
-    }).select('userId').lean();
-
-    const appliedUserIds = existingApplications.map(app => app.userId);
-
-    // Find active students
-    const students = await User.find({
-      role: 'student',
-      isActive: true,
-      _id: { $nin: appliedUserIds }
-    })
-      .select('profile email createdAt')
-      .skip((parseInt(page) - 1) * parseInt(limit))
-      .limit(parseInt(limit))
-      .lean();
-
-    // Calculate match scores for each student against each job
-    const candidatesWithMatches = [];
-
-    for (const student of students) {
-      const studentMatches = apprenticeships.map(job => {
-        const matchScore = calculateMatchScore(student.profile, job);
-        return {
-          apprenticeshipId: job._id,
-          jobTitle: job.jobTitle,
-          matchScore,
-          matchReasons: generateMatchReasons(student.profile, job)
-        };
-      });
-
-      // Get the best match for this student
-      const bestMatch = studentMatches.reduce((best, current) =>
-        current.matchScore > best.matchScore ? current : best
-      );
-
-      // Only include if match score meets minimum threshold
-      if (bestMatch.matchScore >= parseInt(minMatchScore)) {
-        candidatesWithMatches.push({
-          student: {
-            _id: student._id,
-            email: student.email,
-            profile: student.profile,
-            memberSince: student.createdAt
-          },
-          bestMatch,
-          allMatches: studentMatches
-        });
-      }
-    }
-
-    // Sort by best match score
-    candidatesWithMatches.sort((a, b) => b.bestMatch.matchScore - a.bestMatch.matchScore);
-
-    const total = await User.countDocuments({
-      role: 'student',
-      isActive: true,
-      _id: { $nin: appliedUserIds }
-    });
-
-    res.json({
-      success: true,
-      data: candidatesWithMatches,
-      pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        total,
-        pages: Math.ceil(total / parseInt(limit))
-      }
-    });
-
-  } catch (error) {
-    console.error('Error getting candidate matches:', error);
-    res.status(500).json({
-      success: false,
-      error: 'Failed to get candidate matches',
-      details: error.message
-    });
-  }
-});
-
-// POST /api/matching/invite - Invite a candidate to apply
-router.post('/invite', authenticateToken, async (req: any, res: any) => {
-  try {
-    const companyId = req.user.userId;
-    const { studentId, apprenticeshipId, message } = req.body;
-
-    // Verify company ownership
-    const company = await User.findById(companyId);
-    if (!company || company.role !== 'company') {
-      return res.status(403).json({
+    if (!apprenticeshipId) {
+      return res.status(400).json({
         success: false,
-        error: 'Only companies can send invitations'
+        error: 'Apprenticeship ID is required'
       });
     }
 
-    // Verify apprenticeship belongs to company
-    const apprenticeship = await Apprenticeship.findOne({
-      _id: apprenticeshipId,
-      companyId,
-      isActive: true
-    });
-
-    if (!apprenticeship) {
+    // Get the apprenticeship
+    const apprenticeship = await Apprenticeship.findById(apprenticeshipId);
+    if (!apprenticeship || apprenticeship.company.toString() !== userId) {
       return res.status(404).json({
         success: false,
         error: 'Apprenticeship not found or access denied'
       });
     }
 
-    // Verify student exists
-    const student = await User.findOne({ _id: studentId, role: 'student' });
-    if (!student) {
+    // Get students who haven't applied to this apprenticeship
+    const appliedStudents = await Application.find({ apprenticeship: apprenticeshipId })
+      .distinct('student');
+
+    const students = await User.find({
+      role: 'student',
+      isActive: true,
+      'profile.isActive': true,
+      _id: { $nin: appliedStudents }
+    }).lean();
+
+    // Calculate match scores
+    const scoredCandidates = students
+      .map(student => ({
+        ...student,
+        matchScore: calculateMatchScore(student, apprenticeship)
+      }))
+      .filter(candidate => candidate.matchScore >= parseInt(minScore))
+      .sort((a, b) => b.matchScore - a.matchScore)
+      .slice(0, parseInt(limit));
+
+    res.json({
+      success: true,
+      data: {
+        candidates: scoredCandidates,
+        apprenticeship: {
+          id: apprenticeship._id,
+          title: apprenticeship.title,
+          industry: apprenticeship.industry
+        },
+        totalFound: scoredCandidates.length,
+        criteria: {
+          minScore: parseInt(minScore)
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error getting matching candidates:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to get matching candidates',
+      details: error.message
+    });
+  }
+});
+
+// POST /api/matching/analyze - Analyze match between student and apprenticeship
+router.post('/analyze', authenticateToken, async (req: any, res: any) => {
+  try {
+    const { studentId, apprenticeshipId } = req.body;
+    const userRole = req.user.role;
+
+    if (!studentId || !apprenticeshipId) {
+      return res.status(400).json({
+        success: false,
+        error: 'Student ID and Apprenticeship ID are required'
+      });
+    }
+
+    // Validate ObjectIds
+    if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(apprenticeshipId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid student or apprenticeship ID'
+      });
+    }
+
+    // Get student and apprenticeship
+    const [student, apprenticeship] = await Promise.all([
+      User.findById(studentId),
+      Apprenticeship.findById(apprenticeshipId).populate('company', 'profile.companyName')
+    ]);
+
+    if (!student || student.role !== 'student') {
       return res.status(404).json({
         success: false,
         error: 'Student not found'
       });
     }
 
-    // Check if student already applied
-    const existingApplication = await Application.findOne({
-      userId: studentId,
-      apprenticeshipId,
-      status: { $in: ['pending', 'reviewed', 'accepted'] }
-    });
-
-    if (existingApplication) {
-      return res.status(400).json({
+    if (!apprenticeship) {
+      return res.status(404).json({
         success: false,
-        error: 'Student has already applied to this position'
+        error: 'Apprenticeship not found'
       });
     }
 
-    // Here you would typically create an invitation record and send notification
-    // For now, we'll just create a special application with "invited" status
-    const invitationApplication = new Application({
-      userId: studentId,
-      apprenticeshipId,
-      companyId,
-      status: 'invited',
-      submittedAt: new Date(),
-      invitedAt: new Date(),
-      invitationMessage: message,
-      matchScore: calculateMatchScore(student.profile, apprenticeship)
-    });
+    // Check access permissions
+    const hasAccess =
+      userRole === 'admin' ||
+      (userRole === 'student' && req.user.userId === studentId) ||
+      (userRole === 'company' && apprenticeship.company._id.toString() === req.user.userId);
 
-    await invitationApplication.save();
+    if (!hasAccess) {
+      return res.status(403).json({
+        success: false,
+        error: 'Access denied'
+      });
+    }
+
+    // Calculate detailed match analysis
+    const matchScore = calculateMatchScore(student, apprenticeship);
+    const studentProfile = student.profile as any;
+
+    // Detailed breakdown
+    const analysis = {
+      overallScore: matchScore,
+      breakdown: {
+        industry: {
+          score: 0,
+          details: ''
+        },
+        skills: {
+          score: 0,
+          matchingSkills: [],
+          missingSkills: [],
+          details: ''
+        },
+        location: {
+          score: 0,
+          distance: null,
+          details: ''
+        },
+        salary: {
+          score: 0,
+          details: ''
+        },
+        workType: {
+          score: 0,
+          details: ''
+        }
+      },
+      recommendations: []
+    };
+
+    // Industry analysis
+    if (studentProfile.preferences?.industries?.includes(apprenticeship.industry)) {
+      analysis.breakdown.industry.score = 30;
+      analysis.breakdown.industry.details = 'Perfect industry match';
+    } else {
+      analysis.breakdown.industry.details = 'Industry not in student preferences';
+    }
+
+    // Skills analysis
+    const studentSkills = studentProfile.skills || [];
+    const requiredSkills = apprenticeship.requirements?.skills || [];
+
+    if (requiredSkills.length > 0) {
+      const matchingSkills = studentSkills.filter(skill =>
+        requiredSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
+      );
+      const missingSkills = requiredSkills.filter(reqSkill =>
+        !studentSkills.some(skill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
+      );
+
+      analysis.breakdown.skills.score = Math.min(25, (matchingSkills.length / requiredSkills.length) * 25);
+      analysis.breakdown.skills.matchingSkills = matchingSkills;
+      analysis.breakdown.skills.missingSkills = missingSkills;
+      analysis.breakdown.skills.details = `${matchingSkills.length}/${requiredSkills.length} required skills match`;
+    } else {
+      analysis.breakdown.skills.score = 10;
+      analysis.breakdown.skills.details = 'No specific skills required';
+    }
+
+    // Location analysis
+    if (apprenticeship.isRemote) {
+      analysis.breakdown.location.score = 20;
+      analysis.breakdown.location.details = 'Remote position - location not a factor';
+    } else if (studentProfile.location?.coordinates && apprenticeship.location?.coordinates) {
+      const distance = calculateDistance(
+        studentProfile.location.coordinates,
+        apprenticeship.location.coordinates
+      );
+      const maxDistance = studentProfile.preferences?.maxDistance || 25;
+
+      analysis.breakdown.location.distance = Math.round(distance);
+
+      if (distance <= maxDistance) {
+        analysis.breakdown.location.score = Math.max(0, 20 - (distance / maxDistance) * 10);
+        analysis.breakdown.location.details = `Within preferred distance (${Math.round(distance)}km)`;
+      } else {
+        analysis.breakdown.location.details = `Outside preferred distance (${Math.round(distance)}km vs ${maxDistance}km max)`;
+      }
+    } else {
+      analysis.breakdown.location.details = 'Location information incomplete';
+    }
+
+    // Salary analysis
+    if (studentProfile.preferences?.salaryRange && apprenticeship.salary) {
+      const studentMin = studentProfile.preferences.salaryRange.min || 0;
+      const studentMax = studentProfile.preferences.salaryRange.max || 100000;
+      const jobMin = apprenticeship.salary.min;
+      const jobMax = apprenticeship.salary.max;
+
+      if (jobMin >= studentMin && jobMax <= studentMax) {
+        analysis.breakdown.salary.score = 15;
+        analysis.breakdown.salary.details = 'Salary range matches preferences perfectly';
+      } else if (jobMin <= studentMax && jobMax >= studentMin) {
+        analysis.breakdown.salary.score = 7;
+        analysis.breakdown.salary.details = 'Salary range partially matches preferences';
+      } else {
+        analysis.breakdown.salary.details = 'Salary range outside preferences';
+      }
+    } else {
+      analysis.breakdown.salary.details = 'Salary preferences not specified';
+    }
+
+    // Work type analysis
+    if (studentProfile.preferences?.workType) {
+      if (studentProfile.preferences.workType === 'both' ||
+        studentProfile.preferences.workType === apprenticeship.employmentType) {
+        analysis.breakdown.workType.score = 10;
+        analysis.breakdown.workType.details = 'Work type matches preferences';
+      } else {
+        analysis.breakdown.workType.details = 'Work type does not match preferences';
+      }
+    } else {
+      analysis.breakdown.workType.details = 'Work type preference not specified';
+    }
+
+    // Generate recommendations
+    if (analysis.breakdown.skills.missingSkills.length > 0) {
+      analysis.recommendations.push({
+        type: 'skills',
+        message: `Consider developing these skills: ${analysis.breakdown.skills.missingSkills.join(', ')}`
+      });
+    }
+
+    if (analysis.breakdown.location.distance && analysis.breakdown.location.distance > (studentProfile.preferences?.maxDistance || 25)) {
+      analysis.recommendations.push({
+        type: 'location',
+        message: 'Consider expanding your search radius or looking into remote opportunities'
+      });
+    }
+
+    if (analysis.overallScore < 60) {
+      analysis.recommendations.push({
+        type: 'general',
+        message: 'This position may not be the best match. Consider refining your preferences or profile.'
+      });
+    }
 
     res.json({
       success: true,
-      message: 'Invitation sent successfully',
-      data: invitationApplication
+      data: {
+        student: {
+          id: student._id,
+          name: `${studentProfile.firstName} ${studentProfile.lastName}`
+        },
+        apprenticeship: {
+          id: apprenticeship._id,
+          title: apprenticeship.title,
+          company: apprenticeship.company.profile.companyName
+        },
+        analysis
+      }
     });
-
   } catch (error) {
-    console.error('Error sending invitation:', error);
+    console.error('Error analyzing match:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to send invitation',
+      error: 'Failed to analyze match',
       details: error.message
     });
   }
 });
 
-// GET /api/matching/analytics - Get matching analytics
-router.get('/analytics', authenticateToken, async (req: any, res: any) => {
+// GET /api/matching/stats - Get matching statistics
+router.get('/stats', authenticateToken, async (req: any, res: any) => {
   try {
     const userId = req.user.userId;
     const userRole = req.user.role;
 
-    let analytics: any = {};
+    let stats: any = {};
 
     if (userRole === 'student') {
-      // Student analytics
-      const user = await User.findById(userId);
+      // Get student's matching stats
+      const student = await User.findById(userId);
+      if (!student) {
+        return res.status(404).json({
+          success: false,
+          error: 'Student not found'
+        });
+      }
 
-      // Get user's application stats
-      const applicationStats = await Application.aggregate([
-        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-        {
-          $group: {
-            _id: '$status',
-            count: { $sum: 1 },
-            avgMatchScore: { $avg: '$matchScore' }
-          }
-        }
-      ]);
+      const appliedApprenticeships = await Application.find({ student: userId })
+        .distinct('apprenticeship');
 
-      // Get industry interest based on applications
-      const industryInterest = await Application.aggregate([
-        { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-        {
-          $lookup: {
-            from: 'apprenticeships',
-            localField: 'apprenticeshipId',
-            foreignField: '_id',
-            as: 'job'
-          }
-        },
-        { $unwind: '$job' },
-        {
-          $group: {
-            _id: '$job.industry',
-            applications: { $sum: 1 },
-            avgMatchScore: { $avg: '$matchScore' }
-          }
-        },
-        { $sort: { applications: -1 } }
-      ]);
+      const totalApprenticeships = await Apprenticeship.countDocuments({
+        isActive: true,
+        applicationDeadline: { $gte: new Date() }
+      });
 
-      analytics = {
-        profile: {
-          completeness: calculateProfileCompleteness(user.profile),
-          skills: user.profile?.skills?.length || 0,
-          preferences: user.profile?.preferences ? 'set' : 'not_set'
-        },
-        applications: formatApplicationStats(applicationStats),
-        industryInterest: industryInterest.slice(0, 5), // Top 5 industries
-        recommendations: {
-          available: await Apprenticeship.countDocuments({
-            isActive: true,
-            moderationStatus: 'approved'
-          })
-        }
+      const potentialMatches = await Apprenticeship.find({
+        isActive: true,
+        applicationDeadline: { $gte: new Date() },
+        _id: { $nin: appliedApprenticeships }
+      }).lean();
+
+      // Calculate average match score for potential matches
+      const matchScores = potentialMatches.map(apprenticeship =>
+        calculateMatchScore(student, apprenticeship)
+      );
+
+      const averageMatchScore = matchScores.length > 0
+        ? Math.round(matchScores.reduce((a, b) => a + b, 0) / matchScores.length)
+        : 0;
+
+      const highQualityMatches = matchScores.filter(score => score >= 70).length;
+
+      stats = {
+        totalApprenticeships,
+        alreadyApplied: appliedApprenticeships.length,
+        potentialMatches: potentialMatches.length,
+        averageMatchScore,
+        highQualityMatches,
+        profileCompleteness: (student.profile as any).profileCompletion || 0
       };
 
     } else if (userRole === 'company') {
-      // Company analytics
-      const jobStats = await Apprenticeship.aggregate([
-        { $match: { companyId: new mongoose.Types.ObjectId(userId) } },
-        {
-          $group: {
-            _id: '$isActive',
-            count: { $sum: 1 },
-            totalApplications: { $sum: '$applicationCount' },
-            totalViews: { $sum: '$viewCount' }
-          }
-        }
-      ]);
+      // Get company's matching stats
+      const companyApprenticeships = await Apprenticeship.find({
+        company: userId,
+        isActive: true
+      });
 
-      const applicationStats = await Application.aggregate([
-        { $match: { companyId: new mongoose.Types.ObjectId(userId) } },
-        {
-          $group: {
-            _id: '$status',
-            count: { $sum: 1 },
-            avgMatchScore: { $avg: '$matchScore' }
-          }
-        }
-      ]);
+      const apprenticeshipIds = companyApprenticeships.map(app => app._id);
 
-      analytics = {
-        jobs: formatJobStats(jobStats),
-        applications: formatApplicationStats(applicationStats),
-        performance: {
-          averageApplicationsPerJob: jobStats.length > 0 ?
-            jobStats.reduce((sum, stat) => sum + (stat.totalApplications || 0), 0) / jobStats.length : 0,
-          averageViewsPerJob: jobStats.length > 0 ?
-            jobStats.reduce((sum, stat) => sum + (stat.totalViews || 0), 0) / jobStats.length : 0
-        }
+      const totalApplications = await Application.countDocuments({
+        apprenticeship: { $in: apprenticeshipIds }
+      });
+
+      const totalStudents = await User.countDocuments({
+        role: 'student',
+        isActive: true,
+        'profile.isActive': true
+      });
+
+      stats = {
+        activeApprenticeships: companyApprenticeships.length,
+        totalApplications,
+        averageApplicationsPerPost: companyApprenticeships.length > 0
+          ? Math.round(totalApplications / companyApprenticeships.length)
+          : 0,
+        totalStudents,
+        reachPercentage: totalStudents > 0
+          ? Math.round((totalApplications / totalStudents) * 100)
+          : 0
       };
     }
 
     res.json({
       success: true,
-      data: analytics
+      data: stats
     });
-
   } catch (error) {
-    console.error('Error getting matching analytics:', error);
+    console.error('Error getting matching stats:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to get analytics',
+      error: 'Failed to get matching statistics',
       details: error.message
     });
   }
 });
 
-// Helper function to calculate match score (same as in applications.ts)
-function calculateMatchScore(userProfile: any, apprenticeship: any): number {
-  let score = 0;
-  let factors = 0;
+// GET /api/matching/similar - Find similar apprenticeships/students
+router.get('/similar', authenticateToken, async (req: any, res: any) => {
+  try {
+    const { type, id, limit = 5 } = req.query;
 
-  // Skills matching (40% weight)
-  if (userProfile.skills && apprenticeship.skills) {
-    const userSkills = userProfile.skills.map((s: string) => s.toLowerCase());
-    const jobSkills = apprenticeship.skills.map((s: any) =>
-      typeof s === 'string' ? s.toLowerCase() : s.skill?.toLowerCase()
-    ).filter(Boolean);
-
-    const matchingSkills = userSkills.filter((skill: string) =>
-      jobSkills.some((jobSkill: string) => jobSkill.includes(skill) || skill.includes(jobSkill))
-    );
-
-    if (jobSkills.length > 0) {
-      score += (matchingSkills.length / jobSkills.length) * 40;
-      factors++;
+    if (!type || !id || !['apprenticeship', 'student'].includes(type)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Valid type (apprenticeship/student) and ID are required'
+      });
     }
-  }
 
-  // Location matching (20% weight)
-  if (userProfile.location?.coordinates && apprenticeship.location?.coordinates) {
-    const distance = calculateDistance(
-      userProfile.location.coordinates,
-      apprenticeship.location.coordinates
-    );
-
-    if (distance <= 10) score += 20;
-    else if (distance <= 25) score += 15;
-    else if (distance <= 50) score += 10;
-    else score += 5;
-
-    factors++;
-  }
-
-  // Work type matching (15% weight)
-  if (userProfile.workType && apprenticeship.workType) {
-    if (userProfile.workType === apprenticeship.workType ||
-      userProfile.workType === 'both' ||
-      apprenticeship.workType === 'both') {
-      score += 15;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid ID format'
+      });
     }
-    factors++;
-  }
 
-  // Salary expectations (15% weight)
-  if (userProfile.preferences?.salaryRange && apprenticeship.salary) {
-    const userMin = userProfile.preferences.salaryRange.min || 0;
-    const userMax = userProfile.preferences.salaryRange.max || 100000;
-    const jobMin = apprenticeship.salary.min || 0;
-    const jobMax = apprenticeship.salary.max || 100000;
+    let similar = [];
 
-    if (jobMax >= userMin && userMax >= jobMin) {
-      score += 15;
-    } else {
-      const gap = Math.min(Math.abs(jobMax - userMin), Math.abs(userMax - jobMin));
-      if (gap <= 5000) score += 10;
-      else if (gap <= 10000) score += 5;
+    if (type === 'apprenticeship') {
+      const apprenticeship = await Apprenticeship.findById(id);
+      if (!apprenticeship) {
+        return res.status(404).json({
+          success: false,
+          error: 'Apprenticeship not found'
+        });
+      }
+
+      // Find similar apprenticeships based on industry, location, and skills
+      similar = await Apprenticeship.find({
+        _id: { $ne: id },
+        isActive: true,
+        $or: [
+          { industry: apprenticeship.industry },
+          { 'location.city': apprenticeship.location.city },
+          { 'requirements.skills': { $in: apprenticeship.requirements.skills } }
+        ]
+      })
+        .populate('company', 'profile.companyName profile.logo')
+        .limit(parseInt(limit))
+        .lean();
+
+    } else if (type === 'student') {
+      const student = await User.findById(id);
+      if (!student || student.role !== 'student') {
+        return res.status(404).json({
+          success: false,
+          error: 'Student not found'
+        });
+      }
+
+      const studentProfile = student.profile as any;
+
+      // Find similar students based on skills, location, and preferences
+      similar = await User.find({
+        _id: { $ne: id },
+        role: 'student',
+        isActive: true,
+        $or: [
+          { 'profile.skills': { $in: studentProfile.skills || [] } },
+          { 'profile.location.city': studentProfile.location?.city },
+          { 'profile.preferences.industries': { $in: studentProfile.preferences?.industries || [] } }
+        ]
+      })
+        .select('profile.firstName profile.lastName profile.skills profile.location profile.preferences')
+        .limit(parseInt(limit))
+        .lean();
     }
-    factors++;
+
+    res.json({
+      success: true,
+      data: {
+        similar,
+        count: similar.length,
+        type
+      }
+    });
+  } catch (error) {
+    console.error('Error finding similar items:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to find similar items',
+      details: error.message
+    });
   }
-
-  // Industry preference (10% weight)
-  if (userProfile.preferences?.industries && apprenticeship.industry) {
-    const userIndustries = userProfile.preferences.industries.map((i: string) => i.toLowerCase());
-    if (userIndustries.includes(apprenticeship.industry.toLowerCase())) {
-      score += 10;
-    }
-    factors++;
-  }
-
-  return factors > 0 ? Math.round(score) : 50;
-}
-
-// Helper function to calculate distance
-function calculateDistance(coords1: number[], coords2: number[]): number {
-  const [lon1, lat1] = coords1;
-  const [lon2, lat2] = coords2;
-
-  const R = 6371;
-  const dLat = (lat2 - lat1) * Math.PI / 180;
-  const dLon = (lon2 - lon1) * Math.PI / 180;
-
-  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-    Math.sin(dLon / 2) * Math.sin(dLon / 2);
-
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c;
-
-  return Math.round(distance * 100) / 100;
-}
-
-// Helper function to generate match reasons
-function generateMatchReasons(userProfile: any, apprenticeship: any): string[] {
-  const reasons = [];
-
-  // Skills match
-  if (userProfile.skills && apprenticeship.skills) {
-    const userSkills = userProfile.skills.map((s: string) => s.toLowerCase());
-    const jobSkills = apprenticeship.skills.map((s: any) =>
-      typeof s === 'string' ? s.toLowerCase() : s.skill?.toLowerCase()
-    ).filter(Boolean);
-
-    const matchingSkills = userSkills.filter((skill: string) =>
-      jobSkills.some((jobSkill: string) => jobSkill.includes(skill) || skill.includes(jobSkill))
-    );
-
-    if (matchingSkills.length > 0) {
-      reasons.push(`Skills match: ${matchingSkills.slice(0, 3).join(', ')}`);
-    }
-  }
-
-  // Location match
-  if (userProfile.location?.coordinates && apprenticeship.location?.coordinates) {
-    const distance = calculateDistance(
-      userProfile.location.coordinates,
-      apprenticeship.location.coordinates
-    );
-
-    if (distance <= 25) {
-      reasons.push(`Close location: ${distance}km away`);
-    }
-  }
-
-  // Industry match
-  if (userProfile.preferences?.industries && apprenticeship.industry) {
-    const userIndustries = userProfile.preferences.industries.map((i: string) => i.toLowerCase());
-    if (userIndustries.includes(apprenticeship.industry.toLowerCase())) {
-      reasons.push(`Industry preference: ${apprenticeship.industry}`);
-    }
-  }
-
-  // Salary match
-  if (userProfile.preferences?.salaryRange && apprenticeship.salary) {
-    const userMin = userProfile.preferences.salaryRange.min || 0;
-    const userMax = userProfile.preferences.salaryRange.max || 100000;
-    const jobMin = apprenticeship.salary.min || 0;
-    const jobMax = apprenticeship.salary.max || 100000;
-
-    if (jobMax >= userMin && userMax >= jobMin) {
-      reasons.push(`Salary range fits expectations`);
-    }
-  }
-
-  return reasons.slice(0, 3); // Return top 3 reasons
-}
-
-// Helper functions for analytics formatting
-function formatApplicationStats(stats: any[]): any {
-  const formatted = {
-    total: 0,
-    pending: 0,
-    reviewed: 0,
-    accepted: 0,
-    rejected: 0,
-    invited: 0,
-    averageMatchScore: 0
-  };
-
-  stats.forEach(stat => {
-    formatted[stat._id] = stat.count;
-    formatted.total += stat.count;
-    if (stat.avgMatchScore) {
-      formatted.averageMatchScore = Math.round(stat.avgMatchScore);
-    }
-  });
-
-  return formatted;
-}
-
-function formatJobStats(stats: any[]): any {
-  const active = stats.find(s => s._id === true) || { count: 0, totalApplications: 0, totalViews: 0 };
-  const inactive = stats.find(s => s._id === false) || { count: 0, totalApplications: 0, totalViews: 0 };
-
-  return {
-    active: active.count,
-    inactive: inactive.count,
-    total: active.count + inactive.count,
-    totalApplications: active.totalApplications || 0,
-    totalViews: active.totalViews || 0
-  };
-}
-
-function calculateProfileCompleteness(profile: any): number {
-  if (!profile) return 0;
-
-  const fields = [
-    'firstName', 'lastName', 'bio', 'skills', 'location',
-    'workType', 'transportModes', 'preferences'
-  ];
-
-  const completedFields = fields.filter(field => {
-    const value = profile[field];
-    if (Array.isArray(value)) return value.length > 0;
-    if (typeof value === 'object') return value && Object.keys(value).length > 0;
-    return value;
-  });
-
-  return Math.round((completedFields.length / fields.length) * 100);
-}
+});
 
 export default router;
