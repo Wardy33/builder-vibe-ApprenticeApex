@@ -79,10 +79,11 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
   }
 
   try {
-    // Validate input data with Zod
-    const validation = validateUserRegistration({ email, password, role, profile });
-    if (!validation.success) {
-      return sendValidationError(res, 'Invalid input data', validation.error?.errors);
+    // Validate input data with DatabaseValidator
+    const { validateDatabaseInput } = await import("../middleware/database");
+    const validation = validateDatabaseInput('users', { email, password, role, profile });
+    if (!validation.isValid && validation.errors) {
+      return sendValidationError(res, validation.errors, 'Invalid input data');
     }
 
     // Check if user already exists
