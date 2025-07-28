@@ -5,6 +5,8 @@ import { asyncHandler, CustomError } from "../middleware/errorHandler";
 // Mock data removed - now using real MongoDB data
 import { database } from "../config/database";
 import { Apprenticeship } from "../models/Apprenticeship";
+import { User } from "../models/User";
+import { Application } from "../models/Application";
 
 const router = express.Router();
 
