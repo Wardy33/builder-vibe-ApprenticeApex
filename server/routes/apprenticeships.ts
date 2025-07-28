@@ -43,7 +43,8 @@ router.get(
       offset = 0,
     } = req.query;
 
-    let filteredApprenticeships = [...mockApprenticeships];
+    // Build MongoDB query
+    const query: any = { isActive: true };
 
     // Filter by industry
     if (industries) {
