@@ -201,8 +201,8 @@ export function createApp() {
     });
   });
 
-  // Enhanced health check routes (might have issues, so we'll skip for now)
-  // app.use("/api/health", healthRoutes);
+  // Enhanced health check routes
+  app.use("/api/health", healthRoutes);
 
   // Rate limiting (only if security middleware is enabled)
   if (
