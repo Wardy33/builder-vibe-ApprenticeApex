@@ -117,55 +117,13 @@ function expressPlugin(): Plugin {
   return {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
-    async configureServer(server) {
-      console.log('🔧 Express plugin starting...');
+    configureServer(server) {
+      // Import and use createApp function for development
+      const { createApp } = require('./server/index.ts');
+      const { app } = createApp();
 
-      try {
-        // Import Express using ES6 import for compatibility
-        const { default: express } = await import('express');
-
-        // Create a simple Express app without database connection for now
-        const app = express();
-
-        // Basic middleware
-        app.use(express.json({ limit: "10mb" }));
-        app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-
-        // Basic CORS
-        app.use((req, res, next) => {
-          res.header("Access-Control-Allow-Origin", "*");
-          res.header("Access-Control-Allow-Headers", "*");
-          res.header("Access-Control-Allow-Methods", "*");
-          if (req.method === "OPTIONS") {
-            res.sendStatus(200);
-          } else {
-            next();
-          }
-        });
-
-        // Basic health check
-        app.get("/api/ping", (req, res) => {
-          res.json({
-            message: "ApprenticeApex API v1.0 (minimal mode)",
-            timestamp: new Date().toISOString(),
-            status: "healthy",
-            database: "disabled",
-          });
-        });
-
-        // 404 handler
-        app.use("/api/*", (req, res) => {
-          res.status(404).json({ error: "API endpoint not found (minimal mode)" });
-        });
-
-        console.log('✅ Minimal Express app created (no database connection)');
-
-        // Add Express app as middleware to Vite dev server
-        server.middlewares.use(app);
-
-      } catch (error) {
-        console.error('❌ Failed to setup minimal Express plugin:', error);
-      }
+      // Add Express app as middleware to Vite dev server
+      server.middlewares.use(app);
     },
   };
 }
