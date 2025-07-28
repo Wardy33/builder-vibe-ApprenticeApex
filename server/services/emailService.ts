@@ -1,9 +1,9 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import { getEnvConfig, requireEnvVar } from '../config/env.js';
-import { User } from '../schemas/User.js';
-import { Payment } from '../schemas/Payment.js';
-import { Application } from '../schemas/Application.js';
-import { Apprenticeship } from '../schemas/Apprenticeship.js';
+import { User } from '../models/User.js';
+import { Payment } from '../models/Payment.js';
+import { Application } from '../models/Application.js';
+import { Apprenticeship } from '../models/Apprenticeship.js';
 import {
   emailTemplates,
   InterviewInvitationData,
@@ -70,7 +70,7 @@ class EmailService {
       const env = getEnvConfig();
 
       if (!env.SMTP_USER || !env.SMTP_PASSWORD) {
-        console.warn('⚠️  SMTP credentials not configured - emails will be queued but not sent');
+        console.warn('���️  SMTP credentials not configured - emails will be queued but not sent');
         return;
       }
 
