@@ -2,9 +2,7 @@ import express from "express";
 import compression from "compression";
 import mongoose from "mongoose";
 
-// Import production database configuration
-import { database } from "./config/database";
-// Temporarily disabled index initialization
+// Import middleware directly without the problematic database manager
 import {
   databaseMiddleware,
   databaseHealthCheck,
@@ -63,6 +61,24 @@ import { AlertService } from "./services/alertService";
 // Load environment variables
 dotenv.config();
 
+// Simple database status tracking
+let isMongoConnected = false;
+
+// Simple mock database object for middleware compatibility
+const mockDatabase = {
+  getHealthStatus: () => ({
+    status: isMongoConnected ? 'healthy' : 'unhealthy',
+    connected: isMongoConnected,
+    connecting: false,
+    connectionAttempts: 0,
+    lastConnectedAt: isMongoConnected ? new Date() : undefined,
+    lastDisconnectedAt: !isMongoConnected ? new Date() : undefined,
+    readyState: mongoose.connection.readyState,
+  }),
+  isConnected: () => isMongoConnected,
+  getConnection: () => mongoose.connection,
+};
+
 // Validate environment variables on startup (skip in Vite dev mode)
 let env: any;
 try {
@@ -115,7 +131,11 @@ export function createApp() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Database middleware
+  // Database middleware with mock database object
+  app.use((req, res, next) => {
+    req.database = mockDatabase;
+    next();
+  });
   app.use(databaseHealthCheck());
   app.use(optimizeQueries());
 
@@ -182,18 +202,12 @@ export function createApp() {
 
   // Comprehensive health check
   app.get("/api/health", async (_req, res) => {
-    const dbStatus = database.getHealthStatus();
-    const performanceMonitor = databaseMiddleware.monitor;
-    const healthStatus = performanceMonitor.getHealthStatus();
+    const dbStatus = mockDatabase.getHealthStatus();
 
     res.json({
-      status:
-        dbStatus.status === "healthy" && healthStatus.status === "healthy"
-          ? "healthy"
-          : "degraded",
+      status: dbStatus.status === "healthy" ? "healthy" : "degraded",
       timestamp: new Date().toISOString(),
       database: dbStatus,
-      performance: healthStatus,
       uptime: process.uptime(),
       memory: process.memoryUsage(),
       version: "1.0.0",
@@ -219,7 +233,7 @@ export function createApp() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
-  // Apprenticeships route - always require authentication now that DB should work
+  // Always require authentication for apprenticeships now
   app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
 
   app.use("/api/applications", authenticateToken, applicationRoutes);
@@ -258,10 +272,10 @@ export function createApp() {
   return { app, httpServer, io };
 }
 
-// Simple, direct MongoDB connection bypassing the complex DatabaseManager
+// Simple, direct MongoDB connection
 export async function connectToDatabase() {
   try {
-    console.log("🚀 Starting direct MongoDB connection...");
+    console.log("🚀 Starting MongoDB connection...");
 
     // Get the MongoDB URI directly from env config
     const env = getEnvConfig();
@@ -269,40 +283,57 @@ export async function connectToDatabase() {
 
     if (!MONGODB_URI || MONGODB_URI === '') {
       console.warn("⚠️  MONGODB_URI not provided. Using development mode with mock data.");
+      isMongoConnected = false;
       return false;
     }
 
-    console.log("🔍 Using MongoDB URI:", MONGODB_URI.substring(0, 30) + "...");
+    console.log("🔍 Connecting to MongoDB:", MONGODB_URI.substring(0, 30) + "...");
 
-    // Simple, clean connection options
+    // Clean, minimal connection options
     const options = {
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 10000, // 10 seconds
-      socketTimeoutMS: 45000,
-      connectTimeoutMS: 10000,
-      maxIdleTimeMS: 300000,
+      serverSelectionTimeoutMS: 5000, // 5 seconds
+      connectTimeoutMS: 5000,
+      socketTimeoutMS: 30000,
     };
 
     // Direct mongoose connection
     await mongoose.connect(MONGODB_URI, options);
 
+    isMongoConnected = true;
     console.log("✅ MongoDB connected successfully!");
-    console.log(`📊 Connected to database: ${mongoose.connection.name}`);
-    console.log(`🔗 Connection state: ${mongoose.connection.readyState}`);
+    console.log(`📊 Connected to: ${mongoose.connection.name}`);
 
-    // Simple connection event handlers
+    // Set up connection event handlers
     mongoose.connection.on('error', (error) => {
-      console.error('❌ MongoDB connection error:', error);
+      console.error('❌ MongoDB error:', error);
+      isMongoConnected = false;
     });
 
     mongoose.connection.on('disconnected', () => {
       console.warn('⚠️  MongoDB disconnected');
+      isMongoConnected = false;
     });
+
+    mongoose.connection.on('reconnected', () => {
+      console.log('🔄 MongoDB reconnected');
+      isMongoConnected = true;
+    });
+
+    // Initialize alert system if connection is successful
+    try {
+      AlertService.initialize();
+      AlertService.integrateWithMonitoring();
+      console.log("🚨 Alert system initialized");
+    } catch (error) {
+      console.warn("⚠️  Alert system initialization failed:", error);
+    }
 
     return true;
   } catch (error) {
     console.error("❌ MongoDB connection failed:", error);
     console.warn("⚠️  Continuing without database - using mock data");
+    isMongoConnected = false;
     return false;
   }
 }
@@ -616,7 +647,11 @@ export function createServer() {
   app.use(express.json({ limit: "10mb" }));
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
-  // Database middleware with graceful degradation
+  // Mock database middleware for createServer
+  app.use((req, res, next) => {
+    req.database = mockDatabase;
+    next();
+  });
   app.use(databaseHealthCheck());
   app.use(optimizeQueries());
 
