@@ -119,9 +119,9 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      // Import and use createServer function for development
-      const { createServer: createExpressServer } = require('./server/index.ts');
-      const app = createExpressServer();
+      // Import and use createApp function for development
+      const { createApp } = require('./server/index.ts');
+      const { app } = createApp();
 
       // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
