@@ -11,7 +11,7 @@ import {
 } from "./middleware/database";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { createServer as createHttpServer } from "http";
+import { createServer } from "http";
 import dotenv from "dotenv";
 import session from "express-session";
 
