@@ -185,6 +185,8 @@ const userSchema = new Schema<IUser>(
       required: true,
     },
     isEmailVerified: { type: Boolean, default: false },
+    emailVerificationToken: { type: String },
+    emailVerificationExpires: { type: Date },
     profile: {
       type: Schema.Types.Mixed,
       validate: {
