@@ -80,7 +80,6 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
 
   try {
     // Validate input data with DatabaseValidator
-    const { DatabaseValidator } = await import("../middleware/database");
     const validation = DatabaseValidator.validateInput('users', { email, password, role, profile });
     if (!validation.isValid && validation.errors) {
       return sendValidationError(res, validation.errors, 'Invalid input data');
