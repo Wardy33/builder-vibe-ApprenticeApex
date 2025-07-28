@@ -119,47 +119,20 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      console.log('🔧 Express plugin configureServer called');
+      // Import functions from server
+      const { createServer, connectToDatabase } = require('./server/index.ts');
 
-      try {
-        // Import functions from server with explicit path
-        const serverModule = require('./server/index.ts');
-        console.log('🔧 Server module imported successfully');
-        console.log('🔧 Available functions:', Object.keys(serverModule));
-
-        const { createServer, connectToDatabase } = serverModule;
-
-        if (!connectToDatabase) {
-          console.error('❌ connectToDatabase function not found in server module');
-          console.log('Available functions:', Object.keys(serverModule));
-        } else {
-          console.log('✅ connectToDatabase function found, calling it...');
-
-          // Initialize database connection first
-          connectToDatabase().then(() => {
-            console.log('✅ Database connection initialized successfully in Vite plugin');
-          }).catch((error) => {
-            console.error('❌ Database connection failed in Vite plugin:', error);
-            console.error('❌ Full error stack:', error.stack);
-          });
-        }
-
-        if (!createServer) {
-          console.error('❌ createServer function not found in server module');
-        } else {
-          console.log('✅ createServer function found, creating Express app...');
-          const app = createServer();
-          console.log('🔧 Express app created successfully, adding to Vite middleware');
-
-          // Add Express app as middleware to Vite dev server
-          server.middlewares.use(app);
-        }
-
-      } catch (error) {
-        console.error('❌ Failed to setup Express plugin:', error);
-        console.error('❌ Error details:', error.message);
-        console.error('❌ Error stack:', error.stack);
+      // Initialize database connection
+      if (connectToDatabase) {
+        connectToDatabase().catch((error) => {
+          console.warn('Database connection failed, continuing with mock data:', error.message);
+        });
       }
+
+      const app = createServer();
+
+      // Add Express app as middleware to Vite dev server
+      server.middlewares.use(app);
     },
   };
 }
