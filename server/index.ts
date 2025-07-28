@@ -479,3 +479,125 @@ export function createServer() {
 
   return app;
 }
+
+// =============================================================================
+// SERVER STARTUP CODE - ADD THIS TO THE BOTTOM OF YOUR index.ts
+// =============================================================================
+
+// Add global error handlers to prevent crashes
+process.on('uncaughtException', (error) => {
+  console.error('❌ Uncaught Exception:', error.message);
+  console.error('Stack:', error.stack);
+  // Don't exit in development, just log the error
+  if (process.env.NODE_ENV === 'production') {
+    process.exit(1);
+  }
+});
+
+process.on('unhandledRejection', (reason: any, promise) => {
+  console.error('❌ Unhandled Rejection at:', promise);
+  console.error('Reason:', reason);
+  // Don't exit in development, just log the error
+  if (process.env.NODE_ENV === 'production') {
+    process.exit(1);
+  }
+});
+
+// Only start server if this file is run directly (not imported)
+if (require.main === module) {
+  async function startServer() {
+    try {
+      const PORT = process.env.PORT || 3001;
+
+      console.log('🚀 Starting ApprenticeApex Server...');
+      console.log('📍 Environment:', process.env.NODE_ENV || 'development');
+      console.log('🔌 Port:', PORT);
+      console.log('🗄️  MongoDB URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
+
+      // Create Express app with better error handling
+      const { app, httpServer } = createApp();
+
+      // Connect to database (with fallback)
+      console.log('🔗 Attempting database connection...');
+      const dbConnected = await connectToDatabase().catch(err => {
+        console.warn('⚠️  Database connection failed:', err.message);
+        console.log('📝 Continuing without database (using mock data)...');
+        return false;
+      });
+
+      if (dbConnected) {
+        console.log('✅ Database connection successful');
+      } else {
+        console.log('📝 Running in development mode without database');
+      }
+
+      // Start the HTTP server with error handling
+      const server = httpServer.listen(PORT, () => {
+        console.log('🎯 ================================');
+        console.log(`✅ Server running on port ${PORT}`);
+        console.log(`🌐 API available at: http://localhost:${PORT}/api`);
+        console.log(`🏥 Health check: http://localhost:${PORT}/api/ping`);
+        console.log(`📋 Registration: http://localhost:${PORT}/api/auth/register`);
+        console.log('🎯 ================================');
+        console.log('🟢 Server is ready to accept requests');
+      });
+
+      // Handle server errors gracefully
+      server.on('error', (error: any) => {
+        console.error('❌ Server error:', error.message);
+        if (error.code === 'EADDRINUSE') {
+          console.error(`❌ Port ${PORT} is already in use`);
+          console.log('💡 Try a different port or kill the existing process');
+          process.exit(1);
+        }
+      });
+
+      // Handle client disconnections gracefully
+      server.on('clientError', (err: any, socket: any) => {
+        console.warn('⚠️  Client error:', err.message);
+        if (!socket.destroyed) {
+          socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+        }
+      });
+
+      // Graceful shutdown handlers
+      const gracefulShutdown = (signal: string) => {
+        console.log(`\n📡 Received ${signal}. Starting graceful shutdown...`);
+
+        server.close((err) => {
+          if (err) {
+            console.error('❌ Error during server shutdown:', err);
+          } else {
+            console.log('🔒 HTTP server closed gracefully');
+          }
+
+          console.log('✅ Shutdown completed');
+          process.exit(0);
+        });
+
+        // Force close after 10 seconds
+        setTimeout(() => {
+          console.error('❌ Could not close connections in time, forcefully shutting down');
+          process.exit(1);
+        }, 10000);
+      };
+
+      // Listen for termination signals
+      process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+      process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+
+      return server;
+    } catch (error: any) {
+      console.error('❌ Failed to start server:', error.message);
+      console.error('Stack trace:', error.stack);
+      process.exit(1);
+    }
+  }
+
+  // Start the server
+  console.log('🎬 Initializing server startup...');
+  startServer().catch((error) => {
+    console.error('❌ Server startup failed:', error.message);
+    process.exit(1);
+  });
+}
