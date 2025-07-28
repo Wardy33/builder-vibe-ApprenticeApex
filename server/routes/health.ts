@@ -6,8 +6,8 @@ import { databaseMiddleware } from '../middleware/database';
 import { getEnvConfig } from '../config/env';
 
 // Import schemas for connection testing
-import { User } from '../schemas/User';
-import { Apprenticeship } from '../schemas/Apprenticeship';
+import { User } from '../models/User';
+import { Apprenticeship } from '../models/Apprenticeship';
 
 const router = express.Router();
 
@@ -172,7 +172,7 @@ router.get('/database/connection', asyncHandler(async (req, res) => {
 
 // Database Collections Info
 router.get('/database/collections', asyncHandler(async (req, res) => {
-  console.log('📊 Getting database collections information...');
+  console.log('��� Getting database collections information...');
   
   try {
     const connection = database.getConnection();
@@ -222,7 +222,7 @@ router.get('/database/collections', asyncHandler(async (req, res) => {
 
 // Database Performance Metrics
 router.get('/database/performance', asyncHandler(async (req, res) => {
-  console.log('📈 Getting database performance metrics...');
+  console.log('��� Getting database performance metrics...');
   
   try {
     const performanceMonitor = databaseMiddleware.monitor;
