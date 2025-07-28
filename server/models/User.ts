@@ -209,4 +209,20 @@ const userSchema = new Schema<IUser>(
 
 // Indexes are managed centrally in server/config/indexes.ts
 
+// Password hashing middleware
+userSchema.pre('save', async function(next) {
+  // Only hash the password if it has been modified (or is new)
+  if (!this.isModified('password')) return next();
+
+  try {
+    // Import bcrypt dynamically to avoid circular dependencies
+    const bcrypt = await import('bcryptjs');
+    const saltRounds = 12;
+    this.password = await bcrypt.default.hash(this.password, saltRounds);
+    next();
+  } catch (error) {
+    next(error as Error);
+  }
+});
+
 export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
