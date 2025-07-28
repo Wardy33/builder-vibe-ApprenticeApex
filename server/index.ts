@@ -56,6 +56,9 @@ import { errorHandler } from "./middleware/errorHandler";
 // Import Socket.IO setup
 import { initializeSocket } from "./socket/chat";
 
+// Import alert system
+import { AlertService } from "./services/alertService";
+
 // Load environment variables
 dotenv.config();
 
@@ -115,7 +118,7 @@ export function createApp() {
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Skip the problematic database middleware for now
-  console.log("⚠️  Database middleware temporarily disabled to avoid connection issues");
+  console.log("���️  Database middleware temporarily disabled to avoid connection issues");
 
   // Apply security middleware only if environment is properly validated
   if (
