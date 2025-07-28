@@ -127,75 +127,177 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// POST /api/auth/login - LOGIN ENDPOINT (THIS IS MISSING - ADD THIS)
+// POST /api/auth/login - Enhanced login with detailed logging
 router.post('/login', async (req, res) => {
   try {
     console.log('🔐 Login request received');
-    const { email, password } = req.body;
-    
-    // Validate required fields
-    if (!email || !password) {
-      console.log('❌ Missing email or password');
-      return res.status(400).json({ 
-        success: false, 
-        error: 'Email and password are required' 
+    console.log('📋 Request headers:', JSON.stringify(req.headers, null, 2));
+    console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
+    console.log('📋 Request method:', req.method);
+    console.log('📋 Request URL:', req.url);
+
+    // Frontend compatibility - handle different field names
+    let { email, password } = req.body;
+
+    // Check for alternative field names
+    if (!email && req.body.username) {
+      email = req.body.username;
+      console.log('📝 Using username field as email:', email);
+    }
+    if (!email && req.body.login) {
+      email = req.body.login;
+      console.log('📝 Using login field as email:', email);
+    }
+    if (!password && req.body.pass) {
+      password = req.body.pass;
+      console.log('📝 Using pass field as password');
+    }
+
+    // Log what we received
+    console.log('📝 Final extracted values:', {
+      email: email,
+      hasPassword: !!password,
+      originalBodyKeys: Object.keys(req.body)
+    });
+
+    // Detailed validation logging
+    console.log('📝 Extracted email:', email);
+    console.log('📝 Extracted password:', password ? '[PROVIDED]' : '[MISSING]');
+    console.log('📝 Email type:', typeof email);
+    console.log('📝 Password type:', typeof password);
+
+    // Enhanced validation with specific error messages
+    if (!email) {
+      console.log('❌ Email field is missing or empty');
+      return res.status(400).json({
+        success: false,
+        error: 'Email is required',
+        details: 'Email field is missing or empty',
+        received: { email: email, hasPassword: !!password }
       });
     }
-    
-    console.log('🔍 Looking for user:', email);
-    
+
+    if (!password) {
+      console.log('❌ Password field is missing or empty');
+      return res.status(400).json({
+        success: false,
+        error: 'Password is required',
+        details: 'Password field is missing or empty',
+        received: { email: email, hasPassword: !!password }
+      });
+    }
+
+    // Additional validation
+    if (typeof email !== 'string') {
+      console.log('❌ Email is not a string:', typeof email);
+      return res.status(400).json({
+        success: false,
+        error: 'Email must be a string',
+        details: `Expected string, got ${typeof email}`,
+        received: { email: email, emailType: typeof email }
+      });
+    }
+
+    if (typeof password !== 'string') {
+      console.log('❌ Password is not a string:', typeof password);
+      return res.status(400).json({
+        success: false,
+        error: 'Password must be a string',
+        details: `Expected string, got ${typeof password}`,
+        received: { hasEmail: !!email, passwordType: typeof password }
+      });
+    }
+
+    // Email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      console.log('❌ Invalid email format:', email);
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid email format',
+        details: 'Email must be in valid format (user@domain.com)',
+        received: { email: email }
+      });
+    }
+
+    // Password length validation
+    if (password.length < 1) {
+      console.log('❌ Password is empty string');
+      return res.status(400).json({
+        success: false,
+        error: 'Password cannot be empty',
+        details: 'Password must contain at least 1 character'
+      });
+    }
+
+    console.log('✅ Basic validation passed');
+    console.log('🔍 Looking for user:', email.toLowerCase());
+
     try {
       // Find user by email
       const user = await User.findOne({ email: email.toLowerCase() });
-      
+
       if (!user) {
         console.log('❌ User not found:', email);
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Invalid email or password' 
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password',
+          details: 'User not found in database'
         });
       }
-      
-      console.log('👤 User found, checking password...');
-      
+
+      console.log('👤 User found:', user.email);
+      console.log('👤 User role:', user.role);
+      console.log('👤 User active:', user.isActive);
+
       // Check if user is active
       if (!user.isActive) {
         console.log('❌ User account is deactivated');
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Account has been deactivated' 
+        return res.status(401).json({
+          success: false,
+          error: 'Account has been deactivated',
+          details: 'User account is not active'
         });
       }
-      
+
+      console.log('🔑 Verifying password...');
+
       // Verify password
       const isPasswordValid = await bcrypt.compare(password, user.password);
+      console.log('🔑 Password verification result:', isPasswordValid);
+
       if (!isPasswordValid) {
         console.log('❌ Invalid password for user:', email);
-        return res.status(401).json({ 
-          success: false, 
-          error: 'Invalid email or password' 
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password',
+          details: 'Password verification failed'
         });
       }
-      
-      console.log('✅ Password verified, generating token...');
-      
+
+      console.log('✅ Password verified successfully');
+      console.log('🎫 Generating JWT token...');
+
       // Update last login
       try {
         user.lastLogin = new Date();
         await user.save();
+        console.log('✅ Last login updated');
       } catch (updateError) {
         console.warn('⚠️ Could not update last login:', updateError.message);
       }
-      
+
       // Generate JWT token
+      const jwtSecret = process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long';
       const token = jwt.sign(
         { userId: user._id, role: user.role, email: user.email },
-        process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
+        jwtSecret,
         { expiresIn: '7d' }
       );
-      
-      console.log('✅ Login successful for:', email);
-      
+
+      console.log('✅ JWT token generated successfully');
+      console.log('📤 Preparing response...');
+
       // Return user data without sensitive information
       const userResponse = {
         _id: user._id,
@@ -206,29 +308,35 @@ router.post('/login', async (req, res) => {
         lastLogin: user.lastLogin,
         createdAt: user.createdAt
       };
-      
-      res.json({
+
+      const response = {
         success: true,
         data: {
           user: userResponse,
           token
         },
         message: 'Login successful'
-      });
-      
+      };
+
+      console.log('✅ Login successful for:', email);
+      console.log('📤 Sending response...');
+
+      res.json(response);
+
     } catch (dbError) {
       console.error('❌ Database error during login:', dbError.message);
-      
+      console.error('❌ Database error stack:', dbError.stack);
+
       // For development: provide mock login if database fails
       if (process.env.NODE_ENV === 'development') {
         console.log('🔧 Using mock login for development');
-        
+
         const mockToken = jwt.sign(
           { userId: 'mock-user-id', role: 'student', email: email.toLowerCase() },
           process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
           { expiresIn: '7d' }
         );
-        
+
         return res.json({
           success: true,
           data: {
@@ -249,22 +357,36 @@ router.post('/login', async (req, res) => {
           message: 'Login successful (development mode)'
         });
       }
-      
-      return res.status(500).json({ 
-        success: false, 
+
+      return res.status(500).json({
+        success: false,
         error: 'Database connection error',
-        details: 'Unable to verify credentials'
+        details: 'Unable to verify credentials',
+        dbError: dbError.message
       });
     }
-    
+
   } catch (error) {
-    console.error('❌ Login error:', error);
-    
+    console.error('❌ Login error:', error.message);
+    console.error('❌ Login error stack:', error.stack);
+    console.error('❌ Request details:', {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      body: req.body
+    });
+
     if (!res.headersSent) {
-      res.status(500).json({ 
-        success: false, 
-        error: 'Login failed',
-        details: error.message 
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error during login',
+        details: error.message,
+        requestInfo: {
+          method: req.method,
+          url: req.url,
+          hasBody: !!req.body,
+          bodyKeys: req.body ? Object.keys(req.body) : []
+        }
       });
     }
   }
