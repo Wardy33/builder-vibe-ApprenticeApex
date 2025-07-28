@@ -42,7 +42,13 @@ let envConfig: EnvConfig;
 
 export function validateEnv(): EnvConfig {
   try {
+    console.log('🔍 DEBUG - Starting environment validation...');
+    console.log('🔍 DEBUG - process.env.MONGODB_URI:', process.env.MONGODB_URI ? 'Found' : 'Missing');
+
     envConfig = envSchema.parse(process.env);
+
+    // Add debug line after parsing
+    console.log('🔍 DEBUG ENV VALIDATION - MONGODB_URI:', envConfig.MONGODB_URI ? `Found: ${envConfig.MONGODB_URI.substring(0, 30)}...` : 'MISSING');
 
     // Production-specific validations
     if (envConfig.NODE_ENV === 'production') {
@@ -74,8 +80,10 @@ export function validateEnv(): EnvConfig {
 
 export function getEnvConfig(): EnvConfig {
   if (!envConfig) {
-    throw new Error('Environment not validated. Call validateEnv() first.');
+    console.log('🔍 DEBUG - envConfig not found, calling validateEnv()');
+    return validateEnv();
   }
+  console.log('🔍 DEBUG - returning existing envConfig, MONGODB_URI:', envConfig.MONGODB_URI ? 'Found' : 'Missing');
   return envConfig;
 }
 
