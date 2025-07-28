@@ -220,8 +220,13 @@ export function createApp() {
 
   // Protected routes (require authentication)
   app.use("/api/users", authenticateToken, userRoutes);
-  // Always require authentication for apprenticeships now
-  app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
+  // Apprenticeships route - conditional authentication for development mode
+  if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
+    console.log('🔓 Apprenticeships routes running without global authentication in development mode');
+    app.use("/api/apprenticeships", apprenticeshipRoutes);
+  } else {
+    app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
+  }
 
   app.use("/api/applications", authenticateToken, applicationRoutes);
   app.use("/api/messages", authenticateToken, messageRoutes);
