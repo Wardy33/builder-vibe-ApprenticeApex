@@ -595,7 +595,9 @@ router.get('/test', (req, res) => {
     timestamp: new Date().toISOString(),
     availableEndpoints: [
       'POST /api/auth/register',
-      'POST /api/auth/login',  // ← This should now be available
+      'POST /api/auth/register/company',  // ← Company registration endpoint
+      'POST /api/auth/login',
+      'POST /api/auth/login-test',
       'GET /api/auth/test'
     ]
   });
