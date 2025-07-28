@@ -118,7 +118,7 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      console.log('🔧 Express plugin starting (database connection disabled)...');
+      console.log('🔧 Express plugin starting...');
 
       try {
         // Import Express app creation from server/index.ts
