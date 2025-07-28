@@ -101,7 +101,9 @@ router.post("/register", registerValidation, asyncHandler(async (req, res) => {
     });
 
     // Generate email verification token
-    const verificationToken = newUser.generateEmailVerificationToken();
+    const verificationToken = uuidv4(); // Simple token generation
+    newUser.emailVerificationToken = verificationToken;
+    newUser.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     
     const savedUser = await newUser.save();
 
