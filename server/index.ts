@@ -264,14 +264,19 @@ export function createApp() {
 // Production-ready database connection
 export async function connectToDatabase() {
   try {
+    // Get validated environment config instead of using process.env directly
+    const env = getEnvConfig();
+
     // Check if MongoDB URI is provided
-    if (!process.env.MONGODB_URI) {
+    if (!env.MONGODB_URI || env.MONGODB_URI === '') {
       console.warn(
         "⚠️  MONGODB_URI not provided. Using development mode with mock data.",
       );
       console.log("🗄️  Database connection established (mock)");
       return true;
     }
+
+    console.log("🔍 DEBUG - MONGODB_URI:", env.MONGODB_URI ? `Found: ${env.MONGODB_URI.substring(0, 30)}...` : 'MISSING');
 
     // Connect to production MongoDB
     await dbConnect();
@@ -291,9 +296,11 @@ export async function connectToDatabase() {
       // Add any alert system cleanup here
     });
 
+    console.log("✅ Database connection successful - using MongoDB Atlas");
     return true;
   } catch (error) {
     console.error("❌ Database connection failed:", error);
+    console.warn("⚠️  Falling back to development mode with mock data");
     return false;
   }
 }
