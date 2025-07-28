@@ -20,22 +20,7 @@ router.get(
     query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
     query("offset").optional().isInt({ min: 0 }).toInt(),
   ],
-  // Conditionally apply auth middleware based on database connection
-  (req: AuthenticatedRequest, res: express.Response, next: express.NextFunction) => {
-    // In development mode without database, always use mock authentication
-    if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-      console.log('🔓 Using mock authentication for apprenticeships discover endpoint');
-      req.user = {
-        userId: 'mock-student-id',
-        role: 'student',
-        email: 'mock@student.com'
-      };
-      next();
-    } else {
-      // Production mode - require proper authentication
-      authenticateToken(req, res, next);
-    }
-  },
+  authenticateToken,
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
