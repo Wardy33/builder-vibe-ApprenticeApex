@@ -1,327 +1,484 @@
-import express from "express";
-import { body, query, validationResult } from "express-validator";
-import { AuthenticatedRequest, requireCompanyRole, authenticateToken } from "../middleware/auth";
-import { asyncHandler, CustomError } from "../middleware/errorHandler";
-// Mock data removed - now using real MongoDB data
-import { database } from "../config/database";
-import { Apprenticeship } from "../models/Apprenticeship";
-import { User } from "../models/User";
-import { Application } from "../models/Application";
+import express from 'express';
+import mongoose from 'mongoose';
+import { Apprenticeship } from '../models/Apprenticeship';
+import { User } from '../models/User';
+import { Application } from '../models/Application';
+import { authenticateToken } from '../middleware/auth';
+import { validateDatabaseInput } from '../middleware/database';
 
 const router = express.Router();
 
-// Get apprenticeships for student swiping
-router.get(
-  "/discover",
-  [
-    query("lat").optional().isFloat({ min: -90, max: 90 }),
-    query("lng").optional().isFloat({ min: -180, max: 180 }),
-    query("maxDistance").optional().isInt({ min: 1, max: 200 }),
-    query("industries").optional().isString(),
-    query("salaryMin").optional().isInt({ min: 0 }),
-    query("salaryMax").optional().isInt({ min: 0 }),
-    query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
-    query("offset").optional().isInt({ min: 0 }).toInt(),
-  ],
-  authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Invalid query parameters", 400);
-    }
-
-    if (req.user?.role !== "student") {
-      throw new CustomError("Only students can discover apprenticeships", 403);
-    }
-
+// GET /api/apprenticeships/discover - Get apprenticeships for student browsing
+router.get('/discover', authenticateToken, async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
     const {
-      lat,
-      lng,
-      maxDistance = 25,
-      industries,
+      industry,
+      location,
+      maxDistance = 50000, // 50km default
       salaryMin,
       salaryMax,
-      limit = 10,
-      offset = 0,
+      workType,
+      page = 1,
+      limit = 20,
+      sort = '-createdAt'
     } = req.query;
 
-    // Build MongoDB query
-    const query: any = { isActive: true };
-
-    // Filter by industry
-    if (industries) {
-      const industryList = (industries as string).split(",");
-      filteredApprenticeships = filteredApprenticeships.filter((app) =>
-        industryList.includes(app.industry),
-      );
+    // Get user's location for distance-based search
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: 'User not found' });
     }
 
-    // Filter by salary range
-    if (salaryMin) {
-      filteredApprenticeships = filteredApprenticeships.filter(
-        (app) => app.salary.max >= parseInt(salaryMin as string),
-      );
+    // Build query filters
+    const filters: any = {
+      isActive: true,
+      moderationStatus: 'approved'
+    };
+
+    // Industry filter
+    if (industry) {
+      filters.industry = industry;
     }
 
-    if (salaryMax) {
-      filteredApprenticeships = filteredApprenticeships.filter(
-        (app) => app.salary.min <= parseInt(salaryMax as string),
-      );
+    // Work type filter
+    if (workType) {
+      filters.workType = workType;
     }
 
-    // Simulate distance filtering (in real app, use MongoDB geospatial queries)
-    if (lat && lng) {
-      // Mock distance calculation - in real app use $geoNear
-      filteredApprenticeships = filteredApprenticeships.map((app) => ({
-        ...app,
-        distance: Math.random() * 50, // Mock distance
-      }));
-
-      filteredApprenticeships = filteredApprenticeships.filter(
-        (app: any) => app.distance <= maxDistance,
-      );
+    // Salary range filter
+    if (salaryMin || salaryMax) {
+      filters['salary.min'] = {};
+      if (salaryMin) filters['salary.min'].$gte = parseInt(salaryMin);
+      if (salaryMax) filters['salary.max'] = { $lte: parseInt(salaryMax) };
     }
 
-    // Apply pagination
-    const total = filteredApprenticeships.length;
-    const paginatedResults = filteredApprenticeships.slice(
-      Number(offset),
-      Number(offset) + Number(limit),
-    );
+    // Location-based search
+    if (location || user.profile?.location?.coordinates) {
+      const searchCoords = location ?
+        JSON.parse(location) :
+        user.profile.location.coordinates;
 
-    // Add mock image URLs and additional data for frontend
-    const enrichedResults = paginatedResults.map((app) => ({
-      ...app,
-      thumbnailImage:
-        app.industry === "Technology"
-          ? "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop"
-          : app.industry === "Marketing"
-            ? "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop"
-            : "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=600&fit=crop",
-      company: {
-        name: "TechCorp Ltd",
-        logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop",
-      },
-      formattedSalary: `£${app.salary.min.toLocaleString()} - £${app.salary.max.toLocaleString()}`,
-      formattedDuration: `${app.duration.years} year${app.duration.years > 1 ? "s" : ""}`,
-      conversionRate: Math.round(
-        (app.swipeStats.rightSwipes / app.swipeStats.totalSwipes) * 100,
-      ),
+      if (searchCoords && Array.isArray(searchCoords)) {
+        filters['location.coordinates'] = {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: searchCoords
+            },
+            $maxDistance: parseInt(maxDistance)
+          }
+        };
+      }
+    }
+
+    // Get apprenticeships with pagination
+    const apprenticeships = await Apprenticeship.find(filters)
+      .populate('companyId', 'profile.companyName profile.industry profile.location')
+      .sort(sort)
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit))
+      .lean();
+
+    // Get total count for pagination
+    const total = await Apprenticeship.countDocuments(filters);
+
+    // Get user's existing applications to mark applied jobs
+    const userApplications = await Application.find({
+      userId,
+      status: { $in: ['pending', 'reviewed', 'accepted'] }
+    }).select('apprenticeshipId').lean();
+
+    const appliedJobIds = userApplications.map(app => app.apprenticeshipId.toString());
+
+    // Add application status to each job
+    const apprenticeshipsWithStatus = apprenticeships.map(job => ({
+      ...job,
+      hasApplied: appliedJobIds.includes(job._id.toString()),
+      distance: job.location?.coordinates && user.profile?.location?.coordinates ?
+        calculateDistance(
+          user.profile.location.coordinates,
+          job.location.coordinates
+        ) : null
     }));
 
     res.json({
-      apprenticeships: enrichedResults,
+      success: true,
+      data: apprenticeshipsWithStatus,
       pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
         total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total,
-      },
-      filters: {
-        industries: ["Technology", "Marketing", "Engineering", "Healthcare"],
-        maxDistance: Number(maxDistance),
-        salaryRange: { min: salaryMin, max: salaryMax },
-      },
+        pages: Math.ceil(total / parseInt(limit))
+      }
     });
-  }),
-);
 
-// Record swipe action
-router.post(
-  "/:id/swipe",
-  [
-    body("direction").isIn(["left", "right"]),
-    body("studentLocation").optional().isObject(),
-  ],
-  authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Invalid swipe data", 400);
+  } catch (error) {
+    console.error('Error fetching apprenticeships:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch apprenticeships',
+      details: error.message
+    });
+  }
+});
+
+// POST /api/apprenticeships/swipe - Handle swipe actions
+router.post('/swipe', authenticateToken, async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
+    const { apprenticeshipId, action } = req.body; // action: 'like' or 'pass'
+
+    if (!apprenticeshipId || !action) {
+      return res.status(400).json({
+        success: false,
+        error: 'Apprenticeship ID and action are required'
+      });
     }
 
-    if (req.user?.role !== "student") {
-      throw new CustomError("Only students can swipe", 403);
-    }
-
-    const { id } = req.params;
-    const { direction, studentLocation } = req.body;
-
-    const apprenticeship = mockApprenticeships.find((app) => app._id === id);
+    // Verify apprenticeship exists
+    const apprenticeship = await Apprenticeship.findById(apprenticeshipId);
     if (!apprenticeship) {
-      throw new CustomError("Apprenticeship not found", 404);
-    }
-
-    // Update swipe statistics
-    apprenticeship.swipeStats.totalSwipes += 1;
-    if (direction === "right") {
-      apprenticeship.swipeStats.rightSwipes += 1;
-    } else {
-      apprenticeship.swipeStats.leftSwipes += 1;
-    }
-
-    // If right swipe, create application
-    if (direction === "right") {
-      // In real app, check if application already exists
-      const aiMatchScore = Math.floor(Math.random() * 30) + 70; // Mock 70-100% match
-
-      console.log(
-        `Created application for student ${req.user.userId} -> ${id}`,
-      );
-
-      res.json({
-        message: "Application created successfully",
-        match: true,
-        matchScore: aiMatchScore,
-        apprenticeship: {
-          id: apprenticeship._id,
-          jobTitle: apprenticeship.jobTitle,
-          company: "TechCorp Ltd",
-        },
-      });
-    } else {
-      res.json({
-        message: "Swipe recorded",
-        match: false,
+      return res.status(404).json({
+        success: false,
+        error: 'Apprenticeship not found'
       });
     }
-  }),
-);
 
-// Get company's apprenticeship listings
-router.get(
-  "/my-listings",
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const companyId = req.user!.userId;
+    // Update swipe stats
+    if (action === 'like') {
+      await Apprenticeship.findByIdAndUpdate(apprenticeshipId, {
+        $inc: {
+          'swipeStats.totalSwipes': 1,
+          'swipeStats.rightSwipes': 1
+        }
+      });
+    } else if (action === 'pass') {
+      await Apprenticeship.findByIdAndUpdate(apprenticeshipId, {
+        $inc: {
+          'swipeStats.totalSwipes': 1,
+          'swipeStats.leftSwipes': 1
+        }
+      });
+    }
 
-    const listings = mockApprenticeships
-      .filter((app) => app.companyId === companyId)
-      .map((app) => ({
-        ...app,
-        conversionRate: Math.round(
-          (app.swipeStats.rightSwipes /
-            Math.max(app.swipeStats.totalSwipes, 1)) *
-            100,
-        ),
-        formattedSalary: `£${app.salary.min.toLocaleString()} - £${app.salary.max.toLocaleString()}`,
-      }));
+    // If user liked the job, create a potential application intent
+    if (action === 'like') {
+      // You could store this as user interest for future matching
+      await User.findByIdAndUpdate(userId, {
+        $addToSet: { 'profile.interestedJobs': apprenticeshipId }
+      });
+    }
 
     res.json({
-      listings,
-      total: listings.length,
+      success: true,
+      message: `Swipe ${action} recorded successfully`
     });
-  }),
-);
 
-// Create new apprenticeship listing
-router.post(
-  "/",
-  requireCompanyRole,
-  [
-    body("jobTitle").trim().isLength({ min: 1, max: 100 }),
-    body("description").trim().isLength({ min: 50, max: 2000 }),
-    body("industry").isIn([
-      "Technology",
-      "Healthcare",
-      "Finance",
-      "Engineering",
-      "Marketing",
-      "Education",
-      "Manufacturing",
-      "Retail",
-      "Construction",
-      "Hospitality",
-      "Other",
-    ]),
-    body("location.city").trim().isLength({ min: 1 }),
-    body("location.address").trim().isLength({ min: 1 }),
-    body("requirements").isArray({ min: 1 }),
-    body("duration.years").isInt({ min: 0, max: 5 }),
-    body("duration.months").isInt({ min: 0, max: 11 }),
-    body("salary.min").isInt({ min: 0 }),
-    body("salary.max").isInt({ min: 0 }),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+  } catch (error) {
+    console.error('Error handling swipe:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to process swipe',
+      details: error.message
+    });
+  }
+});
 
-    const companyId = req.user!.userId;
-    const newListing = {
-      _id: `app_${Date.now()}`,
-      companyId,
-      ...req.body,
-      applicationCount: 0,
-      swipeStats: { totalSwipes: 0, rightSwipes: 0, leftSwipes: 0 },
+// GET /api/apprenticeships/search - Advanced search with filters
+router.get('/search', async (req: any, res: any) => {
+  try {
+    const {
+      q, // search query
+      industry,
+      location,
+      maxDistance = 50000,
+      salaryMin,
+      salaryMax,
+      workType,
+      apprenticeshipLevel,
+      page = 1,
+      limit = 20,
+      sort = '-createdAt'
+    } = req.query;
+
+    const filters: any = {
       isActive: true,
-      createdAt: new Date(),
+      moderationStatus: 'approved'
     };
 
-    // In real app, save to database
-    mockApprenticeships.push(newListing);
+    // Text search
+    if (q) {
+      filters.$text = { $search: q };
+    }
+
+    // Apply other filters (same as discover endpoint)
+    if (industry) filters.industry = industry;
+    if (workType) filters.workType = workType;
+    if (apprenticeshipLevel) filters.apprenticeshipLevel = apprenticeshipLevel;
+
+    if (salaryMin || salaryMax) {
+      filters['salary.min'] = {};
+      if (salaryMin) filters['salary.min'].$gte = parseInt(salaryMin);
+      if (salaryMax) filters['salary.max'] = { $lte: parseInt(salaryMax) };
+    }
+
+    // Location search
+    if (location) {
+      const coords = JSON.parse(location);
+      if (coords && Array.isArray(coords)) {
+        filters['location.coordinates'] = {
+          $near: {
+            $geometry: {
+              type: 'Point',
+              coordinates: coords
+            },
+            $maxDistance: parseInt(maxDistance)
+          }
+        };
+      }
+    }
+
+    const apprenticeships = await Apprenticeship.find(filters)
+      .populate('companyId', 'profile.companyName profile.industry profile.location')
+      .sort(sort)
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit))
+      .lean();
+
+    const total = await Apprenticeship.countDocuments(filters);
+
+    res.json({
+      success: true,
+      data: apprenticeships,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / parseInt(limit))
+      }
+    });
+
+  } catch (error) {
+    console.error('Error searching apprenticeships:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Search failed',
+      details: error.message
+    });
+  }
+});
+
+// GET /api/apprenticeships/:id - Get single apprenticeship details
+router.get('/:id', async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid apprenticeship ID'
+      });
+    }
+
+    const apprenticeship = await Apprenticeship.findById(id)
+      .populate('companyId', 'profile.companyName profile.industry profile.location profile.description')
+      .lean();
+
+    if (!apprenticeship) {
+      return res.status(404).json({
+        success: false,
+        error: 'Apprenticeship not found'
+      });
+    }
+
+    // Increment view count
+    await Apprenticeship.findByIdAndUpdate(id, {
+      $inc: { viewCount: 1 }
+    });
+
+    res.json({
+      success: true,
+      data: apprenticeship
+    });
+
+  } catch (error) {
+    console.error('Error fetching apprenticeship:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch apprenticeship',
+      details: error.message
+    });
+  }
+});
+
+// POST /api/apprenticeships - Create new apprenticeship (for companies)
+router.post('/', authenticateToken, validateDatabaseInput('apprenticeships'), async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
+    const user = await User.findById(userId);
+
+    if (!user || user.role !== 'company') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only companies can create apprenticeships'
+      });
+    }
+
+    const apprenticeshipData = {
+      ...req.body,
+      companyId: userId,
+      createdBy: userId,
+      lastModifiedBy: userId,
+      isActive: true,
+      moderationStatus: 'pending',
+      publishedAt: new Date()
+    };
+
+    const apprenticeship = new Apprenticeship(apprenticeshipData);
+    await apprenticeship.save();
 
     res.status(201).json({
-      message: "Apprenticeship listing created successfully",
-      listing: newListing,
+      success: true,
+      data: apprenticeship,
+      message: 'Apprenticeship created successfully'
     });
-  }),
-);
 
-// Update apprenticeship listing
-router.put(
-  "/:id",
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  } catch (error) {
+    console.error('Error creating apprenticeship:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to create apprenticeship',
+      details: error.message
+    });
+  }
+});
+
+// PUT /api/apprenticeships/:id - Update apprenticeship
+router.put('/:id', authenticateToken, validateDatabaseInput('apprenticeships'), async (req: any, res: any) => {
+  try {
     const { id } = req.params;
-    const companyId = req.user!.userId;
+    const userId = req.user.userId;
 
-    const listingIndex = mockApprenticeships.findIndex(
-      (app) => app._id === id && app.companyId === companyId,
-    );
-
-    if (listingIndex === -1) {
-      throw new CustomError("Listing not found or unauthorized", 404);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid apprenticeship ID'
+      });
     }
 
-    // Update listing
-    mockApprenticeships[listingIndex] = {
-      ...mockApprenticeships[listingIndex],
+    const apprenticeship = await Apprenticeship.findById(id);
+    if (!apprenticeship) {
+      return res.status(404).json({
+        success: false,
+        error: 'Apprenticeship not found'
+      });
+    }
+
+    // Check ownership
+    if (apprenticeship.companyId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You can only edit your own apprenticeships'
+      });
+    }
+
+    const updatedData = {
       ...req.body,
-      updatedAt: new Date(),
+      lastModifiedBy: userId,
+      lastModifiedAt: new Date()
     };
 
-    res.json({
-      message: "Listing updated successfully",
-      listing: mockApprenticeships[listingIndex],
-    });
-  }),
-);
-
-// Delete apprenticeship listing
-router.delete(
-  "/:id",
-  requireCompanyRole,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { id } = req.params;
-    const companyId = req.user!.userId;
-
-    const listingIndex = mockApprenticeships.findIndex(
-      (app) => app._id === id && app.companyId === companyId,
+    const updatedApprenticeship = await Apprenticeship.findByIdAndUpdate(
+      id,
+      updatedData,
+      { new: true, runValidators: true }
     );
 
-    if (listingIndex === -1) {
-      throw new CustomError("Listing not found or unauthorized", 404);
+    res.json({
+      success: true,
+      data: updatedApprenticeship,
+      message: 'Apprenticeship updated successfully'
+    });
+
+  } catch (error) {
+    console.error('Error updating apprenticeship:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update apprenticeship',
+      details: error.message
+    });
+  }
+});
+
+// DELETE /api/apprenticeships/:id - Delete apprenticeship
+router.delete('/:id', authenticateToken, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid apprenticeship ID'
+      });
     }
 
-    // In real app, soft delete by setting isActive: false
-    mockApprenticeships.splice(listingIndex, 1);
+    const apprenticeship = await Apprenticeship.findById(id);
+    if (!apprenticeship) {
+      return res.status(404).json({
+        success: false,
+        error: 'Apprenticeship not found'
+      });
+    }
+
+    // Check ownership
+    if (apprenticeship.companyId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You can only delete your own apprenticeships'
+      });
+    }
+
+    // Soft delete by marking as inactive
+    await Apprenticeship.findByIdAndUpdate(id, {
+      isActive: false,
+      deletedAt: new Date(),
+      lastModifiedBy: userId
+    });
 
     res.json({
-      message: "Listing deleted successfully",
+      success: true,
+      message: 'Apprenticeship deleted successfully'
     });
-  }),
-);
+
+  } catch (error) {
+    console.error('Error deleting apprenticeship:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to delete apprenticeship',
+      details: error.message
+    });
+  }
+});
+
+// Helper function to calculate distance between two coordinates
+function calculateDistance(coords1: number[], coords2: number[]): number {
+  const [lon1, lat1] = coords1;
+  const [lon2, lat2] = coords2;
+
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return Math.round(distance * 100) / 100; // Round to 2 decimal places
+}
 
 export default router;
