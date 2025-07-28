@@ -1,9 +1,9 @@
 import Stripe from 'stripe';
 import { getEnvConfig } from '../config/env';
-import { User } from '../schemas/User';
-import { Payment, Subscription, validatePaymentCreation } from '../schemas/Payment';
-import { Application } from '../schemas/Application';
-import { Apprenticeship } from '../schemas/Apprenticeship';
+import { User } from '../models/User';
+import { Payment, Subscription } from '../models/Payment';
+import { Application } from '../models/Application';
+import { Apprenticeship } from '../models/Apprenticeship';
 import EmailService from './emailService';
 
 interface StripeConfig {
@@ -525,7 +525,7 @@ export class StripeService {
       };
 
     } catch (error) {
-      console.error('❌ Failed to create success fee payment intent:', error);
+      console.error('�� Failed to create success fee payment intent:', error);
       throw error;
     }
   }
@@ -543,7 +543,7 @@ export class StripeService {
         this.config.webhookSecret
       );
 
-      console.log(`🪝 Processing webhook event: ${event.type}`);
+      console.log(`��� Processing webhook event: ${event.type}`);
 
       switch (event.type) {
         case 'payment_intent.succeeded':
