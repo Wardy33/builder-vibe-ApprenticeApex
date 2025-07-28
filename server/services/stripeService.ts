@@ -1,7 +1,8 @@
 import Stripe from 'stripe';
 import { getEnvConfig } from '../config/env';
 import { User } from '../models/User';
-import { Payment, Subscription } from '../models/Payment';
+import { Payment } from '../models/Payment';
+import { Subscription } from '../models/Subscription';
 import { Application } from '../models/Application';
 import { Apprenticeship } from '../models/Apprenticeship';
 import EmailService from './emailService';
@@ -525,7 +526,7 @@ export class StripeService {
       };
 
     } catch (error) {
-      console.error('�� Failed to create success fee payment intent:', error);
+      console.error('❌ Failed to create success fee payment intent:', error);
       throw error;
     }
   }
