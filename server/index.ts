@@ -178,7 +178,6 @@ export function createApp() {
       message: "ApprenticeApex API v1.0",
       timestamp: new Date().toISOString(),
       status: "healthy",
-      database: isMongoConnected ? "connected" : "disconnected",
     });
   });
 
