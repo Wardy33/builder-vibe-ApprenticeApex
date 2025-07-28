@@ -1,27 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export interface ISubscription extends Document {
-  _id: string;
-  userId: string;
-  plan: "basic" | "premium" | "enterprise";
-  status: "active" | "cancelled" | "expired" | "trial" | "past_due";
-  stripeSubscriptionId?: string;
-  stripeCustomerId?: string;
-  currentPeriodStart: Date;
-  currentPeriodEnd: Date;
-  trialEnd?: Date;
-  features: {
-    maxJobListings: number;
-    maxApplications: number;
-    advancedAnalytics: boolean;
-    prioritySupport: boolean;
-    customBranding: boolean;
-    apiAccess: boolean;
-  };
-  billingHistory: string[]; // Payment IDs
-  createdAt: Date;
-  updatedAt: Date;
-}
+// Note: Subscription interface moved to models/Subscription.ts to avoid conflicts
 
 export interface IPayment extends Document {
   _id: string;
@@ -73,47 +52,7 @@ export interface IInvoice extends Document {
   updatedAt: Date;
 }
 
-const subscriptionSchema = new Schema<ISubscription>(
-  {
-    userId: {
-      type: String,
-      required: true,
-    },
-    plan: {
-      type: String,
-      enum: ["basic", "premium", "enterprise"],
-      required: true,
-    },
-    status: {
-      type: String,
-      enum: ["active", "cancelled", "expired", "trial", "past_due"],
-      default: "trial",
-    },
-    stripeSubscriptionId: { type: String },
-    stripeCustomerId: { type: String },
-    currentPeriodStart: {
-      type: Date,
-      required: true,
-    },
-    currentPeriodEnd: {
-      type: Date,
-      required: true,
-    },
-    trialEnd: { type: Date },
-    features: {
-      maxJobListings: { type: Number, required: true },
-      maxApplications: { type: Number, required: true },
-      advancedAnalytics: { type: Boolean, default: false },
-      prioritySupport: { type: Boolean, default: false },
-      customBranding: { type: Boolean, default: false },
-      apiAccess: { type: Boolean, default: false },
-    },
-    billingHistory: [{ type: String }],
-  },
-  {
-    timestamps: true,
-  },
-);
+// Subscription schema moved to models/Subscription.ts to avoid conflicts
 
 const paymentSchema = new Schema<IPayment>(
   {
@@ -220,9 +159,6 @@ const invoiceSchema = new Schema<IInvoice>(
 
 // Indexes are managed centrally in server/config/indexes.ts
 
-export const Subscription = mongoose.models.Subscription || mongoose.model<ISubscription>(
-  "Subscription",
-  subscriptionSchema,
-);
+// Subscription model moved to models/Subscription.ts to avoid conflicts
 export const Payment = mongoose.models.Payment || mongoose.model<IPayment>("Payment", paymentSchema);
 export const Invoice = mongoose.models.Invoice || mongoose.model<IInvoice>("Invoice", invoiceSchema);
