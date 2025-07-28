@@ -9,10 +9,10 @@
 
 import { database, connectToDatabase } from '../config/database';
 import { initializeIndexes } from '../config/indexes';
-import { User } from '../schemas/User';
-import { Apprenticeship } from '../schemas/Apprenticeship';
-import { Application } from '../schemas/Application';
-import { Payment } from '../schemas/Payment';
+import { User } from '../models/User';
+import { Apprenticeship } from '../models/Apprenticeship';
+import { Application } from '../models/Application';
+import { Payment } from '../models/Payment';
 
 interface TestResult {
   name: string;
@@ -69,7 +69,7 @@ class DatabaseVerifier {
         undefined, checks);
 
       if (!checks.MONGODB_URI) {
-        console.warn('⚠️  MONGODB_URI not configured - some tests may fail');
+        console.warn('���️  MONGODB_URI not configured - some tests may fail');
       }
 
     } catch (error) {
@@ -304,7 +304,7 @@ class DatabaseVerifier {
         successes++;
         console.log('  ✅ CREATE operation successful');
       } catch (error) {
-        console.log('  ❌ CREATE operation failed:', (error as Error).message);
+        console.log('  ��� CREATE operation failed:', (error as Error).message);
       }
 
       // READ operation
