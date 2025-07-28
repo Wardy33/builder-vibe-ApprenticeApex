@@ -62,7 +62,7 @@ import { AlertService } from "./services/alertService";
 // Load environment variables
 dotenv.config();
 
-// Database will be managed by the DatabaseManager
+// Database connection managed by DatabaseManager singleton
 
 // Validate environment variables on startup (skip in Vite dev mode)
 let env: any;
