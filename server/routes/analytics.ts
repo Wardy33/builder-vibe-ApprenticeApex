@@ -2,7 +2,7 @@ import express from "express";
 import { query, validationResult } from "express-validator";
 import { AuthenticatedRequest, requireCompanyRole } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
-import { mockApprenticeships } from "../index";
+// Mock data removed - now using real MongoDB data
 
 const router = express.Router();
 
@@ -261,7 +261,7 @@ router.get(
 
     if (format === "json") {
       res.json(exportData);
-    } else {
+        } else {
       // For CSV/PDF, in real app would generate actual files
       res.json({
         message: `${String(format).toUpperCase()} export ready`,
