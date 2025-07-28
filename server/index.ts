@@ -181,16 +181,20 @@ export function createApp() {
     });
   });
 
-  // Simple health check
+  // Comprehensive health check
   app.get("/api/health", async (_req, res) => {
+    const dbStatus = database.getHealthStatus();
+    const performanceMonitor = databaseMiddleware.monitor;
+    const healthStatus = performanceMonitor.getHealthStatus();
+
     res.json({
-      status: "healthy",
+      status:
+        dbStatus.status === "healthy" && healthStatus.status === "healthy"
+          ? "healthy"
+          : "degraded",
       timestamp: new Date().toISOString(),
-      database: {
-        status: isMongoConnected ? 'healthy' : 'unhealthy',
-        connected: isMongoConnected,
-        readyState: mongoose.connection.readyState,
-      },
+      database: dbStatus,
+      performance: healthStatus,
       uptime: process.uptime(),
       memory: process.memoryUsage(),
       version: "1.0.0",
