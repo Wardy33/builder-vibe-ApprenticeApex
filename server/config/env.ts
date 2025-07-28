@@ -8,7 +8,7 @@ const envSchema = z.object({
   FRONTEND_URL: z.string().url().default('http://localhost:5173'),
 
   // Database Configuration
-  MONGODB_URI: z.string().optional().default(''),
+  MONGODB_URI: z.string().default('mongodb+srv://wardy33:BeauWard1337@clusteraa.6ulacjf.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAA'),
 
   // JWT Configuration
   JWT_SECRET: z.string().min(32, 'JWT secret must be at least 32 characters'),
