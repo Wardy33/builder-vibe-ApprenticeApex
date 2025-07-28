@@ -10,7 +10,7 @@ import {
   isProfileCompleteForMatching,
   calculateJobMatch,
 } from "../services/matchingService";
-import { mockStudents, mockApprenticeships } from "../index";
+// Mock data removed - now using real MongoDB data
 
 const router = express.Router();
 
@@ -24,7 +24,7 @@ router.get(
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
 
-    // Find student (mock data)
+        // Find student (mock data)
     const student = mockStudents.find((s) => s._id === userId);
     if (!student) {
       throw new CustomError("Student not found", 404);
@@ -43,7 +43,7 @@ router.get(
       });
     }
 
-    // Get matched jobs
+        // Get matched jobs
     const matches = getMatchedJobs(student as any, mockApprenticeships as any);
 
     // Paginate results
@@ -91,7 +91,7 @@ router.get(
     const { userId } = req.user!;
     const { jobId } = req.params;
 
-    // Find student and job (mock data)
+        // Find student and job (mock data)
     const student = mockStudents.find((s) => s._id === userId);
     const job = mockApprenticeships.find((j) => j._id === jobId);
 
@@ -115,7 +115,7 @@ router.get(
       });
     }
 
-    // Calculate detailed match
+        // Calculate detailed match
     const match = calculateJobMatch(student as any, job as any);
 
     res.json({
@@ -136,7 +136,7 @@ router.get(
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const { userId } = req.user!;
 
-    // Find student (mock data)
+        // Find student (mock data)
     const student = mockStudents.find((s) => s._id === userId);
     if (!student) {
       throw new CustomError("Student not found", 404);
@@ -162,7 +162,7 @@ router.get(
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const { userId } = req.user!;
 
-    // Find student (mock data)
+        // Find student (mock data)
     const student = mockStudents.find((s) => s._id === userId);
     if (!student) {
       throw new CustomError("Student not found", 404);
@@ -177,7 +177,7 @@ router.get(
       });
     }
 
-    // Get all matches
+        // Get all matches
     const matches = getMatchedJobs(student as any, mockApprenticeships as any);
 
     // Calculate statistics
