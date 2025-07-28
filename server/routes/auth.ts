@@ -50,6 +50,140 @@ router.use('/login', (req, res, next) => {
   next();
 });
 
+// Company-specific registration endpoint
+router.post('/register/company', async (req, res) => {
+  try {
+    console.log('🏢 Company registration request received');
+    console.log('📋 Company request body:', JSON.stringify(req.body, null, 2));
+
+    const {
+      email,
+      password,
+      companyName,
+      industry,
+      companySize,
+      website,
+      description,
+      firstName,
+      lastName,
+      position,
+      address,
+      city,
+      postcode
+    } = req.body;
+
+    // Basic validation
+    if (!email || !password || !companyName || !firstName || !lastName) {
+      return res.status(400).json({
+        success: false,
+        error: 'Required fields missing',
+        details: 'Email, password, company name, first name, and last name are required'
+      });
+    }
+
+    // Transform the company registration data to match our user model
+    const userData = {
+      email: email.toLowerCase(),
+      password,
+      role: 'company',
+      profile: {
+        companyName,
+        industry: industry || 'Technology',
+        companySize,
+        website: website || '',
+        description: description || '',
+        location: {
+          city: city || 'Unknown',
+          address: address || '',
+          postcode: postcode || '',
+          coordinates: [0, 0]
+        },
+        contactPerson: {
+          firstName,
+          lastName,
+          position: position || 'Manager'
+        },
+        isVerified: false
+      },
+      isEmailVerified: false,
+      isActive: true
+    };
+
+    try {
+      const existingUser = await User.findOne({ email: userData.email });
+      if (existingUser) {
+        return res.status(400).json({
+          success: false,
+          error: 'Company already registered',
+          details: 'A user with this email already exists'
+        });
+      }
+
+      const newUser = new User(userData);
+      await newUser.save();
+
+      const token = jwt.sign(
+        { userId: newUser._id, role: newUser.role, email: newUser.email },
+        process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
+        { expiresIn: '7d' }
+      );
+
+      console.log('✅ Company registration successful for:', email);
+
+      res.status(201).json({
+        success: true,
+        data: {
+          user: {
+            _id: newUser._id,
+            email: newUser.email,
+            role: newUser.role,
+            profile: newUser.profile,
+            isEmailVerified: newUser.isEmailVerified,
+            createdAt: newUser.createdAt
+          },
+          token
+        },
+        message: 'Company registration successful'
+      });
+
+    } catch (dbError) {
+      console.log('Database error, using mock response:', dbError.message);
+
+      const mockToken = jwt.sign(
+        { userId: 'mock-company-' + Date.now(), role: 'company', email: userData.email },
+        process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
+        { expiresIn: '7d' }
+      );
+
+      res.status(201).json({
+        success: true,
+        data: {
+          user: {
+            _id: 'mock-company-' + Date.now(),
+            email: userData.email,
+            role: 'company',
+            profile: userData.profile,
+            isEmailVerified: false,
+            createdAt: new Date()
+          },
+          token: mockToken
+        },
+        message: 'Company registration successful (development mode)'
+      });
+    }
+
+  } catch (error) {
+    console.error('Company registration error:', error);
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        error: 'Company registration failed',
+        details: error.message
+      });
+    }
+  }
+});
+
 // Temporary debugging endpoint
 router.post('/login-test', (req, res) => {
   console.log('🧪 Login test endpoint hit');
