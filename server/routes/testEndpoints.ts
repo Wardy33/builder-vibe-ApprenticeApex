@@ -4,10 +4,10 @@ import { sendSuccess, sendError } from '../utils/apiResponse';
 import { validateDatabaseInput } from '../middleware/database';
 
 // Import schemas
-import { User } from '../schemas/User';
-import { Apprenticeship } from '../schemas/Apprenticeship';
-import { Application } from '../schemas/Application';
-import { Payment } from '../schemas/Payment';
+import { User } from '../models/User';
+import { Apprenticeship } from '../models/Apprenticeship';
+import { Application } from '../models/Application';
+import { Payment } from '../models/Payment';
 
 const router = express.Router();
 
