@@ -14,7 +14,7 @@ import { v4 as uuidv4 } from "uuid";
 import nodemailer from "nodemailer";
 
 // Import production schemas
-import { User, validateUserRegistration, validateUserUpdate } from "../schemas/User";
+import { User } from "../models/User";
 import { database } from "../config/database";
 import EmailService from "../services/emailService";
 
