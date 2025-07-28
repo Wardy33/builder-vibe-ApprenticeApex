@@ -55,14 +55,7 @@ export const INDEX_DEFINITIONS: IIndexDefinition[] = [
     description: 'Index for filtering verified users',
     priority: 'medium'
   },
-  {
-    collection: 'users',
-    name: 'users_last_activity',
-    spec: { lastActivityAt: -1 },
-    options: { background: true },
-    description: 'Index for sorting by last activity',
-    priority: 'low'
-  },
+  // Note: lastActivityAt field removed - not present in User schema
   {
     collection: 'users',
     name: 'users_created_date',
