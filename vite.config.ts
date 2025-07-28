@@ -119,20 +119,73 @@ function expressPlugin(): Plugin {
     name: "express-plugin",
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
-      // Import functions from server
-      const { createServer, connectToDatabase } = require('./server/index.ts');
+      console.log('🔧 Express plugin starting...');
 
-      // Initialize database connection
-      if (connectToDatabase) {
-        connectToDatabase().catch((error) => {
-          console.warn('Database connection failed, continuing with mock data:', error.message);
-        });
+      try {
+        // Import createServer function ONLY (don't import connectToDatabase from the problematic file)
+        const { createServer } = require('./server/index.ts');
+
+        // Do our own direct MongoDB connection here instead of importing the problematic one
+        initializeDirectMongoConnection();
+
+        const app = createServer();
+        console.log('🔧 Express app created and added to Vite middleware');
+
+        // Add Express app as middleware to Vite dev server
+        server.middlewares.use(app);
+
+      } catch (error) {
+        console.error('❌ Failed to setup Express plugin:', error);
+        console.error('❌ Error details:', error.message);
       }
-
-      const app = createServer();
-
-      // Add Express app as middleware to Vite dev server
-      server.middlewares.use(app);
     },
   };
+}
+
+// Direct MongoDB connection function that bypasses the problematic database manager
+async function initializeDirectMongoConnection() {
+  try {
+    console.log('🚀 Initializing direct MongoDB connection in Vite plugin...');
+
+    // Import mongoose directly
+    const mongoose = require('mongoose');
+
+    // Get MongoDB URI directly from environment or use hardcoded default
+    const MONGODB_URI = process.env.MONGODB_URI ||
+      'mongodb+srv://wardy33:BeauWard1337@clusteraa.6ulacjf.mongodb.net/?retryWrites=true&w=majority&appName=ClusterAA';
+
+    if (!MONGODB_URI || MONGODB_URI === '') {
+      console.warn('⚠️  No MongoDB URI available, skipping database connection');
+      return;
+    }
+
+    console.log('🔍 Connecting to MongoDB:', MONGODB_URI.substring(0, 30) + '...');
+
+    // Clean, minimal connection options (no deprecated options)
+    const options = {
+      maxPoolSize: 10,
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 5000,
+      socketTimeoutMS: 30000,
+    };
+
+    // Connect directly with mongoose
+    await mongoose.connect(MONGODB_URI, options);
+
+    console.log('✅ MongoDB connected successfully in Vite plugin!');
+    console.log(`📊 Connected to: ${mongoose.connection.name}`);
+
+    // Set up basic connection event handlers
+    mongoose.connection.on('error', (error) => {
+      console.error('❌ MongoDB error in Vite plugin:', error);
+    });
+
+    mongoose.connection.on('disconnected', () => {
+      console.warn('⚠️  MongoDB disconnected in Vite plugin');
+    });
+
+  } catch (error) {
+    console.error('❌ Direct MongoDB connection failed in Vite plugin:', error);
+    console.warn('⚠️  Continuing without database connection');
+  }
 }
