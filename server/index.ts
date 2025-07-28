@@ -62,8 +62,7 @@ import { AlertService } from "./services/alertService";
 // Load environment variables
 dotenv.config();
 
-// Simple database status tracking
-let isMongoConnected = false;
+// Database will be managed by the DatabaseManager
 
 // Validate environment variables on startup (skip in Vite dev mode)
 let env: any;
@@ -118,7 +117,7 @@ export function createApp() {
   app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
   // Skip the problematic database middleware for now
-  console.log("���️  Database middleware temporarily disabled to avoid connection issues");
+  console.log("⚠️  Database middleware temporarily disabled to avoid connection issues");
 
   // Apply security middleware only if environment is properly validated
   if (
