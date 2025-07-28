@@ -22,7 +22,7 @@ class DatabaseManager {
   private healthCheckInterval: NodeJS.Timeout | null = null;
   private gracefulShutdownHandlers: (() => Promise<void>)[] = [];
 
-  private constructor() {}
+  private constructor() { }
 
   public static getInstance(): DatabaseManager {
     if (!DatabaseManager.instance) {
@@ -47,14 +47,14 @@ class DatabaseManager {
 
     try {
       const env = getEnvConfig();
-      
+
       if (!env.MONGODB_URI) {
         throw new Error('MONGODB_URI environment variable is required');
       }
 
       console.log(`🗄️  Attempting database connection (attempt ${this.state.connectionAttempts})`);
 
-      // Production-ready MongoDB options
+      // Updated MongoDB options for newer versions
       const mongoOptions = {
         // Connection Pool Configuration
         maxPoolSize: 10, // Maximum number of connections
@@ -62,40 +62,33 @@ class DatabaseManager {
         serverSelectionTimeoutMS: 30000, // 30 seconds
         socketTimeoutMS: 45000, // 45 seconds
         connectTimeoutMS: 30000, // 30 seconds
-        
+
         // Retry Configuration
-        retryWrites: true,
-        retryReads: true,
         maxIdleTimeMS: 300000, // 5 minutes
-        
+
         // Write Concern
         w: 'majority' as const,
         wtimeoutMS: 10000,
-        
+
         // Read Preference
         readPreference: 'primary' as const,
-        
+
         // Authentication & Security
         authSource: 'admin',
-        ssl: env.NODE_ENV === 'production',
-        
-        // Buffer Configuration
-        bufferMaxEntries: 0, // Disable mongoose buffering in production
-        bufferCommands: false,
-        
+
         // Heartbeat
         heartbeatFrequencyMS: 10000, // 10 seconds
-        
+
         // Connection Management
         compressors: ['zlib'],
       };
 
       // Connect to MongoDB
       await mongoose.connect(env.MONGODB_URI, mongoOptions);
-      
+
       this.connection = mongoose.connection;
       this.setupConnectionEventHandlers();
-      
+
       this.state.isConnected = true;
       this.state.isConnecting = false;
       this.state.lastConnectedAt = new Date();
@@ -119,7 +112,7 @@ class DatabaseManager {
       if (this.state.connectionAttempts < 5) {
         const backoffDelay = Math.min(1000 * Math.pow(2, this.state.connectionAttempts - 1), 30000);
         console.log(`🔄 Retrying connection in ${backoffDelay}ms...`);
-        
+
         this.retryTimer = setTimeout(() => {
           this.connect();
         }, backoffDelay);
@@ -148,7 +141,7 @@ class DatabaseManager {
       console.warn('⚠️  MongoDB disconnected');
       this.state.isConnected = false;
       this.state.lastDisconnectedAt = new Date();
-      
+
       // Attempt reconnection after a brief delay
       if (!this.state.isConnecting) {
         setTimeout(() => this.connect(), 5000);
@@ -185,18 +178,10 @@ class DatabaseManager {
         if (this.connection && this.state.isConnected) {
           // Simple ping to check connection health
           await this.connection.db.admin().ping();
-          
-          // Check connection pool status
-          const poolSize = this.connection.db.serverConfig?.s?.pool?.totalConnectionCount || 0;
-          const availableConnections = this.connection.db.serverConfig?.s?.pool?.availableConnectionCount || 0;
-          
-          if (poolSize === 0) {
-            console.warn('⚠️  No database connections in pool');
-          }
-          
+
           // Log pool status every 5 minutes
           if (Date.now() % (5 * 60 * 1000) < 30000) {
-            console.log(`🗄️  DB Pool Status - Total: ${poolSize}, Available: ${availableConnections}`);
+            console.log(`🗄️  DB Health Check - Status: Connected`);
           }
         }
       } catch (error) {
@@ -208,12 +193,12 @@ class DatabaseManager {
 
   public async disconnect(): Promise<void> {
     console.log('🗄️  Initiating database disconnection...');
-    
+
     if (this.retryTimer) {
       clearTimeout(this.retryTimer);
       this.retryTimer = null;
     }
-    
+
     if (this.healthCheckInterval) {
       clearInterval(this.healthCheckInterval);
       this.healthCheckInterval = null;
@@ -227,20 +212,20 @@ class DatabaseManager {
     this.state.isConnected = false;
     this.state.isConnecting = false;
     this.state.lastDisconnectedAt = new Date();
-    
+
     console.log('🗄️  Database disconnected successfully');
   }
 
   public async gracefulShutdown(): Promise<void> {
     console.log('🛑 Initiating graceful database shutdown...');
-    
+
     try {
       // Execute all registered shutdown handlers
       await Promise.all(this.gracefulShutdownHandlers.map(handler => handler()));
-      
+
       // Close database connection
       await this.disconnect();
-      
+
       console.log('✅ Graceful database shutdown completed');
     } catch (error) {
       console.error('❌ Error during graceful shutdown:', error);
@@ -285,22 +270,22 @@ class DatabaseManager {
     backoffMs: number = 1000
   ): Promise<T> {
     let lastError: Error | null = null;
-    
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         return await operation();
       } catch (error) {
         lastError = error as Error;
-        
+
         if (attempt === maxRetries) {
           throw error;
         }
-        
+
         console.warn(`Database operation failed (attempt ${attempt}/${maxRetries}):`, error);
         await new Promise(resolve => setTimeout(resolve, backoffMs * attempt));
       }
     }
-    
+
     throw lastError;
   }
 
@@ -316,8 +301,7 @@ class DatabaseManager {
       lastDisconnectedAt: state.lastDisconnectedAt,
       lastError: state.lastError?.message,
       readyState: this.connection?.readyState,
-      poolSize: this.connection?.db?.serverConfig?.s?.pool?.totalConnectionCount || 0,
-      availableConnections: this.connection?.db?.serverConfig?.s?.pool?.availableConnectionCount || 0,
+      mongooseVersion: mongoose.version,
     };
   }
 }
