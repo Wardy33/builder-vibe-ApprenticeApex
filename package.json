@@ -15,7 +15,7 @@
     "dev:server": "tsx server/standalone-simple.ts",
     "dev:frontend": "vite",
     "dev:both": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
-    "test:api": "curl -s http://localhost:3001/api/ping",
+    "test:api": "curl -s http://localhost:3002/api/ping",
     "dev:legacy": "tsx watch server/index.ts",
     "dev:stable": "tsx server/index.ts",
     "build": "npm run build:client",
