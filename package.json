@@ -12,6 +12,8 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:stable": "tsx server/index.ts",
     "build": "npm run build:client",
     "build:client": "vite build",
     "build:server": "vite build --config vite.config.server.ts",
@@ -19,6 +21,7 @@
     "test": "vitest --run",
     "test:db": "tsx server/scripts/verify-database.ts",
     "test:db:quick": "curl -s http://localhost:3001/api/test/all | jq",
+    "test:auth": "node server/test-registration.js",
     "db:verify": "npm run test:db",
     "db:health": "curl -s http://localhost:3001/api/health/database | jq",
     "format.fix": "prettier --write .",
