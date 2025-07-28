@@ -262,11 +262,14 @@ export async function connectToDatabase() {
 
     console.log("🔍 Connecting to MongoDB:", MONGODB_URI.substring(0, 30) + "...");
 
-    // Clean, minimal connection options
+    // Production MongoDB connection options (only modern supported parameters)
     const options = {
       maxPoolSize: 10,
-      serverSelectionTimeoutMS: 5000,
-      connectTimeoutMS: 5000,
+      serverSelectionTimeoutMS: 30000,
+      connectTimeoutMS: 30000,
+      maxIdleTimeMS: 300000,
+      retryWrites: true,
+      w: 'majority'
     };
 
     // Direct mongoose connection
