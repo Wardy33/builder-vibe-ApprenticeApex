@@ -7,7 +7,7 @@ import { createApp } from "./server";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 5173,
+    port: 5204,
   },
   build: {
     outDir: "dist/spa",
