@@ -3,7 +3,7 @@ import compression from "compression";
 
 // Import production database configuration
 import { database, connectDatabase as dbConnect } from "./config/database";
-import { initializeIndexes } from "./config/indexes";
+// Temporarily disabled index initialization
 import {
   databaseMiddleware,
   databaseHealthCheck,
