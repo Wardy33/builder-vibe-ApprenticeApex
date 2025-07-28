@@ -6,6 +6,8 @@ export interface IUser extends Document {
   password: string;
   role: "student" | "company";
   isEmailVerified: boolean;
+  emailVerificationToken?: string;
+  emailVerificationExpires?: Date;
   profile: IStudentProfile | ICompanyProfile;
   createdAt: Date;
   updatedAt: Date;
