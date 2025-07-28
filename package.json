@@ -12,7 +12,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "dev:server": "tsx server/standalone.ts",
+    "dev:server": "tsx server/standalone-simple.ts",
     "dev:frontend": "vite",
     "dev:both": "concurrently \"npm run dev:server\" \"npm run dev:frontend\"",
     "test:api": "curl -s http://localhost:3001/api/ping",
@@ -123,7 +123,6 @@
     "@tanstack/react-query": "^5.56.2",
     "@types/three": "^0.176.0",
     "cmdk": "^1.0.0",
-    "concurrently": "^9.2.0",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.3.0",
     "framer-motion": "^12.6.2",
