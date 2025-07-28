@@ -4,6 +4,7 @@ import { AuthenticatedRequest, requireCompanyRole, authenticateToken } from "../
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
 // Mock data removed - now using real MongoDB data
 import { database } from "../config/database";
+import { Apprenticeship } from "../models/Apprenticeship";
 
 const router = express.Router();
 
