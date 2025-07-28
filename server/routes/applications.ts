@@ -1,438 +1,538 @@
-import express from "express";
-import { body, query, validationResult } from "express-validator";
-import { AuthenticatedRequest } from "../middleware/auth";
-import { asyncHandler, CustomError } from "../middleware/errorHandler";
-// Mock data removed - now using real MongoDB data
+import express from 'express';
+import mongoose from 'mongoose';
+import { Application } from '../models/Application';
+import { User } from '../models/User';
+import { Apprenticeship } from '../models/Apprenticeship';
+import { authenticateToken } from '../middleware/auth';
+import { validateDatabaseInput } from '../middleware/database';
 
 const router = express.Router();
 
-// Mock applications data
-const mockApplications: any[] = [
-  {
-    _id: "app_1",
-    studentId: "student1",
-    apprenticeshipId: "app1",
-    companyId: "company1",
-    status: "applied",
-    aiMatchScore: 92,
-    swipeDirection: "right",
-    appliedAt: new Date("2024-01-15"),
-    coverLetter:
-      "I am excited to apply for this position and believe my skills in JavaScript and React make me a strong candidate.",
-  },
-  {
-    _id: "app_2",
-    studentId: "student2",
-    apprenticeshipId: "app2",
-    companyId: "company1",
-    status: "interview_scheduled",
-    aiMatchScore: 88,
-    swipeDirection: "right",
-    appliedAt: new Date("2024-01-14"),
-    interviewDetails: {
-      scheduledDate: new Date("2024-01-20T14:00:00Z"),
-      meetingUrl: "https://zoom.us/j/123456789",
-    },
-  },
-  {
-    _id: "app_3",
-    studentId: "student1",
-    apprenticeshipId: "app2",
-    companyId: "company1",
-    status: "viewed",
-    aiMatchScore: 76,
-    swipeDirection: "right",
-    appliedAt: new Date("2024-01-13"),
-  },
-  {
-    _id: "app_4",
-    studentId: "student2",
-    apprenticeshipId: "app1",
-    companyId: "company1",
-    status: "shortlisted",
-    aiMatchScore: 94,
-    swipeDirection: "right",
-    appliedAt: new Date("2024-01-12"),
-  },
-];
+// GET /api/applications - Get user's applications (student) or received applications (company)
+router.get('/', authenticateToken, async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
+    const userRole = req.user.role;
+    const { status, page = 1, limit = 20, sort = '-submittedAt' } = req.query;
 
-// Get student's applications
-router.get(
-  "/my-applications",
-  [
-    query("status").optional().isString(),
-    query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
-    query("offset").optional().isInt({ min: 0 }).toInt(),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    if (req.user!.role !== "student") {
-      throw new CustomError("Only students can view their applications", 403);
+    let query: any = {};
+    let populateFields = '';
+
+    if (userRole === 'student') {
+      // Student: get their applications
+      query.userId = userId;
+      populateFields = 'apprenticeshipId companyId';
+    } else if (userRole === 'company') {
+      // Company: get applications to their jobs
+      query.companyId = userId;
+      populateFields = 'userId apprenticeshipId';
+    } else {
+      return res.status(403).json({
+        success: false,
+        error: 'Access denied'
+      });
     }
 
-    const studentId = req.user!.userId;
-    const { status, limit = 20, offset = 0 } = req.query;
-
-    let applications = mockApplications.filter(
-      (app) => app.studentId === studentId,
-    );
-
+    // Filter by status if provided
     if (status) {
-      applications = applications.filter((app) => app.status === status);
+      query.status = status;
     }
 
-    // Add apprenticeship details
-    const enrichedApplications = applications.map((app) => {
-      const apprenticeship = mockApprenticeships.find(
-        (a) => a._id === app.apprenticeshipId,
-      );
-      return {
-        ...app,
-        apprenticeship: apprenticeship
-          ? {
-              jobTitle: apprenticeship.jobTitle,
-              company: "TechCorp Ltd", // Mock company name
-              location: apprenticeship.location.city,
-              salary: `£${apprenticeship.salary.min.toLocaleString()} - £${apprenticeship.salary.max.toLocaleString()}`,
-            }
-          : null,
-        formattedDate: app.appliedAt.toLocaleDateString(),
-        statusColor:
-          app.status === "applied"
-            ? "yellow"
-            : app.status === "interview_scheduled"
-              ? "blue"
-              : app.status === "accepted"
-                ? "green"
-                : "red",
-      };
-    });
+    const applications = await Application.find(query)
+      .populate('userId', 'profile.firstName profile.lastName profile.skills profile.location email')
+      .populate('apprenticeshipId', 'jobTitle industry location salary')
+      .populate('companyId', 'profile.companyName profile.industry')
+      .sort(sort)
+      .skip((parseInt(page) - 1) * parseInt(limit))
+      .limit(parseInt(limit))
+      .lean();
 
-    const total = enrichedApplications.length;
-    const paginatedResults = enrichedApplications.slice(
-      Number(offset),
-      Number(offset) + Number(limit),
-    );
+    const total = await Application.countDocuments(query);
 
     res.json({
-      applications: paginatedResults,
+      success: true,
+      data: applications,
       pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
         total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total,
-      },
-      statusCounts: {
-        applied: applications.filter((a) => a.status === "applied").length,
-        viewed: applications.filter((a) => a.status === "viewed").length,
-        shortlisted: applications.filter((a) => a.status === "shortlisted")
-          .length,
-        interview_scheduled: applications.filter(
-          (a) => a.status === "interview_scheduled",
-        ).length,
-        rejected: applications.filter((a) => a.status === "rejected").length,
-        accepted: applications.filter((a) => a.status === "accepted").length,
-      },
-    });
-  }),
-);
-
-// Get company's received applications
-router.get(
-  "/received",
-  [
-    query("apprenticeshipId").optional().isString(),
-    query("status").optional().isString(),
-    query("sortBy")
-      .optional()
-      .isIn(["date", "score", "name"])
-      .withMessage("sortBy must be date, score, or name"),
-    query("sortOrder").optional().isIn(["asc", "desc"]),
-    query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
-    query("offset").optional().isInt({ min: 0 }).toInt(),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    if (req.user!.role !== "company") {
-      throw new CustomError(
-        "Only companies can view received applications",
-        403,
-      );
-    }
-
-    const companyId = req.user!.userId;
-    const {
-      apprenticeshipId,
-      status,
-      sortBy = "date",
-      sortOrder = "desc",
-      limit = 20,
-      offset = 0,
-    } = req.query;
-
-    let applications = mockApplications.filter(
-      (app) => app.companyId === companyId,
-    );
-
-    if (apprenticeshipId) {
-      applications = applications.filter(
-        (app) => app.apprenticeshipId === apprenticeshipId,
-      );
-    }
-
-    if (status) {
-      applications = applications.filter((app) => app.status === status);
-    }
-
-    // Add student and apprenticeship details
-    const enrichedApplications = applications.map((app) => {
-      const student = mockStudents.find((s) => s._id === app.studentId);
-      const apprenticeship = mockApprenticeships.find(
-        (a) => a._id === app.apprenticeshipId,
-      );
-
-      return {
-        ...app,
-        student: student
-          ? {
-              name: `${(student.profile as any).firstName} ${(student.profile as any).lastName}`,
-              email: student.email,
-              location: (student.profile as any).location?.city,
-              skills: (student.profile as any).skills,
-              videoProfile: (student.profile as any).videoProfile,
-              cvUrl: (student.profile as any).cvUrl,
-            }
-          : null,
-        apprenticeship: apprenticeship
-          ? {
-              jobTitle: apprenticeship.jobTitle,
-              id: apprenticeship._id,
-            }
-          : null,
-        formattedDate: app.appliedAt.toLocaleDateString(),
-        daysAgo: Math.floor(
-          (Date.now() - app.appliedAt.getTime()) / (1000 * 60 * 60 * 24),
-        ),
-      };
-    });
-
-    // Sort applications
-    enrichedApplications.sort((a, b) => {
-      let comparison = 0;
-      switch (sortBy) {
-        case "score":
-          comparison = a.aiMatchScore - b.aiMatchScore;
-          break;
-        case "name":
-          comparison = (a.student?.name || "").localeCompare(
-            b.student?.name || "",
-          );
-          break;
-        case "date":
-        default:
-          comparison = a.appliedAt.getTime() - b.appliedAt.getTime();
-          break;
+        pages: Math.ceil(total / parseInt(limit))
       }
-      return sortOrder === "desc" ? -comparison : comparison;
     });
 
-    const total = enrichedApplications.length;
-    const paginatedResults = enrichedApplications.slice(
-      Number(offset),
-      Number(offset) + Number(limit),
-    );
+  } catch (error) {
+    console.error('Error fetching applications:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch applications',
+      details: error.message
+    });
+  }
+});
+
+// POST /api/applications - Submit new application
+router.post('/', authenticateToken, validateDatabaseInput('applications'), async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
+    const { apprenticeshipId, coverLetter, additionalInfo } = req.body;
+
+    // Verify user is a student
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'student') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only students can submit applications'
+      });
+    }
+
+    // Verify apprenticeship exists and is active
+    const apprenticeship = await Apprenticeship.findById(apprenticeshipId).populate('companyId');
+    if (!apprenticeship || !apprenticeship.isActive) {
+      return res.status(404).json({
+        success: false,
+        error: 'Apprenticeship not found or no longer active'
+      });
+    }
+
+    // Check if user already applied
+    const existingApplication = await Application.findOne({
+      userId,
+      apprenticeshipId,
+      status: { $in: ['pending', 'reviewed', 'accepted'] }
+    });
+
+    if (existingApplication) {
+      return res.status(400).json({
+        success: false,
+        error: 'You have already applied to this apprenticeship'
+      });
+    }
+
+    // Calculate match score based on user profile and job requirements
+    const matchScore = calculateMatchScore(user.profile, apprenticeship);
+
+    // Create application
+    const applicationData = {
+      userId,
+      apprenticeshipId,
+      companyId: apprenticeship.companyId._id,
+      status: 'pending',
+      submittedAt: new Date(),
+      coverLetter,
+      additionalInfo,
+      matchScore,
+      applicationData: {
+        userProfile: {
+          firstName: user.profile.firstName,
+          lastName: user.profile.lastName,
+          skills: user.profile.skills,
+          location: user.profile.location,
+          workType: user.profile.workType,
+          hasDriversLicense: user.profile.hasDriversLicense
+        }
+      }
+    };
+
+    const application = new Application(applicationData);
+    await application.save();
+
+    // Update apprenticeship application count
+    await Apprenticeship.findByIdAndUpdate(apprenticeshipId, {
+      $inc: { applicationCount: 1 }
+    });
+
+    // Populate the created application for response
+    const populatedApplication = await Application.findById(application._id)
+      .populate('apprenticeshipId', 'jobTitle industry location')
+      .populate('companyId', 'profile.companyName')
+      .lean();
+
+    res.status(201).json({
+      success: true,
+      data: populatedApplication,
+      message: 'Application submitted successfully'
+    });
+
+  } catch (error) {
+    console.error('Error submitting application:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to submit application',
+      details: error.message
+    });
+  }
+});
+
+// GET /api/applications/:id - Get single application details
+router.get('/:id', authenticateToken, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid application ID'
+      });
+    }
+
+    const application = await Application.findById(id)
+      .populate('userId', 'profile email')
+      .populate('apprenticeshipId')
+      .populate('companyId', 'profile.companyName profile.industry')
+      .lean();
+
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        error: 'Application not found'
+      });
+    }
+
+    // Check access permissions
+    const hasAccess =
+      (userRole === 'student' && application.userId._id.toString() === userId) ||
+      (userRole === 'company' && application.companyId._id.toString() === userId);
+
+    if (!hasAccess) {
+      return res.status(403).json({
+        success: false,
+        error: 'Access denied'
+      });
+    }
 
     res.json({
-      applications: paginatedResults,
-      pagination: {
-        total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total,
-      },
-      filters: {
-        statusCounts: {
-          all: applications.length,
-          applied: applications.filter((a) => a.status === "applied").length,
-          viewed: applications.filter((a) => a.status === "viewed").length,
-          shortlisted: applications.filter((a) => a.status === "shortlisted")
-            .length,
-          interview_scheduled: applications.filter(
-            (a) => a.status === "interview_scheduled",
-          ).length,
-          rejected: applications.filter((a) => a.status === "rejected").length,
-          accepted: applications.filter((a) => a.status === "accepted").length,
-        },
-      },
+      success: true,
+      data: application
     });
-  }),
-);
 
-// Update application status (company only)
-router.patch(
-  "/:id/status",
-  [
-    body("status").isIn([
-      "viewed",
-      "shortlisted",
-      "interview_scheduled",
-      "rejected",
-      "accepted",
-    ]),
-    body("notes").optional().trim().isLength({ max: 500 }),
-    body("interviewDetails").optional().isObject(),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    if (req.user!.role !== "company") {
-      throw new CustomError(
-        "Only companies can update application status",
-        403,
-      );
-    }
+  } catch (error) {
+    console.error('Error fetching application:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch application',
+      details: error.message
+    });
+  }
+});
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
-
+// PUT /api/applications/:id/status - Update application status (company only)
+router.put('/:id/status', authenticateToken, async (req: any, res: any) => {
+  try {
     const { id } = req.params;
-    const { status, notes, interviewDetails } = req.body;
-    const companyId = req.user!.userId;
+    const { status, notes } = req.body;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
 
-    const applicationIndex = mockApplications.findIndex(
-      (app) => app._id === id && app.companyId === companyId,
-    );
+    if (userRole !== 'company') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only companies can update application status'
+      });
+    }
 
-    if (applicationIndex === -1) {
-      throw new CustomError("Application not found or unauthorized", 404);
+    if (!['pending', 'reviewed', 'accepted', 'rejected'].includes(status)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid status value'
+      });
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid application ID'
+      });
+    }
+
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        error: 'Application not found'
+      });
+    }
+
+    // Verify company owns this application
+    if (application.companyId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You can only update applications to your jobs'
+      });
     }
 
     // Update application
-    mockApplications[applicationIndex] = {
-      ...mockApplications[applicationIndex],
+    const updateData: any = {
       status,
-      ...(notes && { companyNotes: notes }),
-      ...(interviewDetails && { interviewDetails }),
+      lastStatusChange: new Date()
     };
 
-    // In real app, send notification to student
-    console.log(
-      `Application ${id} status updated to ${status} by company ${companyId}`,
-    );
+    if (notes) {
+      updateData.notes = notes;
+    }
+
+    if (status === 'reviewed') {
+      updateData.reviewedAt = new Date();
+    } else if (status === 'accepted') {
+      updateData.acceptedAt = new Date();
+    } else if (status === 'rejected') {
+      updateData.rejectedAt = new Date();
+    }
+
+    const updatedApplication = await Application.findByIdAndUpdate(
+      id,
+      updateData,
+      { new: true, runValidators: true }
+    ).populate('userId', 'profile.firstName profile.lastName email')
+      .populate('apprenticeshipId', 'jobTitle');
 
     res.json({
-      message: "Application status updated successfully",
-      application: mockApplications[applicationIndex],
+      success: true,
+      data: updatedApplication,
+      message: `Application ${status} successfully`
     });
-  }),
-);
 
-// Schedule interview
-router.post(
-  "/:id/schedule-interview",
-  [
-    body("scheduledDate").isISO8601().toDate(),
-    body("meetingUrl").optional().isURL(),
-    body("notes").optional().trim().isLength({ max: 500 }),
-  ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    if (req.user!.role !== "company") {
-      throw new CustomError("Only companies can schedule interviews", 403);
+  } catch (error) {
+    console.error('Error updating application status:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to update application status',
+      details: error.message
+    });
+  }
+});
+
+// GET /api/applications/stats/overview - Get application statistics
+router.get('/stats/overview', authenticateToken, async (req: any, res: any) => {
+  try {
+    const userId = req.user.userId;
+    const userRole = req.user.role;
+
+    let matchCondition: any = {};
+
+    if (userRole === 'student') {
+      matchCondition.userId = new mongoose.Types.ObjectId(userId);
+    } else if (userRole === 'company') {
+      matchCondition.companyId = new mongoose.Types.ObjectId(userId);
+    } else {
+      return res.status(403).json({
+        success: false,
+        error: 'Access denied'
+      });
     }
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+    const stats = await Application.aggregate([
+      { $match: matchCondition },
+      {
+        $group: {
+          _id: '$status',
+          count: { $sum: 1 },
+          avgMatchScore: { $avg: '$matchScore' }
+        }
+      }
+    ]);
 
-    const { id } = req.params;
-    const { scheduledDate, meetingUrl, notes } = req.body;
-    const companyId = req.user!.userId;
-
-    const applicationIndex = mockApplications.findIndex(
-      (app) => app._id === id && app.companyId === companyId,
-    );
-
-    if (applicationIndex === -1) {
-      throw new CustomError("Application not found or unauthorized", 404);
-    }
-
-    // Generate Twilio meeting URL if not provided
-    const finalMeetingUrl =
-      meetingUrl || `https://video.twilio.com/room/${id}_${Date.now()}`;
-
-    // Update application with interview details
-    mockApplications[applicationIndex] = {
-      ...mockApplications[applicationIndex],
-      status: "interview_scheduled",
-      interviewDetails: {
-        scheduledDate: new Date(scheduledDate),
-        meetingUrl: finalMeetingUrl,
-        ...(notes && { interviewerNotes: notes }),
-      },
+    // Format stats
+    const formattedStats = {
+      total: 0,
+      pending: 0,
+      reviewed: 0,
+      accepted: 0,
+      rejected: 0,
+      averageMatchScore: 0
     };
 
-    // In real app:
-    // 1. Create Twilio video room
-    // 2. Add to Google Calendar
-    // 3. Send email notifications
-    // 4. Send push notification
-
-    res.json({
-      message: "Interview scheduled successfully",
-      interviewDetails: mockApplications[applicationIndex].interviewDetails,
-    });
-  }),
-);
-
-// Get application details
-router.get(
-  "/:id",
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
-    const { id } = req.params;
-    const userId = req.user!.userId;
-    const userRole = req.user!.role;
-
-    const application = mockApplications.find((app) => {
-      if (userRole === "student") {
-        return app._id === id && app.studentId === userId;
-      } else {
-        return app._id === id && app.companyId === userId;
+    stats.forEach(stat => {
+      formattedStats[stat._id] = stat.count;
+      formattedStats.total += stat.count;
+      if (stat.avgMatchScore) {
+        formattedStats.averageMatchScore = Math.round(stat.avgMatchScore);
       }
     });
 
-    if (!application) {
-      throw new CustomError("Application not found or unauthorized", 404);
+    res.json({
+      success: true,
+      data: formattedStats
+    });
+
+  } catch (error) {
+    console.error('Error fetching application stats:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch application statistics',
+      details: error.message
+    });
+  }
+});
+
+// DELETE /api/applications/:id - Withdraw application (student only)
+router.delete('/:id', authenticateToken, async (req: any, res: any) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
+
+    if (userRole !== 'student') {
+      return res.status(403).json({
+        success: false,
+        error: 'Only students can withdraw applications'
+      });
     }
 
-    // Add related data
-    const student = mockStudents.find((s) => s._id === application.studentId);
-    const apprenticeship = mockApprenticeships.find(
-      (a) => a._id === application.apprenticeshipId,
-    );
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid application ID'
+      });
+    }
 
-    const enrichedApplication = {
-      ...application,
-      student: student
-        ? {
-            name: `${(student.profile as any).firstName} ${(student.profile as any).lastName}`,
-            email: student.email,
-            profile: student.profile,
-          }
-        : null,
-      apprenticeship: apprenticeship
-        ? {
-            jobTitle: apprenticeship.jobTitle,
-            description: apprenticeship.description,
-            company: "TechCorp Ltd",
-            location: apprenticeship.location,
-            requirements: apprenticeship.requirements,
-          }
-        : null,
-    };
+    const application = await Application.findById(id);
+    if (!application) {
+      return res.status(404).json({
+        success: false,
+        error: 'Application not found'
+      });
+    }
+
+    // Verify student owns this application
+    if (application.userId.toString() !== userId) {
+      return res.status(403).json({
+        success: false,
+        error: 'You can only withdraw your own applications'
+      });
+    }
+
+    // Check if application can be withdrawn
+    if (application.status === 'accepted') {
+      return res.status(400).json({
+        success: false,
+        error: 'Cannot withdraw an accepted application'
+      });
+    }
+
+    // Soft delete by updating status
+    await Application.findByIdAndUpdate(id, {
+      status: 'withdrawn',
+      withdrawnAt: new Date(),
+      lastStatusChange: new Date()
+    });
+
+    // Decrease application count on apprenticeship
+    await Apprenticeship.findByIdAndUpdate(application.apprenticeshipId, {
+      $inc: { applicationCount: -1 }
+    });
 
     res.json({
-      application: enrichedApplication,
+      success: true,
+      message: 'Application withdrawn successfully'
     });
-  }),
-);
 
-export default router;
+  } catch (error) {
+    console.error('Error withdrawing application:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to withdraw application',
+      details: error.message
+    });
+  }
+});
+
+// Helper function to calculate match score
+function calculateMatchScore(userProfile: any, apprenticeship: any): number {
+  let score = 0;
+  let factors = 0;
+
+  // Skills matching (40% weight)
+  if (userProfile.skills && apprenticeship.skills) {
+    const userSkills = userProfile.skills.map((s: string) => s.toLowerCase());
+    const jobSkills = apprenticeship.skills.map((s: any) =>
+      typeof s === 'string' ? s.toLowerCase() : s.skill?.toLowerCase()
+    ).filter(Boolean);
+
+    const matchingSkills = userSkills.filter((skill: string) =>
+      jobSkills.some((jobSkill: string) => jobSkill.includes(skill) || skill.includes(jobSkill))
+    );
+
+    if (jobSkills.length > 0) {
+      score += (matchingSkills.length / jobSkills.length) * 40;
+      factors++;
+    }
+  }
+
+  // Location matching (20% weight)
+  if (userProfile.location?.coordinates && apprenticeship.location?.coordinates) {
+    const distance = calculateDistance(
+      userProfile.location.coordinates,
+      apprenticeship.location.coordinates
+    );
+
+    // Score based on distance (closer = higher score)
+    if (distance <= 10) score += 20; // Within 10km
+    else if (distance <= 25) score += 15; // Within 25km
+    else if (distance <= 50) score += 10; // Within 50km
+    else score += 5; // Further than 50km
+
+    factors++;
+  }
+
+  // Work type matching (15% weight)
+  if (userProfile.workType && apprenticeship.workType) {
+    if (userProfile.workType === apprenticeship.workType ||
+      userProfile.workType === 'both' ||
+      apprenticeship.workType === 'both') {
+      score += 15;
+    }
+    factors++;
+  }
+
+  // Salary expectations (15% weight)
+  if (userProfile.preferences?.salaryRange && apprenticeship.salary) {
+    const userMin = userProfile.preferences.salaryRange.min || 0;
+    const userMax = userProfile.preferences.salaryRange.max || 100000;
+    const jobMin = apprenticeship.salary.min || 0;
+    const jobMax = apprenticeship.salary.max || 100000;
+
+    // Check if ranges overlap
+    if (jobMax >= userMin && userMax >= jobMin) {
+      score += 15;
+    } else {
+      // Partial score based on how close the ranges are
+      const gap = Math.min(Math.abs(jobMax - userMin), Math.abs(userMax - jobMin));
+      if (gap <= 5000) score += 10;
+      else if (gap <= 10000) score += 5;
+    }
+    factors++;
+  }
+
+  // Industry preference (10% weight)
+  if (userProfile.preferences?.industries && apprenticeship.industry) {
+    const userIndustries = userProfile.preferences.industries.map((i: string) => i.toLowerCase());
+    if (userIndustries.includes(apprenticeship.industry.toLowerCase())) {
+      score += 10;
+    }
+    factors++;
+  }
+
+  // Return weighted average or raw score
+  return factors > 0 ? Math.round(score) : 50; // Default to 50% if no factors to compare
+}
+
+// Helper function to calculate distance between coordinates
+function calculateDistance(coords1: number[], coords2: number[]): number {
+  const [lon1, lat1] = coords1;
+  const [lon2, lat2] = coords2;
+
+  const R = 6371; // Earth's radius in kilometers
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+
+  const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+
+  return Math.round(distance * 100) / 100;
+}
