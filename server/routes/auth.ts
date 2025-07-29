@@ -50,7 +50,34 @@ router.use('/login', (req, res, next) => {
   next();
 });
 
-// Company-specific registration endpoint
+// Company registration info endpoint (GET)
+router.get('/register/company', (req, res) => {
+  console.log('📋 Company registration info endpoint hit');
+  res.json({
+    success: true,
+    message: 'Company registration endpoint',
+    method: 'POST',
+    requiredFields: [
+      'email',
+      'password',
+      'companyName',
+      'firstName',
+      'lastName'
+    ],
+    optionalFields: [
+      'industry',
+      'companySize',
+      'website',
+      'description',
+      'address',
+      'city',
+      'postcode'
+    ],
+    endpoint: '/api/auth/register/company'
+  });
+});
+
+// Company-specific registration endpoint (POST)
 router.post('/register/company', async (req, res) => {
   try {
     console.log('🏢 Company registration request received');
