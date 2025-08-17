@@ -11,7 +11,7 @@ export default function AcceptableUse() {
             Acceptable Use Policy
           </h1>
           
-          <div className="rounded-xl p-2 mb-8" className="bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
+          <div className="rounded-xl p-2 mb-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
             <p className="text-gray-300 text-center">
               <strong>Last Updated:</strong> {new Date().toLocaleDateString('en-GB', { 
                 year: 'numeric', 
