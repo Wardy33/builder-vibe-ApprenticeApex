@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import compression from "compression";
+import jwt from "jsonwebtoken";
 import { validateEnv } from "./config/env";
 import { connectToDatabase } from "./index";
 import { errorHandler } from "./middleware/errorHandler";
