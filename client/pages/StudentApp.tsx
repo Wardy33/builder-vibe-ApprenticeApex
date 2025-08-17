@@ -1507,8 +1507,8 @@ function ProfilePage() {
       setProfile(prev => ({
         ...prev,
         bio: savedBio || prev.bio,
-        ...savedContact ? JSON.parse(savedContact) : { email: prev.email, phone: prev.phone, location: prev.location },
-        skills: savedSkills ? JSON.parse(savedSkills) : prev.skills,
+        ...safeGetFromLocalStorage('studentProfile_contact', { email: prev.email, phone: prev.phone, location: prev.location }),
+        skills: safeGetFromLocalStorage('studentProfile_skills', prev.skills),
         availableFrom: savedAvailability || prev.availableFrom,
         profileImage: savedImage || prev.profileImage,
       }));
