@@ -157,24 +157,17 @@ export function WebHeader() {
               >
                 Home
               </Link>
-              <Link
-                to="/student/signup"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
-                onClick={() => setIsMobileMenuOpen(false)}
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsSignInModalOpen(true);
+                }}
+                className="block w-full text-left px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
                 role="listitem"
-                aria-label="Sign up as a student"
+                aria-label="Sign in to your account"
               >
-                Student Sign Up
-              </Link>
-              <Link
-                to="/student/signin"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-pink-500 mx-2 focus-indicator"
-                onClick={() => setIsMobileMenuOpen(false)}
-                role="listitem"
-                aria-label="Sign in to your student account"
-              >
-                Student Sign In
-              </Link>
+                Sign In
+              </button>
               <Link
                 to="/for-employers"
                 className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-cyan-500 mx-2 focus-indicator"
