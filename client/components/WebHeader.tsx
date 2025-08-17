@@ -200,14 +200,16 @@ export function WebHeader() {
               </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-white/10 mx-2" role="group" aria-label="Primary actions">
-              <Link
-                to="/student/signup"
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsSignInModalOpen(true);
+                }}
                 className="block w-full bg-pink-500 hover:bg-pink-600 text-white px-4 py-3 rounded-xl text-center font-bold transition-all duration-200 hover:scale-105 shadow-lg focus-indicator"
-                onClick={() => setIsMobileMenuOpen(false)}
-                aria-label="Get started - create your student account"
+                aria-label="Get started - create your account"
               >
                 Get Started
-              </Link>
+              </button>
             </div>
           </div>
         )}
