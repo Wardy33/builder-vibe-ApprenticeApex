@@ -582,9 +582,8 @@ export function CompanySignInForm() {
     setIsSubmitting(true);
 
     try {
-      console.log('Attempting company login to /api/auth/login with data:', {
-        email: formData.email,
-        role: 'company'
+      console.log('Attempting company signin to /api/auth/company/signin with data:', {
+        email: formData.email
       });
 
       const response = await apiClient.request('/api/auth/company/signin', {
