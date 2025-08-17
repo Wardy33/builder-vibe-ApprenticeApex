@@ -5,6 +5,7 @@ import "./global.css";
 import Index from "./pages/Index";
 import { initializeServiceWorker } from "./utils/serviceWorker";
 import { cleanupCorruptedLocalStorage, runLocalStorageDiagnostics } from "./lib/cleanupLocalStorage";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 // Lazy load components for better performance
 const StudentApp = lazy(() => import("./pages/StudentApp"));
