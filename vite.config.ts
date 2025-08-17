@@ -63,8 +63,8 @@ export default defineConfig(({ mode }) => ({
           // Date utilities
           'vendor-date': ['date-fns'],
 
-          // Socket.io for real-time features
-          'vendor-socket': ['socket.io-client']
+          // Socket.io for real-time features (commented out - not currently used)
+          // 'vendor-socket': ['socket.io-client']
         },
 
         // Optimize chunk naming for better caching
