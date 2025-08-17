@@ -94,7 +94,7 @@ async function createTestCompany() {
     console.log('✅ Test company created successfully!');
     console.log('📧 Email:', testCompany.email);
     console.log('🏢 Company Name:', testCompany.profile.companyName);
-    console.log('🔑 Password: password123');
+    console.log('🔑 Password: Password123');
     console.log('🆔 User ID:', testCompany._id);
 
   } catch (error) {
