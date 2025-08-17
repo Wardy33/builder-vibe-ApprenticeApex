@@ -2759,9 +2759,9 @@ function PrivacySettingsPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const savedSettings = localStorage.getItem('studentPrivacy_settings');
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
+    const settingsData = safeGetFromLocalStorage('studentPrivacy_settings', null);
+    if (settingsData) {
+      setSettings(settingsData);
     }
   }, []);
 
