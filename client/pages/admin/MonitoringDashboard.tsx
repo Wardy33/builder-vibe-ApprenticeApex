@@ -61,14 +61,14 @@ export default function MonitoringDashboard() {
       // Fetch alert statistics
       const statsResponse = await fetch('/api/alerts/stats', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
         }
       });
 
       // Fetch active alerts
       const alertsResponse = await fetch('/api/alerts/active', {
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
         }
       });
 
@@ -170,7 +170,7 @@ export default function MonitoringDashboard() {
         const response = await fetch(`/api/alerts/${activityId}/acknowledge`, {
           method: 'PATCH',
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`,
             'Content-Type': 'application/json'
           }
         });
@@ -191,7 +191,7 @@ export default function MonitoringDashboard() {
           const response = await fetch(`/api/alerts/${activityId}/resolve`, {
             method: 'PATCH',
             headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`,
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({ resolution })
@@ -218,7 +218,7 @@ export default function MonitoringDashboard() {
       const response = await fetch('/api/alerts/test', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({ type: 'monitoring', severity: 'medium' })
