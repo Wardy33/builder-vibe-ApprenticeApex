@@ -42,6 +42,7 @@ import {
 import { apiClient } from "../lib/apiUtils";
 import LiveChat from "../components/LiveChat";
 import OptimizedImage from "../components/OptimizedImage";
+import { safeGetFromLocalStorage, safeSetToLocalStorage } from '../lib/safeJsonParse';
 
 // Helper function to check if application deadline has passed
 const isApplicationClosed = (closingDate: string) => {
