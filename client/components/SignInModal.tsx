@@ -47,25 +47,25 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         </p>
 
         {/* Sign In Options */}
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {/* Student Sign In */}
           <Link
             to="/student/signin"
             onClick={onClose}
-            className="flex items-center justify-center w-full p-4 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
+            className="flex items-center justify-center w-full p-3 sm:p-4 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
           >
             <User className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">Student Portal</span>
+            <span className="font-semibold text-sm sm:text-base">Student Portal</span>
           </Link>
 
           {/* Company Sign In */}
           <Link
             to="/company/signin"
             onClick={onClose}
-            className="flex items-center justify-center w-full p-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
+            className="flex items-center justify-center w-full p-3 sm:p-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
           >
             <Building2 className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
-            <span className="font-semibold">Company Portal</span>
+            <span className="font-semibold text-sm sm:text-base">Company Portal</span>
           </Link>
         </div>
 
