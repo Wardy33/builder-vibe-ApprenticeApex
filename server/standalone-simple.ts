@@ -13,7 +13,7 @@ import healthRoutes from "./routes/health";
 dotenv.config();
 
 async function startSimpleServer() {
-  const PORT = 3002;
+  const PORT = 3003;
   console.log('🚀 Starting Simple Standalone Express Server...');
   
   try {
