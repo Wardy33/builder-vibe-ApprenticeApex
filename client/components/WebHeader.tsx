@@ -112,13 +112,13 @@ export function WebHeader() {
             >
               Sign In
             </button>
-            <Link
-              to="/student/signup"
+            <button
+              onClick={() => setIsSignInModalOpen(true)}
               className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 shadow-lg focus-indicator"
-              aria-label="Get started - create your student account"
+              aria-label="Get started - create your account"
             >
               Get Started
-            </Link>
+            </button>
           </div>
 
           {/* Mobile menu button */}
