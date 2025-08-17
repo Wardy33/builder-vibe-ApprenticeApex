@@ -236,6 +236,14 @@ function SignUpForm() {
               {errors.password && (
                 <p className="text-red-400 text-sm mt-1">{errors.password}</p>
               )}
+              <div className="mt-2 text-xs text-gray-400">
+                Password must be at least 8 characters with:
+                <ul className="list-disc list-inside ml-2 mt-1">
+                  <li>1 uppercase letter (A-Z)</li>
+                  <li>1 lowercase letter (a-z)</li>
+                  <li>1 number (0-9)</li>
+                </ul>
+              </div>
             </div>
 
             {/* Confirm Password */}
