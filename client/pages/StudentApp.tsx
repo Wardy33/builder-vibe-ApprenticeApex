@@ -3221,8 +3221,8 @@ function DownloadDataPage() {
     const userData = {
       profile: {
         bio: localStorage.getItem('studentProfile_bio') || '',
-        contact: JSON.parse(localStorage.getItem('studentProfile_contact') || '{}'),
-        skills: JSON.parse(localStorage.getItem('studentProfile_skills') || '[]'),
+        contact: safeGetFromLocalStorage('studentProfile_contact', {}),
+        skills: safeGetFromLocalStorage('studentProfile_skills', []),
         availability: localStorage.getItem('studentProfile_availability') || '',
         profileImage: localStorage.getItem('studentProfile_image') ? 'Profile image uploaded' : 'Default image',
       },
