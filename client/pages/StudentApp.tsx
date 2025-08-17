@@ -3227,8 +3227,8 @@ function DownloadDataPage() {
         profileImage: localStorage.getItem('studentProfile_image') ? 'Profile image uploaded' : 'Default image',
       },
       settings: {
-        privacy: JSON.parse(localStorage.getItem('studentPrivacy_settings') || '{}'),
-        notifications: JSON.parse(localStorage.getItem('studentNotification_settings') || '{}'),
+        privacy: safeGetFromLocalStorage('studentPrivacy_settings', {}),
+        notifications: safeGetFromLocalStorage('studentNotification_settings', {}),
       },
       metadata: {
         accountCreated: 'Student account',
