@@ -37,12 +37,12 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         {/* Title */}
         <h2
           id="signin-modal-title"
-          className="text-2xl font-bold text-white text-center mb-6"
+          className="text-xl sm:text-2xl font-bold text-white text-center mb-4 sm:mb-6 mt-2"
         >
           Sign In
         </h2>
 
-        <p className="text-gray-300 text-center mb-8">
+        <p className="text-gray-300 text-center mb-6 sm:mb-8 text-sm sm:text-base">
           Choose your account type to continue
         </p>
 
