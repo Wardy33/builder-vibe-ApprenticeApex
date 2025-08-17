@@ -613,7 +613,7 @@ router.post('/login', async (req, res) => {
     }
 
     console.log('✅ Basic validation passed');
-    console.log('🔍 Looking for user:', email.toLowerCase());
+    console.log('�� Looking for user:', email.toLowerCase());
 
     try {
       // Find user by email
@@ -797,6 +797,7 @@ router.get('/test', (req, res) => {
       'POST /api/auth/register',
       'POST /api/auth/register/company',  // ← Company registration endpoint
       'POST /api/auth/login',
+      'POST /api/auth/company/signin',    // ← Company signin endpoint
       'POST /api/auth/login-test',
       'GET /api/auth/test'
     ]
