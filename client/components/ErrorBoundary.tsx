@@ -36,7 +36,7 @@ class ErrorBoundary extends Component<Props, State> {
       hasError: true,
       error,
       errorInfo: null,
-      isJsonError
+      isJsonError: isJsonError || false
     };
   }
 
