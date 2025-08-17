@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { apiClient } from '../lib/apiUtils';
+import { safeGetFromLocalStorage, safeSetToLocalStorage, safeRemoveFromLocalStorage } from '../lib/safeJsonParse';
 
 interface ApiState<T> {
   data: T | null;
@@ -73,19 +74,11 @@ export function useAuth() {
   useEffect(() => {
     // Check if user is authenticated on mount
     const token = localStorage.getItem('authToken');
-    const userProfile = localStorage.getItem('userProfile');
+    const userProfile = safeGetFromLocalStorage('userProfile', null);
 
     if (token && userProfile) {
-      try {
-        setIsAuthenticated(true);
-        setUser(JSON.parse(userProfile));
-      } catch (error) {
-        console.warn('Failed to parse user profile from localStorage, clearing auth state:', error);
-        localStorage.removeItem('authToken');
-        localStorage.removeItem('userProfile');
-        setIsAuthenticated(false);
-        setUser(null);
-      }
+      setIsAuthenticated(true);
+      setUser(userProfile);
     }
 
     setLoading(false);
@@ -122,8 +115,8 @@ export function useAuth() {
   };
 
   const logout = () => {
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('userProfile');
+    safeRemoveFromLocalStorage('authToken');
+    safeRemoveFromLocalStorage('userProfile');
     setIsAuthenticated(false);
     setUser(null);
   };
