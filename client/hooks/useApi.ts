@@ -86,16 +86,16 @@ export function useAuth() {
 
   const login = async (email: string, password: string, role?: 'student' | 'company') => {
     const response = await apiClient.login(email, password, role);
-    
+
     if (response.error) {
       throw new Error(response.error.error);
     }
-    
+
     localStorage.setItem('authToken', response.data.token);
-    localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+    safeSetToLocalStorage('userProfile', response.data.user);
     setIsAuthenticated(true);
     setUser(response.data.user);
-    
+
     return response.data;
   };
 
