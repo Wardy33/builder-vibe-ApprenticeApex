@@ -62,9 +62,10 @@ class ErrorBoundary extends Component<Props, State> {
         emergencyLocalStorageCleanup();
 
         // For critical errors during initial render, reload after cleanup
-        if (errorInfo.componentStack.includes('App') ||
+        if (errorInfo.componentStack && (
+            errorInfo.componentStack.includes('App') ||
             errorInfo.componentStack.includes('Router') ||
-            errorInfo.componentStack.includes('root')) {
+            errorInfo.componentStack.includes('root'))) {
           console.log('🔄 Critical error during app initialization, reloading...');
           setTimeout(() => {
             window.location.reload();
