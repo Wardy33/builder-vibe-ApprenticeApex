@@ -211,7 +211,8 @@ async function startSimpleServer() {
         // For development mode: provide mock company login
         console.log('🔧 Using mock company login for emergency patch');
 
-        const mockToken = require('jsonwebtoken').sign(
+        const jwt = await import('jsonwebtoken');
+        const mockToken = jwt.sign(
           { userId: 'mock-company-id', role: 'company', email: email.toLowerCase() },
           process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
           { expiresIn: '7d' }
