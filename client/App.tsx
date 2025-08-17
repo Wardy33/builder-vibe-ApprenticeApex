@@ -47,11 +47,19 @@ function App() {
   // Initialize service worker and PWA features
   useEffect(() => {
     try {
+      // Clean up corrupted localStorage data that causes JSON parsing errors
+      cleanupCorruptedLocalStorage();
+
+      // Run diagnostics in development mode
+      if (process.env.NODE_ENV === 'development') {
+        runLocalStorageDiagnostics();
+      }
+
       if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
         initializeServiceWorker();
       }
     } catch (error) {
-      console.warn('Service worker initialization failed:', error);
+      console.warn('App initialization failed:', error);
     }
   }, []);
 
