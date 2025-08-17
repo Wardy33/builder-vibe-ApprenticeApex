@@ -348,19 +348,165 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Company signin endpoint (alias for login with company role)
+// Company signin endpoint (dedicated endpoint for company authentication)
 router.post('/company/signin', async (req, res) => {
-  console.log('🏢 Company signin request received, redirecting to main login');
+  try {
+    console.log('🏢 Company signin request received');
+    console.log('📋 Company signin body:', JSON.stringify(req.body, null, 2));
 
-  // Add company role to the request body
-  req.body.role = 'company';
+    const { email, password } = req.body;
 
-  // Call the main login handler
-  return router.handle(
-    { ...req, url: '/login', path: '/login' } as any,
-    res,
-    () => {}
-  );
+    // Basic validation
+    if (!email || !password) {
+      return res.status(400).json({
+        success: false,
+        error: 'Email and password are required'
+      });
+    }
+
+    try {
+      // Find company user by email
+      const user = await User.findOne({
+        email: email.toLowerCase(),
+        role: 'company'
+      });
+
+      if (!user) {
+        console.log('❌ Company user not found:', email);
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password'
+        });
+      }
+
+      console.log('👤 Company user found:', user.email);
+      console.log('👤 User role:', user.role);
+
+      // Check if user is active
+      if (!user.isActive) {
+        console.log('❌ Company account is deactivated');
+        return res.status(401).json({
+          success: false,
+          error: 'Account has been deactivated'
+        });
+      }
+
+      console.log('🔑 Verifying company password...');
+
+      // Verify password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      console.log('🔑 Company password verification result:', isPasswordValid);
+
+      if (!isPasswordValid) {
+        console.log('❌ Invalid password for company:', email);
+        return res.status(401).json({
+          success: false,
+          error: 'Invalid email or password'
+        });
+      }
+
+      console.log('✅ Company password verified successfully');
+
+      // Update last login
+      try {
+        user.lastLogin = new Date();
+        await user.save();
+        console.log('✅ Company last login updated');
+      } catch (updateError) {
+        console.warn('⚠️ Could not update company last login:', updateError.message);
+      }
+
+      // Generate JWT token
+      const jwtSecret = process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long';
+      const token = jwt.sign(
+        { userId: user._id, role: user.role, email: user.email },
+        jwtSecret,
+        { expiresIn: '7d' }
+      );
+
+      console.log('✅ Company JWT token generated successfully');
+
+      // Return user data without sensitive information
+      const userResponse = {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+        profile: user.profile,
+        isEmailVerified: user.isEmailVerified,
+        lastLogin: user.lastLogin,
+        createdAt: user.createdAt
+      };
+
+      const response = {
+        success: true,
+        data: {
+          user: userResponse,
+          token
+        },
+        message: 'Company login successful'
+      };
+
+      console.log('✅ Company login successful for:', email);
+      res.json(response);
+
+    } catch (dbError) {
+      console.error('❌ Database error during company login:', dbError.message);
+
+      // For development: provide mock company login if database fails
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🔧 Using mock company login for development');
+
+        const mockToken = jwt.sign(
+          { userId: 'mock-company-id', role: 'company', email: email.toLowerCase() },
+          process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
+          { expiresIn: '7d' }
+        );
+
+        return res.json({
+          success: true,
+          data: {
+            user: {
+              _id: 'mock-company-id',
+              email: email.toLowerCase(),
+              role: 'company',
+              profile: {
+                companyName: 'Test Company',
+                industry: 'Technology',
+                contactPerson: {
+                  firstName: 'Test',
+                  lastName: 'Manager'
+                }
+              },
+              isEmailVerified: false,
+              lastLogin: new Date(),
+              createdAt: new Date()
+            },
+            token: mockToken
+          },
+          message: 'Company login successful (development mode)'
+        });
+      }
+
+      return res.status(500).json({
+        success: false,
+        error: 'Database connection error',
+        details: 'Unable to verify company credentials',
+        dbError: dbError.message
+      });
+    }
+
+  } catch (error) {
+    console.error('❌ Company signin error:', error.message);
+    console.error('❌ Company signin error stack:', error.stack);
+
+    if (!res.headersSent) {
+      res.status(500).json({
+        success: false,
+        error: 'Internal server error during company signin',
+        details: error.message
+      });
+    }
+  }
 });
 
 // POST /api/auth/login - Enhanced login with detailed logging
