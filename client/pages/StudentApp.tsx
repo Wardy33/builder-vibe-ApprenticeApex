@@ -1913,9 +1913,9 @@ function EditContactPage() {
 
   useEffect(() => {
     // Load existing contact info from localStorage
-    const savedContact = localStorage.getItem('studentProfile_contact');
-    if (savedContact) {
-      setContact(JSON.parse(savedContact));
+    const contactData = safeGetFromLocalStorage('studentProfile_contact', null);
+    if (contactData) {
+      setContact(contactData);
     } else {
       setContact({
         email: "sarah.johnson@email.com",
