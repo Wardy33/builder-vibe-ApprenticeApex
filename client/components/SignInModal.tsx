@@ -11,7 +11,7 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center"
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="signin-modal-title"
@@ -22,9 +22,9 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         onClick={onClose}
         aria-hidden="true"
       />
-      
+
       {/* Modal Content */}
-      <div className="relative bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+      <div className="relative bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-2xl shadow-2xl p-6 sm:p-8 w-full max-w-sm sm:max-w-md mx-auto my-auto max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
