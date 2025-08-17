@@ -91,11 +91,9 @@ export function useSubscriptionLimits() {
   const checkLimit = async (action: string) => {
     try {
       // For demo purposes, check localStorage for subscription data
-      const demoSubscriptionData = localStorage.getItem('demoSubscriptionData');
+      const data = safeGetFromLocalStorage('demoSubscriptionData', null);
 
-      if (demoSubscriptionData) {
-        const data = JSON.parse(demoSubscriptionData);
-
+      if (data) {
         // If user has active subscription or trial, allow most actions
         if (data.subscription?.status === 'active') {
           return {
