@@ -101,16 +101,16 @@ export function useAuth() {
 
   const register = async (userData: any) => {
     const response = await apiClient.register(userData);
-    
+
     if (response.error) {
       throw new Error(response.error.error);
     }
-    
+
     localStorage.setItem('authToken', response.data.token);
-    localStorage.setItem('userProfile', JSON.stringify(response.data.user));
+    safeSetToLocalStorage('userProfile', response.data.user);
     setIsAuthenticated(true);
     setUser(response.data.user);
-    
+
     return response.data;
   };
 
