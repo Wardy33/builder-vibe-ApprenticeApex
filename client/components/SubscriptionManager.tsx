@@ -66,10 +66,9 @@ export default function SubscriptionManager() {
   const loadSubscriptionData = async () => {
     try {
       // For demo purposes, check if we have a trial or subscription
-      const hasExistingSubscription = localStorage.getItem('demoSubscriptionData');
+      const data = safeGetFromLocalStorage('demoSubscriptionData', null);
 
-      if (hasExistingSubscription) {
-        const data = JSON.parse(hasExistingSubscription);
+      if (data) {
         setSubscriptionData(data);
       } else {
         // No subscription data means user needs to choose a plan
