@@ -42,21 +42,34 @@ class ErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('Error boundary caught an error:', error, errorInfo);
-    
+
+    const isJsonError = error.message.includes('JSON') ||
+                       error.message.includes('undefined') ||
+                       error.message.includes('parse') ||
+                       error.stack?.includes('JSON.parse') ||
+                       error.message.includes('not valid JSON');
+
     this.setState({
       error,
       errorInfo,
-      isJsonError: error.message.includes('JSON') || 
-                  error.message.includes('undefined') ||
-                  error.message.includes('parse') ||
-                  error.stack?.includes('JSON.parse')
+      isJsonError
     });
 
     // If it's a JSON parsing error, try to clean up localStorage
-    if (this.state.isJsonError) {
+    if (isJsonError) {
       console.log('🔧 JSON parsing error detected, cleaning localStorage...');
       try {
         emergencyLocalStorageCleanup();
+
+        // For critical errors during initial render, reload after cleanup
+        if (errorInfo.componentStack.includes('App') ||
+            errorInfo.componentStack.includes('Router') ||
+            errorInfo.componentStack.includes('root')) {
+          console.log('🔄 Critical error during app initialization, reloading...');
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        }
       } catch (cleanupError) {
         console.error('Failed to clean localStorage:', cleanupError);
       }
