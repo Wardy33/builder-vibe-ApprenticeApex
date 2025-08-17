@@ -2985,9 +2985,9 @@ function NotificationSettingsPage() {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const savedSettings = localStorage.getItem('studentNotification_settings');
-    if (savedSettings) {
-      setSettings(JSON.parse(savedSettings));
+    const notificationData = safeGetFromLocalStorage('studentNotification_settings', null);
+    if (notificationData) {
+      setSettings(notificationData);
     }
   }, []);
 
