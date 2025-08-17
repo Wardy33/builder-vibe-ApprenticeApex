@@ -6,6 +6,7 @@ import { SignInModal } from "./SignInModal";
 // Updated header without For Students dropdown - v3
 
 export function WebHeader() {
+  console.log("WebHeader v3 loaded - no For Students dropdown");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
   const location = useLocation();
