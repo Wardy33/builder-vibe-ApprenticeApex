@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { safeGetFromLocalStorage } from '../../lib/safeJsonParse';
 import {
   AlertTriangle,
   Shield,
@@ -489,7 +490,7 @@ export default function MonitoringDashboard() {
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Pending Penalties:</span>
-                <span className="text-orange-400 font-medium">£8,500</span>
+                <span className="text-orange-400 font-medium">��8,500</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-400">Success Fee Protected:</span>
