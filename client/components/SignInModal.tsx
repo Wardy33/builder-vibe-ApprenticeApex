@@ -70,27 +70,27 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         </div>
 
         {/* Divider */}
-        <div className="my-6 flex items-center">
+        <div className="my-4 sm:my-6 flex items-center">
           <div className="flex-1 border-t border-gray-600" />
-          <span className="px-4 text-gray-400 text-sm">or</span>
+          <span className="px-3 sm:px-4 text-gray-400 text-xs sm:text-sm">or</span>
           <div className="flex-1 border-t border-gray-600" />
         </div>
 
         {/* Sign Up Links */}
         <div className="text-center">
-          <p className="text-gray-400 text-sm mb-3">Don't have an account?</p>
-          <div className="flex space-x-3">
+          <p className="text-gray-400 text-xs sm:text-sm mb-3">Don't have an account?</p>
+          <div className="flex space-x-2 sm:space-x-3">
             <Link
               to="/student/signup"
               onClick={onClose}
-              className="flex-1 py-2 px-4 text-sm text-pink-400 border border-pink-400/30 rounded-lg hover:bg-pink-400/10 transition-colors"
+              className="flex-1 py-2 px-2 sm:px-4 text-xs sm:text-sm text-pink-400 border border-pink-400/30 rounded-lg hover:bg-pink-400/10 transition-colors text-center"
             >
               Student Sign Up
             </Link>
             <Link
               to="/company/signup"
               onClick={onClose}
-              className="flex-1 py-2 px-4 text-sm text-cyan-400 border border-cyan-400/30 rounded-lg hover:bg-cyan-400/10 transition-colors"
+              className="flex-1 py-2 px-2 sm:px-4 text-xs sm:text-sm text-cyan-400 border border-cyan-400/30 rounded-lg hover:bg-cyan-400/10 transition-colors text-center"
             >
               Company Sign Up
             </Link>
