@@ -154,7 +154,7 @@ export function useSubscriptionLimits() {
         }
       };
 
-      localStorage.setItem('demoSubscriptionData', JSON.stringify(mockTrialData));
+      safeSetToLocalStorage('demoSubscriptionData', mockTrialData);
       await loadSubscriptionLimits(); // Reload limits after starting trial
       return { success: true };
 
