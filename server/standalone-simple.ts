@@ -350,7 +350,6 @@ async function startSimpleServer() {
           // Mock company login response for emergency patch
           console.log('🔧 Using emergency mock company login');
 
-          const jwt = require('jsonwebtoken');
           const mockToken = jwt.sign(
             { userId: 'emergency-company-id', role: 'company', email: email.toLowerCase() },
             process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
