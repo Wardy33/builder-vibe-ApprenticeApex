@@ -713,11 +713,26 @@ router.post('/login', async (req, res) => {
       if (process.env.NODE_ENV === 'development') {
         console.log('🔧 Using mock login for development');
 
+        // Determine role from request body or default to student
+        const requestedRole = req.body.role || 'student';
+
         const mockToken = jwt.sign(
-          { userId: 'mock-user-id', role: 'student', email: email.toLowerCase() },
+          { userId: 'mock-user-id', role: requestedRole, email: email.toLowerCase() },
           process.env.JWT_SECRET || 'dev-secret-key-minimum-32-characters-long',
           { expiresIn: '7d' }
         );
+
+        const mockProfile = requestedRole === 'company' ? {
+          companyName: 'Mock Company',
+          industry: 'Technology',
+          contactPerson: {
+            firstName: 'Mock',
+            lastName: 'Manager'
+          }
+        } : {
+          firstName: 'Mock',
+          lastName: 'User'
+        };
 
         return res.json({
           success: true,
@@ -725,18 +740,15 @@ router.post('/login', async (req, res) => {
             user: {
               _id: 'mock-user-id',
               email: email.toLowerCase(),
-              role: 'student',
-              profile: {
-                firstName: 'Mock',
-                lastName: 'User'
-              },
+              role: requestedRole,
+              profile: mockProfile,
               isEmailVerified: false,
               lastLogin: new Date(),
               createdAt: new Date()
             },
             token: mockToken
           },
-          message: 'Login successful (development mode)'
+          message: `${requestedRole === 'company' ? 'Company l' : 'L'}ogin successful (development mode)`
         });
       }
 
