@@ -11,19 +11,16 @@ export function WebHeader() {
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Handle keyboard navigation for dropdown
+  // Handle keyboard navigation for mobile menu and modal
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
-        setIsDropdownOpen(false);
         setIsMobileMenuOpen(false);
+        setIsSignInModalOpen(false);
       }
     };
 
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsDropdownOpen(false);
-      }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setIsMobileMenuOpen(false);
       }
