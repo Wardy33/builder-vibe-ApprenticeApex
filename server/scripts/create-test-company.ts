@@ -3,6 +3,11 @@ import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Fix for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Load environment variables
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
