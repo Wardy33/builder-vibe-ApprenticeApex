@@ -348,6 +348,21 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Company signin endpoint (alias for login with company role)
+router.post('/company/signin', async (req, res) => {
+  console.log('🏢 Company signin request received, redirecting to main login');
+
+  // Add company role to the request body
+  req.body.role = 'company';
+
+  // Call the main login handler
+  return router.handle(
+    { ...req, url: '/login', path: '/login' } as any,
+    res,
+    () => {}
+  );
+});
+
 // POST /api/auth/login - Enhanced login with detailed logging
 router.post('/login', async (req, res) => {
   try {
