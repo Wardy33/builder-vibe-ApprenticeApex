@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from "react";
-import { WebHeader } from "./WebHeader";
+import { WebHeaderNew } from "./WebHeaderNew";
 import { WebFooter } from "./WebFooter";
 import LiveChat from "./LiveChat";
 
