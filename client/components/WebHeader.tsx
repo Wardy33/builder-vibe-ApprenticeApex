@@ -105,13 +105,13 @@ export function WebHeader() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center space-x-4" role="group" aria-label="Account actions">
-            <Link
-              to="/student/signin"
+            <button
+              onClick={() => setIsSignInModalOpen(true)}
               className="text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl hover:bg-white/10 focus-indicator"
-              aria-label="Sign in to your student account"
+              aria-label="Sign in to your account"
             >
               Sign In
-            </Link>
+            </button>
             <Link
               to="/student/signup"
               className="text-white px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 hover:scale-105 bg-pink-500 hover:bg-pink-600 shadow-lg focus-indicator"
