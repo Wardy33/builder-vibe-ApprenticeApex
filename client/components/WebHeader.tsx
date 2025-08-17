@@ -68,62 +68,6 @@ export function WebHeader() {
               Home
             </Link>
 
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    setIsDropdownOpen(!isDropdownOpen);
-                  }
-                }}
-                className="flex items-center text-sm font-medium text-white transition-all duration-200 hover:scale-105 px-4 py-3 rounded-xl hover:bg-white/10 min-h-[44px]"
-                aria-expanded={isDropdownOpen}
-                aria-haspopup="true"
-                aria-label="Student menu"
-                id="student-menu-button"
-              >
-                For Students
-                <ChevronDown
-                  className={`ml-1 h-4 w-4 transition-transform duration-200 ${
-                    isDropdownOpen ? 'rotate-180' : ''
-                  }`}
-                  aria-hidden="true"
-                />
-              </button>
-
-              {isDropdownOpen && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-48 bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-xl shadow-2xl py-2 backdrop-blur-sm"
-                  role="menu"
-                  aria-labelledby="student-menu-button"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Escape') {
-                      setIsDropdownOpen(false);
-                    }
-                  }}
-                >
-                  <Link
-                    to="/student/signup"
-                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg focus-indicator"
-                    onClick={() => setIsDropdownOpen(false)}
-                    role="menuitem"
-                    aria-label="Sign up as a student"
-                  >
-                    Sign Up
-                  </Link>
-                  <Link
-                    to="/student/signin"
-                    className="block px-4 py-3 text-sm text-white hover:bg-pink-500 hover:text-white transition-all duration-200 mx-2 rounded-lg focus-indicator"
-                    onClick={() => setIsDropdownOpen(false)}
-                    role="menuitem"
-                    aria-label="Sign in as a student"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              )}
-            </div>
 
             <Link
               to="/for-employers"
