@@ -587,12 +587,9 @@ export function CompanySignInForm() {
         role: 'company'
       });
 
-      const response = await apiClient.request('/api/auth/login', {
+      const response = await apiClient.request('/api/auth/company/signin', {
         method: 'POST',
-        body: {
-          ...formData,
-          role: 'company'
-        }
+        body: formData
       });
 
       console.log('Company login response:', response);
