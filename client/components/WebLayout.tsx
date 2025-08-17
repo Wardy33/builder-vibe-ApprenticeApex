@@ -57,7 +57,7 @@ export function WebLayout({
 
       {showHeader && (
         <header role="banner" id="navigation">
-          <WebHeader />
+          <WebHeaderNew />
         </header>
       )}
 
