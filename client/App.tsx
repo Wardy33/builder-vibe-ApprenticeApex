@@ -65,8 +65,9 @@ function App() {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <Routes>
         <Route path="/" element={<Index />} />
         <Route
           path="/debug"
@@ -220,8 +221,9 @@ function App() {
             </Suspense>
           }
         />
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </ErrorBoundary>
   );
 }
 
