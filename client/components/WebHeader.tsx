@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import { SignInModal } from "./SignInModal";
 
-// Updated header without For Students dropdown
+// Updated header without For Students dropdown - v3
 
 export function WebHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -50,7 +50,7 @@ export function WebHeader() {
             <span className="text-2xl font-bold text-white transform group-hover:scale-105 transition-all duration-200">
               <span className="text-[#00D4FF]">Apprentice</span>
               <span className="text-white">Apex</span>
-              <span className="text-xs text-green-400 ml-2">v2</span>
+              <span className="text-xs text-green-400 ml-2">v3</span>
             </span>
           </Link>
 
@@ -70,7 +70,6 @@ export function WebHeader() {
             >
               Home
             </Link>
-
 
             <Link
               to="/for-employers"
