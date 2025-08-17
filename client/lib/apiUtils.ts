@@ -1,5 +1,6 @@
 // Enhanced API client with proper error handling, loading states, and retry logic
 import { AuthResponse, ApiError } from '../../shared/api';
+import { safeGetFromLocalStorage, safeSetToLocalStorage, safeRemoveFromLocalStorage } from './safeJsonParse';
 
 interface ApiRequestOptions {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
@@ -155,8 +156,8 @@ class ApiClient {
 
   private handleAuthError(): void {
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('userProfile');
+      safeRemoveFromLocalStorage('authToken');
+      safeRemoveFromLocalStorage('userProfile');
       // Redirect to login if not already there
       if (!window.location.pathname.includes('/signin') && !window.location.pathname.includes('/signup')) {
         window.location.href = '/student/signin';
@@ -305,24 +306,16 @@ export const storage = {
   },
   
   removeToken: () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('userProfile');
-    }
+    safeRemoveFromLocalStorage('authToken');
+    safeRemoveFromLocalStorage('userProfile');
   },
   
   setUserProfile: (profile: any) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('userProfile', JSON.stringify(profile));
-    }
+    safeSetToLocalStorage('userProfile', profile);
   },
-  
+
   getUserProfile: () => {
-    if (typeof window !== 'undefined') {
-      const profile = localStorage.getItem('userProfile');
-      return profile ? JSON.parse(profile) : null;
-    }
-    return null;
+    return safeGetFromLocalStorage('userProfile', null);
   }
 };
 
