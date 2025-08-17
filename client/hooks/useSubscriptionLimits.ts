@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { safeGetFromLocalStorage, safeSetToLocalStorage } from '../lib/safeJsonParse';
 
 interface SubscriptionLimits {
   canCreateJobPosting: boolean;
