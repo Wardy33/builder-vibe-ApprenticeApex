@@ -34,7 +34,7 @@ async function createTestCompany() {
     // Create test company user
     const testCompanyData = {
       email: 'test@company.com',
-      password: 'password123',
+      password: 'Password123',
       role: 'company',
       profile: {
         companyName: 'Test Technology Ltd',
