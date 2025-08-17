@@ -1499,8 +1499,6 @@ function ProfilePage() {
     // Load profile data from localStorage
     const loadProfileData = () => {
       const savedBio = localStorage.getItem('studentProfile_bio');
-      const savedContact = localStorage.getItem('studentProfile_contact');
-      const savedSkills = localStorage.getItem('studentProfile_skills');
       const savedAvailability = localStorage.getItem('studentProfile_availability');
       const savedImage = localStorage.getItem('studentProfile_image');
 
@@ -1818,7 +1816,7 @@ function EditAboutPage() {
   useEffect(() => {
     // Load existing bio from localStorage
     const savedBio = localStorage.getItem('studentProfile_bio');
-    if (savedBio) {
+    if (savedBio && savedBio !== 'undefined' && savedBio !== 'null') {
       setBio(savedBio);
     } else {
       setBio("Passionate about technology and eager to start my career in software development.");
@@ -2200,7 +2198,7 @@ function EditAvailabilityPage() {
   useEffect(() => {
     // Load existing availability from localStorage
     const savedAvailability = localStorage.getItem('studentProfile_availability');
-    if (savedAvailability) {
+    if (savedAvailability && savedAvailability !== 'undefined' && savedAvailability !== 'null') {
       setAvailability(savedAvailability);
     } else {
       setAvailability("September 2024");
@@ -2289,7 +2287,7 @@ function ChangePicturePage() {
   useEffect(() => {
     // Load existing profile image from localStorage
     const savedImage = localStorage.getItem('studentProfile_image');
-    if (savedImage) {
+    if (savedImage && savedImage !== 'undefined' && savedImage !== 'null') {
       setCurrentImage(savedImage);
     } else {
       setCurrentImage("https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop");
@@ -3220,10 +3218,10 @@ function DownloadDataPage() {
   const collectUserData = () => {
     const userData = {
       profile: {
-        bio: localStorage.getItem('studentProfile_bio') || '',
+        bio: localStorage.getItem('studentProfile_bio')?.replace(/^(undefined|null)$/, '') || '',
         contact: safeGetFromLocalStorage('studentProfile_contact', {}),
         skills: safeGetFromLocalStorage('studentProfile_skills', []),
-        availability: localStorage.getItem('studentProfile_availability') || '',
+        availability: localStorage.getItem('studentProfile_availability')?.replace(/^(undefined|null)$/, '') || '',
         profileImage: localStorage.getItem('studentProfile_image') ? 'Profile image uploaded' : 'Default image',
       },
       settings: {
@@ -3232,7 +3230,7 @@ function DownloadDataPage() {
       },
       metadata: {
         accountCreated: 'Student account',
-        lastPasswordChange: localStorage.getItem('studentProfile_passwordChanged') || 'Never',
+        lastPasswordChange: localStorage.getItem('studentProfile_passwordChanged')?.replace(/^(undefined|null)$/, '') || 'Never',
         dataExported: new Date().toISOString(),
       }
     };
