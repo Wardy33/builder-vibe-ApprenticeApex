@@ -1,3 +1,6 @@
+// CRITICAL: Emergency localStorage cleanup MUST run first to prevent app crashes
+import "./lib/emergencyLocalStorageCleanup";
+
 import React, { StrictMode, Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
