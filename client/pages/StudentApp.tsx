@@ -2066,9 +2066,9 @@ function EditSkillsPage() {
 
   useEffect(() => {
     // Load existing skills from localStorage
-    const savedSkills = localStorage.getItem('studentProfile_skills');
-    if (savedSkills) {
-      setSkills(JSON.parse(savedSkills));
+    const skillsData = safeGetFromLocalStorage('studentProfile_skills', null);
+    if (skillsData) {
+      setSkills(skillsData);
     } else {
       setSkills(["JavaScript", "React", "Problem Solving", "Communication"]);
     }
