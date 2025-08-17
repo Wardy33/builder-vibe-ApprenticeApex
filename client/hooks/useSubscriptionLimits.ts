@@ -51,10 +51,9 @@ export function useSubscriptionLimits() {
   const loadSubscriptionLimits = async () => {
     try {
       // For demo purposes, check localStorage for subscription data
-      const demoSubscriptionData = localStorage.getItem('demoSubscriptionData');
+      const data = safeGetFromLocalStorage('demoSubscriptionData', null);
 
-      if (demoSubscriptionData) {
-        const data = JSON.parse(demoSubscriptionData);
+      if (data) {
         setLimits({
           canCreateJobPosting: data.limits?.canCreateJobPosting ?? true,
           canAddUser: data.limits?.canAddUser ?? true,
