@@ -958,8 +958,65 @@ function ApprenticeshipInfoPage() {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  // Mock data - in real app, this would be fetched based on ID
-  const apprenticeshipInfo = {
+  const [apprenticeshipInfo, setApprenticeshipInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadApprenticeshipDetails = async () => {
+      try {
+        const response = await fetch(`/api/apprenticeships/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setApprenticeshipInfo(data.apprenticeship);
+        } else {
+          setApprenticeshipInfo(null);
+        }
+      } catch (error) {
+        console.error('Failed to load apprenticeship details:', error);
+        setApprenticeshipInfo(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadApprenticeshipDetails();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading apprenticeship details...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!apprenticeshipInfo) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="text-gray-400 mb-6">
+            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Apprenticeship not found</h3>
+          <p className="text-gray-600 mb-6">This apprenticeship may no longer be available.</p>
+          <button
+            onClick={() => navigate('/student/jobs')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
+          >
+            Browse Other Opportunities
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Use real apprenticeship data
+  const details = {
     id: id,
     jobTitle: "Software Developer",
     company: "TechCorp Ltd",
