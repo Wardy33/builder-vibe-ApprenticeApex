@@ -444,7 +444,7 @@ export function CompanySignUpForm() {
             {currentStep === 5 && (
               <div className="space-y-6">
                 <h2 className="text-2xl font-bold text-white mb-6">Legal Agreements</h2>
-                <p className="text-gray-600 mb-6">
+                <p className="text-white mb-6">
                   Please review and accept the following agreements to complete your registration:
                 </p>
                 
@@ -456,7 +456,7 @@ export function CompanySignUpForm() {
                       onChange={(e) => handleInputChange('termsAccepted', e.target.checked)}
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">
+                    <span className="text-white">
                       I accept the <Link to="/terms-of-service" className="text-orange-500 hover:underline" target="_blank">Terms of Service</Link> *
                     </span>
                   </label>
@@ -468,7 +468,7 @@ export function CompanySignUpForm() {
                       onChange={(e) => handleInputChange('privacyAccepted', e.target.checked)}
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">
+                    <span className="text-white">
                       I accept the <Link to="/privacy-policy" className="text-orange-500 hover:underline" target="_blank">Privacy Policy</Link> *
                     </span>
                   </label>
@@ -480,7 +480,7 @@ export function CompanySignUpForm() {
                       onChange={(e) => handleInputChange('noPoacingAccepted', e.target.checked)}
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
-                    <div className="text-gray-700">
+                    <div className="text-white">
                       <strong>I agree to the <Link to="/acceptable-use" className="text-orange-500 hover:underline" target="_blank">No-Poaching Policy</Link>:</strong> I will not contact candidates found through ApprenticeApex directly outside the platform for hiring purposes. All hiring must go through ApprenticeApex services. *
                     </div>
                   </label>
@@ -492,7 +492,7 @@ export function CompanySignUpForm() {
                       onChange={(e) => handleInputChange('exclusivityAccepted', e.target.checked)}
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
-                    <div className="text-gray-700">
+                    <div className="text-white">
                       <strong>I agree to the <Link to="/terms-of-service" className="text-orange-500 hover:underline" target="_blank">12-Month Exclusivity Period</Link>:</strong> For any candidate I contact through ApprenticeApex, I agree to use only ApprenticeApex services for hiring that candidate for a period of 12 months from first contact. *
                     </div>
                   </label>
@@ -504,7 +504,7 @@ export function CompanySignUpForm() {
                       onChange={(e) => handleInputChange('dataProcessingAccepted', e.target.checked)}
                       className="mt-1 w-5 h-5 text-orange-500 bg-gray-800 border-gray-600 rounded focus:ring-orange-500"
                     />
-                    <span className="text-gray-700">
+                    <span className="text-white">
                       I consent to the processing of my business data as described in the <Link to="/privacy-policy" className="text-orange-500 hover:underline" target="_blank">Privacy Policy</Link> *
                     </span>
                   </label>
@@ -512,7 +512,7 @@ export function CompanySignUpForm() {
 
                 <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-4 mt-6">
                   <h3 className="text-orange-500 font-semibold mb-2">Important:</h3>
-                  <p className="text-gray-700 text-sm">
+                  <p className="text-white text-sm">
                     By accepting these agreements, you acknowledge that you have the authority to bind your company to these terms.
                     Violation of the no-poaching or exclusivity clauses may result in penalties as outlined in our <Link to="/terms-of-service" className="text-orange-500 hover:underline" target="_blank">Terms of Service</Link>.
                   </p>
