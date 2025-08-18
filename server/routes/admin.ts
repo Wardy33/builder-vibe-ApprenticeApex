@@ -196,8 +196,10 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
     const { email, password, setupCode } = req.body;
 
     // Check if master admin already exists
-    const existingMasterAdmin = await User.findOne({ role: "master_admin" });
-    if (existingMasterAdmin) {
+    const existingAdmins = await executeNeonQuery(
+      `SELECT id FROM users WHERE role = 'master_admin' LIMIT 1`
+    );
+    if (existingAdmins.length > 0) {
       return res.status(409).json({
         error: "Master admin already exists",
         code: "MASTER_ADMIN_EXISTS"
