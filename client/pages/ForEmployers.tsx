@@ -173,7 +173,7 @@ export default function ForEmployers() {
         <section className="pt-20 pb-16 px-4">
           <div className="container mx-auto max-w-6xl text-center">
             <div className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-400/20 via-pink-500/20 to-blue-500/20 border border-white/20 rounded-full text-orange-300 text-sm font-bold mb-6 backdrop-blur-sm">
-              <Zap className="w-4 h-4 mr-2 animate-pulse" />
+              <Zap className="w-4 h-4 mr-2" />
               Risk-Free Apprentice Recruitment
             </div>
 
