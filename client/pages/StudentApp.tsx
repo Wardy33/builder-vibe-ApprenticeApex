@@ -605,23 +605,69 @@ function JobsPage() {
     handleSwipe(direction);
   };
 
-  const currentApprenticeship = apprenticeships[currentIndex];
-
-  if (!currentApprenticeship) {
+  // Show loading state while fetching data
+  if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-black mb-4">
-            No more opportunities!
-          </h3>
-          <p className="text-gray-400 mb-6">
-            Check back later for new apprenticeships
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">Loading opportunities...</h3>
+          <p className="text-gray-500">Finding apprenticeships perfect for you</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show empty state if no apprenticeships loaded
+  if (apprenticeships.length === 0) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="text-gray-400 mb-6">
+            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6.294a7.43 7.43 0 01-2 4.705 7.43 7.43 0 01-2-4.705V8a2 2 0 012-2z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">No opportunities available yet</h3>
+          <p className="text-gray-600 mb-6 leading-relaxed">
+            We're working hard to bring you amazing apprenticeship opportunities. Check back soon!
           </p>
           <button
+            onClick={() => window.location.reload()}
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg"
+          >
+            Refresh
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const currentApprenticeship = apprenticeships[currentIndex];
+
+  // Handle case where we've reached the end
+  if (!currentApprenticeship) {
+    return (
+      <div className="flex items-center justify-center h-full">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="text-green-500 mb-6">
+            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">You've seen all opportunities!</h3>
+          <p className="text-gray-600 mb-6">Great job exploring all available apprenticeships. Check back later for new opportunities.</p>
+          <button
             onClick={() => setCurrentIndex(0)}
-            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-black px-6 py-3 rounded-full font-medium transition-all duration-300 hover:scale-105 shadow-xl border border-white/20"
+            className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg mr-4"
           >
             Start Over
+          </button>
+          <button
+            onClick={() => window.location.reload()}
+            className="border-2 border-gray-300 text-gray-700 hover:border-gray-400 hover:bg-gray-50 px-8 py-3 rounded-full font-semibold transition-all duration-200"
+          >
+            Refresh
           </button>
         </div>
       </div>
