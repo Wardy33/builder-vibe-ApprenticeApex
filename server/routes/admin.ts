@@ -1,7 +1,6 @@
 import express, { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { executeNeonQuery, getDatabaseStats } from "../config/neon";
 import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
 import { getEnvConfig } from "../config/env";
 
