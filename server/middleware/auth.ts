@@ -98,12 +98,12 @@ export function requireRole(roles: Array<'candidate' | 'company' | 'admin' | 'ma
   };
 }
 
-export function requireStudentRole(
+export function requireCandidateRole(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ): void {
-  requireRole(["student"])(req, res, next);
+  requireRole(["candidate"])(req, res, next);
 }
 
 export function requireCompanyRole(
