@@ -2070,12 +2070,26 @@ function CompanyChatPage() {
     },
   ]);
 
-  // Mock candidate data
-  const candidateInfo = {
-    name: "Sarah Johnson",
-    jobTitle: "Software Developer",
-    avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=50&h=50&fit=crop",
-  };
+  const [candidateInfo, setCandidateInfo] = useState(null);
+
+  useEffect(() => {
+    const loadCandidateInfo = async () => {
+      try {
+        const response = await fetch(`/api/conversations/${id}/candidate`);
+        if (response.ok) {
+          const data = await response.json();
+          setCandidateInfo(data.candidate);
+        }
+      } catch (error) {
+        console.error('Failed to load candidate info:', error);
+        setCandidateInfo({ name: 'Unknown Candidate', jobTitle: 'Position', avatar: null });
+      }
+    };
+
+    if (id) {
+      loadCandidateInfo();
+    }
+  }, [id]);
 
   const handleSendMessage = () => {
     if (message.trim()) {
