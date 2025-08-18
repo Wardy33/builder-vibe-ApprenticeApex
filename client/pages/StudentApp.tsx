@@ -1494,7 +1494,7 @@ function ProfilePage() {
         <div className="text-center mb-6">
           <div className="relative inline-block mb-4">
             <img
-              src={mockProfile.profileImage}
+              src={profile.profileImage}
               alt="Profile"
               className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg"
             />
@@ -1506,11 +1506,11 @@ function ProfilePage() {
             </button>
           </div>
           <h2 className="text-2xl font-bold text-gray-900 mb-1">
-            {mockProfile.firstName} {mockProfile.lastName}
+            {profile.firstName} {profile.lastName}
           </h2>
           <p className="text-gray-600 flex items-center justify-center">
             <MapPin className="h-4 w-4 mr-1" />
-            {mockProfile.location}
+            {profile.location}
           </p>
         </div>
 
@@ -1553,7 +1553,7 @@ function ProfilePage() {
               <Edit className="h-4 w-4" />
             </button>
           </div>
-          <p className="text-gray-700 text-sm leading-relaxed">{mockProfile.bio}</p>
+          <p className="text-gray-700 text-sm leading-relaxed">{profile.bio}</p>
         </div>
 
         {/* Contact Info */}
@@ -1570,15 +1570,15 @@ function ProfilePage() {
           <div className="space-y-3">
             <div className="flex items-center text-gray-700 text-sm">
               <Mail className="h-4 w-4 mr-3 text-gray-500" />
-              {mockProfile.email}
+              {profile.email}
             </div>
             <div className="flex items-center text-gray-700 text-sm">
               <Phone className="h-4 w-4 mr-3 text-gray-500" />
-              {mockProfile.phone}
+              {profile.phone}
             </div>
             <div className="flex items-center text-gray-700 text-sm">
               <MapPin className="h-4 w-4 mr-3 text-gray-500" />
-              {mockProfile.location}
+              {profile.location}
             </div>
           </div>
         </div>
@@ -1595,7 +1595,7 @@ function ProfilePage() {
             </button>
           </div>
           <div className="flex flex-wrap gap-2">
-            {mockProfile.skills.map((skill) => (
+            {profile.skills.map((skill) => (
               <span
                 key={skill}
                 className="bg-gray-100 text-gray-700 px-3 py-1 rounded-lg text-sm font-medium"
@@ -1619,7 +1619,7 @@ function ProfilePage() {
           </div>
           <div className="flex items-center text-gray-700 text-sm">
             <Calendar className="h-4 w-4 mr-3 text-gray-500" />
-            Available from {mockProfile.availableFrom}
+            Available from {profile.availableFrom}
           </div>
         </div>
 
