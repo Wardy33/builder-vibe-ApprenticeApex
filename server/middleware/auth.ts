@@ -73,7 +73,7 @@ export function authenticateToken(
   }
 }
 
-export function requireRole(roles: Array<'student' | 'company' | 'admin' | 'master_admin'>) {
+export function requireRole(roles: Array<'candidate' | 'company' | 'admin' | 'master_admin'>) {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
       res.status(401).json({
