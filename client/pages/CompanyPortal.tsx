@@ -382,28 +382,39 @@ function Dashboard() {
             </Link>
           </div>
           <div className="space-y-4">
-            {mockInterviews.slice(0, 3).map((interview) => (
-              <div
-                key={interview.id}
-                className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
-              >
-                <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center">
-                  <Calendar className="h-5 w-5 text-white" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-gray-900 text-sm truncate">
-                    {interview.candidateName}
-                  </h4>
-                  <p className="text-gray-600 text-xs">{interview.jobTitle}</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-gray-900 font-medium text-sm">
-                    {new Date(interview.date).toLocaleDateString()}
-                  </div>
-                  <div className="text-gray-600 text-xs">{interview.time}</div>
-                </div>
+            {loading ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="text-gray-500 text-sm mt-2">Loading interviews...</p>
               </div>
-            ))}
+            ) : recentInterviews.length === 0 ? (
+              <div className="text-center py-6">
+                <p className="text-gray-500">No upcoming interviews</p>
+              </div>
+            ) : (
+              recentInterviews.map((interview) => (
+                <div
+                  key={interview.id}
+                  className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center">
+                    <Calendar className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-gray-900 text-sm truncate">
+                      {interview.candidateName || 'Unknown Candidate'}
+                    </h4>
+                    <p className="text-gray-600 text-xs">{interview.jobTitle || 'Position'}</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-gray-900 font-medium text-sm">
+                      {interview.date ? new Date(interview.date).toLocaleDateString() : 'TBD'}
+                    </div>
+                    <div className="text-gray-600 text-xs">{interview.time || 'TBD'}</div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -414,8 +425,7 @@ function Dashboard() {
 function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const [notifications, setNotifications] =
-    useState<Notification[]>(mockNotifications);
+  const [notifications, setNotifications] = useState<Notification[]>([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState(false);
 
