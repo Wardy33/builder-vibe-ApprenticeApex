@@ -355,28 +355,28 @@ router.get("/dashboard/overview", authenticateToken, requireMasterAdmin, async (
 
     res.json({
       platformStats: {
-        totalUsers: stats[0].total_users,
-        totalCandidates: stats[0].total_candidates,
-        totalCompanies: stats[0].total_companies,
-        totalApplications: stats[0].total_applications,
-        totalJobPostings: stats[0].total_job_postings,
-        totalInterviews: stats[0].total_interviews,
-        activeSubscriptions: stats[0].active_subscriptions,
-        totalRevenue: parseFloat(stats[0].total_revenue || 0),
-        monthlyRevenue: parseFloat(stats[0].monthly_revenue || 0)
+        totalUsers: stats.total_users,
+        totalCandidates: stats.total_candidates,
+        totalCompanies: stats.total_companies,
+        totalApplications: stats.total_applications,
+        totalJobPostings: stats.total_job_postings,
+        totalInterviews: stats.total_interviews,
+        activeSubscriptions: stats.active_subscriptions,
+        totalRevenue: parseFloat(stats.total_revenue || 0),
+        monthlyRevenue: parseFloat(stats.monthly_revenue || 0)
       },
       growthMetrics: {
-        usersThisWeek: growth[0].users_this_week,
-        usersThisMonth: growth[0].users_this_month,
-        applicationsThisWeek: growth[0].applications_this_week,
-        revenueThisMonth: parseFloat(growth[0].revenue_this_month || 0),
-        subscriptionsThisMonth: growth[0].subscriptions_this_month
+        usersThisWeek: growth.users_this_week,
+        usersThisMonth: growth.users_this_month,
+        applicationsThisWeek: growth.applications_this_week,
+        revenueThisMonth: parseFloat(growth.revenue_this_month || 0),
+        subscriptionsThisMonth: growth.subscriptions_this_month
       },
       aiModeration: {
-        flagsToday: aiStats[0].flags_today,
-        pendingReviews: aiStats[0].pending_reviews,
-        companiesFlagged: aiStats[0].companies_flagged,
-        blockedConversations: aiStats[0].blocked_conversations
+        flagsToday: aiStats.flags_today,
+        pendingReviews: aiStats.pending_reviews,
+        companiesFlagged: aiStats.companies_flagged,
+        blockedConversations: aiStats.blocked_conversations
       },
       systemHealth,
       lastUpdated: new Date().toISOString()
