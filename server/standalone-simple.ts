@@ -256,6 +256,11 @@ async function startSimpleServer() {
     // Public routes
     app.use("/api/auth", authRoutes);
 
+    // Admin routes
+    console.log('🔧 Mounting admin routes at /api/admin...');
+    app.use("/api/admin", adminRoutes);
+    console.log('✅ Admin routes mounted successfully at /api/admin');
+
     // Add missing endpoints that are causing 404 errors
 
     // Applications endpoint
