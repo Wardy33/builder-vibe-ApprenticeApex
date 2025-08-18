@@ -41,14 +41,14 @@ function SignUpForm() {
       return await register({
         email: data.email,
         password: data.password,
-        role: 'student',
+        role: 'candidate',
         firstName: data.firstName,
         lastName: data.lastName,
       });
     },
     {
       onSuccess: () => {
-        navigate("/student/setup-profile");
+        navigate("/candidate/setup-profile");
       },
       onError: (errorMessage: string) => {
         // Provide user-friendly error messages
