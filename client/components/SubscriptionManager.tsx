@@ -438,92 +438,64 @@ export default function SubscriptionManager() {
     }
   ];
 
-  const handlePlanSelection = (plan: any) => {
+  const handlePlanSelection = async (plan: any) => {
     if (plan.action) {
       plan.action();
-    } else if (plan.stripeLink) {
-      // For demo purposes, show confirmation and redirect to Stripe
-      const periodText = plan.period ? '/' + plan.period : '';
-      const confirmMessage = `You will be redirected to Stripe to securely purchase the ${plan.name} plan for ${plan.price}${periodText}. Continue?`;
+    } else if (plan.stripeLink || plan.id) {
+      try {
+        const periodText = plan.period ? '/' + plan.period : '';
+        const confirmMessage = `You will be redirected to Stripe to securely purchase the ${plan.name} plan for ${plan.price}${periodText}. Continue?`;
 
-      if (confirm(confirmMessage)) {
-        try {
-          // Show payment processing notification
-          setNotification({
-            isOpen: true,
-            type: 'payment',
-            title: 'Processing Payment',
-            message: `Redirecting to secure Stripe checkout for ${plan.name} plan (${plan.price}${periodText}). This is a demo - no actual charges will be made.`
+        if (confirm(confirmMessage)) {
+          setLoading(true);
+
+          // Create Stripe checkout session
+          const response = await fetch('/api/subscription/create-checkout', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              planType: plan.id,
+              planName: plan.name,
+              priceId: plan.stripePriceId || plan.stripeLink,
+              successUrl: `${window.location.origin}/company/subscription?success=true`,
+              cancelUrl: `${window.location.origin}/company/subscription?canceled=true`
+            })
           });
 
-          // For demo, show success after delay
-          setTimeout(() => {
-            setNotification({
-              isOpen: true,
-              type: 'success',
-              title: 'Payment Successful!',
-              message: `${plan.name} plan has been activated successfully! You now have access to all ${plan.name} features and can start posting unlimited jobs.`,
-              action: {
-                label: 'View Dashboard',
-                onClick: () => {
-                  setNotification({ ...notification, isOpen: false });
-                  window.location.href = '/company';
-                }
-              }
-            });
+          if (response.ok) {
+            const data = await response.json();
 
-            // For demo, simulate plan activation
-            const successFeeRates = {
-              starter: 12,
-              professional: 12,
-              business: 12,
-              enterprise: 12
-            };
+            if (data.checkoutUrl) {
+              // Show processing notification
+              setNotification({
+                isOpen: true,
+                type: 'payment',
+                title: 'Redirecting to Checkout',
+                message: `Taking you to secure Stripe checkout for ${plan.name} plan...`
+              });
 
-            const monthlyFees = {
-              starter: 49,
-              professional: 99,
-              business: 149,
-              enterprise: 0
-            };
-
-            const updatedSubscriptionData = {
-              subscription: {
-                planType: plan.id,
-                status: 'active',
-                isInTrial: false,
-                monthlyFee: monthlyFees[plan.id as keyof typeof monthlyFees] || 0,
-                successFeeRate: successFeeRates[plan.id as keyof typeof successFeeRates] || 0,
-                features: {},
-                usage: {
-                  jobPostingsThisMonth: 0,
-                  usersActive: 1,
-                  hiresThisMonth: 0
-                }
-              },
-              outstandingBalance: {
-                totalAmount: 0,
-                count: 0
-              },
-              isTrialExpired: false,
-              daysLeftInTrial: 0,
-              limits: {
-                canCreateJobPosting: true,
-                canAddUser: true
-              }
-            };
-
-            localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedSubscriptionData));
-            // Trigger event to refresh subscription limits across the app
-            window.dispatchEvent(new Event('subscriptionUpdated'));
-            // Refresh page to show new plan after a short delay
-            setTimeout(() => window.location.reload(), 500);
-          }, 1000);
-
-        } catch (error) {
-          console.error('Error in demo payment:', error);
-          alert('Demo payment simulation failed. Please try again.');
+              // Redirect to Stripe checkout
+              window.location.href = data.checkoutUrl;
+            } else {
+              throw new Error('No checkout URL received');
+            }
+          } else {
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Failed to create checkout session');
+          }
         }
+      } catch (error) {
+        console.error('Error creating checkout session:', error);
+        setNotification({
+          isOpen: true,
+          type: 'error',
+          title: 'Checkout Failed',
+          message: error instanceof Error ? error.message : 'Failed to initiate checkout. Please try again.'
+        });
+      } finally {
+        setLoading(false);
       }
     }
   };
