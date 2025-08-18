@@ -1281,7 +1281,27 @@ function JobListingsPage() {
 // Continue with other page components using the same modern design...
 function ApplicationsPage() {
   const navigate = useNavigate();
-  const [applications, setApplications] = useState<Application[]>(mockApplications);
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadApplications = async () => {
+      try {
+        const response = await fetch('/api/company/applications');
+        if (response.ok) {
+          const data = await response.json();
+          setApplications(data.applications || []);
+        }
+      } catch (error) {
+        console.error('Failed to load applications:', error);
+        setApplications([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadApplications();
+  }, []);
   const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -1693,7 +1713,27 @@ function ApplicationsPage() {
 }
 
 function InterviewsPage() {
-  const [interviews, setInterviews] = useState<Interview[]>(mockInterviews);
+  const [interviews, setInterviews] = useState<Interview[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadInterviews = async () => {
+      try {
+        const response = await fetch('/api/company/interviews');
+        if (response.ok) {
+          const data = await response.json();
+          setInterviews(data.interviews || []);
+        }
+      } catch (error) {
+        console.error('Failed to load interviews:', error);
+        setInterviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadInterviews();
+  }, []);
   const [filterStatus, setFilterStatus] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
 
