@@ -6,7 +6,6 @@ import {
   Mail,
   Lock,
   User,
-  ArrowLeft,
   CheckCircle,
 } from "lucide-react";
 import { useAuth, useFormSubmission } from "../hooks/useApi";
