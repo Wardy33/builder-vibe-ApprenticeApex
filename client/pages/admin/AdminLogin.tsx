@@ -25,7 +25,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   useEffect(() => {
     const token = localStorage.getItem('adminToken');
     if (token) {
-      // Verify token validity
+      console.log('Existing admin token found, verifying...');
       verifyAdminSession(token);
     }
   }, []);
@@ -33,128 +33,183 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   const verifyAdminSession = async (token: string) => {
     try {
       console.log('Verifying admin session...');
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
       const response = await fetch('/api/admin/verify-session', {
+        method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
         },
-        credentials: 'same-origin'
+        signal: controller.signal
       });
 
-      console.log('Session verification status:', response.status);
+      clearTimeout(timeoutId);
+      console.log('Session verification response status:', response.status);
 
       if (response.ok) {
-        const data = await response.json();
-        console.log('Session verified, user:', data.user.email);
-        onLogin(token, data.user);
-        navigate('/admin/dashboard');
+        const text = await response.text();
+        console.log('Session verification response text:', text);
+        
+        if (text) {
+          const data = JSON.parse(text);
+          console.log('Session verified successfully for:', data.user.email);
+          onLogin(token, data.user);
+          navigate('/admin/dashboard');
+        }
       } else {
-        console.warn('Session verification failed, clearing token');
-        localStorage.removeItem('adminToken');
-        localStorage.removeItem('adminUser');
+        console.warn('Session verification failed, clearing tokens');
+        clearAdminSession();
       }
     } catch (error) {
       console.error('Session verification error:', error);
-      localStorage.removeItem('adminToken');
-      localStorage.removeItem('adminUser');
+      clearAdminSession();
     }
+  };
+
+  const clearAdminSession = () => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('adminUser');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (loading) {
+      console.log('Login already in progress, ignoring submit');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
+    // Validate inputs
+    if (!email.trim() || !password || !adminCode.trim()) {
+      setError('All fields are required');
+      setLoading(false);
+      return;
+    }
+
+    const requestBody = {
+      email: email.trim(),
+      password,
+      adminCode: adminCode.trim()
+    };
+
+    console.log('🔐 Starting admin login attempt:', { 
+      email: requestBody.email, 
+      hasPassword: !!requestBody.password, 
+      hasAdminCode: !!requestBody.adminCode 
+    });
+
     try {
-      // Create the request body
-      const requestBody = {
-        email: email.trim(),
-        password,
-        adminCode: adminCode.trim()
-      };
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+        console.error('Request timeout after 15 seconds');
+      }, 15000);
 
-      console.log('Admin login attempt:', { email: requestBody.email, hasPassword: !!requestBody.password, hasAdminCode: !!requestBody.adminCode });
+      console.log('🔐 Sending login request to /api/admin/login');
+      
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
+        signal: controller.signal
+      });
 
-      // Use a more robust fetch approach
-      let response;
-      let data;
+      clearTimeout(timeoutId);
 
+      console.log('🔐 Response received - Status:', response.status);
+      console.log('🔐 Response Content-Type:', response.headers.get('content-type'));
+
+      // Read response as text first to avoid body stream issues
+      let responseText = '';
       try {
-        response = await fetch('/api/admin/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(requestBody)
-        });
-
-        console.log('Response status:', response.status);
-
-        // Read response text first, then parse JSON
-        const responseText = await response.text();
-        console.log('Raw response text:', responseText);
-
-        if (responseText) {
-          try {
-            data = JSON.parse(responseText);
-          } catch (parseError) {
-            console.error('JSON parse error:', parseError);
-            throw new Error('Server returned invalid JSON');
-          }
-        } else {
-          throw new Error('Empty response from server');
-        }
-      } catch (networkError) {
-        console.error('Network error:', networkError);
-        throw new Error('Network connection failed');
+        responseText = await response.text();
+        console.log('🔐 Raw response text length:', responseText.length);
+        console.log('🔐 Raw response text:', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
+      } catch (textError) {
+        console.error('❌ Failed to read response text:', textError);
+        throw new Error('Failed to read server response');
       }
 
-      console.log('Parsed response data:', data);
+      // Parse JSON from text
+      let data;
+      if (responseText) {
+        try {
+          data = JSON.parse(responseText);
+          console.log('🔐 Parsed response data:', { success: data.success, hasToken: !!data.token, userEmail: data.user?.email });
+        } catch (parseError) {
+          console.error('❌ JSON parse error:', parseError);
+          console.error('❌ Response text that failed to parse:', responseText);
+          throw new Error('Server returned invalid JSON response');
+        }
+      } else {
+        throw new Error('Empty response from server');
+      }
 
-      if (response.ok) {
-        // Store admin token
+      if (response.ok && data.success) {
+        console.log('✅ Admin login successful!');
+        
+        // Store admin credentials
         localStorage.setItem('adminToken', data.token);
         localStorage.setItem('adminUser', JSON.stringify(data.user));
-
+        
         // Call parent login handler
         onLogin(data.token, data.user);
-
+        
         // Reset form
         setEmail('');
         setPassword('');
         setAdminCode('');
         setLoginAttempts(0);
-
-        console.log('Admin login successful, navigating to dashboard');
-        // Navigate to admin dashboard
+        
+        console.log('🔐 Navigating to admin dashboard...');
         navigate('/admin/dashboard');
+        
       } else {
-        const errorMessage = data.error || 'Admin login failed';
-        console.warn('Admin login failed:', errorMessage, data.code);
+        // Handle login failure
+        const errorMessage = data?.error || `Login failed (Status: ${response.status})`;
+        const errorCode = data?.code || 'UNKNOWN_ERROR';
+        
+        console.warn('❌ Admin login failed:', errorMessage, errorCode);
         setError(errorMessage);
         setLoginAttempts(prev => prev + 1);
-
-        // Clear sensitive fields on error
-        if (data.code === 'INVALID_ADMIN_CODE') {
+        
+        // Clear sensitive fields on specific errors
+        if (errorCode === 'INVALID_ADMIN_CODE') {
           setAdminCode('');
         }
-        if (data.code === 'INVALID_ADMIN_CREDENTIALS') {
+        if (errorCode === 'INVALID_ADMIN_CREDENTIALS') {
           setPassword('');
         }
       }
+
     } catch (error) {
-      console.error('Admin login error:', error);
-
-      // Provide more specific error messages
-      if (error instanceof TypeError && error.message.includes('fetch')) {
-        setError('Network connection error. Please check your connection and try again.');
+      console.error('❌ Login request failed:', error);
+      
+      let errorMessage = 'Login failed. Please try again.';
+      
+      if (error.name === 'AbortError') {
+        errorMessage = 'Request timeout. Please check your connection and try again.';
+      } else if (error.message.includes('fetch')) {
+        errorMessage = 'Network connection error. Please check your connection.';
       } else if (error.message.includes('JSON')) {
-        setError('Server response error. Please try again or contact support.');
-      } else {
-        setError(`Login error: ${error.message}`);
+        errorMessage = 'Server communication error. Please try again.';
+      } else if (error.message) {
+        errorMessage = error.message;
       }
-
+      
+      setError(errorMessage);
       setLoginAttempts(prev => prev + 1);
+      
     } finally {
       setLoading(false);
     }
@@ -223,6 +278,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
                   required
                   disabled={loading}
+                  autoComplete="email"
                 />
               </div>
 
@@ -239,6 +295,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                     className="bg-slate-700 border-slate-600 text-white placeholder-slate-400 pr-10"
                     required
                     disabled={loading}
+                    autoComplete="current-password"
                   />
                   <button
                     type="button"
@@ -263,6 +320,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
                   required
                   disabled={loading}
+                  autoComplete="off"
                 />
                 <p className="text-xs text-slate-500">
                   Additional security layer required for admin access
@@ -273,7 +331,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             <CardFooter>
               <Button
                 type="submit"
-                className="w-full bg-red-600 hover:bg-red-700 text-white"
+                className="w-full bg-red-600 hover:bg-red-700 text-white disabled:opacity-50"
                 disabled={!isFormValid || loading}
               >
                 {loading ? (
