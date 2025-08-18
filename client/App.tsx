@@ -218,6 +218,14 @@ function App() {
           }
         />
         <Route
+          path="/admin/*"
+          element={
+            <Suspense fallback={<LoadingFallback ariaLabel="Admin panel" />}>
+              <AdminApp />
+            </Suspense>
+          }
+        />
+        <Route
           path="*"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Page not found" />}>
