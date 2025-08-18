@@ -11,6 +11,7 @@ import { errorHandler } from "./middleware/errorHandler";
 import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
+import messagingRoutes from "./routes/messaging";
 
 dotenv.config();
 
