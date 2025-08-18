@@ -199,7 +199,7 @@ export default function Index() {
             <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
               <div className="text-center group">
                 <div className="w-20 h-20 bg-gradient-to-br from-orange-400 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-xl border border-white/20">
-                  <Zap className="h-10 w-10 text-white animate-pulse" />
+                  <Zap className="h-10 w-10 text-white" />
                 </div>
                 <h4 className="text-xl font-semibold mb-2 text-white">
                   AI-Powered Matching
