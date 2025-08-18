@@ -109,6 +109,37 @@ interface Notification {
 
 function Dashboard() {
   const navigate = useNavigate();
+  const [recentApplications, setRecentApplications] = useState([]);
+  const [recentInterviews, setRecentInterviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadDashboardData = async () => {
+      try {
+        // Load recent applications
+        const appsResponse = await fetch('/api/company/applications?limit=3&recent=true');
+        if (appsResponse.ok) {
+          const appsData = await appsResponse.json();
+          setRecentApplications(appsData.applications || []);
+        }
+
+        // Load recent interviews
+        const interviewsResponse = await fetch('/api/company/interviews?limit=3&recent=true');
+        if (interviewsResponse.ok) {
+          const interviewsData = await interviewsResponse.json();
+          setRecentInterviews(interviewsData.interviews || []);
+        }
+      } catch (error) {
+        console.error('Failed to load dashboard data:', error);
+        setRecentApplications([]);
+        setRecentInterviews([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadDashboardData();
+  }, []);
 
   const handlePostNewJob = () => {
     navigate('/company/listings?create=true');
