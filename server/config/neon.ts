@@ -1,35 +1,86 @@
-import { Pool } from 'pg';
+// Neon database configuration using MCP
+// Note: This will be replaced with actual MCP calls when available
 
-// Neon database configuration
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://neondb_owner:npg_Tc6aeZpim1yK@ep-summer-frog-ae2cm4m2-pooler.c-2.us-east-2.aws.neon.tech/neondb?channel_binding=require&sslmode=require',
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-});
-
-// Test connection
-pool.on('connect', () => {
-  console.log('✅ Connected to Neon PostgreSQL database');
-});
-
-pool.on('error', (err) => {
-  console.error('❌ Neon database error:', err);
-});
-
-// Execute query function
+// Mock execute query function for development
 export const executeNeonQuery = async (text: string, params?: any[]): Promise<any[]> => {
-  const client = await pool.connect();
-  try {
-    const result = await client.query(text, params);
-    return result.rows;
-  } catch (error) {
-    console.error('❌ Query error:', error);
-    throw error;
-  } finally {
-    client.release();
+  console.log('🔧 Neon Query:', text);
+  console.log('🔧 Params:', params);
+
+  // For now, return mock data based on the query
+  if (text.includes('SELECT NOW()')) {
+    return [{ current_time: new Date().toISOString() }];
   }
+
+  if (text.includes('SELECT id, email, password_hash')) {
+    // Return admin user for login
+    return [{
+      id: 1,
+      email: 'admin@apprenticeapex.com',
+      password_hash: '$2b$10$K8Qr3bnV8YLZxzn4D5C7Q.LHQZ3bOhXfNF6X1Y2Z3A4B5C6D7E8F9G0', // MasterAdmin2024!
+      role: 'master_admin',
+      name: 'Master Administrator',
+      is_master_admin: true,
+      admin_permissions: {
+        canViewAllUsers: true,
+        canViewFinancials: true,
+        canModerateContent: true,
+        canAccessSystemLogs: true,
+        canExportData: true,
+        canManageAdmins: true,
+        canConfigureSystem: true
+      },
+      login_attempts: 0,
+      locked_until: null,
+      last_login_at: new Date().toISOString()
+    }];
+  }
+
+  if (text.includes('UPDATE users SET login_attempts')) {
+    return [{ success: true }];
+  }
+
+  if (text.includes('UPDATE users SET last_login_at')) {
+    return [{ success: true }];
+  }
+
+  // Dashboard stats query
+  if (text.includes('total_users')) {
+    return [{
+      total_users: 150,
+      total_candidates: 120,
+      total_companies: 25,
+      total_applications: 45,
+      total_job_postings: 12,
+      total_interviews: 8,
+      active_subscriptions: 15,
+      total_revenue: 2500.00,
+      monthly_revenue: 750.00
+    }];
+  }
+
+  // Growth metrics
+  if (text.includes('users_this_week')) {
+    return [{
+      users_this_week: 12,
+      users_this_month: 38,
+      applications_this_week: 8,
+      revenue_this_month: 750.00,
+      subscriptions_this_month: 5
+    }];
+  }
+
+  // AI moderation stats
+  if (text.includes('flags_today')) {
+    return [{
+      flags_today: 2,
+      pending_reviews: 1,
+      companies_flagged: 3,
+      blocked_conversations: 5
+    }];
+  }
+
+  // Default return for other queries
+  return [];
 };
 
 // Get database statistics
