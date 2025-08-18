@@ -683,14 +683,7 @@ export function CompanySignInForm() {
                 Forgot your password?
               </Link>
 
-              {/* Test Account Info */}
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-                <p className="text-blue-400 text-xs font-semibold mb-1">Test Account (Development)</p>
-                <p className="text-blue-300 text-xs">Email: test@company.com</p>
-                <p className="text-blue-300 text-xs">Password: Password123</p>
-              </div>
-
-              <div className="border-t border-white/20 pt-4">
+              <div className="pt-4">
                 <p className="text-gray-300 text-sm">
                   Don't have an account?{' '}
                   <Link to="/company/signup" className="hover:underline text-orange-400">
