@@ -25,7 +25,7 @@ export default function Index() {
           <header className="text-center mb-16 relative">
             <div className="absolute inset-0 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 opacity-20 blur-3xl rounded-full"></div>
             <h1 className="hero-text text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 relative z-10">
-              <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent animate-pulse">
+              <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
                 Apprentice
               </span>
               <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
