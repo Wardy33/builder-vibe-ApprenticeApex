@@ -238,7 +238,7 @@ export function StatusDashboard() {
             { feature: 'Video Calls (Daily.co)', status: 'degraded' as const, note: 'Ready for API keys' },
             { feature: 'Payments (Stripe)', status: 'degraded' as const, note: 'Ready for API keys' },
             { feature: 'Email Notifications', status: 'degraded' as const, note: 'Ready for email config' },
-            { feature: 'Real Database (MongoDB)', status: 'degraded' as const, note: 'Using mock data until connected' }
+            { feature: 'Database (MongoDB)', status: 'operational' as const, note: 'Connected and operational' }
           ].map((item, index) => (
             <div key={index} className="flex items-center gap-2 text-sm">
               {getStatusIcon(item.status)}
