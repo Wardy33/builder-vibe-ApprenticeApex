@@ -12,7 +12,7 @@ export interface IUser extends Document {
   passwordResetExpires?: Date;
   lastLogin?: Date;
   isActive: boolean;
-  profile: IStudentProfile | ICompanyProfile | IAdminProfile;
+  profile: ICandidateProfile | ICompanyProfile | IAdminProfile;
   createdAt: Date;
   updatedAt: Date;
 
@@ -32,7 +32,7 @@ export interface IUser extends Document {
   adminLoginLockedUntil?: Date;
 }
 
-export interface IStudentProfile {
+export interface ICandidateProfile {
   firstName: string;
   lastName: string;
   dateOfBirth?: Date;
