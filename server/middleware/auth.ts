@@ -5,7 +5,7 @@ import { getEnvConfig } from "../config/env";
 // Define user types
 export interface User {
   userId: string;
-  role: 'student' | 'company' | 'admin' | 'master_admin';
+  role: 'candidate' | 'company' | 'admin' | 'master_admin';
   email: string;
   isMasterAdmin?: boolean;
   adminPermissions?: {
@@ -26,7 +26,7 @@ export interface AuthenticatedRequest extends Request {
 // JWT payload interface
 interface JWTPayload {
   userId: string;
-  role: 'student' | 'company' | 'admin' | 'master_admin';
+  role: 'candidate' | 'company' | 'admin' | 'master_admin';
   email: string;
   isMasterAdmin?: boolean;
   adminPermissions?: any;
