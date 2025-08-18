@@ -34,9 +34,15 @@ interface PricingPlan {
 export default function ForEmployers() {
 
   const handleStartChat = () => {
-    // This would ideally integrate with a proper chat system
-    // For now, scroll to the LiveChat component or show a modal
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    // Trigger the LiveChat component to open
+    // Find the chat button and click it to open the chat
+    const chatButton = document.querySelector('[aria-label="Open chat"]') as HTMLButtonElement;
+    if (chatButton) {
+      chatButton.click();
+    } else {
+      // Fallback: scroll to bottom where LiveChat component is
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
   };
   
   const plans: PricingPlan[] = [
