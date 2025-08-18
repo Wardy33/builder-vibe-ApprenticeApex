@@ -15,7 +15,7 @@ dotenv.config();
 
 async function startSimpleServer() {
   const PORT = 3006;
-  console.log('🚀 Starting Simple Standalone Express Server...');
+  console.log('��� Starting Simple Standalone Express Server...');
   
   try {
     // Validate environment (with fallback)
@@ -243,7 +243,7 @@ async function startSimpleServer() {
         });
 
       } catch (error) {
-        console.error('❌ Emergency company signin error:', error.message);
+        console.error('�� Emergency company signin error:', error.message);
         res.status(500).json({
           success: false,
           error: 'Internal server error during company signin',
@@ -324,6 +324,22 @@ async function startSimpleServer() {
         },
         message: 'Profile retrieved successfully'
       });
+    });
+
+    // Root route to redirect to frontend
+    app.get("/", (req, res) => {
+      console.log('🏠 Root request - redirecting to frontend');
+      res.redirect('http://localhost:5204');
+    });
+
+    // Catch-all for non-API routes to serve frontend
+    app.get("*", (req, res, next) => {
+      // Only handle non-API routes
+      if (!req.path.startsWith('/api')) {
+        console.log('🏠 Non-API request - redirecting to frontend:', req.path);
+        return res.redirect(`http://localhost:5204${req.path}`);
+      }
+      next();
     });
 
     // Error handling middleware
