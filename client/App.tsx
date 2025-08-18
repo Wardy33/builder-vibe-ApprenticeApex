@@ -27,6 +27,7 @@ const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
 const ForEmployers = lazy(() => import("./pages/ForEmployers"));
 const CompanyAuth = lazy(() => import("./pages/CompanyAuth"));
 const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
+const AdminLoginSimple = lazy(() => import("./pages/admin/AdminLoginSimple"));
 
 // Loading component for accessibility
 function LoadingFallback({ ariaLabel }: { ariaLabel: string }) {
