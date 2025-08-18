@@ -46,9 +46,8 @@ export function WebHeaderNew() {
             aria-label="ApprenticeApex Home"
           >
             <span className="text-2xl font-bold text-white transform group-hover:scale-105 transition-all duration-200">
-              <span className="text-[#00D4FF]">Apprentice</span>
-              <span className="text-white">Apex</span>
-              <span className="text-xs text-green-400 ml-2">NEW</span>
+              <span className="text-pink-500">Apprentice</span>
+              <span className="text-pink-500">Apex</span>
             </span>
           </Link>
 
