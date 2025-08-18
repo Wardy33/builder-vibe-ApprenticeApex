@@ -7,6 +7,11 @@ import { getEnvConfig } from "../config/env";
 import { database } from "../config/database";
 import mongoose from "mongoose";
 
+// Import sub-admin routes
+import adminUsersRouter from "./adminUsers";
+import adminAnalyticsRouter from "./adminAnalytics";
+import adminSystemRouter from "./adminSystem";
+
 const router = Router();
 
 // Master Admin Login - Enhanced Security
@@ -348,5 +353,10 @@ router.get("/dashboard/overview", authenticateToken, requireMasterAdmin, async (
     });
   }
 });
+
+// Mount sub-admin routes
+router.use("/users", adminUsersRouter);
+router.use("/analytics", adminAnalyticsRouter);
+router.use("/system", adminSystemRouter);
 
 export default router;
