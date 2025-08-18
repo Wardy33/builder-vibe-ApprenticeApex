@@ -114,23 +114,23 @@ export default function About() {
 
         {/* Stats */}
         <div className="rounded-3xl p-8 mb-16 bg-gradient-to-br from-gray-900/80 to-black/80 border border-white/10 shadow-xl backdrop-blur-sm">
-          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Impact</h2>
+          <h2 className="text-3xl font-bold text-center mb-12 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Vision</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div className="group">
-              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">10,000+</div>
-              <div className="text-gray-300">Students Registered</div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">1,000+</div>
+              <div className="text-gray-300">Students to Impact</div>
             </div>
             <div className="group">
-              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">2,500+</div>
-              <div className="text-gray-300">Employer Partners</div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">£25,000+</div>
+              <div className="text-gray-300">Average Starting Salary Goal</div>
             </div>
             <div className="group">
-              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">7,500+</div>
-              <div className="text-gray-300">Successful Matches</div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">90%</div>
+              <div className="text-gray-300">Placement Success Rate</div>
             </div>
             <div className="group">
-              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">95%</div>
-              <div className="text-gray-300">Completion Rate</div>
+              <div className="text-4xl font-bold mb-2 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-200">Zero</div>
+              <div className="text-gray-300">Cost to Students</div>
             </div>
           </div>
         </div>
