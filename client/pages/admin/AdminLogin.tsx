@@ -32,21 +32,31 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
   const verifyAdminSession = async (token: string) => {
     try {
+      console.log('Verifying admin session...');
       const response = await fetch('/api/admin/verify-session', {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          'Authorization': `Bearer ${token}`,
+          'Accept': 'application/json'
+        },
+        credentials: 'same-origin'
       });
+
+      console.log('Session verification status:', response.status);
 
       if (response.ok) {
         const data = await response.json();
+        console.log('Session verified, user:', data.user.email);
         onLogin(token, data.user);
         navigate('/admin/dashboard');
       } else {
+        console.warn('Session verification failed, clearing token');
         localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminUser');
       }
     } catch (error) {
+      console.error('Session verification error:', error);
       localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminUser');
     }
   };
 
@@ -56,40 +66,73 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     setError('');
 
     try {
+      // Create the request body
+      const requestBody = {
+        email: email.trim(),
+        password,
+        adminCode: adminCode.trim()
+      };
+
+      console.log('Admin login attempt:', { email: requestBody.email, hasPassword: !!requestBody.password, hasAdminCode: !!requestBody.adminCode });
+
       const response = await fetch('/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
-        body: JSON.stringify({
-          email: email.trim(),
-          password,
-          adminCode: adminCode.trim()
-        }),
+        body: JSON.stringify(requestBody),
+        credentials: 'same-origin'
       });
 
-      const data = await response.json();
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error(`Expected JSON response but got ${contentType}`);
+      }
+
+      // Clone the response to avoid "body stream already read" error
+      const responseClone = response.clone();
+      let data;
+
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('JSON parsing error:', jsonError);
+        // Try to get text from cloned response for debugging
+        const text = await responseClone.text();
+        console.error('Response text:', text);
+        throw new Error('Invalid JSON response from server');
+      }
+
+      console.log('Response data:', data);
 
       if (response.ok) {
         // Store admin token
         localStorage.setItem('adminToken', data.token);
         localStorage.setItem('adminUser', JSON.stringify(data.user));
-        
+
         // Call parent login handler
         onLogin(data.token, data.user);
-        
+
         // Reset form
         setEmail('');
         setPassword('');
         setAdminCode('');
         setLoginAttempts(0);
-        
+
+        console.log('Admin login successful, navigating to dashboard');
         // Navigate to admin dashboard
         navigate('/admin/dashboard');
       } else {
-        setError(data.error || 'Admin login failed');
+        const errorMessage = data.error || 'Admin login failed';
+        console.warn('Admin login failed:', errorMessage, data.code);
+        setError(errorMessage);
         setLoginAttempts(prev => prev + 1);
-        
+
         // Clear sensitive fields on error
         if (data.code === 'INVALID_ADMIN_CODE') {
           setAdminCode('');
@@ -100,7 +143,16 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       }
     } catch (error) {
       console.error('Admin login error:', error);
-      setError('Network error. Please try again.');
+
+      // Provide more specific error messages
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        setError('Network connection error. Please check your connection and try again.');
+      } else if (error.message.includes('JSON')) {
+        setError('Server response error. Please try again or contact support.');
+      } else {
+        setError(`Login error: ${error.message}`);
+      }
+
       setLoginAttempts(prev => prev + 1);
     } finally {
       setLoading(false);
