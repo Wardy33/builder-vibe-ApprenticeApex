@@ -110,46 +110,46 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   const isFormValid = email.trim() && password && adminCode.trim();
 
   return (
-    <div className=\"min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4\">
-      <div className=\"w-full max-w-md space-y-6\">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center p-4">
+      <div className="w-full max-w-md space-y-6">
         {/* Header */}
-        <div className=\"text-center space-y-4\">
-          <div className=\"mx-auto w-16 h-16 bg-red-600 rounded-full flex items-center justify-center\">
-            <Shield className=\"w-8 h-8 text-white\" />
+        <div className="text-center space-y-4">
+          <div className="mx-auto w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+            <Shield className="w-8 h-8 text-white" />
           </div>
           <div>
-            <h1 className=\"text-3xl font-bold text-white\">Master Admin</h1>
-            <p className=\"text-slate-400 mt-2\">ApprenticeApex Platform Administration</p>
+            <h1 className="text-3xl font-bold text-white">Master Admin</h1>
+            <p className="text-slate-400 mt-2">ApprenticeApex Platform Administration</p>
           </div>
         </div>
 
         {/* Login Form */}
-        <Card className=\"bg-slate-800 border-slate-700\">
-          <CardHeader className=\"space-y-1\">
-            <CardTitle className=\"text-xl text-white flex items-center gap-2\">
-              <Lock className=\"w-5 h-5\" />
+        <Card className="bg-slate-800 border-slate-700">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-xl text-white flex items-center gap-2">
+              <Lock className="w-5 h-5" />
               Secure Admin Access
             </CardTitle>
-            <CardDescription className=\"text-slate-400\">
+            <CardDescription className="text-slate-400">
               Enter your master admin credentials to access the platform dashboard
             </CardDescription>
           </CardHeader>
 
           <form onSubmit={handleSubmit}>
-            <CardContent className=\"space-y-4\">
+            <CardContent className="space-y-4">
               {/* Error Alert */}
               {error && (
-                <Alert variant=\"destructive\" className=\"bg-red-900/50 border-red-500\">
-                  <AlertTriangle className=\"h-4 w-4\" />
+                <Alert variant="destructive" className="bg-red-900/50 border-red-500">
+                  <AlertTriangle className="h-4 w-4" />
                   <AlertDescription>{error}</AlertDescription>
                 </Alert>
               )}
 
               {/* Login Attempts Warning */}
               {loginAttempts >= 2 && (
-                <Alert className=\"bg-amber-900/50 border-amber-500\">
-                  <AlertTriangle className=\"h-4 w-4\" />
-                  <AlertDescription className=\"text-amber-200\">
+                <Alert className="bg-amber-900/50 border-amber-500">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription className="text-amber-200">
                     {loginAttempts >= 3 ? 
                       'Account may be locked after failed attempts. Please contact system administrator.' :
                       `${3 - loginAttempts} attempt(s) remaining before account lock.`
@@ -159,59 +159,59 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
               )}
 
               {/* Email Field */}
-              <div className=\"space-y-2\">
-                <Label htmlFor=\"email\" className=\"text-slate-300\">Admin Email</Label>
+              <div className="space-y-2">
+                <Label htmlFor="email" className="text-slate-300">Admin Email</Label>
                 <Input
-                  id=\"email\"
-                  type=\"email\"
+                  id="email"
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder=\"admin@apprenticeapex.com\"
-                  className=\"bg-slate-700 border-slate-600 text-white placeholder-slate-400\"
+                  placeholder="admin@apprenticeapex.com"
+                  className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
                   required
                   disabled={loading}
                 />
               </div>
 
               {/* Password Field */}
-              <div className=\"space-y-2\">
-                <Label htmlFor=\"password\" className=\"text-slate-300\">Password</Label>
-                <div className=\"relative\">
+              <div className="space-y-2">
+                <Label htmlFor="password" className="text-slate-300">Password</Label>
+                <div className="relative">
                   <Input
-                    id=\"password\"
-                    type={showPassword ? \"text\" : \"password\"}
+                    id="password"
+                    type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder=\"Enter admin password\"
-                    className=\"bg-slate-700 border-slate-600 text-white placeholder-slate-400 pr-10\"
+                    placeholder="Enter admin password"
+                    className="bg-slate-700 border-slate-600 text-white placeholder-slate-400 pr-10"
                     required
                     disabled={loading}
                   />
                   <button
-                    type=\"button\"
+                    type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className=\"absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300\"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-300"
                     disabled={loading}
                   >
-                    {showPassword ? <EyeOff className=\"w-4 h-4\" /> : <Eye className=\"w-4 h-4\" />}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
               </div>
 
               {/* Admin Access Code */}
-              <div className=\"space-y-2\">
-                <Label htmlFor=\"adminCode\" className=\"text-slate-300\">Admin Access Code</Label>
+              <div className="space-y-2">
+                <Label htmlFor="adminCode" className="text-slate-300">Admin Access Code</Label>
                 <Input
-                  id=\"adminCode\"
-                  type=\"password\"
+                  id="adminCode"
+                  type="password"
                   value={adminCode}
                   onChange={(e) => setAdminCode(e.target.value)}
-                  placeholder=\"Enter admin access code\"
-                  className=\"bg-slate-700 border-slate-600 text-white placeholder-slate-400\"
+                  placeholder="Enter admin access code"
+                  className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
                   required
                   disabled={loading}
                 />
-                <p className=\"text-xs text-slate-500\">
+                <p className="text-xs text-slate-500">
                   Additional security layer required for admin access
                 </p>
               </div>
@@ -219,18 +219,18 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
             <CardFooter>
               <Button
-                type=\"submit\"
-                className=\"w-full bg-red-600 hover:bg-red-700 text-white\"
+                type="submit"
+                className="w-full bg-red-600 hover:bg-red-700 text-white"
                 disabled={!isFormValid || loading}
               >
                 {loading ? (
-                  <div className=\"flex items-center gap-2\">
-                    <div className=\"w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin\" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                     Authenticating...
                   </div>
                 ) : (
-                  <div className=\"flex items-center gap-2\">
-                    <Shield className=\"w-4 h-4\" />
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
                     Access Admin Panel
                   </div>
                 )}
@@ -240,11 +240,11 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         </Card>
 
         {/* Security Notice */}
-        <div className=\"text-center space-y-2\">
-          <p className=\"text-xs text-slate-500\">
+        <div className="text-center space-y-2">
+          <p className="text-xs text-slate-500">
             This is a secure administrative interface. All access is logged and monitored.
           </p>
-          <p className=\"text-xs text-slate-600\">
+          <p className="text-xs text-slate-600">
             Unauthorized access is prohibited and may result in legal action.
           </p>
         </div>
