@@ -99,73 +99,7 @@ interface Notification {
   read: boolean;
 }
 
-const mockApplications: Application[] = [
-  {
-    id: "1",
-    candidateName: "Sarah Johnson",
-    jobTitle: "Software Developer",
-    applicationDate: "2024-01-15",
-    status: "pending",
-    score: 92,
-    email: "sarah.johnson@email.com",
-    phone: "+44 7123 456789",
-    location: "London, UK",
-    experience: "2 years",
-    skills: ["React", "TypeScript", "Node.js", "Python"],
-  },
-  {
-    id: "2",
-    candidateName: "Mike Chen",
-    jobTitle: "Digital Marketing Assistant",
-    applicationDate: "2024-01-14",
-    status: "interview",
-    score: 88,
-    email: "mike.chen@email.com",
-    phone: "+44 7234 567890",
-    location: "Manchester, UK",
-    experience: "1 year",
-    skills: ["SEO", "Social Media", "Analytics", "Content Creation"],
-  },
-  {
-    id: "3",
-    candidateName: "Emma Davis",
-    jobTitle: "Electrical Engineer",
-    applicationDate: "2024-01-13",
-    status: "reviewed",
-    score: 95,
-    email: "emma.davis@email.com",
-    phone: "+44 7345 678901",
-    location: "Birmingham, UK",
-    experience: "3 years",
-    skills: ["Circuit Design", "CAD", "Project Management", "Testing"],
-  },
-  {
-    id: "4",
-    candidateName: "James Wilson",
-    jobTitle: "Data Analyst",
-    applicationDate: "2024-01-12",
-    status: "accepted",
-    score: 89,
-    email: "james.wilson@email.com",
-    phone: "+44 7456 789012",
-    location: "Edinburgh, UK",
-    experience: "2 years",
-    skills: ["Python", "SQL", "Tableau", "Statistics"],
-  },
-  {
-    id: "5",
-    candidateName: "Lisa Smith",
-    jobTitle: "Graphic Designer",
-    applicationDate: "2024-01-11",
-    status: "rejected",
-    score: 76,
-    email: "lisa.smith@email.com",
-    phone: "+44 7567 890123",
-    location: "Bristol, UK",
-    experience: "1 year",
-    skills: ["Photoshop", "Illustrator", "InDesign", "Figma"],
-  },
-];
+// Mock applications removed - using real API data
 
 const mockJobListings: JobListing[] = [
   {
