@@ -26,6 +26,7 @@ const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
 const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
 const ForEmployers = lazy(() => import("./pages/ForEmployers"));
 const CompanyAuth = lazy(() => import("./pages/CompanyAuth"));
+const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
 
 // Loading component for accessibility
 function LoadingFallback({ ariaLabel }: { ariaLabel: string }) {
