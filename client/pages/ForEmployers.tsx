@@ -35,8 +35,7 @@ export default function ForEmployers() {
 
   const handleStartChat = () => {
     // Trigger the LiveChat component to open
-    // Find the chat button and click it to open the chat
-    const chatButton = document.querySelector('[aria-label="Open chat"]') as HTMLButtonElement;
+    const chatButton = document.getElementById('live-chat-button') as HTMLButtonElement;
     if (chatButton) {
       chatButton.click();
     } else {
