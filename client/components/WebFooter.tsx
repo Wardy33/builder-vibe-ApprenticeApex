@@ -27,7 +27,7 @@ export function WebFooter() {
               <a href="#" className="text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:scale-110">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-110">
+              <a href="https://www.linkedin.com/company/apprenticeapex" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-110">
                 <Linkedin className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-pink-400 transition-all duration-200 hover:scale-110">
