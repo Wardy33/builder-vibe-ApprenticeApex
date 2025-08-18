@@ -1018,7 +1018,7 @@ function ProfileSetupStep4({
   );
 }
 
-export default function StudentProfileSetup() {
+export default function CandidateProfileSetup() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(1);
   const [profileData, setProfileData] = useState<ProfileData>({
