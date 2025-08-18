@@ -110,7 +110,17 @@ export function CompanySignUpForm() {
       if (response.error) {
         const errorMessage = response.error.error || 'Registration failed';
         console.error('Company signup error:', errorMessage);
-        alert(`Registration failed: ${errorMessage}`);
+
+        // Provide user-friendly messages for common errors
+        if (errorMessage.includes('already registered') || errorMessage.includes('already exists')) {
+          alert(`An account with this email already exists. Please try signing in instead, or use a different email address.`);
+        } else if (errorMessage.includes('validation')) {
+          alert(`Please check that all required fields are filled correctly and try again.`);
+        } else if (errorMessage.includes('password')) {
+          alert(`Password requirements not met. Please ensure your password is at least 8 characters long.`);
+        } else {
+          alert(`Registration failed: ${errorMessage}`);
+        }
       } else {
         // Use consistent token storage
         localStorage.setItem('authToken', response.data.token);
