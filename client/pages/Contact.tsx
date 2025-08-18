@@ -91,7 +91,7 @@ export default function Contact() {
 
 
                 <div className="flex items-start space-x-4">
-                  <Clock className="h-6 w-6 mt-1 text-cyan-400 animate-pulse" />
+                  <Clock className="h-6 w-6 mt-1 text-cyan-400" />
                   <div>
                     <h3 className="font-semibold text-white mb-1">Support Hours</h3>
                     <p className="text-gray-300 text-sm">
