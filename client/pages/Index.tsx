@@ -144,7 +144,7 @@ export default function Index() {
                 <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
                 <div className="relative z-10">
                 <div className="flex items-center mb-6">
-                  <Building2 className="h-10 w-10 text-white mr-3 animate-pulse" />
+                  <Building2 className="h-10 w-10 text-white mr-3" />
                   <h2 className="text-2xl font-bold text-white drop-shadow-lg">
                     Company Portal
                   </h2>
