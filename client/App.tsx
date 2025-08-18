@@ -165,16 +165,16 @@ function App() {
         <Route
           path="/student/signup"
           element={
-            <Suspense fallback={<LoadingFallback ariaLabel="Student signup" />}>
-              <StudentAuth />
+            <Suspense fallback={<LoadingFallback ariaLabel="Candidate signup" />}>
+              <CandidateAuth />
             </Suspense>
           }
         />
         <Route
           path="/student/signin"
           element={
-            <Suspense fallback={<LoadingFallback ariaLabel="Student signin" />}>
-              <StudentAuth />
+            <Suspense fallback={<LoadingFallback ariaLabel="Candidate signin" />}>
+              <CandidateAuth />
             </Suspense>
           }
         />
@@ -182,15 +182,15 @@ function App() {
           path="/student/setup-profile"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Profile setup" />}>
-              <StudentProfileSetup />
+              <CandidateProfileSetup />
             </Suspense>
           }
         />
         <Route
           path="/student/*"
           element={
-            <Suspense fallback={<LoadingFallback ariaLabel="Student portal" />}>
-              <StudentApp />
+            <Suspense fallback={<LoadingFallback ariaLabel="Candidate portal" />}>
+              <CandidateApp />
             </Suspense>
           }
         />
