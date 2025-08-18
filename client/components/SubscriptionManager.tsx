@@ -204,31 +204,45 @@ export default function SubscriptionManager() {
   const cancelSubscription = async () => {
     try {
       if (confirm('Are you sure you want to cancel your subscription? It will remain active until the end of your current billing period.')) {
-        const updatedData = {
-          ...subscriptionData!,
-          subscription: {
-            ...subscriptionData!.subscription,
-            status: 'cancelled'
-          },
-          outstandingBalance: subscriptionData!.outstandingBalance || {
-            totalAmount: 0,
-            count: 0
+        setLoading(true);
+
+        // Cancel subscription via Stripe API
+        const response = await fetch('/api/subscription/cancel', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           }
-        };
-
-        setSubscriptionData(updatedData);
-        localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedData));
-        setShowCancelModal(false);
-
-        setNotification({
-          isOpen: true,
-          type: 'info',
-          title: 'Subscription Cancelled',
-          message: 'Your subscription has been cancelled and will remain active until the end of your current billing period (30 days from last payment).'
         });
+
+        if (response.ok) {
+          const data = await response.json();
+          setSubscriptionData(data);
+          setShowCancelModal(false);
+
+          setNotification({
+            isOpen: true,
+            type: 'info',
+            title: 'Subscription Cancelled',
+            message: 'Your subscription has been cancelled and will remain active until the end of your current billing period.'
+          });
+
+          // Trigger event to refresh subscription limits across the app
+          window.dispatchEvent(new Event('subscriptionUpdated'));
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to cancel subscription');
+        }
       }
     } catch (error) {
       console.error('Error cancelling subscription:', error);
+      setNotification({
+        isOpen: true,
+        type: 'error',
+        title: 'Cancellation Failed',
+        message: error instanceof Error ? error.message : 'Failed to cancel subscription. Please try again.'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
