@@ -190,15 +190,6 @@ export default function Index() {
             </div>
           </div>
 
-          {/* Debug Link for Development */}
-          <div className="text-center mb-16">
-            <Link
-              to="/debug"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-gray-800 to-gray-700 hover:from-gray-700 hover:to-gray-600 text-white text-sm rounded-xl transition-all duration-200 hover:scale-105 border border-white/20"
-            >
-              View System Status & Debug Info
-            </Link>
-          </div>
 
           {/* Features Section */}
           <div className="text-center">
