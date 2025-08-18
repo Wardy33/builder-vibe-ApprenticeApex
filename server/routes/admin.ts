@@ -264,20 +264,25 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
 // Verify Admin Session
 router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    console.log('🔍 Admin session verification for user:', req.user?.userId);
+
     const user = await User.findById(req.user!.userId).select("-password -emailVerificationToken -passwordResetToken");
-    
+
     if (!user) {
+      console.warn('❌ Admin user not found during session verification:', req.user?.userId);
       return res.status(404).json({
         error: "Admin user not found",
         code: "ADMIN_NOT_FOUND"
       });
     }
 
+    console.log('✅ Admin session verified for:', user.email);
+
     // Update last access time
     user.lastAccessedAdminPanel = new Date();
     await user.save();
 
-    res.json({
+    const responseData = {
       success: true,
       user: {
         id: user._id,
@@ -288,13 +293,20 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
         profile: user.profile,
         lastAccess: user.lastAccessedAdminPanel
       }
-    });
+    };
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(responseData);
 
   } catch (error) {
     console.error("❌ Admin session verification error:", error);
+    console.error("❌ Error stack:", error.stack);
+
+    res.setHeader('Content-Type', 'application/json');
     res.status(500).json({
       error: "Session verification failed",
-      code: "SESSION_VERIFICATION_ERROR"
+      code: "SESSION_VERIFICATION_ERROR",
+      message: error.message || 'Unknown verification error'
     });
   }
 });
