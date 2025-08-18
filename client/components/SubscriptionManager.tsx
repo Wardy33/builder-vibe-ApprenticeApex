@@ -148,51 +148,56 @@ export default function SubscriptionManager() {
 
   const upgradePlan = async (planType: string) => {
     try {
-      // For demo purposes, simulate plan upgrade
       if (confirm(`Upgrade to ${getPlanDisplayName(planType)} plan?`)) {
-        const successFeeRates = {
-          starter: 12,
-          professional: 12,
-          business: 12,
-          enterprise: 12
-        };
+        setLoading(true);
 
-        const monthlyFees = {
-          starter: 49,
-          professional: 99,
-          business: 149,
-          enterprise: 0
-        };
-
-        const updatedData = {
-          ...subscriptionData!,
-          subscription: {
-            ...subscriptionData!.subscription,
-            planType: planType,
-            monthlyFee: monthlyFees[planType as keyof typeof monthlyFees] || 0,
-            successFeeRate: successFeeRates[planType as keyof typeof successFeeRates] || 0
+        // Create Stripe checkout session for plan upgrade
+        const response = await fetch('/api/subscription/upgrade', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-          outstandingBalance: subscriptionData!.outstandingBalance || {
-            totalAmount: 0,
-            count: 0
-          }
-        };
-
-        setSubscriptionData(updatedData);
-        localStorage.setItem('demoSubscriptionData', JSON.stringify(updatedData));
-        // Trigger event to refresh subscription limits across the app
-        window.dispatchEvent(new Event('subscriptionUpdated'));
-        setShowUpgradeModal(false);
-
-        setNotification({
-          isOpen: true,
-          type: 'success',
-          title: 'Plan Updated Successfully!',
-          message: `You've been upgraded to the ${getPlanDisplayName(planType)} plan. Your new features are now active.`
+          body: JSON.stringify({
+            planType: planType
+          })
         });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          if (data.checkoutUrl) {
+            // Redirect to Stripe checkout
+            window.location.href = data.checkoutUrl;
+          } else {
+            // Update subscription immediately for instant upgrades
+            setSubscriptionData(data);
+            setShowUpgradeModal(false);
+
+            setNotification({
+              isOpen: true,
+              type: 'success',
+              title: 'Plan Updated Successfully!',
+              message: `You've been upgraded to the ${getPlanDisplayName(planType)} plan. Your new features are now active.`
+            });
+
+            // Trigger event to refresh subscription limits across the app
+            window.dispatchEvent(new Event('subscriptionUpdated'));
+          }
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to upgrade plan');
+        }
       }
     } catch (error) {
       console.error('Error upgrading plan:', error);
+      setNotification({
+        isOpen: true,
+        type: 'error',
+        title: 'Upgrade Failed',
+        message: error instanceof Error ? error.message : 'Failed to upgrade plan. Please try again.'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
