@@ -63,7 +63,7 @@ export default function Index() {
               <div className="text-center">
                 <div className="w-20 h-32 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl mx-auto mb-4 p-3 transform -rotate-6 hover:rotate-0 transition-all duration-300 shadow-2xl border border-white/20">
                   <div className="bg-white/90 rounded-xl h-full flex flex-col justify-center items-center text-xs">
-                    <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full mb-1 animate-bounce"></div>
+                    <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-pink-500 rounded-full mb-1"></div>
                     <div className="text-gray-800 font-bold text-xs leading-tight">✓ Match!</div>
                     <div className="text-green-600 text-xs">92% fit</div>
                   </div>
