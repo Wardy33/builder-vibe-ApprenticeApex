@@ -277,8 +277,13 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
   try {
     console.log('🔍 Admin session verification for user:', req.user?.userId);
 
-    const user = await User.findById(req.user!.userId).select("-password -emailVerificationToken -passwordResetToken");
+    const users = await executeNeonQuery(
+      `SELECT id, email, role, name, is_master_admin, admin_permissions, last_login_at
+       FROM users WHERE id = $1 AND role IN ('admin', 'master_admin')`,
+      [req.user!.userId]
+    );
 
+    const user = users[0];
     if (!user) {
       console.warn('❌ Admin user not found during session verification:', req.user?.userId);
       return res.status(404).json({
@@ -290,19 +295,21 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
     console.log('✅ Admin session verified for:', user.email);
 
     // Update last access time
-    user.lastAccessedAdminPanel = new Date();
-    await user.save();
+    await executeNeonQuery(
+      `UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1`,
+      [user.id]
+    );
 
     const responseData = {
       success: true,
       user: {
-        id: user._id,
+        id: user.id,
         email: user.email,
         role: user.role,
-        isMasterAdmin: user.isMasterAdmin,
-        permissions: user.adminPermissions,
-        profile: user.profile,
-        lastAccess: user.lastAccessedAdminPanel
+        name: user.name,
+        isMasterAdmin: user.is_master_admin,
+        permissions: user.admin_permissions,
+        lastAccess: new Date().toISOString()
       }
     };
 
