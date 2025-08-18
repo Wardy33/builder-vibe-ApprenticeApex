@@ -734,51 +734,29 @@ function JobsPage() {
 
 function MatchesPage() {
   const navigate = useNavigate();
+  const [matches, setMatches] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockMatches = [
-    {
-      id: "1",
-      jobTitle: "Software Developer",
-      company: "TechCorp Ltd",
-      matchDate: "2 days ago",
-      status: "new",
-      image:
-        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=100&h=100&fit=crop",
-      industry: "Technology",
-      location: "London, UK",
-      distance: "1.4 miles",
-      duration: "3 years",
-      description:
-        "Join our dynamic team and learn cutting-edge web development technologies. You'll work on real projects from day one.",
-      requirements: [
-        "Basic coding knowledge",
-        "Problem-solving skills",
-        "Passion for technology",
-      ],
-      salary: "£18,000 - £25,000",
-    },
-    {
-      id: "2",
-      jobTitle: "Digital Marketing Assistant",
-      company: "Creative Agency",
-      matchDate: "1 week ago",
-      status: "viewed",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=100&h=100&fit=crop",
-      industry: "Marketing",
-      location: "Manchester, UK",
-      distance: "1.1 miles",
-      duration: "2 years",
-      description:
-        "Learn the fundamentals of digital marketing including SEO, social media, and content creation.",
-      requirements: [
-        "Creative mindset",
-        "Social media savvy",
-        "Communication skills",
-      ],
-      salary: "£16,000 - £22,000",
-    },
-  ];
+  useEffect(() => {
+    const loadMatches = async () => {
+      try {
+        const response = await fetch('/api/matches/student');
+        if (response.ok) {
+          const data = await response.json();
+          setMatches(data.matches || []);
+        } else {
+          setMatches([]);
+        }
+      } catch (error) {
+        console.error('Failed to load matches:', error);
+        setMatches([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadMatches();
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -791,7 +769,12 @@ function MatchesPage() {
       </div>
 
       <div className="px-6 py-4">
-        {mockMatches.length === 0 ? (
+        {loading ? (
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading your matches...</p>
+          </div>
+        ) : matches.length === 0 ? (
           <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Star className="h-8 w-8 text-gray-400" />
@@ -811,7 +794,7 @@ function MatchesPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {mockMatches.map((match) => (
+            {matches.map((match) => (
               <div
                 key={match.id}
                 className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200 hover:border-gray-300"
@@ -871,27 +854,29 @@ function MatchesPage() {
 
 function MessagesPage() {
   const navigate = useNavigate();
+  const [conversations, setConversations] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const mockConversations = [
-    {
-      id: "1",
-      company: "TechCorp Ltd",
-      lastMessage: "We'd love to schedule an interview!",
-      time: "2h ago",
-      unread: true,
-      avatar:
-        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=50&h=50&fit=crop",
-    },
-    {
-      id: "2",
-      company: "Creative Agency",
-      lastMessage: "Thanks for your interest in our apprenticeship.",
-      time: "1d ago",
-      unread: false,
-      avatar:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=50&h=50&fit=crop",
-    },
-  ];
+  useEffect(() => {
+    const loadConversations = async () => {
+      try {
+        const response = await fetch('/api/conversations/student');
+        if (response.ok) {
+          const data = await response.json();
+          setConversations(data.conversations || []);
+        } else {
+          setConversations([]);
+        }
+      } catch (error) {
+        console.error('Failed to load conversations:', error);
+        setConversations([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadConversations();
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -902,7 +887,12 @@ function MessagesPage() {
       </div>
 
       <div className="px-6 py-4">
-        {mockConversations.length === 0 ? (
+        {loading ? (
+          <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-gray-600">Loading your messages...</p>
+          </div>
+        ) : conversations.length === 0 ? (
           <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <MessageCircle className="h-8 w-8 text-gray-400" />
@@ -922,7 +912,7 @@ function MessagesPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {mockConversations.map((conversation) => (
+            {conversations.map((conversation) => (
               <div
                 key={conversation.id}
                 onClick={() => navigate(`/student/chat/${conversation.id}`)}
