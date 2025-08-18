@@ -78,12 +78,32 @@ export default function LiveChat() {
         response: 'ApprenticeApex was founded in 2025 to revolutionize apprenticeship recruitment. We use AI to match employers with talented Gen Z candidates, making the hiring process faster and more effective. We\'re based in the UK and focus on connecting the next generation with amazing career opportunities!'
       };
     }
-    
+
+    if (greetingKeywords.some(keyword => message.includes(keyword))) {
+      return {
+        response: 'Hello! Welcome to ApprenticeApex. I\'m here to help you discover how we can connect you with top talent through our apprenticeship platform. What would you like to know?'
+      };
+    }
+
+    if (benefitsKeywords.some(keyword => message.includes(keyword))) {
+      return {
+        response: 'Great question! ApprenticeApex offers AI-powered matching, 90% placement success rate, £20,000+ average starting salaries, and zero cost to students. We save you time and connect you with pre-vetted, motivated candidates!'
+      };
+    }
+
+    if (integrationKeywords.some(keyword => message.includes(keyword))) {
+      return {
+        response: 'We offer seamless integrations with major HR systems and can provide API access for enterprise clients. Our platform is designed to fit into your existing workflow. Would you like to speak with our technical team?',
+        shouldContactSupport: true
+      };
+    }
+
     // Default responses
     const defaultResponses = [
       'That\'s a great question! I can help with information about our pricing, how the platform works, or apprenticeship placements. What would you like to know more about?',
       'I\'m here to help! Feel free to ask about our services, pricing, or how to get started with ApprenticeApex.',
-      'Thanks for your question! I can provide information about apprenticeship recruitment, our platform features, or pricing. What interests you most?'
+      'Thanks for your question! I can provide information about apprenticeship recruitment, our platform features, or pricing. What interests you most?',
+      'I\'d be happy to help you learn more about ApprenticeApex. You can ask me about costs, how our matching works, or benefits for companies!'
     ];
     
     return {
