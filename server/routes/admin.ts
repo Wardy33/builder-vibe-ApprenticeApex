@@ -17,6 +17,16 @@ const router = Router();
 console.log('🔧 Admin routes module loading...');
 console.log('🔧 Router created successfully');
 
+// Add a simple test route to verify admin routes are mounted
+router.get("/test", (req: Request, res: Response) => {
+  console.log('🧪 Admin test route accessed');
+  res.json({
+    success: true,
+    message: "Admin routes are working!",
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Master Admin Login - Enhanced Security
 router.post("/login", async (req: Request, res: Response) => {
   try {
