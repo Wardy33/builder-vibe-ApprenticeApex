@@ -75,40 +75,41 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
 
       console.log('Admin login attempt:', { email: requestBody.email, hasPassword: !!requestBody.password, hasAdminCode: !!requestBody.adminCode });
 
-      const response = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(requestBody),
-        credentials: 'same-origin'
-      });
-
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-      // Check if response is JSON
-      const contentType = response.headers.get('content-type');
-      if (!contentType || !contentType.includes('application/json')) {
-        throw new Error(`Expected JSON response but got ${contentType}`);
-      }
-
-      // Clone the response to avoid "body stream already read" error
-      const responseClone = response.clone();
+      // Use a more robust fetch approach
+      let response;
       let data;
 
       try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('JSON parsing error:', jsonError);
-        // Try to get text from cloned response for debugging
-        const text = await responseClone.text();
-        console.error('Response text:', text);
-        throw new Error('Invalid JSON response from server');
+        response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        console.log('Response status:', response.status);
+
+        // Read response text first, then parse JSON
+        const responseText = await response.text();
+        console.log('Raw response text:', responseText);
+
+        if (responseText) {
+          try {
+            data = JSON.parse(responseText);
+          } catch (parseError) {
+            console.error('JSON parse error:', parseError);
+            throw new Error('Server returned invalid JSON');
+          }
+        } else {
+          throw new Error('Empty response from server');
+        }
+      } catch (networkError) {
+        console.error('Network error:', networkError);
+        throw new Error('Network connection failed');
       }
 
-      console.log('Response data:', data);
+      console.log('Parsed response data:', data);
 
       if (response.ok) {
         // Store admin token
