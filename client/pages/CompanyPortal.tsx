@@ -753,6 +753,26 @@ function JobListingsPage() {
     message: string;
   }>({ isOpen: false, type: 'info', title: '', message: '' });
 
+  // Load job listings
+  useEffect(() => {
+    const loadJobListings = async () => {
+      try {
+        const response = await fetch('/api/company/jobs');
+        if (response.ok) {
+          const data = await response.json();
+          setListings(data.jobs || []);
+        }
+      } catch (error) {
+        console.error('Failed to load job listings:', error);
+        setListings([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadJobListings();
+  }, []);
+
   // Check if we should open create modal from URL parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
