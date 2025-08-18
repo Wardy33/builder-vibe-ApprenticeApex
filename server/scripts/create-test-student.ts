@@ -21,13 +21,10 @@ async function createTestStudent() {
       return;
     }
     
-    // Hash the password
-    const hashedPassword = await bcrypt.hash('Password123', 12);
-    
-    // Create test student user
+    // Create test student user with plain password (will be hashed by pre-save middleware)
     const testStudent = new User({
       email: 'sarah.johnson@email.com',
-      password: hashedPassword,
+      password: 'Password123',
       role: 'student',
       profile: {
         firstName: 'Sarah',
