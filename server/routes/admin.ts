@@ -69,17 +69,7 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Find user and check master admin status using Neon
-    const userQuery = `
-      SELECT id, email, password_hash, role, name, is_master_admin, admin_permissions,
-             login_attempts, locked_until, last_login_at
-      FROM users
-      WHERE LOWER(email) = LOWER($1)
-        AND role IN ('admin', 'master_admin')
-        AND email_verified = true
-    `;
-
-    const users = await executeNeonQuery(userQuery, [email.toLowerCase()]);
-    const user = users[0];
+    const user = await findUserByEmail(email.toLowerCase());
 
     if (!user) {
       console.warn(`🚨 Admin login attempt with non-admin email: ${email} from IP: ${req.ip}`);
