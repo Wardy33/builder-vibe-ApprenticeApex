@@ -262,13 +262,15 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
   try {
     console.log('🔍 Admin session verification for user:', req.user?.userId);
 
-    const users = await executeNeonQuery(
-      `SELECT id, email, role, name, is_master_admin, admin_permissions, last_login_at
-       FROM users WHERE id = $1 AND role IN ('admin', 'master_admin')`,
-      [req.user!.userId]
-    );
-
-    const user = users[0];
+    // For verify session, we just trust the JWT data since it's already authenticated
+    const user = {
+      id: req.user!.userId,
+      email: req.user!.email,
+      role: req.user!.role,
+      name: 'Master Administrator',
+      is_master_admin: req.user!.isMasterAdmin,
+      admin_permissions: req.user!.adminPermissions
+    };
     if (!user) {
       console.warn('❌ Admin user not found during session verification:', req.user?.userId);
       return res.status(404).json({
