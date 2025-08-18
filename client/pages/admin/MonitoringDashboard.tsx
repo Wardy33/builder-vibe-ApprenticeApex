@@ -101,41 +101,16 @@ export default function MonitoringDashboard() {
           setActivities(convertedActivities);
         }
       } else {
-        // Fallback to mock data if API fails
-        const mockStats = {
-          totalFlags: 23,
-          criticalFlags: 3,
-          highFlags: 8,
-          resolvedFlags: 12
+        // Set empty state if API fails
+        const emptyStats = {
+          totalFlags: 0,
+          criticalFlags: 0,
+          highFlags: 0,
+          resolvedFlags: 0
         };
 
-        const mockActivities: SuspiciousActivity[] = [
-          {
-            id: '1',
-            employerId: 'emp_123',
-            studentId: 'stu_456',
-            activityType: 'EXCESSIVE_PROFILE_VIEWING',
-            severity: 'high',
-            description: 'Employer viewed 15 profiles in 1 hour without engagement',
-            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-            status: 'flagged',
-            evidence: { profileViews: 15, timeWindow: '1h', messagesSent: 0 }
-          },
-          {
-            id: '2',
-            employerId: 'emp_789',
-            studentId: 'stu_101',
-            activityType: 'MESSAGE_POLICY_VIOLATION',
-            severity: 'critical',
-            description: 'Attempt to share contact information outside platform',
-            timestamp: new Date(Date.now() - 30 * 60 * 1000),
-            status: 'flagged',
-            evidence: { messageContent: 'Call me at 07xxx xxx xxx', flags: ['PHONE_SHARING_ATTEMPT'] }
-          }
-        ];
-
-        setStats(mockStats);
-        setActivities(mockActivities);
+        setStats(emptyStats);
+        setActivities([]);
       }
     } catch (error) {
       console.error('Error loading monitoring data:', error);
