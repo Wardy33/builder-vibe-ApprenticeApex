@@ -219,7 +219,7 @@ function SignUpForm() {
                     handleInputChange("password", e.target.value)
                   }
                   className="w-full pl-10 pr-12 py-3 bg-gray-800/40 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-orange-400 backdrop-blur-sm transition-all duration-200"
-                  placeholder="••••••••"
+                  placeholder="��•••••••"
                 />
                 <button
                   type="button"
@@ -525,13 +525,6 @@ function SignInForm() {
           </form>
 
           <div className="mt-8 text-center space-y-4">
-            {/* Test Account Info */}
-            <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
-              <p className="text-blue-400 text-xs font-semibold mb-1">Test Account (Development)</p>
-              <p className="text-blue-300 text-xs">Email: sarah.johnson@email.com</p>
-              <p className="text-blue-300 text-xs">Password: Password123</p>
-            </div>
-
             <p className="text-gray-300">
               Don't have an account?{" "}
               <Link
