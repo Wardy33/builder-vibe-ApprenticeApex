@@ -3643,7 +3643,7 @@ function AccountSettingsPage() {
   );
 }
 
-export default function StudentApp() {
+export default function CandidateApp() {
   return (
     <Routes>
       <Route
