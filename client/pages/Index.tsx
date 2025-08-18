@@ -251,7 +251,7 @@ export default function Index() {
                   <div className="text-gray-300 text-sm font-medium">Students to Impact</div>
                 </div>
                 <div className="group text-center touch-target p-4">
-                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">£25,000+</div>
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">£20,000+</div>
                   <div className="text-gray-300 text-sm font-medium">Average Starting Salary Goal</div>
                 </div>
                 <div className="group text-center touch-target p-4">
