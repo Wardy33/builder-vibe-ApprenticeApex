@@ -1412,39 +1412,80 @@ function ChatPage() {
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const [profile, setProfile] = useState({
-    firstName: "Sarah",
-    lastName: "Johnson",
-    email: "sarah.johnson@email.com",
-    phone: "07123 456789",
-    location: "London, UK",
-    bio: "Passionate about technology and eager to start my career in software development.",
-    skills: ["JavaScript", "React", "Problem Solving", "Communication"],
-    availableFrom: "September 2024",
-    profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
-  });
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Load profile data from localStorage
-    const loadProfileData = () => {
-      const savedBio = localStorage.getItem('studentProfile_bio');
-      const savedAvailability = localStorage.getItem('studentProfile_availability');
-      const savedImage = localStorage.getItem('studentProfile_image');
-
-      setProfile(prev => ({
-        ...prev,
-        bio: savedBio || prev.bio,
-        ...safeGetFromLocalStorage('studentProfile_contact', { email: prev.email, phone: prev.phone, location: prev.location }),
-        skills: safeGetFromLocalStorage('studentProfile_skills', prev.skills),
-        availableFrom: savedAvailability || prev.availableFrom,
-        profileImage: savedImage || prev.profileImage,
-      }));
+    const loadUserProfile = async () => {
+      try {
+        // First try to get from API
+        const response = await fetch('/api/users/profile');
+        if (response.ok) {
+          const data = await response.json();
+          setProfile(data.profile);
+        } else {
+          // Fallback to localStorage for partial data
+          const userProfile = safeGetFromLocalStorage('userProfile', null);
+          if (userProfile) {
+            setProfile({
+              firstName: userProfile.profile?.firstName || 'Student',
+              lastName: userProfile.profile?.lastName || '',
+              email: userProfile.email || '',
+              phone: userProfile.profile?.phone || '',
+              location: userProfile.profile?.location?.city || 'Location not set',
+              bio: localStorage.getItem('studentProfile_bio') || 'Complete your profile to attract employers.',
+              skills: safeGetFromLocalStorage('studentProfile_skills', []),
+              availableFrom: localStorage.getItem('studentProfile_availability') || 'Available now',
+              profileImage: localStorage.getItem('studentProfile_image') || 'https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop',
+            });
+          } else {
+            // No user data found
+            setProfile(null);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to load profile:', error);
+        setProfile(null);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    loadProfileData();
+    loadUserProfile();
   }, []);
 
-  const mockProfile = profile;
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your profile...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="text-gray-400 mb-6">
+            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Profile not found</h3>
+          <p className="text-gray-600 mb-6">Please sign in to access your profile.</p>
+          <button
+            onClick={() => navigate('/student/signin')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-gray-50 min-h-screen">
