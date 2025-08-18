@@ -37,13 +37,16 @@ export default function LiveChat() {
 
   const generateBotResponse = async (userMessage: string): Promise<ChatBotResponse> => {
     const message = userMessage.toLowerCase();
-    
-    // Keywords for different topics
-    const pricingKeywords = ['price', 'cost', 'plan', 'subscription', 'fee', 'trial', 'money', 'payment'];
-    const howItWorksKeywords = ['how', 'work', 'process', 'start', 'begin', 'use'];
-    const apprenticeshipKeywords = ['apprentice', 'apprenticeship', 'training', 'placement', 'hire', 'recruit'];
-    const supportKeywords = ['support', 'help', 'problem', 'issue', 'contact', 'speak', 'talk', 'human', 'agent'];
-    const companyKeywords = ['company', 'about', 'who', 'team', 'business'];
+
+    // Enhanced keyword categories with more comprehensive coverage
+    const pricingKeywords = ['price', 'cost', 'plan', 'subscription', 'fee', 'trial', 'money', 'payment', 'charge', 'rate', 'budget', 'affordable'];
+    const howItWorksKeywords = ['how', 'work', 'process', 'start', 'begin', 'use', 'step', 'guide', 'tutorial', 'onboard'];
+    const apprenticeshipKeywords = ['apprentice', 'apprenticeship', 'training', 'placement', 'hire', 'recruit', 'candidate', 'talent', 'skill'];
+    const supportKeywords = ['support', 'help', 'problem', 'issue', 'contact', 'speak', 'talk', 'human', 'agent', 'assist'];
+    const companyKeywords = ['company', 'about', 'who', 'team', 'business', 'founded', 'mission'];
+    const benefitsKeywords = ['benefit', 'advantage', 'why', 'better', 'unique', 'different', 'value'];
+    const integrationKeywords = ['integrate', 'api', 'connect', 'sync', 'import', 'export'];
+    const greetingKeywords = ['hello', 'hi', 'hey', 'good', 'morning', 'afternoon', 'evening'];
     
     if (supportKeywords.some(keyword => message.includes(keyword))) {
       return {
