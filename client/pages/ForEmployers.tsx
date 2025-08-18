@@ -178,7 +178,7 @@ export default function ForEmployers() {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 drop-shadow-lg">
-              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent animate-pulse">Hire</span>
+              Pay Only When You <span className="bg-gradient-to-r from-orange-400 via-pink-500 to-cyan-400 bg-clip-text text-transparent">Hire</span>
             </h1>
 
             <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto font-medium">
