@@ -743,7 +743,8 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
 // Update remaining page components to match the modern design...
 function JobListingsPage() {
   const location = useLocation();
-  const [listings, setListings] = useState<JobListing[]>(mockJobListings);
+  const [listings, setListings] = useState<JobListing[]>([]);
+  const [loading, setLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [notification, setNotification] = useState<{
     isOpen: boolean;
