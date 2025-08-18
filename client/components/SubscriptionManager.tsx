@@ -100,54 +100,49 @@ export default function SubscriptionManager() {
 
   const startTrial = async () => {
     try {
-      // For demo purposes, simulate starting a trial
       if (confirm('Start your 60-day free trial? You will have full access to all features.')) {
-        // Show success notification
-        setNotification({
-          isOpen: true,
-          type: 'success',
-          title: 'Trial Started Successfully!',
-          message: 'You now have 60 days of full access to all features. Start posting jobs and finding the perfect apprentices for your company.'
+        setLoading(true);
+
+        // Create real trial subscription via Stripe API
+        const response = await fetch('/api/subscription/start-trial', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            planType: 'trial'
+          })
         });
 
-        // For demo, set mock subscription data
-        const mockTrialData = {
-          subscription: {
-            planType: 'trial',
-            status: 'active',
-            isInTrial: true,
-            monthlyFee: 0,
-            successFeeRate: 0,
-            successFeeDescription: '£399 per successful apprentice placement',
-            features: {},
-            usage: {
-              jobPostingsThisMonth: 2,
-              usersActive: 1,
-              hiresThisMonth: 0
-            },
-            trialEndDate: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000).toISOString()
-          },
-          outstandingBalance: {
-            totalAmount: 0,
-            count: 0
-          },
-          isTrialExpired: false,
-          daysLeftInTrial: 60,
-          limits: {
-            canCreateJobPosting: true,
-            canAddUser: true
-          }
-        };
+        if (response.ok) {
+          const data = await response.json();
+          setSubscriptionData(data);
 
-        setSubscriptionData(mockTrialData);
-        // Store demo data in localStorage
-        localStorage.setItem('demoSubscriptionData', JSON.stringify(mockTrialData));
-        // Trigger event to refresh subscription limits across the app
-        window.dispatchEvent(new Event('subscriptionUpdated'));
+          // Show success notification
+          setNotification({
+            isOpen: true,
+            type: 'success',
+            title: 'Trial Started Successfully!',
+            message: 'You now have 60 days of full access to all features. Start posting jobs and finding the perfect apprentices for your company.'
+          });
+
+          // Trigger event to refresh subscription limits across the app
+          window.dispatchEvent(new Event('subscriptionUpdated'));
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Failed to start trial');
+        }
       }
     } catch (error) {
       console.error('Error starting trial:', error);
-      alert('Failed to start trial. Please try again.');
+      setNotification({
+        isOpen: true,
+        type: 'error',
+        title: 'Trial Start Failed',
+        message: error instanceof Error ? error.message : 'Failed to start trial. Please try again.'
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
