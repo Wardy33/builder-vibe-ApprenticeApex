@@ -282,10 +282,7 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
     console.log('✅ Admin session verified for:', user.email);
 
     // Update last access time
-    await executeNeonQuery(
-      `UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = $1`,
-      [user.id]
-    );
+    await updateUserLastLogin(user.id);
 
     const responseData = {
       success: true,
