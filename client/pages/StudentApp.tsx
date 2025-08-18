@@ -189,61 +189,7 @@ interface Apprenticeship {
   image: string;
 }
 
-const mockApprenticeship: Apprenticeship[] = [
-  {
-    id: "1",
-    jobTitle: "Software Developer",
-    company: "TechCorp Ltd",
-    industry: "Technology",
-    location: "London, UK",
-    distance: "1.4 miles",
-    duration: "3 years",
-    description:
-      "Join our dynamic team and learn cutting-edge web development technologies. You'll work on real projects from day one.",
-    requirements: [
-      "Basic coding knowledge",
-      "Problem-solving skills",
-      "Passion for technology",
-    ],
-    salary: "£18,000 - £25,000",
-    image:
-      "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop",
-  },
-  {
-    id: "2",
-    jobTitle: "Digital Marketing Assistant",
-    company: "Creative Agency",
-    industry: "Marketing",
-    location: "Manchester, UK",
-    distance: "1.1 miles",
-    duration: "2 years",
-    description:
-      "Learn the fundamentals of digital marketing including SEO, social media, and content creation.",
-    requirements: [
-      "Creative mindset",
-      "Social media savvy",
-      "Communication skills",
-    ],
-    salary: "£16,000 - £22,000",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
-  },
-  {
-    id: "3",
-    jobTitle: "Electrical Engineer",
-    company: "PowerTech Solutions",
-    industry: "Engineering",
-    location: "Birmingham, UK",
-    distance: "1.9 miles",
-    duration: "4 years",
-    description:
-      "Hands-on experience in electrical systems design and installation. Work with experienced engineers.",
-    requirements: ["Math skills", "Attention to detail", "Safety-conscious"],
-    salary: "£20,000 - £28,000",
-    image:
-      "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=600&fit=crop",
-  },
-];
+// Mock data removed - now using real API data with proper empty states
 
 // SwipeCard component moved to top of file - removing duplicate
 // Broken duplicate functions removed - using clean component structure below
@@ -273,13 +219,19 @@ function HomePage() {
           setProfileScore(profileData.profileScore || 92);
         }
 
-        // Mock interviews for now - TODO: Implement real interview API
-        setInterviews(mockInterviews);
+        // Load interviews from API
+        const interviewsResponse = await fetch('/api/interviews/student');
+        if (interviewsResponse.ok) {
+          const interviewsData = await interviewsResponse.json();
+          setInterviews(interviewsData.interviews || []);
+        } else {
+          setInterviews([]);
+        }
       } catch (error) {
         console.error('Failed to load dashboard data:', error);
-        // Fallback to mock data
-        setApplications(mockApplications);
-        setInterviews(mockInterviews);
+        // Set empty states on error
+        setApplications([]);
+        setInterviews([]);
       } finally {
         setLoading(false);
       }
