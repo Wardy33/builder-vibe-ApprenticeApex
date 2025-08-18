@@ -4,7 +4,7 @@ export interface IUser extends Document {
   _id: string;
   email: string;
   password: string;
-  role: "student" | "company" | "admin";
+  role: "student" | "company" | "admin" | "master_admin";
   isEmailVerified: boolean;
   emailVerificationToken?: string;
   emailVerificationExpires?: Date;
@@ -12,9 +12,24 @@ export interface IUser extends Document {
   passwordResetExpires?: Date;
   lastLogin?: Date;
   isActive: boolean;
-  profile: IStudentProfile | ICompanyProfile;
+  profile: IStudentProfile | ICompanyProfile | IAdminProfile;
   createdAt: Date;
   updatedAt: Date;
+
+  // Master Admin specific fields
+  isMasterAdmin?: boolean;
+  adminPermissions?: {
+    canViewAllUsers: boolean;
+    canViewFinancials: boolean;
+    canModerateContent: boolean;
+    canAccessSystemLogs: boolean;
+    canExportData: boolean;
+    canManageAdmins: boolean;
+    canConfigureSystem: boolean;
+  };
+  lastAccessedAdminPanel?: Date;
+  adminLoginAttempts?: number;
+  adminLoginLockedUntil?: Date;
 }
 
 export interface IStudentProfile {
@@ -102,6 +117,23 @@ export interface ICompanyProfile {
     weeklyReports: boolean;
     marketingEmails: boolean;
   };
+}
+
+export interface IAdminProfile {
+  firstName: string;
+  lastName: string;
+  position: string;
+  department?: string;
+  permissions: {
+    users: boolean;
+    content: boolean;
+    financial: boolean;
+    analytics: boolean;
+    system: boolean;
+  };
+  lastAccess: Date;
+  twoFactorEnabled: boolean;
+  adminLevel: "admin" | "master_admin";
 }
 
 export interface IEducation {
@@ -426,10 +458,23 @@ const userSchema = new Schema<IUser>(
     },
     role: {
       type: String,
-      enum: ["student", "company", "admin"],
+      enum: ["student", "company", "admin", "master_admin"],
       required: true,
       index: true
     },
+    isMasterAdmin: { type: Boolean, default: false, index: true },
+    adminPermissions: {
+      canViewAllUsers: { type: Boolean, default: false },
+      canViewFinancials: { type: Boolean, default: false },
+      canModerateContent: { type: Boolean, default: false },
+      canAccessSystemLogs: { type: Boolean, default: false },
+      canExportData: { type: Boolean, default: false },
+      canManageAdmins: { type: Boolean, default: false },
+      canConfigureSystem: { type: Boolean, default: false }
+    },
+    lastAccessedAdminPanel: { type: Date },
+    adminLoginAttempts: { type: Number, default: 0 },
+    adminLoginLockedUntil: { type: Date },
     isEmailVerified: { type: Boolean, default: false, index: true },
     emailVerificationToken: { type: String },
     emailVerificationExpires: { type: Date },
@@ -445,7 +490,7 @@ const userSchema = new Schema<IUser>(
             return value && typeof value === "object" && "firstName" in value;
           } else if (this.role === "company") {
             return value && typeof value === "object" && "companyName" in value;
-          } else if (this.role === "admin") {
+          } else if (this.role === "admin" || this.role === "master_admin") {
             return true; // Admin profile is optional
           }
           return false;
