@@ -526,9 +526,9 @@ function HomePage() {
 
 function JobsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [apprenticeships, setApprenticeships] = useState(mockApprenticeship);
+  const [apprenticeships, setApprenticeships] = useState([]);
   const [showFilters, setShowFilters] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   // Load apprenticeships from API
   useEffect(() => {
