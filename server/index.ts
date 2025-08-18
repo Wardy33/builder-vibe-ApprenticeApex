@@ -212,7 +212,9 @@ export function createApp() {
   ) {
     app.use("/api/auth", createRateLimit(15 * 60 * 1000, 5)); // Auth rate limit
     app.use("/api/payments", createRateLimit(60 * 60 * 1000, 10)); // Payment rate limit
-    app.use("/api", createRateLimit());
+    app.use("/api/admin", createRateLimit(15 * 60 * 1000, 10)); // Admin rate limit (more permissive)
+    // Apply general rate limit to all other API routes (excluding admin)
+    app.use(/^\/api\/(?!admin).*/, createRateLimit());
   }
 
   // Public routes
