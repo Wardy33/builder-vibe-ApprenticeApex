@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
 import { getEnvConfig } from "../config/env";
+import { findUserByEmail, updateUserLoginAttempts, updateUserLastLogin, getDashboardStats, getGrowthMetrics, getAIModerationStats } from "../utils/neonHelper";
 
 // Import sub-admin routes
 import adminUsersRouter from "./adminUsers";
