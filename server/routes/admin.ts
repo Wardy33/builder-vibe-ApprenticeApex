@@ -17,9 +17,29 @@ const router = Router();
 // Master Admin Login - Enhanced Security
 router.post("/login", async (req: Request, res: Response) => {
   try {
+    console.log('🔐 Admin login attempt received');
+    console.log('🔐 Request headers:', JSON.stringify(req.headers, null, 2));
+    console.log('🔐 Request body exists:', !!req.body);
+    console.log('🔐 Request body type:', typeof req.body);
+
+    // Ensure we have a valid request body
+    if (!req.body || typeof req.body !== 'object') {
+      console.error('❌ Invalid request body for admin login');
+      return res.status(400).json({
+        error: "Invalid request body",
+        code: "INVALID_BODY"
+      });
+    }
+
     const { email, password, adminCode } = req.body;
+    console.log('🔐 Extracted credentials:', {
+      email: email ? email : 'missing',
+      hasPassword: !!password,
+      hasAdminCode: !!adminCode
+    });
 
     if (!email || !password) {
+      console.warn('❌ Missing email or password in admin login');
       return res.status(400).json({
         error: "Email and password are required",
         code: "MISSING_CREDENTIALS"
@@ -113,7 +133,8 @@ router.post("/login", async (req: Request, res: Response) => {
 
     console.log(`✅ Admin login successful: ${email} (${user.role}) from IP: ${req.ip}`);
 
-    res.json({
+    // Ensure response is properly formatted JSON
+    const responseData = {
       success: true,
       message: "Admin login successful",
       token,
@@ -125,13 +146,23 @@ router.post("/login", async (req: Request, res: Response) => {
         permissions: user.adminPermissions,
         profile: user.profile
       }
-    });
+    };
+
+    console.log('🔐 Sending admin login response:', { success: true, userEmail: email, hasToken: !!token });
+
+    res.setHeader('Content-Type', 'application/json');
+    res.status(200).json(responseData);
 
   } catch (error) {
     console.error("❌ Admin login error:", error);
+    console.error("❌ Error stack:", error.stack);
+
+    // Ensure we always send valid JSON
+    res.setHeader('Content-Type', 'application/json');
     res.status(500).json({
       error: "Admin login failed",
-      code: "ADMIN_LOGIN_ERROR"
+      code: "ADMIN_LOGIN_ERROR",
+      message: error.message || 'Unknown server error'
     });
   }
 });
