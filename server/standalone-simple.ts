@@ -4,7 +4,7 @@ import { createServer } from "http";
 import compression from "compression";
 import jwt from "jsonwebtoken";
 import { validateEnv } from "./config/env";
-import { connectToDatabase } from "./index";
+import { executeNeonQuery } from "./config/neon";
 import { errorHandler } from "./middleware/errorHandler";
 
 // Import routes
