@@ -132,21 +132,23 @@ router.post("/login", async (req: Request, res: Response) => {
 
     // Generate enhanced JWT token for admin
     const env = getEnvConfig();
+    const adminPermissions = user.admin_permissions || {
+      canViewAllUsers: true,
+      canViewFinancials: true,
+      canModerateContent: true,
+      canAccessSystemLogs: true,
+      canExportData: true,
+      canManageAdmins: user.role === "master_admin",
+      canConfigureSystem: user.role === "master_admin"
+    };
+
     const token = jwt.sign(
       {
-        userId: user._id,
+        userId: user.id,
         role: user.role,
         email: user.email,
-        isMasterAdmin: user.isMasterAdmin || user.role === "master_admin",
-        adminPermissions: user.adminPermissions || {
-          canViewAllUsers: true,
-          canViewFinancials: true,
-          canModerateContent: true,
-          canAccessSystemLogs: true,
-          canExportData: true,
-          canManageAdmins: user.role === "master_admin",
-          canConfigureSystem: user.role === "master_admin"
-        }
+        isMasterAdmin: user.is_master_admin || user.role === "master_admin",
+        adminPermissions
       },
       env.JWT_SECRET,
       { expiresIn: "8h" } // Shorter expiry for admin tokens
@@ -160,12 +162,12 @@ router.post("/login", async (req: Request, res: Response) => {
       message: "Admin login successful",
       token,
       user: {
-        id: user._id,
+        id: user.id,
         email: user.email,
         role: user.role,
-        isMasterAdmin: user.isMasterAdmin || user.role === "master_admin",
-        permissions: user.adminPermissions,
-        profile: user.profile
+        name: user.name,
+        isMasterAdmin: user.is_master_admin || user.role === "master_admin",
+        permissions: adminPermissions
       }
     };
 
