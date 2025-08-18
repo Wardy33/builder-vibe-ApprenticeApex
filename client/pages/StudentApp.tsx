@@ -559,12 +559,12 @@ function JobsPage() {
             ? response.error
             : response.error?.error || response.error?.message || 'Failed to load apprenticeships from server';
           console.error('Failed to load apprenticeships:', errorMessage);
-          // Keep using mock data if API fails
+          setApprenticeships([]);
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error('Failed to load apprenticeships from API, using mock data:', errorMessage);
-        // Keep using mock data as fallback
+        console.error('Failed to load apprenticeships from API:', errorMessage);
+        setApprenticeships([]);
       } finally {
         setLoading(false);
       }
