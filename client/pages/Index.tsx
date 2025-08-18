@@ -220,7 +220,7 @@ export default function Index() {
               </div>
               <div className="text-center group">
                 <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-4 transform group-hover:scale-110 group-hover:rotate-12 transition-all duration-300 shadow-xl border border-white/20">
-                  <MessageCircle className="h-10 w-10 text-white animate-pulse" />
+                  <MessageCircle className="h-10 w-10 text-white" />
                 </div>
                 <h4 className="text-xl font-semibold mb-2 text-white">
                   Real-time Communication
