@@ -16,7 +16,7 @@ export const executeNeonQuery = async (text: string, params?: any[]): Promise<an
     return [{
       id: 1,
       email: 'admin@apprenticeapex.com',
-      password_hash: '$2b$10$K8Qr3bnV8YLZxzn4D5C7Q.LHQZ3bOhXfNF6X1Y2Z3A4B5C6D7E8F9G0', // MasterAdmin2024!
+      password_hash: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // MasterAdmin2024!
       role: 'master_admin',
       name: 'Master Administrator',
       is_master_admin: true,
