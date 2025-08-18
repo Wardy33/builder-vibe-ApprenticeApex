@@ -84,29 +84,17 @@ export default function SubscriptionManager() {
 
   const loadBillingHistory = async () => {
     try {
-      // For demo purposes, use mock billing data
-      const mockBillingHistory = [
-        {
-          _id: '1',
-          description: 'Monthly subscription - Professional Plan',
-          amount: 99,
-          status: 'paid',
-          createdAt: '2024-01-01T00:00:00Z',
-          dueDate: '2024-01-31T00:00:00Z'
-        },
-        {
-          _id: '2',
-          description: 'Success fee - Software Developer hire',
-          amount: 399,
-          status: 'paid',
-          createdAt: '2023-12-15T00:00:00Z',
-          dueDate: '2023-12-30T00:00:00Z'
-        }
-      ];
-
-      setBillingHistory(mockBillingHistory);
+      // Load real billing history from Stripe API
+      const response = await fetch('/api/billing/history');
+      if (response.ok) {
+        const data = await response.json();
+        setBillingHistory(data.invoices || []);
+      } else {
+        setBillingHistory([]);
+      }
     } catch (error) {
       console.error('Error loading billing history:', error);
+      setBillingHistory([]);
     }
   };
 
