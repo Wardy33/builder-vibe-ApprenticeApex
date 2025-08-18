@@ -26,22 +26,33 @@ export function AdminApp() {
       const token = localStorage.getItem('adminToken');
       const savedUser = localStorage.getItem('adminUser');
 
+      console.log('Checking admin auth status...', { hasToken: !!token, hasUser: !!savedUser });
+
       if (token && savedUser) {
         // Verify token with server
+        console.log('Verifying admin token...');
         const response = await fetch('/api/admin/verify-session', {
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+          },
+          credentials: 'same-origin'
         });
+
+        console.log('Auth verification response:', response.status);
 
         if (response.ok) {
           const data = await response.json();
+          console.log('Auth verification successful for:', data.user.email);
           setUser(data.user);
           setIsAuthenticated(true);
         } else {
+          console.warn('Auth verification failed, clearing tokens');
           // Token is invalid, clear storage
           handleLogout();
         }
+      } else {
+        console.log('No admin token found, user needs to login');
       }
     } catch (error) {
       console.error('Auth check error:', error);
@@ -52,6 +63,7 @@ export function AdminApp() {
   };
 
   const handleLogin = (token: string, userData: AdminUser) => {
+    console.log('Admin login handler called for:', userData.email);
     localStorage.setItem('adminToken', token);
     localStorage.setItem('adminUser', JSON.stringify(userData));
     setUser(userData);
@@ -59,6 +71,7 @@ export function AdminApp() {
   };
 
   const handleLogout = () => {
+    console.log('Admin logout handler called');
     localStorage.removeItem('adminToken');
     localStorage.removeItem('adminUser');
     setUser(null);
