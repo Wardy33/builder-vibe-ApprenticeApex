@@ -22,7 +22,7 @@ export default function About() {
         {/* Mission & Vision */}
         <div className="grid md:grid-cols-2 gap-12 mb-16">
           <div className="rounded-2xl p-8 bg-gradient-to-br from-orange-400/20 via-pink-500/20 to-red-500/20 border border-white/20 shadow-xl backdrop-blur-sm group hover:scale-105 transition-all duration-300">
-            <Target className="h-12 w-12 text-orange-400 group-hover:animate-pulse" />
+            <Target className="h-12 w-12 text-orange-400" />
             <h2 className="text-2xl font-bold mb-4 text-white">Our Mission</h2>
             <p className="text-gray-300 leading-relaxed">
               To bridge the skills gap in the UK by creating meaningful connections between
