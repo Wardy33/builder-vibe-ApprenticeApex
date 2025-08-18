@@ -339,37 +339,9 @@ router.post("/logout", authenticateToken, requireMasterAdmin, async (req: Authen
 router.get("/dashboard/overview", authenticateToken, requireMasterAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
     // Get comprehensive platform statistics from Neon
-    const stats = await executeNeonQuery(`
-      SELECT
-        (SELECT COUNT(*) FROM users WHERE email_verified = true) as total_users,
-        (SELECT COUNT(*) FROM users WHERE role = 'candidate' AND email_verified = true) as total_candidates,
-        (SELECT COUNT(*) FROM users WHERE role = 'company' AND email_verified = true) as total_companies,
-        (SELECT COUNT(*) FROM applications) as total_applications,
-        (SELECT COUNT(*) FROM jobs WHERE status = 'active') as total_job_postings,
-        (SELECT COUNT(*) FROM interviews) as total_interviews,
-        (SELECT COUNT(*) FROM subscriptions WHERE status = 'active') as active_subscriptions,
-        (SELECT COALESCE(SUM(amount), 0) FROM payments WHERE status = 'succeeded') as total_revenue,
-        (SELECT COALESCE(SUM(amount), 0) FROM payments WHERE status = 'succeeded' AND created_at >= DATE_TRUNC('month', CURRENT_DATE)) as monthly_revenue
-    `);
-
-    // Get growth metrics
-    const growth = await executeNeonQuery(`
-      SELECT
-        (SELECT COUNT(*) FROM users WHERE created_at >= CURRENT_DATE - INTERVAL '7 days') as users_this_week,
-        (SELECT COUNT(*) FROM users WHERE created_at >= DATE_TRUNC('month', CURRENT_DATE)) as users_this_month,
-        (SELECT COUNT(*) FROM applications WHERE submitted_at >= CURRENT_DATE - INTERVAL '7 days') as applications_this_week,
-        (SELECT COALESCE(SUM(amount), 0) FROM payments WHERE status = 'succeeded' AND created_at >= DATE_TRUNC('month', CURRENT_DATE)) as revenue_this_month,
-        (SELECT COUNT(*) FROM subscriptions WHERE created_at >= DATE_TRUNC('month', CURRENT_DATE)) as subscriptions_this_month
-    `);
-
-    // AI Moderation stats
-    const aiStats = await executeNeonQuery(`
-      SELECT
-        (SELECT COUNT(*) FROM ai_moderation_flags WHERE created_at >= CURRENT_DATE) as flags_today,
-        (SELECT COUNT(*) FROM moderation_queue WHERE status = 'pending') as pending_reviews,
-        (SELECT COUNT(DISTINCT company_id) FROM ai_moderation_flags WHERE created_at >= CURRENT_DATE - INTERVAL '30 days') as companies_flagged,
-        (SELECT COUNT(*) FROM conversations WHERE blocked = true) as blocked_conversations
-    `);
+    const stats = await getDashboardStats();
+    const growth = await getGrowthMetrics();
+    const aiStats = await getAIModerationStats();
 
     // Basic system health metrics
     const systemHealth = {
