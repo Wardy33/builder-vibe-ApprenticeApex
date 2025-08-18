@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,51 +20,45 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
   const [error, setError] = useState('');
   const [loginAttempts, setLoginAttempts] = useState(0);
   const navigate = useNavigate();
+  
+  // Use ref to prevent duplicate submissions
+  const isSubmittingRef = useRef(false);
+  const hasInitializedRef = useRef(false);
 
   // Check if already logged in as admin
   useEffect(() => {
+    if (hasInitializedRef.current) return;
+    hasInitializedRef.current = true;
+
     const token = localStorage.getItem('adminToken');
     if (token) {
-      console.log('Existing admin token found, verifying...');
+      console.log('🔍 Existing admin token found, verifying...');
       verifyAdminSession(token);
     }
   }, []);
 
   const verifyAdminSession = async (token: string) => {
     try {
-      console.log('Verifying admin session...');
+      console.log('🔍 Verifying admin session...');
       
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
-
-      const response = await fetch('/api/admin/verify-session', {
+      const result = await makeSecureRequest('/api/admin/verify-session', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
           'Accept': 'application/json'
-        },
-        signal: controller.signal
+        }
       });
 
-      clearTimeout(timeoutId);
-      console.log('Session verification response status:', response.status);
-
-      if (response.ok) {
-        const text = await response.text();
-        console.log('Session verification response text:', text);
-        
-        if (text) {
-          const data = JSON.parse(text);
-          console.log('Session verified successfully for:', data.user.email);
-          onLogin(token, data.user);
-          navigate('/admin/dashboard');
-        }
+      if (result.success && result.data) {
+        console.log('✅ Session verified successfully for:', result.data.user.email);
+        onLogin(token, result.data.user);
+        navigate('/admin/dashboard');
       } else {
-        console.warn('Session verification failed, clearing tokens');
+        console.warn('⚠️ Session verification failed, clearing tokens');
         clearAdminSession();
       }
     } catch (error) {
-      console.error('Session verification error:', error);
+      console.error('❌ Session verification error:', error);
       clearAdminSession();
     }
   };
@@ -74,14 +68,86 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     localStorage.removeItem('adminUser');
   };
 
+  // Secure request function that handles the body stream issue
+  const makeSecureRequest = async (url: string, options: any = {}) => {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      
+      xhr.open(options.method || 'GET', url, true);
+      
+      // Set headers
+      if (options.headers) {
+        Object.keys(options.headers).forEach(key => {
+          xhr.setRequestHeader(key, options.headers[key]);
+        });
+      }
+      
+      // Set timeout
+      xhr.timeout = 15000; // 15 seconds
+      
+      xhr.onload = function() {
+        try {
+          const responseText = xhr.responseText;
+          console.log(`📡 XHR Response [${xhr.status}]:`, responseText.substring(0, 200));
+          
+          let data = null;
+          if (responseText) {
+            try {
+              data = JSON.parse(responseText);
+            } catch (parseError) {
+              console.error('❌ JSON parse error:', parseError);
+              reject(new Error('Invalid JSON response from server'));
+              return;
+            }
+          }
+          
+          resolve({
+            success: xhr.status >= 200 && xhr.status < 300,
+            status: xhr.status,
+            data: data,
+            text: responseText
+          });
+        } catch (error) {
+          reject(error);
+        }
+      };
+      
+      xhr.onerror = function() {
+        reject(new Error('Network connection failed'));
+      };
+      
+      xhr.ontimeout = function() {
+        reject(new Error('Request timeout after 15 seconds'));
+      };
+      
+      xhr.onabort = function() {
+        reject(new Error('Request was aborted'));
+      };
+      
+      // Send request
+      try {
+        if (options.body) {
+          xhr.send(options.body);
+        } else {
+          xhr.send();
+        }
+      } catch (error) {
+        reject(error);
+      }
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    e.stopPropagation();
     
-    if (loading) {
-      console.log('Login already in progress, ignoring submit');
+    // Prevent duplicate submissions
+    if (isSubmittingRef.current || loading) {
+      console.log('🚫 Submission already in progress, ignoring...');
       return;
     }
 
+    isSubmittingRef.current = true;
     setLoading(true);
     setError('');
 
@@ -89,81 +155,49 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
     if (!email.trim() || !password || !adminCode.trim()) {
       setError('All fields are required');
       setLoading(false);
+      isSubmittingRef.current = false;
       return;
     }
 
-    const requestBody = {
+    const requestBody = JSON.stringify({
       email: email.trim(),
       password,
       adminCode: adminCode.trim()
-    };
+    });
 
     console.log('🔐 Starting admin login attempt:', { 
-      email: requestBody.email, 
-      hasPassword: !!requestBody.password, 
-      hasAdminCode: !!requestBody.adminCode 
+      email: email.trim(), 
+      hasPassword: !!password, 
+      hasAdminCode: !!adminCode.trim() 
     });
 
     try {
-      // Create abort controller for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => {
-        controller.abort();
-        console.error('Request timeout after 15 seconds');
-      }, 15000);
-
-      console.log('🔐 Sending login request to /api/admin/login');
+      console.log('🔐 Sending login request using XHR...');
       
-      const response = await fetch('/api/admin/login', {
+      const result = await makeSecureRequest('/api/admin/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(requestBody),
-        signal: controller.signal
+        body: requestBody
       });
 
-      clearTimeout(timeoutId);
+      console.log('🔐 Login response received:', { 
+        success: result.success, 
+        status: result.status, 
+        hasData: !!result.data 
+      });
 
-      console.log('🔐 Response received - Status:', response.status);
-      console.log('🔐 Response Content-Type:', response.headers.get('content-type'));
-
-      // Read response as text first to avoid body stream issues
-      let responseText = '';
-      try {
-        responseText = await response.text();
-        console.log('🔐 Raw response text length:', responseText.length);
-        console.log('🔐 Raw response text:', responseText.substring(0, 200) + (responseText.length > 200 ? '...' : ''));
-      } catch (textError) {
-        console.error('❌ Failed to read response text:', textError);
-        throw new Error('Failed to read server response');
-      }
-
-      // Parse JSON from text
-      let data;
-      if (responseText) {
-        try {
-          data = JSON.parse(responseText);
-          console.log('🔐 Parsed response data:', { success: data.success, hasToken: !!data.token, userEmail: data.user?.email });
-        } catch (parseError) {
-          console.error('❌ JSON parse error:', parseError);
-          console.error('❌ Response text that failed to parse:', responseText);
-          throw new Error('Server returned invalid JSON response');
-        }
-      } else {
-        throw new Error('Empty response from server');
-      }
-
-      if (response.ok && data.success) {
+      if (result.success && result.data && result.data.success) {
         console.log('✅ Admin login successful!');
         
         // Store admin credentials
-        localStorage.setItem('adminToken', data.token);
-        localStorage.setItem('adminUser', JSON.stringify(data.user));
+        localStorage.setItem('adminToken', result.data.token);
+        localStorage.setItem('adminUser', JSON.stringify(result.data.user));
         
         // Call parent login handler
-        onLogin(data.token, data.user);
+        onLogin(result.data.token, result.data.user);
         
         // Reset form
         setEmail('');
@@ -176,8 +210,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
         
       } else {
         // Handle login failure
-        const errorMessage = data?.error || `Login failed (Status: ${response.status})`;
-        const errorCode = data?.code || 'UNKNOWN_ERROR';
+        const errorMessage = result.data?.error || `Login failed (Status: ${result.status})`;
+        const errorCode = result.data?.code || 'UNKNOWN_ERROR';
         
         console.warn('❌ Admin login failed:', errorMessage, errorCode);
         setError(errorMessage);
@@ -197,9 +231,9 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       
       let errorMessage = 'Login failed. Please try again.';
       
-      if (error.name === 'AbortError') {
+      if (error.message.includes('timeout')) {
         errorMessage = 'Request timeout. Please check your connection and try again.';
-      } else if (error.message.includes('fetch')) {
+      } else if (error.message.includes('Network')) {
         errorMessage = 'Network connection error. Please check your connection.';
       } else if (error.message.includes('JSON')) {
         errorMessage = 'Server communication error. Please try again.';
@@ -212,6 +246,7 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
       
     } finally {
       setLoading(false);
+      isSubmittingRef.current = false;
     }
   };
 
@@ -359,6 +394,15 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
             Unauthorized access is prohibited and may result in legal action.
           </p>
         </div>
+
+        {/* Debug Info */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="text-center">
+            <p className="text-xs text-slate-600">
+              Debug: Using XHR for request handling to avoid body stream issues
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
