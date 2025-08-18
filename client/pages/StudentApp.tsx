@@ -240,66 +240,7 @@ function HomePage() {
     loadDashboardData();
   }, []);
 
-  const mockApplications = [
-    {
-      id: "1",
-      jobTitle: "Software Developer",
-      company: "TechCorp Ltd",
-      status: "applied",
-      appliedDate: "2 days ago",
-      matchScore: 92,
-      closingDate: "2024-02-15",
-      image:
-        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
-    },
-    {
-      id: "2",
-      jobTitle: "Digital Marketing Assistant",
-      company: "Creative Agency",
-      status: "viewed",
-      appliedDate: "1 week ago",
-      matchScore: 88,
-      closingDate: "2024-02-28",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
-    },
-    {
-      id: "3",
-      jobTitle: "Electrical Engineer",
-      company: "PowerTech Solutions",
-      status: "shortlisted",
-      appliedDate: "3 days ago",
-      matchScore: 95,
-      closingDate: "2024-02-10",
-      image:
-        "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=60&h=60&fit=crop",
-    },
-  ];
-
-  const mockInterviews = [
-    {
-      id: "1",
-      jobTitle: "Software Developer",
-      company: "TechCorp Ltd",
-      date: "Tomorrow",
-      time: "2:00 PM",
-      type: "Video Interview",
-      status: "confirmed",
-      image:
-        "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
-    },
-    {
-      id: "2",
-      jobTitle: "Digital Marketing Assistant",
-      company: "Creative Agency",
-      date: "Friday",
-      time: "10:00 AM",
-      type: "In-person Interview",
-      status: "pending",
-      image:
-        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
-    },
-  ];
+  // Mock data removed - using real API data with proper loading states
 
   const getStatusColor = (status: string) => {
     switch (status) {
