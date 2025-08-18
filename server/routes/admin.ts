@@ -102,10 +102,7 @@ router.post("/login", async (req: Request, res: Response) => {
         console.warn(`🚨 Admin account locked due to failed attempts: ${email}`);
       }
 
-      await executeNeonQuery(
-        `UPDATE users SET login_attempts = $1, locked_until = $2 WHERE id = $3`,
-        [attempts, lockUntil, user.id]
-      );
+      await updateUserLoginAttempts(user.id, attempts, lockUntil);
 
       console.warn(`🚨 Failed admin login attempt: ${email} from IP: ${req.ip}`);
       return res.status(401).json({
@@ -115,10 +112,8 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Reset login attempts on successful login
-    await executeNeonQuery(
-      `UPDATE users SET login_attempts = 0, locked_until = NULL, last_login_at = CURRENT_TIMESTAMP WHERE id = $1`,
-      [user.id]
-    );
+    await updateUserLoginAttempts(user.id, 0);
+    await updateUserLastLogin(user.id);
 
     // Generate enhanced JWT token for admin
     const env = getEnvConfig();
