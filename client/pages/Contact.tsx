@@ -78,7 +78,7 @@ export default function Contact() {
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <Mail className="h-6 w-6 mt-1 text-orange-400 animate-pulse" />
+                  <Mail className="h-6 w-6 mt-1 text-orange-400" />
                   <div>
                     <h3 className="font-semibold text-white mb-1">Email</h3>
                     <p className="text-gray-300 text-sm mb-1">General inquiries</p>
