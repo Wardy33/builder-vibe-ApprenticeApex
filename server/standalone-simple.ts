@@ -418,8 +418,9 @@ async function startSimpleServer() {
 
     // Connect to database (optional)
     try {
-      const dbConnected = await connectToDatabase();
-      console.log(dbConnected ? '✅ Database connected' : '⚠️ Using mock data');
+      // Test Neon database connection
+      const testQuery = await executeNeonQuery('SELECT NOW() as current_time');
+      console.log('✅ Neon database connected at:', testQuery[0].current_time);
     } catch (error) {
       console.warn('⚠️ Database failed, continuing with mock data');
     }
