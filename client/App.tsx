@@ -11,10 +11,10 @@ import { cleanupCorruptedLocalStorage, runLocalStorageDiagnostics } from "./lib/
 import ErrorBoundary from "./components/ErrorBoundary";
 
 // Lazy load components for better performance
-const CandidateApp = lazy(() => import("./pages/CandidateApp"));
+const CandidateApp = lazy(() => import("./pages/StudentApp"));
 const CompanyPortal = lazy(() => import("./pages/CompanyPortal"));
-const CandidateAuth = lazy(() => import("./pages/CandidateAuth"));
-const CandidateProfileSetup = lazy(() => import("./pages/CandidateProfileSetup"));
+const CandidateAuth = lazy(() => import("./pages/StudentAuth"));
+const CandidateProfileSetup = lazy(() => import("./pages/StudentProfileSetup"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Debug = lazy(() => import("./pages/Debug"));
 const About = lazy(() => import("./pages/About"));
