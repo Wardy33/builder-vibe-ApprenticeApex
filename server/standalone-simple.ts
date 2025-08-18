@@ -15,7 +15,7 @@ import adminRoutes from "./routes/admin";
 dotenv.config();
 
 async function startSimpleServer() {
-  const PORT = 3006;
+  const PORT = process.env.PORT || 3001;
   console.log('��� Starting Simple Standalone Express Server...');
   
   try {
