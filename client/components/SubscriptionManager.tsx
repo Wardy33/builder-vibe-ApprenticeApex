@@ -65,10 +65,10 @@ export default function SubscriptionManager() {
 
   const loadSubscriptionData = async () => {
     try {
-      // For demo purposes, check if we have a trial or subscription
-      const data = safeGetFromLocalStorage('demoSubscriptionData', null);
-
-      if (data) {
+      // Load real subscription data from API
+      const response = await fetch('/api/subscription/status');
+      if (response.ok) {
+        const data = await response.json();
         setSubscriptionData(data);
       } else {
         // No subscription data means user needs to choose a plan
@@ -76,6 +76,7 @@ export default function SubscriptionManager() {
       }
     } catch (error) {
       console.error('Error loading subscription data:', error);
+      setSubscriptionData(null);
     } finally {
       setLoading(false);
     }
