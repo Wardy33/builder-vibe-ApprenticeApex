@@ -244,23 +244,23 @@ export default function Index() {
           {/* Statistics Section */}
           <div className="py-16 rounded-3xl mt-16 bg-gradient-to-br from-gray-900/80 to-black/80 backdrop-blur-sm border border-white/10">
             <div className="max-w-4xl mx-auto text-center">
-              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Impact</h3>
+              <h3 className="text-3xl font-bold mb-8 bg-gradient-to-r from-orange-400 via-pink-500 to-blue-500 bg-clip-text text-transparent">Our Platform Vision</h3>
               <div className="stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 <div className="group text-center touch-target p-4">
-                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">10,000+</div>
-                  <div className="text-gray-300 text-sm font-medium">Active Students</div>
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">1,000+</div>
+                  <div className="text-gray-300 text-sm font-medium">Students to Impact</div>
                 </div>
                 <div className="group text-center touch-target p-4">
-                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">2,500+</div>
-                  <div className="text-gray-300 text-sm font-medium">Partner Companies</div>
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">£25,000+</div>
+                  <div className="text-gray-300 text-sm font-medium">Average Starting Salary Goal</div>
                 </div>
                 <div className="group text-center touch-target p-4">
-                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">85%</div>
-                  <div className="text-gray-300 text-sm font-medium">Match Success Rate</div>
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">90%</div>
+                  <div className="text-gray-300 text-sm font-medium">Placement Success Rate</div>
                 </div>
                 <div className="group text-center touch-target p-4">
-                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">24hrs</div>
-                  <div className="text-gray-300 text-sm font-medium">Average Response</div>
+                  <div className="text-3xl md:text-4xl font-bold text-[#00D4FF] mb-2 group-hover:scale-110 transition-transform duration-200">Zero</div>
+                  <div className="text-gray-300 text-sm font-medium">Cost to Students</div>
                 </div>
               </div>
             </div>
