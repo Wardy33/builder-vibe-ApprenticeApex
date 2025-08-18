@@ -122,7 +122,7 @@ export function WebFooter() {
         <div className="border-t border-white/10 py-8">
           <div className="flex justify-center">
             <div className="flex items-center space-x-3">
-              <Mail className="h-6 w-6 text-orange-400 animate-pulse" />
+              <Mail className="h-6 w-6 text-orange-400" />
               <div>
                 <p className="text-white text-sm font-medium">Email</p>
                 <p className="text-gray-300 text-sm">hello@apprenticeapex.co.uk</p>
