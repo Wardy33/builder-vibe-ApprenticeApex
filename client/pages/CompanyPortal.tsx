@@ -320,40 +320,51 @@ function Dashboard() {
             </Link>
           </div>
           <div className="space-y-4">
-            {mockApplications.slice(0, 3).map((application) => (
-              <div
-                key={application.id}
-                className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
-              >
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                  {application.candidateName.charAt(0)}
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h4 className="font-medium text-gray-900 text-sm truncate">
-                    {application.candidateName}
-                  </h4>
-                  <p className="text-gray-600 text-xs">{application.jobTitle}</p>
-                </div>
-                <div className="text-right">
-                  <div className="text-blue-600 font-semibold text-sm">
-                    {application.score}%
-                  </div>
-                  <div
-                    className={`text-xs px-2 py-1 rounded-full ${
-                      application.status === "pending"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : application.status === "interview"
-                        ? "bg-blue-100 text-blue-700"
-                        : application.status === "reviewed"
-                        ? "bg-purple-100 text-purple-700"
-                        : "bg-gray-100 text-gray-700"
-                    }`}
-                  >
-                    {application.status}
-                  </div>
-                </div>
+            {loading ? (
+              <div className="text-center py-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
+                <p className="text-gray-500 text-sm mt-2">Loading applications...</p>
               </div>
-            ))}
+            ) : recentApplications.length === 0 ? (
+              <div className="text-center py-6">
+                <p className="text-gray-500">No recent applications</p>
+              </div>
+            ) : (
+              recentApplications.map((application) => (
+                <div
+                  key={application.id}
+                  className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
+                >
+                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                    {(application.candidateName || 'U').charAt(0)}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="font-medium text-gray-900 text-sm truncate">
+                      {application.candidateName || 'Unknown Candidate'}
+                    </h4>
+                    <p className="text-gray-600 text-xs">{application.jobTitle || 'Position'}</p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-blue-600 font-semibold text-sm">
+                      {application.score || 0}%
+                    </div>
+                    <div
+                      className={`text-xs px-2 py-1 rounded-full ${
+                        application.status === "pending"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : application.status === "interview"
+                          ? "bg-blue-100 text-blue-700"
+                          : application.status === "reviewed"
+                          ? "bg-purple-100 text-purple-700"
+                          : "bg-gray-100 text-gray-700"
+                      }`}
+                    >
+                      {application.status || 'new'}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
