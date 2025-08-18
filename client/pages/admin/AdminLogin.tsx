@@ -310,7 +310,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="admin@apprenticeapex.com"
-                  className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
+                  className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 focus:text-slate-100"
+                  style={{ color: '#f1f5f9' }}
                   required
                   disabled={loading}
                   autoComplete="email"
@@ -327,7 +328,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter admin password"
-                    className="bg-slate-700 border-slate-600 text-white placeholder-slate-400 pr-10"
+                    className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 pr-10 focus:text-slate-100"
+                    style={{ color: '#f1f5f9' }}
                     required
                     disabled={loading}
                     autoComplete="current-password"
@@ -352,7 +354,8 @@ export function AdminLogin({ onLogin }: AdminLoginProps) {
                   value={adminCode}
                   onChange={(e) => setAdminCode(e.target.value)}
                   placeholder="Enter admin access code"
-                  className="bg-slate-700 border-slate-600 text-white placeholder-slate-400"
+                  className="bg-slate-700 border-slate-600 text-slate-100 placeholder-slate-400 focus:text-slate-100"
+                  style={{ color: '#f1f5f9' }}
                   required
                   disabled={loading}
                   autoComplete="off"
