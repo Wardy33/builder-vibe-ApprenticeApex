@@ -68,12 +68,18 @@ router.post("/login", async (req: Request, res: Response) => {
       });
     }
 
-    // Find user and check master admin status
-    const user = await User.findOne({ 
-      email: email.toLowerCase(),
-      role: { $in: ["admin", "master_admin"] },
-      isActive: true
-    });
+    // Find user and check master admin status using Neon
+    const userQuery = `
+      SELECT id, email, password_hash, role, name, is_master_admin, admin_permissions,
+             login_attempts, locked_until, last_login_at
+      FROM users
+      WHERE LOWER(email) = LOWER($1)
+        AND role IN ('admin', 'master_admin')
+        AND email_verified = true
+    `;
+
+    const users = await executeNeonQuery(userQuery, [email.toLowerCase()]);
+    const user = users[0];
 
     if (!user) {
       console.warn(`🚨 Admin login attempt with non-admin email: ${email} from IP: ${req.ip}`);
@@ -84,8 +90,8 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Check if account is locked
-    if (user.adminLoginLockedUntil && user.adminLoginLockedUntil > new Date()) {
-      const lockTimeRemaining = Math.ceil((user.adminLoginLockedUntil.getTime() - Date.now()) / 60000);
+    if (user.locked_until && new Date(user.locked_until) > new Date()) {
+      const lockTimeRemaining = Math.ceil((new Date(user.locked_until).getTime() - Date.now()) / 60000);
       return res.status(423).json({
         error: `Admin account locked. Try again in ${lockTimeRemaining} minutes`,
         code: "ADMIN_ACCOUNT_LOCKED",
@@ -94,19 +100,23 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Verify password
-    const isPasswordValid = await user.comparePassword(password);
+    const isPasswordValid = await bcrypt.compare(password, user.password_hash);
     if (!isPasswordValid) {
       // Increment failed login attempts
-      user.adminLoginAttempts = (user.adminLoginAttempts || 0) + 1;
-      
+      const attempts = (user.login_attempts || 0) + 1;
+      let lockUntil = null;
+
       // Lock account after 3 failed attempts
-      if (user.adminLoginAttempts >= 3) {
-        user.adminLoginLockedUntil = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
+      if (attempts >= 3) {
+        lockUntil = new Date(Date.now() + 30 * 60 * 1000); // 30 minutes
         console.warn(`🚨 Admin account locked due to failed attempts: ${email}`);
       }
-      
-      await user.save();
-      
+
+      await executeNeonQuery(
+        `UPDATE users SET login_attempts = $1, locked_until = $2 WHERE id = $3`,
+        [attempts, lockUntil, user.id]
+      );
+
       console.warn(`🚨 Failed admin login attempt: ${email} from IP: ${req.ip}`);
       return res.status(401).json({
         error: "Invalid admin credentials",
@@ -115,11 +125,10 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     // Reset login attempts on successful login
-    user.adminLoginAttempts = 0;
-    user.adminLoginLockedUntil = undefined;
-    user.lastLogin = new Date();
-    user.lastAccessedAdminPanel = new Date();
-    await user.save();
+    await executeNeonQuery(
+      `UPDATE users SET login_attempts = 0, locked_until = NULL, last_login_at = CURRENT_TIMESTAMP WHERE id = $1`,
+      [user.id]
+    );
 
     // Generate enhanced JWT token for admin
     const env = getEnvConfig();
