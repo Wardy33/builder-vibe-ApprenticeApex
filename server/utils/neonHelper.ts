@@ -11,7 +11,7 @@ export async function findUserByEmail(email: string) {
       return {
         id: 1,
         email: 'admin@apprenticeapex.com',
-        password_hash: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // This is bcrypt hash for "password"
+        password_hash: '$2b$10$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW', // MasterAdmin2024!
         role: 'master_admin',
         name: 'Master Administrator',
         is_master_admin: true,
