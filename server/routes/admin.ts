@@ -231,15 +231,19 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
       });
     }
 
-    // Create master admin account
-    const masterAdmin = new User({
-      email: email.toLowerCase(),
-      password, // Will be hashed by pre-save middleware
-      role: "master_admin",
-      isMasterAdmin: true,
-      isEmailVerified: true, // Master admin doesn't need email verification
-      isActive: true,
-      adminPermissions: {
+    // Hash password before storing
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create master admin account in Neon
+    const newAdmin = await executeNeonQuery(`
+      INSERT INTO users (
+        email, password_hash, role, name, email_verified, is_master_admin, admin_permissions
+      ) VALUES ($1, $2, 'master_admin', 'Master Administrator', true, true, $3)
+      RETURNING id, email
+    `, [
+      email.toLowerCase(),
+      hashedPassword,
+      JSON.stringify({
         canViewAllUsers: true,
         canViewFinancials: true,
         canModerateContent: true,
@@ -247,34 +251,16 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
         canExportData: true,
         canManageAdmins: true,
         canConfigureSystem: true
-      },
-      profile: {
-        firstName: "Master",
-        lastName: "Admin",
-        position: "Platform Administrator",
-        department: "System Administration",
-        permissions: {
-          users: true,
-          content: true,
-          financial: true,
-          analytics: true,
-          system: true
-        },
-        lastAccess: new Date(),
-        twoFactorEnabled: false,
-        adminLevel: "master_admin"
-      }
-    });
-
-    await masterAdmin.save();
+      })
+    ]);
 
     console.log(`✅ Master admin account created: ${email}`);
 
     res.status(201).json({
       success: true,
       message: "Master admin account created successfully",
-      adminId: masterAdmin._id,
-      email: masterAdmin.email
+      adminId: newAdmin[0].id,
+      email: newAdmin[0].email
     });
 
   } catch (error) {
