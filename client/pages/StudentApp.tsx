@@ -1281,40 +1281,72 @@ function ChatPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    {
-      id: "1",
-      senderId: "company",
-      content:
-        "Hi Sarah! Thank you for your interest in our Software Developer apprenticeship. We're impressed with your profile!",
-      timestamp: "10:30 AM",
-      isOwn: false,
-    },
-    {
-      id: "2",
-      senderId: "student",
-      content:
-        "Thank you! I'm really excited about this opportunity. I'd love to learn more about the role.",
-      timestamp: "10:32 AM",
-      isOwn: true,
-    },
-    {
-      id: "3",
-      senderId: "company",
-      content:
-        "Great! We'd like to schedule a video interview with you. Are you available this Friday at 2 PM?",
-      timestamp: "10:35 AM",
-      isOwn: false,
-    },
-  ]);
+  const [messages, setMessages] = useState([]);
+  const [chatInfo, setChatInfo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  // Mock chat data
-  const chatInfo = {
-    company: "TechCorp Ltd",
-    jobTitle: "Software Developer",
-    companyLogo:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=50&h=50&fit=crop",
-  };
+  useEffect(() => {
+    const loadChatData = async () => {
+      try {
+        // Load conversation details
+        const chatResponse = await fetch(`/api/conversations/${id}`);
+        if (chatResponse.ok) {
+          const chatData = await chatResponse.json();
+          setChatInfo(chatData.conversation);
+        }
+
+        // Load messages
+        const messagesResponse = await fetch(`/api/conversations/${id}/messages`);
+        if (messagesResponse.ok) {
+          const messagesData = await messagesResponse.json();
+          setMessages(messagesData.messages || []);
+        }
+      } catch (error) {
+        console.error('Failed to load chat data:', error);
+        setChatInfo(null);
+        setMessages([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      loadChatData();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading conversation...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!chatInfo) {
+    return (
+      <div className="bg-gray-50 min-h-screen flex items-center justify-center">
+        <div className="text-center max-w-md mx-auto px-6">
+          <div className="text-gray-400 mb-6">
+            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+          </div>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Conversation not found</h3>
+          <p className="text-gray-600 mb-6">This conversation may no longer be available.</p>
+          <button
+            onClick={() => navigate('/student/messages')}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
+          >
+            Back to Messages
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // Check if student can send message (last message must be from company)
   const canSendMessage = () => {
