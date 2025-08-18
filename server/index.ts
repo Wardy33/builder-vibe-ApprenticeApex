@@ -245,7 +245,10 @@ export function createApp() {
   app.use("/api/subscriptions", authenticateToken, subscriptionRoutes);
   app.use("/api/contact", contactRoutes); // Public route, no auth required
   app.use("/api/emails", emailRoutes); // Email management (mixed auth requirements)
+
+  console.log('🔧 Mounting admin routes at /api/admin...');
   app.use("/api/admin", adminRoutes); // Master Admin routes (special authentication)
+  console.log('✅ Admin routes mounted successfully at /api/admin');
 
   // Database testing routes (development and staging only)
   if (env.NODE_ENV !== "production") {
