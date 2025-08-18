@@ -14,6 +14,9 @@ import adminSystemRouter from "./adminSystem";
 
 const router = Router();
 
+console.log('🔧 Admin routes module loading...');
+console.log('🔧 Router created successfully');
+
 // Master Admin Login - Enhanced Security
 router.post("/login", async (req: Request, res: Response) => {
   try {
