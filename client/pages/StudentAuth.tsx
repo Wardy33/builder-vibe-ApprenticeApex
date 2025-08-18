@@ -529,7 +529,7 @@ function SignInForm() {
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-3">
               <p className="text-blue-400 text-xs font-semibold mb-1">Test Account (Development)</p>
               <p className="text-blue-300 text-xs">Email: sarah.johnson@email.com</p>
-              <p className="text-blue-300 text-xs">Password: password123</p>
+              <p className="text-blue-300 text-xs">Password: Password123</p>
             </div>
 
             <p className="text-gray-300">
