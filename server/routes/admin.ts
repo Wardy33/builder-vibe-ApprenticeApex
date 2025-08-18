@@ -30,6 +30,7 @@ router.get("/test", (req: Request, res: Response) => {
 // Master Admin Login - Enhanced Security
 router.post("/login", async (req: Request, res: Response) => {
   try {
+    console.log('🔥 *** ADMIN LOGIN ROUTE HIT ***');
     console.log('🔐 Admin login attempt received');
     console.log('🔐 Request headers:', JSON.stringify(req.headers, null, 2));
     console.log('🔐 Request body exists:', !!req.body);
