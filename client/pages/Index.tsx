@@ -224,7 +224,7 @@ export default function Index() {
                 </div>
                 <h4 className="text-xl font-semibold mb-2 text-white">Video Integration 📹</h4>
                 <p className="text-gray-300">
-                  30-second profiles and seamless video interviews via Twilio
+                  30-second profiles and seamless video interviews
                 </p>
               </div>
               <div className="text-center group">
