@@ -405,4 +405,7 @@ router.use("/users", adminUsersRouter);
 router.use("/analytics", adminAnalyticsRouter);
 router.use("/system", adminSystemRouter);
 
+console.log('🔧 Admin routes configured successfully');
+console.log('🔧 Available admin routes: login, setup-master-admin, verify-session, logout, dashboard/overview');
+
 export default router;
