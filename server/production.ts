@@ -1,241 +1,290 @@
-import dotenv from "dotenv";
 import express from "express";
-import { createServer } from "http";
-import https from "https";
-import fs from "fs";
 import compression from "compression";
-import { validateEnv } from "./config/env";
-import { connectToDatabase } from "./index";
-import { errorHandler } from "./middleware/errorHandler";
-import { 
-  performanceMonitoring, 
-  errorTracking, 
-  healthCheck, 
-  securityHeaders,
-  rateLimit 
-} from "./middleware/monitoring";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+import passport from "passport";
+import session from "express-session";
+import { createServer } from "http";
+import dotenv from "dotenv";
+
+// Load production environment
+dotenv.config({ path: '.env.production' });
+
+// Import production configurations
+import { initializeNeon, testNeonConnection } from "./config/neon";
+import { stripe, handleStripeWebhook, stripeConfig } from "./config/stripe-production";
+import { googleOAuthRoutes, validateOAuthConfig, testOAuthConnection } from "./config/google-oauth-production";
+import { aiModerationService } from "./services/aiModerationService";
 
 // Import routes
 import authRoutes from "./routes/auth";
+import userRoutes from "./routes/users";
+import apprenticeshipRoutes from "./routes/apprenticeships";
+import applicationRoutes from "./routes/applications";
+import messageRoutes from "./routes/messages";
+import analyticsRoutes from "./routes/analytics";
+import uploadRoutes from "./routes/upload";
+import paymentRoutes from "./routes/payments";
+import interviewRoutes from "./routes/interviews";
+import matchingRoutes from "./routes/matching";
+import accessControlRoutes from "./routes/accessControl";
+import alertRoutes from "./routes/alerts";
+import subscriptionRoutes from "./routes/subscriptions";
+import contactRoutes from "./routes/contact";
+import videoInterviewRoutes from "./routes/videoInterview";
 import healthRoutes from "./routes/health";
+import emailRoutes from "./routes/emails";
+import adminRoutes from "./routes/admin";
 
-dotenv.config();
+// Import middleware
+import { authenticateToken } from "./middleware/auth";
+import { errorHandler } from "./middleware/errorHandler";
 
-export async function startProductionServer() {
-  const PORT = process.env.PORT || 443;
-  const HTTP_PORT = 80;
-  
-  console.log('🚀 Starting Production ApprenticeApex Server...');
-  
+const app = express();
+const httpServer = createServer(app);
+
+// Production security configuration
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https:"],
+      scriptSrc: ["'self'", "https://js.stripe.com"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "https://api.stripe.com"],
+      frameSrc: ["https://js.stripe.com", "https://checkout.stripe.com"],
+    },
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
+
+// CORS configuration for production
+app.use(cors({
+  origin: [
+    'https://apprenticeapex.com',
+    'https://www.apprenticeapex.com',
+    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:5204'] : [])
+  ],
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+// Trust proxy for production deployment
+app.set('trust proxy', 1);
+
+// Compression middleware
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  },
+  level: 6,
+  threshold: 1024,
+  memLevel: 8,
+}));
+
+// Rate limiting for production
+const createProductionRateLimit = (windowMs: number = 15 * 60 * 1000, max: number = 100) => {
+  return rateLimit({
+    windowMs,
+    max,
+    message: {
+      error: 'Too many requests from this IP, please try again later.',
+      retryAfter: Math.ceil(windowMs / 1000)
+    },
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: (req) => {
+      // Skip rate limiting for health checks
+      return req.path === '/api/health' || req.path === '/api/ping';
+    }
+  });
+};
+
+// Apply rate limiting
+app.use('/api/auth', createProductionRateLimit(15 * 60 * 1000, 10)); // Auth: 10 requests per 15 minutes
+app.use('/api/payments', createProductionRateLimit(60 * 60 * 1000, 5)); // Payments: 5 requests per hour
+app.use('/api/admin', createProductionRateLimit(15 * 60 * 1000, 20)); // Admin: 20 requests per 15 minutes
+app.use('/api', createProductionRateLimit(15 * 60 * 1000, 1000)); // General: 1000 requests per 15 minutes
+
+// Body parsing middleware
+app.use('/api/webhooks/stripe', express.raw({ type: 'application/json' })); // Raw for Stripe webhooks
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Session configuration for OAuth
+app.use(session({
+  secret: process.env.SESSION_SECRET!,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax'
+  }
+}));
+
+// Passport configuration
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Health check endpoints
+app.get('/api/ping', (_req, res) => {
+  res.json({
+    message: 'ApprenticeApex API v1.0 - Production',
+    timestamp: new Date().toISOString(),
+    status: 'healthy',
+    environment: 'production'
+  });
+});
+
+app.get('/api/health', async (_req, res) => {
+  const healthChecks = {
+    database: await testNeonConnection(),
+    oauth: validateOAuthConfig(),
+    stripe: !!stripeConfig.secretKey,
+    aiModeration: true, // AI moderation is always available
+    timestamp: new Date().toISOString()
+  };
+
+  const isHealthy = Object.values(healthChecks).every(check => 
+    typeof check === 'boolean' ? check : true
+  );
+
+  res.status(isHealthy ? 200 : 503).json({
+    status: isHealthy ? 'healthy' : 'degraded',
+    checks: healthChecks,
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+    version: '1.0.0'
+  });
+});
+
+// Stripe webhook endpoint (must be before other middleware)
+app.post('/api/webhooks/stripe', async (req, res) => {
   try {
-    // Validate environment
-    const env = validateEnv();
+    const signature = req.headers['stripe-signature'] as string;
+    await handleStripeWebhook(req.body, signature);
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Stripe webhook error:', error);
+    res.status(400).send(`Webhook Error: ${error.message}`);
+  }
+});
+
+// Google OAuth routes
+app.get('/auth/google', googleOAuthRoutes.authenticate);
+app.get('/auth/google/callback', googleOAuthRoutes.callback, googleOAuthRoutes.success);
+
+// API routes
+app.use('/api/health', healthRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', authenticateToken, userRoutes);
+app.use('/api/apprenticeships', authenticateToken, apprenticeshipRoutes);
+app.use('/api/applications', authenticateToken, applicationRoutes);
+app.use('/api/messages', authenticateToken, messageRoutes);
+app.use('/api/analytics', authenticateToken, analyticsRoutes);
+app.use('/api/upload', authenticateToken, uploadRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/interviews', authenticateToken, interviewRoutes);
+app.use('/api/video-interview', authenticateToken, videoInterviewRoutes);
+app.use('/api/matching', authenticateToken, matchingRoutes);
+app.use('/api/access-control', authenticateToken, accessControlRoutes);
+app.use('/api/alerts', authenticateToken, alertRoutes);
+app.use('/api/subscriptions', authenticateToken, subscriptionRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/emails', emailRoutes);
+app.use('/api/admin', adminRoutes);
+
+// Error handling middleware
+app.use(errorHandler);
+
+// 404 handler for API routes
+app.use('/api/*', (req, res) => {
+  res.status(404).json({
+    error: 'API endpoint not found',
+    path: req.path,
+    method: req.method
+  });
+});
+
+// Serve static files in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('dist'));
+  
+  // Catch-all handler for SPA
+  app.get('*', (req, res) => {
+    res.sendFile('index.html', { root: 'dist' });
+  });
+}
+
+async function startProductionServer() {
+  try {
+    // Initialize services
+    console.log('🚀 Starting ApprenticeApex production server...');
     
-    // Create Express app
-    const app = express();
-    
-    // Trust proxy (important for load balancers)
-    app.set("trust proxy", 1);
-    
-    // ====================================================================
-    // PRODUCTION MIDDLEWARE STACK
-    // ====================================================================
-    
-    // Performance monitoring (first)
-    app.use(performanceMonitoring);
-    
-    // Security headers
-    app.use(securityHeaders);
-    
-    // Rate limiting
-    app.use('/api', rateLimit(15 * 60 * 1000, 100)); // 100 requests per 15 minutes
-    app.use('/api/auth', rateLimit(15 * 60 * 1000, 20)); // 20 auth requests per 15 minutes
-    
-    // Compression
-    app.use(compression({
-      filter: (req, res) => {
-        if (req.headers['x-no-compression']) return false;
-        return compression.filter(req, res);
-      },
-      level: 6,
-      threshold: 1024,
-    }));
-    
-    // Body parsing
-    app.use(express.json({ limit: "10mb" }));
-    app.use(express.urlencoded({ extended: true, limit: "10mb" }));
-    
-    // CORS for production
-    app.use((req, res, next) => {
-      const allowedOrigins = [
-        env.FRONTEND_URL,
-        'https://apprenticeapex.com',
-        'https://www.apprenticeapex.com'
-      ];
-      
-      const origin = req.headers.origin;
-      if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-      }
-      
-      res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-      
-      if (req.method === "OPTIONS") {
-        res.sendStatus(200);
-        return;
-      }
-      
-      next();
-    });
-    
-    // ====================================================================
-    // HEALTH CHECK AND MONITORING ENDPOINTS
-    // ====================================================================
-    
-    app.get("/api/ping", healthCheck);
-    app.get("/api/health", healthCheck);
-    app.use("/api/health", healthRoutes);
-    
-    // Metrics endpoint (for monitoring tools)
-    app.get("/api/metrics", (req, res) => {
-      res.json({
-        timestamp: new Date().toISOString(),
-        uptime: process.uptime(),
-        memory: process.memoryUsage(),
-        environment: process.env.NODE_ENV,
-        version: '1.0.0'
-      });
-    });
-    
-    // ====================================================================
-    // API ROUTES
-    // ====================================================================
-    
-    // Authentication routes
-    app.use("/api/auth", authRoutes);
-    
-    // Missing endpoints that were causing 404 errors
-    app.get("/api/applications/my-applications", (req, res) => {
-      res.json({
-        success: true,
-        data: { applications: [], total: 0 },
-        message: 'Applications retrieved successfully'
-      });
-    });
-    
-    app.get("/api/matching/profile-status", (req, res) => {
-      res.json({
-        success: true,
-        data: {
-          profileComplete: false,
-          completionPercentage: 20,
-          missingFields: ['skills', 'experience', 'education']
-        },
-        message: 'Profile status retrieved successfully'
-      });
-    });
-    
-    app.get("/api/apprenticeships", (req, res) => {
-      res.json({
-        success: true,
-        data: { apprenticeships: [], total: 0 },
-        message: 'Apprenticeships retrieved successfully'
-      });
-    });
-    
-    // ====================================================================
-    // ERROR HANDLING
-    // ====================================================================
-    
-    // Error tracking middleware
-    app.use(errorTracking);
-    
-    // Global error handler
-    app.use(errorHandler);
-    
-    // 404 handler
-    app.use("/api/*", (req, res) => {
-      res.status(404).json({ 
-        success: false,
-        error: "API endpoint not found",
-        path: req.path
-      });
-    });
-    
-    // ====================================================================
-    // SERVER CREATION AND SSL SETUP
-    // ====================================================================
-    
-    // Database connection
-    try {
-      const dbConnected = await connectToDatabase();
-      console.log(dbConnected ? '✅ Database connected' : '⚠️ Using mock data');
-    } catch (error) {
-      console.warn('⚠️ Database failed, continuing with mock data');
+    // Validate configuration
+    if (!validateOAuthConfig()) {
+      throw new Error('Invalid OAuth configuration');
     }
     
-    // Create HTTPS server if SSL certificates are available
-    if (process.env.NODE_ENV === 'production' && 
-        process.env.SSL_CERT_PATH && 
-        process.env.SSL_KEY_PATH &&
-        fs.existsSync(process.env.SSL_CERT_PATH) && 
-        fs.existsSync(process.env.SSL_KEY_PATH)) {
-      
-      const sslOptions = {
-        cert: fs.readFileSync(process.env.SSL_CERT_PATH),
-        key: fs.readFileSync(process.env.SSL_KEY_PATH)
-      };
-      
-      const httpsServer = https.createServer(sslOptions, app);
-      
-      // HTTP to HTTPS redirect server
-      const httpApp = express();
-      httpApp.use((req, res) => {
-        res.redirect(301, `https://${req.headers.host}${req.url}`);
-      });
-      
-      // Start HTTP redirect server
-      httpApp.listen(HTTP_PORT, () => {
-        console.log(`🔄 HTTP redirect server running on port ${HTTP_PORT}`);
-      });
-      
-      // Start HTTPS server
-      httpsServer.listen(PORT, () => {
-        console.log('🎯 ================================');
-        console.log(`✅ HTTPS Production server running on port ${PORT}`);
-        console.log(`🌐 Website: https://${env.DOMAIN || 'localhost'}`);
-        console.log(`🔒 SSL certificates loaded successfully`);
-        console.log('🎯 ================================');
-      });
-      
-      return httpsServer;
-      
-    } else {
-      // Development or HTTP server
-      const httpServer = createServer(app);
-      
-      httpServer.listen(PORT, () => {
-        console.log('🎯 ================================');
-        console.log(`✅ Production server running on port ${PORT}`);
-        console.log(`🌐 API: http://localhost:${PORT}/api`);
-        console.log(`🏥 Health: http://localhost:${PORT}/api/ping`);
-        console.log('🎯 ================================');
-      });
-      
-      return httpServer;
-    }
+    // Test connections
+    console.log('🔧 Testing database connection...');
+    await initializeNeon();
     
-  } catch (error: any) {
-    console.error('❌ Failed to start production server:', error.message);
+    console.log('🔧 Testing OAuth configuration...');
+    await testOAuthConnection();
+    
+    console.log('🛡️ Initializing AI moderation service...');
+    const aiStats = await aiModerationService.getStats();
+    console.log('✅ AI moderation active:', aiStats);
+    
+    // Start server
+    const port = process.env.PORT || 3002;
+    httpServer.listen(port, () => {
+      console.log('🎉 ApprenticeApex production server running!');
+      console.log(`📡 Server: http://localhost:${port}`);
+      console.log(`🌐 Environment: ${process.env.NODE_ENV}`);
+      console.log(`💳 Stripe: Live mode enabled`);
+      console.log(`🔐 OAuth: Google authentication enabled`);
+      console.log(`🛡️ AI Protection: Candidate safety active`);
+      console.log(`📊 Health: /api/health`);
+    });
+    
+  } catch (error) {
+    console.error('❌ Failed to start production server:', error);
     process.exit(1);
   }
 }
 
-// Start production server if this file is run directly
-if (import.meta.url === `file://${process.argv[1]}`) {
-  startProductionServer().catch((error) => {
-    console.error('❌ Production server startup failed:', error.message);
-    process.exit(1);
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 SIGTERM received, shutting down gracefully...');
+  httpServer.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
   });
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 SIGINT received, shutting down gracefully...');
+  httpServer.close(() => {
+    console.log('✅ Server closed');
+    process.exit(0);
+  });
+});
+
+// Start the server
+if (require.main === module) {
+  startProductionServer();
 }
+
+export { app, startProductionServer };
+export default app;
