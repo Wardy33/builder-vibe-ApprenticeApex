@@ -254,7 +254,7 @@ router.post(
       };
 
       // Block conversation and alert admin
-      await aiModerationService.blockAndReport(
+      await aiModeration.blockAndReport(
         blockedMessageId,
         conversationId,
         aiAnalysis.flags,
