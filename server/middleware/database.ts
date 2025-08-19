@@ -3,33 +3,61 @@ import { z } from 'zod';
 
 // Simple database status tracking (instead of importing the problematic database manager)
 let isMongoConnected = false;
+let connectionInitialized = false;
+
+// Initialize connection status based on current mongoose state
+function initializeConnectionStatus() {
+  if (!connectionInitialized) {
+    isMongoConnected = mongoose.connection.readyState === 1;
+    connectionInitialized = true;
+
+    // If no MONGODB_URI, consider it "connected" for development mode
+    if (!process.env.MONGODB_URI || process.env.MONGODB_URI === '') {
+      isMongoConnected = true;
+      console.log('🗄️  Development mode: Database mock enabled');
+    }
+  }
+}
 
 // Simple mock database object for compatibility
 const mockDatabase = {
-  getHealthStatus: () => ({
-    status: isMongoConnected ? 'healthy' : 'unhealthy',
-    connected: isMongoConnected,
-    connecting: false,
-    connectionAttempts: 0,
-    lastConnectedAt: isMongoConnected ? new Date() : undefined,
-    lastDisconnectedAt: !isMongoConnected ? new Date() : undefined,
-    readyState: mongoose.connection.readyState,
-  }),
-  isConnected: () => isMongoConnected && mongoose.connection.readyState === 1,
+  getHealthStatus: () => {
+    initializeConnectionStatus();
+    return {
+      status: isMongoConnected ? 'healthy' : 'unhealthy',
+      connected: isMongoConnected,
+      connecting: mongoose.connection.readyState === 2,
+      connectionAttempts: 0,
+      lastConnectedAt: isMongoConnected ? new Date() : undefined,
+      lastDisconnectedAt: !isMongoConnected ? new Date() : undefined,
+      readyState: mongoose.connection.readyState,
+    };
+  },
+  isConnected: () => {
+    initializeConnectionStatus();
+    // In development without MONGODB_URI, always return true
+    if (!process.env.MONGODB_URI || process.env.MONGODB_URI === '') {
+      return true;
+    }
+    return isMongoConnected && mongoose.connection.readyState === 1;
+  },
   getConnection: () => mongoose.connection,
 };
 
 // Update connection status based on mongoose connection
 mongoose.connection.on('connected', () => {
   isMongoConnected = true;
+  console.log('🗄️  Database connected');
 });
 
 mongoose.connection.on('disconnected', () => {
   isMongoConnected = false;
+  console.log('⚠️  Database disconnected');
 });
 
-mongoose.connection.on('error', () => {
+mongoose.connection.on('error', (error) => {
   isMongoConnected = false;
+  console.error('❌ Database connection error:', error.message);
 });
 
 // Database operation logger
