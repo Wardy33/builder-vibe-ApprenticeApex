@@ -58,7 +58,7 @@ export default function ProfileCompletionModal({
   if (!isOpen) return null;
 
   const handleCompleteProfile = () => {
-    navigate("/student/setup-profile");
+    navigate("/candidate/setup-profile");
     onClose();
   };
 
@@ -192,7 +192,7 @@ export default function ProfileCompletionModal({
           </div>
 
           <p className="text-xs text-gray-500 text-center mt-4">
-            You can complete your profile at any time by going to Settings →
+            You can complete your profile at any time by going to Settings ���
             Edit Profile
           </p>
         </div>
