@@ -1,3 +1,12 @@
+# Environment files (CRITICAL - Never commit these)
+.env
+.env.local
+.env.production
+.env.development
+.env.staging
+.env.test
+*.env
+
 # Logs
 logs
 *.log
@@ -7,9 +16,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Dependencies
 node_modules
 dist
 dist-ssr
+build
 *.local
 
 # Editor directories and files
@@ -19,8 +30,38 @@ dist-ssr
 .DS_Store
 *.suo
 *.ntvs*
-*.njsproj
+*.njsproj*
 *.sln
 *.sw?
 
+# Config and sensitive files
 .config/
+config.json
+secrets.json
+
+# OS generated files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
+
+# Test coverage
+coverage/
+*.lcov
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Security
+*.pem
+*.key
+*.cert
+*.crt
+
+# Backup files
+*.backup
+*.bak
