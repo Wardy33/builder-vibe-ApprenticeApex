@@ -107,7 +107,7 @@ async function startSimpleServer() {
             console.log('✅ JSON validation passed');
           } catch (e) {
             console.error('❌ JSON parsing error:', e.message);
-            console.error('❌ Raw body that failed:', buf.toString());
+            console.error('��� Raw body that failed:', buf.toString());
             throw new Error('Invalid JSON format');
           }
         }
@@ -424,7 +424,10 @@ async function startSimpleServer() {
     // Connect to database (optional)
     try {
       // Test Neon database connection
-      const testQuery = await executeNeonQuery('SELECT NOW() as current_time');
+      const testQuery = await neon_run_sql({
+        sql: 'SELECT NOW() as current_time',
+        projectId: process.env.NEON_PROJECT_ID || 'winter-bread-79671472'
+      });
       console.log('✅ Neon database connected at:', testQuery[0].current_time);
     } catch (error) {
       console.warn('⚠️ Database failed, continuing with mock data');
