@@ -50,14 +50,14 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
 
           {/* Sign In Options */}
           <div className="space-y-3 sm:space-y-4">
-            {/* Student Sign In */}
+            {/* Candidate Sign In */}
             <Link
-              to="/student/signin"
+              to="/candidate/signin"
               onClick={onClose}
               className="flex items-center justify-center w-full p-3 sm:p-4 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
             >
               <User className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
-              <span className="font-semibold text-sm sm:text-base">Student Portal</span>
+              <span className="font-semibold text-sm sm:text-base">Candidate Portal</span>
             </Link>
 
             {/* Company Sign In */}
@@ -83,11 +83,11 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
             <p className="text-gray-400 text-xs sm:text-sm mb-3">Don't have an account?</p>
             <div className="flex space-x-2 sm:space-x-3">
               <Link
-                to="/student/signup"
+                to="/candidate/signup"
                 onClick={onClose}
                 className="flex-1 py-2 px-2 sm:px-4 text-xs sm:text-sm text-pink-400 border border-pink-400/30 rounded-lg hover:bg-pink-400/10 transition-colors text-center"
               >
-                Student Sign Up
+                Candidate Sign Up
               </Link>
               <Link
                 to="/company/signup"
