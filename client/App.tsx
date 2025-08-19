@@ -12,6 +12,8 @@ import {
   runLocalStorageDiagnostics,
 } from "./lib/cleanupLocalStorage";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { apiDebugger } from "./lib/apiDebugger";
+import { diagnostics } from "./utils/diagnostics";
 
 // Lazy load components for better performance
 const CandidateApp = lazy(() => import("./pages/StudentApp"));
