@@ -128,7 +128,7 @@ function SignUpForm() {
               Join ApprenticeApex
             </h2>
             <p className="text-gray-300">
-              Create your student account to find amazing apprenticeships
+              Create your candidate account to find amazing apprenticeships
             </p>
           </div>
 
@@ -329,7 +329,7 @@ function SignUpForm() {
             <p className="text-gray-300">
               Already have an account?{" "}
               <Link
-                to="/student/signin"
+                to="/candidate/signin"
                 className="hover:underline font-medium text-orange-400"
               >
                 Sign In
@@ -357,11 +357,11 @@ function SignInForm() {
 
   const { submit, loading, error, clearError } = useFormSubmission(
     async (data: typeof formData) => {
-      return await login(data.email, data.password, 'student');
+      return await login(data.email, data.password, 'candidate');
     },
     {
       onSuccess: () => {
-        navigate("/student/home");
+        navigate("/candidate/home");
       }
     }
   );
@@ -488,7 +488,7 @@ function SignInForm() {
                 <span className="text-sm text-gray-300">Remember me</span>
               </label>
               <Link
-                to="/student/forgot-password"
+                to="/candidate/forgot-password"
                 className="text-sm hover:underline text-orange-400"
               >
                 Forgot password?
@@ -519,7 +519,7 @@ function SignInForm() {
             <p className="text-gray-300">
               Don't have an account?{" "}
               <Link
-                to="/student/signup"
+                to="/candidate/signup"
                 className="hover:underline font-medium text-orange-400"
               >
                 Sign Up
