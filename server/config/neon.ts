@@ -1,105 +1,156 @@
-// Neon database configuration using MCP
-// Note: This will be replaced with actual MCP calls when available
+// Neon database configuration and helper functions
 
-// Mock execute query function for development
-export const executeNeonQuery = async (text: string, params?: any[]): Promise<any[]> => {
-  console.log('🔧 Neon Query:', text);
-  console.log('🔧 Params:', params);
+interface NeonQueryParams {
+  sql: string;
+  projectId: string;
+  params?: any[];
+  databaseName?: string;
+  branchId?: string;
+}
 
-  // For now, return mock data based on the query
-  if (text.includes('SELECT NOW()')) {
-    return [{ current_time: new Date().toISOString() }];
-  }
-
-  if (text.includes('SELECT id, email, password_hash')) {
-    // Return admin user for login
-    return [{
-      id: 1,
-      email: 'admin@apprenticeapex.com',
-      password_hash: '$2b$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // MasterAdmin2024!
-      role: 'master_admin',
-      name: 'Master Administrator',
-      is_master_admin: true,
-      admin_permissions: {
-        canViewAllUsers: true,
-        canViewFinancials: true,
-        canModerateContent: true,
-        canAccessSystemLogs: true,
-        canExportData: true,
-        canManageAdmins: true,
-        canConfigureSystem: true
-      },
-      login_attempts: 0,
-      locked_until: null,
-      last_login_at: new Date().toISOString()
-    }];
-  }
-
-  if (text.includes('UPDATE users SET login_attempts')) {
-    return [{ success: true }];
-  }
-
-  if (text.includes('UPDATE users SET last_login_at')) {
-    return [{ success: true }];
-  }
-
-  // Dashboard stats query
-  if (text.includes('total_users')) {
-    return [{
-      total_users: 150,
-      total_candidates: 120,
-      total_companies: 25,
-      total_applications: 45,
-      total_job_postings: 12,
-      total_interviews: 8,
-      active_subscriptions: 15,
-      total_revenue: 2500.00,
-      monthly_revenue: 750.00
-    }];
-  }
-
-  // Growth metrics
-  if (text.includes('users_this_week')) {
-    return [{
-      users_this_week: 12,
-      users_this_month: 38,
-      applications_this_week: 8,
-      revenue_this_month: 750.00,
-      subscriptions_this_month: 5
-    }];
-  }
-
-  // AI moderation stats
-  if (text.includes('flags_today')) {
-    return [{
-      flags_today: 2,
-      pending_reviews: 1,
-      companies_flagged: 3,
-      blocked_conversations: 5
-    }];
-  }
-
-  // Default return for other queries
-  return [];
-};
-
-// Get database statistics
-export const getDatabaseStats = async () => {
+// Mock neon_run_sql function for development
+// In production, this would use the actual Neon MCP integration
+export async function neon_run_sql(params: NeonQueryParams): Promise<any[]> {
   try {
-    const stats = await executeNeonQuery(`
-      SELECT 
-        (SELECT COUNT(*) FROM users) as total_users,
-        (SELECT COUNT(*) FROM users WHERE role = 'candidate') as total_candidates,
-        (SELECT COUNT(*) FROM users WHERE role = 'company') as total_companies,
-        (SELECT COUNT(*) FROM jobs WHERE status = 'active') as active_jobs,
-        (SELECT COUNT(*) FROM applications) as total_applications,
-        (SELECT COUNT(*) FROM conversations WHERE blocked = false) as active_conversations
-    `);
-    return stats[0];
+    console.log(`🔧 Neon Query: ${params.sql.substring(0, 100)}...`);
+    console.log(`🔧 Project ID: ${params.projectId}`);
+    console.log(`🔧 Params:`, params.params);
+    
+    // In development, return mock data based on the query
+    if (params.sql.includes('SELECT') && params.sql.includes('users') && params.sql.includes('email')) {
+      // User lookup query
+      if (params.params && params.params[0] === 'admin@apprenticeapex.com') {
+        const bcrypt = require('bcryptjs');
+        const hashedPassword = bcrypt.hashSync('MasterAdmin2024!', 10);
+        
+        return [{
+          id: 1,
+          email: 'admin@apprenticeapex.com',
+          password_hash: hashedPassword,
+          role: 'master_admin',
+          name: 'Master Administrator',
+          is_master_admin: true,
+          admin_permissions: {
+            canViewAllUsers: true,
+            canViewFinancials: true,
+            canModerateContent: true,
+            canAccessSystemLogs: true,
+            canExportData: true,
+            canManageAdmins: true,
+            canConfigureSystem: true
+          },
+          login_attempts: 0,
+          locked_until: null,
+          last_login_at: null,
+          created_at: new Date(),
+          updated_at: new Date()
+        }];
+      }
+      return [];
+    }
+    
+    if (params.sql.includes('UPDATE users') && params.sql.includes('login_attempts')) {
+      // Login attempts update
+      console.log(`✅ Mock: Updated login attempts for user ${params.params?.[0]}`);
+      return [{ id: params.params?.[0], updated: true }];
+    }
+    
+    if (params.sql.includes('UPDATE users') && params.sql.includes('last_login_at')) {
+      // Last login update
+      console.log(`✅ Mock: Updated last login for user ${params.params?.[0]}`);
+      return [{ id: params.params?.[0], updated: true }];
+    }
+    
+    if (params.sql.includes('total_users')) {
+      // Dashboard stats query
+      return [{
+        total_users: 156,
+        total_candidates: 125,
+        total_companies: 28,
+        total_applications: 52,
+        total_job_postings: 15,
+        total_interviews: 12,
+        active_subscriptions: 18,
+        total_revenue: 3250.00,
+        monthly_revenue: 950.00
+      }];
+    }
+    
+    if (params.sql.includes('users_this_week')) {
+      // Growth metrics query
+      return [{
+        users_this_week: 15,
+        users_this_month: 42,
+        applications_this_week: 11,
+        revenue_this_month: 950.00,
+        subscriptions_this_month: 7
+      }];
+    }
+    
+    if (params.sql.includes('flags_today')) {
+      // AI moderation stats query
+      return [{
+        flags_today: 3,
+        pending_reviews: 2,
+        companies_flagged: 5,
+        blocked_conversations: 8
+      }];
+    }
+    
+    if (params.sql.includes('INSERT INTO')) {
+      // Insert queries
+      console.log(`✅ Mock: Insert operation completed`);
+      return [{ id: Math.floor(Math.random() * 1000), inserted: true }];
+    }
+    
+    if (params.sql.includes('UPDATE')) {
+      // Update queries
+      console.log(`✅ Mock: Update operation completed`);
+      return [{ updated: true }];
+    }
+    
+    // Default empty result
+    console.log(`⚠️ Mock: Query not handled, returning empty result`);
+    return [];
+    
   } catch (error) {
-    console.error('Error getting database stats:', error);
-    return null;
+    console.error('❌ Neon query error:', error);
+    throw error;
   }
-};
+}
 
-export default {};
+// Initialize Neon database connection
+export async function initializeNeon(): Promise<void> {
+  try {
+    console.log('🔧 Initializing Neon database connection...');
+    
+    // In production, this would establish the actual Neon connection
+    // For development, we'll just log that we're using mock data
+    console.log('✅ Neon database connection initialized (mock mode for development)');
+    
+  } catch (error) {
+    console.error('❌ Failed to initialize Neon database:', error);
+    throw error;
+  }
+}
+
+// Test database connection
+export async function testNeonConnection(): Promise<boolean> {
+  try {
+    const result = await neon_run_sql({
+      sql: 'SELECT 1 as test',
+      projectId: process.env.NEON_PROJECT_ID || 'winter-bread-79671472'
+    });
+    
+    return result.length > 0;
+  } catch (error) {
+    console.error('❌ Neon connection test failed:', error);
+    return false;
+  }
+}
+
+export default {
+  neon_run_sql,
+  initializeNeon,
+  testNeonConnection
+};
