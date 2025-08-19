@@ -361,6 +361,14 @@ export function databaseHealthCheck() {
       });
     }
 
+    // Allow certain endpoints to work without database connection
+    const allowedPaths = ['/api/ping', '/api/health', '/api/auth/register', '/api/auth/login'];
+    const isAllowedPath = allowedPaths.some(path => req.path.startsWith(path));
+
+    if (isAllowedPath) {
+      return next(); // Allow these endpoints to work without database
+    }
+
     // Check database connection for other routes
     if (!mockDatabase.isConnected()) {
       // In development mode without MONGODB_URI, allow requests to proceed
