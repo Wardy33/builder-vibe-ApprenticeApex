@@ -40,7 +40,7 @@ class ApiClient {
     }
 
     console.log('API Client initialized with base URL:', this.baseURL);
-    this.timeout = 10000; // 10 seconds
+    this.timeout = 30000; // Increased to 30 seconds for better reliability
     this.retries = 3;
   }
 
@@ -88,21 +88,46 @@ class ApiClient {
     let lastError: Error | null = null;
 
     for (let attempt = 0; attempt <= retries; attempt++) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), timeout);
+      // Create a fresh AbortController for each attempt
+      const controller = new AbortController();
+      let timeoutId: NodeJS.Timeout | null = null;
 
-        const response = await fetch(url, {
+      try {
+        // Set up timeout with proper cleanup
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          timeoutId = setTimeout(() => {
+            if (!controller.signal.aborted) {
+              controller.abort();
+              reject(new Error('Request timeout'));
+            }
+          }, timeout);
+        });
+
+        // Make the fetch request
+        const fetchPromise = fetch(url, {
           ...requestConfig,
           signal: controller.signal,
         });
 
-        clearTimeout(timeoutId);
+        // Race between fetch and timeout
+        const response = await Promise.race([fetchPromise, timeoutPromise]);
 
+        // Clear timeout on successful response
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+
+        // Check if response is ok
         if (!response.ok) {
-          const errorData = await response.json().catch(() => ({ 
-            error: `HTTP ${response.status}: ${response.statusText}` 
-          }));
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch {
+            errorData = { 
+              error: `HTTP ${response.status}: ${response.statusText}` 
+            };
+          }
           
           // Handle authentication errors
           if (response.status === 401) {
@@ -118,38 +143,85 @@ class ApiClient {
           };
         }
 
-        const data = await response.json();
-        return { data, error: null };
-
-      } catch (error) {
-        lastError = error as Error;
-        
-        // Don't retry on abort (timeout)
-        if (error instanceof Error && error.name === 'AbortError') {
+        // Parse response data
+        let data;
+        try {
+          const responseText = await response.text();
+          data = responseText ? JSON.parse(responseText) : {};
+        } catch (parseError) {
+          console.error('Failed to parse response JSON:', parseError);
           return {
             data: null,
             error: {
-              error: 'Request timeout. Please check your connection and try again.',
+              error: 'Invalid response format from server',
             },
           };
         }
 
-        // Don't retry on client errors (4xx)
-        if (error instanceof Error && error.message.includes('4')) {
+        return { data, error: null };
+
+      } catch (error) {
+        // Clean up timeout if it exists
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+
+        lastError = error as Error;
+        
+        console.warn(`Request attempt ${attempt + 1} failed:`, {
+          url,
+          method,
+          error: lastError.message,
+          attempt: attempt + 1,
+          maxRetries: retries + 1
+        });
+
+        // Handle different error types
+        if (lastError.name === 'AbortError' || lastError.message === 'Request timeout') {
+          // Timeout error - return immediately, don't retry for timeouts
+          return {
+            data: null,
+            error: {
+              error: 'Request timeout. The server is taking too long to respond. Please try again.',
+            },
+          };
+        }
+
+        // Network errors
+        if (lastError.message.includes('Failed to fetch') || lastError.message.includes('NetworkError')) {
+          // Check if this is the last attempt
+          if (attempt === retries) {
+            return {
+              data: null,
+              error: {
+                error: 'Network error. Please check your internet connection and try again.',
+              },
+            };
+          }
+        }
+
+        // Don't retry on client errors (4xx) except for rate limiting
+        if (lastError.message.includes('4') && !lastError.message.includes('429')) {
           break;
         }
 
         // Wait before retrying (exponential backoff)
         if (attempt < retries) {
-          await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+          const delay = Math.min(Math.pow(2, attempt) * 1000, 5000); // Max 5 second delay
+          console.log(`Retrying in ${delay}ms...`);
+          await new Promise(resolve => setTimeout(resolve, delay));
         }
       }
     }
 
+    // Return final error after all retries exhausted
     return {
       data: null,
       error: {
-        error: lastError?.message || 'Network error. Please check your connection.',
+        error: lastError?.message === 'Request timeout' 
+          ? 'Request timeout. Please try again.' 
+          : lastError?.message || 'Network error. Please check your connection.',
       },
     };
   }
@@ -160,23 +232,24 @@ class ApiClient {
       safeRemoveFromLocalStorage('userProfile');
       // Redirect to login if not already there
       if (!window.location.pathname.includes('/signin') && !window.location.pathname.includes('/signup')) {
-        window.location.href = '/student/signin';
+        window.location.href = '/candidate/signin'; // Updated to use candidate
       }
     }
   }
 
   // Auth methods
-  async login(email: string, password: string, role?: 'student' | 'company'): Promise<ApiResponse<AuthResponse>> {
+  async login(email: string, password: string, role?: 'candidate' | 'company'): Promise<ApiResponse<AuthResponse>> {
     return this.makeRequest<AuthResponse>('/api/auth/login', {
       method: 'POST',
       body: { email, password, role },
+      timeout: 15000, // Longer timeout for login
     });
   }
 
   async register(userData: {
     email: string;
     password: string;
-    role: 'student' | 'company';
+    role: 'candidate' | 'company';
     firstName?: string;
     lastName?: string;
     companyName?: string;
@@ -185,16 +258,21 @@ class ApiClient {
       method: 'POST',
       body: userData,
       retries: 2, // Retry up to 2 times for registration
+      timeout: 20000, // Longer timeout for registration
     });
 
     // Handle specific error cases with user-friendly messages
     if (response.error) {
       if (response.error.error.includes('503')) {
         response.error.error = 'Our servers are temporarily busy. Please try again in a moment.';
+      } else if (response.error.error.includes('504')) {
+        response.error.error = 'Server timeout. Please try again in a moment.';
       } else if (response.error.error.includes('404')) {
         response.error.error = 'Registration service is currently unavailable. Please try again later.';
       } else if (response.error.error.includes('already exists')) {
         response.error.error = 'An account with this email already exists. Please try signing in instead.';
+      } else if (response.error.error.includes('timeout')) {
+        response.error.error = 'Registration is taking longer than expected. Please try again.';
       }
     }
 
@@ -205,24 +283,30 @@ class ApiClient {
     return this.makeRequest<AuthResponse>('/api/auth/register/company', {
       method: 'POST',
       body: companyData,
+      timeout: 20000, // Longer timeout for company signup
     });
   }
 
   // User methods
   async getProfile(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/users/profile');
+    return this.makeRequest('/api/users/profile', {
+      timeout: 10000, // Standard timeout for profile
+    });
   }
 
   async updateProfile(profileData: any): Promise<ApiResponse<any>> {
     return this.makeRequest('/api/users/profile', {
       method: 'PUT',
       body: profileData,
+      timeout: 15000, // Longer timeout for updates
     });
   }
 
   // Matching methods
   async getJobMatches(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/matching/jobs');
+    return this.makeRequest('/api/matching/jobs', {
+      timeout: 15000, // Longer timeout for matching
+    });
   }
 
   async getProfileStatus(): Promise<ApiResponse<any>> {
@@ -232,34 +316,43 @@ class ApiClient {
   // Apprenticeships methods
   async discoverApprenticeships(params?: any): Promise<ApiResponse<any>> {
     const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
-    return this.makeRequest(`/api/apprenticeships/discover${queryString}`);
+    return this.makeRequest(`/api/apprenticeships/discover${queryString}`, {
+      timeout: 15000, // Longer timeout for discovery
+    });
   }
 
-  async swipeApprenticeship(id: string, direction: 'left' | 'right', studentLocation?: any): Promise<ApiResponse<any>> {
+  async swipeApprenticeship(id: string, direction: 'left' | 'right', candidateLocation?: any): Promise<ApiResponse<any>> {
     return this.makeRequest(`/api/apprenticeships/${id}/swipe`, {
       method: 'POST',
-      body: { direction, studentLocation },
+      body: { direction, candidateLocation }, // Updated from studentLocation
     });
   }
 
   // Applications methods
   async getMyApplications(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/applications/my-applications');
+    return this.makeRequest('/api/applications/my-applications', {
+      timeout: 15000,
+    });
   }
 
   async getReceivedApplications(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/applications/received');
+    return this.makeRequest('/api/applications/received', {
+      timeout: 15000,
+    });
   }
 
   // Company methods
   async getMyListings(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/apprenticeships/my-listings');
+    return this.makeRequest('/api/apprenticeships/my-listings', {
+      timeout: 15000,
+    });
   }
 
   async createListing(listingData: any): Promise<ApiResponse<any>> {
     return this.makeRequest('/api/apprenticeships', {
       method: 'POST',
       body: listingData,
+      timeout: 20000, // Longer timeout for creation
     });
   }
 
@@ -267,6 +360,7 @@ class ApiClient {
     return this.makeRequest(`/api/apprenticeships/${id}`, {
       method: 'PUT',
       body: listingData,
+      timeout: 15000,
     });
   }
 
@@ -278,7 +372,17 @@ class ApiClient {
 
   // Analytics methods
   async getDashboardAnalytics(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/analytics/dashboard');
+    return this.makeRequest('/api/analytics/dashboard', {
+      timeout: 15000,
+    });
+  }
+
+  // Health check method for debugging
+  async healthCheck(): Promise<ApiResponse<any>> {
+    return this.makeRequest('/api/health', {
+      timeout: 5000,
+      retries: 1,
+    });
   }
 
   // Generic method for any endpoint
@@ -355,4 +459,12 @@ export async function retryOperation<T>(
   }
   
   throw lastError!;
+}
+
+// Debug helper for monitoring API calls
+export function enableApiDebugging() {
+  if (typeof window !== 'undefined') {
+    (window as any).apiClient = apiClient;
+    console.log('API debugging enabled. Use window.apiClient to test API calls.');
+  }
 }
