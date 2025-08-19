@@ -66,6 +66,22 @@ function App() {
       // Run diagnostics in development mode
       if (process.env.NODE_ENV === "development") {
         runLocalStorageDiagnostics();
+        apiDebugger.enable();
+        console.log('🔧 Debug mode enabled - diagnostic tools available in console');
+        console.log('Run: window.diagnostics.quickTest() for a quick health check');
+      }
+
+      // Initialize debugging tools if debug mode is requested
+      if (typeof window !== 'undefined' && window.location.search.includes('debug=true')) {
+        apiDebugger.enable();
+        console.log('🔧 Debug mode enabled via URL parameter');
+      }
+
+      // Run a quick connectivity check
+      if (typeof navigator !== 'undefined' && navigator.onLine) {
+        diagnostics.quickTest().catch(error => {
+          console.warn('Initial connectivity check failed:', error);
+        });
       }
 
       if (typeof window !== "undefined" && "serviceWorker" in navigator) {
