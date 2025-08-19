@@ -1,4 +1,4 @@
-import { neon_run_sql } from "../utils/neonHelper";
+import { neon_run_sql } from "../config/neon";
 
 interface AIFlag {
   type: string;
