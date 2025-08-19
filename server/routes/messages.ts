@@ -2,7 +2,7 @@ import express from "express";
 import { body, query, validationResult } from "express-validator";
 import { AuthenticatedRequest } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
-const aiModeration = require('../middleware/aiModeration');
+const aiModeration = require("../middleware/aiModeration");
 
 const router = express.Router();
 
