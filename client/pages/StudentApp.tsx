@@ -1,4 +1,11 @@
-import React, { useState, useRef, useEffect, useCallback, useMemo, memo } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import {
   Routes,
   Route,
@@ -42,7 +49,10 @@ import {
 import { apiClient } from "../lib/apiUtils";
 import LiveChat from "../components/LiveChat";
 import OptimizedImage from "../components/OptimizedImage";
-import { safeGetFromLocalStorage, safeSetToLocalStorage } from '../lib/safeJsonParse';
+import {
+  safeGetFromLocalStorage,
+  safeSetToLocalStorage,
+} from "../lib/safeJsonParse";
 
 // Helper function to check if application deadline has passed
 const isApplicationClosed = (closingDate: string) => {
@@ -54,126 +64,143 @@ const isApplicationClosed = (closingDate: string) => {
 };
 
 // Memoized SwipeCard component for better performance
-const SwipeCard = memo(({ apprenticeship, onSwipe, style }: {
-  apprenticeship: Apprenticeship;
-  onSwipe: (direction: "left" | "right") => void;
-  style?: React.CSSProperties;
-}) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragDistance, setDragDistance] = useState(0);
-  const cardRef = useRef<HTMLDivElement>(null);
+const SwipeCard = memo(
+  ({
+    apprenticeship,
+    onSwipe,
+    style,
+  }: {
+    apprenticeship: Apprenticeship;
+    onSwipe: (direction: "left" | "right") => void;
+    style?: React.CSSProperties;
+  }) => {
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragDistance, setDragDistance] = useState(0);
+    const cardRef = useRef<HTMLDivElement>(null);
 
-  const handleDragStart = useCallback(() => {
-    setIsDragging(true);
-  }, []);
+    const handleDragStart = useCallback(() => {
+      setIsDragging(true);
+    }, []);
 
-  const handleDrag = useCallback((e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const rect = cardRef.current?.getBoundingClientRect();
-    if (rect) {
-      const distance = e.clientX - (rect.left + rect.width / 2);
-      setDragDistance(distance);
-    }
-  }, [isDragging]);
+    const handleDrag = useCallback(
+      (e: React.MouseEvent) => {
+        if (!isDragging) return;
+        const rect = cardRef.current?.getBoundingClientRect();
+        if (rect) {
+          const distance = e.clientX - (rect.left + rect.width / 2);
+          setDragDistance(distance);
+        }
+      },
+      [isDragging],
+    );
 
-  const handleDragEnd = useCallback(() => {
-    setIsDragging(false);
-    if (Math.abs(dragDistance) > 100) {
-      onSwipe(dragDistance > 0 ? "right" : "left");
-    }
-    setDragDistance(0);
-  }, [dragDistance, onSwipe]);
+    const handleDragEnd = useCallback(() => {
+      setIsDragging(false);
+      if (Math.abs(dragDistance) > 100) {
+        onSwipe(dragDistance > 0 ? "right" : "left");
+      }
+      setDragDistance(0);
+    }, [dragDistance, onSwipe]);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    e.preventDefault();
-    handleDragStart();
-  }, [handleDragStart]);
+    const handleTouchStart = useCallback(
+      (e: React.TouchEvent) => {
+        e.preventDefault();
+        handleDragStart();
+      },
+      [handleDragStart],
+    );
 
-  const cardStyle = useMemo(() => ({
-    ...style,
-    transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.1}deg)`,
-    opacity: 1 - Math.abs(dragDistance) * 0.002,
-    cursor: isDragging ? "grabbing" : "grab",
-  }), [style, dragDistance, isDragging]);
+    const cardStyle = useMemo(
+      () => ({
+        ...style,
+        transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.1}deg)`,
+        opacity: 1 - Math.abs(dragDistance) * 0.002,
+        cursor: isDragging ? "grabbing" : "grab",
+      }),
+      [style, dragDistance, isDragging],
+    );
 
-  return (
-    <div
-      ref={cardRef}
-      className="swipe-card absolute bg-white rounded-2xl shadow-2xl border border-gray-100 w-full h-[480px] sm:h-[520px] overflow-hidden select-none"
-      style={cardStyle}
-      onMouseDown={handleDragStart}
-      onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd}
-      onMouseLeave={handleDragEnd}
-      onTouchStart={handleTouchStart}
-    >
-      {/* Background Image */}
+    return (
       <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${apprenticeship.image})` }}
+        ref={cardRef}
+        className="swipe-card absolute bg-white rounded-2xl shadow-2xl border border-gray-100 w-full h-[480px] sm:h-[520px] overflow-hidden select-none"
+        style={cardStyle}
+        onMouseDown={handleDragStart}
+        onMouseMove={handleDrag}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        onTouchStart={handleTouchStart}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-      </div>
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${apprenticeship.image})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        </div>
 
-      {/* Content */}
-      <div className="relative h-full flex flex-col">
-        {/* Header Info */}
-        <div className="p-6 flex-1 flex flex-col justify-end text-white">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Building2 className="h-5 w-5 text-orange-400" />
-              <span className="text-sm font-medium text-orange-400">
-                {apprenticeship.company}
-              </span>
-            </div>
-
-            <h3 className="text-2xl font-bold leading-tight">
-              {apprenticeship.jobTitle}
-            </h3>
-
-            <div className="flex items-center gap-4 text-sm text-gray-300">
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                <span>{apprenticeship.location}</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <Clock className="h-4 w-4" />
-                <span>{apprenticeship.duration}</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-1 text-green-400 font-semibold">
-              <span>💰</span>
-              <span>{apprenticeship.salary}</span>
-            </div>
-          </div>
-
-          {/* Description */}
-          <div className="mt-4 p-4 bg-black/40 rounded-lg backdrop-blur-sm">
-            <p className="text-sm leading-relaxed mb-3">
-              {apprenticeship.description}
-            </p>
-
-            {/* Requirements */}
+        {/* Content */}
+        <div className="relative h-full flex flex-col">
+          {/* Header Info */}
+          <div className="p-6 flex-1 flex flex-col justify-end text-white">
             <div className="space-y-2">
-              <h4 className="text-sm font-semibold text-orange-400">Requirements:</h4>
-              <div className="flex flex-wrap gap-2">
-                {apprenticeship.requirements.slice(0, 3).map((req, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-white/20 rounded-full text-xs"
-                  >
-                    {req}
-                  </span>
-                ))}
+              <div className="flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-orange-400" />
+                <span className="text-sm font-medium text-orange-400">
+                  {apprenticeship.company}
+                </span>
+              </div>
+
+              <h3 className="text-2xl font-bold leading-tight">
+                {apprenticeship.jobTitle}
+              </h3>
+
+              <div className="flex items-center gap-4 text-sm text-gray-300">
+                <div className="flex items-center gap-1">
+                  <MapPin className="h-4 w-4" />
+                  <span>{apprenticeship.location}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Clock className="h-4 w-4" />
+                  <span>{apprenticeship.duration}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-1 text-green-400 font-semibold">
+                <span>💰</span>
+                <span>{apprenticeship.salary}</span>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="mt-4 p-4 bg-black/40 rounded-lg backdrop-blur-sm">
+              <p className="text-sm leading-relaxed mb-3">
+                {apprenticeship.description}
+              </p>
+
+              {/* Requirements */}
+              <div className="space-y-2">
+                <h4 className="text-sm font-semibold text-orange-400">
+                  Requirements:
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {apprenticeship.requirements.slice(0, 3).map((req, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-white/20 rounded-full text-xs"
+                    >
+                      {req}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
 
 interface Apprenticeship {
   id: string;
@@ -206,21 +233,21 @@ function HomePage() {
     const loadDashboardData = async () => {
       try {
         // Load applications
-        const appsResponse = await fetch('/api/applications/my-applications');
+        const appsResponse = await fetch("/api/applications/my-applications");
         if (appsResponse.ok) {
           const appsData = await appsResponse.json();
           setApplications(appsData.applications || []);
         }
 
         // Load profile status
-        const profileResponse = await fetch('/api/matching/profile-status');
+        const profileResponse = await fetch("/api/matching/profile-status");
         if (profileResponse.ok) {
           const profileData = await profileResponse.json();
           setProfileScore(profileData.profileScore || 92);
         }
 
         // Load interviews from API
-        const interviewsResponse = await fetch('/api/interviews/student');
+        const interviewsResponse = await fetch("/api/interviews/student");
         if (interviewsResponse.ok) {
           const interviewsData = await interviewsResponse.json();
           setInterviews(interviewsData.interviews || []);
@@ -228,7 +255,7 @@ function HomePage() {
           setInterviews([]);
         }
       } catch (error) {
-        console.error('Failed to load dashboard data:', error);
+        console.error("Failed to load dashboard data:", error);
         // Set empty states on error
         setApplications([]);
         setInterviews([]);
@@ -289,7 +316,9 @@ function HomePage() {
             <h1 className="text-2xl font-bold text-gray-900 mb-1">
               Good morning, Sarah! 👋
             </h1>
-            <p className="text-gray-600 text-sm">Ready to explore new opportunities?</p>
+            <p className="text-gray-600 text-sm">
+              Ready to explore new opportunities?
+            </p>
           </div>
           <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
             <User className="w-6 h-6 text-white" />
@@ -300,11 +329,18 @@ function HomePage() {
         <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-6 mb-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-1">Profile Strength</h3>
-              <p className="text-gray-600 text-sm">Complete your profile to get better matches</p>
+              <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                Profile Strength
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Complete your profile to get better matches
+              </p>
             </div>
             <div className="relative w-16 h-16">
-              <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
+              <svg
+                className="w-16 h-16 transform -rotate-90"
+                viewBox="0 0 36 36"
+              >
                 <path
                   className="text-gray-300"
                   stroke="currentColor"
@@ -322,7 +358,9 @@ function HomePage() {
                 />
               </svg>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm font-bold text-gray-900">{profileScore}%</span>
+                <span className="text-sm font-bold text-gray-900">
+                  {profileScore}%
+                </span>
               </div>
             </div>
           </div>
@@ -335,7 +373,9 @@ function HomePage() {
               <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                 <FileText className="w-4 h-4 text-green-600" />
               </div>
-              <p className="text-2xl font-bold text-gray-900">{applications.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {applications.length}
+              </p>
               <p className="text-xs text-gray-600">Applications</p>
             </div>
           </div>
@@ -344,7 +384,9 @@ function HomePage() {
               <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-2">
                 <Calendar className="w-4 h-4 text-blue-600" />
               </div>
-              <p className="text-2xl font-bold text-gray-900">{interviews.length}</p>
+              <p className="text-2xl font-bold text-gray-900">
+                {interviews.length}
+              </p>
               <p className="text-xs text-gray-600">Interviews</p>
             </div>
           </div>
@@ -363,7 +405,9 @@ function HomePage() {
       {/* Current Applications Section */}
       <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Recent Applications</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Recent Applications
+          </h2>
           <Link
             to="/student/applications"
             className="text-blue-600 text-sm font-medium hover:text-blue-700"
@@ -377,7 +421,9 @@ function HomePage() {
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <FileText className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Applications Yet</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No Applications Yet
+            </h3>
             <p className="text-gray-600 text-sm mb-6">
               Start exploring opportunities to find your dream apprenticeship
             </p>
@@ -409,15 +455,22 @@ function HomePage() {
                         <h3 className="font-semibold text-gray-900 text-sm truncate">
                           {application.jobTitle}
                         </h3>
-                        <p className="text-gray-600 text-sm">{application.company}</p>
+                        <p className="text-gray-600 text-sm">
+                          {application.company}
+                        </p>
                       </div>
                       <div className="flex items-center space-x-2 ml-2">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          application.status === 'applied' ? 'bg-blue-100 text-blue-700' :
-                          application.status === 'viewed' ? 'bg-yellow-100 text-yellow-700' :
-                          application.status === 'shortlisted' ? 'bg-green-100 text-green-700' :
-                          'bg-gray-100 text-gray-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            application.status === "applied"
+                              ? "bg-blue-100 text-blue-700"
+                              : application.status === "viewed"
+                                ? "bg-yellow-100 text-yellow-700"
+                                : application.status === "shortlisted"
+                                  ? "bg-green-100 text-green-700"
+                                  : "bg-gray-100 text-gray-700"
+                          }`}
+                        >
                           {getStatusText(application.status)}
                         </span>
                       </div>
@@ -427,7 +480,9 @@ function HomePage() {
                       <div className="flex items-center space-x-2">
                         <div className="flex items-center">
                           <div className="w-2 h-2 bg-green-500 rounded-full mr-1"></div>
-                          <span className="font-medium text-green-600">{application.matchScore}% match</span>
+                          <span className="font-medium text-green-600">
+                            {application.matchScore}% match
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -442,7 +497,9 @@ function HomePage() {
       {/* Upcoming Interviews Section */}
       <div className="px-6 py-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Upcoming Interviews</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Upcoming Interviews
+          </h2>
           <Link
             to="/student/interviews"
             className="text-blue-600 text-sm font-medium hover:text-blue-700"
@@ -456,7 +513,9 @@ function HomePage() {
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Calendar className="h-8 w-8 text-gray-400" />
             </div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">No Interviews Scheduled</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              No Interviews Scheduled
+            </h3>
             <p className="text-gray-600 text-sm">
               Your interview invitations will appear here
             </p>
@@ -480,14 +539,20 @@ function HomePage() {
                         <h3 className="font-semibold text-gray-900 text-sm truncate">
                           {interview.jobTitle}
                         </h3>
-                        <p className="text-gray-600 text-sm">{interview.company}</p>
+                        <p className="text-gray-600 text-sm">
+                          {interview.company}
+                        </p>
                       </div>
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        interview.status === "confirmed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-700"
-                      }`}>
-                        {interview.status === "confirmed" ? "Confirmed" : "Pending"}
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          interview.status === "confirmed"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-yellow-100 text-yellow-700"
+                        }`}
+                      >
+                        {interview.status === "confirmed"
+                          ? "Confirmed"
+                          : "Pending"}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
@@ -506,7 +571,7 @@ function HomePage() {
                           // For demo purposes, open a generic video call platform
                           // In a real app, this would connect to your video call service
                           const videoCallUrl = `https://meet.google.com/new?authuser=0`;
-                          window.open(videoCallUrl, '_blank');
+                          window.open(videoCallUrl, "_blank");
                         }}
                         className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
                       >
@@ -536,34 +601,49 @@ function JobsPage() {
       setLoading(true);
       try {
         const response = await apiClient.discoverApprenticeships();
-        console.log('Apprenticeships API Response:', response);
-        if (response.data && (response.data.apprenticeships || response.data.length > 0)) {
+        console.log("Apprenticeships API Response:", response);
+        if (
+          response.data &&
+          (response.data.apprenticeships || response.data.length > 0)
+        ) {
           // Handle both response formats: direct array or nested apprenticeships property
-          const apprenticeshipsList = response.data.apprenticeships || response.data;
-          const transformedData = apprenticeshipsList.map((app: any, index: number) => ({
-            id: app._id || app.id || `api_${index}`,
-            jobTitle: app.jobTitle,
-            company: app.companyName || app.company?.name || app.company,
-            industry: app.industry,
-            location: app.location?.city || app.location,
-            distance: app.distance ? `${app.distance.toFixed(1)} miles` : `${(Math.random() * 5 + 0.5).toFixed(1)} miles`,
-            duration: app.formattedDuration || app.duration || "3 years",
-            description: app.description,
-            requirements: app.requirements || [],
-            salary: app.formattedSalary || app.salary || "£18,000 - £25,000",
-            image: app.thumbnailImage || app.image || `https://images.unsplash.com/photo-148631233821${index % 10}9-ce68d2c6f44d?w=400&h=600&fit=crop`,
-          }));
+          const apprenticeshipsList =
+            response.data.apprenticeships || response.data;
+          const transformedData = apprenticeshipsList.map(
+            (app: any, index: number) => ({
+              id: app._id || app.id || `api_${index}`,
+              jobTitle: app.jobTitle,
+              company: app.companyName || app.company?.name || app.company,
+              industry: app.industry,
+              location: app.location?.city || app.location,
+              distance: app.distance
+                ? `${app.distance.toFixed(1)} miles`
+                : `${(Math.random() * 5 + 0.5).toFixed(1)} miles`,
+              duration: app.formattedDuration || app.duration || "3 years",
+              description: app.description,
+              requirements: app.requirements || [],
+              salary: app.formattedSalary || app.salary || "£18,000 - £25,000",
+              image:
+                app.thumbnailImage ||
+                app.image ||
+                `https://images.unsplash.com/photo-148631233821${index % 10}9-ce68d2c6f44d?w=400&h=600&fit=crop`,
+            }),
+          );
           setApprenticeships(transformedData);
         } else if (response.error) {
-          const errorMessage = typeof response.error === 'string'
-            ? response.error
-            : response.error?.error || response.error?.message || 'Failed to load apprenticeships from server';
-          console.error('Failed to load apprenticeships:', errorMessage);
+          const errorMessage =
+            typeof response.error === "string"
+              ? response.error
+              : response.error?.error ||
+                response.error?.message ||
+                "Failed to load apprenticeships from server";
+          console.error("Failed to load apprenticeships:", errorMessage);
           setApprenticeships([]);
         }
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error('Failed to load apprenticeships from API:', errorMessage);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        console.error("Failed to load apprenticeships from API:", errorMessage);
         setApprenticeships([]);
       } finally {
         setLoading(false);
@@ -575,22 +655,20 @@ function JobsPage() {
 
   const handleSwipe = async (direction: "left" | "right") => {
     const currentApprenticeship = apprenticeships[currentIndex];
-    console.log(
-      `Swiped ${direction} on ${currentApprenticeship?.jobTitle}`,
-    );
+    console.log(`Swiped ${direction} on ${currentApprenticeship?.jobTitle}`);
 
     // Send swipe to API
     try {
       await fetch(`/api/apprenticeships/${currentApprenticeship.id}/swipe`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           direction,
-          studentLocation: { lat: 51.5074, lng: -0.1278 } // TODO: Get real location
-        })
+          studentLocation: { lat: 51.5074, lng: -0.1278 }, // TODO: Get real location
+        }),
       });
     } catch (error) {
-      console.error('Failed to record swipe:', error);
+      console.error("Failed to record swipe:", error);
     }
 
     if (currentIndex < apprenticeships.length - 1) {
@@ -611,8 +689,12 @@ function JobsPage() {
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
-          <h3 className="text-xl font-semibold text-gray-700 mb-2">Loading opportunities...</h3>
-          <p className="text-gray-500">Finding apprenticeships perfect for you</p>
+          <h3 className="text-xl font-semibold text-gray-700 mb-2">
+            Loading opportunities...
+          </h3>
+          <p className="text-gray-500">
+            Finding apprenticeships perfect for you
+          </p>
         </div>
       </div>
     );
@@ -624,13 +706,26 @@ function JobsPage() {
       <div className="flex items-center justify-center h-full">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="text-gray-400 mb-6">
-            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6.294a7.43 7.43 0 01-2 4.705 7.43 7.43 0 01-2-4.705V8a2 2 0 012-2z" />
+            <svg
+              className="mx-auto h-24 w-24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2-2v2m8 0V6a2 2 0 012 2v6.294a7.43 7.43 0 01-2 4.705 7.43 7.43 0 01-2-4.705V8a2 2 0 012-2z"
+              />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">No opportunities available yet</h3>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            No opportunities available yet
+          </h3>
           <p className="text-gray-600 mb-6 leading-relaxed">
-            We're working hard to bring you amazing apprenticeship opportunities. Check back soon!
+            We're working hard to bring you amazing apprenticeship
+            opportunities. Check back soon!
           </p>
           <button
             onClick={() => window.location.reload()}
@@ -651,12 +746,27 @@ function JobsPage() {
       <div className="flex items-center justify-center h-full">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="text-green-500 mb-6">
-            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="mx-auto h-24 w-24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">You've seen all opportunities!</h3>
-          <p className="text-gray-600 mb-6">Great job exploring all available apprenticeships. Check back later for new opportunities.</p>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            You've seen all opportunities!
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Great job exploring all available apprenticeships. Check back later
+            for new opportunities.
+          </p>
           <button
             onClick={() => setCurrentIndex(0)}
             className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 hover:from-orange-500 hover:via-pink-600 hover:to-red-600 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105 shadow-lg mr-4"
@@ -679,7 +789,9 @@ function JobsPage() {
       {/* Header */}
       <div className="bg-white px-6 py-4 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900">Discover Jobs</h1>
-        <p className="text-gray-600 text-sm">Find your perfect apprenticeship match</p>
+        <p className="text-gray-600 text-sm">
+          Find your perfect apprenticeship match
+        </p>
       </div>
 
       {/* Stack of cards */}
@@ -740,7 +852,7 @@ function MatchesPage() {
   useEffect(() => {
     const loadMatches = async () => {
       try {
-        const response = await fetch('/api/matches/student');
+        const response = await fetch("/api/matches/student");
         if (response.ok) {
           const data = await response.json();
           setMatches(data.matches || []);
@@ -748,7 +860,7 @@ function MatchesPage() {
           setMatches([]);
         }
       } catch (error) {
-        console.error('Failed to load matches:', error);
+        console.error("Failed to load matches:", error);
         setMatches([]);
       } finally {
         setLoading(false);
@@ -860,7 +972,7 @@ function MessagesPage() {
   useEffect(() => {
     const loadConversations = async () => {
       try {
-        const response = await fetch('/api/conversations/student');
+        const response = await fetch("/api/conversations/student");
         if (response.ok) {
           const data = await response.json();
           setConversations(data.conversations || []);
@@ -868,7 +980,7 @@ function MessagesPage() {
           setConversations([]);
         }
       } catch (error) {
-        console.error('Failed to load conversations:', error);
+        console.error("Failed to load conversations:", error);
         setConversations([]);
       } finally {
         setLoading(false);
@@ -972,7 +1084,7 @@ function ApprenticeshipInfoPage() {
           setApprenticeshipInfo(null);
         }
       } catch (error) {
-        console.error('Failed to load apprenticeship details:', error);
+        console.error("Failed to load apprenticeship details:", error);
         setApprenticeshipInfo(null);
       } finally {
         setLoading(false);
@@ -998,14 +1110,28 @@ function ApprenticeshipInfoPage() {
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="text-gray-400 mb-6">
-            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            <svg
+              className="mx-auto h-24 w-24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Apprenticeship not found</h3>
-          <p className="text-gray-600 mb-6">This apprenticeship may no longer be available.</p>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            Apprenticeship not found
+          </h3>
+          <p className="text-gray-600 mb-6">
+            This apprenticeship may no longer be available.
+          </p>
           <button
-            onClick={() => navigate('/student/jobs')}
+            onClick={() => navigate("/student/jobs")}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
           >
             Browse Other Opportunities
@@ -1188,9 +1314,7 @@ function ApprenticeshipInfoPage() {
 
         {/* Key Details */}
         <div className="bg-white border border-gray-200 rounded-xl p-8 shadow-sm">
-          <h3 className="text-lg font-semibold text-black mb-3">
-            Key Details
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-3">Key Details</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center">
               <Calendar className="h-5 w-5 text-black/50 mr-2" />
@@ -1205,11 +1329,19 @@ function ApprenticeshipInfoPage() {
               <Clock className="h-5 w-5 text-black/50 mr-2" />
               <div>
                 <p className="text-sm text-black/70">Application Deadline</p>
-                <p className={`font-medium ${isApplicationClosed(apprenticeshipInfo.applicationDeadline)
-                  ? 'text-red-400 font-bold'
-                  : 'text-black'}`}>
-                  {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
-                  {isApplicationClosed(apprenticeshipInfo.applicationDeadline) && (
+                <p
+                  className={`font-medium ${
+                    isApplicationClosed(apprenticeshipInfo.applicationDeadline)
+                      ? "text-red-400 font-bold"
+                      : "text-black"
+                  }`}
+                >
+                  {new Date(
+                    apprenticeshipInfo.applicationDeadline,
+                  ).toLocaleDateString()}
+                  {isApplicationClosed(
+                    apprenticeshipInfo.applicationDeadline,
+                  ) && (
                     <span className="text-red-400 text-sm ml-2">(CLOSED)</span>
                   )}
                 </p>
@@ -1245,7 +1377,11 @@ function ApprenticeshipInfoPage() {
                   Applications Closed
                 </h3>
                 <p className="text-red-200 mb-4">
-                  The application deadline for this position has passed on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}.
+                  The application deadline for this position has passed on{" "}
+                  {new Date(
+                    apprenticeshipInfo.applicationDeadline,
+                  ).toLocaleDateString()}
+                  .
                 </p>
                 <button
                   disabled
@@ -1260,10 +1396,14 @@ function ApprenticeshipInfoPage() {
                   Ready to apply?
                 </h3>
                 <p className="text-black/80 mb-2">
-                  Join {apprenticeshipInfo.company} and start your career journey!
+                  Join {apprenticeshipInfo.company} and start your career
+                  journey!
                 </p>
                 <p className="text-black/70 text-sm mb-4">
-                  Applications close on {new Date(apprenticeshipInfo.applicationDeadline).toLocaleDateString()}
+                  Applications close on{" "}
+                  {new Date(
+                    apprenticeshipInfo.applicationDeadline,
+                  ).toLocaleDateString()}
                 </p>
                 <button className="w-full bg-cyan-500 hover:bg-cyan-600 text-black py-4 px-6 rounded-xl font-bold transition-all duration-300 hover:scale-105 shadow-2xl">
                   Apply Now
@@ -1296,13 +1436,15 @@ function ChatPage() {
         }
 
         // Load messages
-        const messagesResponse = await fetch(`/api/conversations/${id}/messages`);
+        const messagesResponse = await fetch(
+          `/api/conversations/${id}/messages`,
+        );
         if (messagesResponse.ok) {
           const messagesData = await messagesResponse.json();
           setMessages(messagesData.messages || []);
         }
       } catch (error) {
-        console.error('Failed to load chat data:', error);
+        console.error("Failed to load chat data:", error);
         setChatInfo(null);
         setMessages([]);
       } finally {
@@ -1331,14 +1473,28 @@ function ChatPage() {
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="text-gray-400 mb-6">
-            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            <svg
+              className="mx-auto h-24 w-24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Conversation not found</h3>
-          <p className="text-gray-600 mb-6">This conversation may no longer be available.</p>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            Conversation not found
+          </h3>
+          <p className="text-gray-600 mb-6">
+            This conversation may no longer be available.
+          </p>
           <button
-            onClick={() => navigate('/student/messages')}
+            onClick={() => navigate("/student/messages")}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
           >
             Back to Messages
@@ -1402,7 +1558,9 @@ function ChatPage() {
             className="w-8 h-8 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-black text-sm">{chatInfo.company}</h1>
+            <h1 className="font-semibold text-black text-sm">
+              {chatInfo.company}
+            </h1>
             <p className="text-xs text-gray-500">{chatInfo.jobTitle}</p>
           </div>
         </div>
@@ -1411,7 +1569,7 @@ function ChatPage() {
             // For demo purposes, open a generic video call platform
             // In a real app, this would connect to your video call service with the specific employer
             const videoCallUrl = `https://meet.google.com/new?authuser=0`;
-            window.open(videoCallUrl, '_blank');
+            window.open(videoCallUrl, "_blank");
           }}
           className="p-2 hover:bg-gray-100 rounded-full text-black transition-all duration-200"
           title="Start video call"
@@ -1445,8 +1603,14 @@ function ChatPage() {
             <div className="bg-gray-200 rounded-r-3xl rounded-tl-3xl rounded-bl-md px-4 py-2 flex items-center space-x-1">
               <div className="flex space-x-1">
                 <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.1s" }}
+                ></div>
+                <div
+                  className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                  style={{ animationDelay: "0.2s" }}
+                ></div>
               </div>
             </div>
           </div>
@@ -1458,7 +1622,8 @@ function ChatPage() {
         {!canSendMessage() && (
           <div className="mb-3 text-center">
             <p className="text-xs text-gray-500">
-              Wait for {chatInfo.company} to respond before sending another message
+              Wait for {chatInfo.company} to respond before sending another
+              message
             </p>
           </div>
         )}
@@ -1472,9 +1637,7 @@ function ChatPage() {
               e.key === "Enter" && canSendMessage() && handleSendMessage()
             }
             placeholder={
-              canSendMessage()
-                ? "Message..."
-                : "Waiting for response..."
+              canSendMessage() ? "Message..." : "Waiting for response..."
             }
             disabled={!canSendMessage()}
             className="flex-1 bg-transparent text-black placeholder-gray-500 text-sm focus:outline-none disabled:text-gray-400"
@@ -1508,24 +1671,31 @@ function ProfilePage() {
     const loadUserProfile = async () => {
       try {
         // First try to get from API
-        const response = await fetch('/api/users/profile');
+        const response = await fetch("/api/users/profile");
         if (response.ok) {
           const data = await response.json();
           setProfile(data.profile);
         } else {
           // Fallback to localStorage for partial data
-          const userProfile = safeGetFromLocalStorage('userProfile', null);
+          const userProfile = safeGetFromLocalStorage("userProfile", null);
           if (userProfile) {
             setProfile({
-              firstName: userProfile.profile?.firstName || 'Student',
-              lastName: userProfile.profile?.lastName || '',
-              email: userProfile.email || '',
-              phone: userProfile.profile?.phone || '',
-              location: userProfile.profile?.location?.city || 'Location not set',
-              bio: localStorage.getItem('studentProfile_bio') || 'Complete your profile to attract employers.',
-              skills: safeGetFromLocalStorage('studentProfile_skills', []),
-              availableFrom: localStorage.getItem('studentProfile_availability') || 'Available now',
-              profileImage: localStorage.getItem('studentProfile_image') || 'https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop',
+              firstName: userProfile.profile?.firstName || "Student",
+              lastName: userProfile.profile?.lastName || "",
+              email: userProfile.email || "",
+              phone: userProfile.profile?.phone || "",
+              location:
+                userProfile.profile?.location?.city || "Location not set",
+              bio:
+                localStorage.getItem("studentProfile_bio") ||
+                "Complete your profile to attract employers.",
+              skills: safeGetFromLocalStorage("studentProfile_skills", []),
+              availableFrom:
+                localStorage.getItem("studentProfile_availability") ||
+                "Available now",
+              profileImage:
+                localStorage.getItem("studentProfile_image") ||
+                "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
             });
           } else {
             // No user data found
@@ -1533,7 +1703,7 @@ function ProfilePage() {
           }
         }
       } catch (error) {
-        console.error('Failed to load profile:', error);
+        console.error("Failed to load profile:", error);
         setProfile(null);
       } finally {
         setLoading(false);
@@ -1559,14 +1729,28 @@ function ProfilePage() {
       <div className="bg-gray-50 min-h-screen flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-6">
           <div className="text-gray-400 mb-6">
-            <svg className="mx-auto h-24 w-24" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            <svg
+              className="mx-auto h-24 w-24"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1}
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+              />
             </svg>
           </div>
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Profile not found</h3>
-          <p className="text-gray-600 mb-6">Please sign in to access your profile.</p>
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">
+            Profile not found
+          </h3>
+          <p className="text-gray-600 mb-6">
+            Please sign in to access your profile.
+          </p>
           <button
-            onClick={() => navigate('/student/signin')}
+            onClick={() => navigate("/student/signin")}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold"
           >
             Sign In
@@ -1588,7 +1772,7 @@ function ProfilePage() {
               className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg"
             />
             <button
-              onClick={() => navigate('/student/change-picture')}
+              onClick={() => navigate("/student/change-picture")}
               className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white hover:bg-blue-700 transition-colors shadow-lg"
             >
               <Camera className="h-4 w-4" />
@@ -1636,7 +1820,7 @@ function ProfilePage() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-900 font-semibold">About</h3>
             <button
-              onClick={() => navigate('/student/edit-about')}
+              onClick={() => navigate("/student/edit-about")}
               className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
             >
               <Edit className="h-4 w-4" />
@@ -1650,7 +1834,7 @@ function ProfilePage() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-900 font-semibold">Contact</h3>
             <button
-              onClick={() => navigate('/student/edit-contact')}
+              onClick={() => navigate("/student/edit-contact")}
               className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
             >
               <Edit className="h-4 w-4" />
@@ -1677,7 +1861,7 @@ function ProfilePage() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-900 font-semibold">Skills</h3>
             <button
-              onClick={() => navigate('/student/edit-skills')}
+              onClick={() => navigate("/student/edit-skills")}
               className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
             >
               <Edit className="h-4 w-4" />
@@ -1700,7 +1884,7 @@ function ProfilePage() {
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-gray-900 font-semibold">Availability</h3>
             <button
-              onClick={() => navigate('/student/edit-availability')}
+              onClick={() => navigate("/student/edit-availability")}
               className="text-gray-500 hover:text-gray-700 transition-all duration-200 hover:scale-110"
             >
               <Edit className="h-4 w-4" />
@@ -1717,9 +1901,9 @@ function ProfilePage() {
           <button
             onClick={() => {
               try {
-                navigate('/student/account-settings');
+                navigate("/student/account-settings");
               } catch (error) {
-                console.error('Navigation error to account-settings:', error);
+                console.error("Navigation error to account-settings:", error);
               }
             }}
             className="w-full bg-white rounded-xl p-5 border border-gray-200 shadow-sm text-gray-900 flex items-center justify-between hover:shadow-md hover:border-gray-300 transition-all duration-200"
@@ -1752,14 +1936,18 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
               <ArrowLeft className="h-5 w-5" />
             </button>
             <h1 className="text-lg font-semibold text-gray-900">
-              {location.pathname.includes('/jobs') ? 'Find Jobs' :
-               location.pathname.includes('/matches') ? 'Your Matches' :
-               location.pathname.includes('/messages') ? 'Messages' :
-               location.pathname.includes('/profile') ? 'Profile' :
-               'ApprenticeApex'}
+              {location.pathname.includes("/jobs")
+                ? "Find Jobs"
+                : location.pathname.includes("/matches")
+                  ? "Your Matches"
+                  : location.pathname.includes("/messages")
+                    ? "Messages"
+                    : location.pathname.includes("/profile")
+                      ? "Profile"
+                      : "ApprenticeApex"}
             </h1>
             <button
-              onClick={() => navigate('/candidate/account-settings')}
+              onClick={() => navigate("/candidate/account-settings")}
               className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
             >
               <Settings className="h-5 w-5" />
@@ -1782,11 +1970,13 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <div className={`p-1 rounded-lg ${
-              isActive("/student/home") || isActive("/student/")
-                ? "bg-blue-100"
-                : ""
-            }`}>
+            <div
+              className={`p-1 rounded-lg ${
+                isActive("/student/home") || isActive("/student/")
+                  ? "bg-blue-100"
+                  : ""
+              }`}
+            >
               <Home className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium mt-1">Home</span>
@@ -1799,11 +1989,11 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <div className={`p-1 rounded-lg ${
-              isActive("/student/jobs")
-                ? "bg-blue-100"
-                : ""
-            }`}>
+            <div
+              className={`p-1 rounded-lg ${
+                isActive("/student/jobs") ? "bg-blue-100" : ""
+              }`}
+            >
               <Briefcase className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium mt-1">Jobs</span>
@@ -1816,11 +2006,11 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <div className={`p-1 rounded-lg ${
-              isActive("/student/matches")
-                ? "bg-blue-100"
-                : ""
-            }`}>
+            <div
+              className={`p-1 rounded-lg ${
+                isActive("/student/matches") ? "bg-blue-100" : ""
+              }`}
+            >
               <Heart className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium mt-1">Matches</span>
@@ -1833,11 +2023,11 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <div className={`p-1 rounded-lg ${
-              isActive("/student/messages")
-                ? "bg-blue-100"
-                : ""
-            }`}>
+            <div
+              className={`p-1 rounded-lg ${
+                isActive("/student/messages") ? "bg-blue-100" : ""
+              }`}
+            >
               <MessageCircle className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium mt-1">Messages</span>
@@ -1850,11 +2040,11 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                 : "text-gray-500 hover:text-gray-700"
             }`}
           >
-            <div className={`p-1 rounded-lg ${
-              isActive("/student/profile")
-                ? "bg-blue-100"
-                : ""
-            }`}>
+            <div
+              className={`p-1 rounded-lg ${
+                isActive("/student/profile") ? "bg-blue-100" : ""
+              }`}
+            >
               <User className="h-5 w-5" />
             </div>
             <span className="text-xs font-medium mt-1">Profile</span>
@@ -1874,34 +2064,36 @@ function EditAboutPage() {
 
   useEffect(() => {
     // Load existing bio from localStorage
-    const savedBio = localStorage.getItem('studentProfile_bio');
-    if (savedBio && savedBio !== 'undefined' && savedBio !== 'null') {
+    const savedBio = localStorage.getItem("studentProfile_bio");
+    if (savedBio && savedBio !== "undefined" && savedBio !== "null") {
       setBio(savedBio);
     } else {
-      setBio("Passionate about technology and eager to start my career in software development.");
+      setBio(
+        "Passionate about technology and eager to start my career in software development.",
+      );
     }
   }, []);
 
   const handleSave = async () => {
     if (bio.length > 500) {
-      alert('Bio must be 500 characters or less');
+      alert("Bio must be 500 characters or less");
       return;
     }
 
     setLoading(true);
     try {
       // Save to localStorage (in real app, would save to backend)
-      localStorage.setItem('studentProfile_bio', bio);
+      localStorage.setItem("studentProfile_bio", bio);
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      alert('Failed to save bio. Please try again.');
+      alert("Failed to save bio. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -1928,8 +2120,10 @@ function EditAboutPage() {
           rows={6}
           className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         />
-        <p className={`text-sm mt-2 ${bio.length > 500 ? 'text-red-600' : 'text-gray-600'}`}>
-          {bio.length}/500 characters {bio.length > 500 && '(Too long)'}
+        <p
+          className={`text-sm mt-2 ${bio.length > 500 ? "text-red-600" : "text-gray-600"}`}
+        >
+          {bio.length}/500 characters {bio.length > 500 && "(Too long)"}
         </p>
         {success && (
           <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mt-4">
@@ -1950,7 +2144,7 @@ function EditAboutPage() {
           disabled={loading}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+          {loading ? "Saving..." : success ? "Saved!" : "Save Changes"}
         </button>
       </div>
     </div>
@@ -1962,7 +2156,7 @@ function EditContactPage() {
   const [contact, setContact] = useState({
     email: "",
     phone: "",
-    location: ""
+    location: "",
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -1970,14 +2164,14 @@ function EditContactPage() {
 
   useEffect(() => {
     // Load existing contact info from localStorage
-    const contactData = safeGetFromLocalStorage('studentProfile_contact', null);
+    const contactData = safeGetFromLocalStorage("studentProfile_contact", null);
     if (contactData) {
       setContact(contactData);
     } else {
       setContact({
         email: "sarah.johnson@email.com",
         phone: "07123 456789",
-        location: "London, UK"
+        location: "London, UK",
       });
     }
   }, []);
@@ -1986,17 +2180,17 @@ function EditContactPage() {
     const newErrors = {};
 
     if (!contact.email) {
-      newErrors.email = 'Email is required';
+      newErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(contact.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = "Please enter a valid email";
     }
 
     if (!contact.phone) {
-      newErrors.phone = 'Phone number is required';
+      newErrors.phone = "Phone number is required";
     }
 
     if (!contact.location) {
-      newErrors.location = 'Location is required';
+      newErrors.location = "Location is required";
     }
 
     setErrors(newErrors);
@@ -2011,17 +2205,17 @@ function EditContactPage() {
     setLoading(true);
     try {
       // Save to localStorage (in real app, would save to backend)
-      localStorage.setItem('studentProfile_contact', JSON.stringify(contact));
+      localStorage.setItem("studentProfile_contact", JSON.stringify(contact));
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      alert('Failed to save contact information. Please try again.');
+      alert("Failed to save contact information. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2040,52 +2234,73 @@ function EditContactPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Contact Information
+        </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Email
+            </label>
             <input
               type="email"
               value={contact.email}
               onChange={(e) => {
-                setContact({...contact, email: e.target.value});
-                if (errors.email) setErrors({...errors, email: undefined});
+                setContact({ ...contact, email: e.target.value });
+                if (errors.email) setErrors({ ...errors, email: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.email ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.email
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Phone</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Phone
+            </label>
             <input
               type="tel"
               value={contact.phone}
               onChange={(e) => {
-                setContact({...contact, phone: e.target.value});
-                if (errors.phone) setErrors({...errors, phone: undefined});
+                setContact({ ...contact, phone: e.target.value });
+                if (errors.phone) setErrors({ ...errors, phone: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.phone ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.phone
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Location</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Location
+            </label>
             <input
               type="text"
               value={contact.location}
               onChange={(e) => {
-                setContact({...contact, location: e.target.value});
-                if (errors.location) setErrors({...errors, location: undefined});
+                setContact({ ...contact, location: e.target.value });
+                if (errors.location)
+                  setErrors({ ...errors, location: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.location ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.location
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+            )}
           </div>
         </div>
         {success && (
@@ -2107,7 +2322,7 @@ function EditContactPage() {
           disabled={loading}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+          {loading ? "Saving..." : success ? "Saved!" : "Save Changes"}
         </button>
       </div>
     </div>
@@ -2123,7 +2338,7 @@ function EditSkillsPage() {
 
   useEffect(() => {
     // Load existing skills from localStorage
-    const skillsData = safeGetFromLocalStorage('studentProfile_skills', null);
+    const skillsData = safeGetFromLocalStorage("studentProfile_skills", null);
     if (skillsData) {
       setSkills(skillsData);
     } else {
@@ -2132,40 +2347,44 @@ function EditSkillsPage() {
   }, []);
 
   const addSkill = () => {
-    if (newSkill.trim() && !skills.includes(newSkill.trim()) && skills.length < 20) {
+    if (
+      newSkill.trim() &&
+      !skills.includes(newSkill.trim()) &&
+      skills.length < 20
+    ) {
       setSkills([...skills, newSkill.trim()]);
       setNewSkill("");
     } else if (skills.length >= 20) {
-      alert('You can only have up to 20 skills');
+      alert("You can only have up to 20 skills");
     } else if (skills.includes(newSkill.trim())) {
-      alert('This skill is already added');
+      alert("This skill is already added");
     }
   };
 
   const removeSkill = (skillToRemove: string) => {
-    setSkills(skills.filter(skill => skill !== skillToRemove));
+    setSkills(skills.filter((skill) => skill !== skillToRemove));
   };
 
   const handleSave = async () => {
     if (skills.length === 0) {
-      alert('Please add at least one skill');
+      alert("Please add at least one skill");
       return;
     }
 
     setLoading(true);
     try {
       // Save to localStorage (in real app, would save to backend)
-      localStorage.setItem('studentProfile_skills', JSON.stringify(skills));
+      localStorage.setItem("studentProfile_skills", JSON.stringify(skills));
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      alert('Failed to save skills. Please try again.');
+      alert("Failed to save skills. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2184,7 +2403,9 @@ function EditSkillsPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Skills</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Your Skills
+        </h3>
 
         <div className="flex flex-wrap gap-2 mb-4">
           {skills.map((skill) => (
@@ -2208,7 +2429,7 @@ function EditSkillsPage() {
             type="text"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && addSkill()}
+            onKeyPress={(e) => e.key === "Enter" && addSkill()}
             placeholder="Add a new skill..."
             className="flex-1 p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             maxLength={50}
@@ -2241,7 +2462,7 @@ function EditSkillsPage() {
           disabled={loading}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+          {loading ? "Saving..." : success ? "Saved!" : "Save Changes"}
         </button>
       </div>
     </div>
@@ -2256,8 +2477,14 @@ function EditAvailabilityPage() {
 
   useEffect(() => {
     // Load existing availability from localStorage
-    const savedAvailability = localStorage.getItem('studentProfile_availability');
-    if (savedAvailability && savedAvailability !== 'undefined' && savedAvailability !== 'null') {
+    const savedAvailability = localStorage.getItem(
+      "studentProfile_availability",
+    );
+    if (
+      savedAvailability &&
+      savedAvailability !== "undefined" &&
+      savedAvailability !== "null"
+    ) {
       setAvailability(savedAvailability);
     } else {
       setAvailability("September 2024");
@@ -2266,24 +2493,24 @@ function EditAvailabilityPage() {
 
   const handleSave = async () => {
     if (!availability.trim()) {
-      alert('Please enter your availability');
+      alert("Please enter your availability");
       return;
     }
 
     setLoading(true);
     try {
       // Save to localStorage (in real app, would save to backend)
-      localStorage.setItem('studentProfile_availability', availability);
+      localStorage.setItem("studentProfile_availability", availability);
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      alert('Failed to save availability. Please try again.');
+      alert("Failed to save availability. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2302,7 +2529,9 @@ function EditAvailabilityPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">When are you available to start?</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          When are you available to start?
+        </h3>
         <input
           type="text"
           value={availability}
@@ -2329,7 +2558,7 @@ function EditAvailabilityPage() {
           disabled={loading}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+          {loading ? "Saving..." : success ? "Saved!" : "Save Changes"}
         </button>
       </div>
     </div>
@@ -2345,11 +2574,13 @@ function ChangePicturePage() {
 
   useEffect(() => {
     // Load existing profile image from localStorage
-    const savedImage = localStorage.getItem('studentProfile_image');
-    if (savedImage && savedImage !== 'undefined' && savedImage !== 'null') {
+    const savedImage = localStorage.getItem("studentProfile_image");
+    if (savedImage && savedImage !== "undefined" && savedImage !== "null") {
       setCurrentImage(savedImage);
     } else {
-      setCurrentImage("https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop");
+      setCurrentImage(
+        "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
+      );
     }
   }, []);
 
@@ -2358,13 +2589,13 @@ function ChangePicturePage() {
     if (file) {
       // Check file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('File size must be less than 5MB');
+        alert("File size must be less than 5MB");
         return;
       }
 
       // Check file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please select an image file');
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file");
         return;
       }
 
@@ -2378,24 +2609,24 @@ function ChangePicturePage() {
 
   const handleSave = async () => {
     if (!selectedImage) {
-      alert('Please select an image first');
+      alert("Please select an image first");
       return;
     }
 
     setLoading(true);
     try {
       // Save to localStorage (in real app, would upload to backend)
-      localStorage.setItem('studentProfile_image', selectedImage);
+      localStorage.setItem("studentProfile_image", selectedImage);
 
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 1500);
     } catch (error) {
-      alert('Failed to save profile picture. Please try again.');
+      alert("Failed to save profile picture. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2414,7 +2645,9 @@ function ChangePicturePage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Picture</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Profile Picture
+        </h3>
 
         <div className="text-center">
           <div className="relative inline-block mb-4">
@@ -2436,7 +2669,7 @@ function ChangePicturePage() {
             htmlFor="image-upload"
             className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all duration-300 inline-block"
           >
-            {selectedImage ? 'Choose Different Picture' : 'Choose New Picture'}
+            {selectedImage ? "Choose Different Picture" : "Choose New Picture"}
           </label>
           <p className="text-sm text-gray-600 mt-2">PNG, JPG up to 5MB</p>
         </div>
@@ -2459,7 +2692,7 @@ function ChangePicturePage() {
           disabled={loading || !selectedImage}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+          {loading ? "Saving..." : success ? "Saved!" : "Save Changes"}
         </button>
       </div>
     </div>
@@ -2472,11 +2705,11 @@ function EditProfileInfoPage() {
     firstName: "Sarah",
     lastName: "Johnson",
     dateOfBirth: "1995-05-15",
-    gender: "Female"
+    gender: "Female",
   });
 
   const handleSave = () => {
-    console.log('Saving profile info:', profileInfo);
+    console.log("Saving profile info:", profileInfo);
     navigate(-1);
   };
 
@@ -2489,44 +2722,64 @@ function EditProfileInfoPage() {
         >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-2xl font-bold text-black">Edit Profile Information</h1>
+        <h1 className="text-2xl font-bold text-black">
+          Edit Profile Information
+        </h1>
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Personal Information</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Personal Information
+        </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">First Name</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              First Name
+            </label>
             <input
               type="text"
               value={profileInfo.firstName}
-              onChange={(e) => setProfileInfo({...profileInfo, firstName: e.target.value})}
+              onChange={(e) =>
+                setProfileInfo({ ...profileInfo, firstName: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Last Name</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Last Name
+            </label>
             <input
               type="text"
               value={profileInfo.lastName}
-              onChange={(e) => setProfileInfo({...profileInfo, lastName: e.target.value})}
+              onChange={(e) =>
+                setProfileInfo({ ...profileInfo, lastName: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Date of Birth</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Date of Birth
+            </label>
             <input
               type="date"
               value={profileInfo.dateOfBirth}
-              onChange={(e) => setProfileInfo({...profileInfo, dateOfBirth: e.target.value})}
+              onChange={(e) =>
+                setProfileInfo({ ...profileInfo, dateOfBirth: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Gender</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Gender
+            </label>
             <select
               value={profileInfo.gender}
-              onChange={(e) => setProfileInfo({...profileInfo, gender: e.target.value})}
+              onChange={(e) =>
+                setProfileInfo({ ...profileInfo, gender: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="Male">Male</option>
@@ -2562,11 +2815,11 @@ function EditSkillsPreferencesPage() {
     industries: ["Technology", "Marketing"],
     jobTypes: ["Apprenticeship", "Graduate Role"],
     workLocations: ["On-site", "Hybrid"],
-    salaryRange: { min: 18000, max: 30000 }
+    salaryRange: { min: 18000, max: 30000 },
   });
 
   const handleSave = () => {
-    console.log('Saving skills and preferences:', preferences);
+    console.log("Saving skills and preferences:", preferences);
     navigate(-1);
   };
 
@@ -2583,24 +2836,39 @@ function EditSkillsPreferencesPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Job Preferences</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Job Preferences
+        </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Preferred Industries</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Preferred Industries
+            </label>
             <div className="flex flex-wrap gap-2">
-              {["Technology", "Marketing", "Finance", "Healthcare", "Education"].map((industry) => (
+              {[
+                "Technology",
+                "Marketing",
+                "Finance",
+                "Healthcare",
+                "Education",
+              ].map((industry) => (
                 <button
                   key={industry}
                   onClick={() => {
-                    const newIndustries = preferences.industries.includes(industry)
-                      ? preferences.industries.filter(i => i !== industry)
+                    const newIndustries = preferences.industries.includes(
+                      industry,
+                    )
+                      ? preferences.industries.filter((i) => i !== industry)
                       : [...preferences.industries, industry];
-                    setPreferences({...preferences, industries: newIndustries});
+                    setPreferences({
+                      ...preferences,
+                      industries: newIndustries,
+                    });
                   }}
                   className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-300 ${
                     preferences.industries.includes(industry)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      ? "bg-blue-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                   }`}
                 >
                   {industry}
@@ -2610,26 +2878,40 @@ function EditSkillsPreferencesPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Salary Range (£)</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Salary Range (£)
+            </label>
             <div className="flex flex-col sm:flex-row gap-2 items-stretch sm:items-center">
               <input
                 type="number"
                 value={preferences.salaryRange.min}
-                onChange={(e) => setPreferences({
-                  ...preferences,
-                  salaryRange: {...preferences.salaryRange, min: parseInt(e.target.value)}
-                })}
+                onChange={(e) =>
+                  setPreferences({
+                    ...preferences,
+                    salaryRange: {
+                      ...preferences.salaryRange,
+                      min: parseInt(e.target.value),
+                    },
+                  })
+                }
                 className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Min"
               />
-              <span className="text-gray-900 text-center sm:text-left text-sm">to</span>
+              <span className="text-gray-900 text-center sm:text-left text-sm">
+                to
+              </span>
               <input
                 type="number"
                 value={preferences.salaryRange.max}
-                onChange={(e) => setPreferences({
-                  ...preferences,
-                  salaryRange: {...preferences.salaryRange, max: parseInt(e.target.value)}
-                })}
+                onChange={(e) =>
+                  setPreferences({
+                    ...preferences,
+                    salaryRange: {
+                      ...preferences.salaryRange,
+                      max: parseInt(e.target.value),
+                    },
+                  })
+                }
                 className="flex-1 p-2 sm:p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                 placeholder="Max"
               />
@@ -2661,7 +2943,7 @@ function ChangePasswordPage() {
   const [passwords, setPasswords] = useState({
     current: "",
     new: "",
-    confirm: ""
+    confirm: "",
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -2671,13 +2953,13 @@ function ChangePasswordPage() {
     const newErrors = {};
 
     if (!passwords.current) {
-      newErrors.current = 'Current password is required';
+      newErrors.current = "Current password is required";
     }
 
     if (!passwords.new) {
-      newErrors.new = 'New password is required';
+      newErrors.new = "New password is required";
     } else if (passwords.new.length < 8) {
-      newErrors.new = 'Password must be at least 8 characters';
+      newErrors.new = "Password must be at least 8 characters";
     }
 
     if (passwords.new !== passwords.confirm) {
@@ -2697,17 +2979,20 @@ function ChangePasswordPage() {
     try {
       // In real app, would validate current password and update
       // For demo, just simulate the API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Store a flag that password was changed
-      localStorage.setItem('studentProfile_passwordChanged', new Date().toISOString());
+      localStorage.setItem(
+        "studentProfile_passwordChanged",
+        new Date().toISOString(),
+      );
 
       setSuccess(true);
       setTimeout(() => {
         navigate(-1);
       }, 2000);
     } catch (error) {
-      alert('Failed to change password. Please try again.');
+      alert("Failed to change password. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2726,52 +3011,74 @@ function ChangePasswordPage() {
       </div>
 
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Password Settings</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">
+          Password Settings
+        </h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Current Password</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Current Password
+            </label>
             <input
               type="password"
               value={passwords.current}
               onChange={(e) => {
-                setPasswords({...passwords, current: e.target.value});
-                if (errors.current) setErrors({...errors, current: undefined});
+                setPasswords({ ...passwords, current: e.target.value });
+                if (errors.current)
+                  setErrors({ ...errors, current: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.current ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.current
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.current && <p className="text-red-500 text-sm mt-1">{errors.current}</p>}
+            {errors.current && (
+              <p className="text-red-500 text-sm mt-1">{errors.current}</p>
+            )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">New Password</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              New Password
+            </label>
             <input
               type="password"
               value={passwords.new}
               onChange={(e) => {
-                setPasswords({...passwords, new: e.target.value});
-                if (errors.new) setErrors({...errors, new: undefined});
+                setPasswords({ ...passwords, new: e.target.value });
+                if (errors.new) setErrors({ ...errors, new: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.new ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.new
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.new && <p className="text-red-500 text-sm mt-1">{errors.new}</p>}
+            {errors.new && (
+              <p className="text-red-500 text-sm mt-1">{errors.new}</p>
+            )}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-900 mb-2">Confirm New Password</label>
+            <label className="block text-sm font-medium text-gray-900 mb-2">
+              Confirm New Password
+            </label>
             <input
               type="password"
               value={passwords.confirm}
               onChange={(e) => {
-                setPasswords({...passwords, confirm: e.target.value});
-                if (errors.confirm) setErrors({...errors, confirm: undefined});
+                setPasswords({ ...passwords, confirm: e.target.value });
+                if (errors.confirm)
+                  setErrors({ ...errors, confirm: undefined });
               }}
               className={`w-full p-3 border rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 ${
-                errors.confirm ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'
+                errors.confirm
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-blue-500"
               }`}
             />
-            {errors.confirm && <p className="text-red-500 text-sm mt-1">{errors.confirm}</p>}
+            {errors.confirm && (
+              <p className="text-red-500 text-sm mt-1">{errors.confirm}</p>
+            )}
           </div>
         </div>
         {success && (
@@ -2793,7 +3100,7 @@ function ChangePasswordPage() {
           disabled={loading}
           className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
         >
-          {loading ? 'Changing...' : success ? 'Changed!' : 'Change Password'}
+          {loading ? "Changing..." : success ? "Changed!" : "Change Password"}
         </button>
       </div>
     </div>
@@ -2804,19 +3111,22 @@ function ChangePasswordPage() {
 function PrivacySettingsPage() {
   const navigate = useNavigate();
   const [settings, setSettings] = useState({
-    profileVisibility: 'public',
+    profileVisibility: "public",
     showLocation: true,
     showEmail: false,
     showPhone: false,
     allowMessages: true,
     allowInterviews: true,
-    dataSharing: false
+    dataSharing: false,
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const settingsData = safeGetFromLocalStorage('studentPrivacy_settings', null);
+    const settingsData = safeGetFromLocalStorage(
+      "studentPrivacy_settings",
+      null,
+    );
     if (settingsData) {
       setSettings(settingsData);
     }
@@ -2825,12 +3135,12 @@ function PrivacySettingsPage() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      localStorage.setItem('studentPrivacy_settings', JSON.stringify(settings));
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      localStorage.setItem("studentPrivacy_settings", JSON.stringify(settings));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
-      alert('Failed to save privacy settings. Please try again.');
+      alert("Failed to save privacy settings. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2839,7 +3149,10 @@ function PrivacySettingsPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Privacy Settings</h1>
@@ -2847,20 +3160,29 @@ function PrivacySettingsPage() {
 
       <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Visibility</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Profile Visibility
+          </h3>
           <div className="space-y-3">
             <label className="flex items-center">
               <input
                 type="radio"
                 name="profileVisibility"
                 value="public"
-                checked={settings.profileVisibility === 'public'}
-                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                checked={settings.profileVisibility === "public"}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    profileVisibility: e.target.value,
+                  })
+                }
                 className="mr-3"
               />
               <div>
                 <span className="font-medium">Public</span>
-                <p className="text-sm text-gray-600">Your profile is visible to all employers</p>
+                <p className="text-sm text-gray-600">
+                  Your profile is visible to all employers
+                </p>
               </div>
             </label>
             <label className="flex items-center">
@@ -2868,13 +3190,20 @@ function PrivacySettingsPage() {
                 type="radio"
                 name="profileVisibility"
                 value="limited"
-                checked={settings.profileVisibility === 'limited'}
-                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                checked={settings.profileVisibility === "limited"}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    profileVisibility: e.target.value,
+                  })
+                }
                 className="mr-3"
               />
               <div>
                 <span className="font-medium">Limited</span>
-                <p className="text-sm text-gray-600">Only matched employers can see your full profile</p>
+                <p className="text-sm text-gray-600">
+                  Only matched employers can see your full profile
+                </p>
               </div>
             </label>
             <label className="flex items-center">
@@ -2882,54 +3211,75 @@ function PrivacySettingsPage() {
                 type="radio"
                 name="profileVisibility"
                 value="private"
-                checked={settings.profileVisibility === 'private'}
-                onChange={(e) => setSettings({...settings, profileVisibility: e.target.value})}
+                checked={settings.profileVisibility === "private"}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    profileVisibility: e.target.value,
+                  })
+                }
                 className="mr-3"
               />
               <div>
                 <span className="font-medium">Private</span>
-                <p className="text-sm text-gray-600">Your profile is hidden from all employers</p>
+                <p className="text-sm text-gray-600">
+                  Your profile is hidden from all employers
+                </p>
               </div>
             </label>
           </div>
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Contact Information
+          </h3>
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Show Location</span>
-                <p className="text-sm text-gray-600">Allow employers to see your location</p>
+                <p className="text-sm text-gray-600">
+                  Allow employers to see your location
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.showLocation}
-                onChange={(e) => setSettings({...settings, showLocation: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, showLocation: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Show Email</span>
-                <p className="text-sm text-gray-600">Allow employers to see your email address</p>
+                <p className="text-sm text-gray-600">
+                  Allow employers to see your email address
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.showEmail}
-                onChange={(e) => setSettings({...settings, showEmail: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, showEmail: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Show Phone</span>
-                <p className="text-sm text-gray-600">Allow employers to see your phone number</p>
+                <p className="text-sm text-gray-600">
+                  Allow employers to see your phone number
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.showPhone}
-                onChange={(e) => setSettings({...settings, showPhone: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, showPhone: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
@@ -2937,29 +3287,42 @@ function PrivacySettingsPage() {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Communication</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Communication
+          </h3>
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Allow Messages</span>
-                <p className="text-sm text-gray-600">Let employers send you messages</p>
+                <p className="text-sm text-gray-600">
+                  Let employers send you messages
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.allowMessages}
-                onChange={(e) => setSettings({...settings, allowMessages: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, allowMessages: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Allow Interview Requests</span>
-                <p className="text-sm text-gray-600">Let employers request interviews</p>
+                <p className="text-sm text-gray-600">
+                  Let employers request interviews
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.allowInterviews}
-                onChange={(e) => setSettings({...settings, allowInterviews: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    allowInterviews: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
@@ -2967,16 +3330,22 @@ function PrivacySettingsPage() {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Data Usage</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Data Usage
+          </h3>
           <label className="flex items-center justify-between">
             <div>
               <span className="font-medium">Data Sharing</span>
-              <p className="text-sm text-gray-600">Allow anonymized data to be used for research</p>
+              <p className="text-sm text-gray-600">
+                Allow anonymized data to be used for research
+              </p>
             </div>
             <input
               type="checkbox"
               checked={settings.dataSharing}
-              onChange={(e) => setSettings({...settings, dataSharing: e.target.checked})}
+              onChange={(e) =>
+                setSettings({ ...settings, dataSharing: e.target.checked })
+              }
               className="ml-3"
             />
           </label>
@@ -3000,7 +3369,7 @@ function PrivacySettingsPage() {
             disabled={loading}
             className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
           >
-            {loading ? 'Saving...' : success ? 'Saved!' : 'Save Settings'}
+            {loading ? "Saving..." : success ? "Saved!" : "Save Settings"}
           </button>
         </div>
       </div>
@@ -3013,13 +3382,20 @@ function TwoFactorAuthPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
-        <h1 className="text-2xl font-bold text-black">Two-Factor Authentication</h1>
+        <h1 className="text-2xl font-bold text-black">
+          Two-Factor Authentication
+        </h1>
       </div>
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <p className="text-gray-900">Two-factor authentication setup will be available soon.</p>
+        <p className="text-gray-900">
+          Two-factor authentication setup will be available soon.
+        </p>
       </div>
     </div>
   );
@@ -3036,13 +3412,16 @@ function NotificationSettingsPage() {
     interviewInvites: true,
     applicationUpdates: true,
     marketingEmails: false,
-    weeklyDigest: true
+    weeklyDigest: true,
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    const notificationData = safeGetFromLocalStorage('studentNotification_settings', null);
+    const notificationData = safeGetFromLocalStorage(
+      "studentNotification_settings",
+      null,
+    );
     if (notificationData) {
       setSettings(notificationData);
     }
@@ -3051,12 +3430,15 @@ function NotificationSettingsPage() {
   const handleSave = async () => {
     setLoading(true);
     try {
-      localStorage.setItem('studentNotification_settings', JSON.stringify(settings));
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      localStorage.setItem(
+        "studentNotification_settings",
+        JSON.stringify(settings),
+      );
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
-      alert('Failed to save notification settings. Please try again.');
+      alert("Failed to save notification settings. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -3065,7 +3447,10 @@ function NotificationSettingsPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Notification Settings</h1>
@@ -3073,41 +3458,64 @@ function NotificationSettingsPage() {
 
       <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Methods</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Notification Methods
+          </h3>
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Push Notifications</span>
-                <p className="text-sm text-gray-600">Receive notifications in the app</p>
+                <p className="text-sm text-gray-600">
+                  Receive notifications in the app
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.pushNotifications}
-                onChange={(e) => setSettings({...settings, pushNotifications: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    pushNotifications: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Email Notifications</span>
-                <p className="text-sm text-gray-600">Receive notifications via email</p>
+                <p className="text-sm text-gray-600">
+                  Receive notifications via email
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.emailNotifications}
-                onChange={(e) => setSettings({...settings, emailNotifications: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    emailNotifications: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">SMS Notifications</span>
-                <p className="text-sm text-gray-600">Receive important updates via text</p>
+                <p className="text-sm text-gray-600">
+                  Receive important updates via text
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.smsNotifications}
-                onChange={(e) => setSettings({...settings, smsNotifications: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    smsNotifications: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
@@ -3115,77 +3523,112 @@ function NotificationSettingsPage() {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notification Types</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Notification Types
+          </h3>
           <div className="space-y-3">
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">New Matches</span>
-                <p className="text-sm text-gray-600">When employers are interested in your profile</p>
+                <p className="text-sm text-gray-600">
+                  When employers are interested in your profile
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.newMatches}
-                onChange={(e) => setSettings({...settings, newMatches: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, newMatches: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">New Messages</span>
-                <p className="text-sm text-gray-600">When employers send you messages</p>
+                <p className="text-sm text-gray-600">
+                  When employers send you messages
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.newMessages}
-                onChange={(e) => setSettings({...settings, newMessages: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, newMessages: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Interview Invites</span>
-                <p className="text-sm text-gray-600">When employers invite you for interviews</p>
+                <p className="text-sm text-gray-600">
+                  When employers invite you for interviews
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.interviewInvites}
-                onChange={(e) => setSettings({...settings, interviewInvites: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    interviewInvites: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Application Updates</span>
-                <p className="text-sm text-gray-600">Updates on your job applications</p>
+                <p className="text-sm text-gray-600">
+                  Updates on your job applications
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.applicationUpdates}
-                onChange={(e) => setSettings({...settings, applicationUpdates: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    applicationUpdates: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Weekly Digest</span>
-                <p className="text-sm text-gray-600">Weekly summary of your activity</p>
+                <p className="text-sm text-gray-600">
+                  Weekly summary of your activity
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.weeklyDigest}
-                onChange={(e) => setSettings({...settings, weeklyDigest: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({ ...settings, weeklyDigest: e.target.checked })
+                }
                 className="ml-3"
               />
             </label>
             <label className="flex items-center justify-between">
               <div>
                 <span className="font-medium">Marketing Emails</span>
-                <p className="text-sm text-gray-600">Tips and career advice emails</p>
+                <p className="text-sm text-gray-600">
+                  Tips and career advice emails
+                </p>
               </div>
               <input
                 type="checkbox"
                 checked={settings.marketingEmails}
-                onChange={(e) => setSettings({...settings, marketingEmails: e.target.checked})}
+                onChange={(e) =>
+                  setSettings({
+                    ...settings,
+                    marketingEmails: e.target.checked,
+                  })
+                }
                 className="ml-3"
               />
             </label>
@@ -3210,7 +3653,7 @@ function NotificationSettingsPage() {
             disabled={loading}
             className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300"
           >
-            {loading ? 'Saving...' : success ? 'Saved!' : 'Save Settings'}
+            {loading ? "Saving..." : success ? "Saved!" : "Save Settings"}
           </button>
         </div>
       </div>
@@ -3223,13 +3666,18 @@ function EmailPreferencesPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Email Preferences</h1>
       </div>
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <p className="text-gray-900">Email preferences configuration will be available soon.</p>
+        <p className="text-gray-900">
+          Email preferences configuration will be available soon.
+        </p>
       </div>
     </div>
   );
@@ -3240,13 +3688,18 @@ function LanguageRegionPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Language & Region</h1>
       </div>
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <p className="text-gray-900">Language and region settings will be available soon.</p>
+        <p className="text-gray-900">
+          Language and region settings will be available soon.
+        </p>
       </div>
     </div>
   );
@@ -3257,13 +3710,18 @@ function DataStoragePage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Data & Storage</h1>
       </div>
       <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-        <p className="text-gray-900">Data and storage management will be available soon.</p>
+        <p className="text-gray-900">
+          Data and storage management will be available soon.
+        </p>
       </div>
     </div>
   );
@@ -3277,21 +3735,35 @@ function DownloadDataPage() {
   const collectUserData = () => {
     const userData = {
       profile: {
-        bio: localStorage.getItem('studentProfile_bio')?.replace(/^(undefined|null)$/, '') || '',
-        contact: safeGetFromLocalStorage('studentProfile_contact', {}),
-        skills: safeGetFromLocalStorage('studentProfile_skills', []),
-        availability: localStorage.getItem('studentProfile_availability')?.replace(/^(undefined|null)$/, '') || '',
-        profileImage: localStorage.getItem('studentProfile_image') ? 'Profile image uploaded' : 'Default image',
+        bio:
+          localStorage
+            .getItem("studentProfile_bio")
+            ?.replace(/^(undefined|null)$/, "") || "",
+        contact: safeGetFromLocalStorage("studentProfile_contact", {}),
+        skills: safeGetFromLocalStorage("studentProfile_skills", []),
+        availability:
+          localStorage
+            .getItem("studentProfile_availability")
+            ?.replace(/^(undefined|null)$/, "") || "",
+        profileImage: localStorage.getItem("studentProfile_image")
+          ? "Profile image uploaded"
+          : "Default image",
       },
       settings: {
-        privacy: safeGetFromLocalStorage('studentPrivacy_settings', {}),
-        notifications: safeGetFromLocalStorage('studentNotification_settings', {}),
+        privacy: safeGetFromLocalStorage("studentPrivacy_settings", {}),
+        notifications: safeGetFromLocalStorage(
+          "studentNotification_settings",
+          {},
+        ),
       },
       metadata: {
-        accountCreated: 'Student account',
-        lastPasswordChange: localStorage.getItem('studentProfile_passwordChanged')?.replace(/^(undefined|null)$/, '') || 'Never',
+        accountCreated: "Student account",
+        lastPasswordChange:
+          localStorage
+            .getItem("studentProfile_passwordChanged")
+            ?.replace(/^(undefined|null)$/, "") || "Never",
         dataExported: new Date().toISOString(),
-      }
+      },
     };
     return userData;
   };
@@ -3300,24 +3772,24 @@ function DownloadDataPage() {
     setLoading(true);
     try {
       // Simulate processing time
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
 
       const userData = collectUserData();
       const dataStr = JSON.stringify(userData, null, 2);
-      const dataBlob = new Blob([dataStr], { type: 'application/json' });
+      const dataBlob = new Blob([dataStr], { type: "application/json" });
 
       const url = URL.createObjectURL(dataBlob);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = url;
-      link.download = `apprenticeapex-data-${new Date().toISOString().split('T')[0]}.json`;
+      link.download = `apprenticeapex-data-${new Date().toISOString().split("T")[0]}.json`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      setDownloadStatus('success');
+      setDownloadStatus("success");
     } catch (error) {
-      setDownloadStatus('error');
+      setDownloadStatus("error");
     } finally {
       setLoading(false);
     }
@@ -3326,7 +3798,10 @@ function DownloadDataPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Download My Data</h1>
@@ -3334,14 +3809,19 @@ function DownloadDataPage() {
 
       <div className="bg-white rounded-xl p-6 border border-gray-200 shadow-sm space-y-6">
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Export Your Data</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Export Your Data
+          </h3>
           <p className="text-gray-600 mb-4">
-            Download a complete copy of your personal data stored with ApprenticeApex. This includes your profile information,
-            settings, and preferences.
+            Download a complete copy of your personal data stored with
+            ApprenticeApex. This includes your profile information, settings,
+            and preferences.
           </p>
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-            <h4 className="font-medium text-blue-900 mb-2">What's included in your data export:</h4>
+            <h4 className="font-medium text-blue-900 mb-2">
+              What's included in your data export:
+            </h4>
             <ul className="text-sm text-blue-800 space-y-1">
               <li>• Profile information (bio, contact details, skills)</li>
               <li>• Privacy and notification settings</li>
@@ -3350,13 +3830,13 @@ function DownloadDataPage() {
             </ul>
           </div>
 
-          {downloadStatus === 'success' && (
+          {downloadStatus === "success" && (
             <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
               Your data has been downloaded successfully!
             </div>
           )}
 
-          {downloadStatus === 'error' && (
+          {downloadStatus === "error" && (
             <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
               Failed to download data. Please try again.
             </div>
@@ -3374,8 +3854,18 @@ function DownloadDataPage() {
               </>
             ) : (
               <>
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                  />
                 </svg>
                 Download My Data
               </>
@@ -3383,7 +3873,8 @@ function DownloadDataPage() {
           </button>
 
           <p className="text-sm text-gray-500 mt-3">
-            The download will be in JSON format and may take a few moments to prepare.
+            The download will be in JSON format and may take a few moments to
+            prepare.
           </p>
         </div>
       </div>
@@ -3396,14 +3887,19 @@ function DeleteAccountPage() {
   return (
     <div className="p-4 space-y-6">
       <div className="flex items-center mb-6">
-        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="p-2 hover:bg-gray-100 rounded-full text-black mr-3"
+        >
           <ArrowLeft className="h-6 w-6" />
         </button>
         <h1 className="text-2xl font-bold text-black">Delete Account</h1>
       </div>
       <div className="bg-red-50 border border-red-200 rounded-xl p-6 shadow-xl">
         <h3 className="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3>
-        <p className="text-red-600 mb-4">Account deletion is permanent and cannot be undone.</p>
+        <p className="text-red-600 mb-4">
+          Account deletion is permanent and cannot be undone.
+        </p>
         <button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300">
           Permanently Delete Account
         </button>
@@ -3434,48 +3930,86 @@ function AccountSettingsPage() {
       <div className="px-6 py-4 space-y-4">
         {/* Profile Settings */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Settings</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Profile Settings
+          </h3>
           <div className="space-y-1">
             <button
-              onClick={() => navigate('/student/edit-profile-info')}
+              onClick={() => navigate("/student/edit-profile-info")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                   <Edit className="h-4 w-4 text-blue-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Edit Profile Information</span>
+                <span className="text-gray-900 font-medium">
+                  Edit Profile Information
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/change-picture')}
+              onClick={() => navigate("/student/change-picture")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
                   <Camera className="h-4 w-4 text-purple-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Change Profile Picture</span>
+                <span className="text-gray-900 font-medium">
+                  Change Profile Picture
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/edit-skills-preferences')}
+              onClick={() => navigate("/student/edit-skills-preferences")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
                   <User className="h-4 w-4 text-green-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Update Skills & Preferences</span>
+                <span className="text-gray-900 font-medium">
+                  Update Skills & Preferences
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -3483,48 +4017,86 @@ function AccountSettingsPage() {
 
         {/* Privacy & Security */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Privacy & Security</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Privacy & Security
+          </h3>
           <div className="space-y-1">
             <button
-              onClick={() => navigate('/student/change-password')}
+              onClick={() => navigate("/student/change-password")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
                   <Lock className="h-4 w-4 text-orange-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Change Password</span>
+                <span className="text-gray-900 font-medium">
+                  Change Password
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/privacy-settings')}
+              onClick={() => navigate("/student/privacy-settings")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-indigo-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Privacy Settings</span>
+                <span className="text-gray-900 font-medium">
+                  Privacy Settings
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/two-factor-auth')}
+              onClick={() => navigate("/student/two-factor-auth")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-teal-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-teal-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Two-Factor Authentication</span>
+                <span className="text-gray-900 font-medium">
+                  Two-Factor Authentication
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -3532,34 +4104,60 @@ function AccountSettingsPage() {
 
         {/* Notifications */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notifications</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Notifications
+          </h3>
           <div className="space-y-1">
             <button
-              onClick={() => navigate('/student/notification-settings')}
+              onClick={() => navigate("/student/notification-settings")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-yellow-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Push Notifications</span>
+                <span className="text-gray-900 font-medium">
+                  Push Notifications
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/email-preferences')}
+              onClick={() => navigate("/student/email-preferences")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-pink-100 rounded-lg flex items-center justify-center mr-3">
                   <Mail className="h-4 w-4 text-pink-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Email Preferences</span>
+                <span className="text-gray-900 font-medium">
+                  Email Preferences
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -3567,34 +4165,60 @@ function AccountSettingsPage() {
 
         {/* App Settings */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">App Settings</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            App Settings
+          </h3>
           <div className="space-y-1">
             <button
-              onClick={() => navigate('/student/language-region')}
+              onClick={() => navigate("/student/language-region")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-cyan-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Language & Region</span>
+                <span className="text-gray-900 font-medium">
+                  Language & Region
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
-              onClick={() => navigate('/student/data-storage')}
+              onClick={() => navigate("/student/data-storage")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-slate-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Data & Storage</span>
+                <span className="text-gray-900 font-medium">
+                  Data & Storage
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -3605,23 +4229,39 @@ function AccountSettingsPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-4">Account</h3>
           <div className="space-y-1">
             <button
-              onClick={() => navigate('/student/download-data')}
+              onClick={() => navigate("/student/download-data")}
               className="w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all duration-200 flex items-center justify-between"
             >
               <div className="flex items-center">
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-blue-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Download My Data</span>
+                <span className="text-gray-900 font-medium">
+                  Download My Data
+                </span>
               </div>
-              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
             <button
               onClick={() => {
-                if(confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
-                  navigate('/student/delete-account');
+                if (
+                  confirm(
+                    "Are you sure you want to delete your account? This action cannot be undone.",
+                  )
+                ) {
+                  navigate("/student/delete-account");
                 }
               }}
               className="w-full text-left p-3 hover:bg-red-50 rounded-lg transition-all duration-200 flex items-center justify-between"
@@ -3632,8 +4272,18 @@ function AccountSettingsPage() {
                 </div>
                 <span className="text-red-600 font-medium">Delete Account</span>
               </div>
-              <svg className="h-4 w-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg
+                className="h-4 w-4 text-red-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 5l7 7-7 7"
+                />
               </svg>
             </button>
           </div>
@@ -3661,19 +4311,40 @@ export default function CandidateApp() {
               <Route path="/matches" element={<MatchesPage />} />
               <Route path="/messages" element={<MessagesPage />} />
               <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/account-settings" element={<AccountSettingsPage />} />
+              <Route
+                path="/account-settings"
+                element={<AccountSettingsPage />}
+              />
               <Route path="/edit-about" element={<EditAboutPage />} />
               <Route path="/edit-contact" element={<EditContactPage />} />
               <Route path="/edit-skills" element={<EditSkillsPage />} />
-              <Route path="/edit-availability" element={<EditAvailabilityPage />} />
+              <Route
+                path="/edit-availability"
+                element={<EditAvailabilityPage />}
+              />
               <Route path="/change-picture" element={<ChangePicturePage />} />
-              <Route path="/edit-profile-info" element={<EditProfileInfoPage />} />
-              <Route path="/edit-skills-preferences" element={<EditSkillsPreferencesPage />} />
+              <Route
+                path="/edit-profile-info"
+                element={<EditProfileInfoPage />}
+              />
+              <Route
+                path="/edit-skills-preferences"
+                element={<EditSkillsPreferencesPage />}
+              />
               <Route path="/change-password" element={<ChangePasswordPage />} />
-              <Route path="/privacy-settings" element={<PrivacySettingsPage />} />
+              <Route
+                path="/privacy-settings"
+                element={<PrivacySettingsPage />}
+              />
               <Route path="/two-factor-auth" element={<TwoFactorAuthPage />} />
-              <Route path="/notification-settings" element={<NotificationSettingsPage />} />
-              <Route path="/email-preferences" element={<EmailPreferencesPage />} />
+              <Route
+                path="/notification-settings"
+                element={<NotificationSettingsPage />}
+              />
+              <Route
+                path="/email-preferences"
+                element={<EmailPreferencesPage />}
+              />
               <Route path="/language-region" element={<LanguageRegionPage />} />
               <Route path="/data-storage" element={<DataStoragePage />} />
               <Route path="/download-data" element={<DownloadDataPage />} />

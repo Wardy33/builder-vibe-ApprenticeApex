@@ -1,5 +1,5 @@
 // Helper functions to interact with Neon database using MCP
-import { neon_run_sql } from '../config/neon';
+import { neon_run_sql } from "../config/neon";
 
 const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || "winter-bread-79671472";
 
@@ -17,7 +17,7 @@ export async function findUserByEmail(email: string) {
         LIMIT 1
       `,
       projectId: NEON_PROJECT_ID,
-      params: [email.toLowerCase()]
+      params: [email.toLowerCase()],
     });
 
     if (result && result.length > 0) {
@@ -36,20 +36,20 @@ export async function findUserByEmail(email: string) {
           canAccessSystemLogs: true,
           canExportData: true,
           canManageAdmins: true,
-          canConfigureSystem: true
+          canConfigureSystem: true,
         },
         login_attempts: user.login_attempts || 0,
         locked_until: user.locked_until,
-        last_login_at: user.last_login_at
+        last_login_at: user.last_login_at,
       };
     }
 
     // Fallback for development - create default admin if not exists
-    if (email.toLowerCase() === 'admin@apprenticeapex.com') {
-      console.log('🔧 Creating default admin user for development...');
+    if (email.toLowerCase() === "admin@apprenticeapex.com") {
+      console.log("🔧 Creating default admin user for development...");
       try {
-        const bcrypt = require('bcryptjs');
-        const hashedPassword = await bcrypt.hash('MasterAdmin2024!', 10);
+        const bcrypt = require("bcryptjs");
+        const hashedPassword = await bcrypt.hash("MasterAdmin2024!", 10);
 
         await neon_run_sql({
           sql: `
@@ -68,28 +68,34 @@ export async function findUserByEmail(email: string) {
               canAccessSystemLogs: true,
               canExportData: true,
               canManageAdmins: true,
-              canConfigureSystem: true
-            })
-          ]
+              canConfigureSystem: true,
+            }),
+          ],
         });
 
         // Retry finding the user
         return await findUserByEmail(email);
       } catch (createError) {
-        console.error('Error creating default admin:', createError);
+        console.error("Error creating default admin:", createError);
       }
     }
 
     return null;
   } catch (error) {
-    console.error('Error finding user:', error);
+    console.error("Error finding user:", error);
     return null;
   }
 }
 
-export async function updateUserLoginAttempts(userId: number, attempts: number, lockUntil?: Date) {
+export async function updateUserLoginAttempts(
+  userId: number,
+  attempts: number,
+  lockUntil?: Date,
+) {
   try {
-    console.log(`Updating login attempts for user ${userId}: ${attempts} attempts`);
+    console.log(
+      `Updating login attempts for user ${userId}: ${attempts} attempts`,
+    );
 
     await neon_run_sql({
       sql: `
@@ -100,12 +106,12 @@ export async function updateUserLoginAttempts(userId: number, attempts: number, 
         WHERE id = $1
       `,
       projectId: NEON_PROJECT_ID,
-      params: [userId, attempts, lockUntil]
+      params: [userId, attempts, lockUntil],
     });
 
     return true;
   } catch (error) {
-    console.error('Error updating login attempts:', error);
+    console.error("Error updating login attempts:", error);
     return false;
   }
 }
@@ -124,12 +130,12 @@ export async function updateUserLastLogin(userId: number) {
         WHERE id = $1
       `,
       projectId: NEON_PROJECT_ID,
-      params: [userId]
+      params: [userId],
     });
 
     return true;
   } catch (error) {
-    console.error('Error updating last login:', error);
+    console.error("Error updating last login:", error);
     return false;
   }
 }
@@ -152,7 +158,7 @@ export async function getDashboardStats() {
 
     const result = await neon_run_sql({
       sql: statsQuery,
-      projectId: NEON_PROJECT_ID
+      projectId: NEON_PROJECT_ID,
     });
 
     if (result && result.length > 0) {
@@ -168,11 +174,11 @@ export async function getDashboardStats() {
       total_job_postings: 12,
       total_interviews: 8,
       active_subscriptions: 15,
-      total_revenue: 2500.00,
-      monthly_revenue: 750.00
+      total_revenue: 2500.0,
+      monthly_revenue: 750.0,
     };
   } catch (error) {
-    console.error('Error getting dashboard stats:', error);
+    console.error("Error getting dashboard stats:", error);
     return {
       total_users: 0,
       total_candidates: 0,
@@ -181,8 +187,8 @@ export async function getDashboardStats() {
       total_job_postings: 0,
       total_interviews: 0,
       active_subscriptions: 0,
-      total_revenue: 0.00,
-      monthly_revenue: 0.00
+      total_revenue: 0.0,
+      monthly_revenue: 0.0,
     };
   }
 }
@@ -202,7 +208,7 @@ export async function getGrowthMetrics() {
 
     const result = await neon_run_sql({
       sql: growthQuery,
-      projectId: NEON_PROJECT_ID
+      projectId: NEON_PROJECT_ID,
     });
 
     if (result && result.length > 0) {
@@ -214,17 +220,17 @@ export async function getGrowthMetrics() {
       users_this_week: 12,
       users_this_month: 38,
       applications_this_week: 8,
-      revenue_this_month: 750.00,
-      subscriptions_this_month: 5
+      revenue_this_month: 750.0,
+      subscriptions_this_month: 5,
     };
   } catch (error) {
-    console.error('Error getting growth metrics:', error);
+    console.error("Error getting growth metrics:", error);
     return {
       users_this_week: 0,
       users_this_month: 0,
       applications_this_week: 0,
-      revenue_this_month: 0.00,
-      subscriptions_this_month: 0
+      revenue_this_month: 0.0,
+      subscriptions_this_month: 0,
     };
   }
 }
@@ -242,7 +248,7 @@ export async function getAIModerationStats() {
 
     const result = await neon_run_sql({
       sql: aiStatsQuery,
-      projectId: NEON_PROJECT_ID
+      projectId: NEON_PROJECT_ID,
     });
 
     if (result && result.length > 0) {
@@ -254,15 +260,15 @@ export async function getAIModerationStats() {
       flags_today: 2,
       pending_reviews: 1,
       companies_flagged: 3,
-      blocked_conversations: 5
+      blocked_conversations: 5,
     };
   } catch (error) {
-    console.error('Error getting AI moderation stats:', error);
+    console.error("Error getting AI moderation stats:", error);
     return {
       flags_today: 0,
       pending_reviews: 0,
       companies_flagged: 0,
-      blocked_conversations: 0
+      blocked_conversations: 0,
     };
   }
 }

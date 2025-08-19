@@ -22,7 +22,7 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
         onClick={onClose}
         aria-hidden="true"
       />
-      
+
       {/* Modal Container - ensures proper centering and prevents cutoff */}
       <div className="fixed inset-0 flex items-center justify-center p-4 min-h-screen">
         {/* Modal Content */}
@@ -57,7 +57,9 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
               className="flex items-center justify-center w-full p-3 sm:p-4 bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
             >
               <User className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
-              <span className="font-semibold text-sm sm:text-base">Candidate Portal</span>
+              <span className="font-semibold text-sm sm:text-base">
+                Candidate Portal
+              </span>
             </Link>
 
             {/* Company Sign In */}
@@ -67,20 +69,26 @@ export function SignInModal({ isOpen, onClose }: SignInModalProps) {
               className="flex items-center justify-center w-full p-3 sm:p-4 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white rounded-xl transition-all duration-200 hover:scale-105 shadow-lg group"
             >
               <Building2 className="h-5 w-5 mr-3 group-hover:scale-110 transition-transform" />
-              <span className="font-semibold text-sm sm:text-base">Company Portal</span>
+              <span className="font-semibold text-sm sm:text-base">
+                Company Portal
+              </span>
             </Link>
           </div>
 
           {/* Divider */}
           <div className="my-4 sm:my-6 flex items-center">
             <div className="flex-1 border-t border-gray-600" />
-            <span className="px-3 sm:px-4 text-gray-400 text-xs sm:text-sm">or</span>
+            <span className="px-3 sm:px-4 text-gray-400 text-xs sm:text-sm">
+              or
+            </span>
             <div className="flex-1 border-t border-gray-600" />
           </div>
 
           {/* Sign Up Links */}
           <div className="text-center">
-            <p className="text-gray-400 text-xs sm:text-sm mb-3">Don't have an account?</p>
+            <p className="text-gray-400 text-xs sm:text-sm mb-3">
+              Don't have an account?
+            </p>
             <div className="flex space-x-2 sm:space-x-3">
               <Link
                 to="/candidate/signup"

@@ -1,5 +1,12 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import {
+  Mail,
+  MapPin,
+  Facebook,
+  Twitter,
+  Linkedin,
+  Instagram,
+} from "lucide-react";
 
 export function WebFooter() {
   return (
@@ -11,26 +18,44 @@ export function WebFooter() {
           <div className="space-y-4">
             <div>
               <span className="text-2xl font-bold">
-                <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">Apprentice</span>
-                <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">Apex</span>
-
+                <span className="bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
+                  Apprentice
+                </span>
+                <span className="bg-gradient-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+                  Apex
+                </span>
               </span>
             </div>
             <p className="text-gray-300 text-sm">
-              Connecting candidates with apprenticeship opportunities through AI-powered matching.
-              Building the future workforce, one apprentice at a time
+              Connecting candidates with apprenticeship opportunities through
+              AI-powered matching. Building the future workforce, one apprentice
+              at a time
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-orange-400 transition-all duration-200 hover:scale-110">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-orange-400 transition-all duration-200 hover:scale-110"
+              >
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:scale-110">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:scale-110"
+              >
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="https://www.linkedin.com/company/apprenticeapex" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-110">
+              <a
+                href="https://www.linkedin.com/company/apprenticeapex"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-400 transition-all duration-200 hover:scale-110"
+              >
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-pink-400 transition-all duration-200 hover:scale-110">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-pink-400 transition-all duration-200 hover:scale-110"
+              >
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -38,20 +63,31 @@ export function WebFooter() {
 
           {/* For Candidates */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Candidates</h3>
+            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">
+              For Candidates
+            </h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/candidate/signup" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/candidate/signup"
+                  className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Sign Up
                 </Link>
               </li>
               <li>
-                <Link to="/candidate/signin" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/candidate/signin"
+                  className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Sign In
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/about"
+                  className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   How It Works
                 </Link>
               </li>
@@ -60,20 +96,31 @@ export function WebFooter() {
 
           {/* For Employers */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-bold">For Employers</h3>
+            <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent font-bold">
+              For Employers
+            </h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/company" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/company"
+                  className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Company Portal
                 </Link>
               </li>
               <li>
-                <Link to="/for-employers" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/for-employers"
+                  className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Post Opportunities
                 </Link>
               </li>
               <li>
-                <Link to="/pricing" className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/pricing"
+                  className="text-gray-300 hover:text-cyan-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Pricing
                 </Link>
               </li>
@@ -82,35 +129,55 @@ export function WebFooter() {
 
           {/* Contact & Legal */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">Contact & Legal</h3>
+            <h3 className="bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent font-bold">
+              Contact & Legal
+            </h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Contact Us
                 </Link>
               </li>
               <li>
-                <Link to="/about" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/about"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   About Us
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/contact"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Support
                 </Link>
               </li>
               <li>
-                <Link to="/privacy-policy" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/privacy-policy"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/terms-of-service" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/terms-of-service"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/cookie-policy" className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link
+                  to="/cookie-policy"
+                  className="text-gray-300 hover:text-purple-400 transition-all duration-200 text-sm hover:scale-105 inline-block"
+                >
                   Cookie Policy
                 </Link>
               </li>
@@ -125,7 +192,9 @@ export function WebFooter() {
               <Mail className="h-6 w-6 text-orange-400" />
               <div>
                 <p className="text-white text-sm font-medium">Email</p>
-                <p className="text-gray-300 text-sm">hello@apprenticeapex.co.uk</p>
+                <p className="text-gray-300 text-sm">
+                  hello@apprenticeapex.co.uk
+                </p>
               </div>
             </div>
           </div>
@@ -138,13 +207,22 @@ export function WebFooter() {
               © 2025 ApprenticeApex. All rights reserved.
             </p>
             <div className="flex space-x-6">
-              <Link to="/acceptable-use" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
+              <Link
+                to="/acceptable-use"
+                className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105"
+              >
                 Accessibility
               </Link>
-              <Link to="/privacy-policy" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
+              <Link
+                to="/privacy-policy"
+                className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105"
+              >
                 Data Protection
               </Link>
-              <Link to="/acceptable-use" className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105">
+              <Link
+                to="/acceptable-use"
+                className="text-gray-300 hover:text-green-400 transition-all duration-200 text-sm hover:scale-105"
+              >
                 Acceptable Use
               </Link>
             </div>

@@ -212,19 +212,28 @@ router.post(
     const isBlocked = conversation.blocked;
     if (isBlocked) {
       return res.status(403).json({
-        error: 'This conversation has been blocked by our protection system',
-        reason: 'Contact information sharing is prohibited to protect candidates',
+        error: "This conversation has been blocked by our protection system",
+        reason:
+          "Contact information sharing is prohibited to protect candidates",
         blocked: true,
-        supportContact: 'admin@apprenticeapex.com'
+        supportContact: "admin@apprenticeapex.com",
       });
     }
 
     // AI analysis of message content for candidate protection
-    console.log('🛡️ AI Protection: Analyzing message for contact information...');
-    const aiAnalysis = await aiModerationService.analyzeMessage(content, userId, conversationId);
+    console.log(
+      "🛡️ AI Protection: Analyzing message for contact information...",
+    );
+    const aiAnalysis = await aiModerationService.analyzeMessage(
+      content,
+      userId,
+      conversationId,
+    );
 
     if (aiAnalysis.shouldBlock) {
-      console.log(`🚨 AI Protection: Message blocked with confidence ${aiAnalysis.confidence}`);
+      console.log(
+        `🚨 AI Protection: Message blocked with confidence ${aiAnalysis.confidence}`,
+      );
 
       // Create blocked message record
       const blockedMessageId = `msg_${Date.now()}_blocked`;
@@ -233,8 +242,8 @@ router.post(
         conversationId,
         senderId: userId,
         receiverId: conversation.participants.find((p) => p !== userId)!,
-        messageType: 'blocked',
-        content: '[MESSAGE BLOCKED - Contact information sharing detected]',
+        messageType: "blocked",
+        content: "[MESSAGE BLOCKED - Contact information sharing detected]",
         originalContent: content,
         flaggedByAI: true,
         aiConfidenceScore: aiAnalysis.confidence,
@@ -249,28 +258,29 @@ router.post(
         blockedMessageId,
         conversationId,
         aiAnalysis.flags,
-        userId
+        userId,
       );
 
       // Mark conversation as blocked in mock data
       const conversationIndex = mockConversations.findIndex(
-        (conv) => conv._id === conversationId
+        (conv) => conv._id === conversationId,
       );
       if (conversationIndex !== -1) {
         mockConversations[conversationIndex].blocked = true;
-        mockConversations[conversationIndex].blockedReason = 'AI detected contact information sharing attempt';
+        mockConversations[conversationIndex].blockedReason =
+          "AI detected contact information sharing attempt";
         mockConversations[conversationIndex].blockedAt = new Date();
         mockConversations[conversationIndex].flaggedForReview = true;
       }
 
       return res.status(403).json({
-        error: 'Message blocked: Contact information sharing detected',
+        error: "Message blocked: Contact information sharing detected",
         message: `Our AI protection system detected an attempt to share contact information. This is prohibited to protect our candidates. Your account may be suspended.`,
         blocked: true,
         confidence: aiAnalysis.confidence,
         riskLevel: aiAnalysis.riskLevel,
         adminNotified: true,
-        supportContact: 'admin@apprenticeapex.com'
+        supportContact: "admin@apprenticeapex.com",
       });
     }
 
@@ -292,7 +302,9 @@ router.post(
       sentAt: new Date(),
     };
 
-    console.log(`✅ AI Protection: Message approved with safety score ${(1 - aiAnalysis.confidence).toFixed(2)}`);
+    console.log(
+      `✅ AI Protection: Message approved with safety score ${(1 - aiAnalysis.confidence).toFixed(2)}`,
+    );
 
     mockMessages.push(newMessage);
 
@@ -328,7 +340,7 @@ router.post(
       },
       aiProtected: true,
       safetyScore: Number((1 - aiAnalysis.confidence).toFixed(2)),
-      status: 'delivered'
+      status: "delivered",
     });
   }),
 );

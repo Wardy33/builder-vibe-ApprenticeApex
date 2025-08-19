@@ -1,13 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  Eye,
-  EyeOff,
-  Mail,
-  Lock,
-  User,
-  CheckCircle,
-} from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, CheckCircle } from "lucide-react";
 import { useAuth, useFormSubmission } from "../hooks/useApi";
 import { LoadingButton } from "../components/ui/loading";
 import { ErrorAlert } from "../components/ui/error-alert";
@@ -41,7 +34,7 @@ function SignUpForm() {
       return await register({
         email: data.email,
         password: data.password,
-        role: 'candidate',
+        role: "candidate",
         firstName: data.firstName,
         lastName: data.lastName,
       });
@@ -52,13 +45,17 @@ function SignUpForm() {
       },
       onError: (errorMessage: string) => {
         // Provide user-friendly error messages
-        if (errorMessage.includes('503')) {
-          console.error('Service temporarily unavailable. Using development mode.');
-        } else if (errorMessage.includes('404')) {
-          console.error('Registration endpoint not found. Please check your network connection.');
+        if (errorMessage.includes("503")) {
+          console.error(
+            "Service temporarily unavailable. Using development mode.",
+          );
+        } else if (errorMessage.includes("404")) {
+          console.error(
+            "Registration endpoint not found. Please check your network connection.",
+          );
         }
-      }
-    }
+      },
+    },
   );
 
   const validateForm = () => {
@@ -117,7 +114,8 @@ function SignUpForm() {
           onClick={() => navigate("/")}
           className="text-xl font-bold text-white hover:scale-105 transition-all duration-200"
         >
-          <span className="text-pink-500">Apprentice</span><span className="text-pink-500">Apex</span>
+          <span className="text-pink-500">Apprentice</span>
+          <span className="text-pink-500">Apex</span>
         </button>
       </header>
 
@@ -289,11 +287,19 @@ function SignUpForm() {
                 />
                 <span className="text-sm text-gray-300">
                   I agree to the{" "}
-                  <Link to="/terms-of-service" className="hover:underline text-orange-400" target="_blank">
+                  <Link
+                    to="/terms-of-service"
+                    className="hover:underline text-orange-400"
+                    target="_blank"
+                  >
                     Terms of Service
                   </Link>{" "}
                   and{" "}
-                  <Link to="/privacy-policy" className="hover:underline text-orange-400" target="_blank">
+                  <Link
+                    to="/privacy-policy"
+                    className="hover:underline text-orange-400"
+                    target="_blank"
+                  >
                     Privacy Policy
                   </Link>
                 </span>
@@ -357,13 +363,13 @@ function SignInForm() {
 
   const { submit, loading, error, clearError } = useFormSubmission(
     async (data: typeof formData) => {
-      return await login(data.email, data.password, 'candidate');
+      return await login(data.email, data.password, "candidate");
     },
     {
       onSuccess: () => {
         navigate("/candidate/home");
-      }
-    }
+      },
+    },
   );
 
   const validateForm = () => {
@@ -405,7 +411,8 @@ function SignInForm() {
           onClick={() => navigate("/")}
           className="text-xl font-bold text-white hover:scale-105 transition-all duration-200"
         >
-          <span className="text-pink-500">Apprentice</span><span className="text-pink-500">Apex</span>
+          <span className="text-pink-500">Apprentice</span>
+          <span className="text-pink-500">Apex</span>
         </button>
       </header>
 
@@ -538,7 +545,7 @@ export { SignUpForm, SignInForm };
 export default function CandidateAuth() {
   // Check URL to determine which form to show
   const path = window.location.pathname;
-  if (path.includes('/signin')) {
+  if (path.includes("/signin")) {
     return <SignInForm />;
   }
   return <SignUpForm />;
