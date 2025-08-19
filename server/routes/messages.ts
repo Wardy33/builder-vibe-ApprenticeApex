@@ -224,7 +224,7 @@ router.post(
     console.log(
       "🛡️ AI Protection: Analyzing message for contact information...",
     );
-    const aiAnalysis = await aiModerationService.analyzeMessage(
+    const aiAnalysis = await aiModeration.analyzeMessage(
       content,
       userId,
       conversationId,
