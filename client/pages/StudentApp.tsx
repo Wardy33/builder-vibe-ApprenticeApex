@@ -1759,7 +1759,7 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
                'ApprenticeApex'}
             </h1>
             <button
-              onClick={() => navigate('/student/account-settings')}
+              onClick={() => navigate('/candidate/account-settings')}
               className="p-2 hover:bg-gray-100 rounded-xl text-gray-700 transition-colors"
             >
               <Settings className="h-5 w-5" />
