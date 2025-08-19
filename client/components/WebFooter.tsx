@@ -17,7 +17,7 @@ export function WebFooter() {
               </span>
             </div>
             <p className="text-gray-300 text-sm">
-              Connecting students with apprenticeship opportunities through AI-powered matching.
+              Connecting candidates with apprenticeship opportunities through AI-powered matching.
               Building the future workforce, one apprentice at a time
             </p>
             <div className="flex space-x-4">
@@ -36,17 +36,17 @@ export function WebFooter() {
             </div>
           </div>
 
-          {/* For Students */}
+          {/* For Candidates */}
           <div className="space-y-4">
-            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Students</h3>
+            <h3 className="bg-gradient-to-r from-orange-400 to-pink-500 bg-clip-text text-transparent font-bold">For Candidates</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/student/signup" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link to="/candidate/signup" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Sign Up
                 </Link>
               </li>
               <li>
-                <Link to="/student/signin" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
+                <Link to="/candidate/signin" className="text-gray-300 hover:text-orange-400 transition-all duration-200 text-sm hover:scale-105 inline-block">
                   Sign In
                 </Link>
               </li>
