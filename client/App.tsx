@@ -163,7 +163,7 @@ function App() {
           }
         />
         <Route
-          path="/student/signup"
+          path="/candidate/signup"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Candidate signup" />}>
               <CandidateAuth />
@@ -171,7 +171,7 @@ function App() {
           }
         />
         <Route
-          path="/student/signin"
+          path="/candidate/signin"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Candidate signin" />}>
               <CandidateAuth />
@@ -179,7 +179,7 @@ function App() {
           }
         />
         <Route
-          path="/student/setup-profile"
+          path="/candidate/setup-profile"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Profile setup" />}>
               <CandidateProfileSetup />
@@ -187,7 +187,7 @@ function App() {
           }
         />
         <Route
-          path="/student/*"
+          path="/candidate/*"
           element={
             <Suspense fallback={<LoadingFallback ariaLabel="Candidate portal" />}>
               <CandidateApp />
