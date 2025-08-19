@@ -65,7 +65,7 @@ export default function Contact() {
             Get in <span className="bg-gradient-to-r from-blue-400 via-pink-500 to-orange-500 bg-clip-text text-transparent">Touch</span>
           </h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto font-medium">
-            We're here to help you succeed. Whether you're a student looking for guidance
+            We're here to help you succeed. Whether you're a candidate looking for guidance
             or an employer seeking the perfect apprentices, we'd love to hear from you
           </p>
         </div>
@@ -111,7 +111,7 @@ export default function Contact() {
                 <div className="flex items-center space-x-3">
                   <Users className="h-5 w-5 text-orange-400" />
                   <div>
-                    <p className="font-medium text-white text-sm">For Students</p>
+                    <p className="font-medium text-white text-sm">For Candidates</p>
                     <p className="text-gray-300 text-xs">Account help, profile setup, applications</p>
                   </div>
                 </div>
@@ -150,7 +150,7 @@ export default function Contact() {
                   <button
                     onClick={() => {
                       setIsSubmitted(false);
-                      setFormData({ name: "", email: "", subject: "", message: "", userType: "student" });
+                      setFormData({ name: "", email: "", subject: "", message: "", userType: "candidate" });
                     }}
                     className="bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-xl font-bold transition-all duration-200 hover:scale-105 shadow-lg"
                   >
@@ -169,12 +169,12 @@ export default function Contact() {
                         <input
                           type="radio"
                           name="userType"
-                          value="student"
-                          checked={formData.userType === "student"}
+                          value="candidate"
+                          checked={formData.userType === "candidate"}
                           onChange={(e) => handleInputChange("userType", e.target.value)}
                           className="text-orange-500 border-gray-300 focus:ring-orange-500 bg-white"
                         />
-                        <span className="text-gray-300">Student</span>
+                        <span className="text-gray-300">Candidate</span>
                       </label>
                       <label className="flex items-center space-x-2 cursor-pointer">
                         <input
@@ -271,16 +271,16 @@ export default function Contact() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">How do I create a student account?</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">How do I create a candidate account?</h3>
                 <p className="text-gray-300 text-sm">
-                  Simply click "Sign Up" and choose "Student Account". You'll need to provide basic information
+                  Simply click "Sign Up" and choose "Candidate Account". You'll need to provide basic information
                   and can complete your profile at your own pace.
                 </p>
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-white mb-2">Is ApprenticeApex free for students?</h3>
+                <h3 className="text-lg font-semibold text-white mb-2">Is ApprenticeApex free for candidates?</h3>
                 <p className="text-gray-300 text-sm">
-                  Yes! Our core matching and application services are completely free for students.
+                  Yes! Our core matching and application services are completely free for candidates.
                   We believe in removing barriers to career opportunities.
                 </p>
               </div>
