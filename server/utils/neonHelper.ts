@@ -48,8 +48,8 @@ export async function findUserByEmail(email: string) {
     if (email.toLowerCase() === "admin@apprenticeapex.com") {
       console.log("🔧 Creating default admin user for development...");
       try {
-        const bcrypt = require("bcryptjs");
-        const hashedPassword = await bcrypt.hash("MasterAdmin2024!", 10);
+        const { hashPassword } = await import("../services/securePasswordService");
+        const hashedPassword = await hashPassword("MasterAdmin2024!", true); // Admin account with high security
 
         await neon_run_sql({
           sql: `
