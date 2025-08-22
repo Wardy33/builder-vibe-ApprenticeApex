@@ -41,23 +41,53 @@ export function authenticateToken(
   }
 
   try {
-    const env = getEnvConfig();
-    const decoded = jwt.verify(token, env.JWT_SECRET) as JWTPayload;
+    // Use secure JWT verification with blacklist checking
+    const decoded = verifyTokenNotBlacklisted(token);
 
     req.user = {
       userId: decoded.userId,
       role: decoded.role,
       email: decoded.email,
-      isMasterAdmin: decoded.isMasterAdmin,
-      adminPermissions: decoded.adminPermissions,
+      sessionId: decoded.sessionId,
+      permissions: decoded.permissions,
+      isMasterAdmin: decoded.role === 'master_admin',
+      // Map permissions for backward compatibility
+      adminPermissions: decoded.permissions ? {
+        canViewAllUsers: decoded.permissions.includes('view_users'),
+        canViewFinancials: decoded.permissions.includes('view_financials'),
+        canModerateContent: decoded.permissions.includes('moderate_content'),
+        canAccessSystemLogs: decoded.permissions.includes('access_logs'),
+        canExportData: decoded.permissions.includes('export_data'),
+        canManageAdmins: decoded.permissions.includes('manage_admins'),
+        canConfigureSystem: decoded.permissions.includes('configure_system'),
+      } : undefined,
     };
 
     next();
   } catch (error) {
     console.warn(`🚨 Invalid token attempt from IP: ${req.ip}`);
+    console.warn(`🚨 Token error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+
+    // Provide specific error messages for different token issues
+    let errorCode = "INVALID_TOKEN";
+    let errorMessage = "Invalid or expired token";
+
+    if (error instanceof Error) {
+      if (error.message.includes('expired')) {
+        errorCode = "TOKEN_EXPIRED";
+        errorMessage = "Authentication token expired";
+      } else if (error.message.includes('revoked')) {
+        errorCode = "TOKEN_REVOKED";
+        errorMessage = "Authentication token revoked";
+      } else if (error.message.includes('Invalid')) {
+        errorCode = "INVALID_TOKEN";
+        errorMessage = "Invalid authentication token";
+      }
+    }
+
     res.status(403).json({
-      error: "Invalid or expired token",
-      code: "INVALID_TOKEN"
+      error: errorMessage,
+      code: errorCode
     });
     return;
   }
