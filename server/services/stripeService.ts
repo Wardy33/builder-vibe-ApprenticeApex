@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { getEnvConfig } from '../config/env';
+import { getSecureEnvConfig } from '../config/secureEnv';
 import { User } from '../models/User';
 import { Payment } from '../models/Payment';
 import { Subscription } from '../models/Subscription';
@@ -572,7 +572,7 @@ export class StripeService {
       }
 
     } catch (error) {
-      console.error('❌ Webhook processing failed:', error);
+      console.error('��� Webhook processing failed:', error);
       throw error;
     }
   }
