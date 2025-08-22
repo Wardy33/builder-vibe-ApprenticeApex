@@ -24,8 +24,8 @@ export async function neon_run_sql(params: NeonQueryParams): Promise<any[]> {
     ) {
       // User lookup query
       if (params.params && params.params[0] === "admin@apprenticeapex.com") {
-        const bcrypt = require("bcryptjs");
-        const hashedPassword = bcrypt.hashSync("MasterAdmin2024!", 10);
+        const { hashPassword } = require("../services/securePasswordService");
+        const hashedPassword = await hashPassword("MasterAdmin2024!", true); // Admin account with high security
 
         return [
           {
