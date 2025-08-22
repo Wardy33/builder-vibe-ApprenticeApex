@@ -93,7 +93,7 @@ export function authenticateToken(
   }
 }
 
-export function requireRole(roles: Array<'candidate' | 'company' | 'admin' | 'master_admin'>) {
+export function requireRole(roles: Array<'student' | 'company' | 'admin' | 'master_admin'>) {
   return (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
     if (!req.user) {
       res.status(401).json({
@@ -103,7 +103,11 @@ export function requireRole(roles: Array<'candidate' | 'company' | 'admin' | 'ma
       return;
     }
 
-    if (!roles.includes(req.user.role)) {
+    // Support both 'candidate' and 'student' for backward compatibility
+    const userRole = req.user.role === 'candidate' ? 'student' : req.user.role;
+    const compatibleRoles = roles.map(role => role === 'student' ? ['student', 'candidate'] : [role]).flat();
+
+    if (!compatibleRoles.includes(userRole as any)) {
       console.warn(`🚨 Unauthorized access attempt: ${req.user.email} (${req.user.role}) tried to access ${req.path}`);
       res.status(403).json({
         error: "Insufficient permissions for this action",
@@ -118,12 +122,21 @@ export function requireRole(roles: Array<'candidate' | 'company' | 'admin' | 'ma
   };
 }
 
+export function requireStudentRole(
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+): void {
+  requireRole(["student"])(req, res, next);
+}
+
+// Backward compatibility
 export function requireCandidateRole(
   req: AuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ): void {
-  requireRole(["candidate"])(req, res, next);
+  requireRole(["student"])(req, res, next);
 }
 
 export function requireCompanyRole(
