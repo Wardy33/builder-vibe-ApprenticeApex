@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyTokenNotBlacklisted, type JWTPayload } from "../services/secureJWTService";
 
-// Define user types
+// Define user types (updated to match secure JWT service)
 export interface User {
   userId: string;
-  role: 'candidate' | 'company' | 'admin' | 'master_admin';
+  role: 'student' | 'company' | 'admin' | 'master_admin';
   email: string;
+  sessionId?: string;
+  permissions?: string[];
   isMasterAdmin?: boolean;
   adminPermissions?: {
     canViewAllUsers: boolean;
@@ -20,17 +22,6 @@ export interface User {
 
 export interface AuthenticatedRequest extends Request {
   user?: User;
-}
-
-// JWT payload interface
-interface JWTPayload {
-  userId: string;
-  role: 'candidate' | 'company' | 'admin' | 'master_admin';
-  email: string;
-  isMasterAdmin?: boolean;
-  adminPermissions?: any;
-  iat: number;
-  exp: number;
 }
 
 export function authenticateToken(
