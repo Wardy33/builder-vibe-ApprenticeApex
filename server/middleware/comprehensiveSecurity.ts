@@ -287,7 +287,7 @@ export class ComprehensiveSecurityMiddleware {
   // Suspicious activity detection
   static suspiciousActivityDetection() {
     const suspiciousPatterns = [
-      /(\.\./.*){3,}/, // Path traversal attempts
+      /(\.\.\/.*){3,}/, // Path traversal attempts
       /<script|javascript:/i, // XSS attempts
       /(union|select|insert|update|delete|drop|create|alter|exec|execute)/i, // SQL injection
       /\b(eval|document\.cookie|window\.location)/i, // JavaScript injection
