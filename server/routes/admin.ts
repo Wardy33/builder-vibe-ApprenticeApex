@@ -216,8 +216,9 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
       });
     }
 
-    // Hash password before storing
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password before storing - using secure password service for admin account
+    const { hashPassword } = await import('../services/securePasswordService');
+    const hashedPassword = await hashPassword(password, true); // true = admin account (higher security)
 
     // Create master admin account in Neon
     const newAdmin = await executeNeonQuery(`
