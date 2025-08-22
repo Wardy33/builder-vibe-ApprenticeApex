@@ -106,26 +106,51 @@ export class StripeService {
   public static readonly SUCCESS_FEE_PERCENTAGE = 0.12; // 12%
 
   private constructor() {
-    const env = getEnvConfig();
-    
+    const env = getSecureEnvConfig();
+
+    // Validate Stripe configuration
     if (!env.STRIPE_SECRET_KEY) {
       throw new Error('STRIPE_SECRET_KEY is required for payment processing');
     }
 
+    // Production security validation
+    if (env.NODE_ENV === 'production') {
+      if (!env.STRIPE_SECRET_KEY.startsWith('sk_live_')) {
+        throw new Error('Production requires live Stripe secret key (sk_live_...)');
+      }
+      if (!env.STRIPE_PUBLISHABLE_KEY?.startsWith('pk_live_')) {
+        throw new Error('Production requires live Stripe publishable key (pk_live_...)');
+      }
+      if (!env.STRIPE_WEBHOOK_SECRET?.startsWith('whsec_')) {
+        throw new Error('Production requires valid Stripe webhook secret (whsec_...)');
+      }
+    } else {
+      // Development validation
+      if (!env.STRIPE_SECRET_KEY.startsWith('sk_test_') && !env.STRIPE_SECRET_KEY.startsWith('sk_live_')) {
+        throw new Error('Invalid Stripe secret key format');
+      }
+    }
+
     this.config = {
       secretKey: env.STRIPE_SECRET_KEY,
-      publishableKey: env.STRIPE_PUBLISHABLE_KEY,
-      webhookSecret: env.STRIPE_WEBHOOK_SECRET
+      publishableKey: env.STRIPE_PUBLISHABLE_KEY || '',
+      webhookSecret: env.STRIPE_WEBHOOK_SECRET || ''
     };
 
     this.stripe = new Stripe(this.config.secretKey, {
       apiVersion: '2023-10-16',
       timeout: 10000, // 10 second timeout
       maxNetworkRetries: 3,
-      telemetry: false // Disable telemetry for privacy
+      telemetry: false, // Disable telemetry for privacy
+      appInfo: {
+        name: 'ApprenticeApex',
+        version: '1.0.0',
+        url: env.FRONTEND_URL
+      }
     });
 
-    console.log('✅ Stripe service initialized successfully');
+    console.log(`✅ Stripe service initialized successfully (${env.NODE_ENV} mode)`);
+    console.log(`🔐 Using ${env.STRIPE_SECRET_KEY.startsWith('sk_live_') ? 'LIVE' : 'TEST'} Stripe keys`);
   }
 
   public static getInstance(): StripeService {
@@ -572,7 +597,7 @@ export class StripeService {
       }
 
     } catch (error) {
-      console.error('��� Webhook processing failed:', error);
+      console.error('❌ Webhook processing failed:', error);
       throw error;
     }
   }
