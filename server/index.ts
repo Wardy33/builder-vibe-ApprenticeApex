@@ -25,6 +25,7 @@ import {
 
 // Import environment validation
 import { validateEnv, getEnvConfig } from "./config/env";
+import { SecurityStartupValidator } from "./security/startupValidation";
 
 // Import routes
 import { handleDemo } from "./routes/demo";
