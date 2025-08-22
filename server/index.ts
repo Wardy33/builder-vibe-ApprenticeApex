@@ -366,17 +366,18 @@ export function verifyToken(token: string): {
   };
 }
 
-// Password utilities
+// Password utilities - using secure password service
+import { hashPassword as secureHashPassword, verifyPassword as secureVerifyPassword } from './services/securePasswordService';
+
 export async function hashPassword(password: string): Promise<string> {
-  const saltRounds = 12;
-  return bcrypt.hash(password, saltRounds);
+  return secureHashPassword(password);
 }
 
 export async function comparePassword(
   password: string,
   hashedPassword: string,
 ): Promise<boolean> {
-  return bcrypt.compare(password, hashedPassword);
+  return secureVerifyPassword(password, hashedPassword);
 }
 
 // Export createServer function for serverless deployment
