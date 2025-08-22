@@ -1,6 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
-import { getEnvConfig } from "../config/env";
+import { verifyTokenNotBlacklisted, type JWTPayload } from "../services/secureJWTService";
 
 // Define user types
 export interface User {
