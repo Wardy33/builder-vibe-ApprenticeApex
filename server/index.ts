@@ -342,28 +342,23 @@ export const config = {
   },
 };
 
+// JWT utilities - using secure JWT service
+import {
+  generateToken as secureGenerateToken,
+  verifyToken as secureVerifyToken,
+  type JWTPayload
+} from './services/secureJWTService';
+
 export function generateToken(
   userId: string,
-  role: "student" | "company" | "admin",
+  role: "student" | "company" | "admin" | "master_admin",
   email: string,
 ): string {
-  return jwt.sign({ userId, role, email }, env.JWT_SECRET, { expiresIn: "7d" });
+  return secureGenerateToken({ userId, role, email });
 }
 
-export function verifyToken(token: string): {
-  userId: string;
-  role: string;
-  email: string;
-  iat: number;
-  exp: number;
-} {
-  return jwt.verify(token, env.JWT_SECRET) as {
-    userId: string;
-    role: string;
-    email: string;
-    iat: number;
-    exp: number;
-  };
+export function verifyToken(token: string): JWTPayload {
+  return secureVerifyToken(token);
 }
 
 // Password utilities - using secure password service
