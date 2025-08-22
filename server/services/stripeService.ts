@@ -559,8 +559,22 @@ export class StripeService {
   // Webhook Event Processing
   public async processWebhookEvent(body: Buffer, signature: string): Promise<void> {
     try {
+      // Security validations
       if (!this.config.webhookSecret) {
-        throw new Error('Webhook secret not configured');
+        throw new Error('Webhook secret not configured - cannot verify webhook authenticity');
+      }
+
+      if (!signature) {
+        throw new Error('Webhook signature missing - potential security threat');
+      }
+
+      if (!body || body.length === 0) {
+        throw new Error('Webhook body empty - invalid request');
+      }
+
+      // Additional security: validate signature format
+      if (!signature.startsWith('t=') || !signature.includes('v1=')) {
+        throw new Error('Invalid webhook signature format');
       }
 
       const event = this.stripe.webhooks.constructEvent(
