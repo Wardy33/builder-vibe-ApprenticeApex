@@ -518,6 +518,18 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       console.log('🔌 Port:', PORT);
       console.log('🗄️  MongoDB URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
 
+      // CRITICAL: Run comprehensive security validation before starting
+      console.log('🛡️  Running security validation...');
+      const securityResult = await SecurityStartupValidator.validateSecurityOnStartup();
+
+      if (!securityResult.passed) {
+        console.error('🚨 DEPLOYMENT BLOCKED: Critical security vulnerabilities detected');
+        console.error('🚨 Server startup aborted for security reasons');
+        process.exit(1);
+      }
+
+      console.log('✅ Security validation passed - server startup authorized');
+
       // Create Express app with better error handling
       const { app, httpServer } = createApp();
 
