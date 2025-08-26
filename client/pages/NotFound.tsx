@@ -12,30 +12,55 @@ const NotFound = () => {
     routeMonitor.logError(location.pathname);
   }, [location.pathname]);
 
-  // Suggest similar routes based on the attempted path
+  // Get suggestions from route monitor and convert to UI format
   const getSuggestions = (path: string) => {
+    const monitorSuggestions = routeMonitor.getSuggestions(path);
     const suggestions = [];
 
-    if (path.toLowerCase().includes('company') || path.toLowerCase().includes('employer')) {
-      suggestions.push(
-        { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
-        { to: '/company/signup', label: 'Company Sign Up', icon: Building2 },
-        { to: '/for-employers', label: 'For Employers', icon: Building2 }
-      );
-    }
+    // Convert monitor suggestions to UI format
+    monitorSuggestions.forEach(route => {
+      if (route.includes('/company')) {
+        if (route.includes('signin')) {
+          suggestions.push({ to: route, label: 'Company Sign In', icon: Building2 });
+        } else if (route.includes('signup')) {
+          suggestions.push({ to: route, label: 'Company Sign Up', icon: Building2 });
+        } else {
+          suggestions.push({ to: route, label: 'Company Portal', icon: Building2 });
+        }
+      } else if (route.includes('/candidate')) {
+        if (route.includes('signin')) {
+          suggestions.push({ to: route, label: 'Candidate Sign In', icon: User });
+        } else if (route.includes('signup')) {
+          suggestions.push({ to: route, label: 'Candidate Sign Up', icon: User });
+        } else {
+          suggestions.push({ to: route, label: 'Candidate Portal', icon: User });
+        }
+      }
+    });
 
-    if (path.toLowerCase().includes('candidate') || path.toLowerCase().includes('student')) {
-      suggestions.push(
-        { to: '/candidate/signin', label: 'Candidate Sign In', icon: User },
-        { to: '/candidate/signup', label: 'Candidate Sign Up', icon: User }
-      );
-    }
+    // Fallback suggestions if no monitor suggestions
+    if (suggestions.length === 0) {
+      if (path.toLowerCase().includes('company') || path.toLowerCase().includes('employer')) {
+        suggestions.push(
+          { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
+          { to: '/company/signup', label: 'Company Sign Up', icon: Building2 },
+          { to: '/for-employers', label: 'For Employers', icon: Building2 }
+        );
+      }
 
-    if (path.toLowerCase().includes('auth') && !suggestions.length) {
-      suggestions.push(
-        { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
-        { to: '/candidate/signin', label: 'Candidate Sign In', icon: User }
-      );
+      if (path.toLowerCase().includes('candidate') || path.toLowerCase().includes('student')) {
+        suggestions.push(
+          { to: '/candidate/signin', label: 'Candidate Sign In', icon: User },
+          { to: '/candidate/signup', label: 'Candidate Sign Up', icon: User }
+        );
+      }
+
+      if (path.toLowerCase().includes('auth') && suggestions.length === 0) {
+        suggestions.push(
+          { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
+          { to: '/candidate/signin', label: 'Candidate Sign In', icon: User }
+        );
+      }
     }
 
     return suggestions;
