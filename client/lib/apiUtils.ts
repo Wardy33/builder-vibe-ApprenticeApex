@@ -353,7 +353,7 @@ class ApiClient {
 
   // Company methods
   async getMyListings(): Promise<ApiResponse<any>> {
-    return this.makeRequest('/api/apprenticeships/my-listings', {
+    return this.makeRequest('/api/apprenticeships/company/my', {
       timeout: 15000,
     });
   }
