@@ -12,6 +12,7 @@ import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
 import messagingRoutes from "./routes/messaging";
+import apprenticeshipsRoutes from "./routes/apprenticeships";
 
 dotenv.config();
 
@@ -262,7 +263,7 @@ async function startSimpleServer() {
     app.use("/api/admin", adminRoutes);
     console.log('✅ Admin routes mounted successfully at /api/admin');
 
-    console.log('🔧 Mounting messaging routes at /api/messaging...');
+    console.log('���� Mounting messaging routes at /api/messaging...');
     app.use("/api/messaging", messagingRoutes);
     console.log('✅ Messaging routes with AI moderation mounted successfully at /api/messaging');
 
