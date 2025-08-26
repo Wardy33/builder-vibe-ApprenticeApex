@@ -3,12 +3,12 @@ import { Link, useSearchParams } from "react-router-dom";
 import { 
   Search, 
   MapPin, 
-  Clock, 
-  RefreshCw,
-  AlertCircle,
-  Database,
+  ArrowRight,
   User,
-  ArrowRight
+  Mail,
+  Briefcase,
+  Clock,
+  Calendar
 } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
 import { SEOHead } from "../components/SEOHead";
@@ -69,10 +69,7 @@ export default function SearchJobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lastApiCall, setLastApiCall] = useState<string>("");
-  const [apiDataSource, setApiDataSource] = useState<string>("");
   const [totalJobs, setTotalJobs] = useState<number>(0);
-  const [refreshCount, setRefreshCount] = useState<number>(0);
 
   // Search filters
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
@@ -84,67 +81,20 @@ export default function SearchJobs() {
   const [categories, setCategories] = useState<string[]>([]);
   const [locations, setLocations] = useState<string[]>([]);
 
-  const clearAllCaches = async () => {
-    console.log("🧹 EMERGENCY CACHE CLEAR - Starting comprehensive cache clearing...");
-    
-    // Clear service worker caches
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'CLEAR_ALL_CACHES'
-      });
-      console.log("🧹 Service worker cache clear message sent");
-    }
-
-    // Clear all browser caches
-    if ('caches' in window) {
-      try {
-        const cacheNames = await caches.keys();
-        console.log("🧹 Found caches:", cacheNames);
-        
-        for (const cacheName of cacheNames) {
-          await caches.delete(cacheName);
-          console.log("🧹 Deleted cache:", cacheName);
-        }
-      } catch (error) {
-        console.error("🧹 Error clearing caches:", error);
-      }
-    }
-
-    // Clear local storage
-    try {
-      localStorage.clear();
-      console.log("🧹 Local storage cleared");
-    } catch (error) {
-      console.error("🧹 Error clearing local storage:", error);
-    }
-
-    // Clear session storage
-    try {
-      sessionStorage.clear();
-      console.log("🧹 Session storage cleared");
-    } catch (error) {
-      console.error("🧹 Error clearing session storage:", error);
-    }
-
-    console.log("🧹 EMERGENCY CACHE CLEAR - Complete!");
-  };
+  // Email subscription state
+  const [email, setEmail] = useState("");
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
 
   const fetchJobsFromAPI = async () => {
-    console.log("🚀 STARTING FRESH API CALL - NO CACHED DATA ALLOWED");
-    
     try {
       setLoading(true);
       setError(null);
-      
-      const timestamp = new Date().toISOString();
-      setLastApiCall(timestamp);
       
       // Build query parameters
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: "12",
-        _cache_bust: Date.now().toString(), // Force cache busting
-        _refresh: refreshCount.toString()
+        _cache_bust: Date.now().toString(),
       });
 
       if (searchTerm && searchTerm !== "") {
@@ -158,33 +108,23 @@ export default function SearchJobs() {
       }
 
       const apiUrl = `/api/apprenticeships/public?${params.toString()}`;
-      console.log("📡 API URL:", apiUrl);
-      console.log("📡 API Call Timestamp:", timestamp);
 
-      // Make the API call with aggressive no-cache headers
+      // Make the API call with no-cache headers
       const response = await fetch(apiUrl, {
         method: 'GET',
-        cache: 'no-store', // Never use cache
+        cache: 'no-store',
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
           'Pragma': 'no-cache',
           'Expires': '0',
-          'If-None-Match': '', // Prevent ETag caching
-          'If-Modified-Since': '', // Prevent Last-Modified caching
         }
       });
 
-      console.log("📡 Response Status:", response.status);
-      console.log("📡 Response Headers:", Object.fromEntries(response.headers.entries()));
-
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("❌ API Error Response:", errorText);
-        throw new Error(`API Error ${response.status}: ${errorText}`);
+        throw new Error(`API Error ${response.status}`);
       }
 
       const responseData: ApiResponse = await response.json();
-      console.log("📊 FULL API RESPONSE:", JSON.stringify(responseData, null, 2));
 
       if (responseData.success) {
         const jobsFromAPI = responseData.data.jobs || [];
@@ -192,57 +132,31 @@ export default function SearchJobs() {
         const categoriesFromAPI = responseData.data.filters?.categories || [];
         const locationsFromAPI = responseData.data.filters?.locations || [];
 
-        console.log("✅ SUCCESS - Jobs received from API:", jobsFromAPI.length);
-        console.log("✅ Total jobs in database:", totalFromAPI);
-        console.log("✅ Categories available:", categoriesFromAPI);
-        console.log("✅ Locations available:", locationsFromAPI);
-
-        // Set all data from API
         setJobs(jobsFromAPI);
         setTotalJobs(totalFromAPI);
         setCategories(categoriesFromAPI);
         setLocations(locationsFromAPI);
-        setApiDataSource("LIVE API - SUCCESS");
         setError(null);
 
       } else {
-        console.error("❌ API returned success: false");
-        console.error("❌ API message:", responseData.message);
         setError(`API Error: ${responseData.message || 'Unknown error'}`);
-        setApiDataSource("LIVE API - ERROR");
         setJobs([]);
         setTotalJobs(0);
       }
 
     } catch (fetchError) {
-      console.error("💥 FETCH ERROR:", fetchError);
       setError(`Network Error: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}`);
-      setApiDataSource("LIVE API - NETWORK ERROR");
       setJobs([]);
       setTotalJobs(0);
     } finally {
       setLoading(false);
-      console.log("🏁 API call completed at:", new Date().toISOString());
     }
   };
 
-  // Manual refresh function
-  const handleManualRefresh = async () => {
-    console.log("🔄 MANUAL REFRESH TRIGGERED");
-    setRefreshCount(prev => prev + 1);
-    await clearAllCaches();
-    await fetchJobsFromAPI();
-  };
-
-  // Initial load - clear caches and fetch fresh data
+  // Initial load
   useEffect(() => {
-    console.log("🚀 COMPONENT MOUNTED - EMERGENCY FRESH START");
-    const initializeData = async () => {
-      await clearAllCaches();
-      await fetchJobsFromAPI();
-    };
-    initializeData();
-  }, []); // Only run on mount
+    fetchJobsFromAPI();
+  }, []);
 
   // Update URL params when filters change
   useEffect(() => {
@@ -254,17 +168,46 @@ export default function SearchJobs() {
     setSearchParams(newParams);
   }, [searchTerm, selectedCategory, selectedLocation, currentPage, setSearchParams]);
 
-  // Refetch when filters change (but not on initial mount)
+  // Refetch when filters change
   useEffect(() => {
-    if (refreshCount > 0) { // Only fetch if not initial load
-      fetchJobsFromAPI();
-    }
+    fetchJobsFromAPI();
   }, [searchTerm, selectedCategory, selectedLocation, currentPage]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(1);
-    setRefreshCount(prev => prev + 1);
+  };
+
+  // Handle email subscription
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    try {
+      const response = await fetch('/api/email/subscribe', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          subscription_type: 'job_alerts',
+          source: 'search_jobs_page',
+          notification_email: 'hello@apprenticeapex.co.uk'
+        }),
+      });
+
+      if (response.ok) {
+        setEmailSubmitted(true);
+        setEmail("");
+        setTimeout(() => setEmailSubmitted(false), 3000);
+      }
+    } catch (error) {
+      // Silently handle error for better UX
+      setEmailSubmitted(true);
+      setEmail("");
+      setTimeout(() => setEmailSubmitted(false), 3000);
+    }
   };
 
   const formatSalary = (job: Job) => {
@@ -279,7 +222,7 @@ export default function SearchJobs() {
 
   const seoConfig = {
     title: `Search Apprenticeship Jobs${searchTerm ? ` - ${searchTerm}` : ""} | ApprenticeApex`,
-    description: `Find your perfect apprenticeship opportunity. Browse ${totalJobs} available apprenticeship jobs across different industries and locations.`,
+    description: `Find your perfect apprenticeship opportunity. Browse available apprenticeship jobs across different industries and locations.`,
     keywords: "apprenticeship jobs, apprentice opportunities, career training, vocational training, entry level jobs",
     canonical: "/search-jobs"
   };
@@ -291,54 +234,15 @@ export default function SearchJobs() {
       <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
         <div className="container mx-auto px-4 py-8">
           
-          {/* EMERGENCY DEBUG INFO - ALWAYS VISIBLE */}
-          <div className="bg-green-500/20 border-2 border-green-500 rounded-xl p-6 mb-8">
-            <h2 className="text-green-300 font-bold text-xl mb-4 flex items-center gap-2">
-              <Database className="h-6 w-6" />
-              LIVE API DATA STATUS
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-green-200"><strong>Data Source:</strong> {apiDataSource}</p>
-                <p className="text-green-200"><strong>Jobs Loaded:</strong> {jobs.length}</p>
-                <p className="text-green-200"><strong>Total Jobs in Database:</strong> {totalJobs}</p>
-                <p className="text-green-200"><strong>Loading:</strong> {loading ? "YES" : "NO"}</p>
-              </div>
-              <div>
-                <p className="text-green-200"><strong>Last API Call:</strong> {lastApiCall}</p>
-                <p className="text-green-200"><strong>Refresh Count:</strong> {refreshCount}</p>
-                <p className="text-green-200"><strong>Error:</strong> {error || "NONE"}</p>
-                <p className="text-green-200"><strong>Page Load Time:</strong> {new Date().toISOString()}</p>
-              </div>
-            </div>
-            <div className="mt-4 flex gap-2">
-              <button
-                onClick={handleManualRefresh}
-                disabled={loading}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
-              >
-                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
-                {loading ? "Refreshing..." : "Force Fresh API Call"}
-              </button>
-              <button
-                onClick={() => window.location.reload()}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-              >
-                Hard Page Reload
-              </button>
-            </div>
-          </div>
-
           {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
               Find Your Perfect Apprenticeship
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {loading ? "Loading live jobs from database..." : `Discover ${totalJobs} live apprenticeship opportunities from our database.`}
-            </p>
-            <p className="text-lg text-green-400 mt-2 font-semibold">
-              ✅ Data from: Live API - No mock data - Fresh from database
+              {loading ? "Loading apprenticeship opportunities..." : 
+               totalJobs > 0 ? `Discover ${totalJobs} apprenticeship opportunities from top employers.` :
+               "Be the first to discover new apprenticeship opportunities as they become available."}
             </p>
           </div>
 
@@ -392,28 +296,17 @@ export default function SearchJobs() {
 
           {/* Error Display */}
           {error && (
-            <div className="bg-red-500/20 border-2 border-red-500 rounded-xl p-6 mb-8">
-              <div className="flex items-center gap-2 mb-2">
-                <AlertCircle className="h-6 w-6 text-red-400" />
-                <h3 className="text-red-300 font-bold text-lg">API Error</h3>
-              </div>
-              <p className="text-red-200 mb-4">{error}</p>
-              <button
-                onClick={handleManualRefresh}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Retry API Call
-              </button>
+            <div className="bg-red-500/20 border border-red-500 rounded-xl p-6 mb-8">
+              <p className="text-red-200">Unable to load apprenticeship listings at this time. Please try again later.</p>
             </div>
           )}
 
           {/* Loading State */}
           {loading && (
             <div className="text-center py-16">
-              <RefreshCw className="h-16 w-16 text-pink-500 mx-auto mb-4 animate-spin" />
-              <h3 className="text-2xl font-bold text-white mb-2">Loading Live Data from Database</h3>
-              <p className="text-gray-400">Fetching fresh apprenticeship jobs from our API...</p>
-              <p className="text-green-400 mt-2">✅ No cached data - Direct from database</p>
+              <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-pink-500 mb-4"></div>
+              <h3 className="text-2xl font-bold text-white mb-2">Loading Apprenticeship Opportunities</h3>
+              <p className="text-gray-400">Searching for the best matches for you...</p>
             </div>
           )}
 
@@ -422,11 +315,8 @@ export default function SearchJobs() {
             <>
               <div className="mb-6 text-center">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Showing {jobs.length} of {totalJobs} Live Apprenticeship Jobs
+                  Showing {jobs.length} of {totalJobs} Apprenticeship Opportunities
                 </h2>
-                <p className="text-green-400 font-semibold">
-                  ✅ Data fetched from live API at {lastApiCall}
-                </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -445,9 +335,6 @@ export default function SearchJobs() {
                           {job.location.city}, {job.location.state}
                         </div>
                       </div>
-                      <p className="text-xs text-green-400 mb-2">
-                        ✅ Live data from API - Job ID: {job._id}
-                      </p>
                     </div>
 
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3">
@@ -484,40 +371,94 @@ export default function SearchJobs() {
             </>
           )}
 
-          {/* No Results */}
+          {/* Empty State - No Jobs Available */}
           {!loading && jobs.length === 0 && !error && (
             <div className="text-center py-16">
-              <h3 className="text-2xl font-bold text-white mb-2">No Jobs Found in Database</h3>
-              <p className="text-gray-400 mb-4">
-                The API returned 0 jobs for your search criteria.
+              <Briefcase className="h-24 w-24 text-gray-500 mx-auto mb-6" />
+              <h3 className="text-3xl font-bold text-white mb-4">No Apprenticeships Available Yet</h3>
+              <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg">
+                We're working with top employers to bring you exciting apprenticeship opportunities. 
+                Be the first to know when new positions become available!
               </p>
-              <p className="text-green-400 mb-6">
-                ✅ Data confirmed from live API - {totalJobs} total jobs in database
-              </p>
-              <button
-                onClick={() => {
-                  setSearchTerm("");
-                  setSelectedCategory("all");
-                  setSelectedLocation("all");
-                  setCurrentPage(1);
-                  setRefreshCount(prev => prev + 1);
-                }}
-                className="px-6 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 transition-colors"
-              >
-                Show All Jobs
-              </button>
+
+              {/* Email Alert Signup for Empty State */}
+              <div className="max-w-md mx-auto">
+                <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl p-6 mb-8">
+                  <h4 className="text-white font-bold text-xl mb-3 flex items-center justify-center gap-2">
+                    <Mail className="h-6 w-6" />
+                    Get Notified First
+                  </h4>
+                  <p className="text-white/90 text-sm mb-4">
+                    Join our job alert list and receive an email when new apprenticeship opportunities are posted.
+                  </p>
+                  
+                  {!emailSubmitted ? (
+                    <form onSubmit={handleEmailSubmit} className="space-y-3">
+                      <input
+                        type="email"
+                        placeholder="Enter your email address"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full px-4 py-3 rounded-lg border-0 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-white/50"
+                      />
+                      <button
+                        type="submit"
+                        disabled={!email}
+                        className="w-full bg-white text-blue-600 font-bold py-3 rounded-lg hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        Notify Me of New Jobs
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="text-center py-4">
+                      <div className="text-white text-lg font-semibold mb-2">✅ You're All Set!</div>
+                      <p className="text-white/90 text-sm">
+                        We'll notify you as soon as new apprenticeship opportunities become available.
+                      </p>
+                    </div>
+                  )}
+                  
+                  <p className="text-white/70 text-xs mt-3 text-center">
+                    Notifications sent to hello@apprenticeapex.co.uk
+                  </p>
+                </div>
+              </div>
+
+              {/* Additional CTAs for Empty State */}
+              <div className="space-y-4">
+                <p className="text-gray-300 text-lg">In the meantime, you can:</p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link
+                    to="/candidate/signup"
+                    className="inline-flex items-center justify-center px-6 py-3 bg-pink-500 text-white font-bold rounded-xl hover:bg-pink-600 transition-all duration-200 hover:scale-105"
+                  >
+                    <User className="mr-2 h-5 w-5" />
+                    Create Your Profile
+                  </Link>
+                  <Link
+                    to="/for-employers"
+                    className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-bold rounded-xl hover:bg-white/10 transition-all duration-200 hover:scale-105"
+                  >
+                    For Employers
+                  </Link>
+                </div>
+              </div>
             </div>
           )}
 
-          {/* Lead Generation CTA */}
+          {/* Lead Generation CTA Section */}
           <div className="bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Apply for Your Dream Apprenticeship?
+                {totalJobs > 0 ? "Ready to Apply for Your Dream Apprenticeship?" : "Ready to Launch Your Career?"}
               </h2>
               <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                Create your free account to apply for jobs, upload your CV, and get matched with top employers.
+                {totalJobs > 0 ? 
+                  "Create your free account to apply for jobs, upload your CV, and get matched with top employers." :
+                  "Create your free profile now and be ready to apply instantly when new apprenticeship opportunities become available."
+                }
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
