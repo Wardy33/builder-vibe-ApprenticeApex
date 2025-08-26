@@ -92,6 +92,9 @@ export default function SearchJobs() {
   const [totalPages, setTotalPages] = useState(0);
 
   // Fetch jobs from API
+  // NOTE: Currently using mock data for development.
+  // For live deployment, this endpoint serves production job data from company-posted jobs
+  // All jobs are displayed publicly with limited info (no company names) for SEO and lead generation
   const fetchJobs = async () => {
     try {
       setLoading(true);
@@ -320,7 +323,7 @@ export default function SearchJobs() {
               )}
             </div>
 
-            {/* Email Alert Signup */}
+            {/* Email Alert Signup - Configured for hello@apprenticeapex.co.uk */}
             <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl p-4 lg:max-w-md">
               <h3 className="text-white font-bold mb-2">Get Job Alerts</h3>
               <p className="text-white/90 text-sm mb-3">
@@ -336,11 +339,15 @@ export default function SearchJobs() {
                 />
                 <button
                   onClick={handleEmailSubmit}
-                  className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium"
+                  disabled={!email}
+                  className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Subscribe
                 </button>
               </div>
+              <p className="text-white/70 text-xs mt-2">
+                Notifications sent to hello@apprenticeapex.co.uk
+              </p>
             </div>
           </div>
 
