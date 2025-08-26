@@ -190,8 +190,8 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
         const age = new Date().getFullYear() - date.getFullYear();
         return age >= 16 && age <= 65;
       },
-      message: 'Age must be between 16 and 65'
-    }
+      message: "Age must be between 16 and 65",
+    },
   },
   phone: {
     type: String,
@@ -199,15 +199,17 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
       validator: function (phone: string) {
         return !phone || /^[\+]?[1-9][\d]{0,15}$/.test(phone);
       },
-      message: 'Please enter a valid phone number'
-    }
+      message: "Please enter a valid phone number",
+    },
   },
   bio: { type: String, maxlength: 500 },
-  skills: [{
-    type: String,
-    trim: true,
-    maxlength: 50
-  }],
+  skills: [
+    {
+      type: String,
+      trim: true,
+      maxlength: 50,
+    },
+  ],
   hasDriversLicense: { type: Boolean, default: false },
   assistedNeeds: { type: String, maxlength: 500 },
   education: [educationSchema],
@@ -222,25 +224,27 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
     postcode: { type: String, trim: true },
     coordinates: {
       type: [Number],
-      index: '2dsphere'
+      index: "2dsphere",
     },
   },
   preferences: {
-    industries: [{
-      type: String,
-      enum: [
-        'Technology',
-        'Healthcare',
-        'Engineering',
-        'Finance',
-        'Manufacturing',
-        'Construction',
-        'Education',
-        'Retail',
-        'Hospitality',
-        'Other'
-      ]
-    }],
+    industries: [
+      {
+        type: String,
+        enum: [
+          "Technology",
+          "Healthcare",
+          "Engineering",
+          "Finance",
+          "Manufacturing",
+          "Construction",
+          "Education",
+          "Retail",
+          "Hospitality",
+          "Other",
+        ],
+      },
+    ],
     maxDistance: { type: Number, default: 25, min: 1, max: 500 },
     salaryRange: {
       min: { type: Number, default: 0, min: 0 },
@@ -253,18 +257,27 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
     },
     remoteWork: { type: Boolean, default: false },
   },
-  transportModes: [{
-    type: String,
-    enum: ['car', 'public-transport', 'bicycle', 'walking', 'motorcycle', 'other']
-  }],
+  transportModes: [
+    {
+      type: String,
+      enum: [
+        "car",
+        "public-transport",
+        "bicycle",
+        "walking",
+        "motorcycle",
+        "other",
+      ],
+    },
+  ],
   cvUrl: {
     type: String,
     validate: {
       validator: function (url: string) {
         return !url || /^https?:\/\/.+/.test(url);
       },
-      message: 'CV URL must be a valid HTTP/HTTPS URL'
-    }
+      message: "CV URL must be a valid HTTP/HTTPS URL",
+    },
   },
   portfolioUrl: {
     type: String,
@@ -272,8 +285,8 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
       validator: function (url: string) {
         return !url || /^https?:\/\/.+/.test(url);
       },
-      message: 'Portfolio URL must be a valid HTTP/HTTPS URL'
-    }
+      message: "Portfolio URL must be a valid HTTP/HTTPS URL",
+    },
   },
   linkedinUrl: {
     type: String,
@@ -281,8 +294,8 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
       validator: function (url: string) {
         return !url || /^https?:\/\/(www\.)?linkedin\.com\/.+/.test(url);
       },
-      message: 'LinkedIn URL must be a valid LinkedIn profile URL'
-    }
+      message: "LinkedIn URL must be a valid LinkedIn profile URL",
+    },
   },
   githubUrl: {
     type: String,
@@ -290,8 +303,8 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
       validator: function (url: string) {
         return !url || /^https?:\/\/(www\.)?github\.com\/.+/.test(url);
       },
-      message: 'GitHub URL must be a valid GitHub profile URL'
-    }
+      message: "GitHub URL must be a valid GitHub profile URL",
+    },
   },
   isActive: { type: Boolean, default: true },
   profileCompletion: { type: Number, default: 0, min: 0, max: 100 },
@@ -310,17 +323,17 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
     type: String,
     required: true,
     enum: [
-      'Technology',
-      'Healthcare',
-      'Engineering',
-      'Finance',
-      'Manufacturing',
-      'Construction',
-      'Education',
-      'Retail',
-      'Hospitality',
-      'Other'
-    ]
+      "Technology",
+      "Healthcare",
+      "Engineering",
+      "Finance",
+      "Manufacturing",
+      "Construction",
+      "Education",
+      "Retail",
+      "Hospitality",
+      "Other",
+    ],
   },
   description: { type: String, required: true, maxlength: 2000 },
   website: {
@@ -329,14 +342,14 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
       validator: function (url: string) {
         return !url || /^https?:\/\/.+/.test(url);
       },
-      message: 'Website must be a valid HTTP/HTTPS URL'
-    }
+      message: "Website must be a valid HTTP/HTTPS URL",
+    },
   },
   logo: { type: String },
   companySize: {
     type: String,
     enum: ["1-10", "11-50", "51-200", "201-500", "501-1000", "1000+"],
-    required: true
+    required: true,
   },
   foundedYear: {
     type: Number,
@@ -346,8 +359,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
       validator: function (year: number) {
         return !year || (year >= 1800 && year <= new Date().getFullYear());
       },
-      message: 'Founded year must be between 1800 and current year'
-    }
+      message: "Founded year must be between 1800 and current year",
+    },
   },
   location: {
     city: { type: String, required: true, trim: true },
@@ -355,7 +368,7 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
     postcode: { type: String, trim: true },
     coordinates: {
       type: [Number],
-      index: '2dsphere'
+      index: "2dsphere",
     },
   },
   contactPerson: {
@@ -368,8 +381,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
         validator: function (phone: string) {
           return !phone || /^[\+]?[1-9][\d]{0,15}$/.test(phone);
         },
-        message: 'Please enter a valid phone number'
-      }
+        message: "Please enter a valid phone number",
+      },
     },
     email: {
       type: String,
@@ -377,8 +390,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
         validator: function (email: string) {
           return !email || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         },
-        message: 'Please enter a valid email address'
-      }
+        message: "Please enter a valid email address",
+      },
     },
   },
   socialLinks: {
@@ -388,8 +401,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
         validator: function (url: string) {
           return !url || /^https?:\/\/(www\.)?linkedin\.com\/.+/.test(url);
         },
-        message: 'LinkedIn URL must be a valid LinkedIn URL'
-      }
+        message: "LinkedIn URL must be a valid LinkedIn URL",
+      },
     },
     twitter: {
       type: String,
@@ -397,8 +410,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
         validator: function (url: string) {
           return !url || /^https?:\/\/(www\.)?twitter\.com\/.+/.test(url);
         },
-        message: 'Twitter URL must be a valid Twitter URL'
-      }
+        message: "Twitter URL must be a valid Twitter URL",
+      },
     },
     facebook: {
       type: String,
@@ -406,8 +419,8 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
         validator: function (url: string) {
           return !url || /^https?:\/\/(www\.)?facebook\.com\/.+/.test(url);
         },
-        message: 'Facebook URL must be a valid Facebook URL'
-      }
+        message: "Facebook URL must be a valid Facebook URL",
+      },
     },
   },
   benefits: [{ type: String, trim: true, maxlength: 100 }],
@@ -417,7 +430,7 @@ const companyProfileSchema = new Schema<ICompanyProfile>({
   subscriptionPlan: {
     type: String,
     enum: ["free", "basic", "premium", "enterprise"],
-    default: "free"
+    default: "free",
   },
   jobPostingLimit: { type: Number, default: 3, min: 0 },
   jobPostingsUsed: { type: Number, default: 0, min: 0 },
@@ -440,8 +453,8 @@ const userSchema = new Schema<IUser>(
         validator: function (email: string) {
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         },
-        message: 'Please enter a valid email address'
-      }
+        message: "Please enter a valid email address",
+      },
     },
     password: {
       type: String,
@@ -450,15 +463,18 @@ const userSchema = new Schema<IUser>(
       validate: {
         validator: function (password: string) {
           // At least 8 characters, 1 uppercase, 1 lowercase, 1 number
-          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/.test(password);
+          return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/.test(
+            password,
+          );
         },
-        message: 'Password must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number'
-      }
+        message:
+          "Password must be at least 8 characters with 1 uppercase, 1 lowercase, and 1 number",
+      },
     },
     role: {
       type: String,
       enum: ["student", "company", "admin", "master_admin"],
-      required: true
+      required: true,
     },
     isMasterAdmin: { type: Boolean, default: false },
     adminPermissions: {
@@ -468,7 +484,7 @@ const userSchema = new Schema<IUser>(
       canAccessSystemLogs: { type: Boolean, default: false },
       canExportData: { type: Boolean, default: false },
       canManageAdmins: { type: Boolean, default: false },
-      canConfigureSystem: { type: Boolean, default: false }
+      canConfigureSystem: { type: Boolean, default: false },
     },
     lastAccessedAdminPanel: { type: Date },
     adminLoginAttempts: { type: Number, default: 0 },
@@ -506,9 +522,9 @@ const userSchema = new Schema<IUser>(
         delete ret.emailVerificationToken;
         delete ret.passwordResetToken;
         return ret;
-      }
+      },
     },
-    toObject: { virtuals: true }
+    toObject: { virtuals: true },
   },
 );
 
@@ -516,8 +532,8 @@ const userSchema = new Schema<IUser>(
 // This avoids duplicate index definitions and Mongoose warnings
 
 // Virtual for full name (students)
-userSchema.virtual('fullName').get(function () {
-  if (this.role === 'student' && this.profile) {
+userSchema.virtual("fullName").get(function () {
+  if (this.role === "student" && this.profile) {
     const profile = this.profile as IStudentProfile;
     return `${profile.firstName} ${profile.lastName}`;
   }
@@ -525,27 +541,27 @@ userSchema.virtual('fullName').get(function () {
 });
 
 // Virtual for applications (students)
-userSchema.virtual('applications', {
-  ref: 'Application',
-  localField: '_id',
-  foreignField: 'student'
+userSchema.virtual("applications", {
+  ref: "Application",
+  localField: "_id",
+  foreignField: "student",
 });
 
 // Virtual for apprenticeships (companies)
-userSchema.virtual('apprenticeships', {
-  ref: 'Apprenticeship',
-  localField: '_id',
-  foreignField: 'company'
+userSchema.virtual("apprenticeships", {
+  ref: "Apprenticeship",
+  localField: "_id",
+  foreignField: "company",
 });
 
 // Password hashing middleware
-userSchema.pre('save', async function (next) {
+userSchema.pre("save", async function (next) {
   // Only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) return next();
+  if (!this.isModified("password")) return next();
 
   try {
     // Import bcrypt dynamically to avoid circular dependencies
-    const bcrypt = await import('bcryptjs');
+    const bcrypt = await import("bcryptjs");
     const saltRounds = 12;
     this.password = await bcrypt.default.hash(this.password, saltRounds);
     next();
@@ -555,8 +571,8 @@ userSchema.pre('save', async function (next) {
 });
 
 // Calculate profile completion for students
-userSchema.pre('save', function (next) {
-  if (this.role === 'student' && this.profile) {
+userSchema.pre("save", function (next) {
+  if (this.role === "student" && this.profile) {
     const profile = this.profile as IStudentProfile;
     let completionScore = 0;
     const totalFields = 10;
@@ -570,18 +586,27 @@ userSchema.pre('save', function (next) {
 
     // Skills and preferences (25%)
     if (profile.skills && profile.skills.length > 0) completionScore += 1;
-    if (profile.preferences?.industries && profile.preferences.industries.length > 0) completionScore += 1;
-    if (profile.transportModes && profile.transportModes.length > 0) completionScore += 0.5;
+    if (
+      profile.preferences?.industries &&
+      profile.preferences.industries.length > 0
+    )
+      completionScore += 1;
+    if (profile.transportModes && profile.transportModes.length > 0)
+      completionScore += 0.5;
 
     // Education and experience (25%)
-    if (profile.education && profile.education.length > 0) completionScore += 1.25;
-    if (profile.experience && profile.experience.length > 0) completionScore += 1.25;
+    if (profile.education && profile.education.length > 0)
+      completionScore += 1.25;
+    if (profile.experience && profile.experience.length > 0)
+      completionScore += 1.25;
 
     // Additional materials (20%)
     if (profile.cvUrl) completionScore += 1;
     if (profile.videoProfile?.url) completionScore += 1;
 
-    profile.profileCompletion = Math.round((completionScore / totalFields) * 100);
+    profile.profileCompletion = Math.round(
+      (completionScore / totalFields) * 100,
+    );
   }
   next();
 });
@@ -593,17 +618,22 @@ userSchema.methods.updateLastLogin = function () {
 };
 
 // Compare password method
-userSchema.methods.comparePassword = async function (candidatePassword: string) {
-  const bcrypt = await import('bcryptjs');
+userSchema.methods.comparePassword = async function (
+  candidatePassword: string,
+) {
+  const bcrypt = await import("bcryptjs");
   return bcrypt.default.compare(candidatePassword, this.password);
 };
 
 // Generate password reset token
 userSchema.methods.generatePasswordResetToken = function () {
-  const crypto = require('crypto');
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const crypto = require("crypto");
+  const resetToken = crypto.randomBytes(32).toString("hex");
 
-  this.passwordResetToken = crypto.createHash('sha256').update(resetToken).digest('hex');
+  this.passwordResetToken = crypto
+    .createHash("sha256")
+    .update(resetToken)
+    .digest("hex");
   this.passwordResetExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
   return resetToken;
@@ -611,13 +641,17 @@ userSchema.methods.generatePasswordResetToken = function () {
 
 // Generate email verification token
 userSchema.methods.generateEmailVerificationToken = function () {
-  const crypto = require('crypto');
-  const verificationToken = crypto.randomBytes(32).toString('hex');
+  const crypto = require("crypto");
+  const verificationToken = crypto.randomBytes(32).toString("hex");
 
-  this.emailVerificationToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
+  this.emailVerificationToken = crypto
+    .createHash("sha256")
+    .update(verificationToken)
+    .digest("hex");
   this.emailVerificationExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
   return verificationToken;
 };
 
-export const User = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
+export const User =
+  mongoose.models.User || mongoose.model<IUser>("User", userSchema);
