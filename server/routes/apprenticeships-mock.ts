@@ -441,7 +441,16 @@ router.get('/public/:id', async (req: any, res: any) => {
     }
 
     // Check if job is still active and accepting applications
-    if (!job.isActive || new Date(job.applicationDeadline) < new Date()) {
+    const currentDate = new Date();
+    const deadlineDate = new Date(job.applicationDeadline);
+    console.log('🔍 Date comparison:', {
+      currentDate: currentDate.toISOString(),
+      deadlineDate: deadlineDate.toISOString(),
+      isActive: job.isActive,
+      isExpired: deadlineDate < currentDate
+    });
+
+    if (!job.isActive || deadlineDate < currentDate) {
       return res.status(410).json({
         success: false,
         error: 'This job listing is no longer accepting applications'
