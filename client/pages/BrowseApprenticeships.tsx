@@ -32,14 +32,14 @@ export default function BrowseApprenticeships() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="/student/signup"
+              href="/candidate/signup"
               className="inline-flex items-center justify-center px-8 py-3 bg-orange hover:bg-orange/90 text-white font-semibold rounded-lg transition-colors"
             >
               Create Free Account
               <ArrowRight className="ml-2 h-4 w-4" />
             </a>
             <a
-              href="/student/signin"
+              href="/candidate/signin"
               className="inline-flex items-center justify-center px-8 py-3 border border-orange text-orange hover:bg-orange hover:text-white font-semibold rounded-lg transition-colors"
             >
               Sign In
