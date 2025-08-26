@@ -1,7 +1,7 @@
 import { Router, Response } from "express";
 import { User } from "../models/User";
 import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
-import { database } from "../config/database";
+import { database } from "../middleware/database-neon";
 import fs from "fs/promises";
 import path from "path";
 

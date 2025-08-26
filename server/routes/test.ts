@@ -1,7 +1,7 @@
 import express from 'express';
 import { asyncHandler } from '../middleware/errorHandler';
 import { sendSuccess, sendError } from '../utils/apiResponse';
-import { database } from '../config/database';
+import { database } from '../middleware/database-neon';
 import { indexManager } from '../config/indexes';
 import { databaseMiddleware } from '../middleware/database';
 import { getEnvConfig } from '../config/env';
