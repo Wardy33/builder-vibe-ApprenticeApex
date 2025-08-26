@@ -2,6 +2,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useEffect } from "react";
 import { WebLayout } from "../components/WebLayout";
 import { Home, Building2, User, Search } from "lucide-react";
+import { routeMonitor } from "../utils/routeMonitoring";
 
 const NotFound = () => {
   const location = useLocation();
