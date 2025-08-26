@@ -14,6 +14,8 @@ import adminRoutes from "./routes/admin";
 import messagingRoutes from "./routes/messaging";
 import apprenticeshipsRoutes from "./routes/apprenticeships-final";
 import emailRoutes from "./routes/email";
+import paymentRoutes from "./routes/payments";
+import stripeWebhookRoutes from "./routes/stripeWebhook";
 
 dotenv.config();
 
