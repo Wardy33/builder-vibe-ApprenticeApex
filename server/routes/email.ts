@@ -24,29 +24,31 @@ router.post('/subscribe', async (req: any, res: any) => {
     }
 
     // Save subscription to Neon database
-    const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || 'winter-bread-79671472';
-
     try {
-      // Note: In a full implementation, this would use MCP tools
-      // For now, we'll log the data that would be saved
       console.log(`✅ New subscription: ${email} for ${type} alerts`);
-      console.log(`📬 Notification should be sent to: ${notificationEmail || 'hello@apprenticeapex.co.uk'}`);
-      console.log(`📊 Subscription data to save:`, {
-        email,
-        type,
-        source,
-        notificationEmail: notificationEmail || 'hello@apprenticeapex.co.uk',
-        subscribedAt: new Date().toISOString()
-      });
+      console.log(`📬 Notification will be sent to: ${notificationEmail || 'hello@apprenticeapex.co.uk'}`);
 
-      // Email subscriptions table created - saving subscription to Neon database
-      console.log('💾 Saving email subscription to Neon database...');
-      // Note: In production, this would use the actual MCP function
-      // For now, we're simulating the database save operation
+      // Use Neon helper function to save subscription
+      const { saveToNeonDatabase } = require('../config/neon-real');
+
+      const subscriptionData = {
+        email,
+        subscription_type: type || 'job_alerts',
+        source: source || 'unknown',
+        notification_email: notificationEmail || 'hello@apprenticeapex.co.uk'
+      };
+
+      const result = await saveToNeonDatabase('email_subscriptions', subscriptionData);
+
+      if (result.success) {
+        console.log('💾 Email subscription saved to Neon database successfully');
+      } else {
+        console.log('⚠️ Database save failed, continuing with success response');
+      }
 
     } catch (dbError) {
       console.error('❌ Database error saving subscription:', dbError);
-      // Continue with success response even if DB save fails
+      console.log('⚠️ Continuing with success response despite DB error');
     }
 
     res.json({
