@@ -164,6 +164,26 @@ function App() {
             }
           />
           <Route
+            path="/search-jobs"
+            element={
+              <Suspense
+                fallback={<LoadingFallback ariaLabel="Search apprenticeship jobs" />}
+              >
+                <SearchJobs />
+              </Suspense>
+            }
+          />
+          <Route
+            path="/apprenticeships/:jobId"
+            element={
+              <Suspense
+                fallback={<LoadingFallback ariaLabel="Job details" />}
+              >
+                <JobDetail />
+              </Suspense>
+            }
+          />
+          <Route
             path="/privacy-policy"
             element={
               <Suspense
