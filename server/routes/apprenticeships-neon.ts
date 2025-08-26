@@ -3,7 +3,7 @@ import express from 'express';
 const router = express.Router();
 
 // Neon database helper imports
-import { mcp__neon__run_sql } from '../config/neon';
+import { neon_run_sql } from '../config/neon';
 
 const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || 'winter-bread-79671472';
 
@@ -92,10 +92,9 @@ router.get('/public', async (req: any, res: any) => {
     console.log('🔍 Count query:', countQuery);
     console.log('🔍 Query params:', queryParams);
 
-    const countResult = await mcp__neon__run_sql({
+    const countResult = await neon_run_sql({
       sql: countQuery,
-      projectId: NEON_PROJECT_ID,
-      params: queryParams
+      projectId: NEON_PROJECT_ID
     });
 
     const totalItems = parseInt(countResult[0]?.total || '0');
@@ -132,10 +131,9 @@ router.get('/public', async (req: any, res: any) => {
 
     console.log('🔍 Jobs query:', jobsQuery);
 
-    const jobsResult = await mcp__neon__run_sql({
+    const jobsResult = await neon_run_sql({
       sql: jobsQuery,
-      projectId: NEON_PROJECT_ID,
-      params: queryParams
+      projectId: NEON_PROJECT_ID
     });
 
     // Format jobs data for frontend compatibility
@@ -189,7 +187,7 @@ router.get('/public', async (req: any, res: any) => {
       WHERE status = 'active' AND category IS NOT NULL 
       ORDER BY category
     `;
-    const categoriesResult = await mcp__neon__run_sql({
+    const categoriesResult = await neon_run_sql({
       sql: categoriesQuery,
       projectId: NEON_PROJECT_ID
     });
@@ -200,7 +198,7 @@ router.get('/public', async (req: any, res: any) => {
       WHERE status = 'active' AND location IS NOT NULL 
       ORDER BY location
     `;
-    const locationsResult = await mcp__neon__run_sql({
+    const locationsResult = await neon_run_sql({
       sql: locationsQuery,
       projectId: NEON_PROJECT_ID
     });
@@ -282,10 +280,9 @@ router.get('/public/:id', async (req: any, res: any) => {
       WHERE j.id = $1
     `;
 
-    const jobResult = await mcp__neon__run_sql({
+    const jobResult = await neon_run_sql({
       sql: jobQuery,
-      projectId: NEON_PROJECT_ID,
-      params: [parseInt(jobId)]
+      projectId: NEON_PROJECT_ID
     });
 
     if (!jobResult || jobResult.length === 0) {
@@ -320,10 +317,9 @@ router.get('/public/:id', async (req: any, res: any) => {
       SET views_count = views_count + 1 
       WHERE id = $1
     `;
-    await mcp__neon__run_sql({
+    await neon_run_sql({
       sql: updateViewsQuery,
-      projectId: NEON_PROJECT_ID,
-      params: [parseInt(jobId)]
+      projectId: NEON_PROJECT_ID
     });
 
     // Format job data for frontend compatibility
