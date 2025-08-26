@@ -109,7 +109,7 @@ const mockApprenticeships = [
       months: 30,
       startDate: '2024-09-15T00:00:00.000Z'
     },
-    applicationDeadline: '2025-01-15T23:59:59.000Z',
+    applicationDeadline: '2025-04-30T23:59:59.000Z',
     isRemote: false,
     employmentType: 'full-time',
     createdAt: '2024-08-10T09:15:00.000Z',
