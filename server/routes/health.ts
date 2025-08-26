@@ -6,27 +6,20 @@ import { getEnvConfig } from '../config/env';
 
 const router = express.Router();
 
-// Enhanced Database Health Check
+// Enhanced Database Health Check for Neon
 router.get('/database', asyncHandler(async (req, res) => {
-  console.log('🏥 Running enhanced database health check...');
-  
+  console.log('🏥 Running Neon database health check...');
+
   try {
     const startTime = Date.now();
-    
+
     // Basic connection status
     const isConnected = database.isConnected();
     const dbStatus = database.getHealthStatus();
-    
-    // Performance monitoring
-    const performanceMonitor = databaseMiddleware.monitor;
-    const performanceStatus = performanceMonitor.getHealthStatus();
-    
-    // Database logger stats
-    const loggerStats = databaseMiddleware.logger.getStats();
-    
+
     // Environment configuration
     const env = getEnvConfig();
-    
+
     const healthCheck = {
       timestamp: new Date().toISOString(),
       status: isConnected ? 'healthy' : 'unhealthy',
@@ -34,36 +27,14 @@ router.get('/database', asyncHandler(async (req, res) => {
         connection: {
           connected: isConnected,
           status: dbStatus.status,
-          host: database.getConnection()?.host || 'unknown',
-          database: database.getConnection()?.name || 'unknown',
-          readyState: database.getConnection()?.readyState || 0,
+          database: 'neon',
+          projectId: dbStatus.projectId,
           lastConnectedAt: dbStatus.lastConnectedAt,
           connectionAttempts: dbStatus.connectionAttempts
         },
-        connectionPool: {
-          poolSize: dbStatus.poolSize || 0,
-          availableConnections: dbStatus.availableConnections || 0,
-          utilization: dbStatus.poolSize ? 
-            `${Math.round(((dbStatus.poolSize - dbStatus.availableConnections) / dbStatus.poolSize) * 100)}%` : '0%'
-        },
-        performance: {
-          status: performanceStatus.status,
-          uptime: performanceStatus.uptime,
-          queries: performanceStatus.database.queries,
-          memory: performanceStatus.memory
-        },
-        operations: {
-          total24h: loggerStats.total24h,
-          totalLastHour: loggerStats.totalLastHour,
-          errors24h: loggerStats.errors24h,
-          errorRate: loggerStats.total24h > 0 ? 
-            `${((loggerStats.errors24h / loggerStats.total24h) * 100).toFixed(2)}%` : '0%',
-          averageQueryTime: `${loggerStats.averageDuration}ms`,
-          slowQueries24h: loggerStats.slowQueries24h
-        },
         environment: {
-          mongoUri: env.MONGODB_URI ? 'configured' : 'missing',
-          ssl: env.MONGODB_URI?.includes('ssl=true') || false,
+          databaseUrl: env.DATABASE_URL ? 'configured' : 'missing',
+          neonProjectId: env.NEON_PROJECT_ID ? 'configured' : 'missing',
           nodeEnv: env.NODE_ENV
         }
       },
@@ -72,56 +43,28 @@ router.get('/database', asyncHandler(async (req, res) => {
 
     // Add recommendations based on health status
     if (!isConnected) {
-      healthCheck.recommendations.push('Database connection is not established');
-    }
-    
-    if (dbStatus.poolSize && dbStatus.availableConnections < 2) {
-      healthCheck.recommendations.push('Connection pool utilization is high - consider increasing pool size');
-    }
-    
-    if (loggerStats.slowQueries24h > 10) {
-      healthCheck.recommendations.push(`${loggerStats.slowQueries24h} slow queries detected in last 24h - consider query optimization`);
-    }
-    
-    if (loggerStats.errors24h / Math.max(loggerStats.total24h, 1) > 0.05) {
-      healthCheck.recommendations.push('High error rate detected - investigate database operations');
+      healthCheck.recommendations.push('Neon database connection is not established');
     }
 
-    // Test database responsiveness
-    if (isConnected) {
-      try {
-        const pingStart = Date.now();
-        await database.validateConnection();
-        const pingTime = Date.now() - pingStart;
-        
-        healthCheck.checks.responsiveness = {
-          pingTime: `${pingTime}ms`,
-          status: pingTime < 100 ? 'excellent' : pingTime < 500 ? 'good' : 'slow'
-        };
-        
-        if (pingTime > 1000) {
-          healthCheck.recommendations.push('Database response time is slow (>1000ms)');
-        }
-      } catch (error) {
-        healthCheck.checks.responsiveness = {
-          status: 'failed',
-          error: (error as Error).message
-        };
-        healthCheck.recommendations.push('Database ping test failed');
-      }
+    if (!env.DATABASE_URL) {
+      healthCheck.recommendations.push('DATABASE_URL environment variable not configured');
+    }
+
+    if (!env.NEON_PROJECT_ID) {
+      healthCheck.recommendations.push('NEON_PROJECT_ID environment variable not configured');
     }
 
     const totalTime = Date.now() - startTime;
     healthCheck.checks.healthCheckDuration = `${totalTime}ms`;
 
-    console.log(`✅ Database health check completed: ${healthCheck.status} (${totalTime}ms)`);
+    console.log(`✅ Neon database health check completed: ${healthCheck.status} (${totalTime}ms)`);
 
     sendSuccess(res, {
       health: healthCheck
     });
 
   } catch (error) {
-    console.error('❌ Database health check failed:', error);
+    console.error('❌ Neon database health check failed:', error);
     sendError(res, 'Database health check failed', 500, 'HEALTH_CHECK_ERROR');
   }
 }));
