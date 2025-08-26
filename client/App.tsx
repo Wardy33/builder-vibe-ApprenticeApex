@@ -300,6 +300,11 @@ function App() {
           <Route path="/companyauth" element={<Navigate to="/company/signin" replace />} />
           <Route path="/company-auth" element={<Navigate to="/company/signin" replace />} />
           <Route path="/Company" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/CandidateAuth" element={<Navigate to="/candidate/signin" replace />} />
+          <Route path="/StudentAuth" element={<Navigate to="/candidate/signin" replace />} />
+          <Route path="/CompanyPortal" element={<Navigate to="/company" replace />} />
+          <Route path="/CandidateApp" element={<Navigate to="/candidate" replace />} />
+          <Route path="/StudentApp" element={<Navigate to="/candidate" replace />} />
           <Route
             path="/company/forgot-password"
             element={
