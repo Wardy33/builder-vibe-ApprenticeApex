@@ -3,7 +3,7 @@ import "./lib/emergencyLocalStorageCleanup";
 
 import React, { StrictMode, Suspense, lazy, useEffect } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./global.css";
 import Index from "./pages/Index";
 import { initializeServiceWorker } from "./utils/serviceWorker";
