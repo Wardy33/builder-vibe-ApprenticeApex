@@ -4,6 +4,7 @@ import { sendSuccess, sendError } from "../utils/apiResponse";
 import NeonPaymentService from "../services/neonPaymentService";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { createRateLimit } from "../middleware/security";
+import { getSecureEnvConfig } from "../config/secureEnv";
 
 const router = express.Router();
 
