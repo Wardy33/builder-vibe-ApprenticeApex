@@ -1334,6 +1334,74 @@ function JobListingsPage() {
   );
 }
 
+// Company Pricing Page
+function CompanyPricingPage() {
+  const navigate = useNavigate();
+
+  const handleStartTrial = async () => {
+    try {
+      // Create Stripe checkout session for trial
+      const response = await fetch('/api/payments/checkout/trial', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const data = await response.json();
+      if (data.success && data.data.url) {
+        // Redirect to Stripe checkout
+        window.location.href = data.data.url;
+      } else {
+        alert('Failed to start trial. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error starting trial:', error);
+      alert('Failed to start trial. Please try again.');
+    }
+  };
+
+  const handleSubscribe = async (planType: string) => {
+    try {
+      // Create Stripe checkout session for subscription
+      const response = await fetch(`/api/payments/checkout/${planType}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+
+      const data = await response.json();
+      if (data.success && data.data.url) {
+        // Redirect to Stripe checkout
+        window.location.href = data.data.url;
+      } else {
+        alert('Failed to start subscription. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error starting subscription:', error);
+      alert('Failed to start subscription. Please try again.');
+    }
+  };
+
+  const handleContactSales = async () => {
+    // Open email client or redirect to contact form
+    window.location.href = 'mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry&body=Hi, I am interested in learning more about the Enterprise plan for my organization.';
+  };
+
+  return (
+    <div className="min-h-screen -m-6"> {/* Remove padding from parent container */}
+      <CompanyPricing
+        onStartTrial={handleStartTrial}
+        onSubscribe={handleSubscribe}
+        onContactSales={handleContactSales}
+      />
+    </div>
+  );
+}
+
 // Continue with other page components using the same modern design...
 function ApplicationsPage() {
   const navigate = useNavigate();
