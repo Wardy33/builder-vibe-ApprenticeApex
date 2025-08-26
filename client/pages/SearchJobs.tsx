@@ -91,38 +91,66 @@ export default function SearchJobs() {
   const [totalItems, setTotalItems] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
-  // Fetch jobs from API
-  // NOTE: Currently using mock data for development.
-  // For live deployment, this endpoint serves production job data from company-posted jobs
-  // All jobs are displayed publicly with limited info (no company names) for SEO and lead generation
+  // Fetch jobs from API - LIVE DATA FROM NEON DATABASE
   const fetchJobs = async () => {
     try {
       setLoading(true);
+      setError(null); // Clear any previous errors
+
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: "12",
         ...(searchTerm && { search: searchTerm }),
         ...(selectedCategory !== "all" && { category: selectedCategory }),
         ...(selectedLocation !== "all" && { location: selectedLocation }),
+        // Add cache busting parameter
+        _t: new Date().getTime().toString(),
       });
 
-      const response = await fetch(`/api/apprenticeships/public?${params}`);
+      console.log("🔍 Fetching jobs from API:", `/api/apprenticeships/public?${params}`);
+
+      const response = await fetch(`/api/apprenticeships/public?${params}`, {
+        // Force no caching
+        cache: 'no-cache',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      });
+
+      console.log("📡 API Response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error(`API responded with status: ${response.status}`);
+      }
+
       const data: ApiResponse = await response.json();
+      console.log("📊 API Response data:", data);
 
       if (data.success) {
+        console.log("✅ Setting jobs data:", data.data.jobs);
         setJobs(data.data.jobs);
         setFilters(data.data.filters);
         setTotalItems(data.data.pagination.totalItems);
         setTotalPages(data.data.pagination.totalPages);
       } else {
+        console.error("❌ API returned success: false");
         setError("Failed to fetch jobs");
       }
     } catch (err) {
+      console.error("❌ Fetch error:", err);
       setError("Error loading jobs. Please try again.");
     } finally {
       setLoading(false);
     }
   };
+
+  // Initial data fetch on mount
+  useEffect(() => {
+    console.log("🚀 Component mounted - fetching initial data");
+    fetchJobs();
+  }, []); // Empty dependency array for initial mount only
 
   // Update URL params when filters change
   useEffect(() => {
@@ -131,9 +159,14 @@ export default function SearchJobs() {
     if (selectedCategory !== "all") newParams.set("category", selectedCategory);
     if (selectedLocation !== "all") newParams.set("location", selectedLocation);
     if (currentPage > 1) newParams.set("page", currentPage.toString());
-    
+
     setSearchParams(newParams);
-    fetchJobs();
+
+    // Only fetch if not initial mount (prevent double fetch)
+    if (searchTerm || selectedCategory !== "all" || selectedLocation !== "all" || currentPage > 1) {
+      console.log("🔄 Filters changed - fetching updated data");
+      fetchJobs();
+    }
   }, [searchTerm, selectedCategory, selectedLocation, currentPage]);
 
   // Handle search
@@ -314,7 +347,7 @@ export default function SearchJobs() {
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
             <div>
               <h2 className="text-2xl font-bold text-white mb-2">
-                {loading ? "Loading..." : `${totalItems} Apprenticeship Opportunities`}
+                {loading ? "Loading live data from database..." : `${totalItems} Apprenticeship Opportunities`}
               </h2>
               {searchTerm && (
                 <p className="text-gray-400">
@@ -355,6 +388,21 @@ export default function SearchJobs() {
           {error && (
             <div className="bg-red-500/20 border border-red-500 rounded-xl p-4 mb-8">
               <p className="text-red-300">{error}</p>
+              <p className="text-red-400 text-sm mt-2">
+                Check browser console for detailed error information
+              </p>
+            </div>
+          )}
+
+          {/* Debug Info (Development Only) */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="bg-blue-500/20 border border-blue-500 rounded-xl p-4 mb-8">
+              <h4 className="text-blue-300 font-bold mb-2">Debug Information:</h4>
+              <p className="text-blue-200 text-sm">Jobs loaded: {jobs.length}</p>
+              <p className="text-blue-200 text-sm">Loading state: {loading.toString()}</p>
+              <p className="text-blue-200 text-sm">Total items: {totalItems}</p>
+              <p className="text-blue-200 text-sm">Error: {error || 'None'}</p>
+              <p className="text-blue-200 text-sm">Last API call: Check browser Network tab for /api/apprenticeships/public</p>
             </div>
           )}
 
