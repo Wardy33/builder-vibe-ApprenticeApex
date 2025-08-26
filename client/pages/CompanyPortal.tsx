@@ -1755,10 +1755,9 @@ function InterviewsPage() {
   useEffect(() => {
     const loadInterviews = async () => {
       try {
-        const response = await fetch('/api/company/interviews');
-        if (response.ok) {
-          const data = await response.json();
-          setInterviews(data.interviews || []);
+        const response = await apiClient.getCompanyInterviews();
+        if (response.success && response.data) {
+          setInterviews(response.data.interviews || response.data || []);
         }
       } catch (error) {
         console.error('Failed to load interviews:', error);
