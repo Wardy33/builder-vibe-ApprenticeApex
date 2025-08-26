@@ -330,4 +330,327 @@ router.get("/status/:paymentIntentId", asyncHandler(async (req, res) => {
   }
 }));
 
+// === STRIPE CHECKOUT ENDPOINTS FOR PRICING PLANS ===
+
+// Create checkout session for trial plan
+router.post("/checkout/trial", [paymentRateLimit], asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const env = getSecureEnvConfig();
+
+    const paymentService = NeonPaymentService.getInstance();
+    const customer = await paymentService.getOrCreateCustomer(userId);
+
+    // Check if user already has an active subscription or trial
+    const existingSubscriptions = await paymentService.sql(
+      'SELECT status FROM subscriptions WHERE user_id = $1 AND status IN ($2, $3, $4)',
+      [userId, 'active', 'trialing', 'past_due']
+    );
+
+    if (existingSubscriptions.length > 0) {
+      return sendError(res, 'You already have an active subscription or trial', 400, 'SUBSCRIPTION_ALREADY_EXISTS');
+    }
+
+    const stripe = paymentService.stripe;
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customer.id,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'gbp',
+          product_data: {
+            name: 'ApprenticeApex Trial Plan',
+            description: '60-day risk-free trial with up to 15 job postings',
+          },
+          unit_amount: 0, // Free trial
+          recurring: {
+            interval: 'month',
+          },
+        },
+        quantity: 1,
+      }],
+      subscription_data: {
+        trial_period_days: 60,
+        metadata: {
+          userId,
+          planType: 'trial',
+          createdVia: 'pricing_page'
+        }
+      },
+      success_url: `${env.FRONTEND_URL}/company?trial=success`,
+      cancel_url: `${env.FRONTEND_URL}/company/pricing?trial=cancelled`,
+      metadata: {
+        userId,
+        planType: 'trial'
+      }
+    });
+
+    sendSuccess(res, {
+      url: session.url,
+      sessionId: session.id
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to create trial checkout session:', error);
+    sendError(res, 'Failed to create trial checkout session', 500, 'CHECKOUT_SESSION_ERROR');
+  }
+}));
+
+// Create checkout session for starter plan
+router.post("/checkout/starter", [paymentRateLimit], asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const { mode = 'monthly' } = req.query; // monthly or per-hire
+    const env = getSecureEnvConfig();
+
+    const paymentService = NeonPaymentService.getInstance();
+    const customer = await paymentService.getOrCreateCustomer(userId);
+
+    const stripe = paymentService.stripe;
+
+    if (mode === 'per-hire') {
+      // Create one-time payment session for per-hire model
+      const session = await stripe.checkout.sessions.create({
+        customer: customer.id,
+        mode: 'payment',
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'gbp',
+            product_data: {
+              name: 'ApprenticeApex Starter Plan - Pay Per Hire',
+              description: 'One-time payment of £399 per successful hire',
+            },
+            unit_amount: 39900, // £399.00
+          },
+          quantity: 1,
+        }],
+        success_url: `${env.FRONTEND_URL}/company?starter=success&mode=per-hire`,
+        cancel_url: `${env.FRONTEND_URL}/company/pricing?starter=cancelled`,
+        metadata: {
+          userId,
+          planType: 'starter',
+          paymentMode: 'per-hire'
+        }
+      });
+
+      sendSuccess(res, {
+        url: session.url,
+        sessionId: session.id
+      });
+    } else {
+      // Create monthly subscription session
+      const session = await stripe.checkout.sessions.create({
+        customer: customer.id,
+        mode: 'subscription',
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: {
+            currency: 'gbp',
+            product_data: {
+              name: 'ApprenticeApex Starter Plan',
+              description: 'Monthly subscription with up to 5 job postings',
+            },
+            unit_amount: 4900, // £49.00
+            recurring: {
+              interval: 'month',
+            },
+          },
+          quantity: 1,
+        }],
+        subscription_data: {
+          metadata: {
+            userId,
+            planType: 'starter',
+            createdVia: 'pricing_page'
+          }
+        },
+        success_url: `${env.FRONTEND_URL}/company?starter=success&mode=monthly`,
+        cancel_url: `${env.FRONTEND_URL}/company/pricing?starter=cancelled`,
+        metadata: {
+          userId,
+          planType: 'starter',
+          paymentMode: 'monthly'
+        }
+      });
+
+      sendSuccess(res, {
+        url: session.url,
+        sessionId: session.id
+      });
+    }
+
+  } catch (error: any) {
+    console.error('❌ Failed to create starter checkout session:', error);
+    sendError(res, 'Failed to create starter checkout session', 500, 'CHECKOUT_SESSION_ERROR');
+  }
+}));
+
+// Create checkout session for professional plan
+router.post("/checkout/professional", [paymentRateLimit], asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const env = getSecureEnvConfig();
+
+    const paymentService = NeonPaymentService.getInstance();
+    const customer = await paymentService.getOrCreateCustomer(userId);
+
+    const stripe = paymentService.stripe;
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customer.id,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'gbp',
+          product_data: {
+            name: 'ApprenticeApex Professional Plan',
+            description: 'Monthly subscription with up to 15 job postings and premium features',
+          },
+          unit_amount: 9900, // £99.00
+          recurring: {
+            interval: 'month',
+          },
+        },
+        quantity: 1,
+      }],
+      subscription_data: {
+        metadata: {
+          userId,
+          planType: 'professional',
+          createdVia: 'pricing_page'
+        }
+      },
+      success_url: `${env.FRONTEND_URL}/company?professional=success`,
+      cancel_url: `${env.FRONTEND_URL}/company/pricing?professional=cancelled`,
+      metadata: {
+        userId,
+        planType: 'professional'
+      }
+    });
+
+    sendSuccess(res, {
+      url: session.url,
+      sessionId: session.id
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to create professional checkout session:', error);
+    sendError(res, 'Failed to create professional checkout session', 500, 'CHECKOUT_SESSION_ERROR');
+  }
+}));
+
+// Create checkout session for business plan
+router.post("/checkout/business", [paymentRateLimit], asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const env = getSecureEnvConfig();
+
+    const paymentService = NeonPaymentService.getInstance();
+    const customer = await paymentService.getOrCreateCustomer(userId);
+
+    const stripe = paymentService.stripe;
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customer.id,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'gbp',
+          product_data: {
+            name: 'ApprenticeApex Business Plan',
+            description: 'Monthly subscription with up to 30 job postings and advanced features',
+          },
+          unit_amount: 14900, // £149.00
+          recurring: {
+            interval: 'month',
+          },
+        },
+        quantity: 1,
+      }],
+      subscription_data: {
+        metadata: {
+          userId,
+          planType: 'business',
+          createdVia: 'pricing_page'
+        }
+      },
+      success_url: `${env.FRONTEND_URL}/company?business=success`,
+      cancel_url: `${env.FRONTEND_URL}/company/pricing?business=cancelled`,
+      metadata: {
+        userId,
+        planType: 'business'
+      }
+    });
+
+    sendSuccess(res, {
+      url: session.url,
+      sessionId: session.id
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to create business checkout session:', error);
+    sendError(res, 'Failed to create business checkout session', 500, 'CHECKOUT_SESSION_ERROR');
+  }
+}));
+
+// Create checkout session for enterprise plan
+router.post("/checkout/enterprise", [paymentRateLimit], asyncHandler(async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const env = getSecureEnvConfig();
+
+    const paymentService = NeonPaymentService.getInstance();
+    const customer = await paymentService.getOrCreateCustomer(userId);
+
+    const stripe = paymentService.stripe;
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customer.id,
+      mode: 'subscription',
+      payment_method_types: ['card'],
+      line_items: [{
+        price_data: {
+          currency: 'gbp',
+          product_data: {
+            name: 'ApprenticeApex Enterprise Plan',
+            description: 'Custom enterprise solution with unlimited features',
+          },
+          unit_amount: 19900, // £199.00 as placeholder - will be customized
+          recurring: {
+            interval: 'month',
+          },
+        },
+        quantity: 1,
+      }],
+      subscription_data: {
+        metadata: {
+          userId,
+          planType: 'enterprise',
+          createdVia: 'pricing_page'
+        }
+      },
+      success_url: `${env.FRONTEND_URL}/company?enterprise=success`,
+      cancel_url: `${env.FRONTEND_URL}/company/pricing?enterprise=cancelled`,
+      metadata: {
+        userId,
+        planType: 'enterprise'
+      }
+    });
+
+    sendSuccess(res, {
+      url: session.url,
+      sessionId: session.id
+    });
+
+  } catch (error: any) {
+    console.error('❌ Failed to create enterprise checkout session:', error);
+    sendError(res, 'Failed to create enterprise checkout session', 500, 'CHECKOUT_SESSION_ERROR');
+  }
+}));
+
 export default router;
