@@ -1,13 +1,8 @@
 import express from 'express';
 import { asyncHandler } from '../middleware/errorHandler';
 import { sendSuccess, sendError } from '../utils/apiResponse';
-import { database } from '../config/database-neon';
-import { databaseMiddleware } from '../middleware/database-neon';
+import { database } from '../middleware/database-neon';
 import { getEnvConfig } from '../config/env';
-
-// Import schemas for connection testing
-import { User } from '../models/User';
-import { Apprenticeship } from '../models/Apprenticeship';
 
 const router = express.Router();
 
