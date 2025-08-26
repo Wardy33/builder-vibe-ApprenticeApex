@@ -296,6 +296,16 @@ function App() {
             }
           />
           <Route
+            path="/company/forgot-password"
+            element={
+              <Suspense
+                fallback={<LoadingFallback ariaLabel="Company forgot password" />}
+              >
+                <CompanyForgotPassword />
+              </Suspense>
+            }
+          />
+          <Route
             path="/company/*"
             element={
               <Suspense
