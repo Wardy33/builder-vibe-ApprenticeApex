@@ -4,16 +4,11 @@ import {
   Search, 
   MapPin, 
   Clock, 
-  Calendar, 
-  Filter,
-  ChevronDown,
-  ArrowRight,
+  RefreshCw,
+  AlertCircle,
+  Database,
   User,
-  Mail,
-  Building2,
-  Briefcase,
-  Heart,
-  Star
+  ArrowRight
 } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
 import { SEOHead } from "../components/SEOHead";
@@ -74,105 +69,180 @@ export default function SearchJobs() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState({
-    categories: [] as string[],
-    locations: [] as string[]
-  });
-  const [showEmailCapture, setShowEmailCapture] = useState(false);
-  const [email, setEmail] = useState("");
-  const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [lastApiCall, setLastApiCall] = useState<string>("");
+  const [apiDataSource, setApiDataSource] = useState<string>("");
+  const [totalJobs, setTotalJobs] = useState<number>(0);
+  const [refreshCount, setRefreshCount] = useState<number>(0);
 
-  // Filter states
+  // Search filters
   const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all");
   const [selectedLocation, setSelectedLocation] = useState(searchParams.get("location") || "all");
-  const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
-  const [totalItems, setTotalItems] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
 
-  // Fetch jobs from API - LIVE DATA FROM NEON DATABASE
-  const fetchJobs = async () => {
+  // Available filter options from API
+  const [categories, setCategories] = useState<string[]>([]);
+  const [locations, setLocations] = useState<string[]>([]);
+
+  const clearAllCaches = async () => {
+    console.log("🧹 EMERGENCY CACHE CLEAR - Starting comprehensive cache clearing...");
+    
+    // Clear service worker caches
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'CLEAR_ALL_CACHES'
+      });
+      console.log("🧹 Service worker cache clear message sent");
+    }
+
+    // Clear all browser caches
+    if ('caches' in window) {
+      try {
+        const cacheNames = await caches.keys();
+        console.log("🧹 Found caches:", cacheNames);
+        
+        for (const cacheName of cacheNames) {
+          await caches.delete(cacheName);
+          console.log("🧹 Deleted cache:", cacheName);
+        }
+      } catch (error) {
+        console.error("🧹 Error clearing caches:", error);
+      }
+    }
+
+    // Clear local storage
+    try {
+      localStorage.clear();
+      console.log("🧹 Local storage cleared");
+    } catch (error) {
+      console.error("🧹 Error clearing local storage:", error);
+    }
+
+    // Clear session storage
+    try {
+      sessionStorage.clear();
+      console.log("🧹 Session storage cleared");
+    } catch (error) {
+      console.error("🧹 Error clearing session storage:", error);
+    }
+
+    console.log("🧹 EMERGENCY CACHE CLEAR - Complete!");
+  };
+
+  const fetchJobsFromAPI = async () => {
+    console.log("🚀 STARTING FRESH API CALL - NO CACHED DATA ALLOWED");
+    
     try {
       setLoading(true);
-      setError(null); // Clear any previous errors
-
+      setError(null);
+      
+      const timestamp = new Date().toISOString();
+      setLastApiCall(timestamp);
+      
+      // Build query parameters
       const params = new URLSearchParams({
         page: currentPage.toString(),
         limit: "12",
-        ...(searchTerm && { search: searchTerm }),
-        ...(selectedCategory !== "all" && { category: selectedCategory }),
-        ...(selectedLocation !== "all" && { location: selectedLocation }),
-        // Add cache busting parameter
-        _t: new Date().getTime().toString(),
+        _cache_bust: Date.now().toString(), // Force cache busting
+        _refresh: refreshCount.toString()
       });
 
-      console.log("🔍 Fetching jobs from API:", `/api/apprenticeships/public?${params}`);
+      if (searchTerm && searchTerm !== "") {
+        params.set("search", searchTerm);
+      }
+      if (selectedCategory && selectedCategory !== "all") {
+        params.set("category", selectedCategory);
+      }
+      if (selectedLocation && selectedLocation !== "all") {
+        params.set("location", selectedLocation);
+      }
 
-      const response = await fetch(`/api/apprenticeships/public?${params}`, {
-        // Force no caching
-        cache: 'no-cache',
+      const apiUrl = `/api/apprenticeships/public?${params.toString()}`;
+      console.log("📡 API URL:", apiUrl);
+      console.log("📡 API Call Timestamp:", timestamp);
+
+      // Make the API call with aggressive no-cache headers
+      const response = await fetch(apiUrl, {
+        method: 'GET',
+        cache: 'no-store', // Never use cache
         headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
           'Pragma': 'no-cache',
-          'Expires': '0'
+          'Expires': '0',
+          'If-None-Match': '', // Prevent ETag caching
+          'If-Modified-Since': '', // Prevent Last-Modified caching
         }
       });
 
-      console.log("📡 API Response status:", response.status);
+      console.log("📡 Response Status:", response.status);
+      console.log("📡 Response Headers:", Object.fromEntries(response.headers.entries()));
 
       if (!response.ok) {
-        throw new Error(`API responded with status: ${response.status}`);
+        const errorText = await response.text();
+        console.error("❌ API Error Response:", errorText);
+        throw new Error(`API Error ${response.status}: ${errorText}`);
       }
 
-      const data: ApiResponse = await response.json();
-      console.log("📊 API Response data:", data);
+      const responseData: ApiResponse = await response.json();
+      console.log("📊 FULL API RESPONSE:", JSON.stringify(responseData, null, 2));
 
-      if (data.success) {
-        console.log("✅ Setting jobs data:", data.data.jobs);
-        setJobs(data.data.jobs);
-        setFilters(data.data.filters);
-        setTotalItems(data.data.pagination.totalItems);
-        setTotalPages(data.data.pagination.totalPages);
+      if (responseData.success) {
+        const jobsFromAPI = responseData.data.jobs || [];
+        const totalFromAPI = responseData.data.pagination?.totalItems || 0;
+        const categoriesFromAPI = responseData.data.filters?.categories || [];
+        const locationsFromAPI = responseData.data.filters?.locations || [];
+
+        console.log("✅ SUCCESS - Jobs received from API:", jobsFromAPI.length);
+        console.log("✅ Total jobs in database:", totalFromAPI);
+        console.log("✅ Categories available:", categoriesFromAPI);
+        console.log("✅ Locations available:", locationsFromAPI);
+
+        // Set all data from API
+        setJobs(jobsFromAPI);
+        setTotalJobs(totalFromAPI);
+        setCategories(categoriesFromAPI);
+        setLocations(locationsFromAPI);
+        setApiDataSource("LIVE API - SUCCESS");
+        setError(null);
+
       } else {
         console.error("❌ API returned success: false");
-        setError("Failed to fetch jobs");
+        console.error("❌ API message:", responseData.message);
+        setError(`API Error: ${responseData.message || 'Unknown error'}`);
+        setApiDataSource("LIVE API - ERROR");
+        setJobs([]);
+        setTotalJobs(0);
       }
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
-      setError("Error loading jobs. Please try again.");
+
+    } catch (fetchError) {
+      console.error("💥 FETCH ERROR:", fetchError);
+      setError(`Network Error: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}`);
+      setApiDataSource("LIVE API - NETWORK ERROR");
+      setJobs([]);
+      setTotalJobs(0);
     } finally {
       setLoading(false);
+      console.log("🏁 API call completed at:", new Date().toISOString());
     }
   };
 
-  // Clear any cached data and fetch fresh on mount
+  // Manual refresh function
+  const handleManualRefresh = async () => {
+    console.log("🔄 MANUAL REFRESH TRIGGERED");
+    setRefreshCount(prev => prev + 1);
+    await clearAllCaches();
+    await fetchJobsFromAPI();
+  };
+
+  // Initial load - clear caches and fetch fresh data
   useEffect(() => {
-    console.log("🚀 Component mounted - clearing caches and fetching fresh data");
-
-    // Clear service worker cache for apprenticeships
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-      navigator.serviceWorker.controller.postMessage({
-        type: 'CLEAR_APPRENTICESHIPS_CACHE'
-      });
-      console.log("🧹 Cleared service worker cache for apprenticeships");
-    }
-
-    // Clear browser cache for this session
-    if ('caches' in window) {
-      caches.keys().then((cacheNames) => {
-        cacheNames.forEach((cacheName) => {
-          if (cacheName.includes('apprenticeapex')) {
-            caches.delete(cacheName);
-            console.log("🧹 Deleted cache:", cacheName);
-          }
-        });
-      });
-    }
-
-    // Force fresh fetch
-    fetchJobs();
-  }, []); // Empty dependency array for initial mount only
+    console.log("🚀 COMPONENT MOUNTED - EMERGENCY FRESH START");
+    const initializeData = async () => {
+      await clearAllCaches();
+      await fetchJobsFromAPI();
+    };
+    initializeData();
+  }, []); // Only run on mount
 
   // Update URL params when filters change
   useEffect(() => {
@@ -181,73 +251,35 @@ export default function SearchJobs() {
     if (selectedCategory !== "all") newParams.set("category", selectedCategory);
     if (selectedLocation !== "all") newParams.set("location", selectedLocation);
     if (currentPage > 1) newParams.set("page", currentPage.toString());
-
     setSearchParams(newParams);
+  }, [searchTerm, selectedCategory, selectedLocation, currentPage, setSearchParams]);
 
-    // Only fetch if not initial mount (prevent double fetch)
-    if (searchTerm || selectedCategory !== "all" || selectedLocation !== "all" || currentPage > 1) {
-      console.log("🔄 Filters changed - fetching updated data");
-      fetchJobs();
+  // Refetch when filters change (but not on initial mount)
+  useEffect(() => {
+    if (refreshCount > 0) { // Only fetch if not initial load
+      fetchJobsFromAPI();
     }
   }, [searchTerm, selectedCategory, selectedLocation, currentPage]);
 
-  // Handle search
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setCurrentPage(1);
+    setRefreshCount(prev => prev + 1);
   };
 
-  // Handle email capture
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      // Send email subscription request to backend
-      const response = await fetch('/api/email/subscribe', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: email,
-          type: 'job_alerts',
-          source: 'search_jobs_page',
-          notificationEmail: 'hello@apprenticeapex.co.uk'
-        }),
-      });
-
-      if (response.ok) {
-        console.log("Email subscription successful:", email);
-        setEmailSubmitted(true);
-        setTimeout(() => setShowEmailCapture(false), 2000);
-      } else {
-        console.error("Email subscription failed");
-        // Still show success to user for better UX
-        setEmailSubmitted(true);
-        setTimeout(() => setShowEmailCapture(false), 2000);
-      }
-    } catch (error) {
-      console.error("Email subscription error:", error);
-      // Still show success to user for better UX
-      setEmailSubmitted(true);
-      setTimeout(() => setShowEmailCapture(false), 2000);
-    }
-  };
-
-  // Format salary
   const formatSalary = (job: Job) => {
     const currency = job.salary.currency === "GBP" ? "£" : "$";
     return `${currency}${job.salary.min?.toLocaleString()} - ${currency}${job.salary.max?.toLocaleString()} ${job.salary.type}`;
   };
 
-  // Calculate days until deadline
   const getDaysUntilDeadline = (deadline: string) => {
     const days = Math.ceil((new Date(deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
-    return days;
+    return days > 0 ? days : 0;
   };
 
   const seoConfig = {
     title: `Search Apprenticeship Jobs${searchTerm ? ` - ${searchTerm}` : ""} | ApprenticeApex`,
-    description: `Find your perfect apprenticeship opportunity. Browse ${totalItems} available apprenticeship jobs across different industries and locations. Start your career journey today.`,
+    description: `Find your perfect apprenticeship opportunity. Browse ${totalJobs} available apprenticeship jobs across different industries and locations.`,
     keywords: "apprenticeship jobs, apprentice opportunities, career training, vocational training, entry level jobs",
     canonical: "/search-jobs"
   };
@@ -256,57 +288,63 @@ export default function SearchJobs() {
     <WebLayout>
       <SEOHead {...seoConfig} />
       
-      {/* Job Posting Schema Markup */}
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "CollectionPage",
-          "name": "Apprenticeship Job Listings",
-          "description": "Browse available apprenticeship opportunities",
-          "url": "https://apprenticeapex.com/search-jobs",
-          "mainEntity": {
-            "@type": "ItemList",
-            "numberOfItems": totalItems,
-            "itemListElement": jobs.map((job, index) => ({
-              "@type": "JobPosting",
-              "position": index + 1,
-              "title": job.title,
-              "description": job.shortDescription,
-              "jobLocation": {
-                "@type": "Place",
-                "address": {
-                  "@type": "PostalAddress",
-                  "addressLocality": job.location.city,
-                  "addressRegion": job.location.state
-                }
-              },
-              "employmentType": job.employmentType.toUpperCase(),
-              "industry": job.industry,
-              "datePosted": job.createdAt,
-              "validThrough": job.applicationDeadline,
-              "url": `https://apprenticeapex.com${job.seoUrl}`
-            }))
-          }
-        })}
-      </script>
-
       <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
         <div className="container mx-auto px-4 py-8">
+          
+          {/* EMERGENCY DEBUG INFO - ALWAYS VISIBLE */}
+          <div className="bg-green-500/20 border-2 border-green-500 rounded-xl p-6 mb-8">
+            <h2 className="text-green-300 font-bold text-xl mb-4 flex items-center gap-2">
+              <Database className="h-6 w-6" />
+              LIVE API DATA STATUS
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+              <div>
+                <p className="text-green-200"><strong>Data Source:</strong> {apiDataSource}</p>
+                <p className="text-green-200"><strong>Jobs Loaded:</strong> {jobs.length}</p>
+                <p className="text-green-200"><strong>Total Jobs in Database:</strong> {totalJobs}</p>
+                <p className="text-green-200"><strong>Loading:</strong> {loading ? "YES" : "NO"}</p>
+              </div>
+              <div>
+                <p className="text-green-200"><strong>Last API Call:</strong> {lastApiCall}</p>
+                <p className="text-green-200"><strong>Refresh Count:</strong> {refreshCount}</p>
+                <p className="text-green-200"><strong>Error:</strong> {error || "NONE"}</p>
+                <p className="text-green-200"><strong>Page Load Time:</strong> {new Date().toISOString()}</p>
+              </div>
+            </div>
+            <div className="mt-4 flex gap-2">
+              <button
+                onClick={handleManualRefresh}
+                disabled={loading}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              >
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
+                {loading ? "Refreshing..." : "Force Fresh API Call"}
+              </button>
+              <button
+                onClick={() => window.location.reload()}
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+              >
+                Hard Page Reload
+              </button>
+            </div>
+          </div>
+
           {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
               Find Your Perfect Apprenticeship
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Discover {totalItems} exciting apprenticeship opportunities across the UK. 
-              Start your career journey with top employers.
+              {loading ? "Loading live jobs from database..." : `Discover ${totalJobs} live apprenticeship opportunities from our database.`}
+            </p>
+            <p className="text-lg text-green-400 mt-2 font-semibold">
+              ✅ Data from: Live API - No mock data - Fresh from database
             </p>
           </div>
 
-          {/* Search & Filters */}
+          {/* Search Form */}
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-6 mb-8 border border-white/10">
             <form onSubmit={handleSearch} className="space-y-4">
-              {/* Search Bar */}
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
@@ -318,258 +356,143 @@ export default function SearchJobs() {
                 />
               </div>
 
-              {/* Filter Toggles & Quick Filters */}
               <div className="flex flex-wrap items-center gap-4">
-                <button
-                  type="button"
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
                 >
-                  <Filter className="h-4 w-4" />
-                  Filters
-                  <ChevronDown className={`h-4 w-4 transition-transform ${showFilters ? 'rotate-180' : ''}`} />
-                </button>
+                  <option value="all">All Industries</option>
+                  {categories.map(category => (
+                    <option key={category} value={category}>{category}</option>
+                  ))}
+                </select>
 
-                {/* Quick filter pills */}
-                <div className="flex flex-wrap gap-2">
-                  <select
-                    value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value)}
-                    className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
-                  >
-                    <option value="all">All Industries</option>
-                    {filters.categories.map(category => (
-                      <option key={category} value={category}>{category}</option>
-                    ))}
-                  </select>
-
-                  <select
-                    value={selectedLocation}
-                    onChange={(e) => setSelectedLocation(e.target.value)}
-                    className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
-                  >
-                    <option value="all">All Locations</option>
-                    {filters.locations.map(location => (
-                      <option key={location} value={location}>{location}</option>
-                    ))}
-                  </select>
-                </div>
+                <select
+                  value={selectedLocation}
+                  onChange={(e) => setSelectedLocation(e.target.value)}
+                  className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
+                >
+                  <option value="all">All Locations</option>
+                  {locations.map(location => (
+                    <option key={location} value={location}>{location}</option>
+                  ))}
+                </select>
 
                 <button
                   type="submit"
-                  className="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-medium"
+                  disabled={loading}
+                  className="px-6 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Search
+                  {loading ? "Searching..." : "Search"}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Results Count & Email Capture CTA */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                {loading ? "Loading live data from database..." : `${totalItems} Apprenticeship Opportunities`}
-              </h2>
-              {searchTerm && (
-                <p className="text-gray-400">
-                  Showing results for "{searchTerm}"
-                </p>
-              )}
-            </div>
-
-            {/* Email Alert Signup - Configured for hello@apprenticeapex.co.uk */}
-            <div className="bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl p-4 lg:max-w-md">
-              <h3 className="text-white font-bold mb-2">Get Job Alerts</h3>
-              <p className="text-white/90 text-sm mb-3">
-                Be the first to know about new apprenticeship opportunities
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-3 py-2 rounded-lg border-0 text-gray-900 placeholder-gray-500"
-                />
-                <button
-                  onClick={handleEmailSubmit}
-                  disabled={!email}
-                  className="px-4 py-2 bg-white text-blue-600 rounded-lg hover:bg-gray-100 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Subscribe
-                </button>
-              </div>
-              <p className="text-white/70 text-xs mt-2">
-                Notifications sent to hello@apprenticeapex.co.uk
-              </p>
-            </div>
-          </div>
-
-          {/* Error State */}
+          {/* Error Display */}
           {error && (
-            <div className="bg-red-500/20 border border-red-500 rounded-xl p-4 mb-8">
-              <p className="text-red-300">{error}</p>
-              <p className="text-red-400 text-sm mt-2">
-                Check browser console for detailed error information
-              </p>
-            </div>
-          )}
-
-          {/* Debug Info (Development Only) */}
-          {process.env.NODE_ENV === 'development' && (
-            <div className="bg-blue-500/20 border border-blue-500 rounded-xl p-4 mb-8">
-              <h4 className="text-blue-300 font-bold mb-2">Debug Information:</h4>
-              <p className="text-blue-200 text-sm">Jobs loaded: {jobs.length}</p>
-              <p className="text-blue-200 text-sm">Loading state: {loading.toString()}</p>
-              <p className="text-blue-200 text-sm">Total items: {totalItems}</p>
-              <p className="text-blue-200 text-sm">Error: {error || 'None'}</p>
-              <p className="text-blue-200 text-sm">Last API call: Check browser Network tab for /api/apprenticeships/public</p>
-              <div className="mt-3 flex gap-2">
-                <button
-                  onClick={() => {
-                    console.log("🔄 Manual refresh triggered");
-                    fetchJobs();
-                  }}
-                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
-                >
-                  Force Refresh API
-                </button>
-                <button
-                  onClick={() => {
-                    // Clear service worker cache
-                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-                      navigator.serviceWorker.controller.postMessage({
-                        type: 'CLEAR_APPRENTICESHIPS_CACHE'
-                      });
-                    }
-                    // Force refresh
-                    setTimeout(() => fetchJobs(), 500);
-                  }}
-                  className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
-                >
-                  Clear Cache & Refresh
-                </button>
+            <div className="bg-red-500/20 border-2 border-red-500 rounded-xl p-6 mb-8">
+              <div className="flex items-center gap-2 mb-2">
+                <AlertCircle className="h-6 w-6 text-red-400" />
+                <h3 className="text-red-300 font-bold text-lg">API Error</h3>
               </div>
+              <p className="text-red-200 mb-4">{error}</p>
+              <button
+                onClick={handleManualRefresh}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+              >
+                Retry API Call
+              </button>
             </div>
           )}
 
           {/* Loading State */}
           {loading && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-gray-800/50 rounded-xl p-6 animate-pulse">
-                  <div className="h-6 bg-gray-700 rounded mb-4"></div>
-                  <div className="h-4 bg-gray-700 rounded mb-2"></div>
-                  <div className="h-4 bg-gray-700 rounded mb-4 w-3/4"></div>
-                  <div className="flex gap-2 mb-4">
-                    <div className="h-6 bg-gray-700 rounded px-3 flex-1"></div>
-                    <div className="h-6 bg-gray-700 rounded px-3 flex-1"></div>
-                  </div>
-                  <div className="h-10 bg-gray-700 rounded"></div>
-                </div>
-              ))}
+            <div className="text-center py-16">
+              <RefreshCw className="h-16 w-16 text-pink-500 mx-auto mb-4 animate-spin" />
+              <h3 className="text-2xl font-bold text-white mb-2">Loading Live Data from Database</h3>
+              <p className="text-gray-400">Fetching fresh apprenticeship jobs from our API...</p>
+              <p className="text-green-400 mt-2">✅ No cached data - Direct from database</p>
             </div>
           )}
 
-          {/* Job Grid */}
+          {/* Jobs Grid */}
           {!loading && jobs.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-              {jobs.map((job) => (
-                <div
-                  key={job._id}
-                  className="bg-gray-800/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-pink-500/50 transition-all duration-300 hover:scale-105 group"
-                >
-                  {/* Job Header */}
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
-                      {job.title}
-                    </h3>
-                    <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-4 w-4" />
-                        {job.location.city}, {job.location.state}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Building2 className="h-4 w-4" />
-                        {job.industry}
-                      </div>
-                    </div>
-                  </div>
+            <>
+              <div className="mb-6 text-center">
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  Showing {jobs.length} of {totalJobs} Live Apprenticeship Jobs
+                </h2>
+                <p className="text-green-400 font-semibold">
+                  ✅ Data fetched from live API at {lastApiCall}
+                </p>
+              </div>
 
-                  {/* Description */}
-                  <p className="text-gray-300 text-sm mb-4 line-clamp-3">
-                    {job.shortDescription}
-                  </p>
-
-                  {/* Key Requirements */}
-                  {job.keyRequirements.length > 0 && (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {jobs.map((job) => (
+                  <div
+                    key={job._id}
+                    className="bg-gray-800/50 backdrop-blur-sm border border-white/10 rounded-xl p-6 hover:border-pink-500/50 transition-all duration-300 hover:scale-105 group"
+                  >
                     <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-white mb-2">Key Requirements:</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {job.keyRequirements.map((req, index) => (
-                          <span
-                            key={index}
-                            className="inline-block bg-gray-700 text-gray-300 text-xs px-2 py-1 rounded-full"
-                          >
-                            {req}
-                          </span>
-                        ))}
+                      <h3 className="text-xl font-bold text-white mb-2 group-hover:text-pink-400 transition-colors">
+                        {job.title}
+                      </h3>
+                      <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
+                        <div className="flex items-center gap-1">
+                          <MapPin className="h-4 w-4" />
+                          {job.location.city}, {job.location.state}
+                        </div>
+                      </div>
+                      <p className="text-xs text-green-400 mb-2">
+                        ✅ Live data from API - Job ID: {job._id}
+                      </p>
+                    </div>
+
+                    <p className="text-gray-300 text-sm mb-4 line-clamp-3">
+                      {job.shortDescription || job.description?.substring(0, 150) + "..."}
+                    </p>
+
+                    <div className="space-y-2 mb-4">
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-400">Industry:</span>
+                        <span className="text-white">{job.industry}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-400">Salary:</span>
+                        <span className="text-white font-medium">{formatSalary(job)}</span>
+                      </div>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-gray-400">Deadline:</span>
+                        <span className="text-white">
+                          {getDaysUntilDeadline(job.applicationDeadline)} days left
+                        </span>
                       </div>
                     </div>
-                  )}
 
-                  {/* Job Details */}
-                  <div className="space-y-2 mb-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">Salary:</span>
-                      <span className="text-white font-medium">{formatSalary(job)}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">Type:</span>
-                      <span className="text-white capitalize">{job.employmentType}</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-400">Deadline:</span>
-                      <span className="text-white">
-                        {getDaysUntilDeadline(job.applicationDeadline)} days left
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* CTA Section */}
-                  <div className="space-y-3">
                     <Link
-                      to={job.seoUrl}
+                      to={job.seoUrl || `/apprenticeships/${job._id}`}
                       className="block w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 px-4 rounded-xl text-center hover:from-pink-600 hover:to-purple-700 transition-all duration-200 hover:scale-105 group"
                     >
                       View Full Details & Apply
                       <ArrowRight className="inline-block ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Link>
-                    
-                    <div className="flex items-center justify-center gap-4 text-xs text-gray-400">
-                      <span className="flex items-center gap-1">
-                        <User className="h-3 w-3" />
-                        {job.applicationCount} applied
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Star className="h-3 w-3" />
-                        {job.viewCount} views
-                      </span>
-                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )}
 
           {/* No Results */}
-          {!loading && jobs.length === 0 && (
+          {!loading && jobs.length === 0 && !error && (
             <div className="text-center py-16">
-              <Briefcase className="h-16 w-16 text-gray-500 mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-white mb-2">No jobs found</h3>
-              <p className="text-gray-400 mb-6">
-                Try adjusting your search criteria or browse all available opportunities.
+              <h3 className="text-2xl font-bold text-white mb-2">No Jobs Found in Database</h3>
+              <p className="text-gray-400 mb-4">
+                The API returned 0 jobs for your search criteria.
+              </p>
+              <p className="text-green-400 mb-6">
+                ✅ Data confirmed from live API - {totalJobs} total jobs in database
               </p>
               <button
                 onClick={() => {
@@ -577,55 +500,16 @@ export default function SearchJobs() {
                   setSelectedCategory("all");
                   setSelectedLocation("all");
                   setCurrentPage(1);
+                  setRefreshCount(prev => prev + 1);
                 }}
                 className="px-6 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 transition-colors"
               >
-                Browse All Jobs
+                Show All Jobs
               </button>
             </div>
           )}
 
-          {/* Pagination */}
-          {!loading && totalPages > 1 && (
-            <div className="flex justify-center items-center gap-2 mb-12">
-              <button
-                onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                disabled={currentPage === 1}
-                className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
-              >
-                Previous
-              </button>
-              
-              <div className="flex gap-1">
-                {[...Array(Math.min(5, totalPages))].map((_, i) => {
-                  const page = i + 1;
-                  return (
-                    <button
-                      key={page}
-                      onClick={() => setCurrentPage(page)}
-                      className={`px-3 py-2 rounded-lg transition-colors ${
-                        currentPage === page
-                          ? "bg-pink-500 text-white"
-                          : "bg-gray-700 text-white hover:bg-gray-600"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  );
-                })}
-              </div>
-              
-              <button
-                onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
-                disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-gray-700 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-600 transition-colors"
-              >
-                Next
-              </button>
-            </div>
-          )}
-
-          {/* Lead Generation CTA Section */}
+          {/* Lead Generation CTA */}
           <div className="bg-gradient-to-br from-orange-400 via-pink-500 to-blue-500 rounded-3xl p-8 md:p-12 text-center relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
             <div className="relative z-10">
@@ -654,57 +538,6 @@ export default function SearchJobs() {
           </div>
         </div>
       </div>
-
-      {/* Email Capture Modal - Routes to hello@apprenticeapex.co.uk */}
-      {showEmailCapture && !emailSubmitted && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-900 rounded-2xl p-8 max-w-md w-full border border-white/10">
-            <h3 className="text-2xl font-bold text-white mb-4">Get Job Alerts</h3>
-            <p className="text-gray-300 mb-4">
-              Never miss an opportunity! Get notified when new apprenticeship jobs matching your interests are posted.
-            </p>
-            <p className="text-gray-400 text-sm mb-6">
-              Alert notifications will be sent to hello@apprenticeapex.co.uk
-            </p>
-            <form onSubmit={handleEmailSubmit} className="space-y-4">
-              <input
-                type="email"
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:border-pink-500 focus:ring-2 focus:ring-pink-500/20"
-              />
-              <div className="flex gap-3">
-                <button
-                  type="submit"
-                  disabled={!email}
-                  className="flex-1 bg-pink-500 text-white font-bold py-3 rounded-xl hover:bg-pink-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  Subscribe
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowEmailCapture(false)}
-                  className="px-6 py-3 text-gray-400 hover:text-white transition-colors"
-                >
-                  Skip
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* Success Message */}
-      {emailSubmitted && (
-        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg z-50">
-          <div className="flex items-center gap-2">
-            <Mail className="h-5 w-5" />
-            Thanks! We'll send you job alerts.
-          </div>
-        </div>
-      )}
     </WebLayout>
   );
 }
