@@ -7,6 +7,225 @@ import { authenticateToken } from '../middleware/auth';
 
 const router = express.Router();
 
+// GET /api/apprenticeships/public - Get public job listings for SEO (no auth required)
+router.get('/public', async (req: any, res: any) => {
+  try {
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      category,
+      location,
+      salaryMin,
+      salaryMax,
+      sortBy = 'createdAt',
+      sortOrder = 'desc'
+    } = req.query;
+
+    const skip = (parseInt(page) - 1) * parseInt(limit);
+    let query: any = {
+      isActive: true,
+      applicationDeadline: { $gte: new Date() }
+    };
+
+    // Search functionality
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } },
+        { 'requirements.skills': { $in: [new RegExp(search, 'i')] } }
+      ];
+    }
+
+    // Filter by category (industry)
+    if (category && category !== 'all') {
+      query.industry = category;
+    }
+
+    // Filter by location
+    if (location && location !== 'all') {
+      query['location.city'] = { $regex: location, $options: 'i' };
+    }
+
+    // Salary range filter
+    if (salaryMin || salaryMax) {
+      if (salaryMin) query['salary.min'] = { $gte: parseInt(salaryMin) };
+      if (salaryMax) query['salary.max'] = { $lte: parseInt(salaryMax) };
+    }
+
+    // Build sort object
+    const sortObj: any = {};
+    sortObj[sortBy] = sortOrder === 'desc' ? -1 : 1;
+
+    const apprenticeships = await Apprenticeship.find(query)
+      .select({
+        // Include limited public information only
+        title: 1,
+        description: 1,
+        industry: 1,
+        'location.city': 1,
+        'location.state': 1,
+        'salary.min': 1,
+        'salary.max': 1,
+        'salary.currency': 1,
+        'salary.type': 1,
+        'requirements.education': 1,
+        'requirements.experience': 1,
+        'requirements.skills': 1,
+        applicationDeadline: 1,
+        isRemote: 1,
+        employmentType: 1,
+        createdAt: 1,
+        viewCount: 1,
+        applicationCount: 1,
+        // Exclude company information for privacy
+        company: 0,
+        companyName: 0
+      })
+      .sort(sortObj)
+      .skip(skip)
+      .limit(parseInt(limit))
+      .lean();
+
+    // Generate SEO-friendly URLs for each job
+    const apprenticeshipsWithUrls = apprenticeships.map(job => ({
+      ...job,
+      seoUrl: `/apprenticeships/${job.title.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/\s+/g, '-')}-${job.location.city?.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/\s+/g, '-')}-${job._id}`,
+      // Limit description for preview
+      shortDescription: job.description?.substring(0, 200) + (job.description?.length > 200 ? '...' : ''),
+      // Get key requirements (first 4)
+      keyRequirements: job.requirements?.skills?.slice(0, 4) || []
+    }));
+
+    const totalCount = await Apprenticeship.countDocuments(query);
+
+    // Get filter options for public use
+    const availableCategories = await Apprenticeship.distinct('industry', { isActive: true, applicationDeadline: { $gte: new Date() } });
+    const availableLocations = await Apprenticeship.distinct('location.city', { isActive: true, applicationDeadline: { $gte: new Date() } });
+
+    res.json({
+      success: true,
+      data: {
+        jobs: apprenticeshipsWithUrls,
+        pagination: {
+          currentPage: parseInt(page),
+          totalPages: Math.ceil(totalCount / parseInt(limit)),
+          totalItems: totalCount,
+          itemsPerPage: parseInt(limit),
+          hasNext: skip + apprenticeships.length < totalCount,
+          hasPrev: parseInt(page) > 1
+        },
+        filters: {
+          categories: availableCategories.sort(),
+          locations: availableLocations.sort()
+        }
+      },
+      message: `Found ${totalCount} apprenticeship opportunities`
+    });
+  } catch (error) {
+    console.error('Error fetching public job listings:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch job listings',
+      details: error.message
+    });
+  }
+});
+
+// GET /api/apprenticeships/public/:id - Get public job details by ID
+router.get('/public/:id', async (req: any, res: any) => {
+  try {
+    const jobId = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(jobId)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid job ID'
+      });
+    }
+
+    const job = await Apprenticeship.findById(jobId)
+      .select({
+        // Include limited public information only
+        title: 1,
+        description: 1,
+        industry: 1,
+        'location.city': 1,
+        'location.state': 1,
+        'location.address': 1,
+        'salary.min': 1,
+        'salary.max': 1,
+        'salary.currency': 1,
+        'salary.type': 1,
+        'requirements.education': 1,
+        'requirements.experience': 1,
+        'requirements.skills': 1,
+        'requirements.certifications': 1,
+        benefits: 1,
+        'duration.months': 1,
+        'duration.startDate': 1,
+        applicationDeadline: 1,
+        isRemote: 1,
+        employmentType: 1,
+        createdAt: 1,
+        viewCount: 1,
+        applicationCount: 1,
+        // Exclude company information for privacy
+        company: 0,
+        companyName: 0
+      })
+      .lean();
+
+    if (!job) {
+      return res.status(404).json({
+        success: false,
+        error: 'Job not found'
+      });
+    }
+
+    // Check if job is still active and accepting applications
+    if (!job.isActive || new Date(job.applicationDeadline) < new Date()) {
+      return res.status(410).json({
+        success: false,
+        error: 'This job listing is no longer accepting applications'
+      });
+    }
+
+    // Increment view count
+    await Apprenticeship.findByIdAndUpdate(jobId, { $inc: { viewCount: 1 } });
+
+    // Generate SEO-friendly URL
+    const jobWithMeta = {
+      ...job,
+      seoUrl: `/apprenticeships/${job.title.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/\s+/g, '-')}-${job.location.city?.toLowerCase()
+        .replace(/[^a-z0-9\s]/g, '')
+        .replace(/\s+/g, '-')}-${job._id}`,
+      // Format salary for display
+      formattedSalary: job.salary ? `${job.salary.currency === 'GBP' ? '£' : '$'}${job.salary.min?.toLocaleString()} - ${job.salary.currency === 'GBP' ? '£' : '$'}${job.salary.max?.toLocaleString()} ${job.salary.type}` : 'Competitive salary',
+      // Days until deadline
+      daysUntilDeadline: Math.ceil((new Date(job.applicationDeadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+    };
+
+    res.json({
+      success: true,
+      data: jobWithMeta
+    });
+  } catch (error) {
+    console.error('Error fetching public job details:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch job details',
+      details: error.message
+    });
+  }
+});
+
 // GET /api/apprenticeships/discover - Get apprenticeships for discovery/swiping
 router.get('/discover', async (req: any, res: any) => {
   try {
