@@ -886,7 +886,7 @@ function JobListingsPage() {
     setEditingId(listing.id);
   };
 
-  const handleSaveListing = () => {
+  const handleSaveListing = async () => {
     // Validate form
     if (!formData.title || !formData.location || !formData.salary || !formData.description || !formData.closingDate) {
       alert('Please fill in all required fields');
@@ -899,43 +899,62 @@ function JobListingsPage() {
     }
 
     const listingData = {
-      ...formData,
-      company: 'TechCorp Ltd', // In real app, get from user context
-      postedDate: new Date().toISOString().split('T')[0],
-      applications: 0,
-      status: 'active' as const
+      title: formData.title,
+      location: formData.location,
+      salary: formData.salary,
+      description: formData.description,
+      requirements: formData.requirements.filter(req => req.trim()),
+      applicationDeadline: formData.closingDate,
+      employmentType: formData.type || 'full-time',
+      isActive: true
     };
 
-    if (editingId) {
-      // Update existing listing
-      setListings(prev =>
-        prev.map(listing =>
-          listing.id === editingId
-            ? { ...listing, ...listingData }
-            : listing
-        )
-      );
-      setEditingId(null);
-      setNotification({
-        isOpen: true,
-        type: 'success',
-        title: 'Job Listing Updated!',
-        message: `Your ${formData.title} position has been updated successfully. All changes are now live.`
-      });
-    } else {
-      // Create new listing
-      const newListing = {
-        id: `listing_${Date.now()}`,
-        ...listingData
-      };
-      setListings(prev => [newListing, ...prev]);
-      setIsCreating(false);
-      setNotification({
-        isOpen: true,
-        type: 'success',
-        title: 'Job Listing Created!',
-        message: `Your ${newListing.title} position has been posted successfully and is now live. Candidates can start applying immediately.`
-      });
+    try {
+      if (editingId) {
+        // Update existing listing
+        const response = await apiClient.updateListing(editingId, listingData);
+        if (response.success) {
+          // Update local state with server response
+          setListings(prev =>
+            prev.map(listing =>
+              listing.id === editingId
+                ? { ...listing, ...response.data }
+                : listing
+            )
+          );
+          setEditingId(null);
+          setNotification({
+            isOpen: true,
+            type: 'success',
+            title: 'Job Listing Updated!',
+            message: `Your ${formData.title} position has been updated successfully. All changes are now live.`
+          });
+        } else {
+          alert(`Failed to update listing: ${response.error?.error || 'Unknown error'}`);
+          return;
+        }
+      } else {
+        // Create new listing
+        const response = await apiClient.createListing(listingData);
+        if (response.success && response.data) {
+          // Add new listing from server response
+          setListings(prev => [response.data, ...prev]);
+          setIsCreating(false);
+          setNotification({
+            isOpen: true,
+            type: 'success',
+            title: 'Job Listing Created!',
+            message: `Your ${formData.title} position has been posted successfully and is now live. Candidates can start applying immediately.`
+          });
+        } else {
+          alert(`Failed to create listing: ${response.error?.error || 'Unknown error'}`);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('Error saving listing:', error);
+      alert('Failed to save listing. Please try again.');
+      return;
     }
   };
 
