@@ -230,9 +230,19 @@ class ApiClient {
     if (typeof window !== 'undefined') {
       safeRemoveFromLocalStorage('authToken');
       safeRemoveFromLocalStorage('userProfile');
-      // Redirect to login if not already there
+
+      // Redirect to appropriate login page based on current path
       if (!window.location.pathname.includes('/signin') && !window.location.pathname.includes('/signup')) {
-        window.location.href = '/candidate/signin'; // Updated to use candidate
+        const currentPath = window.location.pathname;
+
+        if (currentPath.startsWith('/company')) {
+          window.location.href = '/company/signin';
+        } else if (currentPath.startsWith('/admin')) {
+          window.location.href = '/admin';
+        } else {
+          // Default to candidate signin for all other paths
+          window.location.href = '/candidate/signin';
+        }
       }
     }
   }
