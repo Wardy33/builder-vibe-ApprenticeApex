@@ -12,6 +12,7 @@ import SubscriptionPrompt from "../components/SubscriptionPrompt";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
 import LiveChat from "../components/LiveChat";
 import NotificationModal from "../components/NotificationModal";
+import { apiClient } from "../lib/apiUtils";
 import {
   ArrowLeft,
   Home,
