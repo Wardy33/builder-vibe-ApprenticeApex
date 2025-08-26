@@ -246,6 +246,16 @@ function App() {
             }
           />
           <Route
+            path="/candidate/forgot-password"
+            element={
+              <Suspense
+                fallback={<LoadingFallback ariaLabel="Candidate forgot password" />}
+              >
+                <CandidateForgotPassword />
+              </Suspense>
+            }
+          />
+          <Route
             path="/candidate/setup-profile"
             element={
               <Suspense
