@@ -27,6 +27,8 @@ const Contact = lazy(() => import("./pages/Contact"));
 const BrowseApprenticeships = lazy(
   () => import("./pages/BrowseApprenticeships"),
 );
+const SearchJobs = lazy(() => import("./pages/SearchJobs"));
+const JobDetail = lazy(() => import("./pages/JobDetail"));
 const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
 const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
