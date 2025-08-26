@@ -295,6 +295,17 @@ function App() {
               </Suspense>
             }
           />
+          {/* Redirect for common mistyped URLs */}
+          <Route
+            path="/CompanyAuth"
+            element={
+              <Suspense
+                fallback={<LoadingFallback ariaLabel="Redirecting..." />}
+              >
+                <CompanyAuth />
+              </Suspense>
+            }
+          />
           <Route
             path="/company/forgot-password"
             element={
