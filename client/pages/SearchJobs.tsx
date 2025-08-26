@@ -146,9 +146,31 @@ export default function SearchJobs() {
     }
   };
 
-  // Initial data fetch on mount
+  // Clear any cached data and fetch fresh on mount
   useEffect(() => {
-    console.log("🚀 Component mounted - fetching initial data");
+    console.log("🚀 Component mounted - clearing caches and fetching fresh data");
+
+    // Clear service worker cache for apprenticeships
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.controller.postMessage({
+        type: 'CLEAR_APPRENTICESHIPS_CACHE'
+      });
+      console.log("🧹 Cleared service worker cache for apprenticeships");
+    }
+
+    // Clear browser cache for this session
+    if ('caches' in window) {
+      caches.keys().then((cacheNames) => {
+        cacheNames.forEach((cacheName) => {
+          if (cacheName.includes('apprenticeapex')) {
+            caches.delete(cacheName);
+            console.log("🧹 Deleted cache:", cacheName);
+          }
+        });
+      });
+    }
+
+    // Force fresh fetch
     fetchJobs();
   }, []); // Empty dependency array for initial mount only
 
@@ -403,6 +425,32 @@ export default function SearchJobs() {
               <p className="text-blue-200 text-sm">Total items: {totalItems}</p>
               <p className="text-blue-200 text-sm">Error: {error || 'None'}</p>
               <p className="text-blue-200 text-sm">Last API call: Check browser Network tab for /api/apprenticeships/public</p>
+              <div className="mt-3 flex gap-2">
+                <button
+                  onClick={() => {
+                    console.log("🔄 Manual refresh triggered");
+                    fetchJobs();
+                  }}
+                  className="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+                >
+                  Force Refresh API
+                </button>
+                <button
+                  onClick={() => {
+                    // Clear service worker cache
+                    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                      navigator.serviceWorker.controller.postMessage({
+                        type: 'CLEAR_APPRENTICESHIPS_CACHE'
+                      });
+                    }
+                    // Force refresh
+                    setTimeout(() => fetchJobs(), 500);
+                  }}
+                  className="px-3 py-1 bg-red-600 text-white rounded text-sm hover:bg-red-700"
+                >
+                  Clear Cache & Refresh
+                </button>
+              </div>
             </div>
           )}
 
