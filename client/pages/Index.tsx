@@ -122,13 +122,13 @@ export default function Index() {
               </div>
                 <div className="button-group flex flex-col sm:flex-row gap-3">
                   <Link
-                    to="/student/signup"
+                    to="/candidate/signup"
                     className="flex-1 bg-pink-500 hover:bg-pink-600 text-white font-bold py-3 px-4 rounded-xl text-center transition-all duration-200 hover:scale-105 shadow-lg touch-target min-h-[44px]"
                   >
                     Sign Up
                   </Link>
                   <Link
-                    to="/student/signin"
+                    to="/candidate/signin"
                     className="flex-1 border-2 border-white text-white font-bold py-3 px-4 rounded-xl text-center hover:bg-white/20 transition-all duration-200 hover:scale-105 touch-target min-h-[44px]"
                   >
                     Sign In
@@ -272,7 +272,7 @@ export default function Index() {
               </p>
               <div className="button-group flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  to="/student/signup"
+                  to="/candidate/signup"
                   className="inline-flex items-center justify-center px-8 py-4 bg-[#00D4FF] text-[#0A0E27] font-bold rounded-xl hover:bg-[#00D4FF]/90 transition-all duration-200 hover:scale-105 touch-target min-h-[48px]"
                 >
                   Sign Up as Student
