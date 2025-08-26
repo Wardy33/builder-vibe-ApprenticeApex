@@ -756,10 +756,9 @@ function JobListingsPage() {
   useEffect(() => {
     const loadJobListings = async () => {
       try {
-        const response = await fetch('/api/company/jobs');
-        if (response.ok) {
-          const data = await response.json();
-          setListings(data.jobs || []);
+        const response = await apiClient.getMyListings();
+        if (response.success && response.data) {
+          setListings(response.data.apprenticeships || response.data || []);
         }
       } catch (error) {
         console.error('Failed to load job listings:', error);
