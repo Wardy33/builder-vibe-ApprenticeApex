@@ -189,7 +189,7 @@ export default function BrowseApprenticeships() {
             who have found their dream careers through ApprenticeApex.
           </p>
           <a
-            href="/student/signup"
+            href="/candidate/signup"
             className="inline-flex items-center justify-center px-8 py-3 bg-orange hover:bg-orange/90 text-white font-semibold rounded-lg transition-colors"
           >
             Get Started Today
