@@ -26,25 +26,42 @@ async function runPaymentMigration() {
 
     console.log('📄 Executing payment tables migration...');
     
-    // Split the SQL into individual statements and execute them
-    const statements = migrationSQL
-      .split(';')
-      .map(stmt => stmt.trim())
-      .filter(stmt => stmt.length > 0 && !stmt.startsWith('--'));
+    // Execute the entire migration SQL as one statement
+    // Since it contains multiple statements, we need to use unsafe raw SQL
+    try {
+      console.log('🔧 Executing migration SQL...');
+      await sql.query(migrationSQL);
+      console.log('✅ Migration SQL executed successfully');
+    } catch (error: any) {
+      // If the single query approach fails, try to execute statement by statement
+      console.log('⚠️  Single query execution failed, trying statement by statement...');
 
-    for (let i = 0; i < statements.length; i++) {
-      const statement = statements[i];
-      if (statement) {
-        try {
-          console.log(`🔧 Executing statement ${i + 1}/${statements.length}...`);
-          await sql`${statement}`;
-        } catch (error: any) {
-          // Ignore "already exists" errors
-          if (error.message?.includes('already exists') || error.message?.includes('relation') && error.message?.includes('exists')) {
-            console.log(`⚠️  Skipping statement ${i + 1} (already exists): ${statement.substring(0, 50)}...`);
-            continue;
+      const statements = migrationSQL
+        .split(';')
+        .map(stmt => stmt.trim())
+        .filter(stmt => stmt.length > 0 && !stmt.startsWith('--') && stmt !== '');
+
+      for (let i = 0; i < statements.length; i++) {
+        const statement = statements[i];
+        if (statement) {
+          try {
+            console.log(`🔧 Executing statement ${i + 1}/${statements.length}: ${statement.substring(0, 50)}...`);
+            // Use raw query for individual statements
+            await sql.query(statement);
+          } catch (stmtError: any) {
+            // Ignore "already exists" errors
+            if (stmtError.message?.includes('already exists') ||
+                (stmtError.message?.includes('relation') && stmtError.message?.includes('exists')) ||
+                stmtError.message?.includes('duplicate key value') ||
+                stmtError.code === '42P07' || // relation already exists
+                stmtError.code === '42P16' || // duplicate table
+                stmtError.code === '42710') { // duplicate object
+              console.log(`⚠️  Skipping statement ${i + 1} (already exists)`);
+              continue;
+            }
+            console.error(`❌ Statement ${i + 1} failed:`, stmtError.message);
+            throw stmtError;
           }
-          throw error;
         }
       }
     }
