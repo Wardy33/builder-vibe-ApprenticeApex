@@ -72,8 +72,6 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.462.0",
-    "mongodb": "^6.17.0",
-    "mongoose": "^8.16.4",
     "multer": "^2.0.1",
     "node-fetch": "^3.3.2",
     "nodemailer": "^7.0.5",
