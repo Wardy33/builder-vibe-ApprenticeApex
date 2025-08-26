@@ -117,18 +117,16 @@ function Dashboard() {
   useEffect(() => {
     const loadDashboardData = async () => {
       try {
-        // Load recent applications
-        const appsResponse = await fetch('/api/company/applications?limit=3&recent=true');
-        if (appsResponse.ok) {
-          const appsData = await appsResponse.json();
-          setRecentApplications(appsData.applications || []);
+        // Load recent applications using correct API
+        const appsResponse = await apiClient.getCompanyApplications({ limit: 3, recent: true });
+        if (appsResponse.success && appsResponse.data) {
+          setRecentApplications(appsResponse.data.applications || appsResponse.data || []);
         }
 
-        // Load recent interviews
-        const interviewsResponse = await fetch('/api/company/interviews?limit=3&recent=true');
-        if (interviewsResponse.ok) {
-          const interviewsData = await interviewsResponse.json();
-          setRecentInterviews(interviewsData.interviews || []);
+        // Load recent interviews using correct API
+        const interviewsResponse = await apiClient.getCompanyInterviews({ limit: 3, recent: true });
+        if (interviewsResponse.success && interviewsResponse.data) {
+          setRecentInterviews(interviewsResponse.data.interviews || interviewsResponse.data || []);
         }
       } catch (error) {
         console.error('Failed to load dashboard data:', error);
