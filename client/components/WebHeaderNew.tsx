@@ -69,6 +69,17 @@ export function WebHeaderNew() {
             </Link>
 
             <Link
+              to="/search-jobs"
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
+                isActive("/search-jobs") ? "bg-orange-500 text-white" : "text-white hover:bg-white/10"
+              }`}
+              aria-current={isActive("/search-jobs") ? "page" : undefined}
+              aria-label="Search apprenticeship jobs"
+            >
+              Search Jobs
+            </Link>
+
+            <Link
               to="/for-employers"
               className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
                 isActive("/for-employers") ? "bg-cyan-500 text-white" : "text-white hover:bg-white/10"
@@ -99,17 +110,6 @@ export function WebHeaderNew() {
               aria-label="Contact us"
             >
               Contact
-            </Link>
-
-            <Link
-              to="/search-jobs"
-              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
-                isActive("/search-jobs") ? "bg-orange-500 text-white" : "text-white hover:bg-white/10"
-              }`}
-              aria-current={isActive("/search-jobs") ? "page" : undefined}
-              aria-label="Search apprenticeship jobs"
-            >
-              Search Jobs
             </Link>
           </nav>
 
@@ -167,6 +167,16 @@ export function WebHeaderNew() {
               >
                 Home
               </Link>
+              <Link
+                to="/search-jobs"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-orange-500 mx-2 focus-indicator"
+                onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/search-jobs") ? "page" : undefined}
+                aria-label="Search apprenticeship jobs"
+              >
+                Search Jobs
+              </Link>
               <button
                 onClick={() => {
                   setIsMobileMenuOpen(false);
@@ -207,16 +217,6 @@ export function WebHeaderNew() {
                 aria-label="Contact us"
               >
                 Contact
-              </Link>
-              <Link
-                to="/search-jobs"
-                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-orange-500 mx-2 focus-indicator"
-                onClick={() => setIsMobileMenuOpen(false)}
-                role="listitem"
-                aria-current={isActive("/search-jobs") ? "page" : undefined}
-                aria-label="Search apprenticeship jobs"
-              >
-                Search Jobs
               </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-white/10 mx-2" role="group" aria-label="Primary actions">

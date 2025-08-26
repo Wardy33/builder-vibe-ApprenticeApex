@@ -13,6 +13,7 @@ import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
 import messagingRoutes from "./routes/messaging";
 import apprenticeshipsRoutes from "./routes/apprenticeships-mock";
+import emailRoutes from "./routes/email";
 
 dotenv.config();
 
@@ -270,6 +271,10 @@ async function startSimpleServer() {
     console.log('🔧 Mounting apprenticeships routes at /api/apprenticeships...');
     app.use("/api/apprenticeships", apprenticeshipsRoutes);
     console.log('✅ Apprenticeships routes mounted successfully at /api/apprenticeships');
+
+    console.log('📧 Mounting email routes at /api/email...');
+    app.use("/api/email", emailRoutes);
+    console.log('✅ Email routes mounted successfully at /api/email');
 
     // Add missing endpoints that are causing 404 errors
 
