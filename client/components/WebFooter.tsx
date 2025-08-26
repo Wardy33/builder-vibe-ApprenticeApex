@@ -32,18 +32,20 @@ export function WebFooter() {
               at a time
             </p>
             <div className="flex space-x-4">
-              <a
-                href="#"
-                className="text-gray-400 hover:text-orange-400 transition-all duration-200 hover:scale-110"
+              <button
+                disabled
+                className="text-gray-400 cursor-not-allowed opacity-50"
+                title="Coming Soon"
               >
                 <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-cyan-400 transition-all duration-200 hover:scale-110"
+              </button>
+              <button
+                disabled
+                className="text-gray-400 cursor-not-allowed opacity-50"
+                title="Coming Soon"
               >
                 <Twitter className="h-5 w-5" />
-              </a>
+              </button>
               <a
                 href="https://www.linkedin.com/company/apprenticeapex"
                 target="_blank"
@@ -52,12 +54,13 @@ export function WebFooter() {
               >
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-pink-400 transition-all duration-200 hover:scale-110"
+              <button
+                disabled
+                className="text-gray-400 cursor-not-allowed opacity-50"
+                title="Coming Soon"
               >
                 <Instagram className="h-5 w-5" />
-              </a>
+              </button>
             </div>
           </div>
 
