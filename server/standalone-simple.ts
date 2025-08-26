@@ -12,7 +12,7 @@ import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
 import messagingRoutes from "./routes/messaging";
-import apprenticeshipsRoutes from "./routes/apprenticeships-mock";
+import apprenticeshipsRoutes from "./routes/apprenticeships-neon";
 import emailRoutes from "./routes/email";
 
 dotenv.config();
@@ -129,7 +129,7 @@ async function startSimpleServer() {
 
     // 2. Enhanced URL encoded parsing
     app.use((req, res, next) => {
-      console.log('🔧 Applying URL encoded middleware...');
+      console.log('�� Applying URL encoded middleware...');
       express.urlencoded({ 
         extended: true, 
         limit: "10mb" 
