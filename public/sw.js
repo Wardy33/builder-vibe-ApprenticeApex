@@ -15,11 +15,17 @@ const STATIC_ASSETS = [
 ];
 
 // API endpoints to cache with specific strategies
+// NOTE: /api/apprenticeships/public is NOT cached to ensure fresh job data
 const API_CACHE_PATTERNS = [
   /^\/api\/health/,
   /^\/api\/test/,
-  /^\/api\/apprenticeships\/browse/,
   /^\/api\/company\/search/
+];
+
+// API endpoints that should NEVER be cached (always fetch fresh)
+const NO_CACHE_API_PATTERNS = [
+  /^\/api\/apprenticeships\/public/,
+  /^\/api\/email\/subscribe/
 ];
 
 // Install event - cache static assets
@@ -128,35 +134,49 @@ async function handleStaticAsset(request) {
 // Handle API requests - Network First with cache fallback
 async function handleAPIRequest(request) {
   try {
+    // Check if this API should never be cached
+    if (shouldNeverCacheAPI(request.url)) {
+      console.log('[SW] Force no cache for:', request.url);
+      // Always fetch fresh, no caching at all
+      const response = await fetch(request, {
+        cache: 'no-cache',
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache'
+        }
+      });
+      return response;
+    }
+
     const cache = await caches.open(DYNAMIC_CACHE);
-    
+
     // Try network first
     try {
       const response = await fetch(request);
-      
+
       // Cache successful GET responses for specific endpoints
       if (response.status === 200 && shouldCacheAPI(request.url)) {
         cache.put(request, response.clone());
       }
-      
+
       return response;
     } catch (networkError) {
       // Network failed, try cache
       console.log('[SW] Network failed, checking cache for:', request.url);
       const cached = await cache.match(request);
-      
+
       if (cached) {
         console.log('[SW] Serving API from cache:', request.url);
         return cached;
       }
-      
+
       // Return error response
       return new Response(
-        JSON.stringify({ 
-          error: 'Network unavailable', 
-          offline: true 
-        }), 
-        { 
+        JSON.stringify({
+          error: 'Network unavailable',
+          offline: true
+        }),
+        {
           status: 503,
           headers: { 'Content-Type': 'application/json' }
         }
@@ -236,6 +256,11 @@ function shouldCacheAPI(url) {
   return API_CACHE_PATTERNS.some(pattern => pattern.test(url));
 }
 
+// Check if API endpoint should never be cached
+function shouldNeverCacheAPI(url) {
+  return NO_CACHE_API_PATTERNS.some(pattern => pattern.test(url));
+}
+
 // Listen for messages from main thread
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
@@ -251,6 +276,23 @@ self.addEventListener('message', (event) => {
       return Promise.all(
         cacheNames.map((cacheName) => caches.delete(cacheName))
       );
+    }).then(() => {
+      event.ports[0].postMessage({ success: true });
+    });
+  }
+
+  if (event.data && event.data.type === 'CLEAR_APPRENTICESHIPS_CACHE') {
+    caches.open(DYNAMIC_CACHE).then((cache) => {
+      return cache.keys().then((requests) => {
+        return Promise.all(
+          requests.map((request) => {
+            if (request.url.includes('/api/apprenticeships')) {
+              console.log('[SW] Clearing apprenticeships cache for:', request.url);
+              return cache.delete(request);
+            }
+          })
+        );
+      });
     }).then(() => {
       event.ports[0].postMessage({ success: true });
     });
