@@ -35,6 +35,8 @@ const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
 const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
 const ForEmployers = lazy(() => import("./pages/ForEmployers"));
 const CompanyAuth = lazy(() => import("./pages/CompanyAuth"));
+const CandidateForgotPassword = lazy(() => import("./pages/CandidateForgotPassword"));
+const CompanyForgotPassword = lazy(() => import("./pages/CompanyForgotPassword"));
 const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
 const AdminLoginSimple = lazy(() => import("./pages/admin/AdminLoginSimple"));
 
