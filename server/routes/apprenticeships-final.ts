@@ -7,145 +7,39 @@ const router = express.Router();
 
 const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || 'winter-bread-79671472';
 
-// Temporary helper to simulate database queries
-// In production, this would use actual Neon database connection
+// Real Neon database connection helper
+import { neon } from '@neondatabase/serverless';
+
+// Get database connection string from environment
+const DATABASE_URL = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
+
+if (!DATABASE_URL) {
+  console.error('❌ DATABASE_URL or NEON_DATABASE_URL environment variable is required');
+}
+
+// Real Neon database query function
 async function queryNeonDatabase(sql: string): Promise<any[]> {
-  console.log(`🔗 Simulated Neon Query: ${sql.substring(0, 100)}...`);
-  
-  // Since we know there are 5 jobs in the database, let's return realistic data
-  // This simulates what the real database would return
-  
-  if (sql.includes('COUNT(*)')) {
-    return [{ total: 5 }];
+  try {
+    console.log(`🔗 Real Neon Query: ${sql.substring(0, 100)}...`);
+
+    if (!DATABASE_URL) {
+      console.error('❌ No database URL available - returning empty results');
+      return [];
+    }
+
+    const neonDb = neon(DATABASE_URL);
+    const result = await neonDb(sql);
+
+    console.log(`✅ Neon query executed successfully, returned ${result.length} rows`);
+    return result;
+
+  } catch (error) {
+    console.error('❌ Real Neon query error:', error.message);
+    console.error('❌ SQL that failed:', sql);
+
+    // Return empty results to prevent crashes
+    return [];
   }
-  
-  if (sql.includes('SELECT') && sql.includes('jobs')) {
-    // Return the job data that matches what we inserted into Neon
-    return [
-      {
-        id: 1,
-        title: 'Software Developer Apprenticeship',
-        description: 'Join our dynamic software development team and learn cutting-edge technologies while building real-world applications. You will work alongside experienced developers on projects that impact millions of users worldwide.',
-        category: 'Technology',
-        location: 'London, England',
-        salary_min: 18000,
-        salary_max: 25000,
-        remote_allowed: false,
-        duration_months: 24,
-        start_date: '2024-09-01',
-        application_deadline: '2025-06-30',
-        views_count: 0,
-        applications_count: 0,
-        requirements: ['JavaScript', 'HTML', 'CSS', 'Problem Solving'],
-        benefits: ['Health Insurance', 'Training Budget', 'Flexible Hours'],
-        experience_level: 'Entry Level',
-        created_at: new Date().toISOString(),
-        company_name: null
-      },
-      {
-        id: 2,
-        title: 'Digital Marketing Apprentice',
-        description: 'Launch your marketing career with this exciting apprenticeship program. Learn SEO, social media marketing, content creation, and digital analytics while working on real campaigns.',
-        category: 'Marketing',
-        location: 'Manchester, England',
-        salary_min: 16000,
-        salary_max: 22000,
-        remote_allowed: true,
-        duration_months: 18,
-        start_date: '2024-10-01',
-        application_deadline: '2025-07-31',
-        views_count: 0,
-        applications_count: 0,
-        requirements: ['Social Media', 'Content Writing', 'Analytics', 'Creativity'],
-        benefits: ['Professional Development', 'Team Events', 'Hybrid Working'],
-        experience_level: 'Entry Level',
-        created_at: new Date().toISOString(),
-        company_name: null
-      },
-      {
-        id: 3,
-        title: 'Healthcare Support Worker Apprentice',
-        description: 'Begin your healthcare career with this rewarding apprenticeship program. Work directly with patients while learning essential healthcare skills and medical procedures.',
-        category: 'Healthcare',
-        location: 'Liverpool, England',
-        salary_min: 16500,
-        salary_max: 22500,
-        remote_allowed: false,
-        duration_months: 24,
-        start_date: '2024-09-01',
-        application_deadline: '2025-08-31',
-        views_count: 0,
-        applications_count: 0,
-        requirements: ['Empathy', 'Communication', 'Teamwork', 'Attention to Detail'],
-        benefits: ['NHS Pension', 'Professional Development', 'Career Progression'],
-        experience_level: 'Entry Level',
-        created_at: new Date().toISOString(),
-        company_name: null
-      },
-      {
-        id: 4,
-        title: 'Mechanical Engineering Apprentice',
-        description: 'Join our world-class engineering team and learn hands-on mechanical engineering skills. Work on innovative projects ranging from automotive components to renewable energy systems.',
-        category: 'Engineering',
-        location: 'Sheffield, England',
-        salary_min: 17000,
-        salary_max: 24000,
-        remote_allowed: false,
-        duration_months: 48,
-        start_date: '2024-09-01',
-        application_deadline: '2025-05-31',
-        views_count: 0,
-        applications_count: 0,
-        requirements: ['Mathematics', 'Physics', 'CAD Software', 'Problem Solving'],
-        benefits: ['Tool Allowance', 'Professional Membership', 'Study Time'],
-        experience_level: 'Entry Level',
-        created_at: new Date().toISOString(),
-        company_name: null
-      },
-      {
-        id: 5,
-        title: 'Business Administration Apprentice',
-        description: 'Develop essential business skills in this comprehensive administration apprenticeship. Learn project management, business communication, and data analysis while working across different departments.',
-        category: 'Business',
-        location: 'Leeds, England',
-        salary_min: 15000,
-        salary_max: 21000,
-        remote_allowed: false,
-        duration_months: 18,
-        start_date: '2024-10-15',
-        application_deadline: '2025-09-15',
-        views_count: 0,
-        applications_count: 0,
-        requirements: ['Communication', 'Organization', 'Microsoft Office', 'Customer Service'],
-        benefits: ['Study Support', 'Career Progression', 'Pension Scheme'],
-        experience_level: 'Entry Level',
-        created_at: new Date().toISOString(),
-        company_name: null
-      }
-    ];
-  }
-  
-  if (sql.includes('DISTINCT category')) {
-    return [
-      { category: 'Technology' },
-      { category: 'Marketing' },
-      { category: 'Healthcare' },
-      { category: 'Engineering' },
-      { category: 'Business' }
-    ];
-  }
-  
-  if (sql.includes('DISTINCT location')) {
-    return [
-      { location: 'London, England' },
-      { location: 'Manchester, England' },
-      { location: 'Liverpool, England' },
-      { location: 'Sheffield, England' },
-      { location: 'Leeds, England' }
-    ];
-  }
-  
-  return [];
 }
 
 // GET /api/apprenticeships/public - Get public job listings from Neon database
