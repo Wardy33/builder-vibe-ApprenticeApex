@@ -9,17 +9,17 @@ const router = express.Router();
 // Enhanced Database Health Check for Neon
 router.get('/database', asyncHandler(async (req, res) => {
   console.log('🏥 Running Neon database health check...');
-
+  
   try {
     const startTime = Date.now();
-
+    
     // Basic connection status
     const isConnected = database.isConnected();
     const dbStatus = database.getHealthStatus();
-
+    
     // Environment configuration
     const env = getEnvConfig();
-
+    
     const healthCheck = {
       timestamp: new Date().toISOString(),
       status: isConnected ? 'healthy' : 'unhealthy',
@@ -45,11 +45,11 @@ router.get('/database', asyncHandler(async (req, res) => {
     if (!isConnected) {
       healthCheck.recommendations.push('Neon database connection is not established');
     }
-
+    
     if (!env.DATABASE_URL) {
       healthCheck.recommendations.push('DATABASE_URL environment variable not configured');
     }
-
+    
     if (!env.NEON_PROJECT_ID) {
       healthCheck.recommendations.push('NEON_PROJECT_ID environment variable not configured');
     }
@@ -69,32 +69,26 @@ router.get('/database', asyncHandler(async (req, res) => {
   }
 }));
 
-// Database Connection Test
+// Database Connection Test for Neon
 router.get('/database/connection', asyncHandler(async (req, res) => {
-  console.log('🔗 Testing database connection details...');
+  console.log('🔗 Testing Neon database connection details...');
   
   try {
     const connection = database.getConnection();
     const isConnected = database.isConnected();
     
-    if (!isConnected || !connection) {
-      return sendError(res, 'Database not connected', 503, 'DB_NOT_CONNECTED');
+    if (!isConnected) {
+      return sendError(res, 'Neon database not connected', 503, 'DB_NOT_CONNECTED');
     }
 
     const connectionInfo = {
       timestamp: new Date().toISOString(),
       connection: {
-        host: connection.host,
-        port: connection.port,
-        name: connection.name,
-        readyState: connection.readyState,
-        readyStateDescription: getReadyStateDescription(connection.readyState),
-        models: Object.keys(connection.models),
-        collections: Object.keys(connection.collections)
-      },
-      server: {
-        version: await connection.db.admin().serverStatus().then(status => status.version).catch(() => 'unknown'),
-        uptime: await connection.db.admin().serverStatus().then(status => status.uptime).catch(() => 0)
+        database: 'neon',
+        projectId: connection.projectId,
+        databaseUrl: connection.databaseUrl ? 'configured' : 'not configured',
+        status: connection.status,
+        type: 'PostgreSQL'
       }
     };
 
@@ -103,104 +97,78 @@ router.get('/database/connection', asyncHandler(async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Connection test failed:', error);
+    console.error('❌ Neon connection test failed:', error);
     sendError(res, 'Connection test failed', 500, 'CONNECTION_TEST_ERROR');
   }
 }));
 
-// Database Collections Info
-router.get('/database/collections', asyncHandler(async (req, res) => {
-  console.log('��� Getting database collections information...');
+// Database Tables Info for Neon
+router.get('/database/tables', asyncHandler(async (req, res) => {
+  console.log('📋 Getting Neon database tables information...');
   
   try {
-    const connection = database.getConnection();
-    if (!connection) {
-      return sendError(res, 'Database connection not available', 503, 'DB_CONNECTION_ERROR');
+    const isConnected = database.isConnected();
+    if (!isConnected) {
+      return sendError(res, 'Neon database connection not available', 503, 'DB_CONNECTION_ERROR');
     }
 
-    const collections = await connection.db.listCollections().toArray();
-    const collectionsInfo = {
+    const tablesInfo = {
       timestamp: new Date().toISOString(),
-      database: connection.name,
-      totalCollections: collections.length,
-      collections: []
+      database: 'neon',
+      type: 'PostgreSQL',
+      tables: [
+        'users',
+        'apprenticeships', 
+        'applications',
+        'companies',
+        'subscriptions',
+        'payments'
+      ],
+      note: 'Table details available through Neon console'
     };
 
-    for (const collection of collections) {
-      try {
-        const stats = await connection.db.collection(collection.name).stats();
-        const indexes = await connection.db.collection(collection.name).indexes();
-        
-        collectionsInfo.collections.push({
-          name: collection.name,
-          type: collection.type,
-          documents: stats.count || 0,
-          size: stats.size || 0,
-          indexes: indexes.length,
-          indexNames: indexes.map((idx: any) => idx.name)
-        });
-      } catch (error) {
-        collectionsInfo.collections.push({
-          name: collection.name,
-          type: collection.type,
-          error: 'Could not retrieve stats'
-        });
-      }
-    }
-
     sendSuccess(res, {
-      collectionsInfo
+      tablesInfo
     });
 
   } catch (error) {
-    console.error('❌ Collections info failed:', error);
-    sendError(res, 'Failed to get collections info', 500, 'COLLECTIONS_INFO_ERROR');
+    console.error('❌ Tables info failed:', error);
+    sendError(res, 'Failed to get tables info', 500, 'TABLES_INFO_ERROR');
   }
 }));
 
-// Database Performance Metrics
+// Database Performance Metrics for Neon
 router.get('/database/performance', asyncHandler(async (req, res) => {
-  console.log('��� Getting database performance metrics...');
+  console.log('📊 Getting Neon database performance metrics...');
   
   try {
-    const performanceMonitor = databaseMiddleware.monitor;
-    const healthStatus = performanceMonitor.getHealthStatus();
-    const loggerStats = databaseMiddleware.logger.getStats();
+    const dbStatus = database.getHealthStatus();
     
     const performanceMetrics = {
       timestamp: new Date().toISOString(),
-      status: healthStatus.status,
+      status: dbStatus.status,
       metrics: {
-        uptime: healthStatus.uptime,
-        database: healthStatus.database,
-        memory: healthStatus.memory,
-        operations: {
-          ...loggerStats,
-          collectionsStats: loggerStats.collections
-        }
+        database: 'neon',
+        connected: dbStatus.connected,
+        projectId: dbStatus.projectId,
+        lastConnectedAt: dbStatus.lastConnectedAt,
+        connectionAttempts: dbStatus.connectionAttempts
       },
       alerts: []
     };
 
     // Add performance alerts
-    if (healthStatus.database.queries.averageTime > 500) {
-      performanceMetrics.alerts.push({
-        level: 'warning',
-        message: `Average query time is high: ${healthStatus.database.queries.averageTime}ms`
-      });
-    }
-    
-    if (healthStatus.database.queries.successRate < 0.95) {
+    if (!dbStatus.connected) {
       performanceMetrics.alerts.push({
         level: 'error',
-        message: `Query success rate is low: ${(healthStatus.database.queries.successRate * 100).toFixed(1)}%`
+        message: 'Neon database not connected'
       });
     }
     
-    if (healthStatus.memory.used > 1000) {
+    if (dbStatus.connectionAttempts > 3) {
       performanceMetrics.alerts.push({
-        level: 'info',
-        message: `Memory usage is high: ${healthStatus.memory.used}MB`
+        level: 'warning',
+        message: `Multiple connection attempts: ${dbStatus.connectionAttempts}`
       });
     }
 
@@ -209,7 +177,7 @@ router.get('/database/performance', asyncHandler(async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Performance metrics failed:', error);
+    console.error('❌ Neon performance metrics failed:', error);
     sendError(res, 'Failed to get performance metrics', 500, 'PERFORMANCE_METRICS_ERROR');
   }
 }));
@@ -219,21 +187,10 @@ router.get('/ping', asyncHandler(async (req, res) => {
   const isConnected = database.isConnected();
   
   sendSuccess(res, {
-    message: 'Database ping',
+    message: 'Neon database ping',
     connected: isConnected,
     timestamp: new Date().toISOString()
   });
 }));
-
-// Helper function
-function getReadyStateDescription(state: number): string {
-  const states = {
-    0: 'disconnected',
-    1: 'connected',
-    2: 'connecting',
-    3: 'disconnecting'
-  };
-  return states[state as keyof typeof states] || 'unknown';
-}
 
 export default router;
