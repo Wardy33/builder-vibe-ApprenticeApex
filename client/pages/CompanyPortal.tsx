@@ -9,6 +9,7 @@ import {
 import { useState, useEffect, useRef } from "react";
 import SubscriptionManager from "../components/SubscriptionManager";
 import SubscriptionPrompt from "../components/SubscriptionPrompt";
+import CompanyPricing from "../components/CompanyPricing";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
 import LiveChat from "../components/LiveChat";
 import NotificationModal from "../components/NotificationModal";
