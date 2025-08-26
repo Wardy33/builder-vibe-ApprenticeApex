@@ -8,7 +8,7 @@ import { createRateLimit } from "../middleware/security";
 const router = express.Router();
 
 // Apply authentication to all payment routes
-router.use(authMiddleware);
+router.use(authenticateToken);
 
 // Apply rate limiting to prevent payment abuse
 const paymentRateLimit = createRateLimit(15 * 60 * 1000, 20); // 20 requests per 15 minutes
