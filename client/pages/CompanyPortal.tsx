@@ -1324,10 +1324,9 @@ function ApplicationsPage() {
   useEffect(() => {
     const loadApplications = async () => {
       try {
-        const response = await fetch('/api/company/applications');
-        if (response.ok) {
-          const data = await response.json();
-          setApplications(data.applications || []);
+        const response = await apiClient.getCompanyApplications();
+        if (response.success && response.data) {
+          setApplications(response.data.applications || response.data || []);
         }
       } catch (error) {
         console.error('Failed to load applications:', error);
