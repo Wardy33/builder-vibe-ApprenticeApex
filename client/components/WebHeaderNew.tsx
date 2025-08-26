@@ -208,6 +208,16 @@ export function WebHeaderNew() {
               >
                 Contact
               </Link>
+              <Link
+                to="/search-jobs"
+                className="block px-3 py-3 text-base font-medium text-white rounded-xl transition-all duration-200 hover:bg-orange-500 mx-2 focus-indicator"
+                onClick={() => setIsMobileMenuOpen(false)}
+                role="listitem"
+                aria-current={isActive("/search-jobs") ? "page" : undefined}
+                aria-label="Search apprenticeship jobs"
+              >
+                Search Jobs
+              </Link>
             </div>
             <div className="mt-4 pt-4 border-t border-white/10 mx-2" role="group" aria-label="Primary actions">
               <button
