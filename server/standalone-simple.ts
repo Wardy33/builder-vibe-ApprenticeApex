@@ -279,6 +279,15 @@ async function startSimpleServer() {
     app.use("/api/email", emailRoutes);
     console.log('✅ Email routes mounted successfully at /api/email');
 
+    // Stripe webhook (must be mounted before payment routes due to raw body parsing)
+    console.log('�� Mounting Stripe webhook routes at /api/stripe...');
+    app.use("/api/stripe", stripeWebhookRoutes);
+    console.log('✅ Stripe webhook routes mounted successfully at /api/stripe');
+
+    console.log('💰 Mounting payment routes at /api/payments...');
+    app.use("/api/payments", paymentRoutes);
+    console.log('✅ Payment routes mounted successfully at /api/payments');
+
     // Add missing endpoints that are causing 404 errors
 
     // Applications endpoint
