@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { 
-  Search, 
-  MapPin, 
+import {
+  Search,
+  MapPin,
   ArrowRight,
   User,
   Mail,
   Briefcase,
   Clock,
-  Calendar
+  Calendar,
 } from "lucide-react";
 import { WebLayout } from "../components/WebLayout";
 import { SEOHead } from "../components/SEOHead";
@@ -72,10 +72,18 @@ export default function SearchJobs() {
   const [totalJobs, setTotalJobs] = useState<number>(0);
 
   // Search filters
-  const [searchTerm, setSearchTerm] = useState(searchParams.get("search") || "");
-  const [selectedCategory, setSelectedCategory] = useState(searchParams.get("category") || "all");
-  const [selectedLocation, setSelectedLocation] = useState(searchParams.get("location") || "all");
-  const [currentPage, setCurrentPage] = useState(Number(searchParams.get("page")) || 1);
+  const [searchTerm, setSearchTerm] = useState(
+    searchParams.get("search") || "",
+  );
+  const [selectedCategory, setSelectedCategory] = useState(
+    searchParams.get("category") || "all",
+  );
+  const [selectedLocation, setSelectedLocation] = useState(
+    searchParams.get("location") || "all",
+  );
+  const [currentPage, setCurrentPage] = useState(
+    Number(searchParams.get("page")) || 1,
+  );
 
   // Available filter options from API
   const [categories, setCategories] = useState<string[]>([]);
@@ -89,7 +97,7 @@ export default function SearchJobs() {
     try {
       setLoading(true);
       setError(null);
-      
+
       // Build query parameters
       const params = new URLSearchParams({
         page: currentPage.toString(),
@@ -111,13 +119,13 @@ export default function SearchJobs() {
 
       // Make the API call with no-cache headers
       const response = await fetch(apiUrl, {
-        method: 'GET',
-        cache: 'no-store',
+        method: "GET",
+        cache: "no-store",
         headers: {
-          'Cache-Control': 'no-cache, no-store, must-revalidate, max-age=0',
-          'Pragma': 'no-cache',
-          'Expires': '0',
-        }
+          "Cache-Control": "no-cache, no-store, must-revalidate, max-age=0",
+          Pragma: "no-cache",
+          Expires: "0",
+        },
       });
 
       if (!response.ok) {
@@ -137,15 +145,15 @@ export default function SearchJobs() {
         setCategories(categoriesFromAPI);
         setLocations(locationsFromAPI);
         setError(null);
-
       } else {
-        setError(`API Error: ${responseData.message || 'Unknown error'}`);
+        setError(`API Error: ${responseData.message || "Unknown error"}`);
         setJobs([]);
         setTotalJobs(0);
       }
-
     } catch (fetchError) {
-      setError(`Network Error: ${fetchError instanceof Error ? fetchError.message : 'Unknown error'}`);
+      setError(
+        `Network Error: ${fetchError instanceof Error ? fetchError.message : "Unknown error"}`,
+      );
       setJobs([]);
       setTotalJobs(0);
     } finally {
@@ -166,7 +174,13 @@ export default function SearchJobs() {
     if (selectedLocation !== "all") newParams.set("location", selectedLocation);
     if (currentPage > 1) newParams.set("page", currentPage.toString());
     setSearchParams(newParams);
-  }, [searchTerm, selectedCategory, selectedLocation, currentPage, setSearchParams]);
+  }, [
+    searchTerm,
+    selectedCategory,
+    selectedLocation,
+    currentPage,
+    setSearchParams,
+  ]);
 
   // Refetch when filters change
   useEffect(() => {
@@ -184,16 +198,16 @@ export default function SearchJobs() {
     if (!email) return;
 
     try {
-      const response = await fetch('/api/email/subscribe', {
-        method: 'POST',
+      const response = await fetch("/api/email/subscribe", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           email: email,
-          subscription_type: 'job_alerts',
-          source: 'search_jobs_page',
-          notification_email: 'hello@apprenticeapex.co.uk'
+          subscription_type: "job_alerts",
+          source: "search_jobs_page",
+          notification_email: "hello@apprenticeapex.co.uk",
         }),
       });
 
@@ -216,33 +230,38 @@ export default function SearchJobs() {
   };
 
   const getDaysUntilDeadline = (deadline: string) => {
-    const days = Math.ceil((new Date(deadline).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24));
+    const days = Math.ceil(
+      (new Date(deadline).getTime() - new Date().getTime()) /
+        (1000 * 60 * 60 * 24),
+    );
     return days > 0 ? days : 0;
   };
 
   const seoConfig = {
     title: `Search Apprenticeship Jobs${searchTerm ? ` - ${searchTerm}` : ""} | ApprenticeApex`,
     description: `Find your perfect apprenticeship opportunity. Browse available apprenticeship jobs across different industries and locations.`,
-    keywords: "apprenticeship jobs, apprentice opportunities, career training, vocational training, entry level jobs",
-    canonical: "/search-jobs"
+    keywords:
+      "apprenticeship jobs, apprentice opportunities, career training, vocational training, entry level jobs",
+    canonical: "/search-jobs",
   };
 
   return (
     <WebLayout>
       <SEOHead {...seoConfig} />
-      
+
       <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen">
         <div className="container mx-auto px-4 py-8">
-          
           {/* Header Section */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-cyan-300 via-orange-400 to-pink-500 bg-clip-text text-transparent">
               Find Your Perfect Apprenticeship
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              {loading ? "Loading apprenticeship opportunities..." : 
-               totalJobs > 0 ? `Discover ${totalJobs} apprenticeship opportunities from top employers.` :
-               "Be the first to discover new apprenticeship opportunities as they become available."}
+              {loading
+                ? "Loading apprenticeship opportunities..."
+                : totalJobs > 0
+                  ? `Discover ${totalJobs} apprenticeship opportunities from top employers.`
+                  : "Be the first to discover new apprenticeship opportunities as they become available."}
             </p>
           </div>
 
@@ -267,8 +286,10 @@ export default function SearchJobs() {
                   className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
                 >
                   <option value="all">All Industries</option>
-                  {categories.map(category => (
-                    <option key={category} value={category}>{category}</option>
+                  {categories.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
                   ))}
                 </select>
 
@@ -278,8 +299,10 @@ export default function SearchJobs() {
                   className="px-3 py-2 bg-gray-700 text-white rounded-lg border border-gray-600 focus:border-pink-500"
                 >
                   <option value="all">All Locations</option>
-                  {locations.map(location => (
-                    <option key={location} value={location}>{location}</option>
+                  {locations.map((location) => (
+                    <option key={location} value={location}>
+                      {location}
+                    </option>
                   ))}
                 </select>
 
@@ -297,7 +320,10 @@ export default function SearchJobs() {
           {/* Error Display */}
           {error && (
             <div className="bg-red-500/20 border border-red-500 rounded-xl p-6 mb-8">
-              <p className="text-red-200">Unable to load apprenticeship listings at this time. Please try again later.</p>
+              <p className="text-red-200">
+                Unable to load apprenticeship listings at this time. Please try
+                again later.
+              </p>
             </div>
           )}
 
@@ -305,8 +331,12 @@ export default function SearchJobs() {
           {loading && (
             <div className="text-center py-16">
               <div className="inline-block animate-spin rounded-full h-16 w-16 border-b-2 border-pink-500 mb-4"></div>
-              <h3 className="text-2xl font-bold text-white mb-2">Loading Apprenticeship Opportunities</h3>
-              <p className="text-gray-400">Searching for the best matches for you...</p>
+              <h3 className="text-2xl font-bold text-white mb-2">
+                Loading Apprenticeship Opportunities
+              </h3>
+              <p className="text-gray-400">
+                Searching for the best matches for you...
+              </p>
             </div>
           )}
 
@@ -315,7 +345,8 @@ export default function SearchJobs() {
             <>
               <div className="mb-6 text-center">
                 <h2 className="text-2xl font-bold text-white mb-2">
-                  Showing {jobs.length} of {totalJobs} Apprenticeship Opportunities
+                  Showing {jobs.length} of {totalJobs} Apprenticeship
+                  Opportunities
                 </h2>
               </div>
 
@@ -338,7 +369,8 @@ export default function SearchJobs() {
                     </div>
 
                     <p className="text-gray-300 text-sm mb-4 line-clamp-3">
-                      {job.shortDescription || job.description?.substring(0, 150) + "..."}
+                      {job.shortDescription ||
+                        job.description?.substring(0, 150) + "..."}
                     </p>
 
                     <div className="space-y-2 mb-4">
@@ -348,12 +380,15 @@ export default function SearchJobs() {
                       </div>
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-400">Salary:</span>
-                        <span className="text-white font-medium">{formatSalary(job)}</span>
+                        <span className="text-white font-medium">
+                          {formatSalary(job)}
+                        </span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-400">Deadline:</span>
                         <span className="text-white">
-                          {getDaysUntilDeadline(job.applicationDeadline)} days left
+                          {getDaysUntilDeadline(job.applicationDeadline)} days
+                          left
                         </span>
                       </div>
                     </div>
@@ -375,10 +410,13 @@ export default function SearchJobs() {
           {!loading && jobs.length === 0 && !error && (
             <div className="text-center py-16">
               <Briefcase className="h-24 w-24 text-gray-500 mx-auto mb-6" />
-              <h3 className="text-3xl font-bold text-white mb-4">No Apprenticeships Available Yet</h3>
+              <h3 className="text-3xl font-bold text-white mb-4">
+                No Apprenticeships Available Yet
+              </h3>
               <p className="text-gray-400 mb-8 max-w-2xl mx-auto text-lg">
-                We're working with top employers to bring you exciting apprenticeship opportunities. 
-                Be the first to know when new positions become available!
+                We're working with top employers to bring you exciting
+                apprenticeship opportunities. Be the first to know when new
+                positions become available!
               </p>
 
               {/* Email Alert Signup for Empty State */}
@@ -389,9 +427,10 @@ export default function SearchJobs() {
                     Get Notified First
                   </h4>
                   <p className="text-white/90 text-sm mb-4">
-                    Join our job alert list and receive an email when new apprenticeship opportunities are posted.
+                    Join our job alert list and receive an email when new
+                    apprenticeship opportunities are posted.
                   </p>
-                  
+
                   {!emailSubmitted ? (
                     <form onSubmit={handleEmailSubmit} className="space-y-3">
                       <input
@@ -412,13 +451,16 @@ export default function SearchJobs() {
                     </form>
                   ) : (
                     <div className="text-center py-4">
-                      <div className="text-white text-lg font-semibold mb-2">✅ You're All Set!</div>
+                      <div className="text-white text-lg font-semibold mb-2">
+                        ✅ You're All Set!
+                      </div>
                       <p className="text-white/90 text-sm">
-                        We'll notify you as soon as new apprenticeship opportunities become available.
+                        We'll notify you as soon as new apprenticeship
+                        opportunities become available.
                       </p>
                     </div>
                   )}
-                  
+
                   <p className="text-white/70 text-xs mt-3 text-center">
                     Notifications sent to hello@apprenticeapex.co.uk
                   </p>
@@ -427,7 +469,9 @@ export default function SearchJobs() {
 
               {/* Additional CTAs for Empty State */}
               <div className="space-y-4">
-                <p className="text-gray-300 text-lg">In the meantime, you can:</p>
+                <p className="text-gray-300 text-lg">
+                  In the meantime, you can:
+                </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     to="/candidate/signup"
@@ -452,13 +496,14 @@ export default function SearchJobs() {
             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent"></div>
             <div className="relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                {totalJobs > 0 ? "Ready to Apply for Your Dream Apprenticeship?" : "Ready to Launch Your Career?"}
+                {totalJobs > 0
+                  ? "Ready to Apply for Your Dream Apprenticeship?"
+                  : "Ready to Launch Your Career?"}
               </h2>
               <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-                {totalJobs > 0 ? 
-                  "Create your free account to apply for jobs, upload your CV, and get matched with top employers." :
-                  "Create your free profile now and be ready to apply instantly when new apprenticeship opportunities become available."
-                }
+                {totalJobs > 0
+                  ? "Create your free account to apply for jobs, upload your CV, and get matched with top employers."
+                  : "Create your free profile now and be ready to apply instantly when new apprenticeship opportunities become available."}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link

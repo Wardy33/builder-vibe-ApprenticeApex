@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { loadStripe, StripeElementsOptions } from '@stripe/stripe-js';
+import React, { useState, useEffect } from "react";
+import { loadStripe, StripeElementsOptions } from "@stripe/stripe-js";
 import {
   Elements,
   CardElement,
   useStripe,
-  useElements
-} from '@stripe/react-stripe-js';
-import { 
+  useElements,
+} from "@stripe/react-stripe-js";
+import {
   CreditCard,
   CheckCircle,
   XCircle,
@@ -15,8 +15,8 @@ import {
   Star,
   Zap,
   Megaphone,
-  Clock
-} from 'lucide-react';
+  Clock,
+} from "lucide-react";
 
 interface PaymentPackage {
   id: number;
@@ -44,7 +44,7 @@ let stripePromise: Promise<any> | null = null;
 const getStripe = () => {
   if (!stripePromise) {
     // This will be set from the API call
-    stripePromise = loadStripe('pk_test_placeholder');
+    stripePromise = loadStripe("pk_test_placeholder");
   }
   return stripePromise;
 };
@@ -69,27 +69,27 @@ const PaymentForm: React.FC<{
 
   const createPaymentIntent = async () => {
     try {
-      const response = await fetch('/api/payments/job-posting', {
-        method: 'POST',
+      const response = await fetch("/api/payments/job-posting", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           jobId,
-          packageType: selectedPackage.type
-        })
+          packageType: selectedPackage.type,
+        }),
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setClientSecret(data.data.clientSecret);
       } else {
-        setError(data.error || 'Failed to initialize payment');
+        setError(data.error || "Failed to initialize payment");
       }
     } catch (err) {
-      setError('Failed to initialize payment');
+      setError("Failed to initialize payment");
     }
   };
 
@@ -106,24 +106,25 @@ const PaymentForm: React.FC<{
     const cardElement = elements.getElement(CardElement);
 
     if (!cardElement) {
-      setError('Card element not found');
+      setError("Card element not found");
       setProcessing(false);
       return;
     }
 
-    const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: 'Employer Account'
-        }
-      }
-    });
+    const { error: stripeError, paymentIntent } =
+      await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: cardElement,
+          billing_details: {
+            name: "Employer Account",
+          },
+        },
+      });
 
     if (stripeError) {
-      setError(stripeError.message || 'Payment failed');
+      setError(stripeError.message || "Payment failed");
       setProcessing(false);
-    } else if (paymentIntent?.status === 'succeeded') {
+    } else if (paymentIntent?.status === "succeeded") {
       onSuccess();
     }
   };
@@ -131,14 +132,14 @@ const PaymentForm: React.FC<{
   const cardElementOptions = {
     style: {
       base: {
-        fontSize: '16px',
-        color: '#424770',
-        '::placeholder': {
-          color: '#aab7c4',
+        fontSize: "16px",
+        color: "#424770",
+        "::placeholder": {
+          color: "#aab7c4",
         },
       },
       invalid: {
-        color: '#9e2146',
+        color: "#9e2146",
       },
     },
   };
@@ -151,7 +152,9 @@ const PaymentForm: React.FC<{
         </h3>
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
           <div className="flex justify-between items-center mb-2">
-            <span className="font-medium text-blue-900">{selectedPackage.name}</span>
+            <span className="font-medium text-blue-900">
+              {selectedPackage.name}
+            </span>
             <span className="text-lg font-bold text-blue-900">
               £{(selectedPackage.price / 100).toFixed(2)}
             </span>
@@ -220,24 +223,33 @@ const PackageSelector: React.FC<{
   selected: PaymentPackage | null;
   onSelect: (pkg: PaymentPackage) => void;
 }> = ({ packages, selected, onSelect }) => {
-  
   const getPackageIcon = (type: string) => {
     switch (type) {
-      case 'basic': return <CreditCard className="h-6 w-6" />;
-      case 'featured': return <Star className="h-6 w-6" />;
-      case 'premium': return <Megaphone className="h-6 w-6" />;
-      case 'urgent': return <Zap className="h-6 w-6" />;
-      default: return <CreditCard className="h-6 w-6" />;
+      case "basic":
+        return <CreditCard className="h-6 w-6" />;
+      case "featured":
+        return <Star className="h-6 w-6" />;
+      case "premium":
+        return <Megaphone className="h-6 w-6" />;
+      case "urgent":
+        return <Zap className="h-6 w-6" />;
+      default:
+        return <CreditCard className="h-6 w-6" />;
     }
   };
 
   const getPackageColor = (type: string) => {
     switch (type) {
-      case 'basic': return 'border-gray-300 hover:border-gray-400';
-      case 'featured': return 'border-blue-300 hover:border-blue-400';
-      case 'premium': return 'border-purple-300 hover:border-purple-400';
-      case 'urgent': return 'border-orange-300 hover:border-orange-400';
-      default: return 'border-gray-300 hover:border-gray-400';
+      case "basic":
+        return "border-gray-300 hover:border-gray-400";
+      case "featured":
+        return "border-blue-300 hover:border-blue-400";
+      case "premium":
+        return "border-purple-300 hover:border-purple-400";
+      case "urgent":
+        return "border-orange-300 hover:border-orange-400";
+      default:
+        return "border-gray-300 hover:border-gray-400";
     }
   };
 
@@ -248,9 +260,9 @@ const PackageSelector: React.FC<{
           key={pkg.id}
           className={`relative border-2 rounded-xl p-6 cursor-pointer transition-all ${
             selected?.id === pkg.id
-              ? 'border-blue-500 bg-blue-50'
+              ? "border-blue-500 bg-blue-50"
               : getPackageColor(pkg.type)
-          } ${pkg.popular ? 'ring-2 ring-blue-200' : ''}`}
+          } ${pkg.popular ? "ring-2 ring-blue-200" : ""}`}
           onClick={() => onSelect(pkg)}
         >
           {pkg.popular && (
@@ -260,20 +272,27 @@ const PackageSelector: React.FC<{
               </span>
             </div>
           )}
-          
+
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center">
-              <div className={`p-2 rounded-lg mr-3 ${
-                pkg.type === 'basic' ? 'bg-gray-100 text-gray-600' :
-                pkg.type === 'featured' ? 'bg-blue-100 text-blue-600' :
-                pkg.type === 'premium' ? 'bg-purple-100 text-purple-600' :
-                'bg-orange-100 text-orange-600'
-              }`}>
+              <div
+                className={`p-2 rounded-lg mr-3 ${
+                  pkg.type === "basic"
+                    ? "bg-gray-100 text-gray-600"
+                    : pkg.type === "featured"
+                      ? "bg-blue-100 text-blue-600"
+                      : pkg.type === "premium"
+                        ? "bg-purple-100 text-purple-600"
+                        : "bg-orange-100 text-orange-600"
+                }`}
+              >
                 {getPackageIcon(pkg.type)}
               </div>
               <div>
                 <h3 className="font-bold text-gray-900">{pkg.name}</h3>
-                <p className="text-sm text-gray-600">{pkg.duration_days} days</p>
+                <p className="text-sm text-gray-600">
+                  {pkg.duration_days} days
+                </p>
               </div>
             </div>
             <div className="text-right">
@@ -287,16 +306,17 @@ const PackageSelector: React.FC<{
           <p className="text-sm text-gray-600 mb-4">{pkg.description}</p>
 
           <div className="space-y-2">
-            {Object.entries(pkg.features).map(([feature, enabled]) => (
-              enabled && (
-                <div key={feature} className="flex items-center text-sm">
-                  <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
-                  <span className="text-gray-700 capitalize">
-                    {feature.replace(/([A-Z])/g, ' $1').toLowerCase()}
-                  </span>
-                </div>
-              )
-            ))}
+            {Object.entries(pkg.features).map(
+              ([feature, enabled]) =>
+                enabled && (
+                  <div key={feature} className="flex items-center text-sm">
+                    <CheckCircle className="h-4 w-4 text-green-500 mr-2" />
+                    <span className="text-gray-700 capitalize">
+                      {feature.replace(/([A-Z])/g, " $1").toLowerCase()}
+                    </span>
+                  </div>
+                ),
+            )}
           </div>
 
           {selected?.id === pkg.id && (
@@ -316,11 +336,13 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
   jobId,
   jobTitle,
   onPaymentSuccess,
-  onCancel
+  onCancel,
 }) => {
-  const [step, setStep] = useState<'select' | 'payment' | 'success'>('select');
+  const [step, setStep] = useState<"select" | "payment" | "success">("select");
   const [packages, setPackages] = useState<PaymentPackage[]>([]);
-  const [selectedPackage, setSelectedPackage] = useState<PaymentPackage | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<PaymentPackage | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [stripeConfig, setStripeConfig] = useState<any>(null);
@@ -332,15 +354,15 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
   const loadPaymentConfig = async () => {
     try {
       setLoading(true);
-      
+
       // Load Stripe config and packages in parallel
       const [configResponse, packagesResponse] = await Promise.all([
-        fetch('/api/payments/config', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
+        fetch("/api/payments/config", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }),
-        fetch('/api/payments/packages', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` }
-        })
+        fetch("/api/payments/packages", {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }),
       ]);
 
       const configData = await configResponse.json();
@@ -349,14 +371,14 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
       if (configData.success && packagesData.success) {
         setStripeConfig(configData.data);
         setPackages(packagesData.data.packages);
-        
+
         // Initialize Stripe with the publishable key
         stripePromise = loadStripe(configData.data.publishableKey);
       } else {
-        setError('Failed to load payment configuration');
+        setError("Failed to load payment configuration");
       }
     } catch (err) {
-      setError('Failed to load payment configuration');
+      setError("Failed to load payment configuration");
     } finally {
       setLoading(false);
     }
@@ -368,12 +390,12 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
 
   const proceedToPayment = () => {
     if (selectedPackage) {
-      setStep('payment');
+      setStep("payment");
     }
   };
 
   const handlePaymentSuccess = () => {
-    setStep('success');
+    setStep("success");
     setTimeout(() => {
       onPaymentSuccess();
     }, 2000);
@@ -392,7 +414,9 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
     return (
       <div className="text-center p-8">
         <XCircle className="h-12 w-12 text-red-500 mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">Payment Error</h3>
+        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+          Payment Error
+        </h3>
         <p className="text-gray-600 mb-4">{error}</p>
         <button
           onClick={onCancel}
@@ -404,13 +428,16 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
     );
   }
 
-  if (step === 'success') {
+  if (step === "success") {
     return (
       <div className="text-center p-8">
         <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-        <h3 className="text-2xl font-bold text-gray-900 mb-2">Payment Successful!</h3>
+        <h3 className="text-2xl font-bold text-gray-900 mb-2">
+          Payment Successful!
+        </h3>
         <p className="text-gray-600 mb-4">
-          Your job posting "{jobTitle}" is now live and will be featured according to your selected package.
+          Your job posting "{jobTitle}" is now live and will be featured
+          according to your selected package.
         </p>
         <div className="animate-pulse text-blue-600">
           <Clock className="h-5 w-5 inline mr-2" />
@@ -420,12 +447,12 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
     );
   }
 
-  if (step === 'payment' && selectedPackage && stripeConfig) {
+  if (step === "payment" && selectedPackage && stripeConfig) {
     const elementsOptions: StripeElementsOptions = {
       appearance: {
-        theme: 'stripe',
+        theme: "stripe",
         variables: {
-          colorPrimary: '#2563eb',
+          colorPrimary: "#2563eb",
         },
       },
     };
@@ -437,7 +464,7 @@ const JobPostingPayment: React.FC<JobPostingPaymentProps> = ({
           jobId={jobId}
           jobTitle={jobTitle}
           onSuccess={handlePaymentSuccess}
-          onCancel={() => setStep('select')}
+          onCancel={() => setStep("select")}
         />
       </Elements>
     );

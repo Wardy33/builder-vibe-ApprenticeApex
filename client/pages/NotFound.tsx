@@ -18,47 +18,77 @@ const NotFound = () => {
     const suggestions = [];
 
     // Convert monitor suggestions to UI format
-    monitorSuggestions.forEach(route => {
-      if (route.includes('/company')) {
-        if (route.includes('signin')) {
-          suggestions.push({ to: route, label: 'Company Sign In', icon: Building2 });
-        } else if (route.includes('signup')) {
-          suggestions.push({ to: route, label: 'Company Sign Up', icon: Building2 });
+    monitorSuggestions.forEach((route) => {
+      if (route.includes("/company")) {
+        if (route.includes("signin")) {
+          suggestions.push({
+            to: route,
+            label: "Company Sign In",
+            icon: Building2,
+          });
+        } else if (route.includes("signup")) {
+          suggestions.push({
+            to: route,
+            label: "Company Sign Up",
+            icon: Building2,
+          });
         } else {
-          suggestions.push({ to: route, label: 'Company Portal', icon: Building2 });
+          suggestions.push({
+            to: route,
+            label: "Company Portal",
+            icon: Building2,
+          });
         }
-      } else if (route.includes('/candidate')) {
-        if (route.includes('signin')) {
-          suggestions.push({ to: route, label: 'Candidate Sign In', icon: User });
-        } else if (route.includes('signup')) {
-          suggestions.push({ to: route, label: 'Candidate Sign Up', icon: User });
+      } else if (route.includes("/candidate")) {
+        if (route.includes("signin")) {
+          suggestions.push({
+            to: route,
+            label: "Candidate Sign In",
+            icon: User,
+          });
+        } else if (route.includes("signup")) {
+          suggestions.push({
+            to: route,
+            label: "Candidate Sign Up",
+            icon: User,
+          });
         } else {
-          suggestions.push({ to: route, label: 'Candidate Portal', icon: User });
+          suggestions.push({
+            to: route,
+            label: "Candidate Portal",
+            icon: User,
+          });
         }
       }
     });
 
     // Fallback suggestions if no monitor suggestions
     if (suggestions.length === 0) {
-      if (path.toLowerCase().includes('company') || path.toLowerCase().includes('employer')) {
+      if (
+        path.toLowerCase().includes("company") ||
+        path.toLowerCase().includes("employer")
+      ) {
         suggestions.push(
-          { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
-          { to: '/company/signup', label: 'Company Sign Up', icon: Building2 },
-          { to: '/for-employers', label: 'For Employers', icon: Building2 }
+          { to: "/company/signin", label: "Company Sign In", icon: Building2 },
+          { to: "/company/signup", label: "Company Sign Up", icon: Building2 },
+          { to: "/for-employers", label: "For Employers", icon: Building2 },
         );
       }
 
-      if (path.toLowerCase().includes('candidate') || path.toLowerCase().includes('student')) {
+      if (
+        path.toLowerCase().includes("candidate") ||
+        path.toLowerCase().includes("student")
+      ) {
         suggestions.push(
-          { to: '/candidate/signin', label: 'Candidate Sign In', icon: User },
-          { to: '/candidate/signup', label: 'Candidate Sign Up', icon: User }
+          { to: "/candidate/signin", label: "Candidate Sign In", icon: User },
+          { to: "/candidate/signup", label: "Candidate Sign Up", icon: User },
         );
       }
 
-      if (path.toLowerCase().includes('auth') && suggestions.length === 0) {
+      if (path.toLowerCase().includes("auth") && suggestions.length === 0) {
         suggestions.push(
-          { to: '/company/signin', label: 'Company Sign In', icon: Building2 },
-          { to: '/candidate/signin', label: 'Candidate Sign In', icon: User }
+          { to: "/company/signin", label: "Company Sign In", icon: Building2 },
+          { to: "/candidate/signin", label: "Candidate Sign In", icon: User },
         );
       }
     }
@@ -77,12 +107,18 @@ const NotFound = () => {
           </h1>
           <p className="text-xl text-gray-300 mb-2">Oops! Page not found</p>
           <p className="text-sm text-gray-400 mb-8">
-            The page <code className="bg-gray-800 px-2 py-1 rounded text-orange-400">{location.pathname}</code> doesn't exist.
+            The page{" "}
+            <code className="bg-gray-800 px-2 py-1 rounded text-orange-400">
+              {location.pathname}
+            </code>{" "}
+            doesn't exist.
           </p>
 
           {suggestions.length > 0 && (
             <div className="mb-8">
-              <p className="text-gray-300 mb-4">Were you looking for one of these?</p>
+              <p className="text-gray-300 mb-4">
+                Were you looking for one of these?
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
                 {suggestions.map((suggestion, index) => {
                   const IconComponent = suggestion.icon;

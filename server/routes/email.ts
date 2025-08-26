@@ -1,17 +1,17 @@
-import express from 'express';
+import express from "express";
 
 const router = express.Router();
 
 // Email subscription endpoint
-router.post('/subscribe', async (req: any, res: any) => {
+router.post("/subscribe", async (req: any, res: any) => {
   try {
     const { email, type, source, notificationEmail } = req.body;
 
-    console.log('📧 Email subscription request:', {
+    console.log("📧 Email subscription request:", {
       email,
       type,
       source,
-      notificationEmail: notificationEmail || 'hello@apprenticeapex.co.uk'
+      notificationEmail: notificationEmail || "hello@apprenticeapex.co.uk",
     });
 
     // Validate email format
@@ -19,65 +19,72 @@ router.post('/subscribe', async (req: any, res: any) => {
     if (!email || !emailRegex.test(email)) {
       return res.status(400).json({
         success: false,
-        error: 'Invalid email address'
+        error: "Invalid email address",
       });
     }
 
     // Save subscription to Neon database
     try {
       console.log(`✅ New subscription: ${email} for ${type} alerts`);
-      console.log(`📬 Notification will be sent to: ${notificationEmail || 'hello@apprenticeapex.co.uk'}`);
+      console.log(
+        `📬 Notification will be sent to: ${notificationEmail || "hello@apprenticeapex.co.uk"}`,
+      );
 
       // Use Neon helper function to save subscription
-      const { saveToNeonDatabase } = require('../config/neon-real');
+      const { saveToNeonDatabase } = require("../config/neon-real");
 
       const subscriptionData = {
         email,
-        subscription_type: type || 'job_alerts',
-        source: source || 'unknown',
-        notification_email: notificationEmail || 'hello@apprenticeapex.co.uk'
+        subscription_type: type || "job_alerts",
+        source: source || "unknown",
+        notification_email: notificationEmail || "hello@apprenticeapex.co.uk",
       };
 
-      const result = await saveToNeonDatabase('email_subscriptions', subscriptionData);
+      const result = await saveToNeonDatabase(
+        "email_subscriptions",
+        subscriptionData,
+      );
 
       if (result.success) {
-        console.log('💾 Email subscription saved to Neon database successfully');
+        console.log(
+          "💾 Email subscription saved to Neon database successfully",
+        );
       } else {
-        console.log('⚠️ Database save failed, continuing with success response');
+        console.log(
+          "⚠️ Database save failed, continuing with success response",
+        );
       }
-
     } catch (dbError) {
-      console.error('❌ Database error saving subscription:', dbError);
-      console.log('⚠️ Continuing with success response despite DB error');
+      console.error("❌ Database error saving subscription:", dbError);
+      console.log("⚠️ Continuing with success response despite DB error");
     }
 
     res.json({
       success: true,
-      message: 'Successfully subscribed to job alerts',
+      message: "Successfully subscribed to job alerts",
       data: {
         email,
         type,
-        subscribedAt: new Date().toISOString()
-      }
+        subscribedAt: new Date().toISOString(),
+      },
     });
-
   } catch (error) {
-    console.error('❌ Email subscription error:', error);
+    console.error("❌ Email subscription error:", error);
     res.status(500).json({
       success: false,
-      error: 'Failed to process subscription',
-      details: error.message
+      error: "Failed to process subscription",
+      details: error.message,
     });
   }
 });
 
 // Health check for email service
-router.get('/health', (req: any, res: any) => {
+router.get("/health", (req: any, res: any) => {
   res.json({
     success: true,
-    service: 'Email Service',
-    status: 'operational',
-    timestamp: new Date().toISOString()
+    service: "Email Service",
+    status: "operational",
+    timestamp: new Date().toISOString(),
   });
 });
 

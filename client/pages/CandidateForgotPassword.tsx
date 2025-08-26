@@ -23,21 +23,23 @@ export default function CandidateForgotPassword() {
 
     try {
       // Call the forgot password API endpoint
-      const response = await apiClient.request('/api/auth/forgot-password', {
-        method: 'POST',
+      const response = await apiClient.request("/api/auth/forgot-password", {
+        method: "POST",
         body: JSON.stringify({
           email,
-          role: 'candidate'
-        })
+          role: "candidate",
+        }),
       });
 
       if (response.success) {
         setSubmitted(true);
       } else {
-        setError(response.error || 'Failed to send reset email. Please try again.');
+        setError(
+          response.error || "Failed to send reset email. Please try again.",
+        );
       }
     } catch (err) {
-      setError('Unable to send reset email. Please try again later.');
+      setError("Unable to send reset email. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -45,19 +47,20 @@ export default function CandidateForgotPassword() {
 
   const seoConfig = {
     title: "Reset Your Password | ApprenticeApex",
-    description: "Reset your ApprenticeApex candidate account password. Enter your email to receive password reset instructions.",
-    keywords: "password reset, forgot password, candidate account, ApprenticeApex",
-    canonical: "/candidate/forgot-password"
+    description:
+      "Reset your ApprenticeApex candidate account password. Enter your email to receive password reset instructions.",
+    keywords:
+      "password reset, forgot password, candidate account, ApprenticeApex",
+    canonical: "/candidate/forgot-password",
   };
 
   return (
     <WebLayout>
       <SEOHead {...seoConfig} />
-      
+
       <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center px-4 py-12">
         <div className="max-w-md w-full">
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-white/10">
-            
             {/* Back Link */}
             <Link
               to="/candidate/signin"
@@ -71,16 +74,22 @@ export default function CandidateForgotPassword() {
               <>
                 {/* Header */}
                 <div className="text-center mb-8">
-                  <h1 className="text-3xl font-bold text-white mb-2">Forgot Your Password?</h1>
+                  <h1 className="text-3xl font-bold text-white mb-2">
+                    Forgot Your Password?
+                  </h1>
                   <p className="text-gray-300">
-                    No worries! Enter your email address and we'll send you instructions to reset your password.
+                    No worries! Enter your email address and we'll send you
+                    instructions to reset your password.
                   </p>
                 </div>
 
                 {/* Form */}
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-300 mb-2"
+                    >
                       Email Address
                     </label>
                     <input
@@ -112,8 +121,11 @@ export default function CandidateForgotPassword() {
                 {/* Additional Help */}
                 <div className="mt-6 text-center">
                   <p className="text-gray-400 text-sm">
-                    Remember your password?{' '}
-                    <Link to="/candidate/signin" className="text-orange-400 hover:underline">
+                    Remember your password?{" "}
+                    <Link
+                      to="/candidate/signin"
+                      className="text-orange-400 hover:underline"
+                    >
                       Sign in here
                     </Link>
                   </p>
@@ -126,17 +138,22 @@ export default function CandidateForgotPassword() {
                   <div className="mx-auto w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mb-6">
                     <Mail className="h-8 w-8 text-green-400" />
                   </div>
-                  
-                  <h1 className="text-3xl font-bold text-white mb-4">Check Your Email</h1>
-                  
+
+                  <h1 className="text-3xl font-bold text-white mb-4">
+                    Check Your Email
+                  </h1>
+
                   <p className="text-gray-300 mb-6">
-                    We've sent password reset instructions to{' '}
-                    <span className="text-orange-400 font-semibold">{email}</span>
+                    We've sent password reset instructions to{" "}
+                    <span className="text-orange-400 font-semibold">
+                      {email}
+                    </span>
                   </p>
-                  
+
                   <div className="bg-blue-500/20 border border-blue-500 rounded-xl p-4 mb-6">
                     <p className="text-blue-200 text-sm">
-                      <strong>Didn't receive the email?</strong> Check your spam folder or{' '}
+                      <strong>Didn't receive the email?</strong> Check your spam
+                      folder or{" "}
                       <button
                         onClick={() => {
                           setSubmitted(false);

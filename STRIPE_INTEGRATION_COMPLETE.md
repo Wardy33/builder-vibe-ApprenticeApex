@@ -7,26 +7,30 @@ The complete Stripe payment integration for Apprentice Apex has been successfull
 ## 📋 What's Been Implemented
 
 ### ✅ 1. Database Schema (Neon PostgreSQL)
+
 - **payments** table - Stores all payment records
-- **subscriptions** table - Employer subscription plans  
+- **subscriptions** table - Employer subscription plans
 - **job_payments** table - Links jobs to payment status
 - **success_fees** table - Tracks placement success fees
 - **payment_packages** table - Job posting packages (Basic, Featured, Premium, Urgent)
 - **billing_events** table - Audit trail for all billing events
 
 ### ✅ 2. Backend API (Node.js/Express)
+
 - **Payment Service** (`server/services/neonPaymentService.ts`) - Core payment logic
 - **Payment Routes** (`server/routes/payments.ts`) - API endpoints for payments
 - **Stripe Webhooks** (`server/routes/stripeWebhook.ts`) - Webhook event processing
 - **Database Models** - Full schema with relationships and indexes
 
 ### ✅ 3. Frontend Components (React/TypeScript)
+
 - **JobPostingPayment** component - Job posting payment flow
 - **SubscriptionPayment** component - Subscription plan selection
 - **Stripe Elements** integration - Secure card processing
 - **Payment status** tracking and user feedback
 
 ### ✅ 4. Security & Compliance
+
 - **Webhook signature verification** - Prevents unauthorized requests
 - **Authentication middleware** - Protects all payment endpoints
 - **Rate limiting** - Prevents payment abuse
@@ -35,6 +39,7 @@ The complete Stripe payment integration for Apprentice Apex has been successfull
 ## 🚀 Getting Started
 
 ### Step 1: Database Migration
+
 Run the database migration to create payment tables:
 
 ```bash
@@ -47,6 +52,7 @@ node server/scripts/migrate-payments-simple.mjs
 ```
 
 ### Step 2: Environment Variables
+
 The following Stripe environment variables are already configured:
 
 ```env
@@ -56,10 +62,12 @@ STRIPE_WEBHOOK_SECRET=whsec_1234567890abcdef...
 ```
 
 **For Production:** Replace with your live Stripe keys:
+
 - Get keys from [Stripe Dashboard](https://dashboard.stripe.com/apikeys)
 - Use `sk_live_...` and `pk_live_...` for production
 
 ### Step 3: Webhook Configuration
+
 Set up webhooks in your Stripe Dashboard:
 
 1. Go to [Stripe Dashboard > Webhooks](https://dashboard.stripe.com/webhooks)
@@ -68,7 +76,7 @@ Set up webhooks in your Stripe Dashboard:
 4. Select these events:
    - `payment_intent.succeeded`
    - `customer.subscription.created`
-   - `customer.subscription.updated` 
+   - `customer.subscription.updated`
    - `customer.subscription.deleted`
    - `invoice.payment_failed`
    - `invoice.payment_succeeded`
@@ -77,30 +85,35 @@ Set up webhooks in your Stripe Dashboard:
 ## 💰 Payment Packages
 
 ### Job Posting Packages
-| Package | Price | Duration | Features |
-|---------|-------|----------|----------|
-| **Basic** | £49 | 30 days | Standard listing, basic analytics |
-| **Featured** | £99 | 30 days | Featured placement, logo display, priority |
-| **Premium** | £149 | 45 days | Social promotion, email blast, extended |
-| **Urgent** | £199 | 60 days | All features + urgent badge + candidate alerts |
+
+| Package      | Price | Duration | Features                                       |
+| ------------ | ----- | -------- | ---------------------------------------------- |
+| **Basic**    | £49   | 30 days  | Standard listing, basic analytics              |
+| **Featured** | £99   | 30 days  | Featured placement, logo display, priority     |
+| **Premium**  | £149  | 45 days  | Social promotion, email blast, extended        |
+| **Urgent**   | £199  | 60 days  | All features + urgent badge + candidate alerts |
 
 ### Subscription Plans
-| Plan | Price/Month | Job Listings | Applications | Features |
-|------|-------------|--------------|--------------|----------|
-| **Professional** | £49 | 15 | 250 | Advanced analytics |
-| **Business** | £99 | 50 | 1,000 | Priority support, custom branding, API |
-| **Enterprise** | £149 | Unlimited | Unlimited | All features, 4% success fee discount |
+
+| Plan             | Price/Month | Job Listings | Applications | Features                               |
+| ---------------- | ----------- | ------------ | ------------ | -------------------------------------- |
+| **Professional** | £49         | 15           | 250          | Advanced analytics                     |
+| **Business**     | £99         | 50           | 1,000        | Priority support, custom branding, API |
+| **Enterprise**   | £149        | Unlimited    | Unlimited    | All features, 4% success fee discount  |
 
 ## 🔧 API Endpoints
 
 ### Payment Configuration
+
 ```http
 GET /api/payments/config
 Authorization: Bearer <token>
 ```
+
 Returns Stripe publishable key and configuration.
 
 ### Job Posting Payment
+
 ```http
 POST /api/payments/job-posting
 Authorization: Bearer <token>
@@ -113,6 +126,7 @@ Content-Type: application/json
 ```
 
 ### Subscription Management
+
 ```http
 POST /api/payments/subscription
 Authorization: Bearer <token>
@@ -125,12 +139,14 @@ Content-Type: application/json
 ```
 
 ### Payment History
+
 ```http
 GET /api/payments/history?page=1&limit=20
 Authorization: Bearer <token>
 ```
 
 ### Webhook Processing
+
 ```http
 POST /api/stripe/webhook
 Stripe-Signature: <webhook_signature>
@@ -142,8 +158,9 @@ Content-Type: application/json
 ### Using the Payment Components
 
 #### Job Posting Payment
+
 ```tsx
-import JobPostingPayment from '../components/JobPostingPayment';
+import JobPostingPayment from "../components/JobPostingPayment";
 
 function PostJobPage() {
   return (
@@ -152,11 +169,11 @@ function PostJobPage() {
       jobTitle="Software Developer"
       onPaymentSuccess={() => {
         // Redirect to job dashboard
-        navigate('/company/jobs');
+        navigate("/company/jobs");
       }}
       onCancel={() => {
         // Return to job editing
-        navigate('/company/jobs/edit/123');
+        navigate("/company/jobs/edit/123");
       }}
     />
   );
@@ -164,8 +181,9 @@ function PostJobPage() {
 ```
 
 #### Subscription Management
+
 ```tsx
-import SubscriptionPayment from '../components/SubscriptionPayment';
+import SubscriptionPayment from "../components/SubscriptionPayment";
 
 function SubscriptionPage() {
   return (
@@ -173,11 +191,11 @@ function SubscriptionPage() {
       currentPlan="professional"
       onSubscriptionSuccess={() => {
         // Redirect to dashboard
-        navigate('/company/dashboard');
+        navigate("/company/dashboard");
       }}
       onCancel={() => {
         // Return to settings
-        navigate('/company/settings');
+        navigate("/company/settings");
       }}
     />
   );
@@ -187,6 +205,7 @@ function SubscriptionPage() {
 ## 🔒 Security Features
 
 ### Payment Security
+
 - ✅ **No card data storage** - All sensitive data handled by Stripe
 - ✅ **Webhook signature verification** - Prevents unauthorized webhook calls
 - ✅ **Rate limiting** - 20 payment requests per 15 minutes per user
@@ -194,6 +213,7 @@ function SubscriptionPage() {
 - ✅ **Input validation** - All payment parameters validated server-side
 
 ### PCI Compliance
+
 - ✅ **Stripe Elements** - PCI compliant card input forms
 - ✅ **HTTPS only** - All payment traffic encrypted
 - ✅ **CSP headers** - Content Security Policy includes Stripe domains
@@ -202,15 +222,18 @@ function SubscriptionPage() {
 ## 📊 Testing
 
 ### Test Card Numbers (Stripe Test Mode)
-| Card Number | Brand | Result |
-|-------------|-------|--------|
-| 4242424242424242 | Visa | Successful payment |
-| 4000000000000002 | Visa | Card declined |
-| 4000000000009995 | Visa | Insufficient funds |
-| 4000000000000069 | Visa | Expired card |
+
+| Card Number      | Brand | Result             |
+| ---------------- | ----- | ------------------ |
+| 4242424242424242 | Visa  | Successful payment |
+| 4000000000000002 | Visa  | Card declined      |
+| 4000000000009995 | Visa  | Insufficient funds |
+| 4000000000000069 | Visa  | Expired card       |
 
 ### Testing Webhooks
+
 Use the test endpoint in development:
+
 ```http
 POST /api/stripe/webhook/test
 Content-Type: application/json
@@ -229,6 +252,7 @@ Content-Type: application/json
 ## 🚨 Important Notes
 
 ### Database Migration Required
+
 Before using the payment system, you **must** run the database migration to create the payment tables:
 
 ```bash
@@ -237,13 +261,16 @@ node server/scripts/migrate-payments-simple.mjs
 ```
 
 ### Environment Setup
+
 Ensure these environment variables are set:
+
 - `DATABASE_URL` or `NEON_DATABASE_URL` - Neon database connection
 - `STRIPE_SECRET_KEY` - Stripe secret key
-- `STRIPE_PUBLISHABLE_KEY` - Stripe publishable key  
+- `STRIPE_PUBLISHABLE_KEY` - Stripe publishable key
 - `STRIPE_WEBHOOK_SECRET` - Webhook signing secret
 
 ### Production Checklist
+
 - [ ] Replace test Stripe keys with live keys
 - [ ] Set up production webhook endpoint
 - [ ] Run database migration on production
@@ -256,22 +283,29 @@ Ensure these environment variables are set:
 ### Common Issues
 
 #### 1. "DATABASE_URL not configured" Error
+
 **Solution:** Set the `DATABASE_URL` environment variable:
+
 ```bash
 export DATABASE_URL="postgresql://username:password@host:port/database"
 ```
 
 #### 2. "Webhook signature verification failed"
+
 **Solution:** Ensure `STRIPE_WEBHOOK_SECRET` matches the secret from Stripe Dashboard.
 
 #### 3. "Payment intent creation failed"
+
 **Solution:** Check that Stripe keys are valid and not test keys in production.
 
 #### 4. "Table does not exist" Error
+
 **Solution:** Run the database migration script to create payment tables.
 
 ### Support
+
 For payment integration support:
+
 - Check server logs for detailed error messages
 - Use Stripe Dashboard to debug webhook events
 - Test with Stripe test cards before going live

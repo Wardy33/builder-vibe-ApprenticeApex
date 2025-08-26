@@ -119,18 +119,28 @@ function Dashboard() {
     const loadDashboardData = async () => {
       try {
         // Load recent applications using correct API
-        const appsResponse = await apiClient.getCompanyApplications({ limit: 3, recent: true });
+        const appsResponse = await apiClient.getCompanyApplications({
+          limit: 3,
+          recent: true,
+        });
         if (appsResponse.success && appsResponse.data) {
-          setRecentApplications(appsResponse.data.applications || appsResponse.data || []);
+          setRecentApplications(
+            appsResponse.data.applications || appsResponse.data || [],
+          );
         }
 
         // Load recent interviews using correct API
-        const interviewsResponse = await apiClient.getCompanyInterviews({ limit: 3, recent: true });
+        const interviewsResponse = await apiClient.getCompanyInterviews({
+          limit: 3,
+          recent: true,
+        });
         if (interviewsResponse.success && interviewsResponse.data) {
-          setRecentInterviews(interviewsResponse.data.interviews || interviewsResponse.data || []);
+          setRecentInterviews(
+            interviewsResponse.data.interviews || interviewsResponse.data || [],
+          );
         }
       } catch (error) {
-        console.error('Failed to load dashboard data:', error);
+        console.error("Failed to load dashboard data:", error);
         setRecentApplications([]);
         setRecentInterviews([]);
       } finally {
@@ -142,7 +152,7 @@ function Dashboard() {
   }, []);
 
   const handlePostNewJob = () => {
-    navigate('/company/listings?create=true');
+    navigate("/company/listings?create=true");
   };
 
   return (
@@ -275,11 +285,17 @@ function Dashboard() {
               { title: "Software Developer", applications: 45, trend: "up" },
               { title: "Data Analyst", applications: 31, trend: "up" },
               { title: "Marketing Assistant", applications: 28, trend: "down" },
-              { title: "Engineering Apprentice", applications: 24, trend: "up" },
+              {
+                title: "Engineering Apprentice",
+                applications: 24,
+                trend: "up",
+              },
             ].map((job, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div>
-                  <p className="font-medium text-gray-900 text-sm">{job.title}</p>
+                  <p className="font-medium text-gray-900 text-sm">
+                    {job.title}
+                  </p>
                   <p className="text-gray-600 text-xs">
                     {job.applications} applications
                   </p>
@@ -323,7 +339,9 @@ function Dashboard() {
             {loading ? (
               <div className="text-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="text-gray-500 text-sm mt-2">Loading applications...</p>
+                <p className="text-gray-500 text-sm mt-2">
+                  Loading applications...
+                </p>
               </div>
             ) : recentApplications.length === 0 ? (
               <div className="text-center py-6">
@@ -336,13 +354,15 @@ function Dashboard() {
                   className="flex items-center space-x-4 p-3 border border-gray-200 rounded-xl hover:border-gray-300 transition-colors"
                 >
                   <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
-                    {(application.candidateName || 'U').charAt(0)}
+                    {(application.candidateName || "U").charAt(0)}
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-gray-900 text-sm truncate">
-                      {application.candidateName || 'Unknown Candidate'}
+                      {application.candidateName || "Unknown Candidate"}
                     </h4>
-                    <p className="text-gray-600 text-xs">{application.jobTitle || 'Position'}</p>
+                    <p className="text-gray-600 text-xs">
+                      {application.jobTitle || "Position"}
+                    </p>
                   </div>
                   <div className="text-right">
                     <div className="text-blue-600 font-semibold text-sm">
@@ -353,13 +373,13 @@ function Dashboard() {
                         application.status === "pending"
                           ? "bg-yellow-100 text-yellow-700"
                           : application.status === "interview"
-                          ? "bg-blue-100 text-blue-700"
-                          : application.status === "reviewed"
-                          ? "bg-purple-100 text-purple-700"
-                          : "bg-gray-100 text-gray-700"
+                            ? "bg-blue-100 text-blue-700"
+                            : application.status === "reviewed"
+                              ? "bg-purple-100 text-purple-700"
+                              : "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      {application.status || 'new'}
+                      {application.status || "new"}
                     </div>
                   </div>
                 </div>
@@ -385,7 +405,9 @@ function Dashboard() {
             {loading ? (
               <div className="text-center py-4">
                 <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-blue-600 mx-auto"></div>
-                <p className="text-gray-500 text-sm mt-2">Loading interviews...</p>
+                <p className="text-gray-500 text-sm mt-2">
+                  Loading interviews...
+                </p>
               </div>
             ) : recentInterviews.length === 0 ? (
               <div className="text-center py-6">
@@ -402,15 +424,21 @@ function Dashboard() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <h4 className="font-medium text-gray-900 text-sm truncate">
-                      {interview.candidateName || 'Unknown Candidate'}
+                      {interview.candidateName || "Unknown Candidate"}
                     </h4>
-                    <p className="text-gray-600 text-xs">{interview.jobTitle || 'Position'}</p>
+                    <p className="text-gray-600 text-xs">
+                      {interview.jobTitle || "Position"}
+                    </p>
                   </div>
                   <div className="text-right">
                     <div className="text-gray-900 font-medium text-sm">
-                      {interview.date ? new Date(interview.date).toLocaleDateString() : 'TBD'}
+                      {interview.date
+                        ? new Date(interview.date).toLocaleDateString()
+                        : "TBD"}
                     </div>
-                    <div className="text-gray-600 text-xs">{interview.time || 'TBD'}</div>
+                    <div className="text-gray-600 text-xs">
+                      {interview.time || "TBD"}
+                    </div>
                   </div>
                 </div>
               ))
@@ -460,7 +488,9 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                 <Building2 className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">ApprenticeApex</h1>
+                <h1 className="text-xl font-bold text-gray-900">
+                  ApprenticeApex
+                </h1>
                 <p className="text-xs text-gray-600">Company Portal</p>
               </div>
             </div>
@@ -484,7 +514,9 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               {showNotifications && (
                 <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-50">
                   <div className="p-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 className="font-semibold text-gray-900">Notifications</h3>
+                    <h3 className="font-semibold text-gray-900">
+                      Notifications
+                    </h3>
                     <div className="flex items-center space-x-2">
                       {unreadCount > 0 && (
                         <button
@@ -522,10 +554,10 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                                 notification.type === "application"
                                   ? "bg-blue-100"
                                   : notification.type === "interview"
-                                  ? "bg-green-100"
-                                  : notification.type === "message"
-                                  ? "bg-purple-100"
-                                  : "bg-gray-100"
+                                    ? "bg-green-100"
+                                    : notification.type === "message"
+                                      ? "bg-purple-100"
+                                      : "bg-gray-100"
                               }`}
                             >
                               {notification.type === "application" && (
@@ -549,7 +581,9 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                                 {notification.message}
                               </p>
                               <p className="text-xs text-gray-500 mt-1">
-                                {new Date(notification.timestamp).toLocaleString()}
+                                {new Date(
+                                  notification.timestamp,
+                                ).toLocaleString()}
                               </p>
                             </div>
                             {!notification.read && (
@@ -606,11 +640,13 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company") || isActive("/company/")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company") || isActive("/company/")
+                    ? "bg-blue-200"
+                    : ""
+                }`}
+              >
                 <BarChart3 className="h-5 w-5" />
               </div>
               <span>Dashboard</span>
@@ -624,11 +660,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/listings")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/listings") ? "bg-blue-200" : ""
+                }`}
+              >
                 <Building2 className="h-5 w-5" />
               </div>
               <span>Job Listings</span>
@@ -642,11 +678,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/applications")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/applications") ? "bg-blue-200" : ""
+                }`}
+              >
                 <Users className="h-5 w-5" />
               </div>
               <span>Applications</span>
@@ -660,11 +696,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/interviews")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/interviews") ? "bg-blue-200" : ""
+                }`}
+              >
                 <Video className="h-5 w-5" />
               </div>
               <span>Interviews</span>
@@ -678,11 +714,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/messages")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/messages") ? "bg-blue-200" : ""
+                }`}
+              >
                 <MessageCircle className="h-5 w-5" />
               </div>
               <span>Messages</span>
@@ -696,11 +732,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/subscription")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/subscription") ? "bg-blue-200" : ""
+                }`}
+              >
                 <CreditCard className="h-5 w-5" />
               </div>
               <span>Subscription</span>
@@ -714,11 +750,11 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
                   : "hover:bg-gray-100 text-gray-700"
               }`}
             >
-              <div className={`p-1 rounded-lg ${
-                isActive("/company/pricing")
-                  ? "bg-blue-200"
-                  : ""
-              }`}>
+              <div
+                className={`p-1 rounded-lg ${
+                  isActive("/company/pricing") ? "bg-blue-200" : ""
+                }`}
+              >
                 <DollarSign className="h-5 w-5" />
               </div>
               <span>Upgrade Plan</span>
@@ -736,22 +772,20 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               </Link>
 
               <button
-              onClick={() => navigate('/')}
-              className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-200"
-            >
-              <div className="p-1 rounded-lg">
-                <ArrowLeft className="h-5 w-5" />
-              </div>
-              <span>Back to Main Site</span>
-            </button>
+                onClick={() => navigate("/")}
+                className="w-full flex items-center space-x-3 p-3 rounded-xl hover:bg-red-50 text-red-600 transition-all duration-200"
+              >
+                <div className="p-1 rounded-lg">
+                  <ArrowLeft className="h-5 w-5" />
+                </div>
+                <span>Back to Main Site</span>
+              </button>
             </div>
           </nav>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 p-6 lg:ml-0">
-          {children}
-        </main>
+        <main className="flex-1 p-6 lg:ml-0">{children}</main>
       </div>
       <LiveChat />
     </div>
@@ -766,10 +800,10 @@ function JobListingsPage() {
   const [isCreating, setIsCreating] = useState(false);
   const [notification, setNotification] = useState<{
     isOpen: boolean;
-    type: 'success' | 'error' | 'info' | 'payment';
+    type: "success" | "error" | "info" | "payment";
     title: string;
     message: string;
-  }>({ isOpen: false, type: 'info', title: '', message: '' });
+  }>({ isOpen: false, type: "info", title: "", message: "" });
 
   // Load job listings
   useEffect(() => {
@@ -780,7 +814,7 @@ function JobListingsPage() {
           setListings(response.data.apprenticeships || response.data || []);
         }
       } catch (error) {
-        console.error('Failed to load job listings:', error);
+        console.error("Failed to load job listings:", error);
         setListings([]);
       } finally {
         setLoading(false);
@@ -793,9 +827,9 @@ function JobListingsPage() {
   // Check if we should open create modal from URL parameter
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
-    if (searchParams.get('create') === 'true') {
+    if (searchParams.get("create") === "true") {
       // Clear the URL parameter
-      window.history.replaceState({}, '', '/company/listings');
+      window.history.replaceState({}, "", "/company/listings");
       // Open create modal
       setIsCreating(true);
     }
@@ -810,25 +844,28 @@ function JobListingsPage() {
 
   // Form state for creating/editing listings
   const [formData, setFormData] = useState({
-    title: '',
-    location: '',
-    type: 'full-time' as 'full-time' | 'part-time' | 'contract',
-    salary: '',
-    description: '',
-    requirements: [''],
-    closingDate: ''
+    title: "",
+    location: "",
+    type: "full-time" as "full-time" | "part-time" | "contract",
+    salary: "",
+    description: "",
+    requirements: [""],
+    closingDate: "",
   });
 
   // Close filter dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (filterRef.current && !filterRef.current.contains(event.target as Node)) {
+      if (
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node)
+      ) {
         setShowFilters(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const filteredListings = listings.filter((listing) => {
@@ -868,7 +905,8 @@ function JobListingsPage() {
       return;
     }
 
-    const limitCheck = await subscriptionLimits.checkLimit('create_job_posting');
+    const limitCheck =
+      await subscriptionLimits.checkLimit("create_job_posting");
     if (!limitCheck.allowed) {
       alert(limitCheck.reason);
       return;
@@ -876,20 +914,20 @@ function JobListingsPage() {
 
     // Reset form and open create modal
     setFormData({
-      title: '',
-      location: '',
-      type: 'full-time',
-      salary: '',
-      description: '',
-      requirements: [''],
-      closingDate: ''
+      title: "",
+      location: "",
+      type: "full-time",
+      salary: "",
+      description: "",
+      requirements: [""],
+      closingDate: "",
     });
     setIsCreating(true);
   };
 
   const handleEditListing = (listing: JobListing) => {
-    if (listing.status === 'active') {
-      alert('Cannot edit an active job listing. Please pause it first.');
+    if (listing.status === "active") {
+      alert("Cannot edit an active job listing. Please pause it first.");
       return;
     }
 
@@ -900,20 +938,26 @@ function JobListingsPage() {
       salary: listing.salary,
       description: listing.description,
       requirements: listing.requirements,
-      closingDate: listing.closingDate
+      closingDate: listing.closingDate,
     });
     setEditingId(listing.id);
   };
 
   const handleSaveListing = async () => {
     // Validate form
-    if (!formData.title || !formData.location || !formData.salary || !formData.description || !formData.closingDate) {
-      alert('Please fill in all required fields');
+    if (
+      !formData.title ||
+      !formData.location ||
+      !formData.salary ||
+      !formData.description ||
+      !formData.closingDate
+    ) {
+      alert("Please fill in all required fields");
       return;
     }
 
-    if (formData.requirements.some(req => !req.trim())) {
-      alert('Please fill in all requirements or remove empty ones');
+    if (formData.requirements.some((req) => !req.trim())) {
+      alert("Please fill in all requirements or remove empty ones");
       return;
     }
 
@@ -922,10 +966,10 @@ function JobListingsPage() {
       location: formData.location,
       salary: formData.salary,
       description: formData.description,
-      requirements: formData.requirements.filter(req => req.trim()),
+      requirements: formData.requirements.filter((req) => req.trim()),
       applicationDeadline: formData.closingDate,
-      employmentType: formData.type || 'full-time',
-      isActive: true
+      employmentType: formData.type || "full-time",
+      isActive: true,
     };
 
     try {
@@ -934,22 +978,24 @@ function JobListingsPage() {
         const response = await apiClient.updateListing(editingId, listingData);
         if (response.success) {
           // Update local state with server response
-          setListings(prev =>
-            prev.map(listing =>
+          setListings((prev) =>
+            prev.map((listing) =>
               listing.id === editingId
                 ? { ...listing, ...response.data }
-                : listing
-            )
+                : listing,
+            ),
           );
           setEditingId(null);
           setNotification({
             isOpen: true,
-            type: 'success',
-            title: 'Job Listing Updated!',
-            message: `Your ${formData.title} position has been updated successfully. All changes are now live.`
+            type: "success",
+            title: "Job Listing Updated!",
+            message: `Your ${formData.title} position has been updated successfully. All changes are now live.`,
           });
         } else {
-          alert(`Failed to update listing: ${response.error?.error || 'Unknown error'}`);
+          alert(
+            `Failed to update listing: ${response.error?.error || "Unknown error"}`,
+          );
           return;
         }
       } else {
@@ -957,45 +1003,49 @@ function JobListingsPage() {
         const response = await apiClient.createListing(listingData);
         if (response.success && response.data) {
           // Add new listing from server response
-          setListings(prev => [response.data, ...prev]);
+          setListings((prev) => [response.data, ...prev]);
           setIsCreating(false);
           setNotification({
             isOpen: true,
-            type: 'success',
-            title: 'Job Listing Created!',
-            message: `Your ${formData.title} position has been posted successfully and is now live. Candidates can start applying immediately.`
+            type: "success",
+            title: "Job Listing Created!",
+            message: `Your ${formData.title} position has been posted successfully and is now live. Candidates can start applying immediately.`,
           });
         } else {
-          alert(`Failed to create listing: ${response.error?.error || 'Unknown error'}`);
+          alert(
+            `Failed to create listing: ${response.error?.error || "Unknown error"}`,
+          );
           return;
         }
       }
     } catch (error) {
-      console.error('Error saving listing:', error);
-      alert('Failed to save listing. Please try again.');
+      console.error("Error saving listing:", error);
+      alert("Failed to save listing. Please try again.");
       return;
     }
   };
 
   const addRequirement = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      requirements: [...prev.requirements, '']
+      requirements: [...prev.requirements, ""],
     }));
   };
 
   const updateRequirement = (index: number, value: string) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      requirements: prev.requirements.map((req, i) => i === index ? value : req)
+      requirements: prev.requirements.map((req, i) =>
+        i === index ? value : req,
+      ),
     }));
   };
 
   const removeRequirement = (index: number) => {
     if (formData.requirements.length > 1) {
-      setFormData(prev => ({
+      setFormData((prev) => ({
         ...prev,
-        requirements: prev.requirements.filter((_, i) => i !== index)
+        requirements: prev.requirements.filter((_, i) => i !== index),
       }));
     }
   };
@@ -1006,7 +1056,7 @@ function JobListingsPage() {
       setShowSubscriptionPrompt(false);
       subscriptionLimits.refresh();
     } else {
-      alert(result.error || 'Failed to start trial');
+      alert(result.error || "Failed to start trial");
     }
   };
 
@@ -1051,7 +1101,9 @@ function JobListingsPage() {
 
             {showFilters && (
               <div className="absolute right-0 top-12 bg-white border border-gray-200 rounded-xl shadow-lg p-4 z-10 min-w-48">
-                <h4 className="font-semibold text-gray-900 mb-3">Filter by Status</h4>
+                <h4 className="font-semibold text-gray-900 mb-3">
+                  Filter by Status
+                </h4>
                 <div className="space-y-2">
                   {[
                     { value: "all", label: "All" },
@@ -1096,14 +1148,14 @@ function JobListingsPage() {
                       listing.status === "active"
                         ? "bg-green-100 text-green-700"
                         : listing.status === "paused"
-                        ? "bg-yellow-100 text-yellow-700"
-                        : "bg-gray-100 text-gray-700"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-gray-100 text-gray-700"
                     }`}
                   >
                     {listing.status}
                   </span>
                 </div>
-                
+
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600 mb-4">
                   <div className="flex items-center space-x-2">
                     <MapPin className="h-4 w-4" />
@@ -1119,12 +1171,16 @@ function JobListingsPage() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <Calendar className="h-4 w-4" />
-                    <span>{new Date(listing.postedDate).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(listing.postedDate).toLocaleDateString()}
+                    </span>
                   </div>
                 </div>
-                
-                <p className="text-gray-700 mb-4 line-clamp-2">{listing.description}</p>
-                
+
+                <p className="text-gray-700 mb-4 line-clamp-2">
+                  {listing.description}
+                </p>
+
                 <div className="flex items-center justify-between">
                   <span className="font-semibold text-blue-600 text-lg">
                     {listing.salary}
@@ -1142,13 +1198,17 @@ function JobListingsPage() {
                     </button>
                     <button
                       onClick={() => handleEditListing(listing)}
-                      disabled={listing.status === 'active'}
+                      disabled={listing.status === "active"}
                       className={`p-2 rounded-xl transition-colors ${
-                        listing.status === 'active'
-                          ? 'text-gray-400 cursor-not-allowed'
-                          : 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                        listing.status === "active"
+                          ? "text-gray-400 cursor-not-allowed"
+                          : "text-gray-600 hover:text-blue-600 hover:bg-blue-50"
                       }`}
-                      title={listing.status === 'active' ? 'Pause the listing first to edit' : 'Edit listing'}
+                      title={
+                        listing.status === "active"
+                          ? "Pause the listing first to edit"
+                          : "Edit listing"
+                      }
                     >
                       <Edit className="h-4 w-4" />
                     </button>
@@ -1169,10 +1229,14 @@ function JobListingsPage() {
       {/* Subscription Prompt Modal */}
       {showSubscriptionPrompt && (
         <SubscriptionPrompt
-          type={!subscriptionLimits.hasSubscription ? 'trial_needed' : 'trial_expired'}
+          type={
+            !subscriptionLimits.hasSubscription
+              ? "trial_needed"
+              : "trial_expired"
+          }
           showModal={true}
           onStartTrial={handleStartTrial}
-          onUpgrade={() => window.location.href = '/for-employers'}
+          onUpgrade={() => (window.location.href = "/for-employers")}
           onClose={() => setShowSubscriptionPrompt(false)}
         />
       )}
@@ -1183,7 +1247,7 @@ function JobListingsPage() {
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-gray-900">
-                {editingId ? 'Edit Job Listing' : 'Create New Job Listing'}
+                {editingId ? "Edit Job Listing" : "Create New Job Listing"}
               </h3>
               <button
                 onClick={() => {
@@ -1199,21 +1263,29 @@ function JobListingsPage() {
             <div className="p-6 space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Job Title *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Job Title *
+                  </label>
                   <input
                     type="text"
                     value={formData.title}
-                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
                     placeholder="e.g. Software Developer Apprentice"
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Location *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Location *
+                  </label>
                   <input
                     type="text"
                     value={formData.location}
-                    onChange={(e) => setFormData({...formData, location: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, location: e.target.value })
+                    }
                     placeholder="e.g. London, UK"
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -1222,10 +1294,14 @@ function JobListingsPage() {
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Employment Type *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Employment Type *
+                  </label>
                   <select
                     value={formData.type}
-                    onChange={(e) => setFormData({...formData, type: e.target.value as any})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, type: e.target.value as any })
+                    }
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   >
                     <option value="full-time">Full-time</option>
@@ -1234,11 +1310,15 @@ function JobListingsPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Salary Range *</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Salary Range *
+                  </label>
                   <input
                     type="text"
                     value={formData.salary}
-                    onChange={(e) => setFormData({...formData, salary: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, salary: e.target.value })
+                    }
                     placeholder="e.g. £18,000 - £22,000"
                     className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   />
@@ -1246,10 +1326,14 @@ function JobListingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Job Description *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Job Description *
+                </label>
                 <textarea
                   value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                   rows={4}
                   placeholder="Describe the role, responsibilities, and what the apprentice will learn..."
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -1257,14 +1341,18 @@ function JobListingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Requirements *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Requirements *
+                </label>
                 <div className="space-y-3">
                   {formData.requirements.map((requirement, index) => (
                     <div key={index} className="flex items-center space-x-3">
                       <input
                         type="text"
                         value={requirement}
-                        onChange={(e) => updateRequirement(index, e.target.value)}
+                        onChange={(e) =>
+                          updateRequirement(index, e.target.value)
+                        }
                         placeholder={`Requirement ${index + 1}`}
                         className="flex-1 p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       />
@@ -1289,12 +1377,16 @@ function JobListingsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Application Closing Date *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Application Closing Date *
+                </label>
                 <input
                   type="date"
                   value={formData.closingDate}
-                  onChange={(e) => setFormData({...formData, closingDate: e.target.value})}
-                  min={new Date().toISOString().split('T')[0]}
+                  onChange={(e) =>
+                    setFormData({ ...formData, closingDate: e.target.value })
+                  }
+                  min={new Date().toISOString().split("T")[0]}
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
@@ -1315,7 +1407,7 @@ function JobListingsPage() {
                 className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 flex items-center space-x-2"
               >
                 <Save className="h-4 w-4" />
-                <span>{editingId ? 'Update Listing' : 'Create Listing'}</span>
+                <span>{editingId ? "Update Listing" : "Create Listing"}</span>
               </button>
             </div>
           </div>
@@ -1341,12 +1433,12 @@ function CompanyPricingPage() {
   const handleStartTrial = async () => {
     try {
       // Create Stripe checkout session for trial
-      const response = await fetch('/api/payments/checkout/trial', {
-        method: 'POST',
+      const response = await fetch("/api/payments/checkout/trial", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const data = await response.json();
@@ -1354,11 +1446,11 @@ function CompanyPricingPage() {
         // Redirect to Stripe checkout
         window.location.href = data.data.url;
       } else {
-        alert('Failed to start trial. Please try again.');
+        alert("Failed to start trial. Please try again.");
       }
     } catch (error) {
-      console.error('Error starting trial:', error);
-      alert('Failed to start trial. Please try again.');
+      console.error("Error starting trial:", error);
+      alert("Failed to start trial. Please try again.");
     }
   };
 
@@ -1366,11 +1458,11 @@ function CompanyPricingPage() {
     try {
       // Create Stripe checkout session for subscription
       const response = await fetch(`/api/payments/checkout/${planType}`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
       const data = await response.json();
@@ -1378,21 +1470,24 @@ function CompanyPricingPage() {
         // Redirect to Stripe checkout
         window.location.href = data.data.url;
       } else {
-        alert('Failed to start subscription. Please try again.');
+        alert("Failed to start subscription. Please try again.");
       }
     } catch (error) {
-      console.error('Error starting subscription:', error);
-      alert('Failed to start subscription. Please try again.');
+      console.error("Error starting subscription:", error);
+      alert("Failed to start subscription. Please try again.");
     }
   };
 
   const handleContactSales = async () => {
     // Open email client or redirect to contact form
-    window.location.href = 'mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry&body=Hi, I am interested in learning more about the Enterprise plan for my organization.';
+    window.location.href =
+      "mailto:sales@apprenticeapex.co.uk?subject=Enterprise Plan Inquiry&body=Hi, I am interested in learning more about the Enterprise plan for my organization.";
   };
 
   return (
-    <div className="min-h-screen -m-6"> {/* Remove padding from parent container */}
+    <div className="min-h-screen -m-6">
+      {" "}
+      {/* Remove padding from parent container */}
       <CompanyPricing
         onStartTrial={handleStartTrial}
         onSubscribe={handleSubscribe}
@@ -1416,7 +1511,7 @@ function ApplicationsPage() {
           setApplications(response.data.applications || response.data || []);
         }
       } catch (error) {
-        console.error('Failed to load applications:', error);
+        console.error("Failed to load applications:", error);
         setApplications([]);
       } finally {
         setLoading(false);
@@ -1425,27 +1520,35 @@ function ApplicationsPage() {
 
     loadApplications();
   }, []);
-  const [selectedApplication, setSelectedApplication] = useState<Application | null>(null);
+  const [selectedApplication, setSelectedApplication] =
+    useState<Application | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState("");
-  const [showScheduleModal, setShowScheduleModal] = useState<string | null>(null);
+  const [showScheduleModal, setShowScheduleModal] = useState<string | null>(
+    null,
+  );
   const [interviewDetails, setInterviewDetails] = useState({
-    date: '',
-    time: '',
-    type: 'video' as 'video' | 'phone' | 'in-person',
-    duration: '30'
+    date: "",
+    time: "",
+    type: "video" as "video" | "phone" | "in-person",
+    duration: "30",
   });
 
   const filteredApplications = applications.filter((application) => {
     const matchesSearch =
-      application.candidateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      application.candidateName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       application.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       statusFilter === "all" || application.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
-  const updateApplicationStatus = (id: string, newStatus: Application["status"]) => {
+  const updateApplicationStatus = (
+    id: string,
+    newStatus: Application["status"],
+  ) => {
     setApplications((prev) =>
       prev.map((app) => (app.id === id ? { ...app, status: newStatus } : app)),
     );
@@ -1455,29 +1558,31 @@ function ApplicationsPage() {
     setShowScheduleModal(applicationId);
     // Reset form
     setInterviewDetails({
-      date: '',
-      time: '',
-      type: 'video',
-      duration: '30'
+      date: "",
+      time: "",
+      type: "video",
+      duration: "30",
     });
   };
 
   const confirmScheduleInterview = () => {
     if (!interviewDetails.date || !interviewDetails.time) {
-      alert('Please fill in all required fields');
+      alert("Please fill in all required fields");
       return;
     }
 
     // Update application status to interview
-    updateApplicationStatus(showScheduleModal!, 'interview');
+    updateApplicationStatus(showScheduleModal!, "interview");
 
     // Here you would also send the interview details to your backend
-    console.log('Scheduling interview:', {
+    console.log("Scheduling interview:", {
       applicationId: showScheduleModal,
-      ...interviewDetails
+      ...interviewDetails,
     });
 
-    alert(`Interview scheduled successfully for ${interviewDetails.date} at ${interviewDetails.time}`);
+    alert(
+      `Interview scheduled successfully for ${interviewDetails.date} at ${interviewDetails.time}`,
+    );
     setShowScheduleModal(null);
   };
 
@@ -1492,7 +1597,9 @@ function ApplicationsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Applications</h2>
-          <p className="text-gray-600">Review and manage candidate applications</p>
+          <p className="text-gray-600">
+            Review and manage candidate applications
+          </p>
         </div>
         <div className="flex items-center space-x-4">
           <select
@@ -1546,19 +1653,19 @@ function ApplicationsPage() {
                         application.status === "pending"
                           ? "bg-yellow-100 text-yellow-700"
                           : application.status === "interview"
-                          ? "bg-blue-100 text-blue-700"
-                          : application.status === "reviewed"
-                          ? "bg-purple-100 text-purple-700"
-                          : application.status === "accepted"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                            ? "bg-blue-100 text-blue-700"
+                            : application.status === "reviewed"
+                              ? "bg-purple-100 text-purple-700"
+                              : application.status === "accepted"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-red-100 text-red-700"
                       }`}
                     >
                       {application.status}
                     </span>
                   </div>
                   <p className="text-gray-600 mb-3">{application.jobTitle}</p>
-                  
+
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm text-gray-600 mb-4">
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4" />
@@ -1566,14 +1673,18 @@ function ApplicationsPage() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Calendar className="h-4 w-4" />
-                      <span>{new Date(application.applicationDate).toLocaleDateString()}</span>
+                      <span>
+                        {new Date(
+                          application.applicationDate,
+                        ).toLocaleDateString()}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Users className="h-4 w-4" />
                       <span>{application.experience} experience</span>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center space-x-6">
                     <div className="text-center">
                       <div className="text-blue-600 font-bold text-xl">
@@ -1582,7 +1693,9 @@ function ApplicationsPage() {
                       <div className="text-gray-600 text-xs">Match Score</div>
                     </div>
                     <div>
-                      <div className="text-gray-700 text-sm font-medium mb-1">Skills:</div>
+                      <div className="text-gray-700 text-sm font-medium mb-1">
+                        Skills:
+                      </div>
                       <div className="flex flex-wrap gap-1">
                         {application.skills?.slice(0, 3).map((skill, index) => (
                           <span
@@ -1592,17 +1705,18 @@ function ApplicationsPage() {
                             {skill}
                           </span>
                         ))}
-                        {application.skills && application.skills.length > 3 && (
-                          <span className="bg-gray-100 text-gray-500 px-2 py-1 rounded-lg text-xs">
-                            +{application.skills.length - 3}
-                          </span>
-                        )}
+                        {application.skills &&
+                          application.skills.length > 3 && (
+                            <span className="bg-gray-100 text-gray-500 px-2 py-1 rounded-lg text-xs">
+                              +{application.skills.length - 3}
+                            </span>
+                          )}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-col space-y-2 ml-6">
                 <div className="flex space-x-2">
                   <button
@@ -1655,7 +1769,8 @@ function ApplicationsPage() {
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b border-gray-200 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-gray-900">
-                {selectedApplication.candidateName} - {selectedApplication.jobTitle}
+                {selectedApplication.candidateName} -{" "}
+                {selectedApplication.jobTitle}
               </h3>
               <button
                 onClick={() => setSelectedApplication(null)}
@@ -1667,7 +1782,9 @@ function ApplicationsPage() {
             <div className="p-6 space-y-6">
               <div className="grid grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Application Information</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">
+                    Application Information
+                  </h4>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 text-gray-500" />
@@ -1679,17 +1796,23 @@ function ApplicationsPage() {
                     </div>
                     <div className="bg-gray-50 p-3 rounded-lg">
                       <p className="text-sm text-gray-600 italic">
-                        Contact information has been removed for privacy compliance.
-                        Use the message feature to communicate with the candidate.
+                        Contact information has been removed for privacy
+                        compliance. Use the message feature to communicate with
+                        the candidate.
                       </p>
                     </div>
                   </div>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">Application Details</h4>
+                  <h4 className="font-semibold text-gray-900 mb-3">
+                    Application Details
+                  </h4>
                   <div className="space-y-2 text-sm">
                     <div>
-                      Applied: {new Date(selectedApplication.applicationDate).toLocaleDateString()}
+                      Applied:{" "}
+                      {new Date(
+                        selectedApplication.applicationDate,
+                      ).toLocaleDateString()}
                     </div>
                     <div>Experience: {selectedApplication.experience}</div>
                     <div className="flex items-center space-x-2">
@@ -1755,7 +1878,9 @@ function ApplicationsPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-semibold text-gray-900">Schedule Interview</h3>
+              <h3 className="text-xl font-semibold text-gray-900">
+                Schedule Interview
+              </h3>
               <button
                 onClick={() => setShowScheduleModal(null)}
                 className="text-gray-400 hover:text-gray-600"
@@ -1766,31 +1891,52 @@ function ApplicationsPage() {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Date
+                </label>
                 <input
                   type="date"
                   value={interviewDetails.date}
-                  onChange={(e) => setInterviewDetails({...interviewDetails, date: e.target.value})}
-                  min={new Date().toISOString().split('T')[0]}
+                  onChange={(e) =>
+                    setInterviewDetails({
+                      ...interviewDetails,
+                      date: e.target.value,
+                    })
+                  }
+                  min={new Date().toISOString().split("T")[0]}
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Time</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Time
+                </label>
                 <input
                   type="time"
                   value={interviewDetails.time}
-                  onChange={(e) => setInterviewDetails({...interviewDetails, time: e.target.value})}
+                  onChange={(e) =>
+                    setInterviewDetails({
+                      ...interviewDetails,
+                      time: e.target.value,
+                    })
+                  }
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Interview Type</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Interview Type
+                </label>
                 <select
                   value={interviewDetails.type}
-                  onChange={(e) => setInterviewDetails({...interviewDetails, type: e.target.value as any})}
+                  onChange={(e) =>
+                    setInterviewDetails({
+                      ...interviewDetails,
+                      type: e.target.value as any,
+                    })
+                  }
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="video">Video Call</option>
@@ -1800,10 +1946,17 @@ function ApplicationsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Duration (minutes)</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Duration (minutes)
+                </label>
                 <select
                   value={interviewDetails.duration}
-                  onChange={(e) => setInterviewDetails({...interviewDetails, duration: e.target.value})}
+                  onChange={(e) =>
+                    setInterviewDetails({
+                      ...interviewDetails,
+                      duration: e.target.value,
+                    })
+                  }
                   className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="15">15 minutes</option>
@@ -1847,7 +2000,7 @@ function InterviewsPage() {
           setInterviews(response.data.interviews || response.data || []);
         }
       } catch (error) {
-        console.error('Failed to load interviews:', error);
+        console.error("Failed to load interviews:", error);
         setInterviews([]);
       } finally {
         setLoading(false);
@@ -1861,14 +2014,19 @@ function InterviewsPage() {
 
   const filteredInterviews = interviews.filter((interview) => {
     const matchesSearch =
-      interview.candidateName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      interview.candidateName
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) ||
       interview.jobTitle.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus =
       filterStatus === "all" || interview.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
 
-  const updateInterviewStatus = (id: string, newStatus: Interview["status"]) => {
+  const updateInterviewStatus = (
+    id: string,
+    newStatus: Interview["status"],
+  ) => {
     setInterviews((prev) =>
       prev.map((interview) =>
         interview.id === id ? { ...interview, status: newStatus } : interview,
@@ -1882,7 +2040,9 @@ function InterviewsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Interviews</h2>
-          <p className="text-gray-600">Manage scheduled interviews with candidates</p>
+          <p className="text-gray-600">
+            Manage scheduled interviews with candidates
+          </p>
         </div>
         <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl font-medium transition-colors flex items-center space-x-2">
           <Plus className="h-5 w-5" />
@@ -1938,8 +2098,8 @@ function InterviewsPage() {
                         interview.status === "scheduled"
                           ? "bg-blue-100 text-blue-700"
                           : interview.status === "completed"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-red-100 text-red-700"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-700"
                       }`}
                     >
                       {interview.status}
@@ -1949,7 +2109,9 @@ function InterviewsPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
                     <div className="flex items-center space-x-2">
                       <Calendar className="h-4 w-4" />
-                      <span>{new Date(interview.date).toLocaleDateString()}</span>
+                      <span>
+                        {new Date(interview.date).toLocaleDateString()}
+                      </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Clock className="h-4 w-4" />
@@ -1983,29 +2145,38 @@ function InterviewsPage() {
                 </select>
                 <button
                   onClick={() => {
-                    if (interview.type === 'video' && interview.status === 'scheduled') {
+                    if (
+                      interview.type === "video" &&
+                      interview.status === "scheduled"
+                    ) {
                       // For demo purposes, open a generic video call platform
                       // In a real app, this would connect to your video call service
                       const videoCallUrl = `https://meet.google.com/new?authuser=0`;
-                      window.open(videoCallUrl, '_blank');
-                    } else if (interview.type !== 'video') {
-                      alert(`This is a ${interview.type} interview. Video call not available.`);
-                    } else if (interview.status !== 'scheduled') {
-                      alert('This interview is not scheduled yet.');
+                      window.open(videoCallUrl, "_blank");
+                    } else if (interview.type !== "video") {
+                      alert(
+                        `This is a ${interview.type} interview. Video call not available.`,
+                      );
+                    } else if (interview.status !== "scheduled") {
+                      alert("This interview is not scheduled yet.");
                     }
                   }}
-                  disabled={interview.type !== 'video' || interview.status !== 'scheduled'}
+                  disabled={
+                    interview.type !== "video" ||
+                    interview.status !== "scheduled"
+                  }
                   className={`p-2 rounded-xl transition-colors ${
-                    interview.type === 'video' && interview.status === 'scheduled'
-                      ? 'text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer'
-                      : 'text-gray-400 cursor-not-allowed'
+                    interview.type === "video" &&
+                    interview.status === "scheduled"
+                      ? "text-blue-600 hover:text-blue-700 hover:bg-blue-50 cursor-pointer"
+                      : "text-gray-400 cursor-not-allowed"
                   }`}
                   title={
-                    interview.type !== 'video'
+                    interview.type !== "video"
                       ? `${interview.type} interview - video call not available`
-                      : interview.status !== 'scheduled'
-                      ? 'Interview not scheduled yet'
-                      : 'Start video call'
+                      : interview.status !== "scheduled"
+                        ? "Interview not scheduled yet"
+                        : "Start video call"
                   }
                 >
                   <Video className="h-5 w-5" />
@@ -2052,10 +2223,10 @@ function MessagesPage() {
   ]);
 
   const markAsRead = (conversationId: string) => {
-    setConversations(prev =>
-      prev.map(conv =>
-        conv.id === conversationId ? { ...conv, unread: false } : conv
-      )
+    setConversations((prev) =>
+      prev.map((conv) =>
+        conv.id === conversationId ? { ...conv, unread: false } : conv,
+      ),
     );
   };
 
@@ -2079,7 +2250,9 @@ function MessagesPage() {
             key={conversation.id}
             onClick={() => openChat(conversation.id)}
             className={`bg-white rounded-2xl p-6 border shadow-sm hover:shadow-md cursor-pointer transition-all duration-200 ${
-              conversation.unread ? "border-blue-300 bg-blue-50" : "border-gray-200"
+              conversation.unread
+                ? "border-blue-300 bg-blue-50"
+                : "border-gray-200"
             }`}
           >
             <div className="flex items-start justify-between">
@@ -2099,7 +2272,9 @@ function MessagesPage() {
                   <p className="text-gray-600 text-sm mb-2">
                     {conversation.jobTitle}
                   </p>
-                  <p className="text-gray-700 line-clamp-2">{conversation.lastMessage}</p>
+                  <p className="text-gray-700 line-clamp-2">
+                    {conversation.lastMessage}
+                  </p>
                   <p className="text-gray-500 text-sm mt-2">
                     {new Date(conversation.timestamp).toLocaleString()}
                   </p>
@@ -2119,8 +2294,12 @@ function MessagesPage() {
       {conversations.length === 0 && (
         <div className="text-center py-12">
           <MessageCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">No conversations yet</h3>
-          <p className="text-gray-600">Messages from candidates will appear here</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            No conversations yet
+          </h3>
+          <p className="text-gray-600">
+            Messages from candidates will appear here
+          </p>
         </div>
       )}
     </div>
@@ -2152,21 +2331,24 @@ function CompanyChatPage() {
     {
       id: "1",
       senderId: "student",
-      content: "Thank you for considering my application. I'm really excited about this opportunity and would love to learn more about the role.",
+      content:
+        "Thank you for considering my application. I'm really excited about this opportunity and would love to learn more about the role.",
       timestamp: "10:30 AM",
       isOwn: false,
     },
     {
       id: "2",
       senderId: "company",
-      content: "Hi Sarah! We're impressed with your application. We'd like to schedule a video interview with you. Are you available this week?",
+      content:
+        "Hi Sarah! We're impressed with your application. We'd like to schedule a video interview with you. Are you available this week?",
       timestamp: "10:45 AM",
       isOwn: true,
     },
     {
       id: "3",
       senderId: "student",
-      content: "Yes, I'm available! I'm flexible with timing. What days work best for you?",
+      content:
+        "Yes, I'm available! I'm flexible with timing. What days work best for you?",
       timestamp: "11:00 AM",
       isOwn: false,
     },
@@ -2183,8 +2365,12 @@ function CompanyChatPage() {
           setCandidateInfo(data.candidate);
         }
       } catch (error) {
-        console.error('Failed to load candidate info:', error);
-        setCandidateInfo({ name: 'Unknown Candidate', jobTitle: 'Position', avatar: null });
+        console.error("Failed to load candidate info:", error);
+        setCandidateInfo({
+          name: "Unknown Candidate",
+          jobTitle: "Position",
+          avatar: null,
+        });
       }
     };
 
@@ -2231,7 +2417,9 @@ function CompanyChatPage() {
             className="w-10 h-10 rounded-full object-cover mr-3"
           />
           <div>
-            <h1 className="font-semibold text-gray-900">{candidateInfo.name}</h1>
+            <h1 className="font-semibold text-gray-900">
+              {candidateInfo.name}
+            </h1>
             <p className="text-sm text-gray-600">{candidateInfo.jobTitle}</p>
           </div>
         </div>
@@ -2239,7 +2427,7 @@ function CompanyChatPage() {
           <button
             onClick={() => {
               const videoCallUrl = `https://meet.google.com/new?authuser=0`;
-              window.open(videoCallUrl, '_blank');
+              window.open(videoCallUrl, "_blank");
             }}
             className="p-2 hover:bg-gray-100 rounded-full text-gray-700 transition-all duration-200"
             title="Start video call"
@@ -2267,9 +2455,11 @@ function CompanyChatPage() {
               }`}
             >
               <p className="text-sm leading-relaxed">{msg.content}</p>
-              <p className={`text-xs mt-1 ${
-                msg.isOwn ? "text-blue-100" : "text-gray-500"
-              }`}>
+              <p
+                className={`text-xs mt-1 ${
+                  msg.isOwn ? "text-blue-100" : "text-gray-500"
+                }`}
+              >
                 {msg.timestamp}
               </p>
             </div>
@@ -2309,7 +2499,9 @@ function CompanySettingsPage() {
       {/* Header */}
       <div>
         <h2 className="text-2xl font-bold text-gray-900">Company Settings</h2>
-        <p className="text-gray-600">Manage your company profile and preferences</p>
+        <p className="text-gray-600">
+          Manage your company profile and preferences
+        </p>
       </div>
 
       {/* Settings Navigation */}
@@ -2324,7 +2516,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Company Profile</h3>
-              <p className="text-gray-600 text-sm">Update company information and branding</p>
+              <p className="text-gray-600 text-sm">
+                Update company information and branding
+              </p>
             </div>
           </div>
         </Link>
@@ -2339,7 +2533,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">User Management</h3>
-              <p className="text-gray-600 text-sm">Manage team members and permissions</p>
+              <p className="text-gray-600 text-sm">
+                Manage team members and permissions
+              </p>
             </div>
           </div>
         </Link>
@@ -2354,7 +2550,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Notifications</h3>
-              <p className="text-gray-600 text-sm">Configure alert preferences</p>
+              <p className="text-gray-600 text-sm">
+                Configure alert preferences
+              </p>
             </div>
           </div>
         </Link>
@@ -2369,7 +2567,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Integrations</h3>
-              <p className="text-gray-600 text-sm">Connect with external tools</p>
+              <p className="text-gray-600 text-sm">
+                Connect with external tools
+              </p>
             </div>
           </div>
         </Link>
@@ -2384,7 +2584,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Billing & Payment</h3>
-              <p className="text-gray-600 text-sm">Manage payment methods and billing</p>
+              <p className="text-gray-600 text-sm">
+                Manage payment methods and billing
+              </p>
             </div>
           </div>
         </Link>
@@ -2399,7 +2601,9 @@ function CompanySettingsPage() {
             </div>
             <div>
               <h3 className="font-semibold text-gray-900">Security</h3>
-              <p className="text-gray-600 text-sm">Password and security settings</p>
+              <p className="text-gray-600 text-sm">
+                Password and security settings
+              </p>
             </div>
           </div>
         </Link>
@@ -2412,14 +2616,15 @@ function CompanyProfileSettingsPage() {
   const navigate = useNavigate();
   const [profile, setProfile] = useState({
     companyName: "TechCorp Ltd",
-    description: "A leading technology company specializing in software development and digital innovation.",
+    description:
+      "A leading technology company specializing in software development and digital innovation.",
     industry: "Technology",
     size: "50-100",
     website: "https://techcorp.co.uk",
     address: "123 Tech Street, London, UK",
     phone: "+44 20 1234 5678",
     email: "hr@techcorp.co.uk",
-    logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop"
+    logo: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=100&h=100&fit=crop",
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -2428,11 +2633,11 @@ function CompanyProfileSettingsPage() {
     setLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (error) {
-      alert('Failed to save profile. Please try again.');
+      alert("Failed to save profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -2458,19 +2663,27 @@ function CompanyProfileSettingsPage() {
       <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm space-y-6">
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Name
+            </label>
             <input
               type="text"
               value={profile.companyName}
-              onChange={(e) => setProfile({...profile, companyName: e.target.value})}
+              onChange={(e) =>
+                setProfile({ ...profile, companyName: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Industry
+            </label>
             <select
               value={profile.industry}
-              onChange={(e) => setProfile({...profile, industry: e.target.value})}
+              onChange={(e) =>
+                setProfile({ ...profile, industry: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="Technology">Technology</option>
@@ -2485,10 +2698,14 @@ function CompanyProfileSettingsPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Company Description
+          </label>
           <textarea
             value={profile.description}
-            onChange={(e) => setProfile({...profile, description: e.target.value})}
+            onChange={(e) =>
+              setProfile({ ...profile, description: e.target.value })
+            }
             rows={4}
             className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
@@ -2496,10 +2713,12 @@ function CompanyProfileSettingsPage() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Company Size</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Size
+            </label>
             <select
               value={profile.size}
-              onChange={(e) => setProfile({...profile, size: e.target.value})}
+              onChange={(e) => setProfile({ ...profile, size: e.target.value })}
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="1-10">1-10 employees</option>
@@ -2510,42 +2729,58 @@ function CompanyProfileSettingsPage() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Website</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Website
+            </label>
             <input
               type="url"
               value={profile.website}
-              onChange={(e) => setProfile({...profile, website: e.target.value})}
+              onChange={(e) =>
+                setProfile({ ...profile, website: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Address
+          </label>
           <input
             type="text"
             value={profile.address}
-            onChange={(e) => setProfile({...profile, address: e.target.value})}
+            onChange={(e) =>
+              setProfile({ ...profile, address: e.target.value })
+            }
             className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           />
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Phone
+            </label>
             <input
               type="tel"
               value={profile.phone}
-              onChange={(e) => setProfile({...profile, phone: e.target.value})}
+              onChange={(e) =>
+                setProfile({ ...profile, phone: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email
+            </label>
             <input
               type="email"
               value={profile.email}
-              onChange={(e) => setProfile({...profile, email: e.target.value})}
+              onChange={(e) =>
+                setProfile({ ...profile, email: e.target.value })
+              }
               className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -2569,7 +2804,7 @@ function CompanyProfileSettingsPage() {
             disabled={loading}
             className="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 disabled:opacity-50"
           >
-            {loading ? 'Saving...' : 'Save Changes'}
+            {loading ? "Saving..." : "Save Changes"}
           </button>
         </div>
       </div>
@@ -2595,7 +2830,10 @@ export default function CompanyPortal() {
               <Route path="/subscription" element={<SubscriptionPage />} />
               <Route path="/pricing" element={<CompanyPricingPage />} />
               <Route path="/settings" element={<CompanySettingsPage />} />
-              <Route path="/settings/profile" element={<CompanyProfileSettingsPage />} />
+              <Route
+                path="/settings/profile"
+                element={<CompanyProfileSettingsPage />}
+              />
             </Routes>
           </CompanyPortalLayout>
         }

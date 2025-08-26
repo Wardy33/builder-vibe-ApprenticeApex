@@ -35,8 +35,12 @@ const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
 const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
 const ForEmployers = lazy(() => import("./pages/ForEmployers"));
 const CompanyAuth = lazy(() => import("./pages/CompanyAuth"));
-const CandidateForgotPassword = lazy(() => import("./pages/CandidateForgotPassword"));
-const CompanyForgotPassword = lazy(() => import("./pages/CompanyForgotPassword"));
+const CandidateForgotPassword = lazy(
+  () => import("./pages/CandidateForgotPassword"),
+);
+const CompanyForgotPassword = lazy(
+  () => import("./pages/CompanyForgotPassword"),
+);
 const AdminApp = lazy(() => import("./pages/admin/AdminApp"));
 const AdminLoginSimple = lazy(() => import("./pages/admin/AdminLoginSimple"));
 
@@ -71,20 +75,27 @@ function App() {
       if (process.env.NODE_ENV === "development") {
         runLocalStorageDiagnostics();
         apiDebugger.enable();
-        console.log('🔧 Debug mode enabled - diagnostic tools available in console');
-        console.log('Run: window.diagnostics.quickTest() for a quick health check');
+        console.log(
+          "🔧 Debug mode enabled - diagnostic tools available in console",
+        );
+        console.log(
+          "Run: window.diagnostics.quickTest() for a quick health check",
+        );
       }
 
       // Initialize debugging tools if debug mode is requested
-      if (typeof window !== 'undefined' && window.location.search.includes('debug=true')) {
+      if (
+        typeof window !== "undefined" &&
+        window.location.search.includes("debug=true")
+      ) {
         apiDebugger.enable();
-        console.log('🔧 Debug mode enabled via URL parameter');
+        console.log("🔧 Debug mode enabled via URL parameter");
       }
 
       // Run a quick connectivity check
-      if (typeof navigator !== 'undefined' && navigator.onLine) {
-        diagnostics.quickTest().catch(error => {
-          console.warn('Initial connectivity check failed:', error);
+      if (typeof navigator !== "undefined" && navigator.onLine) {
+        diagnostics.quickTest().catch((error) => {
+          console.warn("Initial connectivity check failed:", error);
         });
       }
 
@@ -169,7 +180,9 @@ function App() {
             path="/search-jobs"
             element={
               <Suspense
-                fallback={<LoadingFallback ariaLabel="Search apprenticeship jobs" />}
+                fallback={
+                  <LoadingFallback ariaLabel="Search apprenticeship jobs" />
+                }
               >
                 <SearchJobs />
               </Suspense>
@@ -178,9 +191,7 @@ function App() {
           <Route
             path="/apprenticeships/:jobId"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Job details" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Job details" />}>
                 <JobDetail />
               </Suspense>
             }
@@ -249,7 +260,9 @@ function App() {
             path="/candidate/forgot-password"
             element={
               <Suspense
-                fallback={<LoadingFallback ariaLabel="Candidate forgot password" />}
+                fallback={
+                  <LoadingFallback ariaLabel="Candidate forgot password" />
+                }
               >
                 <CandidateForgotPassword />
               </Suspense>
@@ -296,20 +309,49 @@ function App() {
             }
           />
           {/* Redirects for common mistyped URLs */}
-          <Route path="/CompanyAuth" element={<Navigate to="/company/signin" replace />} />
-          <Route path="/companyauth" element={<Navigate to="/company/signin" replace />} />
-          <Route path="/company-auth" element={<Navigate to="/company/signin" replace />} />
-          <Route path="/Company" element={<Navigate to="/company/signin" replace />} />
-          <Route path="/CandidateAuth" element={<Navigate to="/candidate/signin" replace />} />
-          <Route path="/StudentAuth" element={<Navigate to="/candidate/signin" replace />} />
-          <Route path="/CompanyPortal" element={<Navigate to="/company" replace />} />
-          <Route path="/CandidateApp" element={<Navigate to="/candidate" replace />} />
-          <Route path="/StudentApp" element={<Navigate to="/candidate" replace />} />
+          <Route
+            path="/CompanyAuth"
+            element={<Navigate to="/company/signin" replace />}
+          />
+          <Route
+            path="/companyauth"
+            element={<Navigate to="/company/signin" replace />}
+          />
+          <Route
+            path="/company-auth"
+            element={<Navigate to="/company/signin" replace />}
+          />
+          <Route
+            path="/Company"
+            element={<Navigate to="/company/signin" replace />}
+          />
+          <Route
+            path="/CandidateAuth"
+            element={<Navigate to="/candidate/signin" replace />}
+          />
+          <Route
+            path="/StudentAuth"
+            element={<Navigate to="/candidate/signin" replace />}
+          />
+          <Route
+            path="/CompanyPortal"
+            element={<Navigate to="/company" replace />}
+          />
+          <Route
+            path="/CandidateApp"
+            element={<Navigate to="/candidate" replace />}
+          />
+          <Route
+            path="/StudentApp"
+            element={<Navigate to="/candidate" replace />}
+          />
           <Route
             path="/company/forgot-password"
             element={
               <Suspense
-                fallback={<LoadingFallback ariaLabel="Company forgot password" />}
+                fallback={
+                  <LoadingFallback ariaLabel="Company forgot password" />
+                }
               >
                 <CompanyForgotPassword />
               </Suspense>

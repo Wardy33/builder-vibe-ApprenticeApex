@@ -1,6 +1,6 @@
 // Neon database middleware - replacing MongoDB middleware
 
-import { z } from 'zod';
+import { z } from "zod";
 
 // Simple database status tracking for Neon
 let isNeonConnected = false;
@@ -12,16 +12,16 @@ function initializeConnectionStatus() {
     // Check if Neon is properly configured
     const databaseUrl = process.env.DATABASE_URL;
     const neonProjectId = process.env.NEON_PROJECT_ID;
-    
-    if (databaseUrl && databaseUrl.includes('neon.tech')) {
+
+    if (databaseUrl && databaseUrl.includes("neon.tech")) {
       isNeonConnected = true;
-      console.log('🔗 Neon database configuration detected');
+      console.log("🔗 Neon database configuration detected");
     } else {
       // Development mode fallback
       isNeonConnected = true;
-      console.log('🔗 Development mode: Neon database mock enabled');
+      console.log("🔗 Development mode: Neon database mock enabled");
     }
-    
+
     connectionInitialized = true;
   }
 }
@@ -31,15 +31,15 @@ const neonDatabase = {
   getHealthStatus: () => {
     initializeConnectionStatus();
     return {
-      status: isNeonConnected ? 'healthy' : 'unhealthy',
+      status: isNeonConnected ? "healthy" : "unhealthy",
       connected: isNeonConnected,
       connecting: false,
       connectionAttempts: 0,
       lastConnectedAt: isNeonConnected ? new Date() : undefined,
       lastDisconnectedAt: !isNeonConnected ? new Date() : undefined,
-      database: 'neon',
-      projectId: process.env.NEON_PROJECT_ID || 'winter-bread-79671472',
-      databaseUrl: process.env.DATABASE_URL ? 'configured' : 'not configured'
+      database: "neon",
+      projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+      databaseUrl: process.env.DATABASE_URL ? "configured" : "not configured",
     };
   },
   isConnected: () => {
@@ -48,9 +48,9 @@ const neonDatabase = {
   },
   getConnection: () => {
     return {
-      projectId: process.env.NEON_PROJECT_ID || 'winter-bread-79671472',
+      projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
       databaseUrl: process.env.DATABASE_URL,
-      status: isNeonConnected ? 'connected' : 'disconnected'
+      status: isNeonConnected ? "connected" : "disconnected",
     };
   },
 };
@@ -62,11 +62,11 @@ export const checkDatabaseHealth = (req: any, res: any, next: any) => {
     req.dbHealth = health;
     next();
   } catch (error) {
-    console.error('❌ Database health check failed:', error);
+    console.error("❌ Database health check failed:", error);
     req.dbHealth = {
-      status: 'unhealthy',
+      status: "unhealthy",
       connected: false,
-      error: error.message
+      error: error.message,
     };
     next();
   }
@@ -78,17 +78,17 @@ export const requireDatabase = (req: any, res: any, next: any) => {
     if (!neonDatabase.isConnected()) {
       return res.status(503).json({
         success: false,
-        error: 'Database connection unavailable',
-        details: 'Neon database is not connected'
+        error: "Database connection unavailable",
+        details: "Neon database is not connected",
       });
     }
     next();
   } catch (error) {
-    console.error('❌ Database requirement check failed:', error);
+    console.error("❌ Database requirement check failed:", error);
     return res.status(503).json({
       success: false,
-      error: 'Database service unavailable',
-      details: error.message
+      error: "Database service unavailable",
+      details: error.message,
     });
   }
 };
@@ -105,23 +105,28 @@ export const validateDatabaseConfig = () => {
       DATABASE_URL: process.env.DATABASE_URL,
       NEON_PROJECT_ID: process.env.NEON_PROJECT_ID,
     };
-    
+
     const result = databaseConfigSchema.safeParse(config);
-    
+
     if (!result.success) {
-      console.warn('⚠️ Database configuration validation failed:', result.error.flatten());
+      console.warn(
+        "⚠️ Database configuration validation failed:",
+        result.error.flatten(),
+      );
       return false;
     }
-    
+
     if (!config.DATABASE_URL && !config.NEON_PROJECT_ID) {
-      console.warn('⚠️ No database configuration found - using development mode');
+      console.warn(
+        "⚠️ No database configuration found - using development mode",
+      );
       return false;
     }
-    
-    console.log('✅ Database configuration validated');
+
+    console.log("✅ Database configuration validated");
     return true;
   } catch (error) {
-    console.error('❌ Database configuration validation error:', error);
+    console.error("❌ Database configuration validation error:", error);
     return false;
   }
 };
