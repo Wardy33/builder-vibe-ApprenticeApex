@@ -705,6 +705,24 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
               <span>Subscription</span>
             </Link>
 
+            <Link
+              to="/company/pricing"
+              className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                isActive("/company/pricing")
+                  ? "bg-blue-100 text-blue-700 font-medium"
+                  : "hover:bg-gray-100 text-gray-700"
+              }`}
+            >
+              <div className={`p-1 rounded-lg ${
+                isActive("/company/pricing")
+                  ? "bg-blue-200"
+                  : ""
+              }`}>
+                <DollarSign className="h-5 w-5" />
+              </div>
+              <span>Upgrade Plan</span>
+            </Link>
+
             <div className="pt-4 border-t border-gray-200 mt-6">
               <Link
                 to="/company/settings/profile"
