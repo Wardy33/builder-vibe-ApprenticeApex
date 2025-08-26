@@ -10,6 +10,7 @@ const secureEnvSchema = z.object({
 
   // Database Configuration - REQUIRED for production
   DATABASE_URL: z.string().min(1, 'Database URL is required'),
+  // Legacy MongoDB support (deprecated - use DATABASE_URL for Neon)
   MONGODB_URI: z.string().optional(),
 
   // JWT Configuration - CRITICAL SECURITY
