@@ -267,6 +267,10 @@ async function startSimpleServer() {
     app.use("/api/messaging", messagingRoutes);
     console.log('✅ Messaging routes with AI moderation mounted successfully at /api/messaging');
 
+    console.log('🔧 Mounting apprenticeships routes at /api/apprenticeships...');
+    app.use("/api/apprenticeships", apprenticeshipsRoutes);
+    console.log('✅ Apprenticeships routes mounted successfully at /api/apprenticeships');
+
     // Add missing endpoints that are causing 404 errors
 
     // Applications endpoint
