@@ -46,21 +46,18 @@ const ApplicationSchema = new Schema<IApplication>({
   student: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
-    index: true
+    required: true
   },
   apprenticeship: {
     type: Schema.Types.ObjectId,
     ref: 'Apprenticeship',
-    required: true,
-    index: true
+    required: true
   },
   status: {
     type: String,
     required: true,
     enum: ['pending', 'reviewing', 'interviewed', 'accepted', 'rejected', 'withdrawn'],
-    default: 'pending',
-    index: true
+    default: 'pending'
   },
   submittedAt: {
     type: Date,
@@ -190,12 +187,9 @@ const ApplicationSchema = new Schema<IApplication>({
   toObject: { virtuals: true }
 });
 
-// Compound indexes for performance
-ApplicationSchema.index({ student: 1, status: 1 });
-ApplicationSchema.index({ apprenticeship: 1, status: 1 });
-ApplicationSchema.index({ student: 1, apprenticeship: 1 }, { unique: true }); // Prevent duplicate applications
-ApplicationSchema.index({ submittedAt: -1 });
-ApplicationSchema.index({ lastUpdated: -1 });
+// Note: Indexes are managed centrally in server/config/indexes.ts
+// Keep only the unique constraint to prevent duplicate applications
+ApplicationSchema.index({ student: 1, apprenticeship: 1 }, { unique: true });
 
 // Virtual populate for student details
 ApplicationSchema.virtual('studentDetails', {

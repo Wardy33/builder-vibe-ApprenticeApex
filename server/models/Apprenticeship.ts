@@ -201,12 +201,8 @@ const ApprenticeshipSchema = new Schema<IApprenticeship>({
   toObject: { virtuals: true }
 });
 
-// Indexes for performance
-ApprenticeshipSchema.index({ location: '2dsphere' });
-ApprenticeshipSchema.index({ industry: 1, isActive: 1 });
-ApprenticeshipSchema.index({ 'salary.min': 1, 'salary.max': 1 });
-ApprenticeshipSchema.index({ createdAt: -1 });
-ApprenticeshipSchema.index({ applicationDeadline: 1, isActive: 1 });
+// Note: Indexes are managed centrally in server/config/indexes.ts
+// This avoids duplicate index definitions and Mongoose warnings
 
 // Virtual for applications
 ApprenticeshipSchema.virtual('applications', {

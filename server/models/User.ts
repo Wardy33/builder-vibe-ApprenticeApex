@@ -436,7 +436,6 @@ const userSchema = new Schema<IUser>(
       unique: true,
       lowercase: true,
       trim: true,
-      index: true,
       validate: {
         validator: function (email: string) {
           return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -459,10 +458,9 @@ const userSchema = new Schema<IUser>(
     role: {
       type: String,
       enum: ["student", "company", "admin", "master_admin"],
-      required: true,
-      index: true
+      required: true
     },
-    isMasterAdmin: { type: Boolean, default: false, index: true },
+    isMasterAdmin: { type: Boolean, default: false },
     adminPermissions: {
       canViewAllUsers: { type: Boolean, default: false },
       canViewFinancials: { type: Boolean, default: false },
@@ -475,7 +473,7 @@ const userSchema = new Schema<IUser>(
     lastAccessedAdminPanel: { type: Date },
     adminLoginAttempts: { type: Number, default: 0 },
     adminLoginLockedUntil: { type: Date },
-    isEmailVerified: { type: Boolean, default: false, index: true },
+    isEmailVerified: { type: Boolean, default: false },
     emailVerificationToken: { type: String },
     emailVerificationExpires: { type: Date },
     passwordResetToken: { type: String },
@@ -514,15 +512,8 @@ const userSchema = new Schema<IUser>(
   },
 );
 
-// Indexes for performance
-userSchema.index({ email: 1 });
-userSchema.index({ role: 1, isActive: 1 });
-userSchema.index({ isEmailVerified: 1 });
-userSchema.index({ lastLogin: -1 });
-userSchema.index({ createdAt: -1 });
-
-// Geospatial indexes for location-based queries
-userSchema.index({ 'profile.location.coordinates': '2dsphere' });
+// Note: Indexes are managed centrally in server/config/indexes.ts
+// This avoids duplicate index definitions and Mongoose warnings
 
 // Virtual for full name (students)
 userSchema.virtual('fullName').get(function () {
