@@ -172,7 +172,7 @@ export default function BrowseApprenticeships() {
                   Posted 2 days ago
                 </div>
                 <a
-                  href="/student/signup"
+                  href="/candidate/signup"
                   className="bg-orange hover:bg-orange/90 text-white px-6 py-2 rounded-lg font-medium transition-colors"
                 >
                   Apply Now
