@@ -100,6 +100,17 @@ export function WebHeaderNew() {
             >
               Contact
             </Link>
+
+            <Link
+              to="/search-jobs"
+              className={`text-sm font-medium transition-all duration-200 hover:scale-105 px-3 py-2 rounded-xl focus-indicator ${
+                isActive("/search-jobs") ? "bg-orange-500 text-white" : "text-white hover:bg-white/10"
+              }`}
+              aria-current={isActive("/search-jobs") ? "page" : undefined}
+              aria-label="Search apprenticeship jobs"
+            >
+              Search Jobs
+            </Link>
           </nav>
 
           {/* Desktop CTA */}
