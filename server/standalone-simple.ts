@@ -12,7 +12,7 @@ import authRoutes from "./routes/auth";
 import healthRoutes from "./routes/health";
 import adminRoutes from "./routes/admin";
 import messagingRoutes from "./routes/messaging";
-import apprenticeshipsRoutes from "./routes/apprenticeships";
+import apprenticeshipsRoutes from "./routes/apprenticeships-mock";
 
 dotenv.config();
 
