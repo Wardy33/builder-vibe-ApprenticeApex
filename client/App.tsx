@@ -295,17 +295,11 @@ function App() {
               </Suspense>
             }
           />
-          {/* Redirect for common mistyped URLs */}
-          <Route
-            path="/CompanyAuth"
-            element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Redirecting..." />}
-              >
-                <CompanyAuth />
-              </Suspense>
-            }
-          />
+          {/* Redirects for common mistyped URLs */}
+          <Route path="/CompanyAuth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/companyauth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/company-auth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/Company" element={<Navigate to="/company/signin" replace />} />
           <Route
             path="/company/forgot-password"
             element={
