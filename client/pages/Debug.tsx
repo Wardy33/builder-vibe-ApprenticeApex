@@ -32,14 +32,14 @@ export default function Debug() {
           <h2 className="text-xl font-semibold text-white mb-4">Quick Access</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <Link
-              to="/student/signup"
+              to="/candidate/signup"
               className="block p-4 border rounded-lg hover:bg-white/10 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Signup</h3>
               <p className="text-sm text-gray-300">Test enhanced registration flow</p>
             </Link>
             <Link
-              to="/student/signin"
+              to="/candidate/signin"
               className="block p-4 border rounded-lg hover:bg-white/10 transition-colors"
             >
               <h3 className="font-semibold text-white">Student Login</h3>
