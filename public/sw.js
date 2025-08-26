@@ -266,11 +266,11 @@ self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
+
   if (event.data && event.data.type === 'GET_VERSION') {
     event.ports[0].postMessage({ version: CACHE_NAME });
   }
-  
+
   if (event.data && event.data.type === 'CLEAR_CACHE') {
     caches.keys().then((cacheNames) => {
       return Promise.all(
@@ -281,20 +281,54 @@ self.addEventListener('message', (event) => {
     });
   }
 
+  // EMERGENCY CACHE CLEAR - Clear all caches completely
+  if (event.data && event.data.type === 'CLEAR_ALL_CACHES') {
+    console.log('[SW] EMERGENCY CACHE CLEAR - Deleting all caches');
+    caches.keys().then((cacheNames) => {
+      console.log('[SW] Found caches to delete:', cacheNames);
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          console.log('[SW] Deleting cache:', cacheName);
+          return caches.delete(cacheName);
+        })
+      );
+    }).then(() => {
+      console.log('[SW] All caches cleared successfully');
+      // Respond if there's a message channel
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: true, cleared: true });
+      }
+    }).catch((error) => {
+      console.error('[SW] Error clearing caches:', error);
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: false, error: error.message });
+      }
+    });
+  }
+
   if (event.data && event.data.type === 'CLEAR_APPRENTICESHIPS_CACHE') {
+    console.log('[SW] Clearing apprenticeships specific cache');
     caches.open(DYNAMIC_CACHE).then((cache) => {
       return cache.keys().then((requests) => {
-        return Promise.all(
-          requests.map((request) => {
-            if (request.url.includes('/api/apprenticeships')) {
-              console.log('[SW] Clearing apprenticeships cache for:', request.url);
-              return cache.delete(request);
-            }
-          })
-        );
+        const deletePromises = requests.map((request) => {
+          if (request.url.includes('/api/apprenticeships')) {
+            console.log('[SW] Clearing apprenticeships cache for:', request.url);
+            return cache.delete(request);
+          }
+          return Promise.resolve();
+        });
+        return Promise.all(deletePromises);
       });
     }).then(() => {
-      event.ports[0].postMessage({ success: true });
+      console.log('[SW] Apprenticeships cache cleared');
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: true });
+      }
+    }).catch((error) => {
+      console.error('[SW] Error clearing apprenticeships cache:', error);
+      if (event.ports && event.ports[0]) {
+        event.ports[0].postMessage({ success: false, error: error.message });
+      }
     });
   }
 });
