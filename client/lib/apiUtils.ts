@@ -380,6 +380,20 @@ class ApiClient {
     });
   }
 
+  async getCompanyApplications(params?: any): Promise<ApiResponse<any>> {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.makeRequest(`/api/applications${queryString}`, {
+      timeout: 15000,
+    });
+  }
+
+  async getCompanyInterviews(params?: any): Promise<ApiResponse<any>> {
+    const queryString = params ? '?' + new URLSearchParams(params).toString() : '';
+    return this.makeRequest(`/api/interviews${queryString}`, {
+      timeout: 15000,
+    });
+  }
+
   // Analytics methods
   async getDashboardAnalytics(): Promise<ApiResponse<any>> {
     return this.makeRequest('/api/analytics/dashboard', {
