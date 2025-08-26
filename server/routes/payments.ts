@@ -60,7 +60,7 @@ router.get("/packages", asyncHandler(async (req, res) => {
 router.post("/job-posting", [paymentRateLimit], asyncHandler(async (req, res) => {
   try {
     const { jobId, packageType } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     // Validate request
     if (!jobId || !packageType) {
@@ -127,7 +127,7 @@ router.post("/job-posting", [paymentRateLimit], asyncHandler(async (req, res) =>
 router.post("/subscription", [paymentRateLimit], asyncHandler(async (req, res) => {
   try {
     const { planType, paymentMethodId } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     // Validate request
     if (!planType) {
@@ -181,7 +181,7 @@ router.post("/subscription", [paymentRateLimit], asyncHandler(async (req, res) =
 // Get payment history
 router.get("/history", asyncHandler(async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     const { page = 1, limit = 20 } = req.query;
     
     const payments = await NeonPaymentService.getInstance().getPaymentHistory(userId);
@@ -214,7 +214,7 @@ router.get("/history", asyncHandler(async (req, res) => {
 // Get current subscription status
 router.get("/subscription", asyncHandler(async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     
     const paymentService = NeonPaymentService.getInstance();
     const subscriptions = await paymentService.sql(
@@ -259,7 +259,7 @@ router.get("/subscription", asyncHandler(async (req, res) => {
 // Cancel subscription
 router.post("/subscription/cancel", [paymentRateLimit], asyncHandler(async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.user.userId;
     
     const paymentService = NeonPaymentService.getInstance();
     const subscriptions = await paymentService.sql(
@@ -299,7 +299,7 @@ router.post("/subscription/cancel", [paymentRateLimit], asyncHandler(async (req,
 router.get("/status/:paymentIntentId", asyncHandler(async (req, res) => {
   try {
     const { paymentIntentId } = req.params;
-    const userId = req.user.id;
+    const userId = req.user.userId;
 
     const paymentService = NeonPaymentService.getInstance();
     const payments = await paymentService.sql(
