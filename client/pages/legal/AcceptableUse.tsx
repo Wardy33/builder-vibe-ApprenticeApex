@@ -10,11 +10,7 @@ export default function AcceptableUse() {
           <h1 className="text-4xl font-bold mb-8 text-center text-white drop-shadow-lg">
             Acceptable Use Policy
           </h1>
-<<<<<<< HEAD
 
-=======
-          
->>>>>>> refs/remotes/origin/main
           <div className="rounded-xl p-2 mb-8 bg-gradient-to-br from-gray-800/40 via-gray-900/40 to-black/40 border border-white/20 backdrop-blur-sm">
             <p className="text-gray-300 text-center">
               <strong>Last Updated:</strong>{" "}
