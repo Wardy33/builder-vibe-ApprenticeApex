@@ -1,72 +1,4 @@
-}
-
-// Layout Component
-function StudentAppLayout({ children }: { children: React.ReactNode }) {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const isActive = (path: string) => location.pathname === path;
-
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {!isActive("/student/home") && !isActive("/student/") && (
-        <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-40">
-          <div className="flex items-center justify-between">
-            <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-xl">
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-            <h1 className="text-lg font-semibold text-gray-900">
-              {location.pathname.includes('/jobs') ? 'Find Jobs' :
-               location.pathname.includes('/matches') ? 'Your Matches' :
-               location.pathname.includes('/messages') ? 'Messages' :
-               location.pathname.includes('/profile') ? 'Profile' : 'ApprenticeApex'}
-            </h1>
-            <button onClick={() => navigate('/student/account-settings')} className="p-2 hover:bg-gray-100 rounded-xl">
-              <Settings className="h-5 w-5" />
-            </button>
-          </div>
-        </header>
-      )}
-
-      <main className="flex-1 pb-20">{children}</main>
-
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
-        <div className="flex justify-around items-center max-w-md mx-auto">
-          {[
-            { path: "/student/home", icon: Home, label: "Home" },
-            { path: "/student/jobs", icon: Briefcase, label: "Jobs" },
-            { path: "/student/matches", icon: Heart, label: "Matches" },
-            { path: "/student/messages", icon: MessageCircle, label: "Messages" },
-            { path: "/student/profile", icon: User, label: "Profile" }
-          ].map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex flex-col items-center p-2 rounded-xl transition-all ${
-                isActive(item.path) || (item.path === "/student/home" && isActive("/student/"))
-                  ? "text-blue-600" : "text-gray-500 hover:text-gray-700"
-              }`}
-            >
-              <div className={`p-1 rounded-lg ${
-                isActive(item.path) || (item.path === "/student/home" && isActive("/student/"))
-                  ? "bg-blue-100" : ""
-              }`}>
-                <item.icon className="h-5 w-5" />
-              </div>
-              <span className="text-xs font-medium mt-1">{item.label}</span>
-            </Link>
-          ))}
-        </div>
-      </nav>
-      <LiveChat />
-    </div>
-  );
-}
-
-// Edit Pages with common structure
-const EditPage = ({ title, children, onSave, loading = false, success = false }: {
-  title: string;
-  children: React.ReactNode;
-  import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Routes, Route, Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   Heart, X, MapPin, Building2, Clock, Filter, User, MessageCircle, Video, ArrowLeft, Settings, Briefcase, Search, Star, Calendar,
@@ -173,6 +105,166 @@ function SwipeCard({ apprenticeship, onSwipe, style }: {
     }
     setDragDistance(0);
   };
+
+  return (
+    <div
+      ref={cardRef}
+      className={`w-full max-w-sm mx-auto h-[520px] cursor-grab ${isDragging ? "cursor-grabbing" : ""}`}
+      style={{ transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.05}deg)`, ...style }}
+      onMouseDown={() => setIsDragging(true)}
+      onMouseMove={handleDrag}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+    >
+      <div className="relative h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
+        <div className="relative h-64 overflow-hidden">
+          <img src={apprenticeship.image} alt={apprenticeship.jobTitle} className="w-full h-full object-cover" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute top-4 right-4">
+            <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+              {apprenticeship.duration}
+            </span>
+          </div>
+        </div>
+
+        <div className="p-5 space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                <Building2 className="h-5 w-5 text-blue-600" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <h3 className="text-lg font-bold text-gray-900">{apprenticeship.jobTitle}</h3>
+                <p className="text-gray-600 font-medium text-sm">{apprenticeship.company}</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center text-gray-600">
+                <MapPin className="h-4 w-4 mr-1" />
+                <span>{apprenticeship.location}</span>
+              </div>
+              <div className="flex items-center text-gray-600">
+                <Briefcase className="h-4 w-4 mr-1" />
+                <span>{apprenticeship.industry}</span>
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center text-sm text-gray-600">
+                <Navigation className="h-4 w-4 mr-1 text-blue-600" />
+                <span className="font-medium">{apprenticeship.distance} away</span>
+              </div>
+              <button
+                onClick={(e) => { e.stopPropagation(); setShowTransportModal(true); }}
+                className="flex items-center bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
+              >
+                <RouteIcon className="h-3 w-3 mr-1" />
+                Routes
+              </button>
+            </div>
+          </div>
+
+          <p className="text-sm text-gray-700 line-clamp-3">{apprenticeship.description}</p>
+
+          <div className="space-y-2">
+            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Key Requirements</p>
+            <div className="flex flex-wrap gap-2">
+              {apprenticeship.requirements.slice(0, 3).map((req, index) => (
+                <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs font-medium">
+                  {req}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="border-t border-gray-200 pt-3">
+            <p className="text-lg font-bold text-gray-900">{apprenticeship.salary}</p>
+            <p className="text-xs text-gray-500">per year</p>
+          </div>
+        </div>
+
+        {dragDistance > 50 && (
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+            <div className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse">
+              ❤️ LIKE
+            </div>
+          </div>
+        )}
+        {dragDistance < -50 && (
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
+            <div className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse">
+              ✕ PASS
+            </div>
+          </div>
+        )}
+
+        {showTransportModal && (
+          <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
+            <div className="bg-gradient-to-r from-pink-500 to-red-500 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-black">Transport Routes</h3>
+                <button onClick={() => setShowTransportModal(false)} className="text-gray-500">
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="space-y-3">
+                {[
+                  { icon: Bus, label: "Bus Route", time: "25 min", cost: "£2.50", color: "blue" },
+                  { icon: Train, label: "Train Route", time: "18 min", cost: "£4.20", color: "green" },
+                  { icon: Car, label: "Driving", time: "12 min", cost: "£8/day", color: "orange" },
+                  { icon: User, label: "Walking", time: "28 min", cost: "Free", color: "gray" }
+                ].map((route, i) => (
+                  <div key={i} className={`flex items-center justify-between p-3 bg-${route.color}-500/20 rounded-lg border border-${route.color}-400/30`}>
+                    <div className="flex items-center">
+                      <route.icon className={`h-5 w-5 text-${route.color}-600 mr-3`} />
+                      <div>
+                        <p className="font-medium text-black">{route.label}</p>
+                        <p className="text-sm text-gray-300">{route.time} • {route.cost}</p>
+                      </div>
+                    </div>
+                    <button className={`text-${route.color}-600 text-sm font-medium hover:underline`}>View</button>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex gap-3">
+                <button onClick={() => setShowTransportModal(false)} className="flex-1 bg-gray-700/40 text-black py-2 px-4 rounded-lg">
+                  Close
+                </button>
+                <button onClick={() => window.open(`https://maps.google.com/maps/dir/Your+Home/${encodeURIComponent(apprenticeship.location)}`, "_blank")} className="flex-1 bg-orange text-black py-2 px-4 rounded-lg">
+                  Open Maps
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// Main Pages
+function HomePage() {
+  const [applications, setApplications] = useState(mockApplications);
+  const [interviews, setInterviews] = useState(mockInterviews);
+  const [profileScore] = useState(92);
+  const [loading] = useState(false);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const appsResponse = await fetch('/api/applications/my-applications');
+        if (appsResponse.ok) {
+          const data = await appsResponse.json();
+          setApplications(data.applications || mockApplications);
+        }
+      } catch (error) {
+        console.error('Failed to load data:', error);
+      }
+    };
+    loadData();
+  }, []);
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -328,6 +420,471 @@ function ApprenticeshipInfoPage() {
       </header>
 
       <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">{title}</h1>
+      </div>
+
+      {children}
+
+      {success && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
+          {title} updated successfully!
+        </div>
+      )}
+
+      <div className="flex gap-3">
+        <button onClick={() => navigate(-1)} className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 px-6 rounded-xl font-semibold transition-all">
+          Cancel
+        </button>
+        <button
+          onClick={onSave}
+          disabled={loading}
+          className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white py-3 px-6 rounded-xl font-semibold transition-all"
+        >
+          {loading ? 'Saving...' : success ? 'Saved!' : 'Save Changes'}
+        </button>
+      </div>
+    </div>
+  );
+};
+
+function EditAboutPage() {
+  const navigate = useNavigate();
+  const [bio, setBio] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    setBio(localStorage.getItem('studentProfile_bio') || "Passionate about technology and eager to start my career in software development.");
+  }, []);
+
+  const handleSave = async () => {
+    if (bio.length > 500) return alert('Bio must be 500 characters or less');
+    setLoading(true);
+    try {
+      localStorage.setItem('studentProfile_bio', bio);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => navigate(-1), 1500);
+    } catch (error) {
+      alert('Failed to save bio. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <EditPage title="Edit About" onSave={handleSave} loading={loading} success={success}>
+      <div className={cardClass}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">About Me</h3>
+        <textarea
+          value={bio}
+          onChange={(e) => setBio(e.target.value)}
+          placeholder="Tell employers about yourself..."
+          rows={6}
+          className={inputClass + " resize-none"}
+        />
+        <p className={`text-sm mt-2 ${bio.length > 500 ? 'text-red-600' : 'text-gray-600'}`}>
+          {bio.length}/500 characters {bio.length > 500 && '(Too long)'}
+        </p>
+      </div>
+    </EditPage>
+  );
+}
+
+function EditContactPage() {
+  const navigate = useNavigate();
+  const [contact, setContact] = useState({ email: "", phone: "", location: "" });
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    const saved = localStorage.getItem('studentProfile_contact');
+    setContact(saved ? JSON.parse(saved) : { email: "sarah.johnson@email.com", phone: "07123 456789", location: "London, UK" });
+  }, []);
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!contact.email) newErrors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(contact.email)) newErrors.email = 'Please enter a valid email';
+    if (!contact.phone) newErrors.phone = 'Phone number is required';
+    if (!contact.location) newErrors.location = 'Location is required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateForm()) return;
+    setLoading(true);
+    try {
+      localStorage.setItem('studentProfile_contact', JSON.stringify(contact));
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => navigate(-1), 1500);
+    } catch (error) {
+      alert('Failed to save contact information. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <EditPage title="Edit Contact" onSave={handleSave} loading={loading} success={success}>
+      <div className={cardClass}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+        <div className="space-y-4">
+          {[
+            { key: 'email', label: 'Email', type: 'email' },
+            { key: 'phone', label: 'Phone', type: 'tel' },
+            { key: 'location', label: 'Location', type: 'text' }
+          ].map(field => (
+            <div key={field.key}>
+              <label className="block text-sm font-medium text-gray-900 mb-2">{field.label}</label>
+              <input
+                type={field.type}
+                value={contact[field.key]}
+                onChange={(e) => {
+                  setContact({...contact, [field.key]: e.target.value});
+                  if (errors[field.key]) setErrors({...errors, [field.key]: undefined});
+                }}
+                className={`${inputClass} ${errors[field.key] ? 'border-red-500 focus:ring-red-500' : 'border-gray-300 focus:ring-blue-500'}`}
+              />
+              {errors[field.key] && <p className="text-red-500 text-sm mt-1">{errors[field.key]}</p>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </EditPage>
+  );
+}
+
+function EditSkillsPage() {
+  const navigate = useNavigate();
+  const [skills, setSkills] = useState([]);
+  const [newSkill, setNewSkill] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('studentProfile_skills');
+    setSkills(saved ? JSON.parse(saved) : ["JavaScript", "React", "Problem Solving", "Communication"]);
+  }, []);
+
+  const addSkill = () => {
+    if (newSkill.trim() && !skills.includes(newSkill.trim()) && skills.length < 20) {
+      setSkills([...skills, newSkill.trim()]);
+      setNewSkill("");
+    } else if (skills.length >= 20) {
+      alert('You can only have up to 20 skills');
+    } else if (skills.includes(newSkill.trim())) {
+      alert('This skill is already added');
+    }
+  };
+
+  const removeSkill = (skillToRemove) => setSkills(skills.filter(skill => skill !== skillToRemove));
+
+  const handleSave = async () => {
+    if (skills.length === 0) return alert('Please add at least one skill');
+    setLoading(true);
+    try {
+      localStorage.setItem('studentProfile_skills', JSON.stringify(skills));
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => navigate(-1), 1500);
+    } catch (error) {
+      alert('Failed to save skills. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <EditPage title="Edit Skills" onSave={handleSave} loading={loading} success={success}>
+      <div className={cardClass}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Your Skills</h3>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {skills.map((skill) => (
+            <span key={skill} className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium flex items-center gap-2">
+              {skill}
+              <button onClick={() => removeSkill(skill)} className="hover:bg-red-500/20 rounded-full p-1">
+                <X className="h-3 w-3" />
+              </button>
+            </span>
+          ))}
+        </div>
+        <div className="flex gap-2">
+          <input
+            type="text" value={newSkill} onChange={(e) => setNewSkill(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && addSkill()}
+            placeholder="Add a new skill..." className="flex-1 p-3 border border-gray-300 rounded-lg" maxLength={50}
+          />
+          <button
+            onClick={addSkill} disabled={!newSkill.trim() || skills.length >= 20}
+            className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white px-4 py-2 rounded-lg font-semibold"
+          >
+            Add
+          </button>
+        </div>
+        <p className="text-sm text-gray-600 mt-2">{skills.length}/20 skills</p>
+      </div>
+    </EditPage>
+  );
+}
+
+function EditAvailabilityPage() {
+  const navigate = useNavigate();
+  const [availability, setAvailability] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    setAvailability(localStorage.getItem('studentProfile_availability') || "September 2024");
+  }, []);
+
+  const handleSave = async () => {
+    if (!availability.trim()) return alert('Please enter your availability');
+    setLoading(true);
+    try {
+      localStorage.setItem('studentProfile_availability', availability);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setSuccess(true);
+      setTimeout(() => navigate(-1), 1500);
+    } catch (error) {
+      alert('Failed to save availability. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <EditPage title="Edit Availability" onSave={handleSave} loading={loading} success={success}>
+      <div className={cardClass}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">When are you available to start?</h3>
+        <input
+          type="text" value={availability} onChange={(e) => setAvailability(e.target.value)}
+          placeholder="e.g., September 2024" className={inputClass}
+        />
+      </div>
+    </EditPage>
+  );
+}
+
+function ChangePicturePage() {
+  const navigate = useNavigate();
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [currentImage, setCurrentImage] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    setCurrentImage(localStorage.getItem('studentProfile_image') || "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop");
+  }, []);
+
+  const handleImageUpload = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) return alert('File size must be less than 5MB');
+      if (!file.type.startsWith('image/')) return alert('Please select an image file');
+      
+      const reader = new FileReader();
+      reader.onload = (e) => setSelectedImage(e.target?.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSave = async () => {
+    if (!selectedImage) return alert('Please select an image first');
+    setLoading(true);
+    try {
+      localStorage.setItem('studentProfile_image', selectedImage);
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      setSuccess(true);
+      setTimeout(() => navigate(-1), 1500);
+    } catch (error) {
+      alert('Failed to save profile picture. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <EditPage title="Change Picture" onSave={handleSave} loading={loading} success={success}>
+      <div className={cardClass}>
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Profile Picture</h3>
+        <div className="text-center">
+          <div className="relative inline-block mb-4">
+            <img src={selectedImage || currentImage} alt="Profile" className="w-32 h-32 rounded-full object-cover mx-auto" />
+          </div>
+          <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" id="image-upload" />
+          <label htmlFor="image-upload" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold cursor-pointer transition-all inline-block">
+            {selectedImage ? 'Choose Different Picture' : 'Choose New Picture'}
+          </label>
+          <p className="text-sm text-gray-600 mt-2">PNG, JPG up to 5MB</p>
+        </div>
+      </div>
+    </EditPage>
+  );
+}
+
+// Settings Pages with simplified structure
+const SettingsPage = ({ title, children }) => {
+  const navigate = useNavigate();
+  return (
+    <div className="p-4 space-y-6">
+      <div className="flex items-center mb-6">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full text-black mr-3">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-2xl font-bold text-black">{title}</h1>
+      </div>
+      {children}
+    </div>
+  );
+};
+
+function AccountSettingsPage() {
+  const navigate = useNavigate();
+
+  const settingsGroups = [
+    {
+      title: "Profile Settings",
+      items: [
+        { label: "Edit Profile Information", route: "/student/edit-profile-info", icon: Edit, color: "blue" },
+        { label: "Change Profile Picture", route: "/student/change-picture", icon: Camera, color: "purple" },
+        { label: "Update Skills & Preferences", route: "/student/edit-skills-preferences", icon: User, color: "green" }
+      ]
+    },
+    {
+      title: "Privacy & Security",
+      items: [
+        { label: "Change Password", route: "/student/change-password", icon: Lock, color: "orange" },
+        { label: "Privacy Settings", route: "/student/privacy-settings", icon: Settings, color: "indigo" },
+        { label: "Two-Factor Authentication", route: "/student/two-factor-auth", icon: Settings, color: "teal" }
+      ]
+    },
+    {
+      title: "Notifications",
+      items: [
+        { label: "Push Notifications", route: "/student/notification-settings", icon: Settings, color: "yellow" },
+        { label: "Email Preferences", route: "/student/email-preferences", icon: Mail, color: "pink" }
+      ]
+    },
+    {
+      title: "App Settings",
+      items: [
+        { label: "Language & Region", route: "/student/language-region", icon: Settings, color: "cyan" },
+        { label: "Data & Storage", route: "/student/data-storage", icon: Settings, color: "slate" }
+      ]
+    },
+    {
+      title: "Account",
+      items: [
+        { label: "Download My Data", route: "/student/download-data", icon: Settings, color: "blue" },
+        { label: "Delete Account", route: "/student/delete-account", icon: Settings, color: "red", danger: true }
+      ]
+    }
+  ];
+
+  return (
+    <div className="bg-gray-50 min-h-screen">
+      <div className="bg-white px-6 py-6 border-b border-gray-200">
+        <div className="flex items-center">
+          <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-xl mr-3">
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <h1 className="text-2xl font-bold text-gray-900">Account Settings</h1>
+        </div>
+      </div>
+
+      <div className="px-6 py-4 space-y-4">
+        {settingsGroups.map((group, i) => (
+          <div key={i} className={cardClass}>
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">{group.title}</h3>
+            <div className="space-y-1">
+              {group.items.map((item, j) => (
+                <button
+                  key={j}
+                  onClick={() => {
+                    if (item.danger && !confirm('Are you sure you want to delete your account? This action cannot be undone.')) return;
+                    navigate(item.route);
+                  }}
+                  className={`w-full text-left p-3 hover:bg-gray-50 rounded-lg transition-all flex items-center justify-between ${item.danger ? 'hover:bg-red-50' : ''}`}
+                >
+                  <div className="flex items-center">
+                    <div className={`w-8 h-8 bg-${item.color}-100 rounded-lg flex items-center justify-center mr-3`}>
+                      <item.icon className={`h-4 w-4 text-${item.color}-600`} />
+                    </div>
+                    <span className={`font-medium ${item.danger ? 'text-red-600' : 'text-gray-900'}`}>{item.label}</span>
+                  </div>
+                  <svg className={`h-4 w-4 ${item.danger ? 'text-red-400' : 'text-gray-400'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Simplified placeholder pages
+const PlaceholderPages = {
+  EditProfileInfo: () => <SettingsPage title="Edit Profile Information"><div className={cardClass}><p className="text-gray-900">Profile editing will be available soon.</p></div></SettingsPage>,
+  EditSkillsPreferences: () => <SettingsPage title="Skills & Preferences"><div className={cardClass}><p className="text-gray-900">Skills preferences will be available soon.</p></div></SettingsPage>,
+  ChangePassword: () => <SettingsPage title="Change Password"><div className={cardClass}><p className="text-gray-900">Password change will be available soon.</p></div></SettingsPage>,
+  PrivacySettings: () => <SettingsPage title="Privacy Settings"><div className={cardClass}><p className="text-gray-900">Privacy settings will be available soon.</p></div></SettingsPage>,
+  TwoFactorAuth: () => <SettingsPage title="Two-Factor Authentication"><div className={cardClass}><p className="text-gray-900">Two-factor authentication will be available soon.</p></div></SettingsPage>,
+  NotificationSettings: () => <SettingsPage title="Notification Settings"><div className={cardClass}><p className="text-gray-900">Notification settings will be available soon.</p></div></SettingsPage>,
+  EmailPreferences: () => <SettingsPage title="Email Preferences"><div className={cardClass}><p className="text-gray-900">Email preferences will be available soon.</p></div></SettingsPage>,
+  LanguageRegion: () => <SettingsPage title="Language & Region"><div className={cardClass}><p className="text-gray-900">Language and region settings will be available soon.</p></div></SettingsPage>,
+  DataStorage: () => <SettingsPage title="Data & Storage"><div className={cardClass}><p className="text-gray-900">Data and storage management will be available soon.</p></div></SettingsPage>,
+  DownloadData: () => <SettingsPage title="Download My Data"><div className={cardClass}><p className="text-gray-900">Data download will be available soon.</p></div></SettingsPage>,
+  DeleteAccount: () => <SettingsPage title="Delete Account"><div className="bg-red-50 border border-red-200 rounded-xl p-6"><h3 className="text-lg font-semibold text-red-600 mb-4">Danger Zone</h3><p className="text-red-600 mb-4">Account deletion is permanent and cannot be undone.</p><button className="bg-red-500 hover:bg-red-600 text-white py-3 px-6 rounded-xl font-semibold">Permanently Delete Account</button></div></SettingsPage>,
+};
+
+export default function StudentApp() {
+  return (
+    <Routes>
+      <Route path="/apprenticeship-info/:id" element={<ApprenticeshipInfoPage />} />
+      <Route path="/chat/:id" element={<ChatPage />} />
+      <Route path="/*" element={
+        <StudentAppLayout>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/matches" element={<MatchesPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/account-settings" element={<AccountSettingsPage />} />
+            <Route path="/edit-about" element={<EditAboutPage />} />
+            <Route path="/edit-contact" element={<EditContactPage />} />
+            <Route path="/edit-skills" element={<EditSkillsPage />} />
+            <Route path="/edit-availability" element={<EditAvailabilityPage />} />
+            <Route path="/change-picture" element={<ChangePicturePage />} />
+            <Route path="/edit-profile-info" element={<PlaceholderPages.EditProfileInfo />} />
+            <Route path="/edit-skills-preferences" element={<PlaceholderPages.EditSkillsPreferences />} />
+            <Route path="/change-password" element={<PlaceholderPages.ChangePassword />} />
+            <Route path="/privacy-settings" element={<PlaceholderPages.PrivacySettings />} />
+            <Route path="/two-factor-auth" element={<PlaceholderPages.TwoFactorAuth />} />
+            <Route path="/notification-settings" element={<PlaceholderPages.NotificationSettings />} />
+            <Route path="/email-preferences" element={<PlaceholderPages.EmailPreferences />} />
+            <Route path="/language-region" element={<PlaceholderPages.LanguageRegion />} />
+            <Route path="/data-storage" element={<PlaceholderPages.DataStorage />} />
+            <Route path="/download-data" element={<PlaceholderPages.DownloadData />} />
+            <Route path="/delete-account" element={<PlaceholderPages.DeleteAccount />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </StudentAppLayout>
+      } />
+    </Routes>
+  );
+}space-y-6">
         <div className="bg-black border border-gray-600 rounded-2xl p-6">
           <div className="flex items-start space-x-4">
             <img src={apprenticeshipInfo.companyLogo} alt={apprenticeshipInfo.company} className="w-16 h-16 rounded-lg object-cover" />
@@ -652,168 +1209,82 @@ function ProfilePage() {
       </div>
     </div>
   );
-    <div
-      ref={cardRef}
-      className={`w-full max-w-sm mx-auto h-[520px] cursor-grab ${isDragging ? "cursor-grabbing" : ""}`}
-      style={{ transform: `translateX(${dragDistance}px) rotate(${dragDistance * 0.05}deg)`, ...style }}
-      onMouseDown={() => setIsDragging(true)}
-      onMouseMove={handleDrag}
-      onMouseUp={handleDragEnd}
-      onMouseLeave={handleDragEnd}
-    >
-      <div className="relative h-full bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200">
-        <div className="relative h-64 overflow-hidden">
-          <img src={apprenticeship.image} alt={apprenticeship.jobTitle} className="w-full h-full object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-          <div className="absolute top-4 right-4">
-            <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
-              {apprenticeship.duration}
-            </span>
+}
+
+// Layout Component
+function StudentAppLayout({ children }: { children: React.ReactNode }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname === path;
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {!isActive("/student/home") && !isActive("/student/") && (
+        <header className="bg-white border-b border-gray-200 px-4 py-3 sticky top-0 z-40">
+          <div className="flex items-center justify-between">
+            <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-xl">
+              <ArrowLeft className="h-5 w-5" />
+            </button>
+            <h1 className="text-lg font-semibold text-gray-900">
+              {location.pathname.includes('/jobs') ? 'Find Jobs' :
+               location.pathname.includes('/matches') ? 'Your Matches' :
+               location.pathname.includes('/messages') ? 'Messages' :
+               location.pathname.includes('/profile') ? 'Profile' : 'ApprenticeApex'}
+            </h1>
+            <button onClick={() => navigate('/student/account-settings')} className="p-2 hover:bg-gray-100 rounded-xl">
+              <Settings className="h-5 w-5" />
+            </button>
           </div>
+        </header>
+      )}
+
+      <main className="flex-1 pb-20">{children}</main>
+
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2 z-50">
+        <div className="flex justify-around items-center max-w-md mx-auto">
+          {[
+            { path: "/student/home", icon: Home, label: "Home" },
+            { path: "/student/jobs", icon: Briefcase, label: "Jobs" },
+            { path: "/student/matches", icon: Heart, label: "Matches" },
+            { path: "/student/messages", icon: MessageCircle, label: "Messages" },
+            { path: "/student/profile", icon: User, label: "Profile" }
+          ].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex flex-col items-center p-2 rounded-xl transition-all ${
+                isActive(item.path) || (item.path === "/student/home" && isActive("/student/"))
+                  ? "text-blue-600" : "text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              <div className={`p-1 rounded-lg ${
+                isActive(item.path) || (item.path === "/student/home" && isActive("/student/"))
+                  ? "bg-blue-100" : ""
+              }`}>
+                <item.icon className="h-5 w-5" />
+              </div>
+              <span className="text-xs font-medium mt-1">{item.label}</span>
+            </Link>
+          ))}
         </div>
-
-        <div className="p-5 space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Building2 className="h-5 w-5 text-blue-600" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-lg font-bold text-gray-900">{apprenticeship.jobTitle}</h3>
-                <p className="text-gray-600 font-medium text-sm">{apprenticeship.company}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center text-gray-600">
-                <MapPin className="h-4 w-4 mr-1" />
-                <span>{apprenticeship.location}</span>
-              </div>
-              <div className="flex items-center text-gray-600">
-                <Briefcase className="h-4 w-4 mr-1" />
-                <span>{apprenticeship.industry}</span>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center text-sm text-gray-600">
-                <Navigation className="h-4 w-4 mr-1 text-blue-600" />
-                <span className="font-medium">{apprenticeship.distance} away</span>
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); setShowTransportModal(true); }}
-                className="flex items-center bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
-              >
-                <RouteIcon className="h-3 w-3 mr-1" />
-                Routes
-              </button>
-            </div>
-          </div>
-
-          <p className="text-sm text-gray-700 line-clamp-3">{apprenticeship.description}</p>
-
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Key Requirements</p>
-            <div className="flex flex-wrap gap-2">
-              {apprenticeship.requirements.slice(0, 3).map((req, index) => (
-                <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs font-medium">
-                  {req}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div className="border-t border-gray-200 pt-3">
-            <p className="text-lg font-bold text-gray-900">{apprenticeship.salary}</p>
-            <p className="text-xs text-gray-500">per year</p>
-          </div>
-        </div>
-
-        {dragDistance > 50 && (
-          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
-            <div className="bg-green-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse">
-              ❤️ LIKE
-            </div>
-          </div>
-        )}
-        {dragDistance < -50 && (
-          <div className="absolute top-8 left-1/2 transform -translate-x-1/2">
-            <div className="bg-red-500 text-white px-4 py-2 rounded-full font-semibold text-sm animate-pulse">
-              ✕ PASS
-            </div>
-          </div>
-        )}
-
-        {showTransportModal && (
-          <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
-            <div className="bg-gradient-to-r from-pink-500 to-red-500 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">Transport Routes</h3>
-                <button onClick={() => setShowTransportModal(false)} className="text-gray-500">
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="space-y-3">
-                {[
-                  { icon: Bus, label: "Bus Route", time: "25 min", cost: "£2.50", color: "blue" },
-                  { icon: Train, label: "Train Route", time: "18 min", cost: "£4.20", color: "green" },
-                  { icon: Car, label: "Driving", time: "12 min", cost: "£8/day", color: "orange" },
-                  { icon: User, label: "Walking", time: "28 min", cost: "Free", color: "gray" }
-                ].map((route, i) => (
-                  <div key={i} className={`flex items-center justify-between p-3 bg-${route.color}-500/20 rounded-lg border border-${route.color}-400/30`}>
-                    <div className="flex items-center">
-                      <route.icon className={`h-5 w-5 text-${route.color}-600 mr-3`} />
-                      <div>
-                        <p className="font-medium text-black">{route.label}</p>
-                        <p className="text-sm text-gray-300">{route.time} • {route.cost}</p>
-                      </div>
-                    </div>
-                    <button className={`text-${route.color}-600 text-sm font-medium hover:underline`}>View</button>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-6 flex gap-3">
-                <button onClick={() => setShowTransportModal(false)} className="flex-1 bg-gray-700/40 text-black py-2 px-4 rounded-lg">
-                  Close
-                </button>
-                <button onClick={() => window.open(`https://maps.google.com/maps/dir/Your+Home/${encodeURIComponent(apprenticeship.location)}`, "_blank")} className="flex-1 bg-orange text-black py-2 px-4 rounded-lg">
-                  Open Maps
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
+      </nav>
+      <LiveChat />
     </div>
   );
 }
 
-// Main Pages
-function HomePage() {
-  const [applications, setApplications] = useState(mockApplications);
-  const [interviews, setInterviews] = useState(mockInterviews);
-  const [profileScore] = useState(92);
-  const [loading] = useState(false);
-
-  useEffect(() => {
-    const loadData = async () => {
-      try {
-        const appsResponse = await fetch('/api/applications/my-applications');
-        if (appsResponse.ok) {
-          const data = await appsResponse.json();
-          setApplications(data.applications || mockApplications);
-        }
-      } catch (error) {
-        console.error('Failed to load data:', error);
-      }
-    };
-    loadData();
-  }, []);
-
+// Edit Pages with common structure
+const EditPage = ({ title, children, onSave, loading = false, success = false }: {
+  title: string;
+  children: React.ReactNode;
+  onSave: () => void;
+  loading?: boolean;
+  success?: boolean;
+}) => {
+  const navigate = useNavigate();
+  
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="bg-white px-6 pt-8 pb-6">
+    <div className="p-4 <div className="bg-white px-6 pt-8 pb-6">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 mb-1">Good morning, Sarah!</h1>
@@ -1106,3 +1577,4 @@ function MatchesPage() {
   ];
 
   return (
+    <div className="bg-gray-50 min-h-screen">
