@@ -31,40 +31,39 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       output: {
         manualChunks: {
-          // Core React - Critical path
-          'vendor-react': ['react', 'react-dom'],
-          'vendor-router': ['react-router-dom'],
+          // Core React - Keep critical path minimal
+          'react': ['react', 'react-dom'],
+          'router': ['react-router-dom'],
 
-          // UI Library - Split by usage frequency
-          'vendor-ui-core': [
-            '@radix-ui/react-dialog',
-            '@radix-ui/react-dropdown-menu'
-          ],
-          'vendor-ui-extended': [
-            '@radix-ui/react-select',
-            '@radix-ui/react-tabs',
-            '@radix-ui/react-accordion',
-            '@radix-ui/react-popover',
-            '@radix-ui/react-alert-dialog'
-          ],
+          // Split Radix UI into smaller chunks
+          'radix-core': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          'radix-forms': ['@radix-ui/react-select', '@radix-ui/react-tabs'],
+          'radix-layout': ['@radix-ui/react-accordion', '@radix-ui/react-popover', '@radix-ui/react-alert-dialog'],
 
-          // Icons - Heavy dependency
-          'vendor-icons': ['lucide-react'],
+          // Icons - Heavy dependency, keep separate
+          'lucide-icons': ['lucide-react'],
 
-          // Utilities - Lightweight
-          'vendor-utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          // Utilities - Group lightweight utilities
+          'utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
 
-          // Forms - Only if used
-          'vendor-forms': ['@hookform/resolvers', 'react-hook-form'],
+          // Forms - Only load when needed
+          'forms': ['@hookform/resolvers', 'react-hook-form'],
 
-          // Charts - Lazy loaded
-          'vendor-charts': ['recharts'],
+          // Heavy libraries - Lazy load these
+          'charts': ['recharts'],
+          'animations': ['framer-motion'],
+          'three': ['three', '@react-three/fiber', '@react-three/drei'],
 
           // Date utilities
-          'vendor-date': ['date-fns'],
+          'dates': ['date-fns'],
 
-          // Socket.io for real-time features (commented out - not currently used)
-          // 'vendor-socket': ['socket.io-client']
+          // UI components
+          'ui-components': ['sonner', 'vaul', 'cmdk', 'next-themes', 'input-otp'],
+          'carousel': ['embla-carousel-react'],
+          'panels': ['react-resizable-panels'],
+
+          // Query library
+          'query': ['@tanstack/react-query'],
         },
 
         // Optimize chunk naming for better caching
@@ -89,7 +88,7 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 300,
     target: 'esnext',
     minify: 'esbuild',
     sourcemap: false, // Disable sourcemaps for faster builds
