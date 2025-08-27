@@ -84,6 +84,3 @@ if (container) {
 }
 
 export default App;
-}
-
-export default App;
