@@ -1,10 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Search,
-  MessageCircle,
-  Building2,
-} from "lucide-react";
+import { Search, MessageCircle, Building2 } from "lucide-react";
 
 interface Conversation {
   id: string;
@@ -44,7 +40,9 @@ function MessagesPage() {
   const filteredConversations = conversations.filter(
     (conv) =>
       conv.companyName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      conv.apprenticeshipTitle.toLowerCase().includes(searchQuery.toLowerCase())
+      conv.apprenticeshipTitle
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()),
   );
 
   return (
@@ -52,7 +50,7 @@ function MessagesPage() {
       {/* Header */}
       <div className="bg-white px-6 py-4 border-b border-gray-200">
         <h1 className="text-xl font-bold text-gray-900 mb-4">Messages</h1>
-        
+
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
@@ -120,7 +118,8 @@ function MessagesPage() {
                 No conversations yet
               </h3>
               <p className="text-gray-500 mb-4">
-                Start applying to apprenticeships to begin conversations with employers.
+                Start applying to apprenticeships to begin conversations with
+                employers.
               </p>
               <Link
                 to="/student/jobs"

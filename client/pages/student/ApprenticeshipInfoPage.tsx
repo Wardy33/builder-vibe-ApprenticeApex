@@ -35,13 +35,14 @@ function ApprenticeshipInfoPage() {
     duration: "36 months",
     salary: "£18,000 - £25,000",
     image: "/api/placeholder/400/300",
-    description: "Join our dynamic team and learn cutting-edge web development technologies while working on real-world projects. This apprenticeship combines hands-on experience with formal training to kickstart your career in software development.",
+    description:
+      "Join our dynamic team and learn cutting-edge web development technologies while working on real-world projects. This apprenticeship combines hands-on experience with formal training to kickstart your career in software development.",
     requirements: [
       "A-levels or equivalent qualifications",
       "Strong problem-solving skills",
       "Interest in technology and programming",
       "Good communication skills",
-      "Willingness to learn and adapt"
+      "Willingness to learn and adapt",
     ],
     benefits: [
       "Competitive salary with annual increases",
@@ -49,9 +50,9 @@ function ApprenticeshipInfoPage() {
       "Full-time employment upon completion",
       "Industry-recognized qualifications",
       "Flexible working arrangements",
-      "Health and wellness benefits"
+      "Health and wellness benefits",
     ],
-    closingDate: "2024-03-15"
+    closingDate: "2024-03-15",
   });
 
   const handleApply = () => {
@@ -70,7 +71,9 @@ function ApprenticeshipInfoPage() {
           >
             <ArrowLeft className="h-6 w-6 text-gray-600" />
           </button>
-          <h1 className="text-xl font-bold text-gray-900">Apprenticeship Details</h1>
+          <h1 className="text-xl font-bold text-gray-900">
+            Apprenticeship Details
+          </h1>
         </div>
       </div>
 
@@ -86,7 +89,9 @@ function ApprenticeshipInfoPage() {
           <div className="p-6">
             <div className="flex items-center gap-2 mb-2">
               <Building2 className="h-5 w-5 text-orange-500" />
-              <span className="text-orange-500 font-medium">{apprenticeship.company}</span>
+              <span className="text-orange-500 font-medium">
+                {apprenticeship.company}
+              </span>
             </div>
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               {apprenticeship.title}
@@ -111,13 +116,19 @@ function ApprenticeshipInfoPage() {
 
         {/* Description */}
         <div className="bg-white rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Description</h3>
-          <p className="text-gray-600 leading-relaxed">{apprenticeship.description}</p>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Description
+          </h3>
+          <p className="text-gray-600 leading-relaxed">
+            {apprenticeship.description}
+          </p>
         </div>
 
         {/* Requirements */}
         <div className="bg-white rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Requirements</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-3">
+            Requirements
+          </h3>
           <ul className="space-y-2">
             {apprenticeship.requirements.map((requirement, index) => (
               <li key={index} className="flex items-start gap-2">

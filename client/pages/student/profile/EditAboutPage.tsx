@@ -19,7 +19,7 @@ function EditAboutPage() {
           <h1 className="text-xl font-bold text-gray-900">Edit About</h1>
         </div>
       </div>
-      
+
       <div className="p-6">
         <div className="bg-white rounded-xl p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">About Me</h3>

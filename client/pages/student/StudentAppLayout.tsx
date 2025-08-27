@@ -1,12 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import {
-  Home,
-  Search,
-  Heart,
-  MessageCircle,
-  User,
-} from "lucide-react";
+import { Home, Search, Heart, MessageCircle, User } from "lucide-react";
 
 interface StudentAppLayoutProps {
   children: React.ReactNode;
@@ -20,9 +14,7 @@ function StudentAppLayout({ children }: StudentAppLayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Main Content */}
-      <div className="flex-1 overflow-hidden">
-        {children}
-      </div>
+      <div className="flex-1 overflow-hidden">{children}</div>
 
       {/* Bottom Navigation */}
       <nav className="bg-white border-t border-gray-200 px-6 py-2">

@@ -51,8 +51,12 @@ function ChatPage() {
               <Building2 className="h-5 w-5 text-gray-500" />
             </div>
             <div>
-              <h1 className="text-lg font-semibold text-gray-900">TechCorp Ltd</h1>
-              <p className="text-sm text-gray-500">Software Developer Apprentice</p>
+              <h1 className="text-lg font-semibold text-gray-900">
+                TechCorp Ltd
+              </h1>
+              <p className="text-sm text-gray-500">
+                Software Developer Apprentice
+              </p>
             </div>
           </div>
         </div>
@@ -75,7 +79,9 @@ function ChatPage() {
               <p className="text-sm">{message.text}</p>
               <p
                 className={`text-xs mt-1 ${
-                  message.sender === "user" ? "text-orange-100" : "text-gray-500"
+                  message.sender === "user"
+                    ? "text-orange-100"
+                    : "text-gray-500"
                 }`}
               >
                 {message.timestamp}

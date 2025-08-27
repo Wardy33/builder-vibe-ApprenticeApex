@@ -15,7 +15,7 @@ function EditSkillsPage() {
   };
 
   const removeSkill = (skillToRemove: string) => {
-    setSkills(skills.filter(skill => skill !== skillToRemove));
+    setSkills(skills.filter((skill) => skill !== skillToRemove));
   };
 
   return (
@@ -31,11 +31,13 @@ function EditSkillsPage() {
           <h1 className="text-xl font-bold text-gray-900">Edit Skills</h1>
         </div>
       </div>
-      
+
       <div className="p-6">
         <div className="bg-white rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">My Skills</h3>
-          
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            My Skills
+          </h3>
+
           <div className="flex gap-2 mb-4">
             <input
               type="text"
@@ -43,7 +45,7 @@ function EditSkillsPage() {
               onChange={(e) => setNewSkill(e.target.value)}
               placeholder="Add a skill..."
               className="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              onKeyPress={(e) => e.key === 'Enter' && addSkill()}
+              onKeyPress={(e) => e.key === "Enter" && addSkill()}
             />
             <button
               onClick={addSkill}
@@ -52,7 +54,7 @@ function EditSkillsPage() {
               <Plus className="h-5 w-5" />
             </button>
           </div>
-          
+
           <div className="flex flex-wrap gap-2 mb-4">
             {skills.map((skill) => (
               <span
@@ -69,7 +71,7 @@ function EditSkillsPage() {
               </span>
             ))}
           </div>
-          
+
           <button className="bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
             Save Changes
           </button>

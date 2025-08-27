@@ -20,11 +20,13 @@ function EditAvailabilityPage() {
           <h1 className="text-xl font-bold text-gray-900">Edit Availability</h1>
         </div>
       </div>
-      
+
       <div className="p-6">
         <div className="bg-white rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Availability</h3>
-          
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Availability
+          </h3>
+
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -37,7 +39,7 @@ function EditAvailabilityPage() {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
             </div>
-            
+
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -51,7 +53,7 @@ function EditAvailabilityPage() {
               </label>
             </div>
           </div>
-          
+
           <button className="mt-4 bg-orange-500 text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition-colors">
             Save Changes
           </button>

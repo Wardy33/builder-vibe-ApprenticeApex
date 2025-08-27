@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Heart,
-  MapPin,
-  Building2,
-  Clock,
-  MessageCircle,
-} from "lucide-react";
+import { Heart, MapPin, Building2, Clock, MessageCircle } from "lucide-react";
 
 interface Match {
   id: string;

@@ -20,13 +20,17 @@ function EditContactPage() {
           <h1 className="text-xl font-bold text-gray-900">Edit Contact</h1>
         </div>
       </div>
-      
+
       <div className="p-6 space-y-4">
         <div className="bg-white rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Contact Information</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Contact Information
+          </h3>
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
               <input
                 type="email"
                 value={email}
@@ -35,7 +39,9 @@ function EditContactPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Phone
+              </label>
               <input
                 type="tel"
                 value={phone}

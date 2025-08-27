@@ -136,7 +136,9 @@ function HomePage() {
       {/* Recent Applications */}
       <div className="px-6 py-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Recent Applications</h2>
+          <h2 className="text-xl font-bold text-gray-900">
+            Recent Applications
+          </h2>
           <Link
             to="/student/applications"
             className="text-blue-600 text-sm font-medium"
@@ -147,7 +149,10 @@ function HomePage() {
 
         <div className="space-y-4">
           {applications.map((application) => (
-            <div key={application.id} className="bg-white rounded-xl p-4 shadow-sm">
+            <div
+              key={application.id}
+              className="bg-white rounded-xl p-4 shadow-sm"
+            >
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-semibold text-gray-900">
                   {application.apprenticeshipTitle}
@@ -160,9 +165,12 @@ function HomePage() {
                   {getStatusText(application.status)}
                 </span>
               </div>
-              <p className="text-gray-600 text-sm mb-1">{application.company}</p>
+              <p className="text-gray-600 text-sm mb-1">
+                {application.company}
+              </p>
               <p className="text-gray-500 text-xs">
-                Applied on {new Date(application.appliedDate).toLocaleDateString()}
+                Applied on{" "}
+                {new Date(application.appliedDate).toLocaleDateString()}
               </p>
             </div>
           ))}

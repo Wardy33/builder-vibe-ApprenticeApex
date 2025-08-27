@@ -42,7 +42,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                   <User className="h-4 w-4 text-blue-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Personal Information</span>
+                <span className="text-gray-900 font-medium">
+                  Personal Information
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -66,7 +68,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-green-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Skills & Preferences</span>
+                <span className="text-gray-900 font-medium">
+                  Skills & Preferences
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -97,7 +101,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center mr-3">
                   <Lock className="h-4 w-4 text-red-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Change Password</span>
+                <span className="text-gray-900 font-medium">
+                  Change Password
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -121,7 +127,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-indigo-100 rounded-lg flex items-center justify-center mr-3">
                   <Settings className="h-4 w-4 text-indigo-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Privacy Settings</span>
+                <span className="text-gray-900 font-medium">
+                  Privacy Settings
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -142,7 +150,9 @@ function AccountSettingsPage() {
 
         {/* Notifications */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Notifications</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            Notifications
+          </h3>
           <div className="space-y-1">
             <Link
               to="/student/notification-settings"
@@ -152,7 +162,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-yellow-100 rounded-lg flex items-center justify-center mr-3">
                   <Bell className="h-4 w-4 text-yellow-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Push Notifications</span>
+                <span className="text-gray-900 font-medium">
+                  Push Notifications
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -173,7 +185,9 @@ function AccountSettingsPage() {
 
         {/* App Settings */}
         <div className="bg-white rounded-xl p-5 border border-gray-200 shadow-sm">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">App Settings</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">
+            App Settings
+          </h3>
           <div className="space-y-1">
             <Link
               to="/student/language-region"
@@ -183,7 +197,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center mr-3">
                   <Globe className="h-4 w-4 text-cyan-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Language & Region</span>
+                <span className="text-gray-900 font-medium">
+                  Language & Region
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"
@@ -214,7 +230,9 @@ function AccountSettingsPage() {
                 <div className="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
                   <Download className="h-4 w-4 text-blue-600" />
                 </div>
-                <span className="text-gray-900 font-medium">Download My Data</span>
+                <span className="text-gray-900 font-medium">
+                  Download My Data
+                </span>
               </div>
               <svg
                 className="h-4 w-4 text-gray-400"

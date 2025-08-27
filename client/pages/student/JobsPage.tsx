@@ -1,13 +1,6 @@
 import React, { useState, useCallback, useMemo, memo } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Heart,
-  X,
-  MapPin,
-  Building2,
-  Clock,
-  Filter,
-} from "lucide-react";
+import { Heart, X, MapPin, Building2, Clock, Filter } from "lucide-react";
 
 interface Apprenticeship {
   id: string;
@@ -211,7 +204,11 @@ function JobsPage() {
             <X className="h-8 w-8 text-red-500" />
           </button>
           <button
-            onClick={() => navigate(`/student/apprenticeship-info/${currentApprenticeship.id}`)}
+            onClick={() =>
+              navigate(
+                `/student/apprenticeship-info/${currentApprenticeship.id}`,
+              )
+            }
             className="px-6 py-3 bg-gray-200 hover:bg-gray-300 rounded-full text-gray-700 font-medium transition-colors"
           >
             View Details

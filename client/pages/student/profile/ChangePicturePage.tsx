@@ -18,7 +18,7 @@ function ChangePicturePage() {
           <h1 className="text-xl font-bold text-gray-900">Change Picture</h1>
         </div>
       </div>
-      
+
       <div className="p-6">
         <div className="bg-white rounded-xl p-6 text-center">
           <div className="relative inline-block mb-6">
@@ -29,12 +29,15 @@ function ChangePicturePage() {
               <Camera className="h-5 w-5" />
             </div>
           </div>
-          
-          <h3 className="text-lg font-semibold text-gray-900 mb-2">Profile Picture</h3>
+
+          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+            Profile Picture
+          </h3>
           <p className="text-gray-600 text-sm mb-6">
-            Upload a clear photo of yourself. This helps employers recognize you.
+            Upload a clear photo of yourself. This helps employers recognize
+            you.
           </p>
-          
+
           <div className="space-y-3">
             <button className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg hover:bg-orange-600 transition-colors">
               Upload New Photo

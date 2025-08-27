@@ -7,24 +7,26 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 5204,
     proxy: {
-      '/api': {
-        target: 'http://localhost:3002',
+      "/api": {
+        target: "http://localhost:3002",
         changeOrigin: true,
         secure: false,
         configure: (proxy, options) => {
-          proxy.on('error', (err, req, res) => {
-            console.log('🔴 Proxy error:', err.message);
+          proxy.on("error", (err, req, res) => {
+            console.log("🔴 Proxy error:", err.message);
             if (!res.headersSent) {
-              res.writeHead(503, { 'Content-Type': 'application/json' });
-              res.end(JSON.stringify({
-                success: false,
-                error: 'Backend server not available'
-              }));
+              res.writeHead(503, { "Content-Type": "application/json" });
+              res.end(
+                JSON.stringify({
+                  success: false,
+                  error: "Backend server not available",
+                }),
+              );
             }
           });
-        }
-      }
-    }
+        },
+      },
+    },
   },
   build: {
     outDir: "dist/spa",
@@ -32,84 +34,101 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           // Core React - Keep critical path minimal
-          'react': ['react', 'react-dom'],
-          'router': ['react-router-dom'],
+          react: ["react", "react-dom"],
+          router: ["react-router-dom"],
 
           // Split Radix UI into smaller chunks
-          'radix-core': ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
-          'radix-forms': ['@radix-ui/react-select', '@radix-ui/react-tabs'],
-          'radix-layout': ['@radix-ui/react-accordion', '@radix-ui/react-popover', '@radix-ui/react-alert-dialog'],
+          "radix-core": [
+            "@radix-ui/react-dialog",
+            "@radix-ui/react-dropdown-menu",
+          ],
+          "radix-forms": ["@radix-ui/react-select", "@radix-ui/react-tabs"],
+          "radix-layout": [
+            "@radix-ui/react-accordion",
+            "@radix-ui/react-popover",
+            "@radix-ui/react-alert-dialog",
+          ],
 
           // Icons - Heavy dependency, keep separate
-          'lucide-icons': ['lucide-react'],
+          "lucide-icons": ["lucide-react"],
 
           // Utilities - Group lightweight utilities
-          'utils': ['clsx', 'tailwind-merge', 'class-variance-authority'],
+          utils: ["clsx", "tailwind-merge", "class-variance-authority"],
 
           // Forms - Only load when needed
-          'forms': ['@hookform/resolvers', 'react-hook-form'],
+          forms: ["@hookform/resolvers", "react-hook-form"],
 
           // Heavy libraries - Lazy load these
-          'charts': ['recharts'],
-          'animations': ['framer-motion'],
-          'three': ['three', '@react-three/fiber', '@react-three/drei'],
+          charts: ["recharts"],
+          animations: ["framer-motion"],
+          three: ["three", "@react-three/fiber", "@react-three/drei"],
 
           // Date utilities
-          'dates': ['date-fns'],
+          dates: ["date-fns"],
 
           // UI components
-          'ui-components': ['sonner', 'vaul', 'cmdk', 'next-themes', 'input-otp'],
-          'carousel': ['embla-carousel-react'],
-          'panels': ['react-resizable-panels'],
+          "ui-components": [
+            "sonner",
+            "vaul",
+            "cmdk",
+            "next-themes",
+            "input-otp",
+          ],
+          carousel: ["embla-carousel-react"],
+          panels: ["react-resizable-panels"],
 
           // Query library
-          'query': ['@tanstack/react-query'],
+          query: ["@tanstack/react-query"],
         },
 
         // Optimize chunk naming for better caching
         chunkFileNames: (chunkInfo) => {
           const facadeModuleId = chunkInfo.facadeModuleId
-            ? chunkInfo.facadeModuleId.split('/').pop()?.replace('.tsx', '').replace('.ts', '')
-            : 'chunk';
+            ? chunkInfo.facadeModuleId
+                .split("/")
+                .pop()
+                ?.replace(".tsx", "")
+                .replace(".ts", "")
+            : "chunk";
           return `${facadeModuleId}-[hash].js`;
         },
 
         // Optimize asset naming
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || [];
+          const info = assetInfo.name?.split(".") || [];
           const ext = info[info.length - 1];
-          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext ?? '')) {
+          if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext ?? "")) {
             return `assets/images/[name]-[hash][extname]`;
           }
-          if (/css/i.test(ext ?? '')) {
+          if (/css/i.test(ext ?? "")) {
             return `assets/css/[name]-[hash][extname]`;
           }
           return `assets/[name]-[hash][extname]`;
-        }
-      }
+        },
+      },
     },
     chunkSizeWarningLimit: 300,
-    target: 'esnext',
-    minify: 'esbuild',
+    target: "esnext",
+    minify: "esbuild",
     sourcemap: false, // Disable sourcemaps for faster builds
     reportCompressedSize: false, // Skip compressed size reporting
   },
   optimizeDeps: {
     include: [
-      'react',
-      'react-dom',
-      'react-router-dom',
-      'lucide-react',
-      'clsx',
-      'tailwind-merge',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu'
+      "react",
+      "react-dom",
+      "react-router-dom",
+      "lucide-react",
+      "clsx",
+      "tailwind-merge",
+      "@radix-ui/react-dialog",
+      "@radix-ui/react-dropdown-menu",
     ],
     exclude: [
-      'recharts', // Lazy load heavy chart library
-      '@react-three/fiber', // Lazy load 3D library if used
-      'framer-motion' // Lazy load animation library
-    ]
+      "recharts", // Lazy load heavy chart library
+      "@react-three/fiber", // Lazy load 3D library if used
+      "framer-motion", // Lazy load animation library
+    ],
   },
   plugins: [react({ tsDecorators: true })],
   resolve: {
@@ -120,6 +139,8 @@ export default defineConfig(({ mode }) => ({
   },
   // Add define to reduce bundle size
   define: {
-    'process.env.NODE_ENV': JSON.stringify(mode === 'production' ? 'production' : 'development'),
-  }
+    "process.env.NODE_ENV": JSON.stringify(
+      mode === "production" ? "production" : "development",
+    ),
+  },
 }));
