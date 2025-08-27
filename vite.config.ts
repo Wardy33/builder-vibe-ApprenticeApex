@@ -19,7 +19,6 @@ export default defineConfig(({ mode }) => ({
           router: ['react-router-dom'],
           ui: [
             '@radix-ui/react-dialog',
-            '@radix-ui/react-button',
             '@radix-ui/react-dropdown-menu',
             '@radix-ui/react-select',
             '@radix-ui/react-tabs',
@@ -48,8 +47,7 @@ export default defineConfig(({ mode }) => ({
       'lucide-react',
       'clsx',
       'tailwind-merge',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-button'
+      '@radix-ui/react-dialog'
     ]
   },
   plugins: [
@@ -77,7 +75,6 @@ function expressPlugin(): Plugin {
     apply: "serve", // Only apply during development (serve mode)
     configureServer(server) {
       const app = createServer();
-
       // Add Express app as middleware to Vite dev server
       server.middlewares.use(app);
     },
