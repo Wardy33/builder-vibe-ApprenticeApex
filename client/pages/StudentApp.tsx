@@ -1,13 +1,11 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { Routes, Route, Link, useNavigate, useLocation, useParams } from "react-router-dom";
 import {
-  Heart, X, MapPin, Building2, Clock, User, MessageCircle, Video, ArrowLeft, Settings, Briefcase, 
-  Star, Calendar, Edit, Camera, Home, FileText, CheckCircle, Navigation, Bus, Train, Car, 
-  Route as RouteIcon, Info, Lock, Mail
+  Heart, X, MapPin, Building2, User, MessageCircle, Video, ArrowLeft, Settings, Briefcase, 
+  Star, Calendar, Edit, Camera, Home, FileText, Navigation, Bus, Train, Car, Route as RouteIcon
 } from "lucide-react";
 import LiveChat from "../components/LiveChat";
 
-// Types
 interface Apprenticeship {
   id: string;
   jobTitle: string;
@@ -22,29 +20,8 @@ interface Apprenticeship {
   image: string;
 }
 
-// Constants
 const cardClass = "bg-white rounded-xl p-5 border border-gray-200 shadow-sm";
-const inputClass = "w-full p-3 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500";
-const buttonPrimary = "bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300";
 
-// Helper functions
-const isApplicationClosed = (closingDate: string) => {
-  const today = new Date();
-  const deadline = new Date(closingDate);
-  today.setHours(0, 0, 0, 0);
-  deadline.setHours(0, 0, 0, 0);
-  return deadline < today;
-};
-
-const getStatusText = (status: string) => {
-  const statusMap = {
-    applied: "Applied", viewed: "Viewed", shortlisted: "Shortlisted",
-    interview_scheduled: "Interview", rejected: "Rejected", accepted: "Accepted"
-  };
-  return statusMap[status] || status;
-};
-
-// Mock data
 const mockApprenticeship: Apprenticeship[] = [
   {
     id: "1", jobTitle: "Software Developer", company: "TechCorp Ltd", industry: "Technology", 
@@ -53,31 +30,17 @@ const mockApprenticeship: Apprenticeship[] = [
     requirements: ["Basic coding knowledge", "Problem-solving skills", "Passion for technology"],
     salary: "£18,000 - £25,000", 
     image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop",
-  },
-  {
-    id: "2", jobTitle: "Digital Marketing Assistant", company: "Creative Agency", industry: "Marketing", 
-    location: "Manchester, UK", distance: "1.1 miles", duration: "2 years",
-    description: "Learn the fundamentals of digital marketing including SEO, social media, and content creation.",
-    requirements: ["Creative mindset", "Social media savvy", "Communication skills"],
-    salary: "£16,000 - £22,000", 
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=600&fit=crop",
-  },
+  }
 ];
 
 const mockApplications = [
   {
     id: "1", jobTitle: "Software Developer", company: "TechCorp Ltd", status: "applied", 
-    appliedDate: "2 days ago", matchScore: 92, closingDate: "2024-02-15",
+    appliedDate: "2 days ago", matchScore: 92,
     image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=60&h=60&fit=crop",
-  },
-  {
-    id: "2", jobTitle: "Digital Marketing Assistant", company: "Creative Agency", status: "viewed", 
-    appliedDate: "1 week ago", matchScore: 88, closingDate: "2024-02-28",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=60&h=60&fit=crop",
-  },
+  }
 ];
 
-// SwipeCard Component
 function SwipeCard({ apprenticeship, onSwipe, style }: {
   apprenticeship: Apprenticeship;
   onSwipe: (direction: "left" | "right") => void;
@@ -119,62 +82,56 @@ function SwipeCard({ apprenticeship, onSwipe, style }: {
           <img src={apprenticeship.image} alt={apprenticeship.jobTitle} className="w-full h-full object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
           <div className="absolute top-4 right-4">
-            <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold shadow-sm">
+            <span className="bg-white/95 text-gray-900 px-3 py-1 rounded-full text-xs font-semibold">
               {apprenticeship.duration}
             </span>
           </div>
         </div>
 
         <div className="p-5 space-y-4">
-          <div className="space-y-2">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                <Building2 className="h-5 w-5 text-blue-600" />
-              </div>
-              <div className="min-w-0 flex-1">
-                <h3 className="text-lg font-bold text-gray-900">{apprenticeship.jobTitle}</h3>
-                <p className="text-gray-600 font-medium text-sm">{apprenticeship.company}</p>
-              </div>
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+              <Building2 className="h-5 w-5 text-blue-600" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <h3 className="text-lg font-bold text-gray-900">{apprenticeship.jobTitle}</h3>
+              <p className="text-gray-600 font-medium text-sm">{apprenticeship.company}</p>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center text-gray-600">
-                <MapPin className="h-4 w-4 mr-1" />
-                <span>{apprenticeship.location}</span>
-              </div>
-              <div className="flex items-center text-gray-600">
-                <Briefcase className="h-4 w-4 mr-1" />
-                <span>{apprenticeship.industry}</span>
-              </div>
+          <div className="flex items-center justify-between text-sm">
+            <div className="flex items-center text-gray-600">
+              <MapPin className="h-4 w-4 mr-1" />
+              <span>{apprenticeship.location}</span>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="flex items-center text-sm text-gray-600">
-                <Navigation className="h-4 w-4 mr-1 text-blue-600" />
-                <span className="font-medium">{apprenticeship.distance} away</span>
-              </div>
-              <button
-                onClick={(e) => { e.stopPropagation(); setShowTransportModal(true); }}
-                className="flex items-center bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-medium transition-colors"
-              >
-                <RouteIcon className="h-3 w-3 mr-1" />
-                Routes
-              </button>
+            <div className="flex items-center text-gray-600">
+              <Briefcase className="h-4 w-4 mr-1" />
+              <span>{apprenticeship.industry}</span>
             </div>
           </div>
 
-          <p className="text-sm text-gray-700 line-clamp-3">{apprenticeship.description}</p>
-
-          <div className="space-y-2">
-            <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Key Requirements</p>
-            <div className="flex flex-wrap gap-2">
-              {apprenticeship.requirements.slice(0, 3).map((req, index) => (
-                <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs font-medium">
-                  {req}
-                </span>
-              ))}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center text-sm text-gray-600">
+              <Navigation className="h-4 w-4 mr-1 text-blue-600" />
+              <span className="font-medium">{apprenticeship.distance} away</span>
             </div>
+            <button
+              onClick={(e) => { e.stopPropagation(); setShowTransportModal(true); }}
+              className="flex items-center bg-blue-50 hover:bg-blue-100 text-blue-600 px-3 py-1 rounded-lg text-xs font-medium"
+            >
+              <RouteIcon className="h-3 w-3 mr-1" />
+              Routes
+            </button>
+          </div>
+
+          <p className="text-sm text-gray-700">{apprenticeship.description}</p>
+
+          <div className="flex flex-wrap gap-2">
+            {apprenticeship.requirements.slice(0, 3).map((req, index) => (
+              <span key={index} className="bg-gray-100 text-gray-700 px-2 py-1 rounded-lg text-xs">
+                {req}
+              </span>
+            ))}
           </div>
 
           <div className="border-t border-gray-200 pt-3">
@@ -200,9 +157,9 @@ function SwipeCard({ apprenticeship, onSwipe, style }: {
 
         {showTransportModal && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center p-4 z-20">
-            <div className="bg-gradient-to-r from-pink-500 to-red-500 backdrop-blur-xl rounded-2xl p-8 w-full max-w-sm">
+            <div className="bg-white rounded-2xl p-6 w-full max-w-sm">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">Transport Routes</h3>
+                <h3 className="text-lg font-bold text-gray-900">Transport Routes</h3>
                 <button onClick={() => setShowTransportModal(false)} className="text-gray-500">
                   <X className="h-5 w-5" />
                 </button>
@@ -211,29 +168,25 @@ function SwipeCard({ apprenticeship, onSwipe, style }: {
                 {[
                   { icon: Bus, label: "Bus Route", time: "25 min", cost: "£2.50" },
                   { icon: Train, label: "Train Route", time: "18 min", cost: "£4.20" },
-                  { icon: Car, label: "Driving", time: "12 min", cost: "£8/day" },
-                  { icon: User, label: "Walking", time: "28 min", cost: "Free" }
+                  { icon: Car, label: "Driving", time: "12 min", cost: "£8/day" }
                 ].map((route, i) => (
-                  <div key={i} className="flex items-center justify-between p-3 bg-white/20 rounded-lg border border-white/30">
+                  <div key={i} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                     <div className="flex items-center">
-                      <route.icon className="h-5 w-5 text-black mr-3" />
+                      <route.icon className="h-5 w-5 text-gray-600 mr-3" />
                       <div>
-                        <p className="font-medium text-black">{route.label}</p>
-                        <p className="text-sm text-gray-800">{route.time} • {route.cost}</p>
+                        <p className="font-medium text-gray-900">{route.label}</p>
+                        <p className="text-sm text-gray-600">{route.time} • {route.cost}</p>
                       </div>
                     </div>
-                    <button className="text-black text-sm font-medium hover:underline">View</button>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 flex gap-3">
-                <button onClick={() => setShowTransportModal(false)} className="flex-1 bg-gray-700/40 text-black py-2 px-4 rounded-lg">
-                  Close
-                </button>
-                <button onClick={() => window.open(`https://maps.google.com/maps/dir/Your+Home/${encodeURIComponent(apprenticeship.location)}`, "_blank")} className="flex-1 bg-orange text-black py-2 px-4 rounded-lg">
-                  Open Maps
-                </button>
-              </div>
+              <button
+                onClick={() => setShowTransportModal(false)}
+                className="w-full mt-4 bg-blue-600 text-white py-2 rounded-lg font-medium"
+              >
+                Close
+              </button>
             </div>
           </div>
         )}
@@ -242,7 +195,6 @@ function SwipeCard({ apprenticeship, onSwipe, style }: {
   );
 }
 
-// HomePage Component
 function HomePage() {
   const [applications] = useState(mockApplications);
   const [profileScore] = useState(92);
@@ -266,17 +218,7 @@ function HomePage() {
               <h3 className="text-lg font-semibold text-gray-900 mb-1">Profile Strength</h3>
               <p className="text-gray-600 text-sm">Complete your profile to get better matches</p>
             </div>
-            <div className="relative w-16 h-16">
-              <svg className="w-16 h-16 transform -rotate-90" viewBox="0 0 36 36">
-                <path className="text-gray-300" stroke="currentColor" strokeWidth="3" fill="transparent"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                <path className="text-blue-500" stroke="currentColor" strokeWidth="3" strokeDasharray={`${profileScore}, 100`} fill="transparent"
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-sm font-bold text-gray-900">{profileScore}%</span>
-              </div>
-            </div>
+            <div className="text-2xl font-bold text-blue-600">{profileScore}%</div>
           </div>
         </div>
 
@@ -298,26 +240,15 @@ function HomePage() {
       </div>
 
       <div className="px-6 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Recent Applications</h2>
-          <Link to="/student/applications" className="text-blue-600 text-sm font-medium">View All</Link>
-        </div>
-
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Recent Applications</h2>
         <div className="space-y-3">
           {applications.map((app) => (
-            <div key={app.id} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm hover:shadow-md transition-all">
+            <div key={app.id} className="bg-white rounded-xl p-4 border border-gray-100 shadow-sm">
               <div className="flex items-start space-x-3">
                 <img src={app.image} alt={app.company} className="w-12 h-12 rounded-xl object-cover" />
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between mb-1">
-                    <div>
-                      <h3 className="font-semibold text-gray-900 text-sm">{app.jobTitle}</h3>
-                      <p className="text-gray-600 text-sm">{app.company}</p>
-                    </div>
-                    <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
-                      {getStatusText(app.status)}
-                    </span>
-                  </div>
+                  <h3 className="font-semibold text-gray-900 text-sm">{app.jobTitle}</h3>
+                  <p className="text-gray-600 text-sm">{app.company}</p>
                   <div className="flex items-center justify-between text-xs text-gray-500 mt-2">
                     <span>Applied {app.appliedDate}</span>
                     <span className="font-medium text-green-600">{app.matchScore}% match</span>
@@ -332,14 +263,12 @@ function HomePage() {
   );
 }
 
-// JobsPage Component
 function JobsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [apprenticeships] = useState(mockApprenticeship);
 
-  const handleSwipe = async (direction: "left" | "right") => {
-    const current = apprenticeships[currentIndex];
-    console.log(`Swiped ${direction} on ${current?.jobTitle}`);
+  const handleSwipe = (direction: "left" | "right") => {
+    console.log(`Swiped ${direction}`);
     setCurrentIndex(currentIndex < apprenticeships.length - 1 ? currentIndex + 1 : 0);
   };
 
@@ -349,9 +278,8 @@ function JobsPage() {
     return (
       <div className="flex items-center justify-center h-full">
         <div className="text-center">
-          <h3 className="text-2xl font-bold text-black mb-4">No more opportunities!</h3>
-          <p className="text-gray-400 mb-6">Check back later for new apprenticeships</p>
-          <button onClick={() => setCurrentIndex(0)} className="bg-gradient-to-r from-orange-400 via-pink-500 to-red-500 text-black px-6 py-3 rounded-full font-medium">
+          <h3 className="text-2xl font-bold text-gray-900 mb-4">No more opportunities!</h3>
+          <button onClick={() => setCurrentIndex(0)} className="bg-blue-600 text-white px-6 py-3 rounded-xl">
             Start Over
           </button>
         </div>
@@ -366,26 +294,21 @@ function JobsPage() {
         <p className="text-gray-600 text-sm">Find your perfect apprenticeship match</p>
       </div>
 
-      <div className="flex-1 flex items-center justify-center p-4 relative">
-        <SwipeCard
-          key={current.id}
-          apprenticeship={current}
-          onSwipe={handleSwipe}
-          style={{ zIndex: 10 }}
-        />
+      <div className="flex-1 flex items-center justify-center p-4">
+        <SwipeCard apprenticeship={current} onSwipe={handleSwipe} />
       </div>
 
       <div className="bg-white px-6 py-4 border-t border-gray-200">
         <div className="flex justify-center items-center gap-6 max-w-xs mx-auto">
           <button
             onClick={() => handleSwipe("left")}
-            className="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:border-red-300 hover:bg-red-50 transition-all"
+            className="w-14 h-14 bg-white border-2 border-gray-200 rounded-full flex items-center justify-center shadow-sm hover:border-red-300"
           >
             <X className="h-6 w-6 text-red-500" />
           </button>
           <button
             onClick={() => handleSwipe("right")}
-            className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700 transition-all"
+            className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg hover:bg-blue-700"
           >
             <Heart className="h-6 w-6 text-white" />
           </button>
@@ -395,7 +318,6 @@ function JobsPage() {
   );
 }
 
-// Simple pages for remaining functionality
 function MatchesPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -405,9 +327,7 @@ function MatchesPage() {
       </div>
       <div className="px-6 py-4">
         <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Star className="h-8 w-8 text-gray-400" />
-          </div>
+          <Star className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">No matches yet</h3>
           <p className="text-gray-600 text-sm mb-6">Keep swiping to find your perfect apprenticeship!</p>
           <Link to="/student/jobs" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium">
@@ -428,14 +348,9 @@ function MessagesPage() {
       </div>
       <div className="px-6 py-4">
         <div className="bg-white rounded-2xl p-8 text-center border border-gray-100 shadow-sm">
-          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <MessageCircle className="h-8 w-8 text-gray-400" />
-          </div>
+          <MessageCircle className="h-16 w-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-semibold text-gray-900 mb-2">No messages yet</h3>
-          <p className="text-gray-600 text-sm mb-6">Start matching with companies to begin conversations!</p>
-          <Link to="/student/jobs" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl text-sm font-medium">
-            Find Matches
-          </Link>
+          <p className="text-gray-600 text-sm">Start matching with companies to begin conversations!</p>
         </div>
       </div>
     </div>
@@ -444,13 +359,13 @@ function MessagesPage() {
 
 function ProfilePage() {
   const navigate = useNavigate();
-  const [profile] = useState({
+  const profile = {
     firstName: "Sarah", lastName: "Johnson", location: "London, UK",
     bio: "Passionate about technology and eager to start my career in software development.",
     skills: ["JavaScript", "React", "Problem Solving", "Communication"], 
     availableFrom: "September 2024",
     profileImage: "https://images.unsplash.com/photo-1494790108755-2616b612b890?w=150&h=150&fit=crop",
-  });
+  };
 
   return (
     <div className="bg-gray-50 min-h-screen">
@@ -458,7 +373,7 @@ function ProfilePage() {
         <div className="text-center mb-6">
           <div className="relative inline-block mb-4">
             <img src={profile.profileImage} alt="Profile" className="w-24 h-24 rounded-full object-cover mx-auto border-4 border-white shadow-lg" />
-            <button className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white hover:bg-blue-700 transition-colors shadow-lg">
+            <button className="absolute bottom-0 right-0 bg-blue-600 p-2 rounded-full text-white">
               <Camera className="h-4 w-4" />
             </button>
           </div>
@@ -501,15 +416,13 @@ function ProfilePage() {
           </div>
         ))}
 
-        <div className="pt-4">
-          <button
-            onClick={() => navigate('/student/account-settings')}
-            className="w-full bg-white rounded-xl p-5 border border-gray-200 shadow-sm text-gray-900 flex items-center justify-between hover:shadow-md transition-all"
-          >
-            <span className="font-medium">Account Settings</span>
-            <Settings className="h-5 w-5 text-gray-500" />
-          </button>
-        </div>
+        <button
+          onClick={() => navigate('/student/account-settings')}
+          className="w-full bg-white rounded-xl p-5 border border-gray-200 shadow-sm text-gray-900 flex items-center justify-between"
+        >
+          <span className="font-medium">Account Settings</span>
+          <Settings className="h-5 w-5 text-gray-500" />
+        </button>
       </div>
     </div>
   );
@@ -537,7 +450,6 @@ function AccountSettingsPage() {
   );
 }
 
-// Layout Component
 function StudentAppLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
@@ -568,4 +480,113 @@ function StudentAppLayout({ children }: { children: React.ReactNode }) {
             { path: "/student/jobs", icon: Briefcase, label: "Jobs" },
             { path: "/student/matches", icon: Heart, label: "Matches" },
             { path: "/student/messages", icon: MessageCircle, label: "Messages" },
-            {
+            { path: "/student/profile", icon: User, label: "Profile" }
+          ].map((item) => (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex flex-col items-center p-2 rounded-xl transition-all ${
+                isActive(item.path) || (item.path === "/student/home" && isActive("/student/"))
+                  ? "text-blue-600" : "text-gray-500"
+              }`}
+            >
+              <item.icon className="h-5 w-5 mb-1" />
+              <span className="text-xs font-medium">{item.label}</span>
+            </Link>
+          ))}
+        </div>
+      </nav>
+      <LiveChat />
+    </div>
+  );
+}
+
+function ApprenticeshipInfoPage() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+  
+  return (
+    <div className="min-h-screen bg-white">
+      <header className="flex items-center justify-between p-4 border-b">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <h1 className="text-lg font-semibold">Apprenticeship Details</h1>
+        <div className="w-10" />
+      </header>
+      <div className="p-4">
+        <div className={cardClass}>
+          <h2 className="text-xl font-bold mb-2">Software Developer</h2>
+          <p className="text-gray-600">TechCorp Ltd</p>
+          <p className="mt-4">Details for apprenticeship {id}</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ChatPage() {
+  const navigate = useNavigate();
+  const [message, setMessage] = useState("");
+  
+  return (
+    <div className="min-h-screen bg-white flex flex-col">
+      <header className="bg-white border-b px-4 py-3 flex items-center">
+        <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full mr-2">
+          <ArrowLeft className="h-6 w-6" />
+        </button>
+        <div>
+          <h1 className="font-semibold text-sm">TechCorp Ltd</h1>
+          <p className="text-xs text-gray-500">Software Developer</p>
+        </div>
+      </header>
+      
+      <div className="flex-1 px-4 py-2">
+        <div className="flex justify-start mb-2">
+          <div className="max-w-[70%] px-4 py-2 bg-gray-200 text-black rounded-r-3xl rounded-tl-3xl rounded-bl-md">
+            <p className="text-sm">Hi! Thanks for your interest in our apprenticeship position.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div className="bg-white border-t px-4 py-3">
+        <div className="flex items-center bg-gray-100 rounded-full px-4 py-2">
+          <input
+            type="text" 
+            value={message} 
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Message..."
+            className="flex-1 bg-transparent text-black placeholder-gray-500 text-sm focus:outline-none"
+          />
+          {message.trim() && (
+            <button onClick={() => setMessage("")} className="text-blue-500 font-semibold text-sm ml-2">
+              Send
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function StudentApp() {
+  return (
+    <Routes>
+      <Route path="/apprenticeship-info/:id" element={<ApprenticeshipInfoPage />} />
+      <Route path="/chat/:id" element={<ChatPage />} />
+      <Route path="/*" element={
+        <StudentAppLayout>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/jobs" element={<JobsPage />} />
+            <Route path="/matches" element={<MatchesPage />} />
+            <Route path="/messages" element={<MessagesPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/account-settings" element={<AccountSettingsPage />} />
+            <Route path="/" element={<HomePage />} />
+          </Routes>
+        </StudentAppLayout>
+      } />
+    </Routes>
+  );
+}
