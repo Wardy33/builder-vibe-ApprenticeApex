@@ -1,18 +1,11 @@
-<<<<<<< HEAD
 // CRITICAL: Emergency localStorage cleanup MUST run first to prevent app crashes
 import "./lib/emergencyLocalStorageCleanup";
 
 import React, { StrictMode, Suspense, lazy, useEffect } from "react";
-=======
-import { StrictMode, Suspense, lazy } from "react";
->>>>>>> refs/remotes/origin/main
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "./global.css";
-
-// Keep only the homepage loaded immediately
 import Index from "./pages/Index";
-<<<<<<< HEAD
 import { initializeServiceWorker } from "./utils/serviceWorker";
 import {
   cleanupCorruptedLocalStorage,
@@ -21,36 +14,6 @@ import {
 import ErrorBoundary from "./components/ErrorBoundary";
 import { apiDebugger } from "./lib/apiDebugger";
 import { diagnostics } from "./utils/diagnostics";
-=======
-
-// Lazy load all other pages
-const StudentApp = lazy(() => import("./pages/StudentApp"));
-const CompanyPortal = lazy(() => import("./pages/CompanyPortal"));
-const SignUpForm = lazy(() => import("./pages/StudentAuth").then(module => ({ default: module.SignUpForm })));
-const SignInForm = lazy(() => import("./pages/StudentAuth").then(module => ({ default: module.SignInForm })));
-const StudentProfileSetup = lazy(() => import("./pages/StudentProfileSetup"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const Debug = lazy(() => import("./pages/Debug"));
-const About = lazy(() => import("./pages/About"));
-const Contact = lazy(() => import("./pages/Contact"));
-const BrowseApprenticeships = lazy(() => import("./pages/BrowseApprenticeships"));
-const PrivacyPolicy = lazy(() => import("./pages/legal/PrivacyPolicy"));
-const TermsOfService = lazy(() => import("./pages/legal/TermsOfService"));
-const CookiePolicy = lazy(() => import("./pages/legal/CookiePolicy"));
-const AcceptableUse = lazy(() => import("./pages/legal/AcceptableUse"));
-const ForEmployers = lazy(() => import("./pages/ForEmployers"));
-const CompanySignUpForm = lazy(() => import("./pages/CompanyAuth").then(module => ({ default: module.CompanySignUpForm })));
-const CompanySignInForm = lazy(() => import("./pages/CompanyAuth").then(module => ({ default: module.CompanySignInForm })));
-
-// Simple loading component
-function PageLoader() {
-  return (
-    <div className="flex items-center justify-center min-h-screen">
-      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500"></div>
-    </div>
-  );
-}
->>>>>>> refs/remotes/origin/main
 
 // Lazy load components for better performance
 const CandidateApp = lazy(() => import("./pages/StudentApp"));
@@ -84,7 +47,6 @@ const AdminLoginSimple = lazy(() => import("./pages/admin/AdminLoginSimple"));
 // Loading component for accessibility
 function LoadingFallback({ ariaLabel }: { ariaLabel: string }) {
   return (
-<<<<<<< HEAD
     <div
       className="flex items-center justify-center min-h-screen bg-gradient-to-br from-black via-gray-900 to-black"
       role="status"
@@ -277,9 +239,7 @@ function App() {
           <Route
             path="/candidate/signup"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Candidate signup" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Candidate signup" />}>
                 <CandidateAuth />
               </Suspense>
             }
@@ -287,9 +247,7 @@ function App() {
           <Route
             path="/candidate/signin"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Candidate signin" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Candidate signin" />}>
                 <CandidateAuth />
               </Suspense>
             }
@@ -309,9 +267,7 @@ function App() {
           <Route
             path="/candidate/setup-profile"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Profile setup" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Profile setup" />}>
                 <CandidateProfileSetup />
               </Suspense>
             }
@@ -329,9 +285,7 @@ function App() {
           <Route
             path="/company/signup"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Company signup" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Company signup" />}>
                 <CompanyAuth />
               </Suspense>
             }
@@ -339,57 +293,26 @@ function App() {
           <Route
             path="/company/signin"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Company signin" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Company signin" />}>
                 <CompanyAuth />
               </Suspense>
             }
           />
           {/* Redirects for common mistyped URLs */}
-          <Route
-            path="/CompanyAuth"
-            element={<Navigate to="/company/signin" replace />}
-          />
-          <Route
-            path="/companyauth"
-            element={<Navigate to="/company/signin" replace />}
-          />
-          <Route
-            path="/company-auth"
-            element={<Navigate to="/company/signin" replace />}
-          />
-          <Route
-            path="/Company"
-            element={<Navigate to="/company/signin" replace />}
-          />
-          <Route
-            path="/CandidateAuth"
-            element={<Navigate to="/candidate/signin" replace />}
-          />
-          <Route
-            path="/StudentAuth"
-            element={<Navigate to="/candidate/signin" replace />}
-          />
-          <Route
-            path="/CompanyPortal"
-            element={<Navigate to="/company" replace />}
-          />
-          <Route
-            path="/CandidateApp"
-            element={<Navigate to="/candidate" replace />}
-          />
-          <Route
-            path="/StudentApp"
-            element={<Navigate to="/candidate" replace />}
-          />
+          <Route path="/CompanyAuth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/companyauth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/company-auth" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/Company" element={<Navigate to="/company/signin" replace />} />
+          <Route path="/CandidateAuth" element={<Navigate to="/candidate/signin" replace />} />
+          <Route path="/StudentAuth" element={<Navigate to="/candidate/signin" replace />} />
+          <Route path="/CompanyPortal" element={<Navigate to="/company" replace />} />
+          <Route path="/CandidateApp" element={<Navigate to="/candidate" replace />} />
+          <Route path="/StudentApp" element={<Navigate to="/candidate" replace />} />
           <Route
             path="/company/forgot-password"
             element={
               <Suspense
-                fallback={
-                  <LoadingFallback ariaLabel="Company forgot password" />
-                }
+                fallback={<LoadingFallback ariaLabel="Company forgot password" />}
               >
                 <CompanyForgotPassword />
               </Suspense>
@@ -398,9 +321,7 @@ function App() {
           <Route
             path="/company/*"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Company portal" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Company portal" />}>
                 <CompanyPortal />
               </Suspense>
             }
@@ -424,9 +345,7 @@ function App() {
           <Route
             path="*"
             element={
-              <Suspense
-                fallback={<LoadingFallback ariaLabel="Page not found" />}
-              >
+              <Suspense fallback={<LoadingFallback ariaLabel="Page not found" />}>
                 <NotFound />
               </Suspense>
             }
@@ -472,53 +391,6 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", initializeApp);
 } else {
   initializeApp();
-=======
-    <BrowserRouter>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/debug" element={<Debug />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/for-employers" element={<ForEmployers />} />
-          <Route path="/pricing" element={<ForEmployers />} />
-          <Route path="/browse-apprenticeships" element={<BrowseApprenticeships />} />
-          <Route path="/student-resources" element={<BrowseApprenticeships />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/cookie-policy" element={<CookiePolicy />} />
-          <Route path="/acceptable-use" element={<AcceptableUse />} />
-          <Route path="/student/signup" element={<SignUpForm />} />
-          <Route path="/student/signin" element={<SignInForm />} />
-          <Route
-            path="/student/setup-profile"
-            element={<StudentProfileSetup />}
-          />
-          <Route path="/student/*" element={<StudentApp />} />
-          <Route path="/company/signup" element={<CompanySignUpForm />} />
-          <Route path="/company/signin" element={<CompanySignInForm />} />
-          <Route path="/company/*" element={<CompanyPortal />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
-  );
-}
-
-const container = document.getElementById("root");
-if (container) {
-  // Store root instance globally to prevent recreation during HMR
-  let root = (globalThis as any).__reactRoot;
-  if (!root) {
-    root = createRoot(container);
-    (globalThis as any).__reactRoot = root;
-  }
-  root.render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  );
->>>>>>> refs/remotes/origin/main
 }
 
 export default App;
