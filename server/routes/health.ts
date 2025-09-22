@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import { database } from "../middleware/database-neon";
@@ -9,7 +9,7 @@ const router = express.Router();
 // Enhanced Database Health Check for Neon
 router.get(
   "/database",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req: Request, res: Response) => {
     console.log("🏥 Running Neon database health check...");
 
     try {
@@ -22,7 +22,27 @@ router.get(
       // Environment configuration
       const env = getEnvConfig();
 
-      const healthCheck = {
+      const healthCheck: {
+        timestamp: string;
+        status: string;
+        checks: {
+          connection: {
+            connected: boolean;
+            status: string;
+            database: string;
+            projectId: string;
+            lastConnectedAt: Date | undefined;
+            connectionAttempts: number;
+          };
+          environment: {
+            databaseUrl: string;
+            neonProjectId: string;
+            nodeEnv: string | undefined;
+          };
+          healthCheckDuration: string;
+        };
+        recommendations: string[];
+      } = {
         timestamp: new Date().toISOString(),
         status: isConnected ? "healthy" : "unhealthy",
         checks: {
@@ -39,6 +59,7 @@ router.get(
             neonProjectId: env.NEON_PROJECT_ID ? "configured" : "missing",
             nodeEnv: env.NODE_ENV,
           },
+          healthCheckDuration: "",
         },
         recommendations: [],
       };
@@ -82,7 +103,7 @@ router.get(
 // Database Connection Test for Neon
 router.get(
   "/database/connection",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req: Request, res: Response) => {
     console.log("🔗 Testing Neon database connection details...");
 
     try {
@@ -122,7 +143,7 @@ router.get(
 // Database Tables Info for Neon
 router.get(
   "/database/tables",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req: Request, res: Response) => {
     console.log("📋 Getting Neon database tables information...");
 
     try {
@@ -164,13 +185,24 @@ router.get(
 // Database Performance Metrics for Neon
 router.get(
   "/database/performance",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req: Request, res: Response) => {
     console.log("📊 Getting Neon database performance metrics...");
 
     try {
       const dbStatus = database.getHealthStatus();
 
-      const performanceMetrics = {
+      const performanceMetrics: {
+        timestamp: string;
+        status: string;
+        metrics: {
+          database: string;
+          connected: boolean;
+          projectId: string;
+          lastConnectedAt: Date | undefined;
+          connectionAttempts: number;
+        };
+        alerts: { level: "error" | "warning"; message: string }[];
+      } = {
         timestamp: new Date().toISOString(),
         status: dbStatus.status,
         metrics: {
@@ -216,7 +248,7 @@ router.get(
 // Simple connectivity test
 router.get(
   "/ping",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req: Request, res: Response) => {
     const isConnected = database.isConnected();
 
     sendSuccess(res, {
