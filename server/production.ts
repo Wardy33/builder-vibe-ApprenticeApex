@@ -3,7 +3,6 @@ import compression from "compression";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
-import passport from "passport";
 import session from "express-session";
 import { createServer } from "http";
 import dotenv from "dotenv";
