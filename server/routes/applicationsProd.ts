@@ -127,7 +127,7 @@ router.post("/submit",
 
       // Notify employer of new application (if they have notifications enabled)
       try {
-        const employer = await User.findById(apprenticeship.companyId);
+        const employer = await User.findById((apprenticeship as any).company);
         if (employer && employer.emailPreferences?.applicationNotifications !== false) {
           const template = {
             subject: 'New Application Received',
