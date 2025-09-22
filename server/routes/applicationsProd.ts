@@ -213,20 +213,12 @@ router.patch("/:applicationId/status",
       const updateData: any = {
         status,
         lastUpdated: new Date(),
-        statusHistory: [
-          ...application.statusHistory,
-          {
-            status,
-            timestamp: new Date(),
-            updatedBy: userId,
-            notes
-          }
-        ]
+        // statusHistory is managed by schema middleware
       };
 
       // Handle interview scheduling
       if (status === 'interview_scheduled' && interviewDate) {
-        updateData.interviewDetails = {
+        updateData.interview = {
           scheduledDate: new Date(interviewDate),
           location: interviewLocation,
           type: interviewType || 'in_person',
