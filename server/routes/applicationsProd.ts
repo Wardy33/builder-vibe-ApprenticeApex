@@ -81,7 +81,7 @@ router.post("/submit",
       }
 
       // Create new application
-      const applicationData = {
+      const applicationData: any = {
         student: userId,
         apprenticeship: apprenticeshipId,
         // company handled via apprenticeship ref
