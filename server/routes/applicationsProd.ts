@@ -47,7 +47,7 @@ router.post("/submit",
     }
 
     const { apprenticeshipId, coverLetter, portfolioUrls, documents, availabilityNotes } = req.body;
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
@@ -188,7 +188,7 @@ router.patch("/:applicationId/status",
 
     const { applicationId } = req.params;
     const { status, notes, interviewDate, interviewLocation, interviewType, rejectionReason } = req.body;
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
@@ -309,7 +309,7 @@ router.patch("/:applicationId/status",
 router.get("/my-applications",
   authenticateToken,
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
     
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
@@ -346,7 +346,7 @@ router.get("/:applicationId",
   authenticateToken,
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { applicationId } = req.params;
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
 
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
