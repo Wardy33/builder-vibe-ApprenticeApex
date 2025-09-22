@@ -205,7 +205,7 @@ router.post('/register/company', async (req, res) => {
       res.status(500).json({
         success: false,
         error: 'Company registration failed',
-        details: error.message
+        details: error instanceof Error ? error.message : String(error)
       });
     }
   }
@@ -342,7 +342,7 @@ router.post('/register', async (req, res) => {
       res.status(500).json({ 
         success: false, 
         error: 'Registration failed',
-        details: error.message 
+        details: error instanceof Error ? error.message : String(error) 
       });
     }
   }
@@ -413,7 +413,7 @@ router.post('/company/signin', async (req, res) => {
         await user.save();
         console.log('✅ Company last login updated');
       } catch (updateError) {
-        console.warn('⚠️ Could not update company last login:', updateError.message);
+        console.warn('⚠️ Could not update company last login:', (updateError instanceof Error ? updateError.message : String(updateError)));
       }
 
       // Generate JWT token
@@ -462,7 +462,7 @@ router.post('/company/signin', async (req, res) => {
           { expiresIn: '7d' }
         );
 
-        return res.json({
+        res.json({
           success: true,
           data: {
             user: {
@@ -487,23 +487,25 @@ router.post('/company/signin', async (req, res) => {
         });
       }
 
-      return res.status(500).json({
+      res.status(500).json({
         success: false,
         error: 'Database connection error',
         details: 'Unable to verify company credentials',
-        dbError: dbError.message
+        dbError: dbError instanceof Error ? dbError.message : String(dbError)
       });
     }
 
   } catch (error) {
-    console.error('❌ Company signin error:', error.message);
-    console.error('❌ Company signin error stack:', error.stack);
+    console.error('❌ Company signin error:', error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) {
+      console.error('❌ Company signin error stack:', error.stack);
+    }
 
     if (!res.headersSent) {
       res.status(500).json({
         success: false,
         error: 'Internal server error during company signin',
-        details: error.message
+        details: error instanceof Error ? error.message : String(error)
       });
     }
   }
@@ -666,7 +668,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
         await user.save();
         console.log('✅ Last login updated');
       } catch (updateError) {
-        console.warn('⚠️ Could not update last login:', updateError instanceof Error ? updateError.message : String(updateError));
+        console.warn('⚠️ Could not update last login:', updateError instanceof Error ? (updateError instanceof Error ? updateError.message : String(updateError)) : String(updateError));
       }
 
       // Generate JWT token
@@ -736,7 +738,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
           lastName: 'User'
         };
 
-        return res.json({
+        res.json({
           success: true,
           data: {
             user: {
@@ -754,7 +756,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
         });
       }
 
-      return res.status(500).json({
+      res.status(500).json({
         success: false,
         error: 'Database connection error',
         details: 'Unable to verify credentials',
@@ -775,7 +777,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
     });
 
     if (!res.headersSent) {
-      return res.status(500).json({
+      res.status(500).json({
         success: false,
         error: 'Internal server error during login',
         details: error instanceof Error ? error.message : String(error),
