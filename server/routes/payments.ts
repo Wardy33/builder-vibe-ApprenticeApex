@@ -1,10 +1,12 @@
 import express, { Response } from "express";
+import express, { Response } from "express";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import NeonPaymentService from "../services/neonPaymentService";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { createRateLimit } from "../middleware/security";
 import { getSecureEnvConfig } from "../config/secureEnv";
+import { neon_run_sql } from "../config/neon";
 
 const router = express.Router();
 
@@ -660,7 +662,7 @@ router.post(
       });
     } catch (error: any) {
       console.error(
-        "❌ Failed to create professional checkout session:",
+        "��� Failed to create professional checkout session:",
         error,
       );
       sendError(
