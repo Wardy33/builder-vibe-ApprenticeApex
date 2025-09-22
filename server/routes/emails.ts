@@ -1,8 +1,7 @@
-import express from "express";
 import express, { Response } from "express";
-import { body, query, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
-import { asyncHandler, CustomError } from "../middleware/errorHandler";
+import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
 import { requireDatabase } from "../middleware/database-neon";
 import rateLimit from "express-rate-limit";
@@ -10,7 +9,7 @@ import rateLimit from "express-rate-limit";
 // Import production schemas and services
 import { User } from "../models/User";
 import EmailService from "../services/emailService";
-import { emailTemplates } from "../services/emailTemplates";
+// emailTemplates import not used in this simplified flow
 import { getEnvConfig } from "../config/env";
 
 const router = express.Router();
