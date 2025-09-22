@@ -66,8 +66,8 @@ router.post("/submit",
 
       // Check if user already applied to this apprenticeship
       const existingApplication = await Application.findOne({
-        studentId: userId,
-        apprenticeshipId: apprenticeshipId
+        student: userId,
+        apprenticeship: apprenticeshipId
       });
 
       if (existingApplication) {
@@ -82,17 +82,17 @@ router.post("/submit",
 
       // Create new application
       const applicationData = {
-        studentId: userId,
-        apprenticeshipId,
-        companyId: apprenticeship.companyId,
-        status: 'submitted' as const,
-        personalStatement: coverLetter,
-        portfolioUrls: portfolioUrls || [],
-        documents: documents || [],
+        student: userId,
+        apprenticeship: apprenticeshipId,
+        // company handled via apprenticeship ref
+        status: 'pending' as const,
+        applicationData: { coverLetter },
+        applicationData: { coverLetter, portfolioUrl: Array.isArray(portfolioUrls) && portfolioUrls.length ? portfolioUrls[0] : undefined },
+        applicationData: { coverLetter, portfolioUrl: Array.isArray(portfolioUrls) && portfolioUrls.length ? portfolioUrls[0] : undefined, additionalDocuments: Array.isArray(documents) ? documents : [] },
         submittedAt: new Date(),
-        availabilityNotes,
-        userLocation: user.profile?.location,
-        preferredStartDate: user.profile?.availableFrom,
+        // availabilityNotes not stored in current schema
+        // userLocation not stored in current schema
+        // preferredStartDate not stored in current schema
       };
 
       // Validate application data
