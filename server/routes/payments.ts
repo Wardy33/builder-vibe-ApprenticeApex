@@ -255,6 +255,7 @@ router.post(
 router.get(
   "/history",
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) { return res.status(401).json({ error: 'Unauthorized' }); }
     try {
       const userId = req.user.userId;
       const { page = 1, limit = 20 } = req.query;
