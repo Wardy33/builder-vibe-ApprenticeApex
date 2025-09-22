@@ -510,7 +510,7 @@ router.post('/company/signin', async (req, res) => {
 });
 
 // POST /api/auth/login - Enhanced login with detailed logging
-router.post('/login', async (req: import('express').Request, res: import('express').Response): Promise<void> => {
+router.post('/login', async (req: import('express').Request, res: import('express').Response): Promise<any> => {
   try {
     console.log('🔐 Login request received');
     console.log('📋 Request headers:', JSON.stringify(req.headers, null, 2));
