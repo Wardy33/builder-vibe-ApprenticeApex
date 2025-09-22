@@ -68,6 +68,7 @@ router.post("/login", async (req: Request, res: Response) => {
         error: "Invalid admin access code",
         code: "INVALID_ADMIN_CODE"
       });
+      return;
     }
 
     // Find user and check master admin status using Neon
@@ -79,6 +80,7 @@ router.post("/login", async (req: Request, res: Response) => {
         error: "Invalid admin credentials",
         code: "INVALID_ADMIN_CREDENTIALS"
       });
+      return;
     }
 
     // Check if account is locked
@@ -89,6 +91,7 @@ router.post("/login", async (req: Request, res: Response) => {
         code: "ADMIN_ACCOUNT_LOCKED",
         lockTimeRemaining
       });
+      return;
     }
 
     // Verify password
@@ -111,6 +114,7 @@ router.post("/login", async (req: Request, res: Response) => {
         error: "Invalid admin credentials",
         code: "INVALID_ADMIN_CREDENTIALS"
       });
+      return;
     }
 
     // Reset login attempts on successful login
