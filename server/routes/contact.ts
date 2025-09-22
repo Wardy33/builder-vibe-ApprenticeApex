@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
 
 const router = express.Router();
@@ -30,7 +30,7 @@ router.post('/', [
   body('subject').trim().isLength({ min: 1 }).withMessage('Subject is required'),
   body('message').trim().isLength({ min: 10 }).withMessage('Message must be at least 10 characters'),
   body('userType').isIn(['student', 'employer', 'other']).withMessage('Valid user type is required')
-], async (req, res) => {
+], async (req: Request, res: Response) => {
   try {
     // Check for validation errors
     const errors = validationResult(req);
@@ -86,7 +86,7 @@ Submitted at: ${new Date().toISOString()}
 /**
  * Get contact information
  */
-router.get('/info', (req, res) => {
+router.get('/info', (_req: Request, res: Response) => {
   res.json({
     success: true,
     contact: {
