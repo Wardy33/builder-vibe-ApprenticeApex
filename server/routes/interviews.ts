@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import { body, validationResult } from "express-validator";
 import {
   authenticateToken,
@@ -6,7 +6,6 @@ import {
   requireRole,
 } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
-import { Interview } from "../models/Interview";
 import { v4 as uuidv4 } from "uuid";
 
 const router = express.Router();
@@ -57,7 +56,7 @@ const mockInterviews: any[] = [
 router.get(
   "/",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { userId, role } = req.user!;
     const status = req.query.status as string;
     const page = parseInt(req.query.page as string) || 1;
@@ -105,7 +104,7 @@ router.get(
 router.get(
   "/:interviewId",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { interviewId } = req.params;
     const { userId, role } = req.user!;
 
@@ -141,7 +140,7 @@ router.post(
     body("duration").isInt({ min: 15, max: 180 }),
     body("type").isIn(["video", "phone", "in-person"]),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new CustomError("Validation failed", 400);
@@ -217,7 +216,7 @@ router.put(
       .isIn(["scheduled", "completed", "cancelled", "rescheduled", "no-show"]),
     body("notes").optional().isObject(),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new CustomError("Validation failed", 400);
@@ -278,7 +277,7 @@ router.delete(
   "/:interviewId",
   authenticateToken,
   requireRole(["company"]),
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { interviewId } = req.params;
     const { userId: companyId } = req.user!;
 
@@ -310,7 +309,7 @@ router.delete(
 router.get(
   "/:interviewId/video-access",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { interviewId } = req.params;
     const { userId, role } = req.user!;
 
@@ -368,7 +367,7 @@ router.post(
     body("rating").isInt({ min: 1, max: 5 }),
     body("feedback").optional().isLength({ max: 1000 }),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new CustomError("Validation failed", 400);
@@ -427,7 +426,7 @@ router.get(
   "/stats/overview",
   authenticateToken,
   requireRole(["company"]),
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { userId: companyId } = req.user!;
 
     const companyInterviews = mockInterviews.filter(
@@ -470,7 +469,7 @@ router.post(
     body("type").isIn(["email", "sms", "push"]),
     body("recipient").isIn(["student", "company", "both"]),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       throw new CustomError("Validation failed", 400);
