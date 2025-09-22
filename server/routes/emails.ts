@@ -73,7 +73,7 @@ router.post("/verification/send",
   asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, errors.array(), "Validation failed");
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { email } = req.body;
@@ -176,7 +176,7 @@ router.post("/password-reset/send",
   asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, errors.array(), "Validation failed");
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { email } = req.body;
@@ -229,7 +229,7 @@ router.patch("/preferences",
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, errors.array(), "Validation failed");
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const userId = req.user?.userId;
@@ -312,7 +312,7 @@ router.post("/unsubscribe",
   asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, errors.array(), "Validation failed");
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { email, token } = req.body;
@@ -391,7 +391,7 @@ router.post("/test",
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, errors.array(), "Validation failed");
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { to, type } = req.body;
