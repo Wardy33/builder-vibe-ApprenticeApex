@@ -214,7 +214,7 @@ router.get(
   "/system",
   authenticateToken,
   requireAdminPermission("canAccessSystemLogs"),
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (_req: AuthenticatedRequest, res: Response) => {
     try {
       // Database performance metrics
       const dbStats = {
