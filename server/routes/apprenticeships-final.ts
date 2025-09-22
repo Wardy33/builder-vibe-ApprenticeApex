@@ -5,10 +5,10 @@ const router = express.Router();
 // For this implementation, we'll use a direct database connection approach
 // In production, this would be replaced with proper MCP integration
 
-const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || "winter-bread-79671472";
+// const NEON_PROJECT_ID = process.env.NEON_PROJECT_ID || "winter-bread-79671472";
 
 // Real Neon database connection helper
-import { neon } from "@neondatabase/serverless";
+import { Pool } from "@neondatabase/serverless";
 
 // Get database connection string from environment
 const DATABASE_URL = process.env.DATABASE_URL || process.env.NEON_DATABASE_URL;
@@ -20,25 +20,26 @@ if (!DATABASE_URL) {
 }
 
 // Real Neon database query function
-async function queryNeonDatabase(sql: string): Promise<any[]> {
+async function queryNeonDatabase(sqlText: string): Promise<any[]> {
   try {
-    console.log(`🔗 Real Neon Query: ${sql.substring(0, 100)}...`);
+    console.log(`🔗 Real Neon Query: ${sqlText.substring(0, 100)}...`);
 
     if (!DATABASE_URL) {
       console.error("❌ No database URL available - returning empty results");
       return [];
     }
 
-    const neonDb = neon(DATABASE_URL);
-    const result = await neonDb(sql);
+    const pool = new Pool({ connectionString: DATABASE_URL });
+    const { rows } = await pool.query(sqlText);
+    await pool.end();
 
     console.log(
-      `✅ Neon query executed successfully, returned ${result.length} rows`,
+      `✅ Neon query executed successfully, returned ${rows.length} rows`,
     );
-    return result;
+    return rows as any[];
   } catch (error) {
-    console.error("❌ Real Neon query error:", error.message);
-    console.error("❌ SQL that failed:", sql);
+    console.error("❌ Real Neon query error:", error instanceof Error ? error.message : String(error));
+    console.error("❌ SQL that failed:", sqlText);
 
     // Return empty results to prevent crashes
     return [];
@@ -56,8 +57,6 @@ router.get("/public", async (req: any, res: any) => {
       location,
       salaryMin,
       salaryMax,
-      sortBy = "created_at",
-      sortOrder = "desc",
     } = req.query;
 
     console.log(
@@ -74,7 +73,7 @@ router.get("/public", async (req: any, res: any) => {
     // Get total count
     const countQuery = `SELECT COUNT(*) as total FROM jobs WHERE status = 'active'`;
     const countResult = await queryNeonDatabase(countQuery);
-    const totalItems = parseInt(countResult[0]?.total || "0");
+    const totalItems = parseInt(countResult[0]?.total || "0"); // used for pagination metadata
 
     // Get jobs data
     const jobsQuery = `SELECT * FROM jobs WHERE status = 'active' ORDER BY created_at DESC`;
