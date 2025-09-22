@@ -512,7 +512,7 @@ router.post('/company/signin', async (req, res) => {
 // POST /api/auth/login - Enhanced login with detailed logging
 router.post('/login', async (req: import('express').Request, res: import('express').Response): Promise<void> => {
   try {
-    console.log('🔐 Login request received');
+    console.log('��� Login request received');
     console.log('📋 Request headers:', JSON.stringify(req.headers, null, 2));
     console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
     console.log('📋 Request method:', req.method);
@@ -666,7 +666,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
         await user.save();
         console.log('✅ Last login updated');
       } catch (updateError) {
-        console.warn('⚠️ Could not update last login:', updateError.message);
+        console.warn('⚠️ Could not update last login:', updateError instanceof Error ? updateError.message : String(updateError));
       }
 
       // Generate JWT token
@@ -797,7 +797,7 @@ router.get('/test', (req, res) => {
       'POST /api/auth/register',
       'POST /api/auth/register/company',  // ← Company registration endpoint
       'POST /api/auth/login',
-      'POST /api/auth/company/signin',    // ← Company signin endpoint
+      'POST /api/auth/company/signin',    // ��� Company signin endpoint
       'POST /api/auth/login-test',
       'GET /api/auth/test'
     ]
