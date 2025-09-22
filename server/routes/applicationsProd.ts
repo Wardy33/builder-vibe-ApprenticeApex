@@ -157,9 +157,9 @@ router.post("/submit",
           submittedAt: savedApplication.submittedAt,
           aiMatchScore: savedApplication.aiMatchScore,
           apprenticeship: {
-            title: apprenticeship.title,
-            companyName: apprenticeship.companyName,
-            location: apprenticeship.location
+            title: (apprenticeship as any).title,
+            companyName: (apprenticeship as any).companyName,
+            location: (apprenticeship as any).location
           }
         }
       }, 201);
