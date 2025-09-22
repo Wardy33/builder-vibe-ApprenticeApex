@@ -204,7 +204,7 @@ router.patch("/:applicationId/status",
       }
 
       // Check if user has permission to update this application
-      const apprenticeship = application.apprenticeshipId as any;
+      const apprenticeship = (application as any).apprenticeship as any;
       if (apprenticeship.companyId.toString() !== userId && req.user?.role !== 'admin') {
         return sendError(res, "Not authorized to update this application", 403, 'FORBIDDEN');
       }
