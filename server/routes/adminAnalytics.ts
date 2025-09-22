@@ -385,7 +385,7 @@ router.get(
       const format = (req.query.format as string) || "json";
 
       if (!["platform", "financial", "system", "geographic"].includes(type)) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Invalid analytics type",
           code: "INVALID_ANALYTICS_TYPE",
         });
