@@ -141,7 +141,7 @@ router.get("/public", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch job listings",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -238,7 +238,7 @@ router.get("/public/:id", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch job details",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
