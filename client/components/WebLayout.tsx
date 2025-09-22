@@ -1,7 +1,6 @@
 import { ReactNode, useEffect } from "react";
 import { WebHeaderNew } from "./WebHeaderNew";
 import { WebFooter } from "./WebFooter";
-import LiveChat from "./LiveChat";
 
 interface WebLayoutProps {
   children: ReactNode;
@@ -85,7 +84,6 @@ export function WebLayout({
         className="sr-only"
       ></div>
 
-      <LiveChat />
     </div>
   );
 }
