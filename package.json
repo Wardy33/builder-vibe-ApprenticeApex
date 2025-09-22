@@ -38,7 +38,7 @@
     "security:check": "tsx server/scripts/security-check.ts",
     "security:audit": "npm audit --audit-level=moderate",
     "prestart": "npm run security:check",
-    "prebuild": "npm run typecheck"
+    "prebuild": "npm run typecheck && node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "@daily-co/daily-js": "^0.81.0",
