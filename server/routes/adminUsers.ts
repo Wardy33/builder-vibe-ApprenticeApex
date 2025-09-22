@@ -90,7 +90,7 @@ router.get("/", authenticateToken, requireAdminPermission("canViewAllUsers"), as
 });
 
 // Get detailed user information by ID
-router.get("/:id", authenticateToken, requireAdminPermission("canViewAllUsers"), async (req: AuthenticatedRequest, res: Response) => {
+router.get("/:id", authenticateToken, requireAdminPermission("canViewAllUsers"), async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const userId = req.params.id;
 
@@ -133,7 +133,7 @@ router.get("/:id", authenticateToken, requireAdminPermission("canViewAllUsers"),
 });
 
 // Update user status (activate/deactivate)
-router.put("/:id/status", authenticateToken, requireAdminPermission("canViewAllUsers"), async (req: AuthenticatedRequest, res: Response) => {
+router.put("/:id/status", authenticateToken, requireAdminPermission("canViewAllUsers"), async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const userId = req.params.id;
     const { isActive, reason } = req.body;
@@ -302,7 +302,7 @@ router.get("/analytics/overview", authenticateToken, requireAdminPermission("can
 });
 
 // Export user data (CSV/JSON)
-router.get("/export/:format", authenticateToken, requireAdminPermission("canExportData"), async (req: AuthenticatedRequest, res: Response) => {
+router.get("/export/:format", authenticateToken, requireAdminPermission("canExportData"), async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const format = req.params.format;
     const role = req.query.role as string;
