@@ -10,6 +10,9 @@ import adminUsersRouter from "./adminUsers";
 import adminAnalyticsRouter from "./adminAnalytics";
 import adminSystemRouter from "./adminSystem";
 
+import { Router, Request, Response } from "express";
+import { neon_run_sql } from "../config/neon";
+
 const router = Router();
 
 console.log('🔧 Admin routes module loading...');
@@ -94,7 +97,7 @@ router.post("/login", async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       // Increment failed login attempts
       const attempts = (user.login_attempts || 0) + 1;
-      let lockUntil = null;
+      let lockUntil: Date | undefined = undefined;
 
       // Lock account after 3 failed attempts
       if (attempts >= 3) {
@@ -163,14 +166,14 @@ router.post("/login", async (req: Request, res: Response) => {
 
   } catch (error) {
     console.error("❌ Admin login error:", error);
-    console.error("❌ Error stack:", error.stack);
+    console.error("❌ Error stack:", error instanceof Error ? error.stack : String(error));
 
     // Ensure we always send valid JSON
     res.setHeader('Content-Type', 'application/json');
     res.status(500).json({
       error: "Admin login failed",
       code: "ADMIN_LOGIN_ERROR",
-      message: error.message || 'Unknown server error'
+      message: error instanceof Error ? error.message : 'Unknown server error'
     });
   }
 });
@@ -181,9 +184,10 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
     const { email, password, setupCode } = req.body;
 
     // Check if master admin already exists
-    const existingAdmins = await executeNeonQuery(
-      `SELECT id FROM users WHERE role = 'master_admin' LIMIT 1`
-    );
+    const existingAdmins = await neon_run_sql({
+      sql: `SELECT id FROM users WHERE role = 'master_admin' LIMIT 1`,
+      projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+    });
     if (existingAdmins.length > 0) {
       return res.status(409).json({
         error: "Master admin already exists",
@@ -221,24 +225,28 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
     const hashedPassword = await hashPassword(password, true); // true = admin account (higher security)
 
     // Create master admin account in Neon
-    const newAdmin = await executeNeonQuery(`
+    const newAdmin = await neon_run_sql({
+      sql: `
       INSERT INTO users (
         email, password_hash, role, name, email_verified, is_master_admin, admin_permissions
       ) VALUES ($1, $2, 'master_admin', 'Master Administrator', true, true, $3)
       RETURNING id, email
-    `, [
-      email.toLowerCase(),
-      hashedPassword,
-      JSON.stringify({
-        canViewAllUsers: true,
-        canViewFinancials: true,
-        canModerateContent: true,
-        canAccessSystemLogs: true,
-        canExportData: true,
-        canManageAdmins: true,
-        canConfigureSystem: true
-      })
-    ]);
+    `,
+      projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+      params: [
+        email.toLowerCase(),
+        hashedPassword,
+        JSON.stringify({
+          canViewAllUsers: true,
+          canViewFinancials: true,
+          canModerateContent: true,
+          canAccessSystemLogs: true,
+          canExportData: true,
+          canManageAdmins: true,
+          canConfigureSystem: true
+        })
+      ]
+    });
 
     console.log(`✅ Master admin account created: ${email}`);
 
@@ -253,7 +261,8 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
     console.error("❌ Master admin setup error:", error);
     res.status(500).json({
       error: "Failed to create master admin account",
-      code: "MASTER_ADMIN_SETUP_ERROR"
+      code: "MASTER_ADMIN_SETUP_ERROR",
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -303,13 +312,13 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
 
   } catch (error) {
     console.error("❌ Admin session verification error:", error);
-    console.error("❌ Error stack:", error.stack);
+    console.error("❌ Error stack:", error instanceof Error ? error.stack : String(error));
 
     res.setHeader('Content-Type', 'application/json');
     res.status(500).json({
       error: "Session verification failed",
       code: "SESSION_VERIFICATION_ERROR",
-      message: error.message || 'Unknown verification error'
+      message: error instanceof Error ? error.message : 'Unknown verification error'
     });
   }
 });
