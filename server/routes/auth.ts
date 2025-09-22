@@ -34,7 +34,7 @@ router.use("/login", (req: Request, res: Response, next: NextFunction) => {
 
     if (!req.body) {
       console.error("❌ No request body found for login");
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: "Request body is required",
         details: "POST request must include JSON body with email and password",
@@ -43,7 +43,7 @@ router.use("/login", (req: Request, res: Response, next: NextFunction) => {
 
     if (typeof req.body !== "object") {
       console.error("❌ Request body is not an object:", typeof req.body);
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: "Request body must be a JSON object",
         received: typeof req.body,
@@ -105,7 +105,7 @@ router.post("/register/company", async (req: Request, res: Response) => {
 
     // Basic validation
     if (!email || !password || !companyName || !firstName || !lastName) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: "Required fields missing",
         details:
@@ -144,7 +144,7 @@ router.post("/register/company", async (req: Request, res: Response) => {
     try {
       const existingUser = await User.findOne({ email: userData.email });
       if (existingUser) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Company already registered",
           details: "A user with this email already exists",
@@ -240,7 +240,7 @@ router.post("/register", async (req: Request, res: Response) => {
     const { email, password, role, profile } = req.body;
 
     if (!email || !password || !role) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: "Email, password, and role are required",
       });
@@ -292,7 +292,7 @@ router.post("/register", async (req: Request, res: Response) => {
     try {
       const existingUser = await User.findOne({ email: userData.email });
       if (existingUser) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "User already exists",
         });
@@ -371,7 +371,7 @@ router.post("/company/signin", async (req: Request, res: Response) => {
 
     // Basic validation
     if (!email || !password) {
-      return res.status(400).json({
+      res.status(400).json({
         success: false,
         error: "Email and password are required",
       });
@@ -386,7 +386,7 @@ router.post("/company/signin", async (req: Request, res: Response) => {
 
       if (!user) {
         console.log("❌ Company user not found:", email);
-        return res.status(401).json({
+        res.status(401).json({
           success: false,
           error: "Invalid email or password",
         });
@@ -398,7 +398,7 @@ router.post("/company/signin", async (req: Request, res: Response) => {
       // Check if user is active
       if (!user.isActive) {
         console.log("❌ Company account is deactivated");
-        return res.status(401).json({
+        res.status(401).json({
           success: false,
           error: "Account has been deactivated",
         });
@@ -412,7 +412,7 @@ router.post("/company/signin", async (req: Request, res: Response) => {
 
       if (!isPasswordValid) {
         console.log("❌ Invalid password for company:", email);
-        return res.status(401).json({
+        res.status(401).json({
           success: false,
           error: "Invalid email or password",
         });
@@ -585,7 +585,7 @@ router.post(
       // Enhanced validation with specific error messages
       if (!email) {
         console.log("❌ Email field is missing or empty");
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Email is required",
           details: "Email field is missing or empty",
@@ -595,7 +595,7 @@ router.post(
 
       if (!password) {
         console.log("❌ Password field is missing or empty");
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Password is required",
           details: "Password field is missing or empty",
@@ -606,7 +606,7 @@ router.post(
       // Additional validation
       if (typeof email !== "string") {
         console.log("❌ Email is not a string:", typeof email);
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Email must be a string",
           details: `Expected string, got ${typeof email}`,
@@ -616,7 +616,7 @@ router.post(
 
       if (typeof password !== "string") {
         console.log("❌ Password is not a string:", typeof password);
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Password must be a string",
           details: `Expected string, got ${typeof password}`,
@@ -628,7 +628,7 @@ router.post(
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(email)) {
         console.log("❌ Invalid email format:", email);
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Invalid email format",
           details: "Email must be in valid format (user@domain.com)",
@@ -639,7 +639,7 @@ router.post(
       // Password length validation
       if (password.length < 1) {
         console.log("❌ Password is empty string");
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           error: "Password cannot be empty",
           details: "Password must contain at least 1 character",
@@ -655,21 +655,21 @@ router.post(
 
         if (!user) {
           console.log("❌ User not found:", email);
-          return res.status(401).json({
+          res.status(401).json({
             success: false,
             error: "Invalid email or password",
             details: "User not found in database",
           });
         }
 
-        console.log("👤 User found:", user.email);
+        console.log("���� User found:", user.email);
         console.log("👤 User role:", user.role);
         console.log("👤 User active:", user.isActive);
 
         // Check if user is active
         if (!user.isActive) {
           console.log("❌ User account is deactivated");
-          return res.status(401).json({
+          res.status(401).json({
             success: false,
             error: "Account has been deactivated",
             details: "User account is not active",
@@ -684,7 +684,7 @@ router.post(
 
         if (!isPasswordValid) {
           console.log("❌ Invalid password for user:", email);
-          return res.status(401).json({
+          res.status(401).json({
             success: false,
             error: "Invalid email or password",
             details: "Password verification failed",
