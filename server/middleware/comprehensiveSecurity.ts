@@ -227,7 +227,7 @@ export class ComprehensiveSecurityMiddleware {
 
   // Input sanitization middleware
   static inputSanitization() {
-    return (req: Request, res: Response, next: NextFunction) => {
+    return (req: Request, _res: Response, next: NextFunction) => {
       // Sanitize request body
       if (req.body && typeof req.body === 'object') {
         req.body = this.sanitizeObject(req.body);
