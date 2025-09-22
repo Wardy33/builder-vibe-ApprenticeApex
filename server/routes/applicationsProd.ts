@@ -196,8 +196,8 @@ router.patch("/:applicationId/status",
 
     try {
       const application = await Application.findById(applicationId)
-        .populate('apprenticeshipId')
-        .populate('studentId');
+        .populate('apprenticeship')
+        .populate('student');
 
       if (!application) {
         return sendError(res, "Application not found", 404, 'APPLICATION_NOT_FOUND');
@@ -205,7 +205,7 @@ router.patch("/:applicationId/status",
 
       // Check if user has permission to update this application
       const apprenticeship = (application as any).apprenticeship as any;
-      if (apprenticeship.companyId.toString() !== userId && req.user?.role !== 'admin') {
+      if (apprenticeship.company?.toString() !== userId && req.user?.role !== 'admin') {
         return sendError(res, "Not authorized to update this application", 403, 'FORBIDDEN');
       }
 
@@ -316,21 +316,21 @@ router.get("/my-applications",
     }
 
     try {
-      const applications = await Application.find({ studentId: userId })
-        .populate('apprenticeshipId', 'title companyName location salaryMin salaryMax')
+      const applications = await Application.find({ student: userId })
+        .populate('apprenticeship', 'title companyName location salary')
         .sort({ submittedAt: -1 })
         .limit(50);
 
       sendSuccess(res, {
         applications: applications.map(app => ({
           id: app._id,
-          applicationId: app.applicationId,
+          // applicationId not used
           status: app.status,
           submittedAt: app.submittedAt,
-          aiMatchScore: app.aiMatchScore,
+          matchScore: (app as any).matchScore,
           lastUpdated: app.lastUpdated,
-          apprenticeship: app.apprenticeshipId,
-          interviewDetails: app.interviewDetails
+          apprenticeship: (app as any).apprenticeship,
+          interview: (app as any).interview
         }))
       });
 
