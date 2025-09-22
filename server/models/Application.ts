@@ -246,8 +246,8 @@ ApplicationSchema.pre("save", function (next) {
     this.statusHistory.push({
       status: this.status,
       changedAt: new Date(),
-      changedBy: this.modifiedBy || this.student, // You'll need to set modifiedBy when updating
-      reason: this.statusChangeReason, // You'll need to set this when updating status
+      changedBy: (this as any).modifiedBy || this.student,
+      reason: (this as any).statusChangeReason
     });
   }
 
