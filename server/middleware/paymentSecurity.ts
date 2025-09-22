@@ -40,7 +40,11 @@ export function validatePaymentAmount(fieldName: string = 'amount') {
     (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return sendValidationError(res, errors.array(), 'Invalid payment amount');
+        return sendValidationError(
+          res,
+          errors.array().map((e: any) => ({ field: e.path || e.param || 'field', message: e.msg || 'Invalid' })),
+          'Invalid payment amount'
+        );
       }
       next();
     }
@@ -57,7 +61,11 @@ export function validateCurrency(fieldName: string = 'currency') {
     (req: Request, res: Response, next: NextFunction) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return sendValidationError(res, errors.array(), 'Invalid currency');
+        return sendValidationError(
+          res,
+          errors.array().map((e: any) => ({ field: e.path || e.param || 'field', message: e.msg || 'Invalid' })),
+          'Invalid currency'
+        );
       }
       
       // Normalize currency to uppercase
@@ -72,7 +80,7 @@ export function validateCurrency(fieldName: string = 'currency') {
 
 // Sanitize payment metadata
 export function sanitizePaymentMetadata() {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (req: Request, _res: Response, next: NextFunction) => {
     if (req.body.metadata && typeof req.body.metadata === 'object') {
       const sanitized: Record<string, string> = {};
       
@@ -96,7 +104,7 @@ export function sanitizePaymentMetadata() {
 
 // Rate limiting for payment endpoints
 export function createPaymentRateLimit() {
-  return (req: Request, res: Response, next: NextFunction) => {
+  return (_req: Request, res: Response, next: NextFunction) => {
     // This would integrate with your existing rate limiting middleware
     // For now, we'll just add headers to indicate rate limiting is active
     res.setHeader('X-RateLimit-Payment', 'active');
