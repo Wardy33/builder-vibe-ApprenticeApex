@@ -11,7 +11,6 @@ import SubscriptionManager from "../components/SubscriptionManager";
 import SubscriptionPrompt from "../components/SubscriptionPrompt";
 import CompanyPricing from "../components/CompanyPricing";
 import { useSubscriptionLimits } from "../hooks/useSubscriptionLimits";
-import LiveChat from "../components/LiveChat";
 import NotificationModal from "../components/NotificationModal";
 import { apiClient } from "../lib/apiUtils";
 import {
@@ -512,7 +511,6 @@ function CompanyPortalLayout({ children }: { children: React.ReactNode }) {
         </aside>
         <main className="flex-1 p-6 lg:ml-0">{children}</main>
       </div>
-      <LiveChat />
     </div>
   );
 }
