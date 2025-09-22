@@ -28,7 +28,7 @@ const emailRateLimit = rateLimit({
   legacyHeaders: false,
   keyGenerator: (req: AuthenticatedRequest) => {
     // Use user ID if authenticated, otherwise use a simple fallback
-    return req.user?.id || 'anonymous';
+    return req.user?.userId || 'anonymous';
   }
 });
 
@@ -71,7 +71,7 @@ router.post("/verification/send",
   emailRateLimit,
   emailVerificationValidation,
   validateDatabaseInput,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendValidationError(res, "Validation failed", errors.array());
@@ -97,10 +97,11 @@ router.post("/verification/send",
       await user.save();
 
       // Send verification email
-      const template = emailTemplates.getEmailVerificationTemplate({
-        user,
-        customData: { verificationToken }
-      });
+      const template = {
+        subject: "Verify your ApprenticeApex email",
+        html: `<p>Hello ${user.email},</p><p>Please verify your email using this token:</p><p><strong>${verificationToken}</strong></p>`,
+        text: `Verify your email with token: ${verificationToken}`,
+      };
 
       await EmailService.getInstance().sendEmail({
         to: user.email,
@@ -195,10 +196,11 @@ router.post("/password-reset/send",
       await user.save();
 
       // Send password reset email
-      const template = emailTemplates.getPasswordResetTemplate({
-        user,
-        customData: { resetToken }
-      });
+      const template = {
+        subject: "Reset your ApprenticeApex password",
+        html: `<p>Hello ${user.email},</p><p>Use this token to reset your password:</p><p><strong>${resetToken}</strong></p>`,
+        text: `Reset token: ${resetToken}`,
+      };
 
       await EmailService.getInstance().sendEmail({
         to: user.email,
@@ -396,7 +398,7 @@ router.post("/test",
     const { to, type } = req.body;
 
     try {
-      let template;
+      let template: { subject: string; html: string; text: string };
       const testUser = {
         email: to,
         firstName: 'Test',
@@ -406,21 +408,13 @@ router.post("/test",
 
       switch (type) {
         case 'welcome_student':
-          template = emailTemplates.getWelcomeStudentTemplate({ user: testUser });
+          template = { subject: 'Welcome to ApprenticeApex', html: `<p>Welcome ${testUser.firstName}!</p>`, text: `Welcome ${testUser.firstName}!` };
           break;
         case 'welcome_employer':
-          template = emailTemplates.getWelcomeEmployerTemplate({ user: testUser });
+          template = { subject: 'Welcome to ApprenticeApex (Employer)', html: `<p>Welcome ${testUser.companyName}!</p>`, text: `Welcome ${testUser.companyName}!` };
           break;
         case 'notification':
-          template = emailTemplates.getNotificationTemplate({
-            user: testUser,
-            customData: {
-              title: 'Test Notification',
-              message: 'This is a test email from ApprenticeApex email service.',
-              actionUrl: getEnvConfig().FRONTEND_URL,
-              actionText: 'Visit ApprenticeApex'
-            }
-          });
+          template = { subject: 'Test Notification', html: `<p>This is a test email.</p><p><a href="${getEnvConfig().FRONTEND_URL}">Visit ApprenticeApex</a></p>`, text: `This is a test email. Visit: ${getEnvConfig().FRONTEND_URL}` };
           break;
         default:
           return sendError(res, "Invalid email type", 400, 'INVALID_TYPE');
