@@ -1,12 +1,13 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { AlertService } from '../services/alertService';
+import { AuthenticatedRequest } from '../middleware/auth';
 
 const router = express.Router();
 
 /**
  * Get all active alerts
  */
-router.get('/active', async (req, res) => {
+router.get('/active', async (_req: Request, res: Response) => {
   try {
     const alerts = AlertService.getActiveAlerts();
     res.json({
@@ -21,14 +22,14 @@ router.get('/active', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching active alerts:', error);
-    res.status(500).json({ success: false, error: 'Failed to fetch alerts' });
+    res.status(500).json({ success: false, error: 'Failed to fetch alerts', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
 /**
  * Get alerts for specific employer
  */
-router.get('/employer/:employerId', async (req, res) => {
+router.get('/employer/:employerId', async (req: Request, res: Response) => {
   try {
     const { employerId } = req.params;
     const alerts = AlertService.getAlertsByEmployer(employerId);
@@ -41,14 +42,14 @@ router.get('/employer/:employerId', async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching employer alerts:', error);
-    res.status(500).json({ success: false, error: 'Failed to fetch employer alerts' });
+    res.status(500).json({ success: false, error: 'Failed to fetch employer alerts', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
 /**
  * Acknowledge an alert
  */
-router.patch('/:alertId/acknowledge', async (req, res) => {
+router.patch('/:alertId/acknowledge', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { alertId } = req.params;
     const adminId = req.user?.userId;
@@ -65,14 +66,14 @@ router.patch('/:alertId/acknowledge', async (req, res) => {
     });
   } catch (error) {
     console.error('Error acknowledging alert:', error);
-    res.status(500).json({ success: false, error: 'Failed to acknowledge alert' });
+    res.status(500).json({ success: false, error: 'Failed to acknowledge alert', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
 /**
  * Resolve an alert
  */
-router.patch('/:alertId/resolve', async (req, res) => {
+router.patch('/:alertId/resolve', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { alertId } = req.params;
     const { resolution } = req.body;
@@ -94,14 +95,14 @@ router.patch('/:alertId/resolve', async (req, res) => {
     });
   } catch (error) {
     console.error('Error resolving alert:', error);
-    res.status(500).json({ success: false, error: 'Failed to resolve alert' });
+    res.status(500).json({ success: false, error: 'Failed to resolve alert', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
 /**
  * Get alert statistics
  */
-router.get('/stats', async (req, res) => {
+router.get('/stats', async (_req: Request, res: Response) => {
   try {
     const activeAlerts = AlertService.getActiveAlerts();
     const now = Date.now();
@@ -133,14 +134,14 @@ router.get('/stats', async (req, res) => {
     });
   } catch (error) {
     console.error('Error generating alert stats:', error);
-    res.status(500).json({ success: false, error: 'Failed to generate alert statistics' });
+    res.status(500).json({ success: false, error: 'Failed to generate alert statistics', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
 /**
  * Manual trigger for testing (admin only)
  */
-router.post('/test', async (req, res) => {
+router.post('/test', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { type = 'test', severity = 'medium' } = req.body;
     const adminId = req.user?.userId;
@@ -169,7 +170,7 @@ router.post('/test', async (req, res) => {
     });
   } catch (error) {
     console.error('Error triggering test alert:', error);
-    res.status(500).json({ success: false, error: 'Failed to trigger test alert' });
+    res.status(500).json({ success: false, error: 'Failed to trigger test alert', details: error instanceof Error ? error.message : String(error) });
   }
 });
 
