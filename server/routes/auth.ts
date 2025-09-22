@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
 
+import express, { Request, Response, NextFunction } from "express";
+
 const router = express.Router();
 
 // ====================================================================
@@ -10,7 +12,7 @@ const router = express.Router();
 // ====================================================================
 
 // Route-level debugging middleware
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
   console.log("\n🔐 === AUTH ROUTE DEBUG ===");
   console.log("🔐 Auth Route Hit:", req.method, req.path);
   console.log("🔐 Headers:", JSON.stringify(req.headers, null, 2));
@@ -21,7 +23,7 @@ router.use((req, res, next) => {
 });
 
 // Body validation middleware specifically for login
-router.use("/login", (req, res, next) => {
+router.use("/login", (req: Request, res: Response, next: NextFunction) => {
   if (req.method === "POST") {
     console.log("🔒 Login-specific middleware check");
     console.log("🔒 Request body exists:", !!req.body);
@@ -54,7 +56,7 @@ router.use("/login", (req, res, next) => {
 });
 
 // Company registration info endpoint (GET)
-router.get("/register/company", (req, res) => {
+router.get("/register/company", (req: Request, res: Response) => {
   console.log("📋 Company registration info endpoint hit");
   res.json({
     success: true,
@@ -81,7 +83,7 @@ router.get("/register/company", (req, res) => {
 });
 
 // Company-specific registration endpoint (POST)
-router.post("/register/company", async (req, res) => {
+router.post("/register/company", async (req: Request, res: Response) => {
   try {
     console.log("🏢 Company registration request received");
     console.log("📋 Company request body:", JSON.stringify(req.body, null, 2));
@@ -177,7 +179,7 @@ router.post("/register/company", async (req, res) => {
         message: "Company registration successful",
       });
     } catch (dbError) {
-      console.log("Database error, using mock response:", dbError.message);
+      console.log("Database error, using mock response:", dbError instanceof Error ? dbError.message : String(dbError));
 
       const mockToken = jwt.sign(
         {
@@ -218,7 +220,7 @@ router.post("/register/company", async (req, res) => {
 });
 
 // Temporary debugging endpoint
-router.post("/login-test", (req, res) => {
+router.post("/login-test", (req: Request, res: Response) => {
   console.log("🧪 Login test endpoint hit");
   console.log("🧪 Body:", JSON.stringify(req.body, null, 2));
 
@@ -233,7 +235,7 @@ router.post("/login-test", (req, res) => {
 });
 
 // POST /api/auth/register - Register new user (EXISTING - KEEP THIS)
-router.post("/register", async (req, res) => {
+router.post("/register", async (req: Request, res: Response) => {
   try {
     console.log("📝 Registration request received");
     const { email, password, role, profile } = req.body;
@@ -324,7 +326,7 @@ router.post("/register", async (req, res) => {
         message: "Registration successful",
       });
     } catch (dbError) {
-      console.log("Database error, using mock response:", dbError.message);
+      console.log("Database error, using mock response:", dbError instanceof Error ? dbError.message : String(dbError));
 
       const mockToken = jwt.sign(
         { userId: "mock-" + Date.now(), role, email: userData.email },
@@ -361,7 +363,7 @@ router.post("/register", async (req, res) => {
 });
 
 // Company signin endpoint (dedicated endpoint for company authentication)
-router.post("/company/signin", async (req, res) => {
+router.post("/company/signin", async (req: Request, res: Response) => {
   try {
     console.log("🏢 Company signin request received");
     console.log("📋 Company signin body:", JSON.stringify(req.body, null, 2));
@@ -751,7 +753,7 @@ router.post(
           dbError instanceof Error ? dbError.message : String(dbError),
         );
         if (dbError instanceof Error) {
-          console.error("❌ Database error stack:", dbError.stack);
+          console.error("��� Database error stack:", dbError.stack);
         }
 
         // For development: provide mock login if database fails
