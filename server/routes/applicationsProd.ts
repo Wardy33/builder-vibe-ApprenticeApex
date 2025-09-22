@@ -1,5 +1,5 @@
 import express, { Response } from "express";
-import { body, query, validationResult } from "express-validator";
+import { body, validationResult } from "express-validator";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
