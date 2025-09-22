@@ -500,7 +500,7 @@ const userSchema = new Schema<IUser>(
       type: Schema.Types.Mixed,
       validate: {
         validator: function (this: IUser, value: any) {
-          if (this.role === "student") {
+          if (this.role === "candidate") {
             return value && typeof value === "object" && "firstName" in value;
           } else if (this.role === "company") {
             return value && typeof value === "object" && "companyName" in value;
