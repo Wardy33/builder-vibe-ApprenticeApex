@@ -15,7 +15,7 @@ router.post(
       const senderId = req.user!.userId;
 
       console.log(
-        `���� New message in conversation ${conversationId} from user ${senderId}`,
+        `📨 New message in conversation ${conversationId} from user ${senderId}`,
       );
 
       // Validate input
@@ -98,7 +98,7 @@ router.post(
     } catch (error) {
       console.error("❌ Error sending message:", error);
       const msg = error instanceof Error ? error.message : String(error);
-      res.status(500).json({
+      return res.status(500).json({
         error: "Failed to send message",
         details: msg,
       });
@@ -157,7 +157,7 @@ router.get(
         },
       ];
 
-      res.json({
+      return res.json({
         messages: mockMessages,
         pagination: {
           page: parseInt(page as string),
@@ -173,7 +173,7 @@ router.get(
       });
     } catch (error) {
       console.error("❌ Error loading messages:", error);
-      res.status(500).json({ error: "Failed to load messages" });
+      return res.status(500).json({ error: "Failed to load messages" });
     }
   },
 );
@@ -223,7 +223,7 @@ router.get(
         },
       ];
 
-      res.json({
+      return res.json({
         conversations: mockConversations,
         aiProtection: {
           enabled: true,
@@ -234,7 +234,7 @@ router.get(
       });
     } catch (error) {
       console.error("❌ Error loading conversations:", error);
-      res.status(500).json({ error: "Failed to load conversations" });
+      return res.status(500).json({ error: "Failed to load conversations" });
     }
   },
 );
@@ -258,10 +258,10 @@ router.post(
       const result = await aiModerationService.analyzeMessage(
         message,
         req.user!.userId,
-        999,
+        "999",
       );
 
-      res.json({
+      return res.json({
         message: message,
         analysis: result,
         wouldBlock: result.shouldBlock,
@@ -271,7 +271,7 @@ router.post(
       });
     } catch (error) {
       console.error("❌ Error testing AI moderation:", error);
-      res.status(500).json({ error: "Failed to test AI moderation" });
+      return res.status(500).json({ error: "Failed to test AI moderation" });
     }
   },
 );
