@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { memo } from 'react';
 import {
   Video,
   VideoOff,
@@ -322,6 +323,21 @@ export function VideoInterview({
       onError?.('Failed to join video call');
     }
   }, [onError]);
+
+  const joinMeeting = useCallback(async () => {
+    try {
+      const details = interviewData || (await getInterviewDetails(interviewId));
+      if (details?.roomUrl && details?.meetingToken) {
+        initializeCall(details.roomUrl, details.meetingToken);
+      } else {
+        setCallState(prev => ({ ...prev, isLoading: false, error: 'Missing meeting details' }));
+      }
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to join video call';
+      setCallState(prev => ({ ...prev, isLoading: false, error: message }));
+      onError?.(message);
+    }
+  }, [interviewData, getInterviewDetails, interviewId, initializeCall, onError]);
 
   // Update participants list
   const updateParticipants = useCallback(() => {
