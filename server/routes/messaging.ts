@@ -95,9 +95,10 @@ router.post("/conversations/:id/messages", authenticateToken, async (req: Authen
 
   } catch (error) {
     console.error('❌ Error sending message:', error);
-    res.status(500).json({ 
+    const msg = error instanceof Error ? error.message : String(error);
+    res.status(500).json({
       error: 'Failed to send message',
-      details: error.message 
+      details: msg
     });
   }
 });
