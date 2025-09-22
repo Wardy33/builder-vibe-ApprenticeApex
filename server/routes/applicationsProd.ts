@@ -354,17 +354,17 @@ router.get("/:applicationId",
 
     try {
       const application = await Application.findById(applicationId)
-        .populate('apprenticeshipId')
-        .populate('studentId', 'profile email');
+        .populate('apprenticeship')
+        .populate('student', 'profile email');
 
       if (!application) {
         return sendError(res, "Application not found", 404, 'APPLICATION_NOT_FOUND');
       }
 
       // Check if user has permission to view this application
-      const apprenticeship = application.apprenticeshipId as any;
-      const isOwner = application.studentId._id.toString() === userId;
-      const isEmployer = apprenticeship.companyId.toString() === userId;
+      const apprenticeship = (application as any).apprenticeship as any;
+      const isOwner = ((application as any).student as any)._id.toString() === userId;
+      const isEmployer = apprenticeship.company?.toString() === userId;
       const isAdmin = req.user?.role === 'admin';
 
       if (!isOwner && !isEmployer && !isAdmin) {
@@ -374,19 +374,17 @@ router.get("/:applicationId",
       sendSuccess(res, {
         application: {
           id: application._id,
-          applicationId: application.applicationId,
+          // applicationId not used
           status: application.status,
           submittedAt: application.submittedAt,
           lastUpdated: application.lastUpdated,
-          aiMatchScore: application.aiMatchScore,
-          personalStatement: application.personalStatement,
-          portfolioUrls: application.portfolioUrls,
-          documents: application.documents,
+          matchScore: (application as any).matchScore,
+          applicationData: (application as any).applicationData,
           statusHistory: application.statusHistory,
-          interviewDetails: application.interviewDetails,
-          apprenticeship: application.apprenticeshipId,
-          student: isEmployer || isAdmin ? application.studentId : undefined,
-          matchingData: application.matchingData
+          interview: (application as any).interview,
+          apprenticeship: (application as any).apprenticeship,
+          student: isEmployer || isAdmin ? (application as any).student : undefined,
+          matchingData: undefined as any
         }
       });
 
