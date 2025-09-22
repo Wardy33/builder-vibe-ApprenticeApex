@@ -8,7 +8,7 @@ const router = Router();
 router.post(
   "/conversations/:id/messages",
   authenticateToken,
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
     try {
       const { id: conversationId } = req.params;
       const { content, messageType = "text" } = req.body;
@@ -110,7 +110,7 @@ router.post(
 router.get(
   "/conversations/:id/messages",
   authenticateToken,
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
     try {
       const { id: conversationId } = req.params;
       const { page = 1, limit = 50 } = req.query;
@@ -182,7 +182,7 @@ router.get(
 router.get(
   "/conversations",
   authenticateToken,
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
     try {
       const userId = req.user!.userId;
 
@@ -242,7 +242,7 @@ router.get(
 router.post(
   "/test/ai-moderation",
   authenticateToken,
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response): Promise<Response> => {
     try {
       const { message } = req.body;
 
