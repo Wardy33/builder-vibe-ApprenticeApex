@@ -302,11 +302,12 @@ export class ComprehensiveSecurityMiddleware {
           console.error(`🚨 Suspicious activity detected from ${req.ip}: ${req.method} ${req.path}`);
           console.error(`🚨 Pattern matched: ${pattern}`);
           
-          return res.status(403).json({
+          res.status(403).json({
             error: 'Forbidden',
             message: 'Suspicious activity detected',
             code: 'SECURITY_VIOLATION'
           });
+          return;
         }
       }
 
