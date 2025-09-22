@@ -97,18 +97,7 @@ router.post("/submit",
         // preferredStartDate not stored in current schema
       };
 
-      // Validate application data
-      const validationResult = validateApplicationCreation(applicationData);
-      if (!validationResult.success) {
-        return sendValidationError(res, (validationResult as any).errors, "Application validation failed");
-      }
-
       const application = new Application(applicationData);
-      
-      // Calculate AI match score
-      const matchScore = await application.calculateMatchScore();
-      application.aiMatchScore = matchScore.overallScore;
-      application.matchingData = matchScore;
 
       const savedApplication = await application.save();
 
