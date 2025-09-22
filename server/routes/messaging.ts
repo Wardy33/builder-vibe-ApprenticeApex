@@ -15,7 +15,7 @@ router.post(
       const senderId = req.user!.userId;
 
       console.log(
-        `���� New message in conversation ${conversationId} from user ${senderId}`,
+        `📨 New message in conversation ${conversationId} from user ${senderId}`,
       );
 
       // Validate input
@@ -192,9 +192,9 @@ router.get(
       // In production, would query database
       const mockConversations = [
         {
-          id: 1,
-          candidate_id: userId === 1 ? 1 : 1001,
-          company_id: userId === 1 ? 1002 : 1,
+          id: "1",
+          candidate_id: userId,
+          company_id: "company-1002",
           job_id: 1,
           subject: "Software Developer Apprenticeship Application",
           last_message_at: new Date().toISOString(),
@@ -206,9 +206,9 @@ router.get(
           created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(),
         },
         {
-          id: 2,
-          candidate_id: userId === 1 ? 1 : 1003,
-          company_id: userId === 1 ? 1004 : 1,
+          id: "2",
+          candidate_id: userId,
+          company_id: "company-1004",
           job_id: 2,
           subject: "Marketing Apprenticeship Inquiry",
           last_message_at: new Date(
