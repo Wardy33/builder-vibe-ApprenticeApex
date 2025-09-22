@@ -11,7 +11,6 @@ function initializeConnectionStatus() {
   if (!connectionInitialized) {
     // Check if Neon is properly configured
     const databaseUrl = process.env.DATABASE_URL;
-    const neonProjectId = process.env.NEON_PROJECT_ID;
 
     if (databaseUrl && databaseUrl.includes("neon.tech")) {
       isNeonConnected = true;
@@ -56,7 +55,7 @@ const neonDatabase = {
 };
 
 // Database health check middleware
-export const checkDatabaseHealth = (req: any, res: any, next: any) => {
+export const checkDatabaseHealth = (req: any, _res: any, next: any) => {
   try {
     const health = neonDatabase.getHealthStatus();
     req.dbHealth = health;
@@ -66,14 +65,14 @@ export const checkDatabaseHealth = (req: any, res: any, next: any) => {
     req.dbHealth = {
       status: "unhealthy",
       connected: false,
-      error: error.message,
+      error: error instanceof Error ? error.message : String(error),
     };
     next();
   }
 };
 
 // Database connection requirement middleware
-export const requireDatabase = (req: any, res: any, next: any) => {
+export const requireDatabase = (_req: any, res: any, next: any) => {
   try {
     if (!neonDatabase.isConnected()) {
       return res.status(503).json({
@@ -88,7 +87,7 @@ export const requireDatabase = (req: any, res: any, next: any) => {
     return res.status(503).json({
       success: false,
       error: "Database service unavailable",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 };
