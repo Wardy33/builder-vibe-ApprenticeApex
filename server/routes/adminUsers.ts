@@ -1,4 +1,5 @@
 import { Router, Response } from "express";
+import { Router, Response } from "express";
 import { User } from "../models/User";
 import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
 
@@ -41,12 +42,12 @@ router.get("/", authenticateToken, requireAdminPermission("canViewAllUsers"), as
 
     // Execute query with pagination
     const skip = (page - 1) * limit;
-    const users = await User.find(filter)
+    const users = (await User.find(filter)
       .select("-password -emailVerificationToken -passwordResetToken")
       .sort(sort)
       .skip(skip)
       .limit(limit)
-      .lean();
+      .lean()) as any[];
 
     const totalUsers = await User.countDocuments(filter);
     const totalPages = Math.ceil(totalUsers / limit);
@@ -94,9 +95,9 @@ router.get("/:id", authenticateToken, requireAdminPermission("canViewAllUsers"),
   try {
     const userId = req.params.id;
 
-    const user = await User.findById(userId)
+    const user = (await User.findById(userId)
       .select("-password -emailVerificationToken -passwordResetToken")
-      .lean();
+      .lean()) as any;
 
     if (!user) {
       return res.status(404).json({
