@@ -392,7 +392,7 @@ router.get(
       }
 
       let data: any;
-      let filename: string;
+      let filename: string = "analytics";
 
       switch (type) {
         case "platform":
