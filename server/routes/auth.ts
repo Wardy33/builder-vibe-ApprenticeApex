@@ -468,7 +468,7 @@ router.post("/company/signin", async (req: Request, res: Response) => {
       console.log("✅ Company login successful for:", email);
       res.json(response);
     } catch (dbError) {
-      console.error("❌ Database error during company login:", dbError.message);
+      console.error("❌ Database error during company login:", dbError instanceof Error ? dbError.message : String(dbError));
 
       // For development: provide mock company login if database fails
       if (process.env.NODE_ENV === "development") {
@@ -579,7 +579,7 @@ router.post(
         "📝 Extracted password:",
         password ? "[PROVIDED]" : "[MISSING]",
       );
-      console.log("📝 Email type:", typeof email);
+      console.log("�� Email type:", typeof email);
       console.log("📝 Password type:", typeof password);
 
       // Enhanced validation with specific error messages
