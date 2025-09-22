@@ -534,6 +534,7 @@ router.post(
   "/checkout/starter",
   [paymentRateLimit],
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) { return res.status(401).json({ error: 'Unauthorized' }); }
     try {
       const userId = req.user.userId;
       const { mode = "monthly" } = req.query; // monthly or per-hire
