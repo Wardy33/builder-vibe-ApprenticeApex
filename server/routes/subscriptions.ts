@@ -62,7 +62,7 @@ router.post('/start-trial', async (req, res) => {
   } catch (error) {
     console.error('Error starting trial:', error);
     
-    if (error.message === 'Employer already has a subscription') {
+    if ((error as Error).message === 'Employer already has a subscription') {
       return res.status(400).json({ success: false, error: 'You already have a subscription' });
     }
     
