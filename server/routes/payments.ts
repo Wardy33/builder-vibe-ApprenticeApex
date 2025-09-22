@@ -77,7 +77,10 @@ router.post(
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { jobId, packageType } = req.body;
-      const userId = req.user.userId;
+      const userId = req.user?.userId as string;
+      if (!userId) {
+        return sendError(res, "Authentication required", 401, "UNAUTHORIZED");
+      }
 
       // Validate request
       if (!jobId || !packageType) {
@@ -136,10 +139,11 @@ router.post(
       }
 
       // Create payment intent
+      const packageKey = packageType as keyof typeof NeonPaymentService.JOB_PACKAGES;
       const paymentResult = await paymentService.createJobPostingPayment({
         userId,
-        jobId: parseInt(jobId),
-        packageType,
+        jobId: parseInt(jobId, 10),
+        packageType: packageKey,
         metadata: {
           source: "job_posting_ui",
           userAgent: req.headers["user-agent"] || "unknown",
@@ -152,10 +156,10 @@ router.post(
         amount: paymentResult.paymentIntent.amount,
         currency: paymentResult.paymentIntent.currency,
         packageInfo: {
-          type: packageType,
-          name: NeonPaymentService.JOB_PACKAGES[packageType].name,
-          price: NeonPaymentService.JOB_PACKAGES[packageType].price,
-          features: NeonPaymentService.JOB_PACKAGES[packageType].features,
+          type: packageKey,
+          name: NeonPaymentService.JOB_PACKAGES[packageKey].name,
+          price: NeonPaymentService.JOB_PACKAGES[packageKey].price,
+          features: NeonPaymentService.JOB_PACKAGES[packageKey].features,
         },
       });
     } catch (error: any) {
