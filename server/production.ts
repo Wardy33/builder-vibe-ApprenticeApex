@@ -13,7 +13,6 @@ dotenv.config({ path: ".env.production" });
 // Import production configurations
 import { initializeNeon, testNeonConnection } from "./config/neon";
 import {
-  stripe,
   handleStripeWebhook,
   stripeConfig,
 } from "./config/stripe-production";
