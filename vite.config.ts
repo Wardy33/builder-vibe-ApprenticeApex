@@ -126,17 +126,13 @@ export default defineConfig(({ mode }) => ({
       "@radix-ui/react-dialog",
       "@radix-ui/react-dropdown-menu",
     ],
-    exclude: [
-      "recharts",
-      "@react-three/fiber",
-      "framer-motion",
-    ],
+    exclude: ["recharts", "@react-three/fiber", "framer-motion"],
   },
   plugins: [
     react({ tsDecorators: true }),
     viteSvgo(),
     viteCompression({ algorithm: "brotliCompress", ext: ".br" }),
-    viteCompression({ algorithm: "gzip", ext: ".gz" })
+    viteCompression({ algorithm: "gzip", ext: ".gz" }),
   ],
   resolve: {
     alias: {

@@ -1,24 +1,26 @@
 #!/usr/bin/env node
-import fs from 'fs';
-import path from 'path';
-import url from 'url';
-import os from 'os';
-import sharp from 'sharp';
+import fs from "fs";
+import path from "path";
+import url from "url";
+import os from "os";
+import sharp from "sharp";
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url));
-const projectRoot = path.resolve(__dirname, '..');
+const projectRoot = path.resolve(__dirname, "..");
 
-const QUALITY = parseInt(process.env.IMG_WEBP_QUALITY || '80', 10);
+const QUALITY = parseInt(process.env.IMG_WEBP_QUALITY || "80", 10);
 const TARGET_SIZES = [320, 640, 768, 1024, 1280, 1920];
-const EXTS = new Set(['.jpg', '.jpeg', '.png']);
+const EXTS = new Set([".jpg", ".jpeg", ".png"]);
 
 const INPUT_DIRS = [
-  path.join(projectRoot, 'public'),
-  path.join(projectRoot, 'client', 'assets'),
+  path.join(projectRoot, "public"),
+  path.join(projectRoot, "client", "assets"),
 ];
 
 function* walk(dir) {
-  const entries = fs.existsSync(dir) ? fs.readdirSync(dir, { withFileTypes: true }) : [];
+  const entries = fs.existsSync(dir)
+    ? fs.readdirSync(dir, { withFileTypes: true })
+    : [];
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
@@ -44,13 +46,13 @@ async function processImage(file) {
     // Convert original to WebP
     const webpPath = `${base}.webp`;
     if (!fs.existsSync(webpPath)) {
-      tasks.push(
-        img.clone().webp({ quality: QUALITY }).toFile(webpPath)
-      );
+      tasks.push(img.clone().webp({ quality: QUALITY }).toFile(webpPath));
     }
 
     // Generate responsive sizes (WebP)
-    const sizes = TARGET_SIZES.filter((s) => !metadata.width || s < metadata.width);
+    const sizes = TARGET_SIZES.filter(
+      (s) => !metadata.width || s < metadata.width,
+    );
     for (const size of sizes) {
       const sizedWebpPath = `${base}_${size}w.webp`;
       if (!fs.existsSync(sizedWebpPath)) {
@@ -59,7 +61,7 @@ async function processImage(file) {
             .clone()
             .resize({ width: size, withoutEnlargement: true })
             .webp({ quality: QUALITY })
-            .toFile(sizedWebpPath)
+            .toFile(sizedWebpPath),
         );
       }
       const sizedFallbackPath = `${base}_${size}w${ext}`;
@@ -68,7 +70,7 @@ async function processImage(file) {
           img
             .clone()
             .resize({ width: size, withoutEnlargement: true })
-            .toFile(sizedFallbackPath)
+            .toFile(sizedFallbackPath),
         );
       }
     }
@@ -102,16 +104,20 @@ async function main() {
       processed++;
       if (did) converted++;
       if (processed % 10 === 0) {
-        process.stdout.write(`\r[optimize-images] Processed ${processed}, converted ${converted}`);
+        process.stdout.write(
+          `\r[optimize-images] Processed ${processed}, converted ${converted}`,
+        );
       }
     }
   });
 
   await Promise.all(workers);
-  process.stdout.write(`\n[optimize-images] Done. Processed ${processed}, converted ${converted}.\n`);
+  process.stdout.write(
+    `\n[optimize-images] Done. Processed ${processed}, converted ${converted}.\n`,
+  );
 }
 
 main().catch((e) => {
-  console.error('[optimize-images] Fatal error:', e);
+  console.error("[optimize-images] Fatal error:", e);
   process.exit(1);
 });
