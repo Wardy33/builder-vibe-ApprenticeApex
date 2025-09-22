@@ -9,8 +9,6 @@ import {
   databaseHealthCheck,
   optimizeQueries,
 } from "./middleware/database";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import { createServer } from "http";
 import dotenv from "dotenv";
 import session from "express-session";
