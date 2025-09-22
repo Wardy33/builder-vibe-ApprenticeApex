@@ -1,9 +1,9 @@
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
-import slowDown from 'express-slow-down';
-import cors from 'cors';
-import { Request, Response, NextFunction } from 'express';
-import { getSecureEnvConfig } from '../config/secureEnv';
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
+import slowDown from "express-slow-down";
+import cors from "cors";
+import { Request, Response, NextFunction } from "express";
+import { getSecureEnvConfig } from "../config/secureEnv";
 
 // Security configuration based on environment
 interface SecurityConfig {
@@ -21,19 +21,25 @@ export class ComprehensiveSecurityMiddleware {
   // Initialize security configuration
   static initialize(): void {
     const env = getSecureEnvConfig();
-    
+
     this.config = {
-      corsOrigins: env.NODE_ENV === 'production' 
-        ? [env.FRONTEND_URL] 
-        : [env.FRONTEND_URL, 'http://localhost:5204', 'http://localhost:3000', 'http://localhost:5173'],
+      corsOrigins:
+        env.NODE_ENV === "production"
+          ? [env.FRONTEND_URL]
+          : [
+              env.FRONTEND_URL,
+              "http://localhost:5204",
+              "http://localhost:3000",
+              "http://localhost:5173",
+            ],
       rateLimitWindowMs: env.RATE_LIMIT_WINDOW_MS || 900000, // 15 minutes
       rateLimitMaxRequests: env.RATE_LIMIT_MAX_REQUESTS || 100,
-      enableSlowDown: env.NODE_ENV === 'production',
-      enableHSTS: env.NODE_ENV === 'production',
-      enableCSP: env.NODE_ENV === 'production',
+      enableSlowDown: env.NODE_ENV === "production",
+      enableHSTS: env.NODE_ENV === "production",
+      enableCSP: env.NODE_ENV === "production",
     };
 
-    console.log('🛡️  Comprehensive security middleware initialized');
+    console.log("🛡️  Comprehensive security middleware initialized");
   }
 
   // Helmet security headers configuration
@@ -42,57 +48,56 @@ export class ComprehensiveSecurityMiddleware {
 
     return helmet({
       // Content Security Policy
-      contentSecurityPolicy: this.config.enableCSP ? {
-        directives: {
-          defaultSrc: ["'self'"],
-          styleSrc: [
-            "'self'", 
-            "'unsafe-inline'", // Required for some UI libraries
-            "https://fonts.googleapis.com",
-            "https://cdnjs.cloudflare.com"
-          ],
-          fontSrc: [
-            "'self'", 
-            "https://fonts.gstatic.com",
-            "https://cdnjs.cloudflare.com"
-          ],
-          imgSrc: [
-            "'self'", 
-            "data:", 
-            "https:",
-            "blob:"
-          ],
-          scriptSrc: [
-            "'self'",
-            "https://js.stripe.com",
-            "https://checkout.stripe.com",
-            "'unsafe-eval'" // Required for some build tools in development
-          ],
-          connectSrc: [
-            "'self'",
-            "https://api.stripe.com",
-            "https://checkout.stripe.com",
-            "wss:"
-          ],
-          frameSrc: [
-            "'self'",
-            "https://js.stripe.com",
-            "https://checkout.stripe.com"
-          ],
-          objectSrc: ["'none'"],
-          upgradeInsecureRequests: [],
-        }
-      } : false,
+      contentSecurityPolicy: this.config.enableCSP
+        ? {
+            directives: {
+              defaultSrc: ["'self'"],
+              styleSrc: [
+                "'self'",
+                "'unsafe-inline'", // Required for some UI libraries
+                "https://fonts.googleapis.com",
+                "https://cdnjs.cloudflare.com",
+              ],
+              fontSrc: [
+                "'self'",
+                "https://fonts.gstatic.com",
+                "https://cdnjs.cloudflare.com",
+              ],
+              imgSrc: ["'self'", "data:", "https:", "blob:"],
+              scriptSrc: [
+                "'self'",
+                "https://js.stripe.com",
+                "https://checkout.stripe.com",
+                "'unsafe-eval'", // Required for some build tools in development
+              ],
+              connectSrc: [
+                "'self'",
+                "https://api.stripe.com",
+                "https://checkout.stripe.com",
+                "wss:",
+              ],
+              frameSrc: [
+                "'self'",
+                "https://js.stripe.com",
+                "https://checkout.stripe.com",
+              ],
+              objectSrc: ["'none'"],
+              upgradeInsecureRequests: [],
+            },
+          }
+        : false,
 
       // HTTP Strict Transport Security
-      hsts: this.config.enableHSTS ? {
-        maxAge: 31536000, // 1 year
-        includeSubDomains: true,
-        preload: true
-      } : false,
+      hsts: this.config.enableHSTS
+        ? {
+            maxAge: 31536000, // 1 year
+            includeSubDomains: true,
+            preload: true,
+          }
+        : false,
 
       // X-Frame-Options
-      frameguard: { action: 'deny' },
+      frameguard: { action: "deny" },
 
       // X-Content-Type-Options
       noSniff: true,
@@ -122,33 +127,37 @@ export class ComprehensiveSecurityMiddleware {
       origin: (origin, callback) => {
         // Allow requests with no origin (mobile apps, etc.)
         if (!origin) return callback(null, true);
-        
+
         if (this.config.corsOrigins.includes(origin)) {
           callback(null, true);
         } else {
           console.warn(`🚨 CORS violation: ${origin} not in allowed origins`);
-          callback(new Error('Not allowed by CORS'));
+          callback(new Error("Not allowed by CORS"));
         }
       },
       credentials: true,
       optionsSuccessStatus: 200,
-      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+      methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       allowedHeaders: [
-        'Origin',
-        'X-Requested-With',
-        'Content-Type',
-        'Accept',
-        'Authorization',
-        'X-CSRF-Token',
-        'Stripe-Signature'
+        "Origin",
+        "X-Requested-With",
+        "Content-Type",
+        "Accept",
+        "Authorization",
+        "X-CSRF-Token",
+        "Stripe-Signature",
       ],
-      exposedHeaders: ['X-Total-Count'],
-      maxAge: 86400 // 24 hours
+      exposedHeaders: ["X-Total-Count"],
+      maxAge: 86400, // 24 hours
     });
   }
 
   // Rate limiting configuration
-  static getRateLimitConfig(windowMs?: number, max?: number, skipOptions?: (req: Request) => boolean) {
+  static getRateLimitConfig(
+    windowMs?: number,
+    max?: number,
+    skipOptions?: (req: Request) => boolean,
+  ) {
     if (!this.config) this.initialize();
 
     return rateLimit({
@@ -158,21 +167,29 @@ export class ComprehensiveSecurityMiddleware {
       legacyHeaders: false,
       skip: skipOptions,
       message: {
-        error: 'Too many requests',
-        message: 'Rate limit exceeded. Please try again later.',
-        retryAfter: Math.ceil((windowMs || this.config.rateLimitWindowMs) / 1000)
+        error: "Too many requests",
+        message: "Rate limit exceeded. Please try again later.",
+        retryAfter: Math.ceil(
+          (windowMs || this.config.rateLimitWindowMs) / 1000,
+        ),
       },
       handler: (req: Request, res: Response) => {
-        console.warn(`🚨 Rate limit exceeded for IP: ${req.ip}, Path: ${req.path}`);
+        console.warn(
+          `🚨 Rate limit exceeded for IP: ${req.ip}, Path: ${req.path}`,
+        );
         res.status(429).json({
-          error: 'Too many requests',
-          message: 'Rate limit exceeded. Please try again later.',
-          retryAfter: Math.ceil((windowMs || this.config.rateLimitWindowMs) / 1000)
+          error: "Too many requests",
+          message: "Rate limit exceeded. Please try again later.",
+          retryAfter: Math.ceil(
+            (windowMs || this.config.rateLimitWindowMs) / 1000,
+          ),
         });
       },
       onLimitReached: (req: Request) => {
-        console.warn(`🚨 Rate limit reached for IP: ${req.ip}, Path: ${req.path}`);
-      }
+        console.warn(
+          `🚨 Rate limit reached for IP: ${req.ip}, Path: ${req.path}`,
+        );
+      },
     });
   }
 
@@ -192,8 +209,10 @@ export class ComprehensiveSecurityMiddleware {
       skipFailedRequests: false,
       skipSuccessfulRequests: false,
       onLimitReached: (req: Request) => {
-        console.warn(`🚨 Slow down limit reached for IP: ${req.ip}, Path: ${req.path}`);
-      }
+        console.warn(
+          `🚨 Slow down limit reached for IP: ${req.ip}, Path: ${req.path}`,
+        );
+      },
     });
   }
 
@@ -205,7 +224,7 @@ export class ComprehensiveSecurityMiddleware {
       (req: Request) => {
         // Skip rate limiting for successful authentication
         return false;
-      }
+      },
     );
   }
 
@@ -229,12 +248,12 @@ export class ComprehensiveSecurityMiddleware {
   static inputSanitization() {
     return (req: Request, _res: Response, next: NextFunction) => {
       // Sanitize request body
-      if (req.body && typeof req.body === 'object') {
+      if (req.body && typeof req.body === "object") {
         req.body = this.sanitizeObject(req.body);
       }
 
       // Sanitize query parameters
-      if (req.query && typeof req.query === 'object') {
+      if (req.query && typeof req.query === "object") {
         req.query = this.sanitizeObject(req.query);
       }
 
@@ -246,14 +265,17 @@ export class ComprehensiveSecurityMiddleware {
   static securityHeaders() {
     return (req: Request, res: Response, next: NextFunction) => {
       // Additional security headers
-      res.setHeader('X-Request-ID', Math.random().toString(36).substring(7));
-      res.setHeader('X-API-Version', '1.0.0');
-      
+      res.setHeader("X-Request-ID", Math.random().toString(36).substring(7));
+      res.setHeader("X-API-Version", "1.0.0");
+
       // Prevent caching of sensitive endpoints
-      if (req.path.includes('/api/auth/') || req.path.includes('/api/admin/')) {
-        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, private');
-        res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
+      if (req.path.includes("/api/auth/") || req.path.includes("/api/admin/")) {
+        res.setHeader(
+          "Cache-Control",
+          "no-store, no-cache, must-revalidate, private",
+        );
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
       }
 
       next();
@@ -264,19 +286,23 @@ export class ComprehensiveSecurityMiddleware {
   static requestLogging() {
     return (req: Request, res: Response, next: NextFunction) => {
       const startTime = Date.now();
-      
+
       // Log request
       console.log(`📡 ${req.method} ${req.path} from ${req.ip}`);
-      
+
       // Log response
-      res.on('finish', () => {
+      res.on("finish", () => {
         const duration = Date.now() - startTime;
-        const statusColor = res.statusCode >= 400 ? '❌' : '✅';
-        console.log(`${statusColor} ${req.method} ${req.path} ${res.statusCode} (${duration}ms)`);
-        
+        const statusColor = res.statusCode >= 400 ? "❌" : "✅";
+        console.log(
+          `${statusColor} ${req.method} ${req.path} ${res.statusCode} (${duration}ms)`,
+        );
+
         // Log slow requests
         if (duration > 1000) {
-          console.warn(`🐌 Slow request: ${req.method} ${req.path} took ${duration}ms`);
+          console.warn(
+            `🐌 Slow request: ${req.method} ${req.path} took ${duration}ms`,
+          );
         }
       });
 
@@ -296,16 +322,18 @@ export class ComprehensiveSecurityMiddleware {
     return (req: Request, res: Response, next: NextFunction) => {
       const fullUrl = req.url;
       const body = JSON.stringify(req.body || {});
-      
+
       for (const pattern of suspiciousPatterns) {
         if (pattern.test(fullUrl) || pattern.test(body)) {
-          console.error(`🚨 Suspicious activity detected from ${req.ip}: ${req.method} ${req.path}`);
+          console.error(
+            `🚨 Suspicious activity detected from ${req.ip}: ${req.method} ${req.path}`,
+          );
           console.error(`🚨 Pattern matched: ${pattern}`);
-          
+
           res.status(403).json({
-            error: 'Forbidden',
-            message: 'Suspicious activity detected',
-            code: 'SECURITY_VIOLATION'
+            error: "Forbidden",
+            message: "Suspicious activity detected",
+            code: "SECURITY_VIOLATION",
           });
           return;
         }
@@ -317,7 +345,7 @@ export class ComprehensiveSecurityMiddleware {
 
   // Utility function to sanitize objects
   private static sanitizeObject(obj: any): any {
-    if (typeof obj !== 'object' || obj === null) {
+    if (typeof obj !== "object" || obj === null) {
       return obj;
     }
 
@@ -326,14 +354,15 @@ export class ComprehensiveSecurityMiddleware {
     for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
         // Remove potentially dangerous keys
-        if (['__proto__', 'constructor', 'prototype'].includes(key)) {
+        if (["__proto__", "constructor", "prototype"].includes(key)) {
           continue;
         }
 
         // Recursively sanitize nested objects
-        sanitized[key] = typeof obj[key] === 'object' 
-          ? this.sanitizeObject(obj[key])
-          : obj[key];
+        sanitized[key] =
+          typeof obj[key] === "object"
+            ? this.sanitizeObject(obj[key])
+            : obj[key];
       }
     }
 
@@ -350,7 +379,7 @@ export class ComprehensiveSecurityMiddleware {
       this.inputSanitization(),
       this.suspiciousActivityDetection(),
       this.getSlowDownConfig(),
-      this.getRateLimitConfig()
+      this.getRateLimitConfig(),
     ];
   }
 
@@ -367,14 +396,22 @@ ComprehensiveSecurityMiddleware.initialize();
 // Export individual middleware functions
 export const helmetConfig = ComprehensiveSecurityMiddleware.getHelmetConfig();
 export const corsConfig = ComprehensiveSecurityMiddleware.getCORSConfig();
-export const rateLimitConfig = ComprehensiveSecurityMiddleware.getRateLimitConfig();
-export const authRateLimit = ComprehensiveSecurityMiddleware.getAuthRateLimitConfig();
-export const paymentRateLimit = ComprehensiveSecurityMiddleware.getPaymentRateLimitConfig();
-export const adminRateLimit = ComprehensiveSecurityMiddleware.getAdminRateLimitConfig();
-export const inputSanitization = ComprehensiveSecurityMiddleware.inputSanitization();
-export const securityHeaders = ComprehensiveSecurityMiddleware.securityHeaders();
+export const rateLimitConfig =
+  ComprehensiveSecurityMiddleware.getRateLimitConfig();
+export const authRateLimit =
+  ComprehensiveSecurityMiddleware.getAuthRateLimitConfig();
+export const paymentRateLimit =
+  ComprehensiveSecurityMiddleware.getPaymentRateLimitConfig();
+export const adminRateLimit =
+  ComprehensiveSecurityMiddleware.getAdminRateLimitConfig();
+export const inputSanitization =
+  ComprehensiveSecurityMiddleware.inputSanitization();
+export const securityHeaders =
+  ComprehensiveSecurityMiddleware.securityHeaders();
 export const requestLogging = ComprehensiveSecurityMiddleware.requestLogging();
-export const suspiciousActivityDetection = ComprehensiveSecurityMiddleware.suspiciousActivityDetection();
-export const allSecurityMiddleware = ComprehensiveSecurityMiddleware.getAllMiddleware();
+export const suspiciousActivityDetection =
+  ComprehensiveSecurityMiddleware.suspiciousActivityDetection();
+export const allSecurityMiddleware =
+  ComprehensiveSecurityMiddleware.getAllMiddleware();
 
 // Exported via class declaration above

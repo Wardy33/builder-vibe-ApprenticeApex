@@ -12,10 +12,7 @@ dotenv.config({ path: ".env.production" });
 
 // Import production configurations
 import { initializeNeon, testNeonConnection } from "./config/neon";
-import {
-  handleStripeWebhook,
-  stripeConfig,
-} from "./config/stripe-production";
+import { handleStripeWebhook, stripeConfig } from "./config/stripe-production";
 import {
   googleOAuthRoutes,
   validateOAuthConfig,
@@ -150,7 +147,6 @@ app.use(
   }),
 );
 
-
 // Health check endpoints
 app.get("/api/ping", (_req, res) => {
   res.json({
@@ -191,7 +187,11 @@ app.post("/api/webhooks/stripe", async (req, res) => {
     res.json({ received: true });
   } catch (error) {
     console.error("Stripe webhook error:", error);
-    res.status(400).send(`Webhook Error: ${error instanceof Error ? error.message : String(error)}`);
+    res
+      .status(400)
+      .send(
+        `Webhook Error: ${error instanceof Error ? error.message : String(error)}`,
+      );
   }
 });
 

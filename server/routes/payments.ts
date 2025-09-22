@@ -138,7 +138,8 @@ router.post(
       }
 
       // Create payment intent
-      const packageKey = packageType as keyof typeof NeonPaymentService.JOB_PACKAGES;
+      const packageKey =
+        packageType as keyof typeof NeonPaymentService.JOB_PACKAGES;
       const paymentResult = await paymentService.createJobPostingPayment({
         userId,
         jobId: parseInt(jobId, 10),
@@ -223,9 +224,17 @@ router.post(
         status: subscription.status,
         planInfo: {
           type: planType,
-          name: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].name,
-          price: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].price,
-          features: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].features,
+          name: NeonPaymentService.SUBSCRIPTION_PLANS[
+            planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS
+          ].name,
+          price:
+            NeonPaymentService.SUBSCRIPTION_PLANS[
+              planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS
+            ].price,
+          features:
+            NeonPaymentService.SUBSCRIPTION_PLANS[
+              planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS
+            ].features,
         },
       });
     } catch (error: any) {

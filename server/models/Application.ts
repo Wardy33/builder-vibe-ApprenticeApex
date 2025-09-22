@@ -247,7 +247,7 @@ ApplicationSchema.pre("save", function (next) {
       status: this.status,
       changedAt: new Date(),
       changedBy: (this as any).modifiedBy || this.student,
-      reason: (this as any).statusChangeReason
+      reason: (this as any).statusChangeReason,
     });
   }
 

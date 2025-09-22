@@ -178,7 +178,10 @@ router.post("/register/company", async (req: Request, res: Response) => {
         message: "Company registration successful",
       });
     } catch (dbError) {
-      console.log("Database error, using mock response:", dbError instanceof Error ? dbError.message : String(dbError));
+      console.log(
+        "Database error, using mock response:",
+        dbError instanceof Error ? dbError.message : String(dbError),
+      );
 
       const mockToken = jwt.sign(
         {
@@ -325,7 +328,10 @@ router.post("/register", async (req: Request, res: Response) => {
         message: "Registration successful",
       });
     } catch (dbError) {
-      console.log("Database error, using mock response:", dbError instanceof Error ? dbError.message : String(dbError));
+      console.log(
+        "Database error, using mock response:",
+        dbError instanceof Error ? dbError.message : String(dbError),
+      );
 
       const mockToken = jwt.sign(
         { userId: "mock-" + Date.now(), role, email: userData.email },
@@ -468,7 +474,10 @@ router.post("/company/signin", async (req: Request, res: Response) => {
       console.log("✅ Company login successful for:", email);
       res.json(response);
     } catch (dbError) {
-      console.error("❌ Database error during company login:", dbError instanceof Error ? dbError.message : String(dbError));
+      console.error(
+        "❌ Database error during company login:",
+        dbError instanceof Error ? dbError.message : String(dbError),
+      );
 
       // For development: provide mock company login if database fails
       if (process.env.NODE_ENV === "development") {

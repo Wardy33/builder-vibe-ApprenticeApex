@@ -86,12 +86,10 @@ router.post(
     if (!errors.isEmpty()) {
       return sendValidationError(
         res,
-        errors
-          .array()
-          .map((e: any) => ({
-            field: e.path || e.param || "field",
-            message: e.msg || "Invalid",
-          })),
+        errors.array().map((e: any) => ({
+          field: e.path || e.param || "field",
+          message: e.msg || "Invalid",
+        })),
         "Validation failed",
       );
     }
@@ -266,12 +264,10 @@ router.patch(
     if (!errors.isEmpty()) {
       return sendValidationError(
         res,
-        errors
-          .array()
-          .map((e: any) => ({
-            field: e.path || e.param || "field",
-            message: e.msg || "Invalid",
-          })),
+        errors.array().map((e: any) => ({
+          field: e.path || e.param || "field",
+          message: e.msg || "Invalid",
+        })),
         "Validation failed",
       );
     }
