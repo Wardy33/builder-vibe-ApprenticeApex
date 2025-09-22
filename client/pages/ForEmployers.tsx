@@ -13,7 +13,6 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { WebLayout } from '../components/WebLayout';
-import LiveChat from '../components/LiveChat';
 
 interface PricingPlan {
   id: string;
@@ -33,17 +32,7 @@ interface PricingPlan {
 
 export default function ForEmployers() {
 
-  const handleStartChat = () => {
-    // Trigger the LiveChat component to open
-    const chatButton = document.getElementById('live-chat-button') as HTMLButtonElement;
-    if (chatButton) {
-      chatButton.click();
-    } else {
-      // Fallback: scroll to bottom where LiveChat component is
-      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-    }
-  };
-  
+ 
   const plans: PricingPlan[] = [
     {
       id: 'trial',
@@ -492,20 +481,16 @@ export default function ForEmployers() {
               
               <div className="p-6 rounded-xl border border-white/20 shadow-xl bg-gradient-to-br from-orange-400/20 to-pink-500/20 backdrop-blur-sm hover:scale-105 transition-all duration-300">
                 <MessageCircle className="w-8 h-8 mx-auto mb-4 text-orange-400" />
-                <h3 className="font-semibold mb-2 text-white">Live Chat</h3>
-                <p className="text-gray-300 text-sm mb-4">Instant help when you need it</p>
-                <button
-                  onClick={handleStartChat}
-                  className="hover:opacity-80 text-orange-400"
-                >
-                  Start Chat
-                </button>
+                <h3 className="font-semibold mb-2 text-white">Sales Call</h3>
+                <p className="text-gray-300 text-sm mb-4">Schedule a quick intro call</p>
+                <a href="/contact" className="hover:opacity-80 text-orange-400">
+                  Book a call
+                </a>
               </div>
             </div>
           </div>
         </section>
       </div>
-      <LiveChat />
     </WebLayout>
   );
 }
