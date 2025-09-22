@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import viteCompression from "vite-plugin-compression";
+import viteSvgo from "vite-plugin-svgo";
 
 export default defineConfig(({ mode }) => ({
   server: {
@@ -130,7 +132,12 @@ export default defineConfig(({ mode }) => ({
       "framer-motion",
     ],
   },
-  plugins: [react({ tsDecorators: true })],
+  plugins: [
+    react({ tsDecorators: true }),
+    viteSvgo(),
+    viteCompression({ algorithm: "brotliCompress", ext: ".br" }),
+    viteCompression({ algorithm: "gzip", ext: ".gz" })
+  ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./client"),

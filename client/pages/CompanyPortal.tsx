@@ -2415,6 +2415,8 @@ function CompanyChatPage() {
             src={candidateInfo.avatar}
             alt={candidateInfo.name}
             className="w-10 h-10 rounded-full object-cover mr-3"
+            loading="lazy"
+            decoding="async"
           />
           <div>
             <h1 className="font-semibold text-gray-900">

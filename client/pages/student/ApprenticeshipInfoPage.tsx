@@ -85,6 +85,8 @@ function ApprenticeshipInfoPage() {
             src={apprenticeship.image}
             alt={apprenticeship.title}
             className="w-full h-48 object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div className="p-6">
             <div className="flex items-center gap-2 mb-2">

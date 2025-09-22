@@ -3,7 +3,6 @@
   functions = "netlify/functions"
   publish = "dist/spa"
 
-
 [functions]
   external_node_modules = ["express"]
   node_bundler = "esbuild"
@@ -21,3 +20,19 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Caching headers
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
