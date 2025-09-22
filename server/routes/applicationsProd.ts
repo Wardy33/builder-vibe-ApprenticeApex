@@ -314,7 +314,7 @@ router.get("/my-applications",
         .limit(50);
 
       sendSuccess(res, {
-        applications: applications.map(app => ({
+        applications: applications.map((app: any) => ({
           id: app._id,
           // applicationId not used
           status: app.status,
