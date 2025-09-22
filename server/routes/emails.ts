@@ -69,7 +69,7 @@ const emailPreferencesValidation = [
 router.post("/verification/send",
   emailRateLimit,
   emailVerificationValidation,
-  validateDatabaseInput,
+  requireDatabase,
   asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
