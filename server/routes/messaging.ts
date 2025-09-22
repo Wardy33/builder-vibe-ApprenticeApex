@@ -1,4 +1,4 @@
-import express, { Router, Request, Response } from "express";
+import { Router, Response } from "express";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
 import { aiModerationService } from "../services/aiModerationService";
 
