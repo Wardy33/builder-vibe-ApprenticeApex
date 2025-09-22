@@ -87,6 +87,7 @@ router.patch('/:alertId/resolve', async (req: AuthenticatedRequest, res: Respons
     
     if (!resolution) {
       res.status(400).json({ success: false, error: 'Resolution description required' });
+      return;
     }
     
     await AlertService.resolveAlert(alertId, adminId, resolution);
