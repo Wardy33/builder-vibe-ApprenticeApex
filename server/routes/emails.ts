@@ -275,7 +275,7 @@ router.patch("/preferences",
 // Get Email Preferences
 router.get("/preferences",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const userId = req.user?.id;
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
@@ -358,7 +358,7 @@ router.post("/unsubscribe",
 // Get Email Queue Status (Admin only)
 router.get("/queue/status",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     if (req.user?.role !== 'admin') {
       return sendError(res, "Admin access required", 403, 'FORBIDDEN');
     }
