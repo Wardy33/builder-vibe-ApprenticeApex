@@ -1,4 +1,3 @@
-import { Router, Response } from "express";
 import { Router, Request, Response } from "express";
 import { User } from "../models/User";
 import {
