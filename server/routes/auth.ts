@@ -55,7 +55,7 @@ router.use("/login", (req: Request, res: Response, next: NextFunction) => {
 });
 
 // Company registration info endpoint (GET)
-router.get("/register/company", (req: Request, res: Response) => {
+router.get("/register/company", (_req: Request, res: Response) => {
   console.log("📋 Company registration info endpoint hit");
   res.json({
     success: true,
@@ -559,7 +559,7 @@ router.post(
       }
       if (!email && req.body.login) {
         email = req.body.login;
-        console.log("���� Using login field as email:", email);
+        console.log("📝 Using login field as email:", email);
       }
       if (!password && req.body.pass) {
         password = req.body.pass;
