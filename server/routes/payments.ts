@@ -17,7 +17,7 @@ const paymentRateLimit = createRateLimit(15 * 60 * 1000, 20); // 20 requests per
 // Get Stripe publishable key
 router.get(
   "/config",
-  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  asyncHandler(async (_req: AuthenticatedRequest, res: Response) => {
     try {
       const publishableKey =
         await NeonPaymentService.getInstance().getPublishableKey();
