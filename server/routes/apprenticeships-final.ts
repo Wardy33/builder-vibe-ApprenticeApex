@@ -73,10 +73,7 @@ router.get("/public", async (req: any, res: any) => {
       },
     );
 
-    // Get total count
-    const countQuery = `SELECT COUNT(*) as total FROM jobs WHERE status = 'active'`;
-    const countResult = await queryNeonDatabase(countQuery);
-    const totalItems = parseInt(countResult[0]?.total || "0"); // used for pagination metadata
+    // Count omitted; client-side pagination is applied below
 
     // Get jobs data
     const jobsQuery = `SELECT * FROM jobs WHERE status = 'active' ORDER BY created_at DESC`;
@@ -220,7 +217,7 @@ router.get("/public", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch job listings from database",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -331,7 +328,7 @@ router.get("/public/:id", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch job details from database",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
