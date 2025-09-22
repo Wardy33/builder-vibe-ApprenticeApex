@@ -44,7 +44,7 @@ router.get(
 // Get job posting payment packages
 router.get(
   "/packages",
-  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+  asyncHandler(async (_req: AuthenticatedRequest, res: Response) => {
     try {
       const packages =
         await NeonPaymentService.getInstance().getJobPaymentPackages();
@@ -662,7 +662,7 @@ router.post(
       });
     } catch (error: any) {
       console.error(
-        "��� Failed to create professional checkout session:",
+        "❌ Failed to create professional checkout session:",
         error,
       );
       sendError(
