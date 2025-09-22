@@ -88,62 +88,66 @@ router.get(
     query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
     query("offset").optional().isInt({ min: 0 }).toInt(),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const userId = req.user!.userId;
-    const { limit = 20, offset = 0 } = req.query;
+  asyncHandler(
+    async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+      const userId = req.user!.userId;
+      const { limit = 20, offset = 0 } = req.query;
 
-    const conversations = mockConversations
-      .filter((conv) => conv.participants.includes(userId))
-      .map((conv) => {
-        const otherParticipantId = conv.participants.find((p) => p !== userId);
-        const unreadCount = (conv.unreadCount as any)[userId] || 0;
+      const conversations = mockConversations
+        .filter((conv) => conv.participants.includes(userId))
+        .map((conv) => {
+          const otherParticipantId = conv.participants.find(
+            (p) => p !== userId,
+          );
+          const unreadCount = (conv.unreadCount as any)[userId] || 0;
 
-        return {
-          ...conv,
-          otherParticipant: {
-            id: otherParticipantId,
-            name: otherParticipantId?.startsWith("student")
-              ? "Sarah Johnson"
-              : "TechCorp Ltd",
-            role: otherParticipantId?.startsWith("student")
-              ? "student"
-              : "company",
-          },
-          unreadCount,
-          formattedLastMessage: conv.lastMessage
-            ? {
-                ...conv.lastMessage,
-                timeAgo: getTimeAgo(conv.lastMessage.sentAt),
-              }
-            : null,
-        };
-      })
-      .sort((a, b) => {
-        const aTime = a.lastMessage?.sentAt.getTime() || 0;
-        const bTime = b.lastMessage?.sentAt.getTime() || 0;
-        return bTime - aTime;
+          return {
+            ...conv,
+            otherParticipant: {
+              id: otherParticipantId,
+              name: otherParticipantId?.startsWith("student")
+                ? "Sarah Johnson"
+                : "TechCorp Ltd",
+              role: otherParticipantId?.startsWith("student")
+                ? "student"
+                : "company",
+            },
+            unreadCount,
+            formattedLastMessage: conv.lastMessage
+              ? {
+                  ...conv.lastMessage,
+                  timeAgo: getTimeAgo(conv.lastMessage.sentAt),
+                }
+              : null,
+          };
+        })
+        .sort((a, b) => {
+          const aTime = a.lastMessage?.sentAt.getTime() || 0;
+          const bTime = b.lastMessage?.sentAt.getTime() || 0;
+          return bTime - aTime;
+        });
+
+      const total = conversations.length;
+      const paginatedResults = conversations.slice(
+        Number(offset),
+        Number(offset) + Number(limit),
+      );
+
+      res.json({
+        conversations: paginatedResults,
+        pagination: {
+          total,
+          limit: Number(limit),
+          offset: Number(offset),
+          hasMore: Number(offset) + Number(limit) < total,
+        },
+        totalUnread: conversations.reduce(
+          (sum, conv) => sum + conv.unreadCount,
+          0,
+        ),
       });
-
-    const total = conversations.length;
-    const paginatedResults = conversations.slice(
-      Number(offset),
-      Number(offset) + Number(limit),
-    );
-
-    res.json({
-      conversations: paginatedResults,
-      pagination: {
-        total,
-        limit: Number(limit),
-        offset: Number(offset),
-        hasMore: Number(offset) + Number(limit) < total,
-      },
-      totalUnread: conversations.reduce(
-        (sum, conv) => sum + conv.unreadCount,
-        0,
-      ),
-    });
-  }),
+    },
+  ),
 );
 
 // Get messages in a conversation
@@ -153,63 +157,65 @@ router.get(
     query("limit").optional().isInt({ min: 1, max: 100 }).toInt(),
     query("before").optional().isISO8601().toDate(),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const { conversationId } = req.params;
-    const { limit = 50, before } = req.query;
-    const userId = req.user!.userId;
+  asyncHandler(
+    async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+      const { conversationId } = req.params;
+      const { limit = 50, before } = req.query;
+      const userId = req.user!.userId;
 
-    // Check if user is participant in conversation
-    const conversation = mockConversations.find(
-      (conv) =>
-        conv._id === conversationId && conv.participants.includes(userId),
-    );
-
-    if (!conversation) {
-      throw new CustomError("Conversation not found or unauthorized", 404);
-    }
-
-    let messages = mockMessages.filter(
-      (msg) => msg.conversationId === conversationId,
-    );
-
-    if (before) {
-      messages = messages.filter(
-        (msg) => msg.sentAt < new Date(before as string),
+      // Check if user is participant in conversation
+      const conversation = mockConversations.find(
+        (conv) =>
+          conv._id === conversationId && conv.participants.includes(userId),
       );
-    }
 
-    // Sort by date (newest first)
-    messages.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
+      if (!conversation) {
+        throw new CustomError("Conversation not found or unauthorized", 404);
+      }
 
-    const paginatedMessages = messages.slice(0, Number(limit));
+      let messages = mockMessages.filter(
+        (msg) => msg.conversationId === conversationId,
+      );
 
-    // Mark messages as read if current user is receiver
-    const messagesToMarkRead = paginatedMessages
-      .filter((msg) => msg.receiverId === userId && !msg.isRead)
-      .map((msg) => msg._id);
+      if (before) {
+        messages = messages.filter(
+          (msg) => msg.sentAt < new Date(before as string),
+        );
+      }
 
-    if (messagesToMarkRead.length > 0) {
-      // In real app, update database
-      console.log(`Marking ${messagesToMarkRead.length} messages as read`);
-    }
+      // Sort by date (newest first)
+      messages.sort((a, b) => b.sentAt.getTime() - a.sentAt.getTime());
 
-    const enrichedMessages = paginatedMessages.map((msg) => ({
-      ...msg,
-      isOwn: msg.senderId === userId,
-      formattedTime: msg.sentAt.toLocaleTimeString(),
-      formattedDate: msg.sentAt.toLocaleDateString(),
-    }));
+      const paginatedMessages = messages.slice(0, Number(limit));
 
-    res.json({
-      messages: enrichedMessages,
-      conversation: {
-        id: conversation._id,
-        participants: conversation.participants,
-        applicationId: conversation.applicationId,
-      },
-      hasMore: messages.length > Number(limit),
-    });
-  }),
+      // Mark messages as read if current user is receiver
+      const messagesToMarkRead = paginatedMessages
+        .filter((msg) => msg.receiverId === userId && !msg.isRead)
+        .map((msg) => msg._id);
+
+      if (messagesToMarkRead.length > 0) {
+        // In real app, update database
+        console.log(`Marking ${messagesToMarkRead.length} messages as read`);
+      }
+
+      const enrichedMessages = paginatedMessages.map((msg) => ({
+        ...msg,
+        isOwn: msg.senderId === userId,
+        formattedTime: msg.sentAt.toLocaleTimeString(),
+        formattedDate: msg.sentAt.toLocaleDateString(),
+      }));
+
+      res.json({
+        messages: enrichedMessages,
+        conversation: {
+          id: conversation._id,
+          participants: conversation.participants,
+          applicationId: conversation.applicationId,
+        },
+        hasMore: messages.length > Number(limit),
+      });
+    },
+  ),
 );
 
 // Send a message
@@ -221,146 +227,148 @@ router.post(
     body("fileUrl").optional().isURL(),
     body("fileName").optional().trim().isLength({ min: 1, max: 255 }),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const { conversationId } = req.params;
-    const { content, messageType = "text", fileUrl, fileName } = req.body;
-    const userId = req.user!.userId;
+  asyncHandler(
+    async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+      const { conversationId } = req.params;
+      const { content, messageType = "text", fileUrl, fileName } = req.body;
+      const userId = req.user!.userId;
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        throw new CustomError("Validation failed", 400);
+      }
 
-    // Check if user is participant in conversation
-    const conversation = mockConversations.find(
-      (conv) =>
-        conv._id === conversationId && conv.participants.includes(userId),
-    );
+      // Check if user is participant in conversation
+      const conversation = mockConversations.find(
+        (conv) =>
+          conv._id === conversationId && conv.participants.includes(userId),
+      );
 
-    if (!conversation) {
-      throw new CustomError("Conversation not found or unauthorized", 404);
-    }
+      if (!conversation) {
+        throw new CustomError("Conversation not found or unauthorized", 404);
+      }
 
-    // Check if conversation is already blocked
-    const isBlocked = conversation.blocked;
-    if (isBlocked) {
-      res.status(403).json({
-        error: "This conversation has been blocked by our protection system",
-        reason:
-          "Contact information sharing is prohibited to protect candidates",
-        blocked: true,
-        supportContact: "admin@apprenticeapex.com",
-      });
-    }
+      // Check if conversation is already blocked
+      const isBlocked = conversation.blocked;
+      if (isBlocked) {
+        res.status(403).json({
+          error: "This conversation has been blocked by our protection system",
+          reason:
+            "Contact information sharing is prohibited to protect candidates",
+          blocked: true,
+          supportContact: "admin@apprenticeapex.com",
+        });
+      }
 
-    // AI analysis of message content for candidate protection
-    console.log(
-      "🛡️ AI Protection: Analyzing message for contact information...",
-    );
-    const aiAnalysis = await aiModeration.analyzeMessage(
-      content,
-      userId,
-      conversationId,
-    );
-
-    if (aiAnalysis.shouldBlock) {
+      // AI analysis of message content for candidate protection
       console.log(
-        `🚨 AI Protection: Message blocked with confidence ${aiAnalysis.confidence}`,
+        "🛡️ AI Protection: Analyzing message for contact information...",
       );
-
-      // Create blocked message record
-      const blockedMessageId = `msg_${Date.now()}_blocked`;
-      
-      // Block conversation and alert admin
-      await aiModeration.blockAndReport(
-        blockedMessageId,
-        conversationId,
-        aiAnalysis.flags,
+      const aiAnalysis = await aiModeration.analyzeMessage(
+        content,
         userId,
+        conversationId,
       );
 
-      // Mark conversation as blocked in mock data
+      if (aiAnalysis.shouldBlock) {
+        console.log(
+          `🚨 AI Protection: Message blocked with confidence ${aiAnalysis.confidence}`,
+        );
+
+        // Create blocked message record
+        const blockedMessageId = `msg_${Date.now()}_blocked`;
+
+        // Block conversation and alert admin
+        await aiModeration.blockAndReport(
+          blockedMessageId,
+          conversationId,
+          aiAnalysis.flags,
+          userId,
+        );
+
+        // Mark conversation as blocked in mock data
+        const conversationIndex = mockConversations.findIndex(
+          (conv) => conv._id === conversationId,
+        );
+        if (conversationIndex !== -1) {
+          mockConversations[conversationIndex].blocked = true;
+          mockConversations[conversationIndex].blockedReason =
+            "AI detected contact information sharing attempt";
+          mockConversations[conversationIndex].blockedAt = new Date();
+          mockConversations[conversationIndex].flaggedForReview = true;
+        }
+
+        res.status(403).json({
+          error: "Message blocked: Contact information sharing detected",
+          message: `Our AI protection system detected an attempt to share contact information. This is prohibited to protect our candidates. Your account may be suspended.`,
+          blocked: true,
+          confidence: aiAnalysis.confidence,
+          riskLevel: aiAnalysis.riskLevel,
+          adminNotified: true,
+          supportContact: "admin@apprenticeapex.com",
+        });
+      }
+
+      const receiverId = conversation.participants.find((p) => p !== userId)!;
+
+      // If message passes AI check, create normally
+      const newMessage = {
+        _id: `msg_${Date.now()}`,
+        conversationId,
+        senderId: userId,
+        receiverId,
+        messageType,
+        content,
+        fileUrl,
+        fileName,
+        flaggedByAI: false,
+        aiConfidenceScore: aiAnalysis.confidence,
+        isRead: false,
+        sentAt: new Date(),
+      };
+
+      console.log(
+        `✅ AI Protection: Message approved with safety score ${(1 - aiAnalysis.confidence).toFixed(2)}`,
+      );
+
+      mockMessages.push(newMessage);
+
+      // Update conversation last message
       const conversationIndex = mockConversations.findIndex(
         (conv) => conv._id === conversationId,
       );
       if (conversationIndex !== -1) {
-        mockConversations[conversationIndex].blocked = true;
-        mockConversations[conversationIndex].blockedReason =
-          "AI detected contact information sharing attempt";
-        mockConversations[conversationIndex].blockedAt = new Date();
-        mockConversations[conversationIndex].flaggedForReview = true;
+        mockConversations[conversationIndex].lastMessage = {
+          content,
+          sentAt: newMessage.sentAt,
+          senderId: userId,
+        };
+
+        // Increment unread count for receiver
+        const unreadCount = mockConversations[conversationIndex]
+          .unreadCount as any;
+        unreadCount[receiverId] = (unreadCount[receiverId] || 0) + 1;
       }
 
-      res.status(403).json({
-        error: "Message blocked: Contact information sharing detected",
-        message: `Our AI protection system detected an attempt to share contact information. This is prohibited to protect our candidates. Your account may be suspended.`,
-        blocked: true,
-        confidence: aiAnalysis.confidence,
-        riskLevel: aiAnalysis.riskLevel,
-        adminNotified: true,
-        supportContact: "admin@apprenticeapex.com",
+      // In real app:
+      // 1. Save to database
+      // 2. Send via Sendbird
+      // 3. Send push notification
+      // 4. Update conversation timestamp
+
+      res.status(201).json({
+        message: "Message sent successfully",
+        messageData: {
+          ...newMessage,
+          isOwn: true,
+          formattedTime: newMessage.sentAt.toLocaleTimeString(),
+        },
+        aiProtected: true,
+        safetyScore: Number((1 - aiAnalysis.confidence).toFixed(2)),
+        status: "delivered",
       });
-    }
-
-    const receiverId = conversation.participants.find((p) => p !== userId)!;
-
-    // If message passes AI check, create normally
-    const newMessage = {
-      _id: `msg_${Date.now()}`,
-      conversationId,
-      senderId: userId,
-      receiverId,
-      messageType,
-      content,
-      fileUrl,
-      fileName,
-      flaggedByAI: false,
-      aiConfidenceScore: aiAnalysis.confidence,
-      isRead: false,
-      sentAt: new Date(),
-    };
-
-    console.log(
-      `✅ AI Protection: Message approved with safety score ${(1 - aiAnalysis.confidence).toFixed(2)}`,
-    );
-
-    mockMessages.push(newMessage);
-
-    // Update conversation last message
-    const conversationIndex = mockConversations.findIndex(
-      (conv) => conv._id === conversationId,
-    );
-    if (conversationIndex !== -1) {
-      mockConversations[conversationIndex].lastMessage = {
-        content,
-        sentAt: newMessage.sentAt,
-        senderId: userId,
-      };
-
-      // Increment unread count for receiver
-      const unreadCount = mockConversations[conversationIndex]
-        .unreadCount as any;
-      unreadCount[receiverId] = (unreadCount[receiverId] || 0) + 1;
-    }
-
-    // In real app:
-    // 1. Save to database
-    // 2. Send via Sendbird
-    // 3. Send push notification
-    // 4. Update conversation timestamp
-
-    res.status(201).json({
-      message: "Message sent successfully",
-      messageData: {
-        ...newMessage,
-        isOwn: true,
-        formattedTime: newMessage.sentAt.toLocaleTimeString(),
-      },
-      aiProtected: true,
-      safetyScore: Number((1 - aiAnalysis.confidence).toFixed(2)),
-      status: "delivered",
-    });
-  }),
+    },
+  ),
 );
 
 // Create conversation (when student applies)
@@ -371,113 +379,117 @@ router.post(
     body("applicationId").optional().isString(),
     body("initialMessage").optional().trim().isLength({ min: 1, max: 2000 }),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const { participantId, applicationId, initialMessage } = req.body;
-    const userId = req.user!.userId;
+  asyncHandler(
+    async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+      const { participantId, applicationId, initialMessage } = req.body;
+      const userId = req.user!.userId;
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      throw new CustomError("Validation failed", 400);
-    }
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        throw new CustomError("Validation failed", 400);
+      }
 
-    // Check if conversation already exists
-    const existingConversation = mockConversations.find(
-      (conv) =>
-        conv.participants.includes(userId) &&
-        conv.participants.includes(participantId),
-    );
+      // Check if conversation already exists
+      const existingConversation = mockConversations.find(
+        (conv) =>
+          conv.participants.includes(userId) &&
+          conv.participants.includes(participantId),
+      );
 
-    if (existingConversation) {
-      res.json({
-        message: "Conversation already exists",
-        conversation: existingConversation,
+      if (existingConversation) {
+        res.json({
+          message: "Conversation already exists",
+          conversation: existingConversation,
+        });
+      }
+
+      // Create new conversation
+      const newConversation: Conversation = {
+        _id: `conv_${Date.now()}`,
+        participants: [userId, participantId].sort(),
+        applicationId,
+        lastMessage: undefined,
+        unreadCount: {} as Record<string, number>,
+        isActive: true,
+        createdAt: new Date(),
+      };
+
+      // Initialize unread counts
+      (newConversation.unreadCount as any)[userId] = 0;
+      (newConversation.unreadCount as any)[participantId] = 0;
+
+      (mockConversations as any[]).push(newConversation);
+
+      // Send initial message if provided
+      if (initialMessage) {
+        const newMessage = {
+          _id: `msg_${Date.now()}`,
+          conversationId: newConversation._id,
+          senderId: userId,
+          receiverId: participantId,
+          messageType: "text" as const,
+          content: initialMessage,
+          isRead: false,
+          sentAt: new Date(),
+        };
+
+        mockMessages.push(newMessage);
+
+        newConversation.lastMessage = {
+          content: initialMessage,
+          sentAt: newMessage.sentAt,
+          senderId: userId,
+        };
+
+        (newConversation.unreadCount as any)[participantId] = 1;
+      }
+
+      res.status(201).json({
+        message: "Conversation created successfully",
+        conversation: newConversation,
       });
-    }
-
-    // Create new conversation
-    const newConversation: Conversation = {
-      _id: `conv_${Date.now()}`,
-      participants: [userId, participantId].sort(),
-      applicationId,
-      lastMessage: undefined,
-      unreadCount: {} as Record<string, number>,
-      isActive: true,
-      createdAt: new Date(),
-    };
-
-    // Initialize unread counts
-    (newConversation.unreadCount as any)[userId] = 0;
-    (newConversation.unreadCount as any)[participantId] = 0;
-
-    (mockConversations as any[]).push(newConversation);
-
-    // Send initial message if provided
-    if (initialMessage) {
-      const newMessage = {
-        _id: `msg_${Date.now()}`,
-        conversationId: newConversation._id,
-        senderId: userId,
-        receiverId: participantId,
-        messageType: "text" as const,
-        content: initialMessage,
-        isRead: false,
-        sentAt: new Date(),
-      };
-
-      mockMessages.push(newMessage);
-
-      newConversation.lastMessage = {
-        content: initialMessage,
-        sentAt: newMessage.sentAt,
-        senderId: userId,
-      };
-
-      (newConversation.unreadCount as any)[participantId] = 1;
-    }
-
-    res.status(201).json({
-      message: "Conversation created successfully",
-      conversation: newConversation,
-    });
-  }),
+    },
+  ),
 );
 
 // Mark conversation as read
 router.patch(
   "/conversations/:conversationId/read",
-  asyncHandler(async (req: AuthenticatedRequest, res: Response): Promise<void> => {
-    const { conversationId } = req.params;
-    const userId = req.user!.userId;
+  asyncHandler(
+    async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+      const { conversationId } = req.params;
+      const userId = req.user!.userId;
 
-    const conversationIndex = mockConversations.findIndex(
-      (conv) =>
-        conv._id === conversationId && conv.participants.includes(userId),
-    );
+      const conversationIndex = mockConversations.findIndex(
+        (conv) =>
+          conv._id === conversationId && conv.participants.includes(userId),
+      );
 
-    if (conversationIndex === -1) {
-      throw new CustomError("Conversation not found or unauthorized", 404);
-    }
+      if (conversationIndex === -1) {
+        throw new CustomError("Conversation not found or unauthorized", 404);
+      }
 
-    // Reset unread count for current user
-    (mockConversations[conversationIndex].unreadCount as any)[userId] = 0;
+      // Reset unread count for current user
+      (mockConversations[conversationIndex].unreadCount as any)[userId] = 0;
 
-    // Mark all unread messages as read
-    mockMessages
-      .filter(
-        (msg) =>
-          msg.conversationId === conversationId &&
-          msg.receiverId === userId &&
-          !msg.isRead,
-      )
-      .forEach((msg) => {
-        msg.isRead = true;
-        (msg as any).readAt = new Date();
+      // Mark all unread messages as read
+      mockMessages
+        .filter(
+          (msg) =>
+            msg.conversationId === conversationId &&
+            msg.receiverId === userId &&
+            !msg.isRead,
+        )
+        .forEach((msg) => {
+          msg.isRead = true;
+          (msg as any).readAt = new Date();
+        });
+
+      res.json({
+        message: "Conversation marked as read",
       });
-
-    res.json({
-      message: "Conversation marked as read",
-    });
-  }),
+    },
+  ),
 );
 
 // Helper function to get time ago

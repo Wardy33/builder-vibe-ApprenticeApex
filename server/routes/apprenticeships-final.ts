@@ -38,7 +38,10 @@ async function queryNeonDatabase(sqlText: string): Promise<any[]> {
     );
     return rows as any[];
   } catch (error) {
-    console.error("❌ Real Neon query error:", error instanceof Error ? error.message : String(error));
+    console.error(
+      "❌ Real Neon query error:",
+      error instanceof Error ? error.message : String(error),
+    );
     console.error("❌ SQL that failed:", sqlText);
 
     // Return empty results to prevent crashes
