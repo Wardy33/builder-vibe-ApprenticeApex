@@ -151,7 +151,7 @@ router.post("/submit",
             location: (apprenticeship as any).location
           }
         }
-      }, 201);
+      }, undefined, 201);
 
     } catch (error: any) {
       console.error('Application submission error:', error);
