@@ -225,7 +225,7 @@ router.patch("/:applicationId/status",
 
       // Send status update email to student
       try {
-        const student = application.studentId as any;
+        const student = (application as any).student as any;
         await EmailService.getInstance().sendApplicationStatusUpdate(student, updatedApplication, apprenticeship);
         console.log(`📧 Status update email sent to ${student.email}`);
 
