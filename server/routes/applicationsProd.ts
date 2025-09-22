@@ -46,7 +46,7 @@ router.post("/submit",
       return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
-    const { apprenticeshipId, coverLetter, portfolioUrls, documents, availabilityNotes } = req.body;
+    const { apprenticeshipId, coverLetter, portfolioUrls, documents } = req.body;
     const userId = req.user?.userId;
 
     if (!userId) {
