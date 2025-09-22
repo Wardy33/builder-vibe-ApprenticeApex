@@ -180,7 +180,7 @@ const experienceSchema = new Schema<IExperience>({
   achievements: [{ type: String, trim: true }],
 });
 
-const candidateProfileSchema = new Schema<ICandidateProfile>({
+export const candidateProfileSchema = new Schema<ICandidateProfile>({
   firstName: { type: String, required: true, trim: true, maxlength: 50 },
   lastName: { type: String, required: true, trim: true, maxlength: 50 },
   dateOfBirth: {
