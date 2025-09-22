@@ -13,26 +13,26 @@ export function WebLayout({
   children,
   className = "",
   showHeader = true,
-  showFooter = true
+  showFooter = true,
 }: WebLayoutProps) {
   // Keyboard navigation detection
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        document.body.classList.add('keyboard-user');
+      if (e.key === "Tab") {
+        document.body.classList.add("keyboard-user");
       }
     };
 
     const handleMouseDown = () => {
-      document.body.classList.remove('keyboard-user');
+      document.body.classList.remove("keyboard-user");
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('mousedown', handleMouseDown);
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('mousedown', handleMouseDown);
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
 
@@ -83,7 +83,6 @@ export function WebLayout({
         aria-atomic="true"
         className="sr-only"
       ></div>
-
     </div>
   );
 }
