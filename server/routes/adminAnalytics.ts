@@ -303,7 +303,7 @@ router.get(
   "/geographic",
   authenticateToken,
   requireAdminPermission("canViewAllUsers"),
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (_req: AuthenticatedRequest, res: Response) => {
     try {
       // User distribution by location
       const usersByLocation = await User.aggregate([
