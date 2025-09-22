@@ -116,7 +116,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
     // Reset login attempts on successful login
     await updateUserLoginAttempts(user.id, 0);
-    await updateUserLastLogin(user.id);
+    await updateUserLastLogin(Number(user.id));
 
     // Generate enhanced JWT token for admin
     const env = getEnvConfig();
@@ -292,7 +292,7 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
     console.log('✅ Admin session verified for:', user.email);
 
     // Update last access time
-    await updateUserLastLogin(user.id);
+    await updateUserLastLogin(Number(user.id));
 
     const responseData = {
       success: true,
