@@ -377,5 +377,4 @@ export const requestLogging = ComprehensiveSecurityMiddleware.requestLogging();
 export const suspiciousActivityDetection = ComprehensiveSecurityMiddleware.suspiciousActivityDetection();
 export const allSecurityMiddleware = ComprehensiveSecurityMiddleware.getAllMiddleware();
 
-// Export the class
-export { ComprehensiveSecurityMiddleware };
+// Exported via class declaration above
