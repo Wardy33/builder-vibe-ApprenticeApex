@@ -69,7 +69,7 @@ export const errorTracking = (err: Error, req: Request, res: Response, next: Nex
   
   // Send user-friendly error response
   if (!res.headersSent) {
-    const statusCode = err.statusCode || 500;
+    const statusCode = (err as any).statusCode || 500;
     res.status(statusCode).json({
       success: false,
       error: process.env.NODE_ENV === 'production' 
