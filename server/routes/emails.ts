@@ -124,8 +124,8 @@ router.post("/verification/send",
 
 // Verify Email
 router.post("/verification/verify",
-  validateDatabaseInput,
-  asyncHandler(async (req, res) => {
+  requireDatabase,
+  asyncHandler(async (req: any, res: Response) => {
     const { token } = req.body;
 
     if (!token) {
@@ -172,8 +172,8 @@ router.post("/verification/verify",
 router.post("/password-reset/send",
   passwordResetRateLimit,
   passwordResetValidation,
-  validateDatabaseInput,
-  asyncHandler(async (req, res) => {
+  requireDatabase,
+  asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendValidationError(res, "Validation failed", errors.array());
@@ -307,8 +307,8 @@ router.get("/preferences",
 router.post("/unsubscribe",
   body("email").isEmail().normalizeEmail(),
   body("token").optional().isLength({ min: 10 }),
-  validateDatabaseInput,
-  asyncHandler(async (req, res) => {
+  requireDatabase,
+  asyncHandler(async (req: any, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendValidationError(res, "Validation failed", errors.array());
