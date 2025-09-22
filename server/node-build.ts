@@ -1,7 +1,8 @@
 import path from "path";
 import { createServer, connectToDatabase, config } from "./index";
-import { database } from "./config/database";
+import { database } from "./config/database.js";
 import express from "express";
+import path from "path";
 import http from "http";
 
 async function startServer() {
