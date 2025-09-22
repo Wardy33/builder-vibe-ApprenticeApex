@@ -244,7 +244,7 @@ router.post(
     // Check if conversation is already blocked
     const isBlocked = conversation.blocked;
     if (isBlocked) {
-      return res.status(403).json({
+      res.status(403).json({
         error: "This conversation has been blocked by our protection system",
         reason:
           "Contact information sharing is prohibited to protect candidates",
@@ -291,7 +291,7 @@ router.post(
         mockConversations[conversationIndex].flaggedForReview = true;
       }
 
-      return res.status(403).json({
+      res.status(403).json({
         error: "Message blocked: Contact information sharing detected",
         message: `Our AI protection system detected an attempt to share contact information. This is prohibited to protect our candidates. Your account may be suspended.`,
         blocked: true,
@@ -388,7 +388,7 @@ router.post(
     );
 
     if (existingConversation) {
-      return res.json({
+      res.json({
         message: "Conversation already exists",
         conversation: existingConversation,
       });
