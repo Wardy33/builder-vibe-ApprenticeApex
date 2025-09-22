@@ -317,7 +317,7 @@ const candidateProfileSchema = new Schema<ICandidateProfile>({
   },
 });
 
-const companyProfileSchema = new Schema<ICompanyProfile>({
+export const companyProfileSchema = new Schema<ICompanyProfile>({
   companyName: { type: String, required: true, trim: true, maxlength: 100 },
   industry: {
     type: String,
@@ -517,10 +517,10 @@ const userSchema = new Schema<IUser>(
     timestamps: true,
     toJSON: {
       virtuals: true,
-      transform: function (doc, ret) {
-        delete ret.password;
-        delete ret.emailVerificationToken;
-        delete ret.passwordResetToken;
+      transform: function (_doc: any, ret: any) {
+        delete (ret as any).password;
+        delete (ret as any).emailVerificationToken;
+        delete (ret as any).passwordResetToken;
         return ret;
       },
     },
@@ -533,8 +533,8 @@ const userSchema = new Schema<IUser>(
 
 // Virtual for full name (students)
 userSchema.virtual("fullName").get(function () {
-  if (this.role === "student" && this.profile) {
-    const profile = this.profile as IStudentProfile;
+  if (this.role === "candidate" && this.profile) {
+    const profile = this.profile as ICandidateProfile;
     return `${profile.firstName} ${profile.lastName}`;
   }
   return undefined;
@@ -572,8 +572,8 @@ userSchema.pre("save", async function (next) {
 
 // Calculate profile completion for students
 userSchema.pre("save", function (next) {
-  if (this.role === "student" && this.profile) {
-    const profile = this.profile as IStudentProfile;
+  if (this.role === "candidate" && this.profile) {
+    const profile = this.profile as ICandidateProfile;
     let completionScore = 0;
     const totalFields = 10;
 
