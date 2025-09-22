@@ -79,7 +79,7 @@ router.get("/webhook/events", asyncHandler(async (req: Request, res: Response) =
 if (process.env.NODE_ENV !== 'production') {
   router.post("/webhook/test", [
     express.json({ limit: '1mb' })
-  ], asyncHandler(async (req, res) => {
+  ] , asyncHandler(async (req: Request, res: Response) => {
     console.log('🧪 Test webhook received:', req.body);
     
     try {
