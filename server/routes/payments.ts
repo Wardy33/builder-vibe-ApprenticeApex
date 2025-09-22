@@ -120,10 +120,11 @@ router.post(
       }
 
       // Check if job already has a pending or successful payment
-      const existingPayments = await paymentService.sql(
-        "SELECT status FROM payments WHERE job_id = $1 AND status IN ($2, $3)",
-        [jobId, "pending", "succeeded"],
-      );
+      const existingPayments = await neon_run_sql({
+        sql: "SELECT status FROM payments WHERE job_id = $1 AND status IN ($2, $3)",
+        projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+        params: [jobId, "pending", "succeeded"],
+      });
 
       if (existingPayments.length > 0) {
         return sendError(
