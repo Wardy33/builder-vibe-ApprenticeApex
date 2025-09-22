@@ -151,10 +151,7 @@ async function startSimpleServer() {
       })(req, res, (err) => {
         if (err) {
           const msg = err instanceof Error ? err.message : String(err);
-          console.error(
-            "❌ Express URL encoded middleware error:",
-            msg,
-          );
+          console.error("❌ Express URL encoded middleware error:", msg);
           return res.status(400).json({
             success: false,
             error: "Invalid URL encoded data",
