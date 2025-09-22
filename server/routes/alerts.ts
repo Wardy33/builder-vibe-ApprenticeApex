@@ -49,7 +49,7 @@ router.get('/employer/:employerId', async (req: Request, res: Response) => {
 /**
  * Acknowledge an alert
  */
-router.patch('/:alertId/acknowledge', async (req: AuthenticatedRequest, res: Response) => {
+router.patch('/:alertId/acknowledge', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const { alertId } = req.params;
     const adminId = req.user?.userId;
@@ -73,7 +73,7 @@ router.patch('/:alertId/acknowledge', async (req: AuthenticatedRequest, res: Res
 /**
  * Resolve an alert
  */
-router.patch('/:alertId/resolve', async (req: AuthenticatedRequest, res: Response) => {
+router.patch('/:alertId/resolve', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const { alertId } = req.params;
     const { resolution } = req.body;
@@ -141,7 +141,7 @@ router.get('/stats', async (_req: Request, res: Response) => {
 /**
  * Manual trigger for testing (admin only)
  */
-router.post('/test', async (req: AuthenticatedRequest, res: Response) => {
+router.post('/test', async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   try {
     const { type = 'test', severity = 'medium' } = req.body;
     const adminId = req.user?.userId;
