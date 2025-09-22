@@ -398,7 +398,7 @@ router.post('/company/signin', async (req, res) => {
       console.log('🔑 Company password verification result:', isPasswordValid);
 
       if (!isPasswordValid) {
-        console.log('❌ Invalid password for company:', email);
+        console.log('�� Invalid password for company:', email);
         return res.status(401).json({
           success: false,
           error: 'Invalid email or password'
@@ -758,7 +758,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
         success: false,
         error: 'Database connection error',
         details: 'Unable to verify credentials',
-        dbError: dbError.message
+        dbError: dbError instanceof Error ? dbError.message : String(dbError)
       });
     }
 
