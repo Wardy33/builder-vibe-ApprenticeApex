@@ -185,7 +185,6 @@ router.get(
   async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user!.userId;
-      const { status = "active" } = req.query;
 
       console.log(`📋 Loading conversations for user ${userId}`);
 
