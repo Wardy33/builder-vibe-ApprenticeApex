@@ -60,7 +60,7 @@ router.post("/submit",
         return sendError(res, "Apprenticeship not found", 404, 'APPRENTICESHIP_NOT_FOUND');
       }
 
-      if (apprenticeship.status !== 'active') {
+      if (!(apprenticeship as any).isActive) {
         return sendError(res, "This apprenticeship is no longer accepting applications", 400, 'APPRENTICESHIP_INACTIVE');
       }
 
