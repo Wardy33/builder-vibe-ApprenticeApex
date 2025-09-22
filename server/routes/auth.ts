@@ -512,7 +512,7 @@ router.post('/company/signin', async (req, res) => {
 // POST /api/auth/login - Enhanced login with detailed logging
 router.post('/login', async (req: import('express').Request, res: import('express').Response): Promise<void> => {
   try {
-    console.log('��� Login request received');
+    console.log('🔐 Login request received');
     console.log('📋 Request headers:', JSON.stringify(req.headers, null, 2));
     console.log('📋 Request body:', JSON.stringify(req.body, null, 2));
     console.log('📋 Request method:', req.method);
@@ -706,8 +706,10 @@ router.post('/login', async (req: import('express').Request, res: import('expres
       res.json(response);
 
     } catch (dbError) {
-      console.error('❌ Database error during login:', dbError.message);
-      console.error('❌ Database error stack:', dbError.stack);
+      console.error('❌ Database error during login:', dbError instanceof Error ? dbError.message : String(dbError));
+      if (dbError instanceof Error) {
+        console.error('❌ Database error stack:', dbError.stack);
+      }
 
       // For development: provide mock login if database fails
       if (process.env.NODE_ENV === 'development') {
@@ -797,7 +799,7 @@ router.get('/test', (req, res) => {
       'POST /api/auth/register',
       'POST /api/auth/register/company',  // ← Company registration endpoint
       'POST /api/auth/login',
-      'POST /api/auth/company/signin',    // ��� Company signin endpoint
+      'POST /api/auth/company/signin',    // ← Company signin endpoint
       'POST /api/auth/login-test',
       'GET /api/auth/test'
     ]
