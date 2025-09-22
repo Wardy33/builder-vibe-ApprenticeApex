@@ -88,7 +88,7 @@ router.get(
     query("limit").optional().isInt({ min: 1, max: 50 }).toInt(),
     query("offset").optional().isInt({ min: 0 }).toInt(),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const userId = req.user!.userId;
     const { limit = 20, offset = 0 } = req.query;
 
@@ -153,7 +153,7 @@ router.get(
     query("limit").optional().isInt({ min: 1, max: 100 }).toInt(),
     query("before").optional().isISO8601().toDate(),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { conversationId } = req.params;
     const { limit = 50, before } = req.query;
     const userId = req.user!.userId;
@@ -221,7 +221,7 @@ router.post(
     body("fileUrl").optional().isURL(),
     body("fileName").optional().trim().isLength({ min: 1, max: 255 }),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { conversationId } = req.params;
     const { content, messageType = "text", fileUrl, fileName } = req.body;
     const userId = req.user!.userId;
@@ -270,22 +270,7 @@ router.post(
 
       // Create blocked message record
       const blockedMessageId = `msg_${Date.now()}_blocked`;
-      const blockedMessage = {
-        _id: blockedMessageId,
-        conversationId,
-        senderId: userId,
-        receiverId: conversation.participants.find((p) => p !== userId)!,
-        messageType: "blocked",
-        content: "[MESSAGE BLOCKED - Contact information sharing detected]",
-        originalContent: content,
-        flaggedByAI: true,
-        aiConfidenceScore: aiAnalysis.confidence,
-        containsContactInfo: true,
-        blockedByAI: true,
-        isRead: false,
-        sentAt: new Date(),
-      };
-
+      
       // Block conversation and alert admin
       await aiModeration.blockAndReport(
         blockedMessageId,
@@ -386,7 +371,7 @@ router.post(
     body("applicationId").optional().isString(),
     body("initialMessage").optional().trim().isLength({ min: 1, max: 2000 }),
   ],
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { participantId, applicationId, initialMessage } = req.body;
     const userId = req.user!.userId;
 
@@ -410,7 +395,7 @@ router.post(
     }
 
     // Create new conversation
-    const newConversation = {
+    const newConversation: Conversation = {
       _id: `conv_${Date.now()}`,
       participants: [userId, participantId].sort(),
       applicationId,
@@ -460,7 +445,7 @@ router.post(
 // Mark conversation as read
 router.patch(
   "/conversations/:conversationId/read",
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { conversationId } = req.params;
     const userId = req.user!.userId;
 
