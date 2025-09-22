@@ -40,10 +40,10 @@ router.post("/submit",
   authenticateToken,
   applicationValidation,
   requireDatabase,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, "Validation failed", errors.array());
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { apprenticeshipId, coverLetter, portfolioUrls, documents, availabilityNotes } = req.body;
@@ -98,7 +98,7 @@ router.post("/submit",
       // Validate application data
       const validationResult = validateApplicationCreation(applicationData);
       if (!validationResult.success) {
-        return sendValidationError(res, "Application validation failed", validationResult.errors);
+        return sendValidationError(res, (validationResult as any).errors, "Application validation failed");
       }
 
       const application = new Application(applicationData);
@@ -183,10 +183,10 @@ router.patch("/:applicationId/status",
   authenticateToken,
   statusUpdateValidation,
   requireDatabase,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return sendValidationError(res, "Validation failed", errors.array());
+      return sendValidationError(res, errors.array().map((e: any) => ({ field: e.path || e.param || "field", message: e.msg || "Invalid" })), "Validation failed");
     }
 
     const { applicationId } = req.params;
@@ -311,7 +311,7 @@ router.patch("/:applicationId/status",
 // Get User Applications
 router.get("/my-applications",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const userId = req.user?.id;
     
     if (!userId) {
@@ -347,7 +347,7 @@ router.get("/my-applications",
 // Get Application Details
 router.get("/:applicationId",
   authenticateToken,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const { applicationId } = req.params;
     const userId = req.user?.id;
 
