@@ -55,7 +55,8 @@ class AppDiagnostics {
           connectivity ? 'API reachable' : 'API unreachable');
       }
     } catch (error) {
-      this.addResult('Network Test', 'fail', `Error: ${error.message}`);
+      const msg = error instanceof Error ? error.message : String(error);
+      this.addResult('Network Test', 'fail', `Error: ${msg}`);
     }
   }
 
@@ -80,8 +81,10 @@ class AppDiagnostics {
 
         this.addResult(`API ${endpoint.name}`, status, message);
       } catch (error) {
-        this.addResult(`API ${endpoint.name}`, 'fail', 
-          error.name === 'AbortError' ? 'Timeout' : error.message);
+        const anyErr = error as any;
+        const isAbort = anyErr && typeof anyErr.name === 'string' && anyErr.name === 'AbortError';
+        const msg = error instanceof Error ? error.message : String(error);
+        this.addResult(`API ${endpoint.name}`, 'fail', isAbort ? 'Timeout' : msg);
       }
     }
   }
@@ -104,7 +107,8 @@ class AppDiagnostics {
         this.addResult('Authentication', 'pass', 'Token valid');
       }
     } catch (error) {
-      this.addResult('Authentication', 'fail', `Auth test failed: ${error.message}`);
+      const msg = error instanceof Error ? error.message : String(error);
+      this.addResult('Authentication', 'fail', `Auth test failed: ${msg}`);
     }
   }
 
@@ -132,7 +136,8 @@ class AppDiagnostics {
         userProfile ? 'Present' : 'Missing');
 
     } catch (error) {
-      this.addResult('LocalStorage', 'fail', `Error: ${error.message}`);
+      const msg = error instanceof Error ? error.message : String(error);
+      this.addResult('LocalStorage', 'fail', `Error: ${msg}`);
     }
   }
 
@@ -152,7 +157,8 @@ class AppDiagnostics {
         this.addResult(`Browser ${feature.name}`, supported ? 'pass' : 'fail',
           supported ? 'Supported' : 'Not supported');
       } catch (error) {
-        this.addResult(`Browser ${feature.name}`, 'fail', `Test error: ${error.message}`);
+        const msg = error instanceof Error ? error.message : String(error);
+        this.addResult(`Browser ${feature.name}`, 'fail', `Test error: ${msg}`);
       }
     });
 
@@ -245,7 +251,8 @@ class AppDiagnostics {
         const icon = result ? '✅' : '❌';
         console.log(`${icon} ${test.name}: ${result ? 'OK' : 'FAIL'}`);
       } catch (error) {
-        console.log(`❌ ${test.name}: ERROR - ${error.message}`);
+        const msg = error instanceof Error ? error.message : String(error);
+        console.log(`❌ ${test.name}: ERROR - ${msg}`);
       }
     }
   }
@@ -272,7 +279,8 @@ class AppDiagnostics {
         fixed++;
       }
     } catch (error) {
-      console.log('❌ Could not fix localStorage issues:', error.message);
+      const msg = error instanceof Error ? error.message : String(error);
+      console.log('❌ Could not fix localStorage issues:', msg);
     }
 
     if (fixed === 0) {
