@@ -266,7 +266,7 @@ router.patch("/:applicationId/status",
           id: updatedApplication!._id,
           status: updatedApplication!.status,
           lastUpdated: updatedApplication!.lastUpdated,
-          interviewDetails: updatedApplication!.interviewDetails
+          interview: (updatedApplication as any)!.interview
         }
       });
 
