@@ -398,7 +398,7 @@ router.post('/company/signin', async (req, res) => {
       console.log('🔑 Company password verification result:', isPasswordValid);
 
       if (!isPasswordValid) {
-        console.log('�� Invalid password for company:', email);
+        console.log('❌ Invalid password for company:', email);
         return res.status(401).json({
           success: false,
           error: 'Invalid email or password'
@@ -763,8 +763,10 @@ router.post('/login', async (req: import('express').Request, res: import('expres
     }
 
   } catch (error) {
-    console.error('❌ Login error:', error.message);
-    console.error('❌ Login error stack:', error.stack);
+    console.error('❌ Login error:', error instanceof Error ? error.message : String(error));
+    if (error instanceof Error) {
+      console.error('❌ Login error stack:', error.stack);
+    }
     console.error('❌ Request details:', {
       method: req.method,
       url: req.url,
@@ -773,10 +775,10 @@ router.post('/login', async (req: import('express').Request, res: import('expres
     });
 
     if (!res.headersSent) {
-      res.status(500).json({
+      return res.status(500).json({
         success: false,
         error: 'Internal server error during login',
-        details: error.message,
+        details: error instanceof Error ? error.message : String(error),
         requestInfo: {
           method: req.method,
           url: req.url,
