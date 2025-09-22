@@ -100,10 +100,11 @@ router.post(
 
       // Verify user owns the job (security check)
       const paymentService = NeonPaymentService.getInstance();
-      const jobs = await paymentService.sql(
-        "SELECT company_id FROM jobs WHERE id = $1",
-        [jobId],
-      );
+      const jobs = await neon_run_sql({
+        sql: "SELECT company_id FROM jobs WHERE id = $1",
+        projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+        params: [jobId],
+      });
 
       if (!jobs.length) {
         return sendError(res, "Job not found", 404, "JOB_NOT_FOUND");
