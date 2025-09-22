@@ -279,7 +279,6 @@ router.patch(
     const { applicationId } = req.params;
     const {
       status,
-      notes,
       interviewDate,
       interviewLocation,
       interviewType,
