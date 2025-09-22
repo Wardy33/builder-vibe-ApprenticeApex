@@ -1,7 +1,6 @@
 import { Router, Response } from "express";
-import { Router, Response } from "express";
 import { User } from "../models/User";
-import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
+import { authenticateToken, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
 
 const router = Router();
 
