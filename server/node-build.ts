@@ -1,4 +1,3 @@
-import path from "path";
 import { createServer, connectToDatabase, config } from "./index";
 import { database } from "./config/database.js";
 import express from "express";
