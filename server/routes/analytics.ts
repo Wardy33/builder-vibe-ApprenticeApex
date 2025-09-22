@@ -60,7 +60,7 @@ router.get('/dashboard', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch analytics',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -75,16 +75,16 @@ router.get('/trends', authenticateToken, async (req: any, res: any) => {
     // Calculate date range
     const now = new Date();
     let startDate = new Date();
-    let groupBy = '$dayOfYear';
+    let groupBy: any = { $dayOfYear: '$createdAt' };
 
     switch (timeframe) {
       case '7d':
         startDate.setDate(now.getDate() - 7);
-        groupBy = '$dayOfYear';
+        groupBy = { $dayOfYear: '$createdAt' };
         break;
       case '30d':
         startDate.setDate(now.getDate() - 30);
-        groupBy = '$dayOfYear';
+        groupBy = { $dayOfYear: '$createdAt' };
         break;
       case '90d':
         startDate.setDate(now.getDate() - 90);
@@ -123,7 +123,7 @@ router.get('/trends', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch trends',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -186,7 +186,7 @@ router.get('/reports', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch report',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
