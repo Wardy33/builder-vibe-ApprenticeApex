@@ -1,9 +1,9 @@
-import express from "express";
+import express, { Response } from "express";
 import { body, query, validationResult } from "express-validator";
 import { authenticateToken, AuthenticatedRequest } from "../middleware/auth";
-import { asyncHandler, CustomError } from "../middleware/errorHandler";
+import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError, sendValidationError } from "../utils/apiResponse";
-import { validateDatabaseInput } from "../middleware/database";
+import { requireDatabase } from "../middleware/database-neon";
 
 // Import production schemas
 import { Application } from "../models/Application";
