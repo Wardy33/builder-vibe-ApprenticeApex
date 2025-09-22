@@ -1,4 +1,5 @@
 import { Router, Response } from "express";
+import { Router, Response } from "express";
 import { User } from "../models/User";
 import {
   authenticateToken,
@@ -7,8 +8,6 @@ import {
   AuthenticatedRequest,
 } from "../middleware/auth";
 import { database } from "../middleware/database-neon";
-import fs from "fs/promises";
-import path from "path";
 
 const router = Router();
 
@@ -295,7 +294,7 @@ router.post(
       const { reason, notes } = req.body;
 
       if (!["approve", "reject"].includes(action)) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Action must be 'approve' or 'reject'",
           code: "INVALID_MODERATION_ACTION",
         });
@@ -494,7 +493,7 @@ router.post(
       const { reason, estimatedDuration } = req.body;
 
       if (!["enable", "disable"].includes(action)) {
-        return res.status(400).json({
+        res.status(400).json({
           error: "Action must be 'enable' or 'disable'",
           code: "INVALID_MAINTENANCE_ACTION",
         });
