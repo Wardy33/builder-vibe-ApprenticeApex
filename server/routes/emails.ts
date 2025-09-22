@@ -225,8 +225,8 @@ router.post("/password-reset/send",
 router.patch("/preferences",
   authenticateToken,
   emailPreferencesValidation,
-  validateDatabaseInput,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  requireDatabase,
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendValidationError(res, errors.array(), "Validation failed");
@@ -383,8 +383,8 @@ router.post("/test",
   authenticateToken,
   body("to").isEmail().normalizeEmail(),
   body("type").isIn(['welcome_student', 'welcome_employer', 'notification']),
-  validateDatabaseInput,
-  asyncHandler(async (req: AuthenticatedRequest, res) => {
+  requireDatabase,
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     if (req.user?.role !== 'admin') {
       return sendError(res, "Admin access required", 403, 'FORBIDDEN');
     }
