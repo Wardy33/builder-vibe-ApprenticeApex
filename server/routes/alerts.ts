@@ -56,6 +56,7 @@ router.patch('/:alertId/acknowledge', async (req: AuthenticatedRequest, res: Res
     
     if (!adminId) {
       res.status(401).json({ success: false, error: 'Admin authentication required' });
+      return;
     }
     
     await AlertService.acknowledgeAlert(alertId, adminId);
@@ -81,6 +82,7 @@ router.patch('/:alertId/resolve', async (req: AuthenticatedRequest, res: Respons
     
     if (!adminId) {
       res.status(401).json({ success: false, error: 'Admin authentication required' });
+      return;
     }
     
     if (!resolution) {
@@ -148,6 +150,7 @@ router.post('/test', async (req: AuthenticatedRequest, res: Response): Promise<v
     
     if (!adminId) {
       res.status(401).json({ success: false, error: 'Admin authentication required' });
+      return;
     }
     
     // Trigger a test alert
