@@ -232,7 +232,7 @@ router.patch("/preferences",
       return sendValidationError(res, errors.array(), "Validation failed");
     }
 
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
     }
@@ -276,7 +276,7 @@ router.patch("/preferences",
 router.get("/preferences",
   authenticateToken,
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
-    const userId = req.user?.id;
+    const userId = req.user?.userId;
     if (!userId) {
       return sendError(res, "Authentication required", 401, 'UNAUTHORIZED');
     }
