@@ -39,7 +39,7 @@ router.post(
       const aiAnalysis = await aiModerationService.analyzeMessage(
         content,
         senderId,
-        parseInt(conversationId),
+        conversationId,
       );
 
       if (aiAnalysis.shouldBlock) {
