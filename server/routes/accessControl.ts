@@ -71,9 +71,10 @@ router.post('/student/:studentId/request-upgrade', async (req, res) => {
     const employerId = req.user?.userId;
     
     if (!employerId) {
-      return res.status(401).json({ error: 'Employer authentication required' });
+      res.status(401).json({ error: 'Employer authentication required' });
+      return;
     }
-    
+
     // Validate target level
     if (targetLevel < 1 || targetLevel > 4) {
       return res.status(400).json({ error: 'Invalid target level' });
