@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import NeonPaymentService from "../services/neonPaymentService";
@@ -17,7 +17,7 @@ const paymentRateLimit = createRateLimit(15 * 60 * 1000, 20); // 20 requests per
 // Get Stripe publishable key
 router.get(
   "/config",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const publishableKey =
         await NeonPaymentService.getInstance().getPublishableKey();
@@ -42,7 +42,7 @@ router.get(
 // Get job posting payment packages
 router.get(
   "/packages",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const packages =
         await NeonPaymentService.getInstance().getJobPaymentPackages();
@@ -72,7 +72,7 @@ router.get(
 router.post(
   "/job-posting",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { jobId, packageType } = req.body;
       const userId = req.user.userId;
@@ -165,7 +165,7 @@ router.post(
 router.post(
   "/subscription",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { planType, paymentMethodId } = req.body;
       const userId = req.user.userId;
@@ -232,7 +232,7 @@ router.post(
 // Get payment history
 router.get(
   "/history",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const { page = 1, limit = 20 } = req.query;
@@ -273,7 +273,7 @@ router.get(
 // Get current subscription status
 router.get(
   "/subscription",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
 
@@ -321,7 +321,7 @@ router.get(
 router.post(
   "/subscription/cancel",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
 
@@ -378,7 +378,7 @@ router.post(
 // Verify payment status (for frontend polling)
 router.get(
   "/status/:paymentIntentId",
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { paymentIntentId } = req.params;
       const userId = req.user.userId;
@@ -424,7 +424,7 @@ router.get(
 router.post(
   "/checkout/trial",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const env = getSecureEnvConfig();
@@ -506,7 +506,7 @@ router.post(
 router.post(
   "/checkout/starter",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const { mode = "monthly" } = req.query; // monthly or per-hire
@@ -608,7 +608,7 @@ router.post(
 router.post(
   "/checkout/professional",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const env = getSecureEnvConfig();
@@ -677,7 +677,7 @@ router.post(
 router.post(
   "/checkout/business",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const env = getSecureEnvConfig();
@@ -743,7 +743,7 @@ router.post(
 router.post(
   "/checkout/enterprise",
   [paymentRateLimit],
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const userId = req.user.userId;
       const env = getSecureEnvConfig();
