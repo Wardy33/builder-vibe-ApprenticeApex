@@ -128,7 +128,7 @@ function getPlanTypeFromPriceId(priceId: string): string {
 export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
   try {
     const subscription = await stripe.subscriptions.retrieve(
-      invoice.subscription as string,
+      (invoice as any).subscription as string,
     );
     const customer = await stripe.customers.retrieve(
       subscription.customer as string,
@@ -150,7 +150,7 @@ export async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
 export async function handlePaymentFailed(invoice: Stripe.Invoice) {
   try {
     const subscription = await stripe.subscriptions.retrieve(
-      invoice.subscription as string,
+      (invoice as any).subscription as string,
     );
     const customer = await stripe.customers.retrieve(
       subscription.customer as string,
@@ -179,7 +179,7 @@ export async function createCheckoutSession(
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
-      payment_method_types: stripeConfig.paymentMethods,
+      payment_method_types: stripeConfig.paymentMethods as unknown as Stripe.Checkout.SessionCreateParams.PaymentMethodType[],
       line_items: [
         {
           price: priceId,
