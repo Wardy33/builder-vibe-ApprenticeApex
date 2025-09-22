@@ -1,5 +1,7 @@
 import express from "express";
 
+import express, { Response } from "express";
+
 const router = express.Router();
 
 // Email subscription endpoint
