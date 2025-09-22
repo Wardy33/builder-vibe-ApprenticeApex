@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response } from "express";
 import { asyncHandler } from "../middleware/errorHandler";
 import { sendSuccess, sendError } from "../utils/apiResponse";
 import StripeService from "../services/stripeService";
