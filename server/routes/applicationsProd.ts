@@ -136,15 +136,14 @@ router.post("/submit",
         console.warn('⚠️  Failed to send employer notification email:', emailError);
       }
 
-      console.log(`✅ Application submitted successfully: ${savedApplication.applicationId}`);
+      console.log(`✅ Application submitted successfully: ${savedApplication._id}`);
 
       sendSuccess(res, {
         application: {
           id: savedApplication._id,
-          applicationId: savedApplication.applicationId,
-          status: savedApplication.status,
+                    status: savedApplication.status,
           submittedAt: savedApplication.submittedAt,
-          aiMatchScore: savedApplication.aiMatchScore,
+          matchScore: (savedApplication as any).matchScore || null,
           apprenticeship: {
             title: (apprenticeship as any).title,
             companyName: (apprenticeship as any).companyName,
