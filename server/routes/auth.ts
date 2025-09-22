@@ -791,7 +791,7 @@ router.post('/login', async (req: import('express').Request, res: import('expres
 });
 
 // GET /api/auth/test - Test endpoint (EXISTING - KEEP THIS)
-router.get('/test', (req, res) => {
+router.get('/test', (_req, res) => {
   console.log('🧪 Auth test endpoint hit');
   res.json({
     success: true,
