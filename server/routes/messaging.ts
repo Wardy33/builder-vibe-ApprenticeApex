@@ -72,10 +72,10 @@ router.post(
 
       // If message passes AI check, save normally (in production, would save to database)
       const newMessage = {
-        id: Date.now(),
+        id: String(Date.now()),
         conversation_id: conversationId,
         sender_id: senderId,
-        content: content,
+        content,
         message_type: messageType,
         flagged_by_ai: false,
         ai_confidence_score: aiAnalysis.confidence || 0,
