@@ -236,13 +236,11 @@ router.patch("/:applicationId/status",
           if (reminderTime > Date.now()) {
             setTimeout(async () => {
               try {
-                const emailTemplates = await import('../services/emailTemplates');
-                const template = emailTemplates.default.getInterviewReminderTemplate({
-                  user: student,
-                  apprenticeship,
-                  interview: updatedApplication.interviewDetails,
-                  application: updatedApplication
-                });
+                const template = {
+                  subject: `Interview Reminder for ${apprenticeship.title}`,
+                  html: `<p>Reminder: Your interview is scheduled for ${new Date(interviewDate).toLocaleString()}.</p>`,
+                  text: `Interview reminder: ${new Date(interviewDate).toLocaleString()}`,
+                };
 
                 await EmailService.getInstance().sendEmail({
                   to: student.email,
