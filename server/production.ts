@@ -151,9 +151,6 @@ app.use(
   }),
 );
 
-// Passport configuration
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Health check endpoints
 app.get("/api/ping", (_req, res) => {
