@@ -175,7 +175,10 @@ router.post(
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
     try {
       const { planType, paymentMethodId } = req.body;
-      const userId = req.user.userId;
+      const userId = req.user?.userId as string;
+      if (!userId) {
+        return sendError(res, "Authentication required", 401, "UNAUTHORIZED");
+      }
 
       // Validate request
       if (!planType) {
@@ -188,10 +191,11 @@ router.post(
 
       // Check if user already has an active subscription
       const paymentService = NeonPaymentService.getInstance();
-      const existingSubscriptions = await paymentService.sql(
-        "SELECT status FROM subscriptions WHERE user_id = $1 AND status IN ($2, $3)",
-        [userId, "active", "trialing"],
-      );
+      const existingSubscriptions = await neon_run_sql({
+        sql: "SELECT status FROM subscriptions WHERE user_id = $1 AND status IN ($2, $3)",
+        projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
+        params: [userId, "active", "trialing"],
+      });
 
       if (existingSubscriptions.length > 0) {
         return sendError(
@@ -219,9 +223,9 @@ router.post(
         status: subscription.status,
         planInfo: {
           type: planType,
-          name: NeonPaymentService.SUBSCRIPTION_PLANS[planType].name,
-          price: NeonPaymentService.SUBSCRIPTION_PLANS[planType].price,
-          features: NeonPaymentService.SUBSCRIPTION_PLANS[planType].features,
+          name: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].name,
+          price: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].price,
+          features: NeonPaymentService.SUBSCRIPTION_PLANS[planType as keyof typeof NeonPaymentService.SUBSCRIPTION_PLANS].features,
         },
       });
     } catch (error: any) {
