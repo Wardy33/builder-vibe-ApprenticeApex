@@ -16,7 +16,7 @@ router.get(
   "/config",
   authenticateToken,
   requireMasterAdmin,
-  async (req: AuthenticatedRequest, res: Response) => {
+  async (_req: AuthenticatedRequest, res: Response) => {
     try {
       // Current system configuration
       const systemConfig = {
