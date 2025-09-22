@@ -1,7 +1,7 @@
 import express, { Router, Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { authenticateToken, requireMasterAdmin, requireAdminPermission, AuthenticatedRequest } from "../middleware/auth";
+import { authenticateToken, requireMasterAdmin, AuthenticatedRequest } from "../middleware/auth";
 import { getEnvConfig } from "../config/env";
 import { findUserByEmail, updateUserLoginAttempts, updateUserLastLogin, getDashboardStats, getGrowthMetrics, getAIModerationStats } from "../utils/neonHelper";
 
@@ -10,7 +10,6 @@ import adminUsersRouter from "./adminUsers";
 import adminAnalyticsRouter from "./adminAnalytics";
 import adminSystemRouter from "./adminSystem";
 
-import { Router, Request, Response } from "express";
 import { neon_run_sql } from "../config/neon";
 
 const router = Router();
@@ -19,7 +18,7 @@ console.log('🔧 Admin routes module loading...');
 console.log('🔧 Router created successfully');
 
 // Add a simple test route to verify admin routes are mounted
-router.get("/test", (req: Request, res: Response) => {
+router.get("/test", (_req: Request, res: Response) => {
   console.log('🧪 Admin test route accessed');
   res.json({
     success: true,
