@@ -137,7 +137,7 @@ function ProfileSetupStep1({
           onChange={(e) => onUpdate({ bio: e.target.value })}
           placeholder="Write a brief description about yourself, your interests, and career goals..."
           className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-24"
-          style={{focusBorderColor: '#da6927'}}
+          style={{borderColor: '#da6927'}}
           maxLength={300}
         />
         <p className="text-xs text-gray-500 mt-1">
@@ -158,7 +158,7 @@ function ProfileSetupStep1({
             onChange={(e) => onUpdate({ dateOfBirth: e.target.value })}
             className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
             style={{
-              focusBorderColor: '#da6927',
+              borderColor: '#da6927',
               fontSize: '18px',
               minHeight: '56px',
               WebkitAppearance: 'none',
@@ -181,7 +181,7 @@ function ProfileSetupStep1({
           onChange={(e) => onUpdate({ phone: e.target.value })}
           placeholder="07123 456789"
           className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-          style={{focusBorderColor: '#da6927'}}
+          style={{borderColor: '#da6927'}}
         />
       </div>
 
@@ -199,7 +199,7 @@ function ProfileSetupStep1({
               onChange={(e) => onUpdate({ location: e.target.value })}
               placeholder="London"
               className="w-full pl-10 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-              style={{focusBorderColor: '#da6927'}}
+              style={{borderColor: '#da6927'}}
             />
           </div>
         </div>
@@ -215,7 +215,7 @@ function ProfileSetupStep1({
             }
             placeholder="SW1A 1AA"
             className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-            style={{focusBorderColor: '#da6927'}}
+            style={{borderColor: '#da6927'}}
             maxLength={8}
           />
         </div>
@@ -262,7 +262,7 @@ function ProfileSetupStep1({
           onChange={(e) => onUpdate({ assistedNeeds: e.target.value })}
           placeholder="Please describe any adjustments you may need (e.g., wheelchair access, hearing support, flexible hours). Leave blank if none required."
           className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-20"
-          style={{focusBorderColor: '#da6927'}}
+          style={{borderColor: '#da6927'}}
           maxLength={500}
         />
         <p className="text-xs text-gray-500 mt-1">
@@ -284,7 +284,7 @@ function ProfileSetupStep1({
               onKeyPress={(e) => e.key === "Enter" && addSkill()}
               placeholder="Add a skill (e.g., JavaScript, Communication)"
               className="flex-1 p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-              style={{focusBorderColor: '#da6927'}}
+              style={{borderColor: '#da6927'}}
             />
             <button
               type="button"
@@ -416,7 +416,7 @@ function ProfileSetupStep2({
                     updateExperience(experience.id, { company: e.target.value })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 />
                 <input
                   type="text"
@@ -428,7 +428,7 @@ function ProfileSetupStep2({
                     })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 />
               </div>
 
@@ -447,7 +447,7 @@ function ProfileSetupStep2({
                     }
                     className="w-full p-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
                     style={{
-                      focusBorderColor: '#da6927',
+                      borderColor: '#da6927',
                       fontSize: '16px',
                       minHeight: '48px'
                     }}
@@ -468,7 +468,7 @@ function ProfileSetupStep2({
                     }
                     className="w-full p-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none disabled:opacity-50"
                     style={{
-                      focusBorderColor: '#da6927',
+                      borderColor: '#da6927',
                       fontSize: '16px',
                       minHeight: '48px'
                     }}
@@ -503,7 +503,7 @@ function ProfileSetupStep2({
                   })
                 }
                 className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none resize-none h-20"
-                style={{focusBorderColor: '#da6927'}}
+                style={{borderColor: '#da6927'}}
                 maxLength={200}
               />
             </div>
@@ -625,7 +625,7 @@ function ProfileSetupStep3({
                     updateGCSEGrade(grade.id, { subject: e.target.value })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 />
                 <select
                   value={grade.grade}
@@ -633,7 +633,7 @@ function ProfileSetupStep3({
                     updateGCSEGrade(grade.id, { grade: e.target.value })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 >
                   <option value="">Select Grade</option>
                   {GCSE_GRADES.map((gradeOption) => (
@@ -651,7 +651,7 @@ function ProfileSetupStep3({
                     updateGCSEGrade(grade.id, { examBoard: e.target.value })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 >
                   <option value="">Select Exam Board</option>
                   {EXAM_BOARDS.map((board) => (
@@ -668,7 +668,7 @@ function ProfileSetupStep3({
                     updateGCSEGrade(grade.id, { year: e.target.value })
                   }
                   className="w-full p-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                  style={{focusBorderColor: '#da6927'}}
+                  style={{borderColor: '#da6927'}}
                 />
               </div>
             </div>
@@ -855,7 +855,7 @@ function ProfileSetupStep4({
                 }
                 placeholder="15000"
                 className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                style={{focusBorderColor: '#da6927'}}
+                style={{borderColor: '#da6927'}}
                 min="0"
                 max="100000"
               />
@@ -880,7 +880,7 @@ function ProfileSetupStep4({
                 }
                 placeholder="25000"
                 className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg text-black placeholder-gray-400 focus:outline-none"
-                style={{focusBorderColor: '#da6927'}}
+                style={{borderColor: '#da6927'}}
                 min="0"
                 max="100000"
               />
@@ -969,7 +969,7 @@ function ProfileSetupStep4({
             onChange={(e) => onUpdate({ availabilityDate: e.target.value })}
             className="w-full pl-10 pr-4 py-4 bg-white border border-gray-300 rounded-lg text-black focus:outline-none"
             style={{
-              focusBorderColor: '#da6927',
+              borderColor: '#da6927',
               fontSize: '18px',
               minHeight: '56px',
               WebkitAppearance: 'none',
