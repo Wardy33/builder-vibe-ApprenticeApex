@@ -1,4 +1,3 @@
-import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
@@ -864,7 +863,7 @@ router.get("/test", (_req, res) => {
   });
 });
 
-console.log("🔧 Auth routes module loaded successfully");
+console.log("���� Auth routes module loaded successfully");
 console.log("📋 Available endpoints: register, login, test");
 
 export default router;
