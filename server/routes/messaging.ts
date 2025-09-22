@@ -15,7 +15,7 @@ router.post(
       const senderId = req.user!.userId;
 
       console.log(
-        `📨 New message in conversation ${conversationId} from user ${senderId}`,
+        `���� New message in conversation ${conversationId} from user ${senderId}`,
       );
 
       // Validate input
@@ -123,9 +123,9 @@ router.get(
       // In production, would query database with pagination
       const mockMessages = [
         {
-          id: 1,
+          id: "1",
           conversation_id: conversationId,
-          sender_id: userId === 1 ? 1002 : 1,
+          sender_id: userId,
           content:
             "Hi! I'm interested in this apprenticeship opportunity. Could you tell me more about the role?",
           message_type: "text",
@@ -134,9 +134,9 @@ router.get(
           created_at: new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
         },
         {
-          id: 2,
+          id: "2",
           conversation_id: conversationId,
-          sender_id: userId === 1 ? 1 : 1002,
+          sender_id: "other-user",
           content:
             "Thank you for your interest! This is a great opportunity in software development. What's your background in programming?",
           message_type: "text",
@@ -145,9 +145,9 @@ router.get(
           created_at: new Date(Date.now() - 23 * 60 * 60 * 1000).toISOString(), // 23 hours ago
         },
         {
-          id: 3,
+          id: "3",
           conversation_id: conversationId,
-          sender_id: userId === 1 ? 1002 : 1,
+          sender_id: userId,
           content:
             "I have experience with JavaScript and Python. I'm really excited about this opportunity!",
           message_type: "text",
