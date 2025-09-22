@@ -53,7 +53,7 @@ router.post("/webhook", [
 }));
 
 // Webhook event types endpoint (for debugging/testing)
-router.get("/webhook/events", asyncHandler(async (req, res) => {
+router.get("/webhook/events", asyncHandler(async (req: Request, res: Response) => {
   sendSuccess(res, {
     supportedEvents: [
       'payment_intent.succeeded',
