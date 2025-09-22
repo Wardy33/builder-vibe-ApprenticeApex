@@ -273,8 +273,8 @@ router.patch("/:applicationId/status",
     } catch (error: any) {
       console.error('Application status update error:', error);
       
-      if (error.name === "ValidationError") {
-        return sendValidationError(res, "Update validation failed", error.errors);
+      if ((error as any)?.name === "ValidationError") {
+        return sendError(res, "Update validation failed", 400, 'VALIDATION_ERROR');
       }
       return sendError(res, "Failed to update application status", 500, 'UPDATE_ERROR');
     }
