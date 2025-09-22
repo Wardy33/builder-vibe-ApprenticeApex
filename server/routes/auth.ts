@@ -11,7 +11,7 @@ const router = express.Router();
 // ====================================================================
 
 // Route-level debugging middleware
-router.use((req: Request, res: Response, next: NextFunction) => {
+router.use((req: Request, _res: Response, next: NextFunction) => {
   console.log("\n🔐 === AUTH ROUTE DEBUG ===");
   console.log("🔐 Auth Route Hit:", req.method, req.path);
   console.log("🔐 Headers:", JSON.stringify(req.headers, null, 2));
@@ -559,7 +559,7 @@ router.post(
       }
       if (!email && req.body.login) {
         email = req.body.login;
-        console.log("📝 Using login field as email:", email);
+        console.log("���� Using login field as email:", email);
       }
       if (!password && req.body.pass) {
         password = req.body.pass;
@@ -863,7 +863,7 @@ router.get("/test", (_req, res) => {
   });
 });
 
-console.log("���� Auth routes module loaded successfully");
+console.log("🔧 Auth routes module loaded successfully");
 console.log("📋 Available endpoints: register, login, test");
 
 export default router;
