@@ -129,16 +129,11 @@ router.post("/submit",
       try {
         const employer = await User.findById(apprenticeship.companyId);
         if (employer && employer.emailPreferences?.applicationNotifications !== false) {
-          const emailTemplates = await import('../services/emailTemplates');
-          const template = emailTemplates.default.getNotificationTemplate({
-            user: employer,
-            customData: {
-              title: 'New Application Received',
-              message: `You have received a new application for ${apprenticeship.title} from ${user.profile?.firstName || 'a candidate'}. The candidate has a ${matchScore.overallScore}% match score.`,
-              actionUrl: `${process.env.FRONTEND_URL}/employer/applications/${savedApplication._id}`,
-              actionText: 'Review Application'
-            }
-          });
+          const template = {
+            subject: 'New Application Received',
+            html: `<p>You have received a new application for ${(apprenticeship as any).title} from ${user.profile?.firstName || 'a candidate'}.</p><p><a href="${process.env.FRONTEND_URL}/employer/applications/${savedApplication._id}">Review Application</a></p>`,
+            text: `New application for ${(apprenticeship as any).title}. Review: ${process.env.FRONTEND_URL}/employer/applications/${savedApplication._id}`,
+          };
 
           await EmailService.getInstance().sendEmail({
             to: employer.email,
