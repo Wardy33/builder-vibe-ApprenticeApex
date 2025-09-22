@@ -14,9 +14,10 @@ router.get('/student/:studentId/profile', async (req, res) => {
     const employerId = req.user?.userId;
     
     if (!employerId) {
-      return res.status(401).json({ error: 'Employer authentication required' });
+      res.status(401).json({ error: 'Employer authentication required' });
+      return;
     }
-    
+
     // Get full student profile
     const student = await User.findById(studentId);
     if (!student) {
