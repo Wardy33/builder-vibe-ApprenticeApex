@@ -49,24 +49,12 @@ router.post(
         );
 
         // Create blocked message record (in production, would save to database)
-        const blockedMessage = {
-          id: Date.now(), // Would be database ID
-          conversation_id: conversationId,
-          sender_id: senderId,
-          content: "[MESSAGE BLOCKED - Contains contact information]",
-          original_content: content,
-          message_type: "blocked",
-          flagged_by_ai: true,
-          ai_confidence_score: aiAnalysis.confidence,
-          contains_contact_info: true,
-          blocked_by_ai: true,
-          created_at: new Date().toISOString(),
-        };
+        const blockedMessageId = String(Date.now());
 
         // Block conversation and notify admin
-        await aiModerationService.blockMessage(
-          blockedMessage.id,
-          parseInt(conversationId),
+        await aiModerationService.blockAndReport(
+          blockedMessageId,
+          conversationId,
           aiAnalysis.flags,
           senderId,
         );
