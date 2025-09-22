@@ -40,7 +40,7 @@ router.post("/login", async (req: Request, res: Response) => {
     // Ensure we have a valid request body
     if (!req.body || typeof req.body !== 'object') {
       console.error('❌ Invalid request body for admin login');
-      return res.status(400).json({
+      res.status(400).json({
         error: "Invalid request body",
         code: "INVALID_BODY"
       });
@@ -55,7 +55,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
     if (!email || !password) {
       console.warn('❌ Missing email or password in admin login');
-      return res.status(400).json({
+      res.status(400).json({
         error: "Email and password are required",
         code: "MISSING_CREDENTIALS"
       });
@@ -65,7 +65,7 @@ router.post("/login", async (req: Request, res: Response) => {
     const expectedAdminCode = process.env.MASTER_ADMIN_CODE || "APEX2024";
     if (adminCode !== expectedAdminCode) {
       console.warn(`🚨 Invalid admin code attempt from IP: ${req.ip}, email: ${email}`);
-      return res.status(403).json({
+      res.status(403).json({
         error: "Invalid admin access code",
         code: "INVALID_ADMIN_CODE"
       });
@@ -76,7 +76,7 @@ router.post("/login", async (req: Request, res: Response) => {
 
     if (!user) {
       console.warn(`🚨 Admin login attempt with non-admin email: ${email} from IP: ${req.ip}`);
-      return res.status(401).json({
+      res.status(401).json({
         error: "Invalid admin credentials",
         code: "INVALID_ADMIN_CREDENTIALS"
       });
@@ -85,7 +85,7 @@ router.post("/login", async (req: Request, res: Response) => {
     // Check if account is locked
     if (user.locked_until && new Date(user.locked_until) > new Date()) {
       const lockTimeRemaining = Math.ceil((new Date(user.locked_until).getTime() - Date.now()) / 60000);
-      return res.status(423).json({
+      res.status(423).json({
         error: `Admin account locked. Try again in ${lockTimeRemaining} minutes`,
         code: "ADMIN_ACCOUNT_LOCKED",
         lockTimeRemaining
@@ -108,7 +108,7 @@ router.post("/login", async (req: Request, res: Response) => {
       await updateUserLoginAttempts(user.id, attempts, lockUntil);
 
       console.warn(`🚨 Failed admin login attempt: ${email} from IP: ${req.ip}`);
-      return res.status(401).json({
+      res.status(401).json({
         error: "Invalid admin credentials",
         code: "INVALID_ADMIN_CREDENTIALS"
       });
@@ -189,7 +189,7 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
       projectId: process.env.NEON_PROJECT_ID || "winter-bread-79671472",
     });
     if (existingAdmins.length > 0) {
-      return res.status(409).json({
+      res.status(409).json({
         error: "Master admin already exists",
         code: "MASTER_ADMIN_EXISTS"
       });
@@ -199,14 +199,14 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
     const expectedSetupCode = process.env.MASTER_ADMIN_SETUP_CODE || "SETUP_APEX_2024";
     if (setupCode !== expectedSetupCode) {
       console.warn(`🚨 Invalid master admin setup attempt from IP: ${req.ip}`);
-      return res.status(403).json({
+      res.status(403).json({
         error: "Invalid setup code",
         code: "INVALID_SETUP_CODE"
       });
     }
 
     if (!email || !password) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Email and password are required",
         code: "MISSING_CREDENTIALS"
       });
@@ -214,7 +214,7 @@ router.post("/setup-master-admin", async (req: Request, res: Response) => {
 
     // Validate email format
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Invalid email format",
         code: "INVALID_EMAIL"
       });
@@ -283,7 +283,7 @@ router.get("/verify-session", authenticateToken, requireMasterAdmin, async (req:
     };
     if (!user) {
       console.warn('❌ Admin user not found during session verification:', req.user?.userId);
-      return res.status(404).json({
+      res.status(404).json({
         error: "Admin user not found",
         code: "ADMIN_NOT_FOUND"
       });
