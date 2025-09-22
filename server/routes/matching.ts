@@ -18,8 +18,8 @@ function calculateMatchScore(student: any, apprenticeship: any): number {
   }
 
   // Skills match (25 points)
-  const studentSkills = studentProfile.skills || [];
-  const requiredSkills = apprenticeship.requirements?.skills || [];
+  const studentSkills: string[] = (studentProfile.skills || []) as string[];
+  const requiredSkills: string[] = (apprenticeship.requirements?.skills || []) as string[];
   if (requiredSkills.length > 0) {
     const matchingSkills = studentSkills.filter(skill =>
       requiredSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
@@ -301,7 +301,17 @@ router.post('/analyze', authenticateToken, async (req: any, res: any) => {
     const studentProfile = student.profile as any;
 
     // Detailed breakdown
-    const analysis = {
+    const analysis: {
+      overallScore: number;
+      breakdown: {
+        industry: { score: number; details: string };
+        skills: { score: number; matchingSkills: string[]; missingSkills: string[]; details: string };
+        location: { score: number; distance: number | null; details: string };
+        salary: { score: number; details: string };
+        workType: { score: number; details: string };
+      };
+      recommendations: { type: string; message: string }[];
+    } = {
       overallScore: matchScore,
       breakdown: {
         industry: {
@@ -316,7 +326,7 @@ router.post('/analyze', authenticateToken, async (req: any, res: any) => {
         },
         location: {
           score: 0,
-          distance: null,
+          distance: null as number | null,
           details: ''
         },
         salary: {
@@ -340,14 +350,14 @@ router.post('/analyze', authenticateToken, async (req: any, res: any) => {
     }
 
     // Skills analysis
-    const studentSkills = studentProfile.skills || [];
-    const requiredSkills = apprenticeship.requirements?.skills || [];
+    const studentSkills: string[] = (studentProfile.skills || []) as string[];
+    const requiredSkills: string[] = (apprenticeship.requirements?.skills || []) as string[];
 
     if (requiredSkills.length > 0) {
-      const matchingSkills = studentSkills.filter(skill =>
+      const matchingSkills = studentSkills.filter((skill: string) =>
         requiredSkills.some(reqSkill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
       );
-      const missingSkills = requiredSkills.filter(reqSkill =>
+      const missingSkills = requiredSkills.filter((reqSkill: string) =>
         !studentSkills.some(skill => reqSkill.toLowerCase().includes(skill.toLowerCase()))
       );
 
@@ -448,7 +458,7 @@ router.post('/analyze', authenticateToken, async (req: any, res: any) => {
         apprenticeship: {
           id: apprenticeship._id,
           title: apprenticeship.title,
-          company: apprenticeship.company.profile.companyName
+          company: (apprenticeship as any).company.profile.companyName
         },
         analysis
       }
@@ -580,7 +590,7 @@ router.get('/similar', authenticateToken, async (req: any, res: any) => {
       });
     }
 
-    let similar = [];
+    let similar: any[] = [];
 
     if (type === 'apprenticeship') {
       const apprenticeship = await Apprenticeship.findById(id);
