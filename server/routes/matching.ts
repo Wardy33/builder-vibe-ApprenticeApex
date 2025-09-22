@@ -160,7 +160,7 @@ router.get('/recommendations', authenticateToken, async (req: any, res: any) => 
     res.status(500).json({
       success: false,
       error: 'Failed to get recommendations',
-      details: error.message
+      details: (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -237,7 +237,7 @@ router.get('/candidates', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to get matching candidates',
-      details: error.message
+      details: (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -458,7 +458,7 @@ router.post('/analyze', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to analyze match',
-      details: error.message
+      details: (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -556,7 +556,7 @@ router.get('/stats', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to get matching statistics',
-      details: error.message
+      details: (error instanceof Error ? error.message : String(error))
     });
   }
 });
@@ -645,7 +645,7 @@ router.get('/similar', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to find similar items',
-      details: error.message
+      details: (error instanceof Error ? error.message : String(error))
     });
   }
 });
