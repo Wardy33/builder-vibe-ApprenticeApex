@@ -121,18 +121,20 @@ async function startSimpleServer() {
             JSON.parse(buf);
             console.log("✅ JSON validation passed");
           } catch (e) {
-            console.error("❌ JSON parsing error:", e.message);
+            const msg = e instanceof Error ? e.message : String(e);
+            console.error("❌ JSON parsing error:", msg);
             console.error("��� Raw body that failed:", buf.toString());
             throw new Error("Invalid JSON format");
           }
         },
       })(req, res, (err) => {
         if (err) {
-          console.error("❌ Express JSON middleware error:", err.message);
+          const msg = err instanceof Error ? err.message : String(err);
+          console.error("❌ Express JSON middleware error:", msg);
           return res.status(400).json({
             success: false,
             error: "Invalid JSON in request body",
-            details: err.message,
+            details: msg,
           });
         }
         console.log("✅ JSON middleware passed");
@@ -148,14 +150,15 @@ async function startSimpleServer() {
         limit: "10mb",
       })(req, res, (err) => {
         if (err) {
+          const msg = err instanceof Error ? err.message : String(err);
           console.error(
             "❌ Express URL encoded middleware error:",
-            err.message,
+            msg,
           );
           return res.status(400).json({
             success: false,
             error: "Invalid URL encoded data",
-            details: err.message,
+            details: msg,
           });
         }
         console.log("✅ URL encoded middleware passed");
@@ -275,11 +278,12 @@ async function startSimpleServer() {
           message: "Company login successful (emergency patch)",
         });
       } catch (error) {
-        console.error("�� Emergency company signin error:", error.message);
+        const msg = error instanceof Error ? error.message : String(error);
+        console.error("�� Emergency company signin error:", msg);
         res.status(500).json({
           success: false,
           error: "Internal server error during company signin",
-          details: error.message,
+          details: msg,
         });
       }
     });
@@ -462,11 +466,12 @@ async function startSimpleServer() {
             message: "Company login successful (emergency 404 patch)",
           });
         } catch (error) {
-          console.error("❌ Emergency patch error:", error.message);
+          const msg = error instanceof Error ? error.message : String(error);
+          console.error("❌ Emergency patch error:", msg);
           return res.status(500).json({
             success: false,
             error: "Internal server error during emergency company signin",
-            details: error.message,
+            details: msg,
           });
         }
       }
@@ -505,8 +510,9 @@ async function startSimpleServer() {
         process.exit(1);
       }
     });
-  } catch (error: any) {
-    console.error("❌ Failed to create server:", error.message);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    console.error("❌ Failed to create server:", msg);
     process.exit(1);
   }
 }
