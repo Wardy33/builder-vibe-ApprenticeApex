@@ -75,7 +75,7 @@ class EmailService {
       }
 
       // Create transporter with Hostinger SMTP settings
-      this.transporter = nodemailer.createTransporter({
+      this.transporter = nodemailer.createTransport({
         host: env.SMTP_HOST,
         port: env.SMTP_PORT,
         secure: env.SMTP_SECURE, // true for 465, false for other ports
@@ -398,7 +398,7 @@ ApprenticeApex - The Gen Z apprenticeship platform`;
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #00D4FF 0%, #0080FF 100%); padding: 40px 20px; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 28px; font-weight: bold;">Welcome to ApprenticeApex!</h1>
-            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Start hiring Gen Z talent today 💼</p>
+            <p style="color: white; margin: 10px 0 0 0; font-size: 16px;">Start hiring Gen Z talent today ���</p>
         </div>
         
         <!-- Content -->
