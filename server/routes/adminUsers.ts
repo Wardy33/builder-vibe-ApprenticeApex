@@ -99,7 +99,7 @@ router.get("/:id", authenticateToken, requireAdminPermission("canViewAllUsers"),
       .lean()) as any;
 
     if (!user) {
-      return res.status(404).json({
+      res.status(404).json({
         error: "User not found",
         code: "USER_NOT_FOUND"
       });
@@ -139,7 +139,7 @@ router.put("/:id/status", authenticateToken, requireAdminPermission("canViewAllU
     const { isActive, reason } = req.body;
 
     if (typeof isActive !== "boolean") {
-      return res.status(400).json({
+      res.status(400).json({
         error: "isActive must be a boolean value",
         code: "INVALID_STATUS"
       });
@@ -147,7 +147,7 @@ router.put("/:id/status", authenticateToken, requireAdminPermission("canViewAllU
 
     const user = await User.findById(userId);
     if (!user) {
-      return res.status(404).json({
+      res.status(404).json({
         error: "User not found",
         code: "USER_NOT_FOUND"
       });
@@ -155,7 +155,7 @@ router.put("/:id/status", authenticateToken, requireAdminPermission("canViewAllU
 
     // Prevent deactivating master admin
     if (user.role === "master_admin" && !isActive) {
-      return res.status(403).json({
+      res.status(403).json({
         error: "Cannot deactivate master admin account",
         code: "CANNOT_DEACTIVATE_MASTER_ADMIN"
       });
@@ -308,7 +308,7 @@ router.get("/export/:format", authenticateToken, requireAdminPermission("canExpo
     const role = req.query.role as string;
 
     if (!["csv", "json"].includes(format)) {
-      return res.status(400).json({
+      res.status(400).json({
         error: "Format must be 'csv' or 'json'",
         code: "INVALID_FORMAT"
       });
