@@ -156,9 +156,6 @@ router.post("/submit",
     } catch (error: any) {
       console.error('Application submission error:', error);
       
-      if (error.name === "ValidationError") {
-        return sendValidationError(res, "Application validation failed", error.errors);
-      }
       return sendError(res, "Failed to submit application", 500, 'APPLICATION_ERROR');
     }
   })
