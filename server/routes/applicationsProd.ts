@@ -86,9 +86,11 @@ router.post("/submit",
         apprenticeship: apprenticeshipId,
         // company handled via apprenticeship ref
         status: 'pending' as const,
-        applicationData: { coverLetter },
-        applicationData: { coverLetter, portfolioUrl: Array.isArray(portfolioUrls) && portfolioUrls.length ? portfolioUrls[0] : undefined },
-        applicationData: { coverLetter, portfolioUrl: Array.isArray(portfolioUrls) && portfolioUrls.length ? portfolioUrls[0] : undefined, additionalDocuments: Array.isArray(documents) ? documents : [] },
+        applicationData: {
+          coverLetter,
+          portfolioUrl: Array.isArray(portfolioUrls) && portfolioUrls.length ? portfolioUrls[0] : undefined,
+          additionalDocuments: Array.isArray(documents) ? documents : [],
+        },
         submittedAt: new Date(),
         // availabilityNotes not stored in current schema
         // userLocation not stored in current schema
