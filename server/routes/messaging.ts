@@ -15,7 +15,7 @@ router.post(
       const senderId = req.user!.userId;
 
       console.log(
-        `📨 New message in conversation ${conversationId} from user ${senderId}`,
+        `���� New message in conversation ${conversationId} from user ${senderId}`,
       );
 
       // Validate input
@@ -89,7 +89,7 @@ router.post(
         `📝 Updated conversation ${conversationId} last message time`,
       );
 
-      res.status(201).json({
+      return res.status(201).json({
         message: newMessage,
         aiChecked: true,
         safe: true,
