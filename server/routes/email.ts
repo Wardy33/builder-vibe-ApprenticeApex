@@ -5,7 +5,7 @@ import express, { Response } from "express";
 const router = express.Router();
 
 // Email subscription endpoint
-router.post("/subscribe", async (req: any, res: any) => {
+router.post("/subscribe", async (req: any, res: Response) => {
   try {
     const { email, type, source, notificationEmail } = req.body;
 
@@ -75,13 +75,13 @@ router.post("/subscribe", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to process subscription",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
 
 // Health check for email service
-router.get("/health", (req: any, res: any) => {
+router.get("/health", (_req: any, res: Response) => {
   res.json({
     success: true,
     service: "Email Service",
