@@ -74,6 +74,7 @@ router.post(
   "/job-posting",
   [paymentRateLimit],
   asyncHandler(async (req: AuthenticatedRequest, res: Response) => {
+    if (!req.user) { return res.status(401).json({ error: 'Unauthorized' }); }
     try {
       const { jobId, packageType } = req.body;
       const userId = req.user?.userId as string;
