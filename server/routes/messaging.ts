@@ -197,7 +197,7 @@ router.get(
           job_id: 1,
           subject: "Software Developer Apprenticeship Application",
           last_message_at: new Date().toISOString(),
-          unread_count: userId === 1 ? 2 : 0,
+          unread_count: 2,
           archived: false,
           blocked: false,
           ai_monitoring_active: true,
