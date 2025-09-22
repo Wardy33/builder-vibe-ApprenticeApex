@@ -335,7 +335,7 @@ router.get("/discover", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch apprenticeships",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -405,7 +405,7 @@ router.get("/swipe", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch apprenticeships for swiping",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -492,7 +492,7 @@ router.get("/", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch apprenticeships",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -550,7 +550,7 @@ router.get("/:id", async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch apprenticeship",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -668,7 +668,7 @@ router.post("/", authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to create apprenticeship",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -730,7 +730,7 @@ router.put("/:id", authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to update apprenticeship",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -789,7 +789,7 @@ router.delete("/:id", authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to delete apprenticeship",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
@@ -865,7 +865,7 @@ router.get("/company/my", authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: "Failed to fetch company apprenticeships",
-      details: error.message,
+      details: error instanceof Error ? error.message : String(error),
     });
   }
 });
