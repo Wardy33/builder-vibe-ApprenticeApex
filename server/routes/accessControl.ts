@@ -3,12 +3,14 @@ import { AccessControlService } from '../services/accessControlService';
 import { EmployerAccess } from '../models/EmployerAccess';
 import { User } from '../models/User';
 
+import { Router, Response } from 'express';
+
 const router = Router();
 
 /**
  * Get staged student profile based on employer's access level
  */
-router.get('/student/:studentId/profile', async (req, res) => {
+router.get('/student/:studentId/profile', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
     const employerId = req.user?.userId;
@@ -41,12 +43,12 @@ router.get('/student/:studentId/profile', async (req, res) => {
 /**
  * Check employer's current access level for a student
  */
-router.get('/student/:studentId/access-level', async (req, res) => {
+router.get('/student/:studentId/access-level', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
     const employerId = req.user?.userId;
     
-    const accessLevel = await EmployerAccess.getAccessLevel(employerId, studentId);
+    const accessLevel = await (EmployerAccess as any).getAccessLevel(employerId, studentId);
     const canUpgrade = await AccessControlService.canUpgradeAccess(employerId, studentId, accessLevel + 1);
     
     res.json({
@@ -64,7 +66,7 @@ router.get('/student/:studentId/access-level', async (req, res) => {
 /**
  * Request access level upgrade
  */
-router.post('/student/:studentId/request-upgrade', async (req, res) => {
+router.post('/student/:studentId/request-upgrade', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
     const { targetLevel, commitmentType, agreementAccepted } = req.body;
@@ -77,21 +79,24 @@ router.post('/student/:studentId/request-upgrade', async (req, res) => {
 
     // Validate target level
     if (targetLevel < 1 || targetLevel > 4) {
-      return res.status(400).json({ error: 'Invalid target level' });
+      res.status(400).json({ error: 'Invalid target level' });
+      return;
     }
     
     // Check if upgrade is possible
     const canUpgrade = await AccessControlService.canUpgradeAccess(employerId, studentId, targetLevel);
     if (!canUpgrade) {
-      return res.status(403).json({ 
+      res.status(403).json({
         error: 'Access upgrade requirements not met',
         requirements: await getUpgradeRequirements(employerId, studentId, targetLevel)
       });
+      return;
     }
     
     // For Level 2+, require agreement acceptance
     if (targetLevel >= 2 && !agreementAccepted) {
-      return res.status(400).json({ error: 'Employer agreement must be accepted' });
+      res.status(400).json({ error: 'Employer agreement must be accepted' });
+      return;
     }
     
     // Update agreement status if accepting
@@ -144,10 +149,10 @@ router.post('/student/:studentId/request-upgrade', async (req, res) => {
 /**
  * Process payment for access upgrade
  */
-router.post('/student/:studentId/process-payment', async (req, res) => {
+router.post('/student/:studentId/process-payment', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
-    const { targetLevel, paymentMethod, stripePaymentIntentId } = req.body;
+    const { targetLevel, paymentMethod: _paymentMethod, stripePaymentIntentId } = req.body;
     const employerId = req.user?.userId;
     
     // TODO: Verify payment with Stripe
@@ -190,14 +195,15 @@ router.post('/student/:studentId/process-payment', async (req, res) => {
 /**
  * Accept success fee commitment for Level 4 access
  */
-router.post('/student/:studentId/accept-commitment', async (req, res) => {
+router.post('/student/:studentId/accept-commitment', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
     const { commitmentType, agreementSigned } = req.body;
     const employerId = req.user?.userId;
     
     if (!agreementSigned) {
-      return res.status(400).json({ error: 'Success fee agreement must be signed' });
+      res.status(400).json({ error: 'Success fee agreement must be signed' });
+      return;
     }
     
     // Update commitment status
@@ -231,7 +237,7 @@ router.post('/student/:studentId/accept-commitment', async (req, res) => {
 /**
  * Track employer interaction with student
  */
-router.post('/student/:studentId/track-interaction', async (req, res) => {
+router.post('/student/:studentId/track-interaction', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { studentId } = req.params;
     const { interactionType, metadata } = req.body;
