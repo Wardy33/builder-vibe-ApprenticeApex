@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import { body, query, validationResult } from "express-validator";
 import { AuthenticatedRequest } from "../middleware/auth";
 import { asyncHandler, CustomError } from "../middleware/errorHandler";
@@ -6,8 +6,41 @@ const aiModeration = require("../middleware/aiModeration");
 
 const router = express.Router();
 
+// Types for mock data and responses
+type Conversation = {
+  _id: string;
+  participants: string[];
+  applicationId?: string;
+  lastMessage?: { content: string; sentAt: Date; senderId: string };
+  unreadCount: Record<string, number>;
+  isActive: boolean;
+  createdAt: Date;
+  blocked?: boolean;
+  blockedReason?: string;
+  blockedAt?: Date;
+  flaggedForReview?: boolean;
+};
+
+type Message = {
+  _id: string;
+  conversationId: string;
+  senderId: string;
+  receiverId: string;
+  messageType: "text" | "file" | "image" | "blocked";
+  content: string;
+  isRead: boolean;
+  sentAt: Date;
+  fileUrl?: string;
+  fileName?: string;
+  flaggedByAI?: boolean;
+  aiConfidenceScore?: number;
+  containsContactInfo?: boolean;
+  blockedByAI?: boolean;
+  originalContent?: string;
+};
+
 // Mock conversations and messages
-const mockConversations = [
+const mockConversations: Conversation[] = [
   {
     _id: "conv_1",
     participants: ["student1", "company1"],
@@ -24,7 +57,7 @@ const mockConversations = [
   },
 ];
 
-const mockMessages = [
+const mockMessages: Message[] = [
   {
     _id: "msg_1",
     conversationId: "conv_1",
