@@ -1,9 +1,9 @@
-import { Router } from 'express';
 import { AccessControlService } from '../services/accessControlService';
 import { EmployerAccess } from '../models/EmployerAccess';
 import { User } from '../models/User';
 
 import { Router, Response } from 'express';
+import { AuthenticatedRequest } from '../middleware/auth';
 
 const router = Router();
 
