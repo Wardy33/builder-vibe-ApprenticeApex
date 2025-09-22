@@ -12,7 +12,7 @@ router.post("/webhook", [
   createRateLimit(5 * 60 * 1000, 1000), // 1000 requests per 5 minutes
   // Parse raw body for webhook signature verification
   express.raw({ type: 'application/json', limit: '1mb' })
-], asyncHandler(async (req, res) => {
+] , asyncHandler(async (req: Request, res: Response) => {
   console.log('🪝 Stripe webhook received');
   
   try {
