@@ -39,7 +39,7 @@ const statusUpdateValidation = [
 router.post("/submit", 
   authenticateToken,
   applicationValidation,
-  validateDatabaseInput,
+  requireDatabase,
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -182,7 +182,7 @@ router.post("/submit",
 router.patch("/:applicationId/status",
   authenticateToken,
   statusUpdateValidation,
-  validateDatabaseInput,
+  requireDatabase,
   asyncHandler(async (req: AuthenticatedRequest, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
