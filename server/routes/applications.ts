@@ -69,7 +69,7 @@ router.get('/', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch applications',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -164,7 +164,7 @@ router.post('/', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to submit application',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -196,8 +196,8 @@ router.get('/:id', authenticateToken, async (req: any, res: any) => {
 
     // Check access permissions
     const canAccess =
-      (userRole === 'student' && application.student._id.toString() === userId) ||
-      (userRole === 'company' && application.apprenticeship.company.toString() === userId) ||
+      (userRole === 'student' && (application.student as any)._id.toString() === userId) ||
+      (userRole === 'company' && (application.apprenticeship as any).company.toString() === userId) ||
       userRole === 'admin';
 
     if (!canAccess) {
@@ -216,7 +216,7 @@ router.get('/:id', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch application',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -262,7 +262,7 @@ router.put('/:id/status', authenticateToken, async (req: any, res: any) => {
     }
 
     // Check if company owns the apprenticeship
-    if (userRole === 'company' && application.apprenticeship.company.toString() !== userId) {
+    if (userRole === 'company' && (application.apprenticeship as any).company.toString() !== userId) {
       return res.status(403).json({
         success: false,
         error: 'You can only update applications for your apprenticeships'
@@ -314,7 +314,7 @@ router.put('/:id/status', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to update application status',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -408,7 +408,7 @@ router.put('/:id/withdraw', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to withdraw application',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
@@ -479,7 +479,7 @@ router.get('/stats', authenticateToken, async (req: any, res: any) => {
     res.status(500).json({
       success: false,
       error: 'Failed to fetch application statistics',
-      details: error.message
+      details: error instanceof Error ? error.message : String(error)
     });
   }
 });
