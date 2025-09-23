@@ -1,9 +1,9 @@
-import 'express-serve-static-core';
+import "express-serve-static-core";
 
-declare module 'express-serve-static-core' {
+declare module "express-serve-static-core" {
   interface UserPayload {
     userId: string;
-    role: 'student' | 'company' | 'admin' | 'master_admin';
+    role: "student" | "company" | "admin" | "master_admin";
     email?: string;
   }
   interface Request {

@@ -28,7 +28,12 @@ passport.use(
       clientSecret: googleOAuthConfig.clientSecret,
       callbackURL: googleOAuthConfig.callbackURL,
     },
-    async (_accessToken: string, _refreshToken: string, profile: any, done: (err: any, user?: any) => void) => {
+    async (
+      _accessToken: string,
+      _refreshToken: string,
+      profile: any,
+      done: (err: any, user?: any) => void,
+    ) => {
       try {
         console.log(
           `🔐 Google OAuth: Processing login for ${profile.emails?.[0]?.value}`,
@@ -140,28 +145,30 @@ passport.serializeUser((user: any, done: (err: any, id?: any) => void) => {
 });
 
 // Deserialize user from session
-passport.deserializeUser(async (userId: string, done: (err: any, user?: any) => void) => {
-  try {
-    const user = await neon_run_sql({
-      sql: `
+passport.deserializeUser(
+  async (userId: string, done: (err: any, user?: any) => void) => {
+    try {
+      const user = await neon_run_sql({
+        sql: `
         SELECT id, email, name, role, email_verified, profile_picture_url
         FROM users 
         WHERE id = $1
         LIMIT 1
       `,
-      projectId: process.env.NEON_PROJECT_ID!,
-      params: [userId],
-    });
+        projectId: process.env.NEON_PROJECT_ID!,
+        params: [userId],
+      });
 
-    if (user && user.length > 0) {
-      done(null, user[0]);
-    } else {
-      done(new Error("User not found"), null);
+      if (user && user.length > 0) {
+        done(null, user[0]);
+      } else {
+        done(new Error("User not found"), null);
+      }
+    } catch (error) {
+      done(error, null);
     }
-  } catch (error) {
-    done(error, null);
-  }
-});
+  },
+);
 
 // OAuth route handlers
 export const googleOAuthRoutes = {

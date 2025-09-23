@@ -96,19 +96,21 @@ export function createApp() {
   app.set("trust proxy", 1);
 
   // Compression middleware - Apply before other middleware for optimal performance
-  app.use(compression({
-    filter: (req, res) => {
-      // Don't compress responses with this request header
-      if (req.headers['x-no-compression']) {
-        return false;
-      }
-      // Use compression default filter for all other responses
-      return compression.filter(req, res);
-    },
-    level: 6, // Balanced compression level (1-9, where 6 is optimal)
-    threshold: 1024, // Only compress responses larger than 1KB
-    memLevel: 8, // Memory usage optimization
-  }));
+  app.use(
+    compression({
+      filter: (req, res) => {
+        // Don't compress responses with this request header
+        if (req.headers["x-no-compression"]) {
+          return false;
+        }
+        // Use compression default filter for all other responses
+        return compression.filter(req, res);
+      },
+      level: 6, // Balanced compression level (1-9, where 6 is optimal)
+      threshold: 1024, // Only compress responses larger than 1KB
+      memLevel: 8, // Memory usage optimization
+    }),
+  );
 
   // Basic middleware
   app.use(express.json({ limit: "10mb" }));
@@ -223,8 +225,13 @@ export function createApp() {
   app.use("/api/users", authenticateToken, userRoutes);
 
   // Apprenticeships route - conditional authentication for development mode
-  if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-    console.log('🔓 Apprenticeships routes running without global authentication in development mode');
+  if (
+    !database.isConnected() &&
+    (!process.env.MONGODB_URI || process.env.MONGODB_URI === "")
+  ) {
+    console.log(
+      "🔓 Apprenticeships routes running without global authentication in development mode",
+    );
     app.use("/api/apprenticeships", apprenticeshipRoutes);
   } else {
     app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
@@ -245,9 +252,9 @@ export function createApp() {
   app.use("/api/contact", contactRoutes); // Public route, no auth required
   app.use("/api/emails", emailRoutes); // Email management (mixed auth requirements)
 
-  console.log('🔧 Mounting admin routes at /api/admin...');
+  console.log("🔧 Mounting admin routes at /api/admin...");
   app.use("/api/admin", adminRoutes); // Master Admin routes (special authentication)
-  console.log('✅ Admin routes mounted successfully at /api/admin');
+  console.log("✅ Admin routes mounted successfully at /api/admin");
 
   // Database testing routes (development and staging only)
   if (env.NODE_ENV !== "production") {
@@ -345,8 +352,8 @@ export const config = {
 import {
   generateToken as secureGenerateToken,
   verifyToken as secureVerifyToken,
-  type JWTPayload
-} from './services/secureJWTService';
+  type JWTPayload,
+} from "./services/secureJWTService";
 
 export function generateToken(
   userId: string,
@@ -361,7 +368,10 @@ export function verifyToken(token: string): JWTPayload {
 }
 
 // Password utilities - using secure password service
-import { hashPassword as secureHashPassword, verifyPassword as secureVerifyPassword } from './services/securePasswordService';
+import {
+  hashPassword as secureHashPassword,
+  verifyPassword as secureVerifyPassword,
+} from "./services/securePasswordService";
 
 export async function hashPassword(password: string): Promise<string> {
   return secureHashPassword(password);
@@ -383,17 +393,19 @@ export function createServer() {
   app.set("trust proxy", 1);
 
   // Compression middleware for serverless
-  app.use(compression({
-    filter: (req, res) => {
-      if (req.headers['x-no-compression']) {
-        return false;
-      }
-      return compression.filter(req, res);
-    },
-    level: 6,
-    threshold: 1024,
-    memLevel: 8,
-  }));
+  app.use(
+    compression({
+      filter: (req, res) => {
+        if (req.headers["x-no-compression"]) {
+          return false;
+        }
+        return compression.filter(req, res);
+      },
+      level: 6,
+      threshold: 1024,
+      memLevel: 8,
+    }),
+  );
 
   // Basic middleware
   app.use(express.json({ limit: "10mb" }));
@@ -450,8 +462,13 @@ export function createServer() {
   app.use("/api/users", authenticateToken, userRoutes);
 
   // Apprenticeships route - conditional authentication for development mode
-  if (!database.isConnected() && (!process.env.MONGODB_URI || process.env.MONGODB_URI === '')) {
-    console.log('🔓 Apprenticeships routes running without global authentication in development mode');
+  if (
+    !database.isConnected() &&
+    (!process.env.MONGODB_URI || process.env.MONGODB_URI === "")
+  ) {
+    console.log(
+      "🔓 Apprenticeships routes running without global authentication in development mode",
+    );
     app.use("/api/apprenticeships", apprenticeshipRoutes);
   } else {
     app.use("/api/apprenticeships", authenticateToken, apprenticeshipRoutes);
@@ -487,20 +504,20 @@ export function createServer() {
 // =============================================================================
 
 // Add global error handlers to prevent crashes
-process.on('uncaughtException', (error) => {
-  console.error('❌ Uncaught Exception:', error.message);
-  console.error('Stack:', error.stack);
+process.on("uncaughtException", (error) => {
+  console.error("❌ Uncaught Exception:", error.message);
+  console.error("Stack:", error.stack);
   // Don't exit in development, just log the error
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
 });
 
-process.on('unhandledRejection', (reason: any, promise) => {
-  console.error('❌ Unhandled Rejection at:', promise);
-  console.error('Reason:', reason);
+process.on("unhandledRejection", (reason: any, promise) => {
+  console.error("❌ Unhandled Rejection at:", promise);
+  console.error("Reason:", reason);
   // Don't exit in development, just log the error
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     process.exit(1);
   }
 });
@@ -511,66 +528,74 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     try {
       const PORT = process.env.PORT || 3001;
 
-      console.log('🚀 Starting ApprenticeApex Server...');
-      console.log('📍 Environment:', process.env.NODE_ENV || 'development');
-      console.log('🔌 Port:', PORT);
-      console.log('🗄️  MongoDB URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
+      console.log("🚀 Starting ApprenticeApex Server...");
+      console.log("📍 Environment:", process.env.NODE_ENV || "development");
+      console.log("🔌 Port:", PORT);
+      console.log(
+        "🗄️  MongoDB URI:",
+        process.env.MONGODB_URI ? "Set" : "Not set",
+      );
 
       // CRITICAL: Run comprehensive security validation before starting
-      console.log('🛡️  Running security validation...');
-      const securityResult = await SecurityStartupValidator.validateSecurityOnStartup();
+      console.log("🛡️  Running security validation...");
+      const securityResult =
+        await SecurityStartupValidator.validateSecurityOnStartup();
 
       if (!securityResult.passed) {
-        console.error('🚨 DEPLOYMENT BLOCKED: Critical security vulnerabilities detected');
-        console.error('🚨 Server startup aborted for security reasons');
+        console.error(
+          "🚨 DEPLOYMENT BLOCKED: Critical security vulnerabilities detected",
+        );
+        console.error("🚨 Server startup aborted for security reasons");
         process.exit(1);
       }
 
-      console.log('✅ Security validation passed - server startup authorized');
+      console.log("✅ Security validation passed - server startup authorized");
 
       // Create Express app with better error handling
       const { app, httpServer } = createApp();
 
       // Connect to database (with fallback)
-      console.log('🔗 Attempting database connection...');
-      const dbConnected = await connectToDatabase().catch(err => {
-        console.warn('⚠️  Database connection failed:', err.message);
-        console.log('📝 Continuing without database (using mock data)...');
+      console.log("🔗 Attempting database connection...");
+      const dbConnected = await connectToDatabase().catch((err) => {
+        console.warn("⚠️  Database connection failed:", err.message);
+        console.log("📝 Continuing without database (using mock data)...");
         return false;
       });
 
       if (dbConnected) {
-        console.log('✅ Database connection successful');
+        console.log("✅ Database connection successful");
       } else {
-        console.log('📝 Running in development mode without database');
+        console.log("📝 Running in development mode without database");
       }
 
       // Start the HTTP server with error handling
       const server = httpServer.listen(PORT, () => {
-        console.log('🎯 ================================');
+        console.log("🎯 ================================");
         console.log(`✅ Server running on port ${PORT}`);
         console.log(`🌐 API available at: http://localhost:${PORT}/api`);
         console.log(`🏥 Health check: http://localhost:${PORT}/api/ping`);
-        console.log(`📋 Registration: http://localhost:${PORT}/api/auth/register`);
-        console.log('🎯 ================================');
-        console.log('🟢 Server is ready to accept requests');
+        console.log(
+          `📋 Registration: http://localhost:${PORT}/api/auth/register`,
+        );
+        console.log("🎯 ================================");
+        console.log("🟢 Server is ready to accept requests");
       });
 
       // Handle server errors gracefully
-      server.on('error', (error: any) => {
-        console.error('❌ Server error:', error.message);
-        if (error.code === 'EADDRINUSE') {
+      server.on("error", (error: any) => {
+        console.error("❌ Server error:", error.message);
+        if (error.code === "EADDRINUSE") {
           console.error(`❌ Port ${PORT} is already in use`);
-          console.log('💡 Try a different port or kill the existing process');
+          console.log("💡 Try a different port or kill the existing process");
           process.exit(1);
         }
       });
 
       // Handle client disconnections gracefully
-      server.on('clientError', (err: any, socket: any) => {
-        console.warn('⚠️  Client error:', err.message);
+      server.on("clientError", (err: any, socket: any) => {
+        console.warn("⚠️  Client error:", err.message);
         if (!socket.destroyed) {
-          socket.end('HTTP/1.1 400 Bad Request\r\n\r\n');
+          socket.end("HTTP/1.1 400 Bad Request\r\n\r\n");
         }
       });
 
@@ -580,38 +605,40 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 
         server.close((err) => {
           if (err) {
-            console.error('❌ Error during server shutdown:', err);
+            console.error("❌ Error during server shutdown:", err);
           } else {
-            console.log('🔒 HTTP server closed gracefully');
+            console.log("🔒 HTTP server closed gracefully");
           }
 
-          console.log('✅ Shutdown completed');
+          console.log("✅ Shutdown completed");
           process.exit(0);
         });
 
         // Force close after 10 seconds
         setTimeout(() => {
-          console.error('❌ Could not close connections in time, forcefully shutting down');
+          console.error(
+            "❌ Could not close connections in time, forcefully shutting down",
+          );
           process.exit(1);
         }, 10000);
       };
 
       // Listen for termination signals
-      process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
-      process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+      process.on("SIGTERM", () => gracefulShutdown("SIGTERM"));
+      process.on("SIGINT", () => gracefulShutdown("SIGINT"));
 
       return server;
     } catch (error: any) {
-      console.error('❌ Failed to start server:', error.message);
-      console.error('Stack trace:', error.stack);
+      console.error("❌ Failed to start server:", error.message);
+      console.error("Stack trace:", error.stack);
       process.exit(1);
     }
   }
 
   // Start the server
-  console.log('🎬 Initializing server startup...');
+  console.log("🎬 Initializing server startup...");
   startServer().catch((error) => {
-    console.error('❌ Server startup failed:', error.message);
+    console.error("❌ Server startup failed:", error.message);
     process.exit(1);
   });
 }
