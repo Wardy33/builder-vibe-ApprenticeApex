@@ -71,10 +71,10 @@ const stripeConfig = {
   },
 };
 
+import Stripe from 'stripe';
 // Initialize Stripe with live keys
 export const stripe = new Stripe(stripeConfig.secretKey, {
-  apiVersion: "2023-10-16",
-  typescript: true,
+  apiVersion: '2025-06-30.basil',
 });
 
 // Create customer with trial
@@ -102,7 +102,7 @@ export async function createCustomerWithTrial(
       automatic_tax: {
         enabled: stripeConfig.automaticTax.enabled,
       },
-      collection_method: stripeConfig.billing.collectionMethod,
+      collection_method: 'charge_automatically',
       metadata: {
         plan_type: getPlanTypeFromPriceId(planId),
         company_id: "", // Would be set from app context
