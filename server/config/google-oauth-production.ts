@@ -1,4 +1,5 @@
 import passport from "passport";
+import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import { neon_run_sql } from "./neon";
 
@@ -27,7 +28,7 @@ passport.use(
       clientSecret: googleOAuthConfig.clientSecret,
       callbackURL: googleOAuthConfig.callbackURL,
     },
-    async (accessToken, refreshToken, profile, done) => {
+    async (_accessToken: string, _refreshToken: string, profile: any, done: (err: any, user?: any) => void) => {
       try {
         console.log(
           `🔐 Google OAuth: Processing login for ${profile.emails?.[0]?.value}`,
@@ -134,12 +135,12 @@ passport.use(
 );
 
 // Serialize user for session
-passport.serializeUser((user: any, done) => {
+passport.serializeUser((user: any, done: (err: any, id?: any) => void) => {
   done(null, user.id);
 });
 
 // Deserialize user from session
-passport.deserializeUser(async (userId: string, done) => {
+passport.deserializeUser(async (userId: string, done: (err: any, user?: any) => void) => {
   try {
     const user = await neon_run_sql({
       sql: `
