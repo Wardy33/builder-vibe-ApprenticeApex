@@ -9,7 +9,7 @@ import {
   databaseHealthCheck,
   optimizeQueries,
 } from "./middleware/database";
-import { createServer } from "http";
+import { createServer as createHttpServer } from "http";
 import dotenv from "dotenv";
 import session from "express-session";
 
@@ -84,7 +84,7 @@ try {
 
 export function createApp() {
   const app = express();
-  const httpServer = createServer(app);
+  const httpServer = createHttpServer(app);
 
   // Initialize Socket.IO
   const io = initializeSocket(httpServer);
